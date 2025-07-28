@@ -1,2 +1,2 @@
 # comrades-in-data
-План, описание и документация гигантического проекта по данным
+Self BI for Analytics
