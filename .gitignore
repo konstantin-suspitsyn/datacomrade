@@ -1,0 +1,7 @@
+pgdata/
+.env
+.envrc
+bin
+tmp
+.dev-env
+testdata/
