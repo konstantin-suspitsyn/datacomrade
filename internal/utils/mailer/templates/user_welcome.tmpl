@@ -1,0 +1,30 @@
+{{define "subject"}}Добро пожаловать{{end}}
+{{define "plainBody"}}
+Привет
+
+Спасибо, что присоединились
+Ваш email еще не активирован. Чтобы активировать его, пройдите по ссылке
+
+TOKEN: {{.activationToken}}
+
+Искренне ваш,
+Робот-почтальон сайта
+{{end}}
+
+{{define "htmlBody"}}
+<!doctype html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<p>Привет</p>
+<p>Спасибо, что присоединились</p>
+<p>Ваш email еще не активирован. Чтобы активировать его, пройдите по ссылке</p>
+<p>TOKEN: {{.activationToken}}</p>
+<p>Искренне ваш,
+Робот-почтальон сайта</p>
+</body>
+</html>
+{{end}}
