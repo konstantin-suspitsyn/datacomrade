@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/konstantin-suspitsyn/datacomrade/configs"
@@ -119,9 +120,9 @@ func (m UserModel) Insert(user *User) error {
 
 	if err != nil {
 		switch {
-		case err.Error() == `pq: duplicate key value violates unique constraint "users_email_unique"`:
+		case strings.Contains(err.Error(), "users_email_unique"):
 			return ErrDuplicateEmail
-		case err.Error() == `pq: duplicate key value violates unique constraint "users_name_unique"`:
+		case strings.Contains(err.Error(), "users_name_unique"):
 			return ErrDuplicateName
 		default:
 			return err

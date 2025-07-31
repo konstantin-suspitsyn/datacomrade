@@ -6,7 +6,7 @@ import (
 	"log/slog"
 	"testing"
 
-	"github.com/konstantin-suspitsyn/datacomrade/data/testcntr"
+	"github.com/konstantin-suspitsyn/datacomrade/internal/utils/testcntr"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -42,4 +42,3 @@ func (suite *UserModelSuite) TearDownSuite() {
 func TestUserModelTestSuite(t *testing.T) {
 	suite.Run(t, new(UserModelSuite))
 }
-

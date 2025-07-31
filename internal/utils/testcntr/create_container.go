@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"log/slog"
 	"path/filepath"
+	"runtime"
 	"time"
 
 	"github.com/joho/godotenv"
@@ -45,18 +46,21 @@ func New(ctx context.Context) (*PostgresContainer, error) {
 
 }
 func createPostgresContainer(ctx context.Context) (*postgres.PostgresContainer, error) {
+	_, dir, _, _ := runtime.Caller(0)
+	env_dir := filepath.Dir(filepath.Dir(filepath.Dir(filepath.Dir(dir))))
+	env_file := filepath.Join(env_dir, ".env-test")
 
-	err := godotenv.Load(filepath.Join("..", "..", ".dev-env"))
+	err := godotenv.Load(env_file)
 
 	if err != nil {
-		panic("No env file")
+		panic(err.Error())
 	}
 
 	envConfig := configs.InitTestDbConfig()
 
 	return postgres.Run(ctx,
 		envConfig.DB_CONTAINER_VERSION,
-		postgres.WithInitScripts(filepath.Join("..", "..", "migrations", "schema.sql")),
+		postgres.WithInitScripts(filepath.Join(env_dir, "migrations", "schema.sql")),
 		postgres.WithDatabase(envConfig.DB_DATABASE),
 		postgres.WithUsername(envConfig.DB_USER),
 		postgres.WithPassword(envConfig.DB_PASSWORD),

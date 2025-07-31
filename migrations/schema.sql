@@ -396,3 +396,4 @@ ALTER TABLE ONLY users.refresh_token
 -- PostgreSQL database dump complete
 --
 
+ALTER TABLE users.users ADD CONSTRAINT users_name_unique UNIQUE ("name");
