@@ -219,13 +219,13 @@ func (m *UserModel) UpdatePassword(userId int64, plainPassword string) error {
 	pass.Set(plainPassword)
 
 	query := `UPDATE users.users
-	SET password=$1
+	SET password_hash=$1
 	WHERE id=$2;`
 
 	ctx, cancel := context.WithTimeout(context.Background(), configs.QueryTimeoutShort)
 	defer cancel()
 
-	_, err := m.DB.ExecContext(ctx, query, pass.hash, plainPassword)
+	_, err := m.DB.ExecContext(ctx, query, pass.hash, userId)
 
 	if err != nil {
 		return err
