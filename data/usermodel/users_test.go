@@ -1,6 +1,7 @@
 package usermodel
 
 import (
+	"log/slog"
 	"strings"
 	"testing"
 
@@ -106,4 +107,94 @@ func (suite *UserModelSuite) TestInsert() {
 		err := suite.Model.User.Insert(&tt.User)
 		assert.Equal(t, tt.err, err, tt.Condition)
 	}
+}
+
+func (suite *UserModelSuite) TestGetByEmail() {
+	t := suite.T()
+	name := "TestGetByEmailUser"
+	mail := "testbymail@mail.ru"
+	password := "thePassword123"
+
+	userNormal := User{
+		Name:  name,
+		Email: mail,
+	}
+	userNormal.Password.Set(password)
+
+	err := suite.Model.User.Insert(&userNormal)
+	if err != nil {
+		t.Errorf("Insert is broken")
+	}
+
+	user, err := suite.Model.User.GetByEmail(mail)
+
+	assert.Equal(t, userNormal.Name, user.Name, "Get user by email")
+
+}
+
+func (suite *UserModelSuite) TestGetById() {
+	t := suite.T()
+	name := "TestById"
+	mail := "testbyid@mail.ru"
+	password := "thePassword123"
+
+	userTestById := User{
+		Name:  name,
+		Email: mail,
+	}
+	userTestById.Password.Set(password)
+
+	err := suite.Model.User.Insert(&userTestById)
+	if err != nil {
+		t.Errorf("Insert is broken")
+	}
+
+	user, err := suite.Model.User.GetById(userTestById.Id)
+
+	assert.Equal(t, userTestById.Name, user.Name, "Get user by id")
+
+}
+
+func (suite *UserModelSuite) TestUpdatePassword() {
+	t := suite.T()
+	name := "UpdatePassUser"
+	mail := "testbypass@mail.ru"
+	password := "thePassword123"
+	passwordNew := "thePassword1235"
+
+	userPaswordChange := User{
+		Name:  name,
+		Email: mail,
+	}
+	userPaswordChange.Password.Set(password)
+
+	err := suite.Model.User.Insert(&userPaswordChange)
+	if err != nil {
+		slog.Info(err.Error())
+		t.Errorf("Insert is broken")
+	}
+
+	err = suite.Model.User.UpdatePassword(userPaswordChange.Id, passwordNew)
+
+	if err != nil {
+		slog.Info(err.Error())
+		t.Errorf("Password change update broken")
+	}
+
+	user, err := suite.Model.User.GetById(userPaswordChange.Id)
+
+	if err != nil {
+		slog.Info(err.Error())
+		t.Errorf("Did not find user")
+	}
+
+	match, err := user.Password.Matches(passwordNew)
+
+	if err != nil {
+		slog.Info(err.Error())
+		t.Errorf("Error matching password")
+	}
+
+	assert.Equal(t, true, match, "Match passwords")
+
 }
