@@ -28,5 +28,9 @@ func routes(services *services.ServiceLayer) *chi.Mux {
 
 	r.Get("/healthcheck", healthcheck.ReturnOk)
 
+	r.Route("/v1/users", func(r chi.Router) {
+		r.Post("/", services.UserService.UserRegister)
+		r.Put("/activate", services.UserService.UserActivate)
+	})
 	return r
 }

@@ -3,6 +3,7 @@ package users
 import (
 	"errors"
 	"fmt"
+	"log/slog"
 	"net/http"
 	"strings"
 	"sync"
@@ -59,14 +60,6 @@ func (us *UserService) UserRegister(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Send email in background
-	var wg sync.WaitGroup
-
-	shared.BackroundJob(func() {
-
-		us.SendActivationToken(token.PlainText, user.Email)
-	}, &wg)
-
 	userResponceMessage := make(map[string]usermodel.User)
 	userResponceMessage["user"] = user
 
@@ -76,6 +69,17 @@ func (us *UserService) UserRegister(w http.ResponseWriter, r *http.Request) {
 		custresponse.ServerErrorResponse(w, r, err)
 	}
 
+	slog.Info("Sent response")
+	// Send email in background
+	var wg sync.WaitGroup
+
+	shared.BackroundJob(func() {
+
+		slog.Info("Start email")
+		us.SendActivationToken(token.PlainText, user.Email)
+	}, &wg)
+
+	slog.Info("Finished email")
 	wg.Wait()
 }
 

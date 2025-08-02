@@ -87,7 +87,7 @@ func (m *TokenModel) Insert(token *Token) error {
 }
 
 func (m *TokenModel) GetByPlainText(plainText, scope string) (*Token, error) {
-	query := `SELECT hash, user_id, expire, "scope", activated_at, updated_at FROM users.mail_token
+	query := `SELECT hash, user_id, expire, "scope", created_at, updated_at FROM users.mail_token
 	WHERE hash = $1 and scope = $2 and is_active = true;`
 
 	tokenHash := sha256.Sum256([]byte(plainText))
@@ -122,7 +122,7 @@ func (m *TokenModel) GetByPlainText(plainText, scope string) (*Token, error) {
 }
 
 func (m *TokenModel) GetTokenByUserId(userId int64, scope string) (*Token, error) {
-	query := `SELECT hash, user_id, expire, "scope", activated_at, updated_at FROM users.mail_token
+	query := `SELECT hash, user_id, expire, "scope", created_at, updated_at FROM users.mail_token
 	WHERE id = $1 and scope = $2 and is_active = true;`
 
 	token := Token{}
