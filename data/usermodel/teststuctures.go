@@ -57,3 +57,36 @@ func (ts *TestStuctures) NewUserLongPassword() User {
 
 	return userLongPassword
 }
+
+func (ts *TestStuctures) NewUserInputOk() UserRegisterInput {
+	return UserRegisterInput{
+		Email:    "abc@mail.ru",
+		Name:     "Ok name",
+		Password: "ThePassword",
+	}
+}
+
+func (ts *TestStuctures) NewUserInputLongName() UserRegisterInput {
+	return UserRegisterInput{
+		Name:     strings.Repeat("a", 51),
+		Email:    "Ok name",
+		Password: "ThePassword",
+	}
+}
+
+func (ts *TestStuctures) NewUserInputLongMail() UserRegisterInput {
+	tooLongMail := "qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq@mail.ru"
+	return UserRegisterInput{
+		Email:    tooLongMail,
+		Name:     "Ok name",
+		Password: "ThePassword",
+	}
+}
+
+func (ts *TestStuctures) NewUserInputTooLongPassword() UserRegisterInput {
+	return UserRegisterInput{
+		Email:    "abc@mail.ru",
+		Name:     "Ok name",
+		Password: strings.Repeat("a", 51),
+	}
+}

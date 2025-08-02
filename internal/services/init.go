@@ -5,14 +5,16 @@ package services
 
 import (
 	"database/sql"
+
+	"github.com/konstantin-suspitsyn/datacomrade/internal/users"
 )
 
 type ServiceLayer struct {
-	db *sql.DB
+	UserService *users.UserService
 }
 
 func New(db *sql.DB) *ServiceLayer {
 	return &ServiceLayer{
-		db: db,
+		UserService: users.New(db),
 	}
 }

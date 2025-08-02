@@ -20,18 +20,33 @@ func TestCreateUser(t *testing.T) {
 
 	userService := New(db)
 
-	registerInputOk := usermodel.UserRegisterInput{
-		Email:    "abc@mail.ru",
-		Name:     "Ok name",
-		Password: "ThePassword",
-	}
-	user, err, _ := userService.createUser(registerInputOk)
+	testData := usermodel.TestStuctures{}
 
-	assert.Equal(t, registerInputOk.Email, user.Email, "Checking user email")
-	assert.Equal(t, registerInputOk.Email, user.Email, "Checking user email")
-	matches, err := user.Password.Matches(registerInputOk.Password)
-	if err != nil {
-		t.Errorf("Match error failed")
+	testIt := []struct {
+		UserInput usermodel.UserRegisterInput
+		HasError  bool
+		Condition string
+	}{
+		{UserInput: testData.NewUserInputOk(), HasError: false, Condition: "Fine User"},
+		{UserInput: testData.NewUserInputLongName(), HasError: true, Condition: "Too long name"},
+		{UserInput: testData.NewUserInputLongMail(), HasError: true, Condition: "Too long mail"},
+		{UserInput: testData.NewUserInputTooLongPassword(), HasError: true, Condition: "Too long Password"},
 	}
-	assert.Equal(t, true, matches, "Checking user email")
+
+	for _, tt := range testIt {
+		user, err, _ := userService.createUser(tt.UserInput)
+		if err != nil {
+			assert.Equal(t, tt.HasError, true, tt.Condition)
+		} else {
+			assert.Equal(t, tt.UserInput.Email, user.Email, "Checking user email")
+			assert.Equal(t, tt.UserInput.Email, user.Email, "Checking user email")
+			matches, errPass := user.Password.Matches(tt.UserInput.Password)
+			if errPass != nil {
+				t.Errorf("Match error failed")
+			}
+			assert.Equal(t, true, matches, "Checking user email", tt.Condition)
+
+		}
+
+	}
 }

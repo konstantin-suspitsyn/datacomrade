@@ -35,3 +35,23 @@
 
 ## Модели данных
 
+## API
+
+### Пользователи
+```POST /v1/users/```
+
+#### Регистрация пользователей
+```
+{
+    "email": "email@email.ru",
+    "name": "TheName",
+    "password": "ThePassword"
+}
+```
+
+```PUT /v1/users/activate```
+```
+{
+    "token":"tokenfromemail"
+}
+```
