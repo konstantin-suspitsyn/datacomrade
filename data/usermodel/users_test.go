@@ -2,7 +2,6 @@ package usermodel
 
 import (
 	"log/slog"
-	"strings"
 	"testing"
 
 	"github.com/konstantin-suspitsyn/datacomrade/internal/utils/validator"
@@ -16,37 +15,11 @@ func (suite *UserModelSuite) TestOne() {
 }
 
 func TestValidateUser(t *testing.T) {
-
-	normalName := "TheName"
-	normalMail := "mail@mail.ru"
-	longName := strings.Repeat("a", 51)
-	normalPassword := "thePassword123"
-	tooLongPassword := strings.Repeat("a", 51)
-	tooLongMail := "qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq@mail.ru"
-
-	userOk := User{
-		Email: normalMail,
-		Name:  normalName,
-	}
-	userOk.Password.Set(normalPassword)
-
-	userLongName := User{
-		Email: normalMail,
-		Name:  longName,
-	}
-	userLongName.Password.Set(normalPassword)
-
-	userLongMail := User{
-		Email: tooLongMail,
-		Name:  longName,
-	}
-	userLongMail.Password.Set(normalPassword)
-
-	userLongPassword := User{
-		Email: normalMail,
-		Name:  longName,
-	}
-	userLongPassword.Password.Set(tooLongPassword)
+	teststructures := TestStuctures{}
+	userOk := teststructures.NewUserOk()
+	userLongName := teststructures.NewUserLongName()
+	userLongMail := teststructures.NewUserLongMail()
+	userLongPassword := teststructures.NewUserLongPassword()
 
 	tests := []struct {
 		condition string
@@ -104,7 +77,7 @@ func (suite *UserModelSuite) TestInsert() {
 	}
 
 	for _, tt := range tests {
-		err := suite.Model.User.Insert(&tt.User)
+		err := suite.Model.User.Insert(suite.ctx, &tt.User)
 		assert.Equal(t, tt.err, err, tt.Condition)
 	}
 }
@@ -121,12 +94,12 @@ func (suite *UserModelSuite) TestGetByEmail() {
 	}
 	userNormal.Password.Set(password)
 
-	err := suite.Model.User.Insert(&userNormal)
+	err := suite.Model.User.Insert(suite.ctx, &userNormal)
 	if err != nil {
 		t.Errorf("Insert is broken")
 	}
 
-	user, err := suite.Model.User.GetByEmail(mail)
+	user, err := suite.Model.User.GetByEmail(suite.ctx, mail)
 
 	assert.Equal(t, userNormal.Name, user.Name, "Get user by email")
 
@@ -144,12 +117,12 @@ func (suite *UserModelSuite) TestGetById() {
 	}
 	userTestById.Password.Set(password)
 
-	err := suite.Model.User.Insert(&userTestById)
+	err := suite.Model.User.Insert(suite.ctx, &userTestById)
 	if err != nil {
 		t.Errorf("Insert is broken")
 	}
 
-	user, err := suite.Model.User.GetById(userTestById.Id)
+	user, err := suite.Model.User.GetById(suite.ctx, userTestById.Id)
 
 	assert.Equal(t, userTestById.Name, user.Name, "Get user by id")
 
@@ -168,20 +141,20 @@ func (suite *UserModelSuite) TestUpdatePassword() {
 	}
 	userPaswordChange.Password.Set(password)
 
-	err := suite.Model.User.Insert(&userPaswordChange)
+	err := suite.Model.User.Insert(suite.ctx, &userPaswordChange)
 	if err != nil {
 		slog.Info(err.Error())
 		t.Errorf("Insert is broken")
 	}
 
-	err = suite.Model.User.UpdatePassword(userPaswordChange.Id, passwordNew)
+	err = suite.Model.User.UpdatePassword(suite.ctx, userPaswordChange.Id, passwordNew)
 
 	if err != nil {
 		slog.Info(err.Error())
 		t.Errorf("Password change update broken")
 	}
 
-	user, err := suite.Model.User.GetById(userPaswordChange.Id)
+	user, err := suite.Model.User.GetById(suite.ctx, userPaswordChange.Id)
 
 	if err != nil {
 		slog.Info(err.Error())

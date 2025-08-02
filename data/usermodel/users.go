@@ -106,14 +106,14 @@ func (p *password) Matches(plaintextPassword string) (bool, error) {
 ////                     CRUD                      ////
 ///////////////////////////////////////////////////////
 
-func (m UserModel) Insert(user *User) error {
+func (m UserModel) Insert(ctx context.Context, user *User) error {
 	sqlQuery := `INSERT INTO users.users (email, "name", password_hash, activated, created_at, updated_at) 
 	VALUES($1, $2, $3, false, now(), now())
 	RETURNING id, created_at, updated_at;`
 
 	args := []any{user.Email, user.Name, user.Password.hash}
 
-	ctx, cancel := context.WithTimeout(context.Background(), configs.QueryTimeoutShort)
+	ctx, cancel := context.WithTimeout(ctx, configs.QueryTimeoutShort)
 	defer cancel()
 
 	err := m.DB.QueryRowContext(ctx, sqlQuery, args...).Scan(&user.Id, &user.CreatedAt, &user.UpdatedAt)
@@ -132,11 +132,11 @@ func (m UserModel) Insert(user *User) error {
 	return nil
 }
 
-func (m UserModel) GetByEmail(email string) (*User, error) {
+func (m UserModel) GetByEmail(ctx context.Context, email string) (*User, error) {
 	sqlQuery := `SELECT id, email, "name", password_hash, activated, created_at, updated_at FROM users.users
 	where email = $1;`
 
-	ctx, cancel := context.WithTimeout(context.Background(), configs.QueryTimeoutShort)
+	ctx, cancel := context.WithTimeout(ctx, configs.QueryTimeoutShort)
 	defer cancel()
 
 	var user User
@@ -163,11 +163,11 @@ func (m UserModel) GetByEmail(email string) (*User, error) {
 	return &user, nil
 }
 
-func (m UserModel) ActivateUserById(id int64) error {
+func (m UserModel) ActivateUserById(ctx context.Context, id int64) error {
 	sqlQuery := `UPDATE users.users SET activated=true, updated_at=now() 
 	WHERE id = $1;`
 
-	ctx, cancel := context.WithTimeout(context.Background(), configs.QueryTimeoutShort)
+	ctx, cancel := context.WithTimeout(ctx, configs.QueryTimeoutShort)
 	defer cancel()
 
 	_, err := m.DB.ExecContext(ctx, sqlQuery, id)
@@ -180,13 +180,13 @@ func (m UserModel) ActivateUserById(id int64) error {
 
 }
 
-func (m UserModel) GetById(userId int64) (*User, error) {
+func (m UserModel) GetById(ctx context.Context, userId int64) (*User, error) {
 	user := User{}
 
 	query := `SELECT id, email, "name", password_hash, activated, created_at, updated_at FROM users.users
 	WHERE id = $1;`
 
-	ctx, cancel := context.WithTimeout(context.Background(), configs.QueryTimeoutShort)
+	ctx, cancel := context.WithTimeout(ctx, configs.QueryTimeoutShort)
 	defer cancel()
 
 	err := m.DB.QueryRowContext(ctx, query, userId).Scan(
@@ -212,7 +212,7 @@ func (m UserModel) GetById(userId int64) (*User, error) {
 
 }
 
-func (m *UserModel) UpdatePassword(userId int64, plainPassword string) error {
+func (m *UserModel) UpdatePassword(ctx context.Context, userId int64, plainPassword string) error {
 
 	var pass password
 
@@ -222,7 +222,7 @@ func (m *UserModel) UpdatePassword(userId int64, plainPassword string) error {
 	SET password_hash=$1
 	WHERE id=$2;`
 
-	ctx, cancel := context.WithTimeout(context.Background(), configs.QueryTimeoutShort)
+	ctx, cancel := context.WithTimeout(ctx, configs.QueryTimeoutShort)
 	defer cancel()
 
 	_, err := m.DB.ExecContext(ctx, query, pass.hash, userId)

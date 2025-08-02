@@ -1,6 +1,7 @@
 package users
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -53,7 +54,7 @@ func (us *UserService) ReadLogin(w http.ResponseWriter, r *http.Request, input *
 	return nil, nil
 }
 
-func (us *UserService) ActivateRegistrationToken(token *usermodel.Token) error {
+func (us *UserService) ActivateRegistrationToken(ctx context.Context, token *usermodel.Token) error {
 
 	isTokenOk := us.checkToken(token)
 
@@ -67,7 +68,7 @@ func (us *UserService) ActivateRegistrationToken(token *usermodel.Token) error {
 		return fmt.Errorf("ERROR: %w. Could not Deactivate Activation token", err)
 	}
 
-	err = us.Models.User.ActivateUserById(token.UserId)
+	err = us.Models.User.ActivateUserById(ctx, token.UserId)
 
 	if err != nil {
 		return fmt.Errorf("ERROR: %w. Could not activate user", err)
@@ -98,7 +99,7 @@ func (us *UserService) checkToken(token *usermodel.Token) bool {
 }
 
 // Returns *User, Token Plain Text, error
-func (us *UserService) recreateToken(userId int64) (*usermodel.User, string, error) {
+func (us *UserService) recreateToken(ctx context.Context, userId int64) (*usermodel.User, string, error) {
 
 	err := us.Models.Token.DeactivateTokensForUsers(usermodel.ScopeActivation, userId)
 
@@ -106,7 +107,7 @@ func (us *UserService) recreateToken(userId int64) (*usermodel.User, string, err
 		return nil, "", fmt.Errorf("ERROR: %w. Could not deactivate token", err)
 	}
 
-	user, err := us.Models.User.GetById(userId)
+	user, err := us.Models.User.GetById(ctx, userId)
 
 	if err != nil {
 		return nil, "", fmt.Errorf("ERROR: %w. Could not get user in Token recreation", err)

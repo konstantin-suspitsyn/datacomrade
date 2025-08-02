@@ -90,8 +90,8 @@ func httpStart(mux *chi.Mux, loggerForServer *log.Logger, apiServerConfig APISer
 		Addr:         fmt.Sprintf(":%d", apiServerConfig.Port),
 		Handler:      mux,
 		IdleTimeout:  time.Minute,
-		ReadTimeout:  10 * time.Second,
-		WriteTimeout: 40 * time.Second,
+		ReadTimeout:  10 * 60 * time.Second,
+		WriteTimeout: 10 * 60 * time.Second,
 		// Use custom logger
 		ErrorLog: loggerForServer,
 	}

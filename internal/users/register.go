@@ -1,6 +1,7 @@
 package users
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"strings"
@@ -30,8 +31,8 @@ func (us *UserService) createUser(input usermodel.UserRegisterInput) (usermodel.
 
 }
 
-func (us *UserService) insertUserToDB(user *usermodel.User) (error, map[string]string) {
-	err := us.Models.User.Insert(user)
+func (us *UserService) insertUserToDB(ctx context.Context, user *usermodel.User) (error, map[string]string) {
+	err := us.Models.User.Insert(ctx, user)
 
 	if err != nil {
 
