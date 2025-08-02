@@ -1,10 +1,14 @@
 package users
 
-import "github.com/konstantin-suspitsyn/datacomrade/data/usermodel"
+import (
+	"context"
 
-func (us *UserService) ChangeOldPassword(userId int64, oldPassword, newPassword string) error {
+	"github.com/konstantin-suspitsyn/datacomrade/data/usermodel"
+)
 
-	user, err := us.Models.User.GetById(userId)
+func (us *UserService) ChangeOldPassword(ctx context.Context, userId int64, oldPassword, newPassword string) error {
+
+	user, err := us.Models.User.GetById(ctx, userId)
 	if err != nil {
 		return err
 	}
@@ -16,7 +20,7 @@ func (us *UserService) ChangeOldPassword(userId int64, oldPassword, newPassword 
 
 	if passwordMatch {
 
-		us.Models.User.UpdatePassword(userId, newPassword)
+		us.Models.User.UpdatePassword(ctx, userId, newPassword)
 		return nil
 	}
 

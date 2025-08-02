@@ -1,6 +1,7 @@
 package users
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/konstantin-suspitsyn/datacomrade/configs"
@@ -8,7 +9,7 @@ import (
 	"github.com/konstantin-suspitsyn/datacomrade/internal/utils/validator"
 )
 
-func (us *UserService) GetUserByEmail(email string) (*usermodel.User, error) {
+func (us *UserService) GetUserByEmail(ctx context.Context, email string) (*usermodel.User, error) {
 	// Validate email
 	v := validator.New()
 
@@ -17,7 +18,7 @@ func (us *UserService) GetUserByEmail(email string) (*usermodel.User, error) {
 		return nil, fmt.Errorf("%w. Email: %s", usermodel.ErrEmailValidation, email)
 	}
 	// Get User
-	return us.Models.User.GetByEmail(email)
+	return us.Models.User.GetByEmail(ctx, email)
 }
 
 func (us *UserService) CreateForgotPasswordToken(user *usermodel.User) (*usermodel.Token, error) {

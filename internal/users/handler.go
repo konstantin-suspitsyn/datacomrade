@@ -32,7 +32,9 @@ func (us *UserService) UserRegister(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err, errMap = us.insertUserToDB(&user)
+	ctx := r.Context()
+
+	err, errMap = us.insertUserToDB(ctx, &user)
 
 	if err != nil {
 		switch {
@@ -99,8 +101,8 @@ func (us *UserService) UserActivate(w http.ResponseWriter, r *http.Request) {
 		custresponse.ServerErrorResponse(w, r, fmt.Errorf("ERROR: %w. Getting Token from input", err))
 		return
 	}
-
-	err = us.ActivateRegistrationToken(token)
+	ctx := r.Context()
+	err = us.ActivateRegistrationToken(ctx, token)
 
 	if err != nil {
 		// TODO: Change types of errors
@@ -112,7 +114,7 @@ func (us *UserService) UserActivate(w http.ResponseWriter, r *http.Request) {
 		// Token is expired
 		case errors.Is(err, ErrTokenExpired):
 			custresponse.ServerErrorResponse(w, r, err)
-			userUpd, tokenPlainText, recreateTokenErr := us.recreateToken(token.UserId)
+			userUpd, tokenPlainText, recreateTokenErr := us.recreateToken(ctx, token.UserId)
 			if recreateTokenErr != nil {
 				custresponse.ServerErrorResponse(w, r, recreateTokenErr)
 				return
