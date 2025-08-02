@@ -8,9 +8,9 @@ import (
 	"runtime"
 	"time"
 
-	"github.com/joho/godotenv"
 	"github.com/konstantin-suspitsyn/datacomrade/configs"
 	"github.com/konstantin-suspitsyn/datacomrade/db"
+	"github.com/konstantin-suspitsyn/datacomrade/internal/utils/comradetest"
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/modules/postgres"
 	"github.com/testcontainers/testcontainers-go/wait"
@@ -46,17 +46,13 @@ func New(ctx context.Context) (*PostgresContainer, error) {
 
 }
 func createPostgresContainer(ctx context.Context) (*postgres.PostgresContainer, error) {
-	_, dir, _, _ := runtime.Caller(0)
-	env_dir := filepath.Dir(filepath.Dir(filepath.Dir(filepath.Dir(dir))))
-	env_file := filepath.Join(env_dir, ".env-test")
 
-	err := godotenv.Load(env_file)
-
-	if err != nil {
-		panic(err.Error())
-	}
+	comradetest.InitEnv()
 
 	envConfig := configs.InitTestDbConfig()
+	_, dir, _, _ := runtime.Caller(0)
+
+	env_dir := filepath.Dir(filepath.Dir(filepath.Dir(filepath.Dir(dir))))
 
 	return postgres.Run(ctx,
 		envConfig.DB_CONTAINER_VERSION,

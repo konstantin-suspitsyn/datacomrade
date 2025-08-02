@@ -2,7 +2,6 @@ package usermodel
 
 import (
 	"log/slog"
-	"strings"
 	"testing"
 
 	"github.com/konstantin-suspitsyn/datacomrade/internal/utils/validator"
@@ -16,37 +15,11 @@ func (suite *UserModelSuite) TestOne() {
 }
 
 func TestValidateUser(t *testing.T) {
-
-	normalName := "TheName"
-	normalMail := "mail@mail.ru"
-	longName := strings.Repeat("a", 51)
-	normalPassword := "thePassword123"
-	tooLongPassword := strings.Repeat("a", 51)
-	tooLongMail := "qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq@mail.ru"
-
-	userOk := User{
-		Email: normalMail,
-		Name:  normalName,
-	}
-	userOk.Password.Set(normalPassword)
-
-	userLongName := User{
-		Email: normalMail,
-		Name:  longName,
-	}
-	userLongName.Password.Set(normalPassword)
-
-	userLongMail := User{
-		Email: tooLongMail,
-		Name:  longName,
-	}
-	userLongMail.Password.Set(normalPassword)
-
-	userLongPassword := User{
-		Email: normalMail,
-		Name:  longName,
-	}
-	userLongPassword.Password.Set(tooLongPassword)
+	teststructures := TestStuctures{}
+	userOk := teststructures.NewUserOk()
+	userLongName := teststructures.NewUserLongName()
+	userLongMail := teststructures.NewUserLongMail()
+	userLongPassword := teststructures.NewUserLongPassword()
 
 	tests := []struct {
 		condition string
