@@ -6,6 +6,8 @@ import (
 	"errors"
 	"fmt"
 	"time"
+
+	"github.com/konstantin-suspitsyn/datacomrade/configs"
 )
 
 const ScopeRefresh = "refresh_token"
@@ -31,13 +33,13 @@ type RefreshTokenModel struct {
 // /////////////////////////////////////////////////////
 // //                     CRUD                      ////
 // /////////////////////////////////////////////////////
-func (m *RefreshTokenModel) Insert(token *RefreshToken) error {
+func (m *RefreshTokenModel) Insert(ctx context.Context, token *RefreshToken) error {
 
 	query := `INSERT INTO users.refresh_token (user_id, expire, created_at, is_active, updated_at, refresh_token, id) VALUES($1, $2, now(), true, now(), $3, $4);`
 
 	args := []any{token.UserId, token.Expire, token.RefreshToken, token.Id}
 
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	ctx, cancel := context.WithTimeout(ctx, configs.QueryTimeoutShort)
 	defer cancel()
 
 	_, err := m.DB.ExecContext(ctx, query, args...)
@@ -45,12 +47,12 @@ func (m *RefreshTokenModel) Insert(token *RefreshToken) error {
 }
 
 // Sends all refresh tokens to black list
-func (rt *RefreshTokenModel) DeactivateRefreshTokensForUserId(userId int64) error {
+func (rt *RefreshTokenModel) DeactivateRefreshTokensForUserId(ctx context.Context, userId int64) error {
 	query := `UPDATE users.refresh_token
 	SET is_active = false, updated_at = now()
 	WHERE user_id = $1;`
 
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	ctx, cancel := context.WithTimeout(ctx, configs.QueryTimeoutShort)
 	defer cancel()
 
 	_, err := rt.DB.ExecContext(ctx, query, userId)
@@ -62,12 +64,12 @@ func (rt *RefreshTokenModel) DeactivateRefreshTokensForUserId(userId int64) erro
 
 }
 
-func (rt *RefreshTokenModel) GetById(id string) (*RefreshToken, error) {
+func (rt *RefreshTokenModel) GetById(ctx context.Context, id string) (*RefreshToken, error) {
 
 	query := `SELECT user_id, expire, created_at, is_active, updated_at, refresh_token, id FROM users.refresh_token
 	WHERE id = $1;`
 
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	ctx, cancel := context.WithTimeout(ctx, configs.QueryTimeoutShort)
 	defer cancel()
 
 	var refreshToken RefreshToken

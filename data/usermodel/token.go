@@ -10,6 +10,7 @@ import (
 	"log/slog"
 	"time"
 
+	"github.com/konstantin-suspitsyn/datacomrade/configs"
 	"github.com/konstantin-suspitsyn/datacomrade/internal/utils/validator"
 )
 
@@ -49,36 +50,36 @@ func ValidateTokenPlainText(v *validator.Validator, tokenPlainText string) {
 ////                     CRUD                      ////
 ///////////////////////////////////////////////////////
 
-func (m *TokenModel) New(userId int64, expirationDuration time.Duration, scope string) (*Token, error) {
+func (m *TokenModel) New(ctx context.Context, userId int64, expirationDuration time.Duration, scope string) (*Token, error) {
 	token, err := generateToken(userId, expirationDuration, scope)
 	if err != nil {
 		return nil, err
 	}
 
-	err = m.Insert(token)
+	err = m.Insert(ctx, token)
 
 	return token, err
 
 }
 
-func (m *TokenModel) DeactivateTokensForUsers(scope string, userId int64) error {
+func (m *TokenModel) DeactivateTokensForUsers(ctx context.Context, scope string, userId int64) error {
 	query := `UPDATE users.mail_token
 	SET is_active = false, updated_at=now()
 	where scope = $1 and user_id = $2 and is_active = true`
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	ctx, cancel := context.WithTimeout(ctx, configs.QueryTimeoutShort)
 	defer cancel()
 	_, err := m.DB.ExecContext(ctx, query, scope, userId)
 
 	return err
 }
 
-func (m *TokenModel) Insert(token *Token) error {
+func (m *TokenModel) Insert(ctx context.Context, token *Token) error {
 	query := `INSERT INTO users.mail_token (hash, user_id, expire, "scope", created_at, updated_at, is_active) 
 	VALUES($1, $2, $3, $4, now(), now(), true);`
 
 	args := []any{token.Hash, token.UserId, token.Expire, token.Scope}
 
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	ctx, cancel := context.WithTimeout(ctx, configs.QueryTimeoutShort)
 	defer cancel()
 
 	slog.Info("USER ID: ", "USER ID: ", token.UserId)
@@ -86,7 +87,7 @@ func (m *TokenModel) Insert(token *Token) error {
 	return err
 }
 
-func (m *TokenModel) GetByPlainText(plainText, scope string) (*Token, error) {
+func (m *TokenModel) GetByPlainText(ctx context.Context, plainText, scope string) (*Token, error) {
 	query := `SELECT hash, user_id, expire, "scope", created_at, updated_at FROM users.mail_token
 	WHERE hash = $1 and scope = $2 and is_active = true;`
 
@@ -95,7 +96,7 @@ func (m *TokenModel) GetByPlainText(plainText, scope string) (*Token, error) {
 
 	args := []any{tokenHash[:], scope}
 
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	ctx, cancel := context.WithTimeout(ctx, configs.QueryTimeoutShort)
 	defer cancel()
 
 	err := m.DB.QueryRowContext(ctx, query, args...).Scan(
@@ -121,13 +122,13 @@ func (m *TokenModel) GetByPlainText(plainText, scope string) (*Token, error) {
 	return &token, nil
 }
 
-func (m *TokenModel) GetTokenByUserId(userId int64, scope string) (*Token, error) {
+func (m *TokenModel) GetTokenByUserId(ctx context.Context, userId int64, scope string) (*Token, error) {
 	query := `SELECT hash, user_id, expire, "scope", created_at, updated_at FROM users.mail_token
 	WHERE id = $1 and scope = $2 and is_active = true;`
 
 	token := Token{}
 
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	ctx, cancel := context.WithTimeout(ctx, configs.QueryTimeoutShort)
 	defer cancel()
 
 	err := m.DB.QueryRowContext(ctx, query, userId, scope).Scan(

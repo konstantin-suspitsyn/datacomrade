@@ -3,7 +3,6 @@ package users
 import (
 	"errors"
 	"fmt"
-	"log/slog"
 	"net/http"
 	"strings"
 	"sync"
@@ -55,8 +54,16 @@ func (us *UserService) UserRegister(w http.ResponseWriter, r *http.Request) {
 	// Create Registration Token
 	token, err := us.createRegistrationToken(&user)
 
+	// Send email in background
+	var wg sync.WaitGroup
+
+	shared.BackroundJob(func() {
+		us.SendActivationToken(token.PlainText, user.Email)
+	}, &wg)
+
 	if err != nil {
 		custresponse.ServerErrorResponse(w, r, err)
+
 		return
 	}
 
@@ -69,17 +76,6 @@ func (us *UserService) UserRegister(w http.ResponseWriter, r *http.Request) {
 		custresponse.ServerErrorResponse(w, r, err)
 	}
 
-	slog.Info("Sent response")
-	// Send email in background
-	var wg sync.WaitGroup
-
-	shared.BackroundJob(func() {
-
-		slog.Info("Start email")
-		us.SendActivationToken(token.PlainText, user.Email)
-	}, &wg)
-
-	slog.Info("Finished email")
 	wg.Wait()
 }
 
