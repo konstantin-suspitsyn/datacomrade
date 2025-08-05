@@ -63,12 +63,12 @@ func (us *UserService) ActivateRegistrationToken(ctx context.Context, token *use
 	}
 
 	// Deactivate registration token
-	err := us.Models.Token.DeactivateTokensForUsers(usermodel.ScopeActivation, token.UserId)
+	err := us.UserModels.Token.DeactivateTokensForUsers(usermodel.ScopeActivation, token.UserId)
 	if err != nil {
 		return fmt.Errorf("ERROR: %w. Could not Deactivate Activation token", err)
 	}
 
-	err = us.Models.User.ActivateUserById(ctx, token.UserId)
+	err = us.UserModels.User.ActivateUserById(ctx, token.UserId)
 
 	if err != nil {
 		return fmt.Errorf("ERROR: %w. Could not activate user", err)
@@ -101,13 +101,13 @@ func (us *UserService) checkToken(token *usermodel.Token) bool {
 // Returns *User, Token Plain Text, error
 func (us *UserService) recreateToken(ctx context.Context, userId int64) (*usermodel.User, string, error) {
 
-	err := us.Models.Token.DeactivateTokensForUsers(usermodel.ScopeActivation, userId)
+	err := us.UserModels.Token.DeactivateTokensForUsers(usermodel.ScopeActivation, userId)
 
 	if err != nil {
 		return nil, "", fmt.Errorf("ERROR: %w. Could not deactivate token", err)
 	}
 
-	user, err := us.Models.User.GetById(ctx, userId)
+	user, err := us.UserModels.User.GetById(ctx, userId)
 
 	if err != nil {
 		return nil, "", fmt.Errorf("ERROR: %w. Could not get user in Token recreation", err)

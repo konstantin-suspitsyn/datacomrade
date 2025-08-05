@@ -6,7 +6,7 @@ import "context"
 // returns false and error if something wrong with user
 func (us *UserService) checkEmailPassword(ctx context.Context, email string, password string) (bool, error) {
 
-	user, err := us.Models.User.GetByEmail(ctx, email)
+	user, err := us.UserModels.User.GetByEmail(ctx, email)
 	if err != nil {
 		return false, err
 	}

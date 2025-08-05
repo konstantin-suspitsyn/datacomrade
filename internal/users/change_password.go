@@ -8,7 +8,7 @@ import (
 
 func (us *UserService) ChangeOldPassword(ctx context.Context, userId int64, oldPassword, newPassword string) error {
 
-	user, err := us.Models.User.GetById(ctx, userId)
+	user, err := us.UserModels.User.GetById(ctx, userId)
 	if err != nil {
 		return err
 	}
@@ -20,7 +20,7 @@ func (us *UserService) ChangeOldPassword(ctx context.Context, userId int64, oldP
 
 	if passwordMatch {
 
-		us.Models.User.UpdatePassword(ctx, userId, newPassword)
+		us.UserModels.User.UpdatePassword(ctx, userId, newPassword)
 		return nil
 	}
 

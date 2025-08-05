@@ -1,6 +1,8 @@
 package usermodel
 
-import "database/sql"
+import (
+	"database/sql"
+)
 
 type Models struct {
 	Token        TokenModel

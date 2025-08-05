@@ -5,7 +5,8 @@
 package rolesmodel
 
 import (
-	"github.com/jackc/pgx/v5/pgtype"
+	"database/sql"
+	"time"
 )
 
 type UsersAction struct {
@@ -13,8 +14,8 @@ type UsersAction struct {
 	Name        string
 	Description string
 	IsDeleted   bool
-	CreatedAt   pgtype.Timestamptz
-	UpdatedAt   pgtype.Timestamptz
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
 }
 
 type UsersResource struct {
@@ -22,19 +23,28 @@ type UsersResource struct {
 	Name        string
 	Description string
 	IsDeleted   bool
-	CreatedAt   pgtype.Timestamptz
-	UpdatedAt   pgtype.Timestamptz
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
+}
+
+type UsersResourceType struct {
+	ID          int64
+	Name        string
+	Description string
+	IsDeleted   bool
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
 }
 
 type UsersRole struct {
 	ID            int64
 	RoleNameLong  string
 	RoleNameShort string
-	Description   *string
+	Description   sql.NullString
 	JwtExport     bool
 	IsDeleted     bool
-	CreatedAt     pgtype.Timestamptz
-	UpdatedAt     pgtype.Timestamptz
+	CreatedAt     time.Time
+	UpdatedAt     time.Time
 }
 
 type UsersRoleAccess struct {
@@ -42,8 +52,8 @@ type UsersRoleAccess struct {
 	RoleID         int64
 	ResourceID     int64
 	ActionID       int64
-	CreatedAt      pgtype.Timestamptz
-	UpdatedAt      pgtype.Timestamptz
+	CreatedAt      time.Time
+	UpdatedAt      time.Time
 	IsDeleted      bool
 	ResourceTypeID int64
 }
@@ -53,8 +63,8 @@ type UsersUserAccess struct {
 	UserID         int64
 	ResourceID     int64
 	ActionID       int64
-	CreatedAt      pgtype.Timestamptz
-	UpdatedAt      pgtype.Timestamptz
+	CreatedAt      time.Time
+	UpdatedAt      time.Time
 	IsDeleted      bool
 	ResourceTypeID int64
 }
@@ -64,6 +74,6 @@ type UsersUserRole struct {
 	UserID    int64
 	RoleID    int64
 	IsDeleted bool
-	CreatedAt pgtype.Timestamptz
-	UpdatedAt pgtype.Timestamptz
+	CreatedAt time.Time
+	UpdatedAt sql.NullTime
 }

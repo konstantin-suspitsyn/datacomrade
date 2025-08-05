@@ -6,6 +6,7 @@ import (
 
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/konstantin-suspitsyn/datacomrade/configs"
+	"github.com/konstantin-suspitsyn/datacomrade/data/rolesmodel"
 	"github.com/konstantin-suspitsyn/datacomrade/data/usermodel"
 )
 
@@ -13,8 +14,9 @@ const ScopeAuthToken = "scope_auth"
 const ScopeRefreshToken = "scope_refresh"
 
 type UserService struct {
-	Models   *usermodel.Models
-	JWTMaker *JWTMaker
+	UserModels *usermodel.Models
+	JWTMaker   *JWTMaker
+	RoleModel  *rolesmodel.Queries
 }
 
 type JWTMaker struct {
@@ -35,10 +37,12 @@ type UserClaims struct {
 func New(db *sql.DB) *UserService {
 
 	models := usermodel.NewModel(db)
+	roleModel := rolesmodel.New(db)
 
 	userService := UserService{
-		Models:   &models,
-		JWTMaker: NewJWTMaker(),
+		UserModels: &models,
+		JWTMaker:   NewJWTMaker(),
+		RoleModel:  roleModel,
 	}
 
 	return &userService

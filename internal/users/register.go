@@ -32,7 +32,7 @@ func (us *UserService) createUser(input usermodel.UserRegisterInput) (usermodel.
 }
 
 func (us *UserService) insertUserToDB(ctx context.Context, user *usermodel.User) (error, map[string]string) {
-	err := us.Models.User.Insert(ctx, user)
+	err := us.UserModels.User.Insert(ctx, user)
 
 	if err != nil {
 
@@ -60,7 +60,7 @@ func (us *UserService) insertUserToDB(ctx context.Context, user *usermodel.User)
 
 func (us *UserService) createRegistrationToken(user *usermodel.User) (*usermodel.Token, error) {
 
-	token, err := us.Models.Token.New(user.Id, configs.TokenDuration, usermodel.ScopeActivation)
+	token, err := us.UserModels.Token.New(user.Id, configs.TokenDuration, usermodel.ScopeActivation)
 	return token, err
 
 }
