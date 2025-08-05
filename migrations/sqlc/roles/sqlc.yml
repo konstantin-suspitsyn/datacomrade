@@ -1,0 +1,20 @@
+version: "2"
+sql:
+  - engine: "postgresql"
+    queries: "./rolequery.sql"
+    schema: "./rolesshema.sql"
+    database: 
+      uri: "postgresql://postgres_user:postgres_password@localhost:5433/datacomrade"
+    gen:
+      go:
+        package: "rolesmodel"
+        out: "./../../../data/rolesmodel"
+        sql_package: "pgx/v5"
+        emit_pointers_for_null_types: true
+        overrides:
+          - db_type: "pgtype.Timestamptz"
+            go_type:
+              import:"time"
+              type:"time.Time"
+          - db_type: "pgtype.Text"
+            go_type: "string"
