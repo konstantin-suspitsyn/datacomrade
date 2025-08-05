@@ -9,12 +9,11 @@ sql:
       go:
         package: "rolesmodel"
         out: "./../../../data/rolesmodel"
-        sql_package: "pgx/v5"
         emit_pointers_for_null_types: true
         overrides:
-          - db_type: "pgtype.Timestamptz"
+          - db_type: "timestamptz"
             go_type:
-              import:"time"
-              type:"time.Time"
+              import: "time"
+              type: "Time"
           - db_type: "pgtype.Text"
             go_type: "string"

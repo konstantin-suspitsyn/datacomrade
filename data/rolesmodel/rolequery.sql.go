@@ -27,7 +27,7 @@ type CreateRoleAccessParams struct {
 }
 
 func (q *Queries) CreateRoleAccess(ctx context.Context, arg CreateRoleAccessParams) (UsersRoleAccess, error) {
-	row := q.db.QueryRow(ctx, createRoleAccess,
+	row := q.db.QueryRowContext(ctx, createRoleAccess,
 		arg.RoleID,
 		arg.ResourceID,
 		arg.ActionID,
@@ -56,8 +56,40 @@ WHERE id = $1
 `
 
 func (q *Queries) DeleteAuthor(ctx context.Context, id int64) error {
-	_, err := q.db.Exec(ctx, deleteAuthor, id)
+	_, err := q.db.ExecContext(ctx, deleteAuthor, id)
 	return err
+}
+
+const getJWTShortRolesByUserId = `-- name: GetJWTShortRolesByUserId :many
+select r.role_name_short
+from users.user_role ur 
+inner join users."role" r
+on r.id = ur.role_id 
+where ur.user_id = $1
+and r.jwt_export = true
+`
+
+func (q *Queries) GetJWTShortRolesByUserId(ctx context.Context, userID int64) ([]string, error) {
+	rows, err := q.db.QueryContext(ctx, getJWTShortRolesByUserId, userID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []string
+	for rows.Next() {
+		var role_name_short string
+		if err := rows.Scan(&role_name_short); err != nil {
+			return nil, err
+		}
+		items = append(items, role_name_short)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
 }
 
 const getRoleAccessById = `-- name: GetRoleAccessById :one
@@ -66,7 +98,7 @@ WHERE id = $1 LIMIT 1
 `
 
 func (q *Queries) GetRoleAccessById(ctx context.Context, id int64) (UsersRoleAccess, error) {
-	row := q.db.QueryRow(ctx, getRoleAccessById, id)
+	row := q.db.QueryRowContext(ctx, getRoleAccessById, id)
 	var i UsersRoleAccess
 	err := row.Scan(
 		&i.ID,
@@ -87,7 +119,7 @@ WHERE id = $1 LIMIT 1
 `
 
 func (q *Queries) GetUserAccessById(ctx context.Context, id int64) (UsersUserAccess, error) {
-	row := q.db.QueryRow(ctx, getUserAccessById, id)
+	row := q.db.QueryRowContext(ctx, getUserAccessById, id)
 	var i UsersUserAccess
 	err := row.Scan(
 		&i.ID,
@@ -108,7 +140,7 @@ ORDER BY id
 `
 
 func (q *Queries) ListUserAccess(ctx context.Context) ([]UsersRoleAccess, error) {
-	rows, err := q.db.Query(ctx, listUserAccess)
+	rows, err := q.db.QueryContext(ctx, listUserAccess)
 	if err != nil {
 		return nil, err
 	}
@@ -129,6 +161,9 @@ func (q *Queries) ListUserAccess(ctx context.Context) ([]UsersRoleAccess, error)
 			return nil, err
 		}
 		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
 	}
 	if err := rows.Err(); err != nil {
 		return nil, err

@@ -69,3 +69,14 @@ CREATE TABLE users."action" (
 	CONSTRAINT action_access_pk PRIMARY KEY (id),
 	CONSTRAINT action_access_unique UNIQUE (name)
 );
+
+CREATE TABLE users.resource_type (
+	id bigserial NOT NULL,
+	"name" varchar NOT NULL,
+	description varchar NOT NULL,
+	is_deleted bool DEFAULT false NOT NULL,
+	created_at timestamptz DEFAULT now() NOT NULL,
+	updated_at timestamptz DEFAULT now() NOT NULL,
+	CONSTRAINT resource_type_pk PRIMARY KEY (id),
+	CONSTRAINT resource_type_unique UNIQUE (name)
+);

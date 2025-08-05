@@ -18,12 +18,12 @@ func (us *UserService) GetUserByEmail(ctx context.Context, email string) (*userm
 		return nil, fmt.Errorf("%w. Email: %s", usermodel.ErrEmailValidation, email)
 	}
 	// Get User
-	return us.Models.User.GetByEmail(ctx, email)
+	return us.UserModels.User.GetByEmail(ctx, email)
 }
 
 func (us *UserService) CreateForgotPasswordToken(user *usermodel.User) (*usermodel.Token, error) {
 
-	token, err := us.Models.Token.New(user.Id, configs.TokenDuration, usermodel.ScopeForgotPassword)
+	token, err := us.UserModels.Token.New(user.Id, configs.TokenDuration, usermodel.ScopeForgotPassword)
 	if err != nil {
 		return nil, err
 	}
