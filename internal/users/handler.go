@@ -95,13 +95,14 @@ func (us *UserService) UserActivate(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	token, err := us.Models.Token.GetByPlainText(input.TokenPlainText, usermodel.ScopeActivation)
+	ctx := r.Context()
+
+	token, err := us.Models.Token.GetByPlainText(ctx, input.TokenPlainText, usermodel.ScopeActivation)
 
 	if err != nil {
 		custresponse.ServerErrorResponse(w, r, fmt.Errorf("ERROR: %w. Getting Token from input", err))
 		return
 	}
-	ctx := r.Context()
 	err = us.ActivateRegistrationToken(ctx, token)
 
 	if err != nil {
