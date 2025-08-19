@@ -61,27 +61,41 @@ func (q *Queries) DeleteAuthor(ctx context.Context, id int64) error {
 }
 
 const getJWTShortRolesByUserId = `-- name: GetJWTShortRolesByUserId :many
-select r.role_name_short
-from users.user_role ur 
-inner join users."role" r
-on r.id = ur.role_id 
-where ur.user_id = $1
-and r.jwt_export = true
+SELECT user_role.id, user_role.user_id, user_role.role_id, role.role_name_short 
+FROM users.user_role
+inner join users."role"
+	on "role".id = user_role.role_id
+	and "role".is_deleted = false
+	and "role".jwt_export = true
+where user_id = $1
+and user_role.is_deleted = false
 `
 
-func (q *Queries) GetJWTShortRolesByUserId(ctx context.Context, userID int64) ([]string, error) {
+type GetJWTShortRolesByUserIdRow struct {
+	ID            int64
+	UserID        int64
+	RoleID        int64
+	RoleNameShort string
+}
+
+func (q *Queries) GetJWTShortRolesByUserId(ctx context.Context, userID int64) ([]GetJWTShortRolesByUserIdRow, error) {
 	rows, err := q.db.QueryContext(ctx, getJWTShortRolesByUserId, userID)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []string
+	var items []GetJWTShortRolesByUserIdRow
 	for rows.Next() {
-		var role_name_short string
-		if err := rows.Scan(&role_name_short); err != nil {
+		var i GetJWTShortRolesByUserIdRow
+		if err := rows.Scan(
+			&i.ID,
+			&i.UserID,
+			&i.RoleID,
+			&i.RoleNameShort,
+		); err != nil {
 			return nil, err
 		}
-		items = append(items, role_name_short)
+		items = append(items, i)
 	}
 	if err := rows.Close(); err != nil {
 		return nil, err

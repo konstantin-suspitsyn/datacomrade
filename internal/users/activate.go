@@ -63,7 +63,7 @@ func (us *UserService) ActivateRegistrationToken(ctx context.Context, token *use
 	}
 
 	// Deactivate registration token
-	err := us.UserModels.Token.DeactivateTokensForUsers(usermodel.ScopeActivation, token.UserId)
+	err := us.UserModels.Token.DeactivateTokensForUsers(ctx, usermodel.ScopeActivation, token.UserId)
 	if err != nil {
 		return fmt.Errorf("ERROR: %w. Could not Deactivate Activation token", err)
 	}
@@ -101,7 +101,7 @@ func (us *UserService) checkToken(token *usermodel.Token) bool {
 // Returns *User, Token Plain Text, error
 func (us *UserService) recreateToken(ctx context.Context, userId int64) (*usermodel.User, string, error) {
 
-	err := us.UserModels.Token.DeactivateTokensForUsers(usermodel.ScopeActivation, userId)
+	err := us.UserModels.Token.DeactivateTokensForUsers(ctx, usermodel.ScopeActivation, userId)
 
 	if err != nil {
 		return nil, "", fmt.Errorf("ERROR: %w. Could not deactivate token", err)
@@ -113,7 +113,7 @@ func (us *UserService) recreateToken(ctx context.Context, userId int64) (*usermo
 		return nil, "", fmt.Errorf("ERROR: %w. Could not get user in Token recreation", err)
 	}
 
-	token, err := us.createRegistrationToken(user)
+	token, err := us.createRegistrationToken(ctx, user)
 
 	if err != nil {
 		return nil, "", err

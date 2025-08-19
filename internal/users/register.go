@@ -58,9 +58,9 @@ func (us *UserService) insertUserToDB(ctx context.Context, user *usermodel.User)
 
 }
 
-func (us *UserService) createRegistrationToken(user *usermodel.User) (*usermodel.Token, error) {
+func (us *UserService) createRegistrationToken(ctx context.Context, user *usermodel.User) (*usermodel.Token, error) {
 
-	token, err := us.UserModels.Token.New(user.Id, configs.TokenDuration, usermodel.ScopeActivation)
+	token, err := us.UserModels.Token.New(ctx, user.Id, configs.TokenDuration, usermodel.ScopeActivation)
 	return token, err
 
 }

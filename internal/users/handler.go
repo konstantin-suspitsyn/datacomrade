@@ -7,7 +7,7 @@ import (
 	"strings"
 	"sync"
 
-	_ "github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5"
 	"github.com/konstantin-suspitsyn/datacomrade/data/usermodel"
 	"github.com/konstantin-suspitsyn/datacomrade/internal/utils/custresponse"
 	"github.com/konstantin-suspitsyn/datacomrade/internal/utils/shared"
@@ -52,7 +52,7 @@ func (us *UserService) UserRegister(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Create Registration Token
-	token, err := us.createRegistrationToken(&user)
+	token, err := us.createRegistrationToken(ctx, &user)
 
 	// Send email in background
 	var wg sync.WaitGroup
@@ -170,88 +170,39 @@ func (us *UserService) UserLogin(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	user, err := us.UserModels.User.GetByEmail(ctx, userLoginInput.Email)
+	isOk, err := us.checkEmailPasswordAndActive(ctx, userLoginInput.Email, userLoginInput.Password)
 
 	if err != nil {
-		custresponse.ServerErrorResponse(w, r, err)
-		return
-	}
-
-	// Check it against DB
-	passwordMatch, err := us.checkEmailPassword(ctx, user.Email, userLoginInput.Password)
-	if err != nil {
-		// TODO: Change error responses
 		switch {
-		// No user
-		case errors.Is(err, usermodel.ErrUserRecordNotFound):
-			custresponse.ServerErrorResponse(w, r, err)
-			return
-
 		case errors.Is(err, ErrUserNotActivated):
+			custresponse.WriteJSON(w, http.StatusForbidden, "User is not activated", nil)
+			return
+		default:
 			custresponse.ServerErrorResponse(w, r, err)
 			return
 		}
 	}
-	// Incorrect password
-	if !passwordMatch {
+
+	if !isOk {
 		custresponse.InvalidCredentialsResponse(w, r)
 		return
 	}
 
-	roles, err := us.UserModels.Roles.GetRolesByUserId(ctx, user.Id)
+	user, roles, err := us.findUserAndJWTRoles(ctx, userLoginInput.Email)
 
 	if err != nil {
 		custresponse.ServerErrorResponse(w, r, err)
 		return
 	}
 
-	var rolesStrings []string
+	loginDTO, err := us.accessAndRefreshTokens(ctx, user, roles)
 
-	for _, role := range roles.Roles {
-		rolesStrings = append(rolesStrings, role.RoleShort)
-	}
-
-	// Create JWT and return it
-	accessToken, userClaims, err := us.JWTMaker.CreateAccessToken(user.Id, user.Name, user.Email, rolesStrings)
-	// TODO: MAKE Special error
-	if err != nil {
-		custresponse.ServerErrorResponse(w, r, err)
-	}
-
-	refreshTokenString, refreshClaims, err := us.JWTMaker.CreateRefreshToken(user.Id, user.Name, user.Email, rolesStrings)
-
-	if err != nil {
-		custresponse.ServerErrorResponse(w, r, err)
-	}
-
-	refreshToken := usermodel.RefreshToken{
-		Id:           refreshClaims.RegisteredClaims.ID,
-		UserId:       user.Id,
-		Expire:       refreshClaims.RegisteredClaims.ExpiresAt.Time,
-		CreatedAt:    refreshClaims.RegisteredClaims.IssuedAt.Time,
-		IsActive:     true,
-		RefreshToken: refreshTokenString,
-	}
-
-	err = us.UserModels.RefreshToken.Insert(&refreshToken)
-
-	if err != nil {
-		custresponse.ServerErrorResponse(w, r, err)
-	}
-
-	loginDTO := usermodel.LoginDTO{
-		AccessToken:                accessToken,
-		AccessTokenExpirationTime:  userClaims.ExpiresAt.Time,
-		RefreshToken:               refreshTokenString,
-		RefreshTokenExpirationTime: refreshToken.Expire,
-		User:                       *user,
-		SessionId:                  refreshToken.Id,
-	}
 	err = custresponse.WriteJSON(w, http.StatusOK, loginDTO, nil)
 }
 
 func (us *UserService) UserForgotPassword(w http.ResponseWriter, r *http.Request) {
 	var emailInput usermodel.EmailInput
+	ctx := r.Context()
 
 	err := custresponse.ReadJSON(w, r, &emailInput)
 
@@ -260,13 +211,14 @@ func (us *UserService) UserForgotPassword(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	user, err := us.GetUserByEmail(emailInput.Email)
+	user, err := us.GetUserByEmail(ctx, emailInput.Email)
 
 	if err != nil {
 		custresponse.BadRequestResponse(w, r, fmt.Errorf("Error finding user. %w", err))
+		return
 	}
 
-	token, err := us.CreateForgotPasswordToken(user)
+	token, err := us.CreateForgotPasswordToken(ctx, user)
 	// Send email in background
 	var wg sync.WaitGroup
 
@@ -286,8 +238,9 @@ func (us *UserService) ChangeForgotternPassword(w http.ResponseWriter, r *http.R
 	refreshToken := chi.URLParam(r, "refresh")
 	var passwordInput usermodel.PasswordInput
 
+	ctx := r.Context()
 	// Look for refresh token
-	token, err := us.UserModels.Token.GetByPlainText(refreshToken, usermodel.ScopeForgotPassword)
+	token, err := us.UserModels.Token.GetByPlainText(ctx, refreshToken, usermodel.ScopeForgotPassword)
 
 	if err != nil {
 		custresponse.BadRequestResponse(w, r, err)
@@ -298,7 +251,7 @@ func (us *UserService) ChangeForgotternPassword(w http.ResponseWriter, r *http.R
 	// TODO: VALIDATE PASSWORD
 
 	// Change password
-	err = us.UserModels.User.UpdatePassword(token.UserId, passwordInput.Password)
+	err = us.UserModels.User.UpdatePassword(ctx, token.UserId, passwordInput.Password)
 	if err != nil {
 		custresponse.BadRequestResponse(w, r, err)
 		return
