@@ -8,7 +8,6 @@ type LoginDTO struct {
 	AccessTokenExpirationTime  time.Time `json:"access_token_expiration"`
 	RefreshToken               string    `json:"refresh_token"`
 	RefreshTokenExpirationTime time.Time `json:"refresh_token_expiration_time"`
-	User                       User      `json:"user"`
 }
 
 type RenewAccessToken struct {

@@ -25,9 +25,11 @@ SELECT * FROM  users.user_access
 WHERE id = $1 LIMIT 1;
 
 -- name: GetJWTShortRolesByUserId :many
-select r.role_name_short
-from users.user_role ur 
-inner join users."role" r
-on r.id = ur.role_id 
-where ur.user_id = $1
-and r.jwt_export = true;
+SELECT user_role.id, user_role.user_id, user_role.role_id, role.role_name_short 
+FROM users.user_role
+inner join users."role"
+	on "role".id = user_role.role_id
+	and "role".is_deleted = false
+	and "role".jwt_export = true
+where user_id = $1
+and user_role.is_deleted = false;

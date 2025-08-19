@@ -21,9 +21,9 @@ func (us *UserService) GetUserByEmail(ctx context.Context, email string) (*userm
 	return us.UserModels.User.GetByEmail(ctx, email)
 }
 
-func (us *UserService) CreateForgotPasswordToken(user *usermodel.User) (*usermodel.Token, error) {
+func (us *UserService) CreateForgotPasswordToken(ctx context.Context, user *usermodel.User) (*usermodel.Token, error) {
 
-	token, err := us.UserModels.Token.New(user.Id, configs.TokenDuration, usermodel.ScopeForgotPassword)
+	token, err := us.UserModels.Token.New(ctx, user.Id, configs.TokenDuration, usermodel.ScopeForgotPassword)
 	if err != nil {
 		return nil, err
 	}

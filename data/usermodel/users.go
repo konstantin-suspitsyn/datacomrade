@@ -107,7 +107,7 @@ func (p *password) Matches(plaintextPassword string) (bool, error) {
 ///////////////////////////////////////////////////////
 
 func (m UserModel) Insert(ctx context.Context, user *User) error {
-	sqlQuery := `INSERT INTO users.users (email, "name", password_hash, activated, created_at, updated_at) 
+	sqlQuery := `INSERT INTO users.user (email, "name", password_hash, activated, created_at, updated_at) 
 	VALUES($1, $2, $3, false, now(), now())
 	RETURNING id, created_at, updated_at;`
 
@@ -133,8 +133,42 @@ func (m UserModel) Insert(ctx context.Context, user *User) error {
 }
 
 func (m UserModel) GetByEmail(ctx context.Context, email string) (*User, error) {
-	sqlQuery := `SELECT id, email, "name", password_hash, activated, created_at, updated_at FROM users.users
-	where email = $1;`
+	sqlQuery := `SELECT id, email, "name", password_hash, activated, created_at, updated_at FROM users.user
+	where email = $1
+	and is_deleted = false;`
+
+	ctx, cancel := context.WithTimeout(ctx, configs.QueryTimeoutShort)
+	defer cancel()
+
+	var user User
+
+	err := m.DB.QueryRowContext(ctx, sqlQuery, email).Scan(
+		&user.Id,
+		&user.Email,
+		&user.Name,
+		&user.Password.hash,
+		&user.Activated,
+		&user.CreatedAt,
+		&user.UpdatedAt,
+	)
+
+	if err != nil {
+		switch {
+		case errors.Is(err, sql.ErrNoRows):
+			return nil, fmt.Errorf("%w. Searched email: %s", ErrUserRecordNotFound, email)
+		default:
+			return nil, err
+		}
+	}
+
+	return &user, nil
+}
+
+func (m UserModel) GetActiveByEmail(ctx context.Context, email string) (*User, error) {
+	sqlQuery := `SELECT id, email, "name", password_hash, activated, created_at, updated_at FROM users.user
+	where email = $1
+	and activated = true
+	and is_deleted = false;`
 
 	ctx, cancel := context.WithTimeout(ctx, configs.QueryTimeoutShort)
 	defer cancel()
@@ -164,7 +198,7 @@ func (m UserModel) GetByEmail(ctx context.Context, email string) (*User, error) 
 }
 
 func (m UserModel) ActivateUserById(ctx context.Context, id int64) error {
-	sqlQuery := `UPDATE users.users SET activated=true, updated_at=now() 
+	sqlQuery := `UPDATE users.user SET activated=true, updated_at=now() 
 	WHERE id = $1;`
 
 	ctx, cancel := context.WithTimeout(ctx, configs.QueryTimeoutShort)
@@ -183,7 +217,7 @@ func (m UserModel) ActivateUserById(ctx context.Context, id int64) error {
 func (m UserModel) GetById(ctx context.Context, userId int64) (*User, error) {
 	user := User{}
 
-	query := `SELECT id, email, "name", password_hash, activated, created_at, updated_at FROM users.users
+	query := `SELECT id, email, "name", password_hash, activated, created_at, updated_at FROM users.user
 	WHERE id = $1;`
 
 	ctx, cancel := context.WithTimeout(ctx, configs.QueryTimeoutShort)
@@ -218,7 +252,7 @@ func (m *UserModel) UpdatePassword(ctx context.Context, userId int64, plainPassw
 
 	pass.Set(plainPassword)
 
-	query := `UPDATE users.users
+	query := `UPDATE users.user
 	SET password_hash=$1
 	WHERE id=$2;`
 
