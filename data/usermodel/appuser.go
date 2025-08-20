@@ -1,9 +1,8 @@
 package usermodel
 
 type AppUser struct {
-	Id         int64
-	UserName   string
-	ShortRoles []string
+	Id       int64
+	UserName string
 }
 
 var AnonymousUser = &AppUser{}

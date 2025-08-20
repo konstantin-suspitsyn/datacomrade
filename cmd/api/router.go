@@ -26,12 +26,15 @@ func routes(services *services.ServiceLayer) *chi.Mux {
 	r.NotFound(custresponse.NotFoundResponse)
 	r.MethodNotAllowed(custresponse.MethodNotAllowed)
 
+	r.Use(GetAuthMiddlewareFunc(services))
+
 	r.Get("/healthcheck", healthcheck.ReturnOk)
 
 	r.Route("/v1/users", func(r chi.Router) {
 		r.Post("/", services.UserService.UserRegister)
 		r.Put("/activate", services.UserService.UserActivate)
 		r.Post("/login", services.UserService.UserLogin)
+		r.With(IsUser).Get("/me", services.UserService.Me)
 	})
 	return r
 }
