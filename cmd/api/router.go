@@ -34,7 +34,7 @@ func routes(services *services.ServiceLayer) *chi.Mux {
 		r.Post("/", services.UserService.UserRegister)
 		r.Put("/activate", services.UserService.UserActivate)
 		r.Post("/login", services.UserService.UserLogin)
-		r.With(IsUser).Get("/me", services.UserService.Me)
+		r.With(IsAuthorized).Get("/me", services.UserService.Me)
 	})
 	return r
 }

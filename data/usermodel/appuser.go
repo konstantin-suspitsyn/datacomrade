@@ -4,9 +4,3 @@ type AppUser struct {
 	Id       int64
 	UserName string
 }
-
-var AnonymousUser = &AppUser{}
-
-func (au *AppUser) IsAnonimous() bool {
-	return AnonymousUser == au
-}

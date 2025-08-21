@@ -74,13 +74,22 @@ func GetUserFromBearer(r *http.Request, services *services.ServiceLayer) (*users
 	return userClaims, nil
 }
 
-func IsUser(next http.Handler) http.Handler {
+func IsAuthorized(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		var appUser usermodel.AppUser
 
-		if _, ok := r.Context().Value(shareddata.AuthKey{}).(*usermodel.AppUser); !ok {
+		if user, ok := r.Context().Value(shareddata.AuthKey{}).(*usermodel.AppUser); !ok {
+			custresponse.UnauthorizedResponse(w, r)
+			return
+		} else {
+			appUser = *user
+		}
+
+		if appUser.Id == 0 {
 			custresponse.UnauthorizedResponse(w, r)
 			return
 		}
+
 		next.ServeHTTP(w, r)
 
 	})
