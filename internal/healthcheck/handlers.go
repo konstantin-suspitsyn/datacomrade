@@ -7,5 +7,6 @@ import (
 )
 
 func ReturnOk(w http.ResponseWriter, r *http.Request) {
-	custresponse.WriteJSON(w, http.StatusOK, nil, nil)
+	messageOk := map[string]string{"message": "Ok"}
+	custresponse.WriteJSON(w, http.StatusOK, messageOk, nil)
 }
