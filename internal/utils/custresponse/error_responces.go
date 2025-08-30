@@ -58,14 +58,16 @@ func BadRequestResponse(w http.ResponseWriter, r *http.Request, err error) {
 // Sends 422 response. Will be used when JSON validation is failed
 func FailedValidationResponse(w http.ResponseWriter, r *http.Request, err error, errorMaps map[string]string) {
 	errorJson := make(map[string]any)
-	errorJson["reason"] = err.Error()
+	errorJson["message"] = err.Error()
 	errorJson["errors"] = errorMaps
 	ErrorResponse(w, r, http.StatusUnprocessableEntity, errorJson)
 }
 
 func UnauthorizedResponse(w http.ResponseWriter, r *http.Request) {
+	errorJson := make(map[string]any)
 	errorString := "Unauthorized"
-	ErrorResponse(w, r, http.StatusUnauthorized, errorString)
+	errorJson["message"] = errorString
+	ErrorResponse(w, r, http.StatusUnauthorized, errorJson)
 
 }
 

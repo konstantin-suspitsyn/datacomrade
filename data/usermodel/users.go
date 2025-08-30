@@ -120,9 +120,9 @@ func (m UserModel) Insert(ctx context.Context, user *User) error {
 
 	if err != nil {
 		switch {
-		case strings.Contains(err.Error(), "users_email_unique"):
+		case strings.Contains(err.Error(), "user_email_unique"):
 			return ErrDuplicateEmail
-		case strings.Contains(err.Error(), "users_name_unique"):
+		case strings.Contains(err.Error(), "user_name_unique"):
 			return ErrDuplicateName
 		default:
 			return err
