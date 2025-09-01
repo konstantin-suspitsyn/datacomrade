@@ -216,8 +216,13 @@ func (us *UserService) GetAccessTokenByRefresh(w http.ResponseWriter, r *http.Re
 	newAccessToken, err := us.generateAccessToken(ctx, refreshTokenInput.RefreshToken)
 
 	if err != nil {
-		custresponse.BadRequestResponse(w, r, fmt.Errorf("Error creatind JWT Access token. %w", err))
-		return
+		switch {
+		case errors.Is(err, ErrTokenExpired):
+			custresponse.UnauthorizedResponse(w, r)
+		default:
+			custresponse.BadRequestResponse(w, r, fmt.Errorf("Error creatind JWT Access token. %w", err))
+			return
+		}
 	}
 
 	custresponse.WriteJSON(w, http.StatusOK, newAccessToken, nil)

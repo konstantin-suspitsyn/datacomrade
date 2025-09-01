@@ -3,6 +3,7 @@ package users
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"github.com/konstantin-suspitsyn/datacomrade/data/rolesmodel"
 	"github.com/konstantin-suspitsyn/datacomrade/data/usermodel"
@@ -61,6 +62,10 @@ func (us *UserService) generateAccessToken(ctx context.Context, refreshTokenStr 
 	refreshToken, err := us.UserModels.RefreshToken.GetById(ctx, refreshTokenStr)
 	if err != nil {
 		return nil, fmt.Errorf("ERROR. Getting JWT Refresh Token From DB. %w", err)
+	}
+
+	if refreshToken.Expire.Before(time.Now()) {
+		return nil, ErrTokenExpired
 	}
 
 	user, err := us.UserModels.User.GetById(ctx, refreshToken.UserId)
