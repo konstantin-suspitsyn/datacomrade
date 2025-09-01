@@ -48,13 +48,51 @@ func (us *UserService) findUserAndJWTRoles(ctx context.Context, email string) (*
 	return user, roles, nil
 }
 
-func (us *UserService) accessAndRefreshTokens(ctx context.Context, user *usermodel.User, roles []rolesmodel.GetJWTShortRolesByUserIdRow) (*usermodel.LoginDTO, error) {
-
+func (us *UserService) rolesToShortRolesArrConverter(roles []rolesmodel.GetJWTShortRolesByUserIdRow) []string {
 	var rolesString []string
 
 	for _, role := range roles {
 		rolesString = append(rolesString, role.RoleNameShort)
 	}
+	return rolesString
+}
+
+func (us *UserService) generateAccessToken(ctx context.Context, refreshTokenStr string) (*usermodel.RenewAccessToken, error) {
+	refreshToken, err := us.UserModels.RefreshToken.GetById(ctx, refreshTokenStr)
+	if err != nil {
+		return nil, fmt.Errorf("ERROR. Getting JWT Refresh Token From DB. %w", err)
+	}
+
+	user, err := us.UserModels.User.GetById(ctx, refreshToken.UserId)
+	if err != nil {
+		return nil, fmt.Errorf("ERROR. Getting User From DB using RefreshToken. %w", err)
+	}
+
+	roles, err := us.RoleModel.GetJWTShortRolesByUserId(ctx, user.Id)
+
+	rolesString := us.rolesToShortRolesArrConverter(roles)
+
+	if err != nil {
+		return nil, fmt.Errorf("Error getting roles for user %d. ERROR: %w", user.Id, err)
+	}
+
+	accessToken, userClaims, err := us.JWTMaker.CreateAccessToken(user.Id, user.Name, user.Email, rolesString)
+
+	if err != nil {
+		return nil, fmt.Errorf("ERROR: Could not create Access Token. %w", err)
+	}
+
+	accessTokenRenewed := usermodel.RenewAccessToken{
+		AccessToken:               accessToken,
+		AccessTokenExpirationTime: userClaims.ExpiresAt.Time,
+	}
+
+	return &accessTokenRenewed, nil
+}
+
+func (us *UserService) accessAndRefreshTokens(ctx context.Context, user *usermodel.User, roles []rolesmodel.GetJWTShortRolesByUserIdRow) (*usermodel.LoginDTO, error) {
+
+	rolesString := us.rolesToShortRolesArrConverter(roles)
 
 	accessToken, userClaims, err := us.JWTMaker.CreateAccessToken(user.Id, user.Name, user.Email, rolesString)
 
