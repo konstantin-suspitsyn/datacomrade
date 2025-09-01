@@ -59,7 +59,13 @@ func (us *UserService) rolesToShortRolesArrConverter(roles []rolesmodel.GetJWTSh
 }
 
 func (us *UserService) generateAccessToken(ctx context.Context, refreshTokenStr string) (*usermodel.RenewAccessToken, error) {
-	refreshToken, err := us.UserModels.RefreshToken.GetById(ctx, refreshTokenStr)
+	userClaims, err := us.JWTMaker.VerifyRefreshToken(refreshTokenStr)
+
+	if err != nil {
+		return nil, ErrRefreshTokenValidationFailed
+	}
+
+	refreshToken, err := us.UserModels.RefreshToken.GetById(ctx, userClaims.RegisteredClaims.ID)
 	if err != nil {
 		return nil, fmt.Errorf("ERROR. Getting JWT Refresh Token From DB. %w", err)
 	}

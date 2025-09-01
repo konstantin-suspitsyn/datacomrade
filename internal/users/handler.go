@@ -219,6 +219,7 @@ func (us *UserService) GetAccessTokenByRefresh(w http.ResponseWriter, r *http.Re
 		switch {
 		case errors.Is(err, ErrTokenExpired):
 			custresponse.UnauthorizedResponse(w, r)
+			return
 		default:
 			custresponse.BadRequestResponse(w, r, fmt.Errorf("Error creatind JWT Access token. %w", err))
 			return
