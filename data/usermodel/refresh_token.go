@@ -67,7 +67,7 @@ func (rt *RefreshTokenModel) DeactivateRefreshTokensForUserId(ctx context.Contex
 func (rt *RefreshTokenModel) GetById(ctx context.Context, id string) (*RefreshToken, error) {
 
 	query := `SELECT user_id, expire, created_at, is_active, updated_at, refresh_token, id FROM users.refresh_token
-	WHERE id = $1;`
+	WHERE id = $1 and is_active = true;`
 
 	ctx, cancel := context.WithTimeout(ctx, configs.QueryTimeoutShort)
 	defer cancel()

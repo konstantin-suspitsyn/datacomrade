@@ -68,8 +68,8 @@ func (us *UserService) UserRegister(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	userResponceMessage := make(map[string]usermodel.User)
-	userResponceMessage["user"] = user
+	userResponceMessage := make(map[string]string)
+	userResponceMessage["message"] = fmt.Sprintf("Email was sent to %s", user.Email)
 
 	// Response Token
 	err = custresponse.WriteJSON(w, http.StatusAccepted, userResponceMessage, nil)
@@ -199,6 +199,34 @@ func (us *UserService) UserLogin(w http.ResponseWriter, r *http.Request) {
 	loginDTO, err := us.accessAndRefreshTokens(ctx, user, roles)
 
 	err = custresponse.WriteJSON(w, http.StatusOK, loginDTO, nil)
+}
+
+func (us *UserService) GetAccessTokenByRefresh(w http.ResponseWriter, r *http.Request) {
+	var refreshTokenInput usermodel.RefreshTokenInput
+
+	ctx := r.Context()
+
+	err := custresponse.ReadJSON(w, r, &refreshTokenInput)
+
+	if err != nil {
+		custresponse.BadRequestResponse(w, r, fmt.Errorf("Error reading JWT refresh token. %w", err))
+		return
+	}
+
+	newAccessToken, err := us.generateAccessToken(ctx, refreshTokenInput.RefreshToken)
+
+	if err != nil {
+		switch {
+		case errors.Is(err, ErrTokenExpired):
+			custresponse.UnauthorizedResponse(w, r)
+		default:
+			custresponse.BadRequestResponse(w, r, fmt.Errorf("Error creatind JWT Access token. %w", err))
+			return
+		}
+	}
+
+	custresponse.WriteJSON(w, http.StatusOK, newAccessToken, nil)
+
 }
 
 func (us *UserService) UserForgotPassword(w http.ResponseWriter, r *http.Request) {

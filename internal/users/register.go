@@ -47,7 +47,7 @@ func (us *UserService) insertUserToDB(ctx context.Context, user *usermodel.User)
 			errorMap := map[string]string{
 				"name": "Name Already exists",
 			}
-			return fmt.Errorf("ERROR: %w. Name: %s", usermodel.ErrDuplicateEmail, user.Name), errorMap
+			return fmt.Errorf("ERROR: %w. Name: %s", usermodel.ErrDuplicateName, user.Name), errorMap
 
 		default:
 			return err, nil

@@ -24,3 +24,7 @@ type UpdatePasswordInput struct {
 	OldPassword string `json:"old_password"`
 	NewPassword string `json:"new_password"`
 }
+
+type RefreshTokenUpdater struct {
+	RefreshToken string `json:"refresh_token"`
+}
