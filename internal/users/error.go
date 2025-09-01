@@ -12,3 +12,5 @@ var ErrJWTInvalidTokenClaims = errors.New("Invalid JWT Claims")
 
 var ErrNotAnAccessToken = errors.New("Not and Access JWT")
 var ErrNotARefreshToken = errors.New("Not and Refresh JWT")
+
+var ErrRefreshTokenValidationFailed = errors.New("ERROR: passwords do not match")
