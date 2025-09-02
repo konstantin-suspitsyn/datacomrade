@@ -9,6 +9,7 @@ import (
 	"sync"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/konstantin-suspitsyn/datacomrade/configs"
 	"github.com/konstantin-suspitsyn/datacomrade/data/shareddata"
 	"github.com/konstantin-suspitsyn/datacomrade/data/usermodel"
 	"github.com/konstantin-suspitsyn/datacomrade/internal/utils/custresponse"
@@ -197,37 +198,40 @@ func (us *UserService) UserLogin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	loginDTO, err := us.accessAndRefreshTokens(ctx, user, roles)
+	accessAndRefreshJWT, err := us.accessAndRefreshTokens(ctx, user, roles)
 
 	if err != nil {
 		custresponse.ServerErrorResponse(w, r, err)
 		return
 
 	}
-	accessTokenDTO := usermodel.AccessTokenDTO{
-		AccessToken: loginDTO.AccessToken,
+	loginDTO := usermodel.LoginDTO{
+		AccessToken: accessAndRefreshJWT.AccessToken,
+		UserName:    user.Name,
+		UserEmail:   user.Email,
+		Roles:       us.rolesToShortRolesArrConverter(roles),
 	}
 
 	refreshCookie := &http.Cookie{
-		Name:     "refresh_token",
-		Value:    loginDTO.RefreshToken,
-		Expires:  loginDTO.RefreshTokenExpirationTime,
+		Name:     configs.RefreshJWTCookieName,
+		Value:    accessAndRefreshJWT.RefreshToken,
+		Expires:  accessAndRefreshJWT.RefreshTokenExpirationTime,
 		HttpOnly: true,
 		Secure:   true,
 		SameSite: http.SameSiteLaxMode,
-		Path:     "/refresh",
+		Path:     configs.RefreshJWTPage,
 	}
 
 	http.SetCookie(w, refreshCookie)
 
-	err = custresponse.WriteJSON(w, http.StatusOK, accessTokenDTO, nil)
+	err = custresponse.WriteJSON(w, http.StatusOK, loginDTO, nil)
 }
 
 func (us *UserService) GetAccessTokenByRefresh(w http.ResponseWriter, r *http.Request) {
 
 	ctx := r.Context()
 
-	refreshToken, err := r.Cookie("refresh_token")
+	refreshToken, err := r.Cookie(configs.RefreshJWTCookieName)
 
 	if err != nil {
 		if err == http.ErrNoCookie {

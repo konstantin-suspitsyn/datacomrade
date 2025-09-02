@@ -7,3 +7,6 @@ var TokenDuration = 3 * 24 * time.Hour
 
 const QueryTimeoutShort = 5 * time.Second
 const QueryTimeoutLong = 60 * time.Second
+
+const RefreshJWTPage = "/refresh"
+const RefreshJWTCookieName = "refresh_token"

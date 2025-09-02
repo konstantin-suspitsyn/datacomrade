@@ -101,7 +101,7 @@ func (us *UserService) generateAccessToken(ctx context.Context, refreshTokenStr 
 	return &accessTokenRenewed, nil
 }
 
-func (us *UserService) accessAndRefreshTokens(ctx context.Context, user *usermodel.User, roles []rolesmodel.GetJWTShortRolesByUserIdRow) (*usermodel.LoginDTO, error) {
+func (us *UserService) accessAndRefreshTokens(ctx context.Context, user *usermodel.User, roles []rolesmodel.GetJWTShortRolesByUserIdRow) (*usermodel.AccessAndRefreshJWT, error) {
 
 	rolesString := us.rolesToShortRolesArrConverter(roles)
 
@@ -132,7 +132,7 @@ func (us *UserService) accessAndRefreshTokens(ctx context.Context, user *usermod
 		return nil, fmt.Errorf("Refresh token creation failed. %w", err)
 	}
 
-	loginDTO := usermodel.LoginDTO{
+	loginDTO := usermodel.AccessAndRefreshJWT{
 		AccessToken:                accessToken,
 		AccessTokenExpirationTime:  userClaims.ExpiresAt.Time,
 		RefreshToken:               refreshTokenString,

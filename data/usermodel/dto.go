@@ -2,7 +2,7 @@ package usermodel
 
 import "time"
 
-type LoginDTO struct {
+type AccessAndRefreshJWT struct {
 	SessionId                  string    `json:"session_id"`
 	AccessToken                string    `json:"access_token"`
 	AccessTokenExpirationTime  time.Time `json:"access_token_expiration"`
@@ -17,4 +17,11 @@ type RenewAccessToken struct {
 
 type AccessTokenDTO struct {
 	AccessToken string `json:"access_token"`
+}
+
+type LoginDTO struct {
+	UserName    string   `json:"user"`
+	UserEmail   string   `json:"email"`
+	AccessToken string   `json:"access_token"`
+	Roles       []string `json:"roles"`
 }
