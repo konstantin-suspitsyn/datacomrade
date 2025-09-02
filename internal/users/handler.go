@@ -3,11 +3,13 @@ package users
 import (
 	"errors"
 	"fmt"
+	"log/slog"
 	"net/http"
 	"strings"
 	"sync"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/konstantin-suspitsyn/datacomrade/configs"
 	"github.com/konstantin-suspitsyn/datacomrade/data/shareddata"
 	"github.com/konstantin-suspitsyn/datacomrade/data/usermodel"
 	"github.com/konstantin-suspitsyn/datacomrade/internal/utils/custresponse"
@@ -196,24 +198,54 @@ func (us *UserService) UserLogin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	loginDTO, err := us.accessAndRefreshTokens(ctx, user, roles)
+	accessAndRefreshJWT, err := us.accessAndRefreshTokens(ctx, user, roles)
+
+	if err != nil {
+		custresponse.ServerErrorResponse(w, r, err)
+		return
+
+	}
+	loginDTO := usermodel.LoginDTO{
+		AccessToken: accessAndRefreshJWT.AccessToken,
+		UserName:    user.Name,
+		UserEmail:   user.Email,
+		Roles:       us.rolesToShortRolesArrConverter(roles),
+	}
+
+	refreshCookie := &http.Cookie{
+		Name:     configs.RefreshJWTCookieName,
+		Value:    accessAndRefreshJWT.RefreshToken,
+		Expires:  accessAndRefreshJWT.RefreshTokenExpirationTime,
+		HttpOnly: true,
+		Secure:   true,
+		SameSite: http.SameSiteLaxMode,
+		Path:     configs.RefreshJWTPage,
+	}
+
+	http.SetCookie(w, refreshCookie)
 
 	err = custresponse.WriteJSON(w, http.StatusOK, loginDTO, nil)
 }
 
 func (us *UserService) GetAccessTokenByRefresh(w http.ResponseWriter, r *http.Request) {
-	var refreshTokenInput usermodel.RefreshTokenInput
 
 	ctx := r.Context()
 
-	err := custresponse.ReadJSON(w, r, &refreshTokenInput)
+	refreshToken, err := r.Cookie(configs.RefreshJWTCookieName)
 
 	if err != nil {
-		custresponse.BadRequestResponse(w, r, fmt.Errorf("Error reading JWT refresh token. %w", err))
+		if err == http.ErrNoCookie {
+			slog.Error(fmt.Errorf("No refresh_token in HttpOnly cookie, %w", err).Error())
+			custresponse.InvalidCredentialsResponse(w, r)
+			return
+		}
+		slog.Error(fmt.Errorf("Error reading cookie. %w", err).Error())
+
+		custresponse.InvalidCredentialsResponse(w, r)
 		return
 	}
 
-	newAccessToken, err := us.generateAccessToken(ctx, refreshTokenInput.RefreshToken)
+	newAccessToken, err := us.generateAccessToken(ctx, refreshToken.Value)
 
 	if err != nil {
 		switch {

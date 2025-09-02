@@ -7,6 +7,7 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/cors"
 	"github.com/go-chi/httprate"
+	"github.com/konstantin-suspitsyn/datacomrade/configs"
 	"github.com/konstantin-suspitsyn/datacomrade/internal/healthcheck"
 	"github.com/konstantin-suspitsyn/datacomrade/internal/services"
 	"github.com/konstantin-suspitsyn/datacomrade/internal/utils/custresponse"
@@ -40,7 +41,7 @@ func routes(services *services.ServiceLayer) *chi.Mux {
 
 	r.Route("/v1/users", func(r chi.Router) {
 		r.Post("/", services.UserService.UserRegister)
-		r.Post("/refresh", services.UserService.GetAccessTokenByRefresh)
+		r.Get(configs.RefreshJWTPage, services.UserService.GetAccessTokenByRefresh)
 		r.Put("/activate", services.UserService.UserActivate)
 		r.Post("/login", services.UserService.UserLogin)
 		r.With(IsAuthorized).Get("/me", services.UserService.Me)
