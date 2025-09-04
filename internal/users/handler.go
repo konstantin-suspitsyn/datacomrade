@@ -152,6 +152,7 @@ func (us *UserService) UserActivate(w http.ResponseWriter, r *http.Request) {
 	err = custresponse.WriteJSON(w, http.StatusAccepted, "User activated. You may login", nil)
 	if err != nil {
 		custresponse.ServerErrorResponse(w, r, err)
+		return
 	}
 
 }
@@ -229,6 +230,7 @@ func (us *UserService) UserLogin(w http.ResponseWriter, r *http.Request) {
 
 func (us *UserService) GetAccessTokenByRefresh(w http.ResponseWriter, r *http.Request) {
 
+	slog.Info("Refresh Token")
 	ctx := r.Context()
 
 	refreshToken, err := r.Cookie(configs.RefreshJWTCookieName)
