@@ -20,7 +20,7 @@ func routes(services *services.ServiceLayer) *chi.Mux {
 		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
 		ExposedHeaders:   []string{"Link"},
-		AllowCredentials: false,
+		AllowCredentials: true,
 		MaxAge:           300, // Maximum value not ignored by any of major browsers
 	}))
 	r.Use(middleware.Timeout(time.Second * 60))
@@ -38,6 +38,8 @@ func routes(services *services.ServiceLayer) *chi.Mux {
 	r.Use(GetAuthMiddlewareFunc(services))
 
 	r.Get("/healthcheck", healthcheck.ReturnOk)
+
+	r.Get("/refresh", services.UserService.GetAccessTokenByRefresh)
 
 	r.Route("/v1/users", func(r chi.Router) {
 		r.Post("/", services.UserService.UserRegister)
