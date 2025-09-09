@@ -24,7 +24,9 @@ func (us *UserService) UserRegister(w http.ResponseWriter, r *http.Request) {
 	err := custresponse.ReadJSON(w, r, &input)
 
 	if err != nil {
+
 		custresponse.BadRequestResponse(w, r, fmt.Errorf("ERROR: ReadJson UserRegisterInput. %w", err))
+		return
 	}
 
 	// Create user
@@ -179,7 +181,10 @@ func (us *UserService) UserLogin(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		switch {
 		case errors.Is(err, ErrUserNotActivated):
-			custresponse.WriteJSON(w, http.StatusForbidden, "User is not activated", nil)
+			message := make(map[string]string)
+			message["message"] = "User is not activated"
+			custresponse.WriteJSON(w, http.StatusForbidden, message, nil)
+			slog.Info("User not activated")
 			return
 		default:
 			custresponse.ServerErrorResponse(w, r, err)

@@ -52,7 +52,9 @@ func ServerErrorResponse(w http.ResponseWriter, r *http.Request, err error) {
 
 // Sends 400 status
 func BadRequestResponse(w http.ResponseWriter, r *http.Request, err error) {
-	ErrorResponse(w, r, http.StatusBadRequest, err.Error())
+	message := make(map[string]string)
+	message["message"] = err.Error()
+	ErrorResponse(w, r, http.StatusBadRequest, message)
 }
 
 // Sends 422 response. Will be used when JSON validation is failed
