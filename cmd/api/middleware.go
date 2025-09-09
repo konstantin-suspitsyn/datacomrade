@@ -28,7 +28,6 @@ func GetAuthMiddlewareFunc(services *services.ServiceLayer) func(http.Handler) h
 					appUser = usermodel.AppUser{}
 				case errors.Is(err, users.ErrJWTErrorReadingTheToken):
 					slog.Info("Error reading token")
-
 					appUser = usermodel.AppUser{}
 				default:
 					custresponse.ServerErrorResponse(w, r, err)
