@@ -159,6 +159,46 @@ func (us *UserService) UserActivate(w http.ResponseWriter, r *http.Request) {
 
 }
 
+func (us *UserService) UserLogout(w http.ResponseWriter, r *http.Request) {
+
+	ctx := r.Context()
+
+	refreshToken, err := r.Cookie(configs.RefreshJWTCookieName)
+
+	if err != nil {
+		if err == http.ErrNoCookie {
+			slog.Error(fmt.Errorf("No refresh_token in HttpOnly cookie, %w", err).Error())
+			custresponse.InvalidCredentialsResponse(w, r)
+			return
+		}
+		slog.Error(fmt.Errorf("Error reading cookie. %w", err).Error())
+
+		custresponse.InvalidCredentialsResponse(w, r)
+		return
+	}
+
+	slog.Info(refreshToken.Value)
+
+	err = us.UserModels.RefreshToken.DeleteRefreshToken(ctx, refreshToken.Value)
+
+	if err != nil {
+		slog.Error(err.Error())
+	}
+
+	refreshCookie := &http.Cookie{
+		Name:     configs.RefreshJWTCookieName,
+		Value:    "",
+		HttpOnly: true,
+		Secure:   true,
+		SameSite: http.SameSiteLaxMode,
+		Path:     configs.USERS_V1 + configs.REFRESH_JWT_LINK,
+		MaxAge:   -1,
+	}
+
+	http.SetCookie(w, refreshCookie)
+
+}
+
 func (us *UserService) UserLogin(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	// Get login and password
@@ -225,7 +265,7 @@ func (us *UserService) UserLogin(w http.ResponseWriter, r *http.Request) {
 		HttpOnly: true,
 		Secure:   true,
 		SameSite: http.SameSiteLaxMode,
-		Path:     configs.RefreshJWTPage,
+		Path:     configs.USERS_V1 + configs.REFRESH_JWT_LINK,
 	}
 
 	http.SetCookie(w, refreshCookie)
@@ -235,7 +275,6 @@ func (us *UserService) UserLogin(w http.ResponseWriter, r *http.Request) {
 
 func (us *UserService) GetAccessTokenByRefresh(w http.ResponseWriter, r *http.Request) {
 
-	slog.Info("Refresh Token")
 	ctx := r.Context()
 
 	refreshToken, err := r.Cookie(configs.RefreshJWTCookieName)
