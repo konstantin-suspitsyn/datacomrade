@@ -64,6 +64,24 @@ func (rt *RefreshTokenModel) DeactivateRefreshTokensForUserId(ctx context.Contex
 
 }
 
+// Real hard delete of refresh token
+func (rt *RefreshTokenModel) DeleteRefreshToken(ctx context.Context, token string) error {
+	query := `DELETE FROM users.refresh_token
+	WHERE refresh_token = $1`
+
+	ctx, cancel := context.WithTimeout(ctx, configs.QueryTimeoutShort)
+	defer cancel()
+
+	_, err := rt.DB.ExecContext(ctx, query, token)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+
+}
+
 func (rt *RefreshTokenModel) GetById(ctx context.Context, id string) (*RefreshToken, error) {
 
 	query := `SELECT user_id, expire, created_at, is_active, updated_at, refresh_token, id FROM users.refresh_token

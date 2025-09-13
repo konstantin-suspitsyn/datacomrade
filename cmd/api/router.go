@@ -41,11 +41,12 @@ func routes(services *services.ServiceLayer) *chi.Mux {
 
 	r.Get("/refresh", services.UserService.GetAccessTokenByRefresh)
 
-	r.Route("/v1/users", func(r chi.Router) {
-		r.Post("/", services.UserService.UserRegister)
-		r.Get(configs.RefreshJWTPage, services.UserService.GetAccessTokenByRefresh)
-		r.Put("/activate", services.UserService.UserActivate)
-		r.Post("/login", services.UserService.UserLogin)
+	r.Route(configs.USERS_V1, func(r chi.Router) {
+		r.Post(configs.INDEX_PAGE_LINK, services.UserService.UserRegister)
+		r.Get(configs.REFRESH_JWT_LINK, services.UserService.GetAccessTokenByRefresh)
+		r.Delete(configs.REFRESH_JWT_LINK, services.UserService.UserLogout)
+		r.Put(configs.ACTIVATE_LINK, services.UserService.UserActivate)
+		r.Post(configs.ACTIVATE_LINK, services.UserService.UserLogin)
 		r.With(IsAuthorized).Get("/me", services.UserService.Me)
 	})
 	return r
