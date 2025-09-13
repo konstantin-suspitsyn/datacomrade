@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/konstantin-suspitsyn/datacomrade/data/shareddata"
+	"github.com/konstantin-suspitsyn/datacomrade/data/sharedtypes"
 	"github.com/konstantin-suspitsyn/datacomrade/data/usermodel"
 	"github.com/konstantin-suspitsyn/datacomrade/internal/services"
 	"github.com/konstantin-suspitsyn/datacomrade/internal/users"
@@ -43,7 +43,7 @@ func GetAuthMiddlewareFunc(services *services.ServiceLayer) func(http.Handler) h
 				slog.Info("AppUser", "User name", appUser.UserName)
 			}
 
-			ctx := context.WithValue(r.Context(), shareddata.AuthKey{}, &appUser)
+			ctx := context.WithValue(r.Context(), sharedtypes.AuthKey{}, &appUser)
 			next.ServeHTTP(w, r.WithContext(ctx))
 		})
 	}
@@ -81,7 +81,7 @@ func IsAuthorized(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		var appUser usermodel.AppUser
 
-		if user, ok := r.Context().Value(shareddata.AuthKey{}).(*usermodel.AppUser); !ok {
+		if user, ok := r.Context().Value(sharedtypes.AuthKey{}).(*usermodel.AppUser); !ok {
 			custresponse.UnauthorizedResponse(w, r)
 			return
 		} else {
