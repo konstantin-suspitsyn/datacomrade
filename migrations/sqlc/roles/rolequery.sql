@@ -16,7 +16,7 @@ RETURNING *;
 
 -- name: DeleteAuthor :exec
 UPDATE users.role_access
-	SET is_deleted = false,
+	SET is_deleted = true,
 	updated_at = now()
 WHERE id = $1;
 

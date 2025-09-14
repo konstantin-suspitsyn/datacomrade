@@ -10,7 +10,7 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/konstantin-suspitsyn/datacomrade/configs"
-	"github.com/konstantin-suspitsyn/datacomrade/data/shareddata"
+	"github.com/konstantin-suspitsyn/datacomrade/data/sharedtypes"
 	"github.com/konstantin-suspitsyn/datacomrade/data/usermodel"
 	"github.com/konstantin-suspitsyn/datacomrade/internal/utils/custresponse"
 	"github.com/konstantin-suspitsyn/datacomrade/internal/utils/shared"
@@ -368,7 +368,7 @@ func (us *UserService) ChangeForgotternPassword(w http.ResponseWriter, r *http.R
 
 func (us *UserService) Me(w http.ResponseWriter, r *http.Request) {
 
-	appUser := r.Context().Value(shareddata.AuthKey{}).(*usermodel.AppUser)
+	appUser := r.Context().Value(sharedtypes.AuthKey{}).(*usermodel.AppUser)
 
 	custresponse.WriteJSON(w, http.StatusOK, appUser, nil)
 }

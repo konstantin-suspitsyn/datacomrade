@@ -49,5 +49,13 @@ func routes(services *services.ServiceLayer) *chi.Mux {
 		r.Post(configs.ACTIVATE_LINK, services.UserService.UserLogin)
 		r.With(IsAuthorized).Get("/me", services.UserService.Me)
 	})
+
+	r.Route(configs.DOMAIN_LINK, func(r chi.Router) {
+		r.With(IsAdmin).Get(configs.GET_DOMAIN, services.SharedDataService.GetAllDomains)
+	})
+
+	r.Route(configs.ROLES_LINK, func(r chi.Router) {
+		r.With(IsAdmin).Get(configs.GET_DOMAIN, services.RoleService.GetAllDomains)
+	})
 	return r
 }

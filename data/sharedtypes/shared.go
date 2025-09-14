@@ -1,3 +1,3 @@
-package shareddata
+package sharedtypes
 
 type AuthKey struct{}
