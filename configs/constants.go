@@ -17,3 +17,13 @@ const LOGIN_LINK = "/login"
 const REFRESH_JWT_LINK = "/refresh"
 const ACTIVATE_LINK = "/activate"
 const RefreshJWTCookieName = "refresh_token"
+
+const DOMAIN_V1 = "/v1/domain"
+const DOMAIN_LINK = DOMAIN_V1
+
+const GET_DOMAIN = "/"
+
+const ROLES_V1 = "v1/roles"
+const ROLES_LINK = ROLES_V1
+
+const GET_ROLES = "/"

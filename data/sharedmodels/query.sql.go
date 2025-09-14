@@ -138,3 +138,56 @@ func (q *Queries) GetDomains(ctx context.Context) ([]GetDomainsRow, error) {
 	}
 	return items, nil
 }
+
+const getDomainsWithPager = `-- name: GetDomainsWithPager :many
+SELECT id, "name", description, user_id, created_at, updated_at
+FROM shared."domain"
+where is_deleted = false
+ORDER BY id
+LIMIT $1
+OFFSET $2
+`
+
+type GetDomainsWithPagerParams struct {
+	Limit  int64
+	Offset int64
+}
+
+type GetDomainsWithPagerRow struct {
+	ID          int64
+	Name        string
+	Description sql.NullString
+	UserID      int64
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
+}
+
+func (q *Queries) GetDomainsWithPager(ctx context.Context, arg GetDomainsWithPagerParams) ([]GetDomainsWithPagerRow, error) {
+	rows, err := q.db.QueryContext(ctx, getDomainsWithPager, arg.Limit, arg.Offset)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []GetDomainsWithPagerRow
+	for rows.Next() {
+		var i GetDomainsWithPagerRow
+		if err := rows.Scan(
+			&i.ID,
+			&i.Name,
+			&i.Description,
+			&i.UserID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}

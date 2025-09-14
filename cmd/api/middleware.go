@@ -97,3 +97,24 @@ func IsAuthorized(next http.Handler) http.Handler {
 
 	})
 }
+
+func IsAdmin(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		var appUser usermodel.AppUser
+
+		if user, ok := r.Context().Value(sharedtypes.AuthKey{}).(*usermodel.AppUser); !ok {
+			custresponse.UnauthorizedResponse(w, r)
+			return
+		} else {
+			appUser = *user
+		}
+
+		if appUser.Id == 0 {
+			custresponse.UnauthorizedResponse(w, r)
+			return
+		}
+
+		next.ServeHTTP(w, r)
+
+	})
+}

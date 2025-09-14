@@ -26,3 +26,13 @@ WHERE id = $1;
 -- name: CountActiveRows :one
 SELECT count(*) from shared."domain"
 where is_deleted = false;
+
+-- name: GetDomainsWithPager :many
+SELECT id, "name", description, user_id, created_at, updated_at
+FROM shared."domain"
+where is_deleted = false
+ORDER BY id
+LIMIT $1
+OFFSET $2;
+
+
