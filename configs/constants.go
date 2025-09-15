@@ -23,7 +23,7 @@ const DOMAIN_LINK = DOMAIN_V1
 
 const GET_DOMAIN = "/"
 
-const ROLES_V1 = "v1/roles"
+const ROLES_V1 = "/v1/roles"
 const ROLES_LINK = ROLES_V1
 
 const GET_ROLES = "/"
