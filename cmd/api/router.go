@@ -51,11 +51,14 @@ func routes(services *services.ServiceLayer) *chi.Mux {
 	})
 
 	r.Route(configs.DOMAIN_LINK, func(r chi.Router) {
-		r.Get(configs.GET_DOMAIN, services.SharedDataService.GetAllDomains)
+		r.With(IsAuthorized).Get(configs.GET_DOMAIN, services.SharedDataService.GetAllDomainsHandler)
+		r.With(IsAuthorized).Post(configs.GET_DOMAIN, services.SharedDataService.CreateDomainHandler)
+		r.With(IsAuthorized).Put(configs.GET_DOMAIN+"/{id:^[1-9][0-9]*$}", services.SharedDataService.UpdateDomainHandler)
+		r.With(IsAuthorized).Delete(configs.GET_DOMAIN+"/{id:^[1-9][0-9]*$}", services.SharedDataService.DeleteDomainHandler)
 	})
 
 	r.Route(configs.ROLES_LINK, func(r chi.Router) {
-		r.Get(configs.GET_DOMAIN, services.RoleService.GetAllDomains)
+		r.With(IsAuthorized).Get(configs.GET_DOMAIN, services.RoleService.GetAllDomains)
 	})
 	return r
 }
