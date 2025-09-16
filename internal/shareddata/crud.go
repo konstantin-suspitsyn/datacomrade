@@ -2,6 +2,7 @@ package shareddata
 
 import (
 	"context"
+	"database/sql"
 	"net/http"
 
 	"github.com/konstantin-suspitsyn/datacomrade/configs"
@@ -56,4 +57,47 @@ func (sds *SharedDataService) generatePaginator(ctx context.Context, pager *urlp
 	}
 
 	return paginator, nil
+}
+
+func (sds *SharedDataService) CreateData(ctx context.Context, name string, description string, userId int64) (sharedmodels.SharedDomain, error) {
+	descriptionForDomain := sql.NullString{
+		String: description,
+		Valid:  true,
+	}
+
+	createDomainParams := sharedmodels.CreateDomainParams{
+		Name:        name,
+		Description: descriptionForDomain,
+		UserID:      userId,
+	}
+
+	shareDomain, err := sds.Models.CreateDomain(ctx, createDomainParams)
+
+	return shareDomain, err
+}
+
+func (sds *SharedDataService) UpdateDomainByUser(ctx context.Context, domainId int64, name string, description string, userId int64) (sharedmodels.SharedDomain, error) {
+	descriptionForDomain := sql.NullString{
+		String: description,
+		Valid:  true,
+	}
+
+	updateOneParams := sharedmodels.UpdateOneParams{
+		Name:        name,
+		Description: descriptionForDomain,
+		UserID:      userId,
+		ID:          domainId,
+	}
+
+	sd, err := sds.Models.UpdateOne(ctx, updateOneParams)
+	return sd, err
+}
+
+func (sds *SharedDataService) DeleteDomain(ctx context.Context, domainId int64, userId int64) error {
+	deleteDomainParams := sharedmodels.DeleteDomainParams{
+		ID:     domainId,
+		UserID: userId,
+	}
+
+	return sds.Models.DeleteDomain(ctx, deleteDomainParams)
 }

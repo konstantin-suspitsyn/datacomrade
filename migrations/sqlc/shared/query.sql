@@ -20,7 +20,8 @@ RETURNING *;
 -- name: DeleteDomain :exec
 UPDATE shared."domain"
 	SET is_deleted = true,
-	updated_at = now()
+	updated_at = now(), 
+	user_id = $2
 WHERE id = $1;
 
 -- name: CountActiveRows :one
@@ -34,5 +35,15 @@ where is_deleted = false
 ORDER BY id
 LIMIT $1
 OFFSET $2;
+
+-- name: UpdateOne :one
+UPDATE shared."domain"
+	SET 
+	"name" = $1,
+	description = $2,
+	user_id = $3,
+	updated_at = now()
+WHERE id = $4
+RETURNING *;
 
 

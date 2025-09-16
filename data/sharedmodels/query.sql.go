@@ -54,12 +54,18 @@ func (q *Queries) CreateDomain(ctx context.Context, arg CreateDomainParams) (Sha
 const deleteDomain = `-- name: DeleteDomain :exec
 UPDATE shared."domain"
 	SET is_deleted = true,
-	updated_at = now()
+	updated_at = now(), 
+	user_id = $2
 WHERE id = $1
 `
 
-func (q *Queries) DeleteDomain(ctx context.Context, id int64) error {
-	_, err := q.db.ExecContext(ctx, deleteDomain, id)
+type DeleteDomainParams struct {
+	ID     int64
+	UserID int64
+}
+
+func (q *Queries) DeleteDomain(ctx context.Context, arg DeleteDomainParams) error {
+	_, err := q.db.ExecContext(ctx, deleteDomain, arg.ID, arg.UserID)
 	return err
 }
 
@@ -190,4 +196,42 @@ func (q *Queries) GetDomainsWithPager(ctx context.Context, arg GetDomainsWithPag
 		return nil, err
 	}
 	return items, nil
+}
+
+const updateOne = `-- name: UpdateOne :one
+UPDATE shared."domain"
+	SET 
+	"name" = $1,
+	description = $2,
+	user_id = $3,
+	updated_at = now()
+WHERE id = $4
+RETURNING id, name, description, is_deleted, created_at, updated_at, user_id
+`
+
+type UpdateOneParams struct {
+	Name        string
+	Description sql.NullString
+	UserID      int64
+	ID          int64
+}
+
+func (q *Queries) UpdateOne(ctx context.Context, arg UpdateOneParams) (SharedDomain, error) {
+	row := q.db.QueryRowContext(ctx, updateOne,
+		arg.Name,
+		arg.Description,
+		arg.UserID,
+		arg.ID,
+	)
+	var i SharedDomain
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.Description,
+		&i.IsDeleted,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.UserID,
+	)
+	return i, err
 }
