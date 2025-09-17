@@ -59,7 +59,7 @@ func (sds *SharedDataService) generatePaginator(ctx context.Context, pager *urlp
 	return paginator, nil
 }
 
-func (sds *SharedDataService) CreateData(ctx context.Context, name string, description string, userId int64) (sharedmodels.SharedDomain, error) {
+func (sds *SharedDataService) CreateDomain(ctx context.Context, name string, description string, userId int64) (sharedmodels.SharedDomain, error) {
 	descriptionForDomain := sql.NullString{
 		String: description,
 		Valid:  true,
