@@ -34,7 +34,7 @@ func (sds *SharedDataService) CreateDomainHandler(w http.ResponseWriter, r *http
 		custresponse.BadRequestResponse(w, r, err)
 		return
 	}
-	domain, err := sds.CreateData(ctx, input.Name, input.Description, appUser.Id)
+	domain, err := sds.CreateDomain(ctx, input.Name, input.Description, appUser.Id)
 
 	if err != nil {
 		custresponse.BadRequestResponse(w, r, err)

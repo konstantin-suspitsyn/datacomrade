@@ -58,7 +58,7 @@ func routes(services *services.ServiceLayer) *chi.Mux {
 	})
 
 	r.Route(configs.ROLES_LINK, func(r chi.Router) {
-		r.With(IsAuthorized).Get(configs.GET_DOMAIN, services.RoleService.GetAllDomains)
+		r.Get(configs.GET_DOMAIN, services.RoleService.GetAllRolesHandler)
 	})
 	return r
 }

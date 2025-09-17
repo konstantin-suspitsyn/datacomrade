@@ -43,6 +43,7 @@ CREATE TABLE users."role" (
 	is_deleted bool DEFAULT false NOT NULL,
 	created_at timestamptz DEFAULT now() NOT NULL,
 	updated_at timestamptz DEFAULT now() NOT NULL,
+	user_id int8 NOT NULL,
 	CONSTRAINT role_name_long_unique UNIQUE (role_name_long),
 	CONSTRAINT role_name_short_unique UNIQUE (role_name_short),
 	CONSTRAINT role_pk PRIMARY KEY (id)
