@@ -112,6 +112,25 @@ func (q *Queries) DeleteAuthor(ctx context.Context, id int64) error {
 	return err
 }
 
+const deleteRole = `-- name: DeleteRole :exec
+UPDATE users."role"
+	SET
+	user_id= $1, 
+	updated_at = now(),
+	is_deleted = true
+WHERE id = $2
+`
+
+type DeleteRoleParams struct {
+	UserID int64
+	ID     int64
+}
+
+func (q *Queries) DeleteRole(ctx context.Context, arg DeleteRoleParams) error {
+	_, err := q.db.ExecContext(ctx, deleteRole, arg.UserID, arg.ID)
+	return err
+}
+
 const getJWTShortRolesByUserId = `-- name: GetJWTShortRolesByUserId :many
 SELECT user_role.id, user_role.user_id, user_role.role_id, role.role_name_short 
 FROM users.user_role
@@ -290,4 +309,50 @@ func (q *Queries) ListUserAccess(ctx context.Context) ([]UsersRoleAccess, error)
 		return nil, err
 	}
 	return items, nil
+}
+
+const updateRole = `-- name: UpdateRole :one
+UPDATE users."role"
+	SET
+	role_name_long = $1,
+	role_name_short = $3, 
+	description = $4, 
+	jwt_export = $5, 
+	updated_at = now(),
+	user_id = $2
+WHERE id = $6
+RETURNING id, role_name_long, role_name_short, description, jwt_export, is_deleted, created_at, updated_at, user_id
+`
+
+type UpdateRoleParams struct {
+	RoleNameLong  string
+	UserID        int64
+	RoleNameShort string
+	Description   sql.NullString
+	JwtExport     bool
+	ID            int64
+}
+
+func (q *Queries) UpdateRole(ctx context.Context, arg UpdateRoleParams) (UsersRole, error) {
+	row := q.db.QueryRowContext(ctx, updateRole,
+		arg.RoleNameLong,
+		arg.UserID,
+		arg.RoleNameShort,
+		arg.Description,
+		arg.JwtExport,
+		arg.ID,
+	)
+	var i UsersRole
+	err := row.Scan(
+		&i.ID,
+		&i.RoleNameLong,
+		&i.RoleNameShort,
+		&i.Description,
+		&i.JwtExport,
+		&i.IsDeleted,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.UserID,
+	)
+	return i, err
 }

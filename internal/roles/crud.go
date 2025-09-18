@@ -79,3 +79,31 @@ func (rd *RoleService) CreateRole(ctx context.Context, shortName string, longNam
 	return rd.Models.CreateRole(ctx, createRoleParams)
 
 }
+
+func (rs *RoleService) DeleteRole(ctx context.Context, roleId int64, userId int64) error {
+
+	deleteParams := rolesmodel.DeleteRoleParams{
+		UserID: userId,
+		ID:     roleId,
+	}
+	return rs.Models.DeleteRole(ctx, deleteParams)
+}
+
+func (rs *RoleService) UpdateRole(ctx context.Context, roleId int64, roleNameShort string, roleNameLong string, jwtExport bool, description string, userId int64) (rolesmodel.UsersRole, error) {
+	rolesDescription := sql.NullString{
+		String: description,
+		Valid:  true,
+	}
+
+	roleParams := rolesmodel.UpdateRoleParams{
+		Description:   rolesDescription,
+		ID:            roleId,
+		RoleNameLong:  roleNameLong,
+		UserID:        userId,
+		RoleNameShort: roleNameShort,
+		JwtExport:     jwtExport,
+	}
+	userRole, err := rs.Models.UpdateRole(ctx, roleParams)
+
+	return userRole, err
+}
