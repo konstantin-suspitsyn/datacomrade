@@ -42,15 +42,15 @@ ORDER BY id
 LIMIT $1
 OFFSET $2;
 
--- UpdateRole :one
+-- name: UpdateRole :one
 UPDATE users."role"
 	SET
 	role_name_long = $1,
-	role_name_long = $2, 
 	role_name_short = $3, 
 	description = $4, 
 	jwt_export = $5, 
-	updated_at = now()
+	updated_at = now(),
+	user_id = $2
 WHERE id = $6
 RETURNING *;
 
@@ -63,3 +63,11 @@ INSERT INTO users."role"
 (role_name_long, role_name_short, description, jwt_export, is_deleted, created_at, updated_at, user_id)
 VALUES($1, $2, $3, $4, false, now(), now(), $5)
 RETURNING *;
+
+-- name: DeleteRole :exec
+UPDATE users."role"
+	SET
+	user_id= $1, 
+	updated_at = now(),
+	is_deleted = true
+WHERE id = $2;
