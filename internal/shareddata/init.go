@@ -7,7 +7,7 @@ import (
 )
 
 type SharedDataService struct {
-	Models *sharedmodels.Queries
+	Models sharedmodels.SharedModelsInterface
 }
 
 func New(db *sql.DB) *SharedDataService {

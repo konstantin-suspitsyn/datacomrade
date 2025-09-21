@@ -10,11 +10,20 @@ import (
 	"github.com/konstantin-suspitsyn/datacomrade/data/sharedtypes"
 	"github.com/konstantin-suspitsyn/datacomrade/data/usermodel"
 	"github.com/konstantin-suspitsyn/datacomrade/internal/utils/custresponse"
+	"github.com/konstantin-suspitsyn/datacomrade/internal/utils/urlparams"
 )
 
 func (sds *SharedDataService) GetAllDomainsHandler(w http.ResponseWriter, r *http.Request) {
 
-	dto, err := sds.getDataWithPager(r)
+	ctx := r.Context()
+
+	urlPagingParams, err := urlparams.GetPager(r)
+
+	if err != nil {
+		custresponse.BadRequestResponse(w, r, err)
+	}
+
+	dto, err := sds.getDataWithPager(ctx, urlPagingParams)
 
 	if err != nil {
 		custresponse.BadRequestResponse(w, r, err)
