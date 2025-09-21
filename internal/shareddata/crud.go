@@ -3,7 +3,6 @@ package shareddata
 import (
 	"context"
 	"database/sql"
-	"net/http"
 
 	"github.com/konstantin-suspitsyn/datacomrade/configs"
 	"github.com/konstantin-suspitsyn/datacomrade/data/paginationmodel"
@@ -11,13 +10,7 @@ import (
 	"github.com/konstantin-suspitsyn/datacomrade/internal/utils/urlparams"
 )
 
-func (sds *SharedDataService) getDataWithPager(r *http.Request) (*sharedmodels.DomainsWithPagerDTO, error) {
-	ctx := r.Context()
-
-	urlPagingParams, err := urlparams.GetPager(r)
-	if err != nil {
-		return nil, err
-	}
+func (sds *SharedDataService) getDataWithPager(ctx context.Context, urlPagingParams *urlparams.Pager) (*sharedmodels.DomainsWithPagerDTO, error) {
 
 	paginator, err := sds.generatePaginator(ctx, urlPagingParams)
 

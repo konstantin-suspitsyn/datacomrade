@@ -58,7 +58,10 @@ func routes(services *services.ServiceLayer) *chi.Mux {
 	})
 
 	r.Route(configs.ROLES_LINK, func(r chi.Router) {
-		r.Get(configs.GET_DOMAIN, services.RoleService.GetAllRolesHandler)
+		r.With(IsAuthorized).Get(configs.GET_DOMAIN, services.RoleService.GetAllRolesHandler)
+		r.With(IsAuthorized).Post(configs.GET_DOMAIN, services.RoleService.CreateRoleHandler)
+		r.With(IsAuthorized).Delete(configs.GET_DOMAIN+"/{id:^[1-9][0-9]*$}", services.RoleService.DeleteRoleHandler)
+		r.With(IsAuthorized).Put(configs.GET_DOMAIN+"/{id:^[1-9][0-9]*$}", services.RoleService.UpdateRoleHandler)
 	})
 	return r
 }
