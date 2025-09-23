@@ -10,11 +10,11 @@ import (
 )
 
 type SharedDomain struct {
-	ID          int64
-	Name        string
-	Description sql.NullString
-	IsDeleted   bool
-	CreatedAt   time.Time
-	UpdatedAt   time.Time
-	UserID      int64
+	ID          int64          `json:"id"`
+	Name        string         `json:"name"`
+	Description sql.NullString `json:"description"`
+	IsDeleted   bool           `json:"is_deleted"`
+	CreatedAt   time.Time      `json:"created_at"`
+	UpdatedAt   time.Time      `json:"updated_at"`
+	UserID      int64          `json:"user_id"`
 }

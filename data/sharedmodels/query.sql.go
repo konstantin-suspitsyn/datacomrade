@@ -31,9 +31,9 @@ RETURNING id, name, description, is_deleted, created_at, updated_at, user_id
 `
 
 type CreateDomainParams struct {
-	Name        string
-	Description sql.NullString
-	UserID      int64
+	Name        string         `json:"name"`
+	Description sql.NullString `json:"description"`
+	UserID      int64          `json:"user_id"`
 }
 
 func (q *Queries) CreateDomain(ctx context.Context, arg CreateDomainParams) (SharedDomain, error) {
@@ -60,8 +60,8 @@ WHERE id = $1
 `
 
 type DeleteDomainParams struct {
-	ID     int64
-	UserID int64
+	ID     int64 `json:"id"`
+	UserID int64 `json:"user_id"`
 }
 
 func (q *Queries) DeleteDomain(ctx context.Context, arg DeleteDomainParams) error {
@@ -77,12 +77,12 @@ AND id = $1
 `
 
 type GetDomainByIdRow struct {
-	ID          int64
-	Name        string
-	Description sql.NullString
-	UserID      int64
-	CreatedAt   time.Time
-	UpdatedAt   time.Time
+	ID          int64          `json:"id"`
+	Name        string         `json:"name"`
+	Description sql.NullString `json:"description"`
+	UserID      int64          `json:"user_id"`
+	CreatedAt   time.Time      `json:"created_at"`
+	UpdatedAt   time.Time      `json:"updated_at"`
 }
 
 func (q *Queries) GetDomainById(ctx context.Context, id int64) (GetDomainByIdRow, error) {
@@ -107,12 +107,12 @@ ORDER BY id
 `
 
 type GetDomainsRow struct {
-	ID          int64
-	Name        string
-	Description sql.NullString
-	UserID      int64
-	CreatedAt   time.Time
-	UpdatedAt   time.Time
+	ID          int64          `json:"id"`
+	Name        string         `json:"name"`
+	Description sql.NullString `json:"description"`
+	UserID      int64          `json:"user_id"`
+	CreatedAt   time.Time      `json:"created_at"`
+	UpdatedAt   time.Time      `json:"updated_at"`
 }
 
 func (q *Queries) GetDomains(ctx context.Context) ([]GetDomainsRow, error) {
@@ -155,17 +155,17 @@ OFFSET $2
 `
 
 type GetDomainsWithPagerParams struct {
-	Limit  int64
-	Offset int64
+	Limit  int64 `json:"limit"`
+	Offset int64 `json:"offset"`
 }
 
 type GetDomainsWithPagerRow struct {
-	ID          int64
-	Name        string
-	Description sql.NullString
-	UserID      int64
-	CreatedAt   time.Time
-	UpdatedAt   time.Time
+	ID          int64          `json:"id"`
+	Name        string         `json:"name"`
+	Description sql.NullString `json:"description"`
+	UserID      int64          `json:"user_id"`
+	CreatedAt   time.Time      `json:"created_at"`
+	UpdatedAt   time.Time      `json:"updated_at"`
 }
 
 func (q *Queries) GetDomainsWithPager(ctx context.Context, arg GetDomainsWithPagerParams) ([]GetDomainsWithPagerRow, error) {
@@ -210,10 +210,10 @@ RETURNING id, name, description, is_deleted, created_at, updated_at, user_id
 `
 
 type UpdateOneParams struct {
-	Name        string
-	Description sql.NullString
-	UserID      int64
-	ID          int64
+	Name        string         `json:"name"`
+	Description sql.NullString `json:"description"`
+	UserID      int64          `json:"user_id"`
+	ID          int64          `json:"id"`
 }
 
 func (q *Queries) UpdateOne(ctx context.Context, arg UpdateOneParams) (SharedDomain, error) {

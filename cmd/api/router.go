@@ -46,7 +46,7 @@ func routes(services *services.ServiceLayer) *chi.Mux {
 		r.Get(configs.REFRESH_JWT_LINK, services.UserService.GetAccessTokenByRefresh)
 		r.Delete(configs.REFRESH_JWT_LINK, services.UserService.UserLogout)
 		r.Put(configs.ACTIVATE_LINK, services.UserService.UserActivate)
-		r.Post(configs.ACTIVATE_LINK, services.UserService.UserLogin)
+		r.Post(configs.LOGIN_LINK, services.UserService.UserLogin)
 		r.With(IsAuthorized).Get("/me", services.UserService.Me)
 	})
 
