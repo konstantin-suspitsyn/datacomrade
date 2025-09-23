@@ -17,3 +17,4 @@ sql:
               type: "Time"
           - db_type: "pgtype.Text"
             go_type: "string"
+        emit_json_tags: true

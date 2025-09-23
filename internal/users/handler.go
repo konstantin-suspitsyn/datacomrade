@@ -191,7 +191,7 @@ func (us *UserService) UserLogout(w http.ResponseWriter, r *http.Request) {
 		HttpOnly: true,
 		Secure:   true,
 		SameSite: http.SameSiteLaxMode,
-		Path:     configs.USERS_V1 + configs.REFRESH_JWT_LINK,
+		Path:     "/",
 		MaxAge:   -1,
 	}
 
@@ -265,7 +265,7 @@ func (us *UserService) UserLogin(w http.ResponseWriter, r *http.Request) {
 		HttpOnly: true,
 		Secure:   true,
 		SameSite: http.SameSiteLaxMode,
-		Path:     configs.USERS_V1 + configs.REFRESH_JWT_LINK,
+		Path:     "/",
 	}
 
 	http.SetCookie(w, refreshCookie)
