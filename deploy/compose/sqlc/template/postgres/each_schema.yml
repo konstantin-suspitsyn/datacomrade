@@ -1,0 +1,7 @@
+- schema: "{schema}"
+  queries: "{queries}"
+  engine: "postgresql"
+  gen:
+    go:
+      package: "{package}"
+      out: "{out}"

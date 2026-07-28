@@ -1,0 +1,16 @@
+version: "2"
+
+overrides:
+  go:
+    overrides:
+      - db_type: "pg_catalog.timestamptz"
+        nullable: true
+        engine: "postgresql"
+        go_type:
+          import: "gopkg.in/guregu/null.v4"
+          package: "null"
+          type: "Time"
+      - db_type: "pgtype.Text"
+        go_type: "string"
+
+sql:

@@ -1,0 +1,30 @@
+services:
+  postgres_datacomrade:
+    image: ${DATACATALOGUE_POSTGRES_IMAGE}
+    container_name: ${DATACATALOGUE_CONTAINER_NAME} # Имя контейнера базы данных
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: ${DATACATALOGUE_POSTGRES_USER} # Пользователь базы данных из .env
+      POSTGRES_PASSWORD: ${DATACATALOGUE_POSTGRES_PASSWORD} # Пароль базы данных из .env
+      POSTGRES_DB: ${DATACATALOGUE_POSTGRES_DB}
+    ports:
+      - "${DATACATALOGUE_POSTGRES_PORT}:5432" # Пробрасываем порт: внешний из .env, внутренний фиксированный
+    volumes:
+      - pgdata:/var/lib/postgresql # Volume для сохранности данных базы
+      - ./postgres/init-scripts:/docker-entrypoint-initdb.d:ro # Копирует init-cкрипты, чтобы создать схему
+    healthcheck: # Проверяем "здоровье" контейнера базы
+      test: ["CMD-SHELL", "pg_isready -U ${DATACATALOGUE_POSTGRES_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped # Автоматический перезапуск контейнера, кроме ручной остановки
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge # Обычная bridge-сеть Docker
+
+volumes:
+  pgdata: # Volume для данных базы, Docker создаст его автоматически

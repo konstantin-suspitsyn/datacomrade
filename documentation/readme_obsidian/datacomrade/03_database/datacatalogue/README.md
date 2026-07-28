@@ -1,0 +1,26 @@
+# datacatalogue tables
+
+Индекс заметок по таблицам схемы `dc`.
+
+- [[dc.alias]]
+- [[dc.calculation_type]]
+- [[dc.column_cat]]
+- [[dc.column_type]]
+- [[dc.database_calculation]]
+- [[dc.database_cat]]
+- [[dc.database_type]]
+- [[dc.domain_cat]]
+- [[dc.domain_roles]]
+- [[dc.domains_domain_roles]]
+- [[dc.following_calculation]]
+- [[dc.group_levels]]
+- [[dc.has_to_group]]
+- [[dc.host]]
+- [[dc.schema_cat]]
+- [[dc.table_cat]]
+- [[dc.table_roles]]
+- [[dc.table_type]]
+- [[dc.tables_table_roles]]
+- [[dc.user]]
+- [[dc.user_domain_roles]]
+- [[dc.user_table_roles]]

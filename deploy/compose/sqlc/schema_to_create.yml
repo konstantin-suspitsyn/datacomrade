@@ -1,0 +1,35 @@
+datacatalogue:
+  save_path: "internal/repository"
+  env_path: "../datacatalogue/.env"
+  models:
+    user_model:
+      name: dcuser
+      tables:
+        - dc.user
+    tables_model:
+      name: dctables
+      tables:
+        - dc.alias
+        - dc.column_cat
+        - dc.column_type
+        - dc.calculation_type
+        - dc.database_calculation
+        - dc.database_cat
+        - dc.database_type
+        - dc.domain_cat
+        - dc.following_calculation
+        - dc.group_levels
+        - dc.has_to_group
+        - dc.host
+        - dc.schema_cat
+        - dc.table_cat
+        - dc.table_type
+    user_domain_roles:
+      name: dcroles
+      tables:
+        - dc.domain_roles
+        - dc.domains_domain_roles
+        - dc.table_roles
+        - dc.tables_table_roles
+        - dc.user_domain_roles
+        - dc.user_table_roles

@@ -1,0 +1,1738 @@
+syntax = "proto3";
+
+package tables.v1;
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/tables/v1;tablesv1";
+
+// TableService mirrors query.sql one-to-one:
+// 8 standard CRUD calls per table plus foreign-key list calls.
+service TableService {
+  // dc.alias
+  rpc GetAliasById(GetAliasByIdRequest) returns (GetAliasByIdResponse);
+  rpc GetAliases(GetAliasesRequest) returns (GetAliasesResponse);
+  rpc GetDeletedAliasById(GetDeletedAliasByIdRequest) returns (GetDeletedAliasByIdResponse);
+  rpc GetDeletedAliases(GetDeletedAliasesRequest) returns (GetDeletedAliasesResponse);
+  rpc CreateAlias(CreateAliasRequest) returns (CreateAliasResponse);
+  rpc UpdateAliasById(UpdateAliasByIdRequest) returns (UpdateAliasByIdResponse);
+  rpc DeleteAliasById(DeleteAliasByIdRequest) returns (DeleteAliasByIdResponse);
+  rpc UndeleteAliasById(UndeleteAliasByIdRequest) returns (UndeleteAliasByIdResponse);
+
+  // dc.column_cat
+  rpc GetColumnCatById(GetColumnCatByIdRequest) returns (GetColumnCatByIdResponse);
+  rpc GetColumnCats(GetColumnCatsRequest) returns (GetColumnCatsResponse);
+  rpc GetDeletedColumnCatById(GetDeletedColumnCatByIdRequest) returns (GetDeletedColumnCatByIdResponse);
+  rpc GetDeletedColumnCats(GetDeletedColumnCatsRequest) returns (GetDeletedColumnCatsResponse);
+  rpc GetColumnCatsByTableId(GetColumnCatsByTableIdRequest) returns (GetColumnCatsByTableIdResponse);
+  rpc GetColumnCatsByAliasId(GetColumnCatsByAliasIdRequest) returns (GetColumnCatsByAliasIdResponse);
+  rpc CreateColumnCat(CreateColumnCatRequest) returns (CreateColumnCatResponse);
+  rpc UpdateColumnCatById(UpdateColumnCatByIdRequest) returns (UpdateColumnCatByIdResponse);
+  rpc DeleteColumnCatById(DeleteColumnCatByIdRequest) returns (DeleteColumnCatByIdResponse);
+  rpc UndeleteColumnCatById(UndeleteColumnCatByIdRequest) returns (UndeleteColumnCatByIdResponse);
+
+  // dc.column_type
+  rpc GetColumnTypeById(GetColumnTypeByIdRequest) returns (GetColumnTypeByIdResponse);
+  rpc GetColumnTypes(GetColumnTypesRequest) returns (GetColumnTypesResponse);
+  rpc GetDeletedColumnTypeById(GetDeletedColumnTypeByIdRequest) returns (GetDeletedColumnTypeByIdResponse);
+  rpc GetDeletedColumnTypes(GetDeletedColumnTypesRequest) returns (GetDeletedColumnTypesResponse);
+  rpc CreateColumnType(CreateColumnTypeRequest) returns (CreateColumnTypeResponse);
+  rpc UpdateColumnTypeById(UpdateColumnTypeByIdRequest) returns (UpdateColumnTypeByIdResponse);
+  rpc DeleteColumnTypeById(DeleteColumnTypeByIdRequest) returns (DeleteColumnTypeByIdResponse);
+  rpc UndeleteColumnTypeById(UndeleteColumnTypeByIdRequest) returns (UndeleteColumnTypeByIdResponse);
+
+  // dc.calculation_type
+  rpc GetCalculationTypeById(GetCalculationTypeByIdRequest) returns (GetCalculationTypeByIdResponse);
+  rpc GetCalculationTypes(GetCalculationTypesRequest) returns (GetCalculationTypesResponse);
+  rpc GetDeletedCalculationTypeById(GetDeletedCalculationTypeByIdRequest) returns (GetDeletedCalculationTypeByIdResponse);
+  rpc GetDeletedCalculationTypes(GetDeletedCalculationTypesRequest) returns (GetDeletedCalculationTypesResponse);
+  rpc CreateCalculationType(CreateCalculationTypeRequest) returns (CreateCalculationTypeResponse);
+  rpc UpdateCalculationTypeById(UpdateCalculationTypeByIdRequest) returns (UpdateCalculationTypeByIdResponse);
+  rpc DeleteCalculationTypeById(DeleteCalculationTypeByIdRequest) returns (DeleteCalculationTypeByIdResponse);
+  rpc UndeleteCalculationTypeById(UndeleteCalculationTypeByIdRequest) returns (UndeleteCalculationTypeByIdResponse);
+
+  // dc.database_calculation
+  rpc GetDatabaseCalculationById(GetDatabaseCalculationByIdRequest) returns (GetDatabaseCalculationByIdResponse);
+  rpc GetDatabaseCalculations(GetDatabaseCalculationsRequest) returns (GetDatabaseCalculationsResponse);
+  rpc GetDeletedDatabaseCalculationById(GetDeletedDatabaseCalculationByIdRequest) returns (GetDeletedDatabaseCalculationByIdResponse);
+  rpc GetDeletedDatabaseCalculations(GetDeletedDatabaseCalculationsRequest) returns (GetDeletedDatabaseCalculationsResponse);
+  rpc CreateDatabaseCalculation(CreateDatabaseCalculationRequest) returns (CreateDatabaseCalculationResponse);
+  rpc UpdateDatabaseCalculationById(UpdateDatabaseCalculationByIdRequest) returns (UpdateDatabaseCalculationByIdResponse);
+  rpc DeleteDatabaseCalculationById(DeleteDatabaseCalculationByIdRequest) returns (DeleteDatabaseCalculationByIdResponse);
+  rpc UndeleteDatabaseCalculationById(UndeleteDatabaseCalculationByIdRequest) returns (UndeleteDatabaseCalculationByIdResponse);
+
+  // dc.database_cat
+  rpc GetDatabaseCatById(GetDatabaseCatByIdRequest) returns (GetDatabaseCatByIdResponse);
+  rpc GetDatabaseCats(GetDatabaseCatsRequest) returns (GetDatabaseCatsResponse);
+  rpc GetDeletedDatabaseCatById(GetDeletedDatabaseCatByIdRequest) returns (GetDeletedDatabaseCatByIdResponse);
+  rpc GetDeletedDatabaseCats(GetDeletedDatabaseCatsRequest) returns (GetDeletedDatabaseCatsResponse);
+  rpc GetDatabaseCatsByHostId(GetDatabaseCatsByHostIdRequest) returns (GetDatabaseCatsByHostIdResponse);
+  rpc GetDatabaseCatsByDatabaseTypeId(GetDatabaseCatsByDatabaseTypeIdRequest) returns (GetDatabaseCatsByDatabaseTypeIdResponse);
+  rpc CreateDatabaseCat(CreateDatabaseCatRequest) returns (CreateDatabaseCatResponse);
+  rpc UpdateDatabaseCatById(UpdateDatabaseCatByIdRequest) returns (UpdateDatabaseCatByIdResponse);
+  rpc DeleteDatabaseCatById(DeleteDatabaseCatByIdRequest) returns (DeleteDatabaseCatByIdResponse);
+  rpc UndeleteDatabaseCatById(UndeleteDatabaseCatByIdRequest) returns (UndeleteDatabaseCatByIdResponse);
+
+  // dc.database_type
+  rpc GetDatabaseTypeById(GetDatabaseTypeByIdRequest) returns (GetDatabaseTypeByIdResponse);
+  rpc GetDatabaseTypes(GetDatabaseTypesRequest) returns (GetDatabaseTypesResponse);
+  rpc GetDeletedDatabaseTypeById(GetDeletedDatabaseTypeByIdRequest) returns (GetDeletedDatabaseTypeByIdResponse);
+  rpc GetDeletedDatabaseTypes(GetDeletedDatabaseTypesRequest) returns (GetDeletedDatabaseTypesResponse);
+  rpc CreateDatabaseType(CreateDatabaseTypeRequest) returns (CreateDatabaseTypeResponse);
+  rpc UpdateDatabaseTypeById(UpdateDatabaseTypeByIdRequest) returns (UpdateDatabaseTypeByIdResponse);
+  rpc DeleteDatabaseTypeById(DeleteDatabaseTypeByIdRequest) returns (DeleteDatabaseTypeByIdResponse);
+  rpc UndeleteDatabaseTypeById(UndeleteDatabaseTypeByIdRequest) returns (UndeleteDatabaseTypeByIdResponse);
+
+  // dc.domain_cat
+  rpc GetDomainCatById(GetDomainCatByIdRequest) returns (GetDomainCatByIdResponse);
+  rpc GetDomainCats(GetDomainCatsRequest) returns (GetDomainCatsResponse);
+  rpc GetDeletedDomainCatById(GetDeletedDomainCatByIdRequest) returns (GetDeletedDomainCatByIdResponse);
+  rpc GetDeletedDomainCats(GetDeletedDomainCatsRequest) returns (GetDeletedDomainCatsResponse);
+  rpc CreateDomainCat(CreateDomainCatRequest) returns (CreateDomainCatResponse);
+  rpc UpdateDomainCatById(UpdateDomainCatByIdRequest) returns (UpdateDomainCatByIdResponse);
+  rpc DeleteDomainCatById(DeleteDomainCatByIdRequest) returns (DeleteDomainCatByIdResponse);
+  rpc UndeleteDomainCatById(UndeleteDomainCatByIdRequest) returns (UndeleteDomainCatByIdResponse);
+
+  // dc.following_calculation
+  rpc GetFollowingCalculationById(GetFollowingCalculationByIdRequest) returns (GetFollowingCalculationByIdResponse);
+  rpc GetFollowingCalculations(GetFollowingCalculationsRequest) returns (GetFollowingCalculationsResponse);
+  rpc GetDeletedFollowingCalculationById(GetDeletedFollowingCalculationByIdRequest) returns (GetDeletedFollowingCalculationByIdResponse);
+  rpc GetDeletedFollowingCalculations(GetDeletedFollowingCalculationsRequest) returns (GetDeletedFollowingCalculationsResponse);
+  rpc CreateFollowingCalculation(CreateFollowingCalculationRequest) returns (CreateFollowingCalculationResponse);
+  rpc UpdateFollowingCalculationById(UpdateFollowingCalculationByIdRequest) returns (UpdateFollowingCalculationByIdResponse);
+  rpc DeleteFollowingCalculationById(DeleteFollowingCalculationByIdRequest) returns (DeleteFollowingCalculationByIdResponse);
+  rpc UndeleteFollowingCalculationById(UndeleteFollowingCalculationByIdRequest) returns (UndeleteFollowingCalculationByIdResponse);
+
+  // dc.group_levels
+  rpc GetGroupLevelById(GetGroupLevelByIdRequest) returns (GetGroupLevelByIdResponse);
+  rpc GetGroupLevels(GetGroupLevelsRequest) returns (GetGroupLevelsResponse);
+  rpc GetDeletedGroupLevelById(GetDeletedGroupLevelByIdRequest) returns (GetDeletedGroupLevelByIdResponse);
+  rpc GetDeletedGroupLevels(GetDeletedGroupLevelsRequest) returns (GetDeletedGroupLevelsResponse);
+  rpc CreateGroupLevel(CreateGroupLevelRequest) returns (CreateGroupLevelResponse);
+  rpc UpdateGroupLevelById(UpdateGroupLevelByIdRequest) returns (UpdateGroupLevelByIdResponse);
+  rpc DeleteGroupLevelById(DeleteGroupLevelByIdRequest) returns (DeleteGroupLevelByIdResponse);
+  rpc UndeleteGroupLevelById(UndeleteGroupLevelByIdRequest) returns (UndeleteGroupLevelByIdResponse);
+
+  // dc.has_to_group
+  rpc GetHasToGroupById(GetHasToGroupByIdRequest) returns (GetHasToGroupByIdResponse);
+  rpc GetHasToGroups(GetHasToGroupsRequest) returns (GetHasToGroupsResponse);
+  rpc GetDeletedHasToGroupById(GetDeletedHasToGroupByIdRequest) returns (GetDeletedHasToGroupByIdResponse);
+  rpc GetDeletedHasToGroups(GetDeletedHasToGroupsRequest) returns (GetDeletedHasToGroupsResponse);
+  rpc CreateHasToGroup(CreateHasToGroupRequest) returns (CreateHasToGroupResponse);
+  rpc UpdateHasToGroupById(UpdateHasToGroupByIdRequest) returns (UpdateHasToGroupByIdResponse);
+  rpc DeleteHasToGroupById(DeleteHasToGroupByIdRequest) returns (DeleteHasToGroupByIdResponse);
+  rpc UndeleteHasToGroupById(UndeleteHasToGroupByIdRequest) returns (UndeleteHasToGroupByIdResponse);
+
+  // dc.host
+  rpc GetHostById(GetHostByIdRequest) returns (GetHostByIdResponse);
+  rpc GetHosts(GetHostsRequest) returns (GetHostsResponse);
+  rpc GetDeletedHostById(GetDeletedHostByIdRequest) returns (GetDeletedHostByIdResponse);
+  rpc GetDeletedHosts(GetDeletedHostsRequest) returns (GetDeletedHostsResponse);
+  rpc CreateHost(CreateHostRequest) returns (CreateHostResponse);
+  rpc UpdateHostById(UpdateHostByIdRequest) returns (UpdateHostByIdResponse);
+  rpc DeleteHostById(DeleteHostByIdRequest) returns (DeleteHostByIdResponse);
+  rpc UndeleteHostById(UndeleteHostByIdRequest) returns (UndeleteHostByIdResponse);
+
+  // dc.schema_cat
+  rpc GetSchemaCatById(GetSchemaCatByIdRequest) returns (GetSchemaCatByIdResponse);
+  rpc GetSchemaCats(GetSchemaCatsRequest) returns (GetSchemaCatsResponse);
+  rpc GetDeletedSchemaCatById(GetDeletedSchemaCatByIdRequest) returns (GetDeletedSchemaCatByIdResponse);
+  rpc GetDeletedSchemaCats(GetDeletedSchemaCatsRequest) returns (GetDeletedSchemaCatsResponse);
+  rpc GetSchemaCatsByDatabaseId(GetSchemaCatsByDatabaseIdRequest) returns (GetSchemaCatsByDatabaseIdResponse);
+  rpc CreateSchemaCat(CreateSchemaCatRequest) returns (CreateSchemaCatResponse);
+  rpc UpdateSchemaCatById(UpdateSchemaCatByIdRequest) returns (UpdateSchemaCatByIdResponse);
+  rpc DeleteSchemaCatById(DeleteSchemaCatByIdRequest) returns (DeleteSchemaCatByIdResponse);
+  rpc UndeleteSchemaCatById(UndeleteSchemaCatByIdRequest) returns (UndeleteSchemaCatByIdResponse);
+
+  // dc.table_cat
+  rpc GetTableCatById(GetTableCatByIdRequest) returns (GetTableCatByIdResponse);
+  rpc GetTableCats(GetTableCatsRequest) returns (GetTableCatsResponse);
+  rpc GetDeletedTableCatById(GetDeletedTableCatByIdRequest) returns (GetDeletedTableCatByIdResponse);
+  rpc GetDeletedTableCats(GetDeletedTableCatsRequest) returns (GetDeletedTableCatsResponse);
+  rpc GetTableCatsBySchemaId(GetTableCatsBySchemaIdRequest) returns (GetTableCatsBySchemaIdResponse);
+  rpc GetTableCatsByTableTypeId(GetTableCatsByTableTypeIdRequest) returns (GetTableCatsByTableTypeIdResponse);
+  rpc GetTableCatsByDomainId(GetTableCatsByDomainIdRequest) returns (GetTableCatsByDomainIdResponse);
+  rpc CreateTableCat(CreateTableCatRequest) returns (CreateTableCatResponse);
+  rpc UpdateTableCatById(UpdateTableCatByIdRequest) returns (UpdateTableCatByIdResponse);
+  rpc DeleteTableCatById(DeleteTableCatByIdRequest) returns (DeleteTableCatByIdResponse);
+  rpc UndeleteTableCatById(UndeleteTableCatByIdRequest) returns (UndeleteTableCatByIdResponse);
+
+  // dc.table_type
+  rpc GetTableTypeById(GetTableTypeByIdRequest) returns (GetTableTypeByIdResponse);
+  rpc GetTableTypes(GetTableTypesRequest) returns (GetTableTypesResponse);
+  rpc GetDeletedTableTypeById(GetDeletedTableTypeByIdRequest) returns (GetDeletedTableTypeByIdResponse);
+  rpc GetDeletedTableTypes(GetDeletedTableTypesRequest) returns (GetDeletedTableTypesResponse);
+  rpc CreateTableType(CreateTableTypeRequest) returns (CreateTableTypeResponse);
+  rpc UpdateTableTypeById(UpdateTableTypeByIdRequest) returns (UpdateTableTypeByIdResponse);
+  rpc DeleteTableTypeById(DeleteTableTypeByIdRequest) returns (DeleteTableTypeByIdResponse);
+  rpc UndeleteTableTypeById(UndeleteTableTypeByIdRequest) returns (UndeleteTableTypeByIdResponse);
+}
+
+// =========================================================
+// dc.alias
+// =========================================================
+
+// Alias is a full row of dc.alias.
+message Alias {
+  int64 id = 1;
+  string name = 2;
+  string description = 3;
+  google.protobuf.Timestamp created_at = 4;
+  google.protobuf.Timestamp updated_at = 5;
+  bool is_deleted = 6;
+  int64 user_id = 7;
+}
+
+// GetAliasByIdRequest asks for a single active dc.alias row by id (query GetAliasById).
+message GetAliasByIdRequest {
+  int64 id = 1;
+}
+
+// GetAliasByIdResponse returns a single active dc.alias row (query GetAliasById).
+message GetAliasByIdResponse {
+  Alias alias = 1;
+}
+
+// GetAliasesRequest asks for every active dc.alias row (query GetAliases).
+message GetAliasesRequest {}
+
+// GetAliasesResponse returns every active dc.alias row (query GetAliases).
+message GetAliasesResponse {
+  repeated Alias aliases = 1;
+}
+
+// GetDeletedAliasByIdRequest asks for a single soft deleted dc.alias row by id (query GetDeletedAliasById).
+message GetDeletedAliasByIdRequest {
+  int64 id = 1;
+}
+
+// GetDeletedAliasByIdResponse returns a single soft deleted dc.alias row (query GetDeletedAliasById).
+message GetDeletedAliasByIdResponse {
+  Alias alias = 1;
+}
+
+// GetDeletedAliasesRequest asks for every soft deleted dc.alias row (query GetDeletedAliases).
+message GetDeletedAliasesRequest {}
+
+// GetDeletedAliasesResponse returns every soft deleted dc.alias row (query GetDeletedAliases).
+message GetDeletedAliasesResponse {
+  repeated Alias aliases = 1;
+}
+
+// CreateAliasRequest carries the fields needed to insert a dc.alias row (query CreateAlias).
+message CreateAliasRequest {
+  string name = 1;
+  string description = 2;
+  int64 user_id = 3;
+}
+
+// CreateAliasResponse returns the created dc.alias row (query CreateAlias).
+message CreateAliasResponse {
+  Alias alias = 1;
+}
+
+// UpdateAliasByIdRequest carries the fields to update on a dc.alias row (query UpdateAliasById).
+message UpdateAliasByIdRequest {
+  int64 id = 1;
+  string name = 2;
+  string description = 3;
+  int64 user_id = 4;
+}
+
+// UpdateAliasByIdResponse returns the updated dc.alias row (query UpdateAliasById).
+message UpdateAliasByIdResponse {
+  Alias alias = 1;
+}
+
+// DeleteAliasByIdRequest asks to soft delete a dc.alias row by id, setting is_deleted = true (query DeleteAliasById).
+message DeleteAliasByIdRequest {
+  int64 id = 1;
+}
+
+// DeleteAliasByIdResponse carries no payload (query DeleteAliasById).
+message DeleteAliasByIdResponse {
+  google.protobuf.Empty empty = 1;
+}
+
+// UndeleteAliasByIdRequest asks to restore a soft deleted dc.alias row by id, setting is_deleted = false (query UndeleteAliasById).
+message UndeleteAliasByIdRequest {
+  int64 id = 1;
+}
+
+// UndeleteAliasByIdResponse carries no payload (query UndeleteAliasById).
+message UndeleteAliasByIdResponse {
+  google.protobuf.Empty empty = 1;
+}
+
+// =========================================================
+// dc.column_cat
+// =========================================================
+
+// ColumnCat is a full row of dc.column_cat.
+message ColumnCat {
+  int64 id = 1;
+  int64 table_id = 2;
+  string name = 3;
+  int64 alias_id = 4;
+  int64 column_type_id = 5;
+  string description = 6;
+  int64 calculation_type_id = 7;
+  bool is_deleted = 8;
+  bool show_in_ui = 9;
+  google.protobuf.Timestamp created_at = 10;
+  google.protobuf.Timestamp updated_at = 11;
+  int64 user_id = 12;
+}
+
+// GetColumnCatByIdRequest asks for a single active dc.column_cat row by id (query GetColumnCatById).
+message GetColumnCatByIdRequest {
+  int64 id = 1;
+}
+
+// GetColumnCatByIdResponse returns a single active dc.column_cat row (query GetColumnCatById).
+message GetColumnCatByIdResponse {
+  ColumnCat column_cat = 1;
+}
+
+// GetColumnCatsRequest asks for every active dc.column_cat row (query GetColumnCats).
+message GetColumnCatsRequest {}
+
+// GetColumnCatsResponse returns every active dc.column_cat row (query GetColumnCats).
+message GetColumnCatsResponse {
+  repeated ColumnCat column_cats = 1;
+}
+
+// GetDeletedColumnCatByIdRequest asks for a single soft deleted dc.column_cat row by id (query GetDeletedColumnCatById).
+message GetDeletedColumnCatByIdRequest {
+  int64 id = 1;
+}
+
+// GetDeletedColumnCatByIdResponse returns a single soft deleted dc.column_cat row (query GetDeletedColumnCatById).
+message GetDeletedColumnCatByIdResponse {
+  ColumnCat column_cat = 1;
+}
+
+// GetDeletedColumnCatsRequest asks for every soft deleted dc.column_cat row (query GetDeletedColumnCats).
+message GetDeletedColumnCatsRequest {}
+
+// GetDeletedColumnCatsResponse returns every soft deleted dc.column_cat row (query GetDeletedColumnCats).
+message GetDeletedColumnCatsResponse {
+  repeated ColumnCat column_cats = 1;
+}
+
+// GetColumnCatsByTableIdRequest asks for active dc.column_cat rows filtered by table_id (query GetColumnCatsByTableId).
+message GetColumnCatsByTableIdRequest {
+  int64 table_id = 1;
+}
+
+// GetColumnCatsByTableIdResponse returns active dc.column_cat rows filtered by table_id (query GetColumnCatsByTableId).
+message GetColumnCatsByTableIdResponse {
+  repeated ColumnCat column_cats = 1;
+}
+
+// GetColumnCatsByAliasIdRequest asks for active dc.column_cat rows filtered by alias_id (query GetColumnCatsByAliasId).
+message GetColumnCatsByAliasIdRequest {
+  int64 alias_id = 1;
+}
+
+// GetColumnCatsByAliasIdResponse returns active dc.column_cat rows filtered by alias_id (query GetColumnCatsByAliasId).
+message GetColumnCatsByAliasIdResponse {
+  repeated ColumnCat column_cats = 1;
+}
+
+// CreateColumnCatRequest carries the fields needed to insert a dc.column_cat row (query CreateColumnCat).
+message CreateColumnCatRequest {
+  int64 table_id = 1;
+  string name = 2;
+  int64 alias_id = 3;
+  int64 column_type_id = 4;
+  string description = 5;
+  int64 calculation_type_id = 6;
+  bool show_in_ui = 7;
+  int64 user_id = 8;
+}
+
+// CreateColumnCatResponse returns the created dc.column_cat row (query CreateColumnCat).
+message CreateColumnCatResponse {
+  ColumnCat column_cat = 1;
+}
+
+// UpdateColumnCatByIdRequest carries the fields to update on a dc.column_cat row (query UpdateColumnCatById).
+message UpdateColumnCatByIdRequest {
+  int64 id = 1;
+  int64 table_id = 2;
+  string name = 3;
+  int64 alias_id = 4;
+  int64 column_type_id = 5;
+  string description = 6;
+  int64 calculation_type_id = 7;
+  bool show_in_ui = 8;
+  int64 user_id = 9;
+}
+
+// UpdateColumnCatByIdResponse returns the updated dc.column_cat row (query UpdateColumnCatById).
+message UpdateColumnCatByIdResponse {
+  ColumnCat column_cat = 1;
+}
+
+// DeleteColumnCatByIdRequest asks to soft delete a dc.column_cat row by id, setting is_deleted = true (query DeleteColumnCatById).
+message DeleteColumnCatByIdRequest {
+  int64 id = 1;
+}
+
+// DeleteColumnCatByIdResponse carries no payload (query DeleteColumnCatById).
+message DeleteColumnCatByIdResponse {
+  google.protobuf.Empty empty = 1;
+}
+
+// UndeleteColumnCatByIdRequest asks to restore a soft deleted dc.column_cat row by id, setting is_deleted = false (query UndeleteColumnCatById).
+message UndeleteColumnCatByIdRequest {
+  int64 id = 1;
+}
+
+// UndeleteColumnCatByIdResponse carries no payload (query UndeleteColumnCatById).
+message UndeleteColumnCatByIdResponse {
+  google.protobuf.Empty empty = 1;
+}
+
+// =========================================================
+// dc.column_type
+// =========================================================
+
+// ColumnType is a full row of dc.column_type.
+message ColumnType {
+  int64 id = 1;
+  string name = 2;
+  string description = 3;
+  bool is_deleted = 4;
+  google.protobuf.Timestamp created_at = 5;
+  google.protobuf.Timestamp updated_at = 6;
+  int64 user_id = 7;
+}
+
+// GetColumnTypeByIdRequest asks for a single active dc.column_type row by id (query GetColumnTypeById).
+message GetColumnTypeByIdRequest {
+  int64 id = 1;
+}
+
+// GetColumnTypeByIdResponse returns a single active dc.column_type row (query GetColumnTypeById).
+message GetColumnTypeByIdResponse {
+  ColumnType column_type = 1;
+}
+
+// GetColumnTypesRequest asks for every active dc.column_type row (query GetColumnTypes).
+message GetColumnTypesRequest {}
+
+// GetColumnTypesResponse returns every active dc.column_type row (query GetColumnTypes).
+message GetColumnTypesResponse {
+  repeated ColumnType column_types = 1;
+}
+
+// GetDeletedColumnTypeByIdRequest asks for a single soft deleted dc.column_type row by id (query GetDeletedColumnTypeById).
+message GetDeletedColumnTypeByIdRequest {
+  int64 id = 1;
+}
+
+// GetDeletedColumnTypeByIdResponse returns a single soft deleted dc.column_type row (query GetDeletedColumnTypeById).
+message GetDeletedColumnTypeByIdResponse {
+  ColumnType column_type = 1;
+}
+
+// GetDeletedColumnTypesRequest asks for every soft deleted dc.column_type row (query GetDeletedColumnTypes).
+message GetDeletedColumnTypesRequest {}
+
+// GetDeletedColumnTypesResponse returns every soft deleted dc.column_type row (query GetDeletedColumnTypes).
+message GetDeletedColumnTypesResponse {
+  repeated ColumnType column_types = 1;
+}
+
+// CreateColumnTypeRequest carries the fields needed to insert a dc.column_type row (query CreateColumnType).
+message CreateColumnTypeRequest {
+  string name = 1;
+  string description = 2;
+  int64 user_id = 3;
+}
+
+// CreateColumnTypeResponse returns the created dc.column_type row (query CreateColumnType).
+message CreateColumnTypeResponse {
+  ColumnType column_type = 1;
+}
+
+// UpdateColumnTypeByIdRequest carries the fields to update on a dc.column_type row (query UpdateColumnTypeById).
+message UpdateColumnTypeByIdRequest {
+  int64 id = 1;
+  string name = 2;
+  string description = 3;
+  int64 user_id = 4;
+}
+
+// UpdateColumnTypeByIdResponse returns the updated dc.column_type row (query UpdateColumnTypeById).
+message UpdateColumnTypeByIdResponse {
+  ColumnType column_type = 1;
+}
+
+// DeleteColumnTypeByIdRequest asks to soft delete a dc.column_type row by id, setting is_deleted = true (query DeleteColumnTypeById).
+message DeleteColumnTypeByIdRequest {
+  int64 id = 1;
+}
+
+// DeleteColumnTypeByIdResponse carries no payload (query DeleteColumnTypeById).
+message DeleteColumnTypeByIdResponse {
+  google.protobuf.Empty empty = 1;
+}
+
+// UndeleteColumnTypeByIdRequest asks to restore a soft deleted dc.column_type row by id, setting is_deleted = false (query UndeleteColumnTypeById).
+message UndeleteColumnTypeByIdRequest {
+  int64 id = 1;
+}
+
+// UndeleteColumnTypeByIdResponse carries no payload (query UndeleteColumnTypeById).
+message UndeleteColumnTypeByIdResponse {
+  google.protobuf.Empty empty = 1;
+}
+
+// =========================================================
+// dc.calculation_type
+// =========================================================
+
+// CalculationType is a full row of dc.calculation_type.
+message CalculationType {
+  int64 id = 1;
+  string name = 2;
+  string description = 3;
+  google.protobuf.Timestamp created_at = 4;
+  google.protobuf.Timestamp updated_at = 5;
+  bool is_deleted = 6;
+}
+
+// GetCalculationTypeByIdRequest asks for a single active dc.calculation_type row by id (query GetCalculationTypeById).
+message GetCalculationTypeByIdRequest {
+  int64 id = 1;
+}
+
+// GetCalculationTypeByIdResponse returns a single active dc.calculation_type row (query GetCalculationTypeById).
+message GetCalculationTypeByIdResponse {
+  CalculationType calculation_type = 1;
+}
+
+// GetCalculationTypesRequest asks for every active dc.calculation_type row (query GetCalculationTypes).
+message GetCalculationTypesRequest {}
+
+// GetCalculationTypesResponse returns every active dc.calculation_type row (query GetCalculationTypes).
+message GetCalculationTypesResponse {
+  repeated CalculationType calculation_types = 1;
+}
+
+// GetDeletedCalculationTypeByIdRequest asks for a single soft deleted dc.calculation_type row by id (query GetDeletedCalculationTypeById).
+message GetDeletedCalculationTypeByIdRequest {
+  int64 id = 1;
+}
+
+// GetDeletedCalculationTypeByIdResponse returns a single soft deleted dc.calculation_type row (query GetDeletedCalculationTypeById).
+message GetDeletedCalculationTypeByIdResponse {
+  CalculationType calculation_type = 1;
+}
+
+// GetDeletedCalculationTypesRequest asks for every soft deleted dc.calculation_type row (query GetDeletedCalculationTypes).
+message GetDeletedCalculationTypesRequest {}
+
+// GetDeletedCalculationTypesResponse returns every soft deleted dc.calculation_type row (query GetDeletedCalculationTypes).
+message GetDeletedCalculationTypesResponse {
+  repeated CalculationType calculation_types = 1;
+}
+
+// CreateCalculationTypeRequest carries the fields needed to insert a dc.calculation_type row (query CreateCalculationType).
+message CreateCalculationTypeRequest {
+  string name = 1;
+  string description = 2;
+}
+
+// CreateCalculationTypeResponse returns the created dc.calculation_type row (query CreateCalculationType).
+message CreateCalculationTypeResponse {
+  CalculationType calculation_type = 1;
+}
+
+// UpdateCalculationTypeByIdRequest carries the fields to update on a dc.calculation_type row (query UpdateCalculationTypeById).
+message UpdateCalculationTypeByIdRequest {
+  int64 id = 1;
+  string name = 2;
+  string description = 3;
+}
+
+// UpdateCalculationTypeByIdResponse returns the updated dc.calculation_type row (query UpdateCalculationTypeById).
+message UpdateCalculationTypeByIdResponse {
+  CalculationType calculation_type = 1;
+}
+
+// DeleteCalculationTypeByIdRequest asks to soft delete a dc.calculation_type row by id, setting is_deleted = true (query DeleteCalculationTypeById).
+message DeleteCalculationTypeByIdRequest {
+  int64 id = 1;
+}
+
+// DeleteCalculationTypeByIdResponse carries no payload (query DeleteCalculationTypeById).
+message DeleteCalculationTypeByIdResponse {
+  google.protobuf.Empty empty = 1;
+}
+
+// UndeleteCalculationTypeByIdRequest asks to restore a soft deleted dc.calculation_type row by id, setting is_deleted = false (query UndeleteCalculationTypeById).
+message UndeleteCalculationTypeByIdRequest {
+  int64 id = 1;
+}
+
+// UndeleteCalculationTypeByIdResponse carries no payload (query UndeleteCalculationTypeById).
+message UndeleteCalculationTypeByIdResponse {
+  google.protobuf.Empty empty = 1;
+}
+
+// =========================================================
+// dc.database_calculation
+// =========================================================
+
+// DatabaseCalculation is a full row of dc.database_calculation.
+message DatabaseCalculation {
+  int64 id = 1;
+  int64 database_cat_id = 2;
+  int64 calculation_type_id = 3;
+  google.protobuf.Timestamp created_at = 4;
+  google.protobuf.Timestamp updated_at = 5;
+  bool is_deleted = 6;
+  int64 user_id = 7;
+}
+
+// GetDatabaseCalculationByIdRequest asks for a single active dc.database_calculation row by id (query GetDatabaseCalculationById).
+message GetDatabaseCalculationByIdRequest {
+  int64 id = 1;
+}
+
+// GetDatabaseCalculationByIdResponse returns a single active dc.database_calculation row (query GetDatabaseCalculationById).
+message GetDatabaseCalculationByIdResponse {
+  DatabaseCalculation database_calculation = 1;
+}
+
+// GetDatabaseCalculationsRequest asks for every active dc.database_calculation row (query GetDatabaseCalculations).
+message GetDatabaseCalculationsRequest {}
+
+// GetDatabaseCalculationsResponse returns every active dc.database_calculation row (query GetDatabaseCalculations).
+message GetDatabaseCalculationsResponse {
+  repeated DatabaseCalculation database_calculations = 1;
+}
+
+// GetDeletedDatabaseCalculationByIdRequest asks for a single soft deleted dc.database_calculation row by id (query GetDeletedDatabaseCalculationById).
+message GetDeletedDatabaseCalculationByIdRequest {
+  int64 id = 1;
+}
+
+// GetDeletedDatabaseCalculationByIdResponse returns a single soft deleted dc.database_calculation row (query GetDeletedDatabaseCalculationById).
+message GetDeletedDatabaseCalculationByIdResponse {
+  DatabaseCalculation database_calculation = 1;
+}
+
+// GetDeletedDatabaseCalculationsRequest asks for every soft deleted dc.database_calculation row (query GetDeletedDatabaseCalculations).
+message GetDeletedDatabaseCalculationsRequest {}
+
+// GetDeletedDatabaseCalculationsResponse returns every soft deleted dc.database_calculation row (query GetDeletedDatabaseCalculations).
+message GetDeletedDatabaseCalculationsResponse {
+  repeated DatabaseCalculation database_calculations = 1;
+}
+
+// CreateDatabaseCalculationRequest carries the fields needed to insert a dc.database_calculation row (query CreateDatabaseCalculation).
+message CreateDatabaseCalculationRequest {
+  int64 database_cat_id = 1;
+  int64 calculation_type_id = 2;
+  int64 user_id = 3;
+}
+
+// CreateDatabaseCalculationResponse returns the created dc.database_calculation row (query CreateDatabaseCalculation).
+message CreateDatabaseCalculationResponse {
+  DatabaseCalculation database_calculation = 1;
+}
+
+// UpdateDatabaseCalculationByIdRequest carries the fields to update on a dc.database_calculation row (query UpdateDatabaseCalculationById).
+message UpdateDatabaseCalculationByIdRequest {
+  int64 id = 1;
+  int64 database_cat_id = 2;
+  int64 calculation_type_id = 3;
+  int64 user_id = 4;
+}
+
+// UpdateDatabaseCalculationByIdResponse returns the updated dc.database_calculation row (query UpdateDatabaseCalculationById).
+message UpdateDatabaseCalculationByIdResponse {
+  DatabaseCalculation database_calculation = 1;
+}
+
+// DeleteDatabaseCalculationByIdRequest asks to soft delete a dc.database_calculation row by id, setting is_deleted = true (query DeleteDatabaseCalculationById).
+message DeleteDatabaseCalculationByIdRequest {
+  int64 id = 1;
+}
+
+// DeleteDatabaseCalculationByIdResponse carries no payload (query DeleteDatabaseCalculationById).
+message DeleteDatabaseCalculationByIdResponse {
+  google.protobuf.Empty empty = 1;
+}
+
+// UndeleteDatabaseCalculationByIdRequest asks to restore a soft deleted dc.database_calculation row by id, setting is_deleted = false (query UndeleteDatabaseCalculationById).
+message UndeleteDatabaseCalculationByIdRequest {
+  int64 id = 1;
+}
+
+// UndeleteDatabaseCalculationByIdResponse carries no payload (query UndeleteDatabaseCalculationById).
+message UndeleteDatabaseCalculationByIdResponse {
+  google.protobuf.Empty empty = 1;
+}
+
+// =========================================================
+// dc.database_cat
+// =========================================================
+
+// DatabaseCat is a full row of dc.database_cat.
+message DatabaseCat {
+  int64 id = 1;
+  string name = 2;
+  int64 host_id = 3;
+  int64 database_type_id = 4;
+  string description = 5;
+  bool is_deleted = 6;
+  google.protobuf.Timestamp created_at = 7;
+  google.protobuf.Timestamp updated_at = 8;
+  int64 user_id = 9;
+}
+
+// GetDatabaseCatByIdRequest asks for a single active dc.database_cat row by id (query GetDatabaseCatById).
+message GetDatabaseCatByIdRequest {
+  int64 id = 1;
+}
+
+// GetDatabaseCatByIdResponse returns a single active dc.database_cat row (query GetDatabaseCatById).
+message GetDatabaseCatByIdResponse {
+  DatabaseCat database_cat = 1;
+}
+
+// GetDatabaseCatsRequest asks for every active dc.database_cat row (query GetDatabaseCats).
+message GetDatabaseCatsRequest {}
+
+// GetDatabaseCatsResponse returns every active dc.database_cat row (query GetDatabaseCats).
+message GetDatabaseCatsResponse {
+  repeated DatabaseCat database_cats = 1;
+}
+
+// GetDeletedDatabaseCatByIdRequest asks for a single soft deleted dc.database_cat row by id (query GetDeletedDatabaseCatById).
+message GetDeletedDatabaseCatByIdRequest {
+  int64 id = 1;
+}
+
+// GetDeletedDatabaseCatByIdResponse returns a single soft deleted dc.database_cat row (query GetDeletedDatabaseCatById).
+message GetDeletedDatabaseCatByIdResponse {
+  DatabaseCat database_cat = 1;
+}
+
+// GetDeletedDatabaseCatsRequest asks for every soft deleted dc.database_cat row (query GetDeletedDatabaseCats).
+message GetDeletedDatabaseCatsRequest {}
+
+// GetDeletedDatabaseCatsResponse returns every soft deleted dc.database_cat row (query GetDeletedDatabaseCats).
+message GetDeletedDatabaseCatsResponse {
+  repeated DatabaseCat database_cats = 1;
+}
+
+// GetDatabaseCatsByHostIdRequest asks for active dc.database_cat rows filtered by host_id (query GetDatabaseCatsByHostId).
+message GetDatabaseCatsByHostIdRequest {
+  int64 host_id = 1;
+}
+
+// GetDatabaseCatsByHostIdResponse returns active dc.database_cat rows filtered by host_id (query GetDatabaseCatsByHostId).
+message GetDatabaseCatsByHostIdResponse {
+  repeated DatabaseCat database_cats = 1;
+}
+
+// GetDatabaseCatsByDatabaseTypeIdRequest asks for active dc.database_cat rows filtered by database_type_id (query GetDatabaseCatsByDatabaseTypeId).
+message GetDatabaseCatsByDatabaseTypeIdRequest {
+  int64 database_type_id = 1;
+}
+
+// GetDatabaseCatsByDatabaseTypeIdResponse returns active dc.database_cat rows filtered by database_type_id (query GetDatabaseCatsByDatabaseTypeId).
+message GetDatabaseCatsByDatabaseTypeIdResponse {
+  repeated DatabaseCat database_cats = 1;
+}
+
+// CreateDatabaseCatRequest carries the fields needed to insert a dc.database_cat row (query CreateDatabaseCat).
+message CreateDatabaseCatRequest {
+  string name = 1;
+  int64 host_id = 2;
+  int64 database_type_id = 3;
+  string description = 4;
+  int64 user_id = 5;
+}
+
+// CreateDatabaseCatResponse returns the created dc.database_cat row (query CreateDatabaseCat).
+message CreateDatabaseCatResponse {
+  DatabaseCat database_cat = 1;
+}
+
+// UpdateDatabaseCatByIdRequest carries the fields to update on a dc.database_cat row (query UpdateDatabaseCatById).
+message UpdateDatabaseCatByIdRequest {
+  int64 id = 1;
+  string name = 2;
+  int64 host_id = 3;
+  int64 database_type_id = 4;
+  string description = 5;
+  int64 user_id = 6;
+}
+
+// UpdateDatabaseCatByIdResponse returns the updated dc.database_cat row (query UpdateDatabaseCatById).
+message UpdateDatabaseCatByIdResponse {
+  DatabaseCat database_cat = 1;
+}
+
+// DeleteDatabaseCatByIdRequest asks to soft delete a dc.database_cat row by id, setting is_deleted = true (query DeleteDatabaseCatById).
+message DeleteDatabaseCatByIdRequest {
+  int64 id = 1;
+}
+
+// DeleteDatabaseCatByIdResponse carries no payload (query DeleteDatabaseCatById).
+message DeleteDatabaseCatByIdResponse {
+  google.protobuf.Empty empty = 1;
+}
+
+// UndeleteDatabaseCatByIdRequest asks to restore a soft deleted dc.database_cat row by id, setting is_deleted = false (query UndeleteDatabaseCatById).
+message UndeleteDatabaseCatByIdRequest {
+  int64 id = 1;
+}
+
+// UndeleteDatabaseCatByIdResponse carries no payload (query UndeleteDatabaseCatById).
+message UndeleteDatabaseCatByIdResponse {
+  google.protobuf.Empty empty = 1;
+}
+
+// =========================================================
+// dc.database_type
+// =========================================================
+
+// DatabaseType is a full row of dc.database_type.
+message DatabaseType {
+  int64 id = 1;
+  string name = 2;
+  string db_version = 3;
+  bool is_deleted = 4;
+  google.protobuf.Timestamp created_at = 5;
+  google.protobuf.Timestamp updated_at = 6;
+  int64 user_id = 7;
+}
+
+// GetDatabaseTypeByIdRequest asks for a single active dc.database_type row by id (query GetDatabaseTypeById).
+message GetDatabaseTypeByIdRequest {
+  int64 id = 1;
+}
+
+// GetDatabaseTypeByIdResponse returns a single active dc.database_type row (query GetDatabaseTypeById).
+message GetDatabaseTypeByIdResponse {
+  DatabaseType database_type = 1;
+}
+
+// GetDatabaseTypesRequest asks for every active dc.database_type row (query GetDatabaseTypes).
+message GetDatabaseTypesRequest {}
+
+// GetDatabaseTypesResponse returns every active dc.database_type row (query GetDatabaseTypes).
+message GetDatabaseTypesResponse {
+  repeated DatabaseType database_types = 1;
+}
+
+// GetDeletedDatabaseTypeByIdRequest asks for a single soft deleted dc.database_type row by id (query GetDeletedDatabaseTypeById).
+message GetDeletedDatabaseTypeByIdRequest {
+  int64 id = 1;
+}
+
+// GetDeletedDatabaseTypeByIdResponse returns a single soft deleted dc.database_type row (query GetDeletedDatabaseTypeById).
+message GetDeletedDatabaseTypeByIdResponse {
+  DatabaseType database_type = 1;
+}
+
+// GetDeletedDatabaseTypesRequest asks for every soft deleted dc.database_type row (query GetDeletedDatabaseTypes).
+message GetDeletedDatabaseTypesRequest {}
+
+// GetDeletedDatabaseTypesResponse returns every soft deleted dc.database_type row (query GetDeletedDatabaseTypes).
+message GetDeletedDatabaseTypesResponse {
+  repeated DatabaseType database_types = 1;
+}
+
+// CreateDatabaseTypeRequest carries the fields needed to insert a dc.database_type row (query CreateDatabaseType).
+message CreateDatabaseTypeRequest {
+  string name = 1;
+  string db_version = 2;
+  int64 user_id = 3;
+}
+
+// CreateDatabaseTypeResponse returns the created dc.database_type row (query CreateDatabaseType).
+message CreateDatabaseTypeResponse {
+  DatabaseType database_type = 1;
+}
+
+// UpdateDatabaseTypeByIdRequest carries the fields to update on a dc.database_type row (query UpdateDatabaseTypeById).
+message UpdateDatabaseTypeByIdRequest {
+  int64 id = 1;
+  string name = 2;
+  string db_version = 3;
+  int64 user_id = 4;
+}
+
+// UpdateDatabaseTypeByIdResponse returns the updated dc.database_type row (query UpdateDatabaseTypeById).
+message UpdateDatabaseTypeByIdResponse {
+  DatabaseType database_type = 1;
+}
+
+// DeleteDatabaseTypeByIdRequest asks to soft delete a dc.database_type row by id, setting is_deleted = true (query DeleteDatabaseTypeById).
+message DeleteDatabaseTypeByIdRequest {
+  int64 id = 1;
+}
+
+// DeleteDatabaseTypeByIdResponse carries no payload (query DeleteDatabaseTypeById).
+message DeleteDatabaseTypeByIdResponse {
+  google.protobuf.Empty empty = 1;
+}
+
+// UndeleteDatabaseTypeByIdRequest asks to restore a soft deleted dc.database_type row by id, setting is_deleted = false (query UndeleteDatabaseTypeById).
+message UndeleteDatabaseTypeByIdRequest {
+  int64 id = 1;
+}
+
+// UndeleteDatabaseTypeByIdResponse carries no payload (query UndeleteDatabaseTypeById).
+message UndeleteDatabaseTypeByIdResponse {
+  google.protobuf.Empty empty = 1;
+}
+
+// =========================================================
+// dc.domain_cat
+// =========================================================
+
+// DomainCat is a full row of dc.domain_cat.
+message DomainCat {
+  int64 id = 1;
+  string domain_name = 2;
+  bool is_deleted = 3;
+  google.protobuf.Timestamp created_at = 4;
+  google.protobuf.Timestamp updated_at = 5;
+  int64 user_id = 6;
+}
+
+// GetDomainCatByIdRequest asks for a single active dc.domain_cat row by id (query GetDomainCatById).
+message GetDomainCatByIdRequest {
+  int64 id = 1;
+}
+
+// GetDomainCatByIdResponse returns a single active dc.domain_cat row (query GetDomainCatById).
+message GetDomainCatByIdResponse {
+  DomainCat domain_cat = 1;
+}
+
+// GetDomainCatsRequest asks for every active dc.domain_cat row (query GetDomainCats).
+message GetDomainCatsRequest {}
+
+// GetDomainCatsResponse returns every active dc.domain_cat row (query GetDomainCats).
+message GetDomainCatsResponse {
+  repeated DomainCat domain_cats = 1;
+}
+
+// GetDeletedDomainCatByIdRequest asks for a single soft deleted dc.domain_cat row by id (query GetDeletedDomainCatById).
+message GetDeletedDomainCatByIdRequest {
+  int64 id = 1;
+}
+
+// GetDeletedDomainCatByIdResponse returns a single soft deleted dc.domain_cat row (query GetDeletedDomainCatById).
+message GetDeletedDomainCatByIdResponse {
+  DomainCat domain_cat = 1;
+}
+
+// GetDeletedDomainCatsRequest asks for every soft deleted dc.domain_cat row (query GetDeletedDomainCats).
+message GetDeletedDomainCatsRequest {}
+
+// GetDeletedDomainCatsResponse returns every soft deleted dc.domain_cat row (query GetDeletedDomainCats).
+message GetDeletedDomainCatsResponse {
+  repeated DomainCat domain_cats = 1;
+}
+
+// CreateDomainCatRequest carries the fields needed to insert a dc.domain_cat row (query CreateDomainCat).
+message CreateDomainCatRequest {
+  string domain_name = 1;
+  int64 user_id = 2;
+}
+
+// CreateDomainCatResponse returns the created dc.domain_cat row (query CreateDomainCat).
+message CreateDomainCatResponse {
+  DomainCat domain_cat = 1;
+}
+
+// UpdateDomainCatByIdRequest carries the fields to update on a dc.domain_cat row (query UpdateDomainCatById).
+message UpdateDomainCatByIdRequest {
+  int64 id = 1;
+  string domain_name = 2;
+  int64 user_id = 3;
+}
+
+// UpdateDomainCatByIdResponse returns the updated dc.domain_cat row (query UpdateDomainCatById).
+message UpdateDomainCatByIdResponse {
+  DomainCat domain_cat = 1;
+}
+
+// DeleteDomainCatByIdRequest asks to soft delete a dc.domain_cat row by id, setting is_deleted = true (query DeleteDomainCatById).
+message DeleteDomainCatByIdRequest {
+  int64 id = 1;
+}
+
+// DeleteDomainCatByIdResponse carries no payload (query DeleteDomainCatById).
+message DeleteDomainCatByIdResponse {
+  google.protobuf.Empty empty = 1;
+}
+
+// UndeleteDomainCatByIdRequest asks to restore a soft deleted dc.domain_cat row by id, setting is_deleted = false (query UndeleteDomainCatById).
+message UndeleteDomainCatByIdRequest {
+  int64 id = 1;
+}
+
+// UndeleteDomainCatByIdResponse carries no payload (query UndeleteDomainCatById).
+message UndeleteDomainCatByIdResponse {
+  google.protobuf.Empty empty = 1;
+}
+
+// =========================================================
+// dc.following_calculation
+// =========================================================
+
+// FollowingCalculation is a full row of dc.following_calculation.
+message FollowingCalculation {
+  int64 id = 1;
+  int64 column_cat_id = 2;
+  int64 calculation_type_id = 3;
+  google.protobuf.Timestamp created_at = 4;
+  google.protobuf.Timestamp updated_at = 5;
+  bool is_deleted = 6;
+  int64 user_id = 7;
+}
+
+// GetFollowingCalculationByIdRequest asks for a single active dc.following_calculation row by id (query GetFollowingCalculationById).
+message GetFollowingCalculationByIdRequest {
+  int64 id = 1;
+}
+
+// GetFollowingCalculationByIdResponse returns a single active dc.following_calculation row (query GetFollowingCalculationById).
+message GetFollowingCalculationByIdResponse {
+  FollowingCalculation following_calculation = 1;
+}
+
+// GetFollowingCalculationsRequest asks for every active dc.following_calculation row (query GetFollowingCalculations).
+message GetFollowingCalculationsRequest {}
+
+// GetFollowingCalculationsResponse returns every active dc.following_calculation row (query GetFollowingCalculations).
+message GetFollowingCalculationsResponse {
+  repeated FollowingCalculation following_calculations = 1;
+}
+
+// GetDeletedFollowingCalculationByIdRequest asks for a single soft deleted dc.following_calculation row by id (query GetDeletedFollowingCalculationById).
+message GetDeletedFollowingCalculationByIdRequest {
+  int64 id = 1;
+}
+
+// GetDeletedFollowingCalculationByIdResponse returns a single soft deleted dc.following_calculation row (query GetDeletedFollowingCalculationById).
+message GetDeletedFollowingCalculationByIdResponse {
+  FollowingCalculation following_calculation = 1;
+}
+
+// GetDeletedFollowingCalculationsRequest asks for every soft deleted dc.following_calculation row (query GetDeletedFollowingCalculations).
+message GetDeletedFollowingCalculationsRequest {}
+
+// GetDeletedFollowingCalculationsResponse returns every soft deleted dc.following_calculation row (query GetDeletedFollowingCalculations).
+message GetDeletedFollowingCalculationsResponse {
+  repeated FollowingCalculation following_calculations = 1;
+}
+
+// CreateFollowingCalculationRequest carries the fields needed to insert a dc.following_calculation row (query CreateFollowingCalculation).
+message CreateFollowingCalculationRequest {
+  int64 column_cat_id = 1;
+  int64 calculation_type_id = 2;
+  int64 user_id = 3;
+}
+
+// CreateFollowingCalculationResponse returns the created dc.following_calculation row (query CreateFollowingCalculation).
+message CreateFollowingCalculationResponse {
+  FollowingCalculation following_calculation = 1;
+}
+
+// UpdateFollowingCalculationByIdRequest carries the fields to update on a dc.following_calculation row (query UpdateFollowingCalculationById).
+message UpdateFollowingCalculationByIdRequest {
+  int64 id = 1;
+  int64 column_cat_id = 2;
+  int64 calculation_type_id = 3;
+  int64 user_id = 4;
+}
+
+// UpdateFollowingCalculationByIdResponse returns the updated dc.following_calculation row (query UpdateFollowingCalculationById).
+message UpdateFollowingCalculationByIdResponse {
+  FollowingCalculation following_calculation = 1;
+}
+
+// DeleteFollowingCalculationByIdRequest asks to soft delete a dc.following_calculation row by id, setting is_deleted = true (query DeleteFollowingCalculationById).
+message DeleteFollowingCalculationByIdRequest {
+  int64 id = 1;
+}
+
+// DeleteFollowingCalculationByIdResponse carries no payload (query DeleteFollowingCalculationById).
+message DeleteFollowingCalculationByIdResponse {
+  google.protobuf.Empty empty = 1;
+}
+
+// UndeleteFollowingCalculationByIdRequest asks to restore a soft deleted dc.following_calculation row by id, setting is_deleted = false (query UndeleteFollowingCalculationById).
+message UndeleteFollowingCalculationByIdRequest {
+  int64 id = 1;
+}
+
+// UndeleteFollowingCalculationByIdResponse carries no payload (query UndeleteFollowingCalculationById).
+message UndeleteFollowingCalculationByIdResponse {
+  google.protobuf.Empty empty = 1;
+}
+
+// =========================================================
+// dc.group_levels
+// =========================================================
+
+// GroupLevel is a full row of dc.group_levels.
+message GroupLevel {
+  int64 id = 1;
+  int64 column_id = 2;
+  int64 parent_column_id = 3;
+  int32 level = 4;
+  string description = 5;
+  google.protobuf.Timestamp created_at = 6;
+  google.protobuf.Timestamp updated_at = 7;
+  bool is_deleted = 8;
+  int64 user_id = 9;
+}
+
+// GetGroupLevelByIdRequest asks for a single active dc.group_levels row by id (query GetGroupLevelById).
+message GetGroupLevelByIdRequest {
+  int64 id = 1;
+}
+
+// GetGroupLevelByIdResponse returns a single active dc.group_levels row (query GetGroupLevelById).
+message GetGroupLevelByIdResponse {
+  GroupLevel group_level = 1;
+}
+
+// GetGroupLevelsRequest asks for every active dc.group_levels row (query GetGroupLevels).
+message GetGroupLevelsRequest {}
+
+// GetGroupLevelsResponse returns every active dc.group_levels row (query GetGroupLevels).
+message GetGroupLevelsResponse {
+  repeated GroupLevel group_levels = 1;
+}
+
+// GetDeletedGroupLevelByIdRequest asks for a single soft deleted dc.group_levels row by id (query GetDeletedGroupLevelById).
+message GetDeletedGroupLevelByIdRequest {
+  int64 id = 1;
+}
+
+// GetDeletedGroupLevelByIdResponse returns a single soft deleted dc.group_levels row (query GetDeletedGroupLevelById).
+message GetDeletedGroupLevelByIdResponse {
+  GroupLevel group_level = 1;
+}
+
+// GetDeletedGroupLevelsRequest asks for every soft deleted dc.group_levels row (query GetDeletedGroupLevels).
+message GetDeletedGroupLevelsRequest {}
+
+// GetDeletedGroupLevelsResponse returns every soft deleted dc.group_levels row (query GetDeletedGroupLevels).
+message GetDeletedGroupLevelsResponse {
+  repeated GroupLevel group_levels = 1;
+}
+
+// CreateGroupLevelRequest carries the fields needed to insert a dc.group_levels row (query CreateGroupLevel).
+message CreateGroupLevelRequest {
+  int64 column_id = 1;
+  int64 parent_column_id = 2;
+  int32 level = 3;
+  string description = 4;
+  int64 user_id = 5;
+}
+
+// CreateGroupLevelResponse returns the created dc.group_levels row (query CreateGroupLevel).
+message CreateGroupLevelResponse {
+  GroupLevel group_level = 1;
+}
+
+// UpdateGroupLevelByIdRequest carries the fields to update on a dc.group_levels row (query UpdateGroupLevelById).
+message UpdateGroupLevelByIdRequest {
+  int64 id = 1;
+  int64 column_id = 2;
+  int64 parent_column_id = 3;
+  int32 level = 4;
+  string description = 5;
+  int64 user_id = 6;
+}
+
+// UpdateGroupLevelByIdResponse returns the updated dc.group_levels row (query UpdateGroupLevelById).
+message UpdateGroupLevelByIdResponse {
+  GroupLevel group_level = 1;
+}
+
+// DeleteGroupLevelByIdRequest asks to soft delete a dc.group_levels row by id, setting is_deleted = true (query DeleteGroupLevelById).
+message DeleteGroupLevelByIdRequest {
+  int64 id = 1;
+}
+
+// DeleteGroupLevelByIdResponse carries no payload (query DeleteGroupLevelById).
+message DeleteGroupLevelByIdResponse {
+  google.protobuf.Empty empty = 1;
+}
+
+// UndeleteGroupLevelByIdRequest asks to restore a soft deleted dc.group_levels row by id, setting is_deleted = false (query UndeleteGroupLevelById).
+message UndeleteGroupLevelByIdRequest {
+  int64 id = 1;
+}
+
+// UndeleteGroupLevelByIdResponse carries no payload (query UndeleteGroupLevelById).
+message UndeleteGroupLevelByIdResponse {
+  google.protobuf.Empty empty = 1;
+}
+
+// =========================================================
+// dc.has_to_group
+// =========================================================
+
+// HasToGroup is a full row of dc.has_to_group.
+message HasToGroup {
+  int64 id = 1;
+  int64 column_id_a = 2;
+  int64 column_id_b = 3;
+  string description = 4;
+  bool is_deleted = 5;
+  google.protobuf.Timestamp created_at = 6;
+  google.protobuf.Timestamp updated_at = 7;
+  int64 user_id = 8;
+}
+
+// GetHasToGroupByIdRequest asks for a single active dc.has_to_group row by id (query GetHasToGroupById).
+message GetHasToGroupByIdRequest {
+  int64 id = 1;
+}
+
+// GetHasToGroupByIdResponse returns a single active dc.has_to_group row (query GetHasToGroupById).
+message GetHasToGroupByIdResponse {
+  HasToGroup has_to_group = 1;
+}
+
+// GetHasToGroupsRequest asks for every active dc.has_to_group row (query GetHasToGroups).
+message GetHasToGroupsRequest {}
+
+// GetHasToGroupsResponse returns every active dc.has_to_group row (query GetHasToGroups).
+message GetHasToGroupsResponse {
+  repeated HasToGroup has_to_groups = 1;
+}
+
+// GetDeletedHasToGroupByIdRequest asks for a single soft deleted dc.has_to_group row by id (query GetDeletedHasToGroupById).
+message GetDeletedHasToGroupByIdRequest {
+  int64 id = 1;
+}
+
+// GetDeletedHasToGroupByIdResponse returns a single soft deleted dc.has_to_group row (query GetDeletedHasToGroupById).
+message GetDeletedHasToGroupByIdResponse {
+  HasToGroup has_to_group = 1;
+}
+
+// GetDeletedHasToGroupsRequest asks for every soft deleted dc.has_to_group row (query GetDeletedHasToGroups).
+message GetDeletedHasToGroupsRequest {}
+
+// GetDeletedHasToGroupsResponse returns every soft deleted dc.has_to_group row (query GetDeletedHasToGroups).
+message GetDeletedHasToGroupsResponse {
+  repeated HasToGroup has_to_groups = 1;
+}
+
+// CreateHasToGroupRequest carries the fields needed to insert a dc.has_to_group row (query CreateHasToGroup).
+message CreateHasToGroupRequest {
+  int64 column_id_a = 1;
+  int64 column_id_b = 2;
+  string description = 3;
+  int64 user_id = 4;
+}
+
+// CreateHasToGroupResponse returns the created dc.has_to_group row (query CreateHasToGroup).
+message CreateHasToGroupResponse {
+  HasToGroup has_to_group = 1;
+}
+
+// UpdateHasToGroupByIdRequest carries the fields to update on a dc.has_to_group row (query UpdateHasToGroupById).
+message UpdateHasToGroupByIdRequest {
+  int64 id = 1;
+  int64 column_id_a = 2;
+  int64 column_id_b = 3;
+  string description = 4;
+  int64 user_id = 5;
+}
+
+// UpdateHasToGroupByIdResponse returns the updated dc.has_to_group row (query UpdateHasToGroupById).
+message UpdateHasToGroupByIdResponse {
+  HasToGroup has_to_group = 1;
+}
+
+// DeleteHasToGroupByIdRequest asks to soft delete a dc.has_to_group row by id, setting is_deleted = true (query DeleteHasToGroupById).
+message DeleteHasToGroupByIdRequest {
+  int64 id = 1;
+}
+
+// DeleteHasToGroupByIdResponse carries no payload (query DeleteHasToGroupById).
+message DeleteHasToGroupByIdResponse {
+  google.protobuf.Empty empty = 1;
+}
+
+// UndeleteHasToGroupByIdRequest asks to restore a soft deleted dc.has_to_group row by id, setting is_deleted = false (query UndeleteHasToGroupById).
+message UndeleteHasToGroupByIdRequest {
+  int64 id = 1;
+}
+
+// UndeleteHasToGroupByIdResponse carries no payload (query UndeleteHasToGroupById).
+message UndeleteHasToGroupByIdResponse {
+  google.protobuf.Empty empty = 1;
+}
+
+// =========================================================
+// dc.host
+// =========================================================
+
+// Host is a full row of dc.host.
+message Host {
+  int64 id = 1;
+  string name = 2;
+  string description = 3;
+  string host_env = 4;
+  string port_env = 5;
+  string username_env = 6;
+  string password_env = 7;
+  bool is_deleted = 8;
+  google.protobuf.Timestamp created_at = 9;
+  google.protobuf.Timestamp updated_at = 10;
+  int64 user_id = 11;
+}
+
+// GetHostByIdRequest asks for a single active dc.host row by id (query GetHostById).
+message GetHostByIdRequest {
+  int64 id = 1;
+}
+
+// GetHostByIdResponse returns a single active dc.host row (query GetHostById).
+message GetHostByIdResponse {
+  Host host = 1;
+}
+
+// GetHostsRequest asks for every active dc.host row (query GetHosts).
+message GetHostsRequest {}
+
+// GetHostsResponse returns every active dc.host row (query GetHosts).
+message GetHostsResponse {
+  repeated Host hosts = 1;
+}
+
+// GetDeletedHostByIdRequest asks for a single soft deleted dc.host row by id (query GetDeletedHostById).
+message GetDeletedHostByIdRequest {
+  int64 id = 1;
+}
+
+// GetDeletedHostByIdResponse returns a single soft deleted dc.host row (query GetDeletedHostById).
+message GetDeletedHostByIdResponse {
+  Host host = 1;
+}
+
+// GetDeletedHostsRequest asks for every soft deleted dc.host row (query GetDeletedHosts).
+message GetDeletedHostsRequest {}
+
+// GetDeletedHostsResponse returns every soft deleted dc.host row (query GetDeletedHosts).
+message GetDeletedHostsResponse {
+  repeated Host hosts = 1;
+}
+
+// CreateHostRequest carries the fields needed to insert a dc.host row (query CreateHost).
+message CreateHostRequest {
+  string name = 1;
+  string description = 2;
+  string host_env = 3;
+  string port_env = 4;
+  string username_env = 5;
+  string password_env = 6;
+  int64 user_id = 7;
+}
+
+// CreateHostResponse returns the created dc.host row (query CreateHost).
+message CreateHostResponse {
+  Host host = 1;
+}
+
+// UpdateHostByIdRequest carries the fields to update on a dc.host row (query UpdateHostById).
+message UpdateHostByIdRequest {
+  int64 id = 1;
+  string name = 2;
+  string description = 3;
+  string host_env = 4;
+  string port_env = 5;
+  string username_env = 6;
+  string password_env = 7;
+  int64 user_id = 8;
+}
+
+// UpdateHostByIdResponse returns the updated dc.host row (query UpdateHostById).
+message UpdateHostByIdResponse {
+  Host host = 1;
+}
+
+// DeleteHostByIdRequest asks to soft delete a dc.host row by id, setting is_deleted = true (query DeleteHostById).
+message DeleteHostByIdRequest {
+  int64 id = 1;
+}
+
+// DeleteHostByIdResponse carries no payload (query DeleteHostById).
+message DeleteHostByIdResponse {
+  google.protobuf.Empty empty = 1;
+}
+
+// UndeleteHostByIdRequest asks to restore a soft deleted dc.host row by id, setting is_deleted = false (query UndeleteHostById).
+message UndeleteHostByIdRequest {
+  int64 id = 1;
+}
+
+// UndeleteHostByIdResponse carries no payload (query UndeleteHostById).
+message UndeleteHostByIdResponse {
+  google.protobuf.Empty empty = 1;
+}
+
+// =========================================================
+// dc.schema_cat
+// =========================================================
+
+// SchemaCat is a full row of dc.schema_cat.
+message SchemaCat {
+  int64 id = 1;
+  int64 database_id = 2;
+  string name = 3;
+  bool is_deleted = 4;
+  google.protobuf.Timestamp created_at = 5;
+  google.protobuf.Timestamp updated_at = 6;
+  int64 user_id = 7;
+}
+
+// GetSchemaCatByIdRequest asks for a single active dc.schema_cat row by id (query GetSchemaCatById).
+message GetSchemaCatByIdRequest {
+  int64 id = 1;
+}
+
+// GetSchemaCatByIdResponse returns a single active dc.schema_cat row (query GetSchemaCatById).
+message GetSchemaCatByIdResponse {
+  SchemaCat schema_cat = 1;
+}
+
+// GetSchemaCatsRequest asks for every active dc.schema_cat row (query GetSchemaCats).
+message GetSchemaCatsRequest {}
+
+// GetSchemaCatsResponse returns every active dc.schema_cat row (query GetSchemaCats).
+message GetSchemaCatsResponse {
+  repeated SchemaCat schema_cats = 1;
+}
+
+// GetDeletedSchemaCatByIdRequest asks for a single soft deleted dc.schema_cat row by id (query GetDeletedSchemaCatById).
+message GetDeletedSchemaCatByIdRequest {
+  int64 id = 1;
+}
+
+// GetDeletedSchemaCatByIdResponse returns a single soft deleted dc.schema_cat row (query GetDeletedSchemaCatById).
+message GetDeletedSchemaCatByIdResponse {
+  SchemaCat schema_cat = 1;
+}
+
+// GetDeletedSchemaCatsRequest asks for every soft deleted dc.schema_cat row (query GetDeletedSchemaCats).
+message GetDeletedSchemaCatsRequest {}
+
+// GetDeletedSchemaCatsResponse returns every soft deleted dc.schema_cat row (query GetDeletedSchemaCats).
+message GetDeletedSchemaCatsResponse {
+  repeated SchemaCat schema_cats = 1;
+}
+
+// GetSchemaCatsByDatabaseIdRequest asks for active dc.schema_cat rows filtered by database_id (query GetSchemaCatsByDatabaseId).
+message GetSchemaCatsByDatabaseIdRequest {
+  int64 database_id = 1;
+}
+
+// GetSchemaCatsByDatabaseIdResponse returns active dc.schema_cat rows filtered by database_id (query GetSchemaCatsByDatabaseId).
+message GetSchemaCatsByDatabaseIdResponse {
+  repeated SchemaCat schema_cats = 1;
+}
+
+// CreateSchemaCatRequest carries the fields needed to insert a dc.schema_cat row (query CreateSchemaCat).
+message CreateSchemaCatRequest {
+  int64 database_id = 1;
+  string name = 2;
+  int64 user_id = 3;
+}
+
+// CreateSchemaCatResponse returns the created dc.schema_cat row (query CreateSchemaCat).
+message CreateSchemaCatResponse {
+  SchemaCat schema_cat = 1;
+}
+
+// UpdateSchemaCatByIdRequest carries the fields to update on a dc.schema_cat row (query UpdateSchemaCatById).
+message UpdateSchemaCatByIdRequest {
+  int64 id = 1;
+  int64 database_id = 2;
+  string name = 3;
+  int64 user_id = 4;
+}
+
+// UpdateSchemaCatByIdResponse returns the updated dc.schema_cat row (query UpdateSchemaCatById).
+message UpdateSchemaCatByIdResponse {
+  SchemaCat schema_cat = 1;
+}
+
+// DeleteSchemaCatByIdRequest asks to soft delete a dc.schema_cat row by id, setting is_deleted = true (query DeleteSchemaCatById).
+message DeleteSchemaCatByIdRequest {
+  int64 id = 1;
+}
+
+// DeleteSchemaCatByIdResponse carries no payload (query DeleteSchemaCatById).
+message DeleteSchemaCatByIdResponse {
+  google.protobuf.Empty empty = 1;
+}
+
+// UndeleteSchemaCatByIdRequest asks to restore a soft deleted dc.schema_cat row by id, setting is_deleted = false (query UndeleteSchemaCatById).
+message UndeleteSchemaCatByIdRequest {
+  int64 id = 1;
+}
+
+// UndeleteSchemaCatByIdResponse carries no payload (query UndeleteSchemaCatById).
+message UndeleteSchemaCatByIdResponse {
+  google.protobuf.Empty empty = 1;
+}
+
+// =========================================================
+// dc.table_cat
+// =========================================================
+
+// TableCat is a full row of dc.table_cat.
+message TableCat {
+  int64 id = 1;
+  string name = 2;
+  string description = 3;
+  int64 schema_id = 4;
+  int64 table_type_id = 5;
+  int64 domain_id = 6;
+  bool is_deleted = 7;
+  google.protobuf.Timestamp created_at = 8;
+  google.protobuf.Timestamp updated_at = 9;
+  bool is_get_dict = 10;
+  int64 user_id = 11;
+}
+
+// GetTableCatByIdRequest asks for a single active dc.table_cat row by id (query GetTableCatById).
+message GetTableCatByIdRequest {
+  int64 id = 1;
+}
+
+// GetTableCatByIdResponse returns a single active dc.table_cat row (query GetTableCatById).
+message GetTableCatByIdResponse {
+  TableCat table_cat = 1;
+}
+
+// GetTableCatsRequest asks for every active dc.table_cat row (query GetTableCats).
+message GetTableCatsRequest {}
+
+// GetTableCatsResponse returns every active dc.table_cat row (query GetTableCats).
+message GetTableCatsResponse {
+  repeated TableCat table_cats = 1;
+}
+
+// GetDeletedTableCatByIdRequest asks for a single soft deleted dc.table_cat row by id (query GetDeletedTableCatById).
+message GetDeletedTableCatByIdRequest {
+  int64 id = 1;
+}
+
+// GetDeletedTableCatByIdResponse returns a single soft deleted dc.table_cat row (query GetDeletedTableCatById).
+message GetDeletedTableCatByIdResponse {
+  TableCat table_cat = 1;
+}
+
+// GetDeletedTableCatsRequest asks for every soft deleted dc.table_cat row (query GetDeletedTableCats).
+message GetDeletedTableCatsRequest {}
+
+// GetDeletedTableCatsResponse returns every soft deleted dc.table_cat row (query GetDeletedTableCats).
+message GetDeletedTableCatsResponse {
+  repeated TableCat table_cats = 1;
+}
+
+// GetTableCatsBySchemaIdRequest asks for active dc.table_cat rows filtered by schema_id (query GetTableCatsBySchemaId).
+message GetTableCatsBySchemaIdRequest {
+  int64 schema_id = 1;
+}
+
+// GetTableCatsBySchemaIdResponse returns active dc.table_cat rows filtered by schema_id (query GetTableCatsBySchemaId).
+message GetTableCatsBySchemaIdResponse {
+  repeated TableCat table_cats = 1;
+}
+
+// GetTableCatsByTableTypeIdRequest asks for active dc.table_cat rows filtered by table_type_id (query GetTableCatsByTableTypeId).
+message GetTableCatsByTableTypeIdRequest {
+  int64 table_type_id = 1;
+}
+
+// GetTableCatsByTableTypeIdResponse returns active dc.table_cat rows filtered by table_type_id (query GetTableCatsByTableTypeId).
+message GetTableCatsByTableTypeIdResponse {
+  repeated TableCat table_cats = 1;
+}
+
+// GetTableCatsByDomainIdRequest asks for active dc.table_cat rows filtered by domain_id (query GetTableCatsByDomainId).
+message GetTableCatsByDomainIdRequest {
+  int64 domain_id = 1;
+}
+
+// GetTableCatsByDomainIdResponse returns active dc.table_cat rows filtered by domain_id (query GetTableCatsByDomainId).
+message GetTableCatsByDomainIdResponse {
+  repeated TableCat table_cats = 1;
+}
+
+// CreateTableCatRequest carries the fields needed to insert a dc.table_cat row (query CreateTableCat).
+message CreateTableCatRequest {
+  string name = 1;
+  string description = 2;
+  int64 schema_id = 3;
+  int64 table_type_id = 4;
+  int64 domain_id = 5;
+  bool is_get_dict = 6;
+  int64 user_id = 7;
+}
+
+// CreateTableCatResponse returns the created dc.table_cat row (query CreateTableCat).
+message CreateTableCatResponse {
+  TableCat table_cat = 1;
+}
+
+// UpdateTableCatByIdRequest carries the fields to update on a dc.table_cat row (query UpdateTableCatById).
+message UpdateTableCatByIdRequest {
+  int64 id = 1;
+  string name = 2;
+  string description = 3;
+  int64 schema_id = 4;
+  int64 table_type_id = 5;
+  int64 domain_id = 6;
+  bool is_get_dict = 7;
+  int64 user_id = 8;
+}
+
+// UpdateTableCatByIdResponse returns the updated dc.table_cat row (query UpdateTableCatById).
+message UpdateTableCatByIdResponse {
+  TableCat table_cat = 1;
+}
+
+// DeleteTableCatByIdRequest asks to soft delete a dc.table_cat row by id, setting is_deleted = true (query DeleteTableCatById).
+message DeleteTableCatByIdRequest {
+  int64 id = 1;
+}
+
+// DeleteTableCatByIdResponse carries no payload (query DeleteTableCatById).
+message DeleteTableCatByIdResponse {
+  google.protobuf.Empty empty = 1;
+}
+
+// UndeleteTableCatByIdRequest asks to restore a soft deleted dc.table_cat row by id, setting is_deleted = false (query UndeleteTableCatById).
+message UndeleteTableCatByIdRequest {
+  int64 id = 1;
+}
+
+// UndeleteTableCatByIdResponse carries no payload (query UndeleteTableCatById).
+message UndeleteTableCatByIdResponse {
+  google.protobuf.Empty empty = 1;
+}
+
+// =========================================================
+// dc.table_type
+// =========================================================
+
+// TableType is a full row of dc.table_type.
+message TableType {
+  int64 id = 1;
+  string name = 2;
+  string description = 3;
+  bool is_deleted = 4;
+  google.protobuf.Timestamp created_at = 5;
+  google.protobuf.Timestamp updated_at = 6;
+  int64 user_id = 7;
+}
+
+// GetTableTypeByIdRequest asks for a single active dc.table_type row by id (query GetTableTypeById).
+message GetTableTypeByIdRequest {
+  int64 id = 1;
+}
+
+// GetTableTypeByIdResponse returns a single active dc.table_type row (query GetTableTypeById).
+message GetTableTypeByIdResponse {
+  TableType table_type = 1;
+}
+
+// GetTableTypesRequest asks for every active dc.table_type row (query GetTableTypes).
+message GetTableTypesRequest {}
+
+// GetTableTypesResponse returns every active dc.table_type row (query GetTableTypes).
+message GetTableTypesResponse {
+  repeated TableType table_types = 1;
+}
+
+// GetDeletedTableTypeByIdRequest asks for a single soft deleted dc.table_type row by id (query GetDeletedTableTypeById).
+message GetDeletedTableTypeByIdRequest {
+  int64 id = 1;
+}
+
+// GetDeletedTableTypeByIdResponse returns a single soft deleted dc.table_type row (query GetDeletedTableTypeById).
+message GetDeletedTableTypeByIdResponse {
+  TableType table_type = 1;
+}
+
+// GetDeletedTableTypesRequest asks for every soft deleted dc.table_type row (query GetDeletedTableTypes).
+message GetDeletedTableTypesRequest {}
+
+// GetDeletedTableTypesResponse returns every soft deleted dc.table_type row (query GetDeletedTableTypes).
+message GetDeletedTableTypesResponse {
+  repeated TableType table_types = 1;
+}
+
+// CreateTableTypeRequest carries the fields needed to insert a dc.table_type row (query CreateTableType).
+message CreateTableTypeRequest {
+  string name = 1;
+  string description = 2;
+  int64 user_id = 3;
+}
+
+// CreateTableTypeResponse returns the created dc.table_type row (query CreateTableType).
+message CreateTableTypeResponse {
+  TableType table_type = 1;
+}
+
+// UpdateTableTypeByIdRequest carries the fields to update on a dc.table_type row (query UpdateTableTypeById).
+message UpdateTableTypeByIdRequest {
+  int64 id = 1;
+  string name = 2;
+  string description = 3;
+  int64 user_id = 4;
+}
+
+// UpdateTableTypeByIdResponse returns the updated dc.table_type row (query UpdateTableTypeById).
+message UpdateTableTypeByIdResponse {
+  TableType table_type = 1;
+}
+
+// DeleteTableTypeByIdRequest asks to soft delete a dc.table_type row by id, setting is_deleted = true (query DeleteTableTypeById).
+message DeleteTableTypeByIdRequest {
+  int64 id = 1;
+}
+
+// DeleteTableTypeByIdResponse carries no payload (query DeleteTableTypeById).
+message DeleteTableTypeByIdResponse {
+  google.protobuf.Empty empty = 1;
+}
+
+// UndeleteTableTypeByIdRequest asks to restore a soft deleted dc.table_type row by id, setting is_deleted = false (query UndeleteTableTypeById).
+message UndeleteTableTypeByIdRequest {
+  int64 id = 1;
+}
+
+// UndeleteTableTypeByIdResponse carries no payload (query UndeleteTableTypeById).
+message UndeleteTableTypeByIdResponse {
+  google.protobuf.Empty empty = 1;
+}

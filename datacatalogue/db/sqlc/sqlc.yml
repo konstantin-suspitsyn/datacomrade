@@ -1,0 +1,37 @@
+version: "2"
+
+overrides:
+  go:
+    overrides:
+      - db_type: "pg_catalog.timestamptz"
+        nullable: true
+        engine: "postgresql"
+        go_type:
+          import: "gopkg.in/guregu/null.v4"
+          package: "null"
+          type: "Time"
+      - db_type: "pgtype.Text"
+        go_type: "string"
+
+sql:
+- schema: "./user_model/schema.sql"
+  queries: "./user_model/query.sql"
+  engine: "postgresql"
+  gen:
+    go:
+      package: "user_model"
+      out: "../../internal/repository/user_model"
+- schema: "./tables_model/schema.sql"
+  queries: "./tables_model/query.sql"
+  engine: "postgresql"
+  gen:
+    go:
+      package: "tables_model"
+      out: "../../internal/repository/tables_model"
+- schema: "./user_domain_roles/schema.sql"
+  queries: "./user_domain_roles/query.sql"
+  engine: "postgresql"
+  gen:
+    go:
+      package: "user_domain_roles"
+      out: "../../internal/repository/user_domain_roles"
