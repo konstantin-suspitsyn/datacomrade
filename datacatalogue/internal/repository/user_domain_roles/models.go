@@ -17,15 +17,6 @@ type DcDomainRole struct {
 	IsDeleted   bool
 }
 
-type DcDomainsDomainRole struct {
-	ID            int64
-	DomainCatID   int64
-	DomainRolesID int64
-	CreatedAt     time.Time
-	UpdatedAt     time.Time
-	IsDeleted     bool
-}
-
 type DcTableRole struct {
 	ID          int64
 	Name        string
@@ -35,15 +26,6 @@ type DcTableRole struct {
 	IsDeleted   bool
 }
 
-type DcTablesTableRole struct {
-	ID           int64
-	TableCatID   int64
-	TableRolesID int64
-	CreatedAt    time.Time
-	UpdatedAt    time.Time
-	IsDeleted    bool
-}
-
 type DcUserDomainRole struct {
 	ID            int64
 	UserID        int64
@@ -51,6 +33,7 @@ type DcUserDomainRole struct {
 	CreatedAt     time.Time
 	UpdatedAt     time.Time
 	IsDeleted     bool
+	DomainID      int64
 }
 
 type DcUserTableRole struct {
@@ -60,4 +43,5 @@ type DcUserTableRole struct {
 	CreatedAt    time.Time
 	UpdatedAt    time.Time
 	IsDeleted    bool
+	TableID      int64
 }

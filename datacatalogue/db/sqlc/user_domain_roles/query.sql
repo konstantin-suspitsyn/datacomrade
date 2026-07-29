@@ -50,57 +50,6 @@ SET is_deleted=false, updated_at=now()
 WHERE id=$1;
 
 -- =========================================================
--- dc.domains_domain_roles
--- =========================================================
-
--- name: GetDomainsDomainRoleById :one
-SELECT *
-FROM dc.domains_domain_roles
-WHERE id = $1
-AND is_deleted = false;
-
--- name: GetDomainsDomainRoles :many
-SELECT *
-FROM dc.domains_domain_roles
-WHERE is_deleted = false
-ORDER BY id;
-
--- name: GetDeletedDomainsDomainRoleById :one
-SELECT *
-FROM dc.domains_domain_roles
-WHERE id = $1
-AND is_deleted = true;
-
--- name: GetDeletedDomainsDomainRoles :many
-SELECT *
-FROM dc.domains_domain_roles
-WHERE is_deleted = true
-ORDER BY id;
-
--- name: CreateDomainsDomainRole :one
-INSERT INTO dc.domains_domain_roles
-(domain_cat_id, domain_roles_id, created_at, updated_at, is_deleted)
-VALUES($1, $2, now(), now(), false)
-RETURNING *;
-
--- name: UpdateDomainsDomainRoleById :one
-UPDATE dc.domains_domain_roles
-SET domain_cat_id=$2, domain_roles_id=$3, updated_at=now()
-WHERE id=$1
-AND is_deleted = false
-RETURNING *;
-
--- name: DeleteDomainsDomainRoleById :exec
-UPDATE dc.domains_domain_roles
-SET is_deleted=true, updated_at=now()
-WHERE id=$1;
-
--- name: UndeleteDomainsDomainRoleById :exec
-UPDATE dc.domains_domain_roles
-SET is_deleted=false, updated_at=now()
-WHERE id=$1;
-
--- =========================================================
 -- dc.table_roles
 -- =========================================================
 
@@ -152,57 +101,6 @@ SET is_deleted=false, updated_at=now()
 WHERE id=$1;
 
 -- =========================================================
--- dc.tables_table_roles
--- =========================================================
-
--- name: GetTablesTableRoleById :one
-SELECT *
-FROM dc.tables_table_roles
-WHERE id = $1
-AND is_deleted = false;
-
--- name: GetTablesTableRoles :many
-SELECT *
-FROM dc.tables_table_roles
-WHERE is_deleted = false
-ORDER BY id;
-
--- name: GetDeletedTablesTableRoleById :one
-SELECT *
-FROM dc.tables_table_roles
-WHERE id = $1
-AND is_deleted = true;
-
--- name: GetDeletedTablesTableRoles :many
-SELECT *
-FROM dc.tables_table_roles
-WHERE is_deleted = true
-ORDER BY id;
-
--- name: CreateTablesTableRole :one
-INSERT INTO dc.tables_table_roles
-(table_cat_id, table_roles_id, created_at, updated_at, is_deleted)
-VALUES($1, $2, now(), now(), false)
-RETURNING *;
-
--- name: UpdateTablesTableRoleById :one
-UPDATE dc.tables_table_roles
-SET table_cat_id=$2, table_roles_id=$3, updated_at=now()
-WHERE id=$1
-AND is_deleted = false
-RETURNING *;
-
--- name: DeleteTablesTableRoleById :exec
-UPDATE dc.tables_table_roles
-SET is_deleted=true, updated_at=now()
-WHERE id=$1;
-
--- name: UndeleteTablesTableRoleById :exec
-UPDATE dc.tables_table_roles
-SET is_deleted=false, updated_at=now()
-WHERE id=$1;
-
--- =========================================================
 -- dc.user_domain_roles
 -- =========================================================
 
@@ -232,13 +130,13 @@ ORDER BY id;
 
 -- name: CreateUserDomainRole :one
 INSERT INTO dc.user_domain_roles
-(user_id, domain_roles_id, created_at, updated_at, is_deleted)
-VALUES($1, $2, now(), now(), false)
+(user_id, domain_roles_id, created_at, updated_at, is_deleted, domain_id)
+VALUES($1, $2, now(), now(), false, $3)
 RETURNING *;
 
 -- name: UpdateUserDomainRoleById :one
 UPDATE dc.user_domain_roles
-SET user_id=$2, domain_roles_id=$3, updated_at=now()
+SET user_id=$2, domain_roles_id=$3, domain_id=$4, updated_at=now()
 WHERE id=$1
 AND is_deleted = false
 RETURNING *;
@@ -283,13 +181,13 @@ ORDER BY id;
 
 -- name: CreateUserTableRole :one
 INSERT INTO dc.user_table_roles
-(user_id, table_roles_id, created_at, updated_at, is_deleted)
-VALUES($1, $2, now(), now(), false)
+(user_id, table_roles_id, created_at, updated_at, is_deleted, table_id)
+VALUES($1, $2, now(), now(), false, $3)
 RETURNING *;
 
 -- name: UpdateUserTableRoleById :one
 UPDATE dc.user_table_roles
-SET user_id=$2, table_roles_id=$3, updated_at=now()
+SET user_id=$2, table_roles_id=$3, table_id=$4, updated_at=now()
 WHERE id=$1
 AND is_deleted = false
 RETURNING *;

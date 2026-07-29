@@ -15,6 +15,7 @@ func UserDomainRoleToProto(row user_domain_roles.DcUserDomainRole) *userdomainro
 		CreatedAt:     converter.TimeToProto(row.CreatedAt),
 		UpdatedAt:     converter.TimeToProto(row.UpdatedAt),
 		IsDeleted:     row.IsDeleted,
+		DomainId:      row.DomainID,
 	}
 }
 
@@ -36,6 +37,7 @@ func ToCreateUserDomainRoleParams(req *userdomainrolesv1.CreateUserDomainRoleReq
 	return user_domain_roles.CreateUserDomainRoleParams{
 		UserID:        req.GetUserId(),
 		DomainRolesID: req.GetDomainRolesId(),
+		DomainID:      req.GetDomainId(),
 	}
 }
 
@@ -46,5 +48,6 @@ func ToUpdateUserDomainRoleByIdParams(req *userdomainrolesv1.UpdateUserDomainRol
 		ID:            req.GetId(),
 		UserID:        req.GetUserId(),
 		DomainRolesID: req.GetDomainRolesId(),
+		DomainID:      req.GetDomainId(),
 	}
 }

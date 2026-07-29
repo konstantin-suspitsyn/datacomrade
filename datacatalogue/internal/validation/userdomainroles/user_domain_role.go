@@ -10,9 +10,11 @@ func userDomainRoleWritableFields(
 	v *validator.Validator,
 	userId int64,
 	domainRolesId int64,
+	domainId int64,
 ) {
 	v.Int64ID("user_id", userId)
 	v.Int64ID("domain_roles_id", domainRolesId)
+	v.Int64ID("domain_id", domainId)
 }
 
 // ValidateCreateUserDomainRole проверяет запрос на вставку строки dc.user_domain_roles.
@@ -28,6 +30,7 @@ func ValidateCreateUserDomainRole(req *userdomainrolesv1.CreateUserDomainRoleReq
 		v,
 		req.GetUserId(),
 		req.GetDomainRolesId(),
+		req.GetDomainId(),
 	)
 
 	return v.Err()
@@ -49,6 +52,7 @@ func ValidateUpdateUserDomainRoleById(req *userdomainrolesv1.UpdateUserDomainRol
 		v,
 		req.GetUserId(),
 		req.GetDomainRolesId(),
+		req.GetDomainId(),
 	)
 
 	return v.Err()

@@ -57,6 +57,9 @@ def row_to_proto_expr(f, var):
     if pair == ("string", "*string"):
         # Колонка NOT NULL, а поле в .proto помечено optional.
         return "converter.StringToProto(%s)" % src
+    if pair == ("uuid.UUID", "string"):
+        # В protobuf нет типа для UUID — передаём канонической строкой.
+        return "converter.UUIDToProto(%s)" % src
     raise Exception("нет правила для %s -> %s" % pair)
 
 
@@ -72,12 +75,44 @@ def req_to_param_expr(f, var):
         # Геттер optional-поля отдаёт "" вместо nil — колонка NOT NULL это отсекает
         # на валидации, до конвертера пустое значение не доходит.
         return getter
+    if pair == ("uuid.UUID", "string"):
+        # Формат строки проверен на валидации, разбор здесь уже не может не удаться.
+        return "converter.ProtoToUUID(%s)" % getter
     raise Exception("нет правила для %s -> %s" % pair)
 
 
+def lookup_arg_expr(lk, var):
+    """Выражение для аргумента выборки по уникальной колонке из запроса gRPC."""
+    getter = "%s.Get%s()" % (var, lk["proto_field"])
+    pair = (lk["arg_type"], lk["proto_type"])
+    if pair in (("int64", "int64"), ("string", "string")):
+        return getter
+    if pair == ("uuid.UUID", "string"):
+        return "converter.ProtoToUUID(%s)" % getter
+    raise Exception("нет правила для аргумента выборки %s -> %s" % pair)
+
+
 def needs_converter_pkg(entity):
-    for f in entity["row_fields"]:
-        if f["proto_type"] == "*timestamppb.Timestamp" or f["proto_type"] == "*string":
+    for group in ("row_fields", "create_fields", "update_fields"):
+        for f in entity[group]:
+            if f["proto_type"] in ("*timestamppb.Timestamp", "*string"):
+                return True
+            if f["go_type"] == "uuid.UUID":
+                return True
+    for lk in entity["lookups"]:
+        if lk["arg_type"] == "uuid.UUID":
+            return True
+    return False
+
+
+def needs_uuid_pkg(entity, groups=("row_fields", "create_fields", "update_fields")):
+    """Нужен ли импорт github.com/google/uuid в файле."""
+    for group in groups:
+        for f in entity[group]:
+            if f["go_type"] == "uuid.UUID":
+                return True
+    for lk in entity["lookups"]:
+        if lk["arg_type"] == "uuid.UUID":
             return True
     return False
 
@@ -89,6 +124,9 @@ def gen_converter(meta, e):
     E, P = e["entity"], e["plural"]
 
     imports = []
+    if any(lk["arg_type"] == "uuid.UUID" for lk in e["lookups"]):
+        imports.append('\t"github.com/google/uuid"')
+        imports.append("")
     if needs_converter_pkg(e):
         imports.append('\t"%s"' % CONV_IMPORT)
     imports.append('\t"%s"' % meta["repo_import"])
@@ -150,12 +188,32 @@ def gen_converter(meta, e):
     lines.append("}")
     lines.append("")
 
+    for lk in e["lookups"]:
+        lines.append(
+            "// To%sArg достаёт из запроса gRPC значение %s для выборки %s."
+            % (lk["query"], lk["col"], e["table"])
+        )
+        lines.append(
+            "func To%sArg(req *%s.%sRequest) %s {" % (lk["query"], proto, lk["query"], lk["arg_type"])
+        )
+        lines.append("\treturn %s" % lookup_arg_expr(lk, "req"))
+        lines.append("}")
+        lines.append("")
+
     return "\n".join(lines)
 
 
 # ---------- значения для тестов ----------
+def uuid_literal(idx, variant=0):
+    """Валидный UUID канонического вида, различимый по индексу поля."""
+    return "00000000-0000-4000-8000-%012d" % (idx + variant * 1000 + 1)
+
+
 def sample_value(f, idx, variant=0):
-    """Различимые значения полей: перепутанные местами поля тест обязан заметить."""
+    """Различимые значения полей: перепутанные местами поля тест обязан заметить.
+
+    Значение для стороны proto: у колонки uuid это строка.
+    """
     t = f["go_type"]
     if t == "string":
         return '"%s-%d"' % (f["col"].replace("_", "-"), variant)
@@ -165,7 +223,35 @@ def sample_value(f, idx, variant=0):
         return str(10 + idx + variant)
     if t == "bool":
         return "true"
+    if t == "uuid.UUID":
+        return '"%s"' % uuid_literal(idx, variant)
     return None
+
+
+def lookup_sample_value(lk):
+    """Значение аргумента выборки на стороне proto."""
+    if lk["arg_type"] == "uuid.UUID":
+        return '"%s"' % uuid_literal(0, 7)
+    if lk["arg_type"] == "int64":
+        return "77"
+    return '"%s-lookup"' % lk["col"].replace("_", "-")
+
+
+def lookup_zero_value(lk):
+    """Нулевое значение аргумента выборки — что отдаёт конвертер на nil-запросе."""
+    if lk["arg_type"] == "uuid.UUID":
+        return "uuid.Nil"
+    if lk["arg_type"] == "int64":
+        return "0"
+    return '""'
+
+
+def repo_sample_value(f, idx, variant=0):
+    """То же значение для стороны sqlc: строку uuid надо разобрать в uuid.UUID."""
+    value = sample_value(f, idx, variant)
+    if f["go_type"] == "uuid.UUID":
+        return "uuid.MustParse(%s)" % value
+    return value
 
 
 def gen_converter_test(meta, e):
@@ -186,6 +272,8 @@ def gen_converter_test(meta, e):
     if has_time:
         lines.append('\t"time"')
     lines.append("")
+    if needs_uuid_pkg(e):
+        lines.append('\t"github.com/google/uuid"')
     lines.append('\t"%s"' % meta["repo_import"])
     lines.append("\t" + meta["proto_import"])
     lines.append(")")
@@ -214,7 +302,7 @@ def gen_converter_test(meta, e):
         elif f["col"] == "is_deleted":
             v = "false"
         else:
-            v = sample_value(f, i)
+            v = repo_sample_value(f, i)
         lines.append("\t\t%s: %s," % (f["go"], v))
     lines.append("\t}")
     lines.append("}")
@@ -243,6 +331,11 @@ def gen_converter_test(meta, e):
         elif pair == ("int16", "int32"):
             lines.append("\tif %s != int32(row.%s) {" % (g, f["go"]))
             lines.append('\t\tt.Errorf("%s = %%d, want %%d", %s, row.%s)' % (f["proto"], g, f["go"]))
+        elif pair == ("uuid.UUID", "string"):
+            lines.append("\tif %s != row.%s.String() {" % (g, f["go"]))
+            lines.append(
+                '\t\tt.Errorf("%s = %%q, want %%q", %s, row.%s.String())' % (f["proto"], g, f["go"])
+            )
         else:
             verb = "%q" if f["go_type"] == "string" else ("%d" if f["go_type"] == "int64" else "%v")
             lines.append("\tif %s != row.%s {" % (g, f["go"]))
@@ -352,7 +445,7 @@ def gen_converter_test(meta, e):
     lines.append("")
     lines.append("\twant := %s.%s{" % (repo, e["create_params"]))
     for i, f in enumerate(e["create_fields"]):
-        v = sample_value(f, i)
+        v = repo_sample_value(f, i)
         if f["go_type"] == "int16":
             v = str(10 + i)
         lines.append("\t\t%s: %s," % (f["go"], v))
@@ -387,7 +480,7 @@ def gen_converter_test(meta, e):
     lines.append("")
     lines.append("\twant := %s.%s{" % (repo, e["update_params"]))
     for i, f in enumerate(e["update_fields"]):
-        v = sample_value(f, i)
+        v = repo_sample_value(f, i)
         if f["go_type"] == "int16":
             v = str(10 + i)
         lines.append("\t\t%s: %s," % (f["go"], v))
@@ -407,6 +500,29 @@ def gen_converter_test(meta, e):
     lines.append("\t}")
     lines.append("}")
     lines.append("")
+
+    # Выборки по уникальной колонке
+    for lk in e["lookups"]:
+        proto_lit = lookup_sample_value(lk)
+        want = "uuid.MustParse(%s)" % proto_lit if lk["arg_type"] == "uuid.UUID" else proto_lit
+        lines.append("func TestTo%sArg(t *testing.T) {" % lk["query"])
+        lines.append("\treq := &%s.%sRequest{%s: %s}" % (proto, lk["query"], lk["proto_field"], proto_lit))
+        lines.append("")
+        lines.append("\tif got := To%sArg(req); got != %s {" % (lk["query"], want))
+        lines.append('\t\tt.Errorf("To%sArg() = %%v, want %%v", got, %s)' % (lk["query"], want))
+        lines.append("\t}")
+        lines.append("}")
+        lines.append("")
+
+        lines.append("func TestTo%sArgNil(t *testing.T) {" % lk["query"])
+        lines.append("\t// Геттеры protobuf безопасны на nil: сервер не должен падать.")
+        lines.append("\tif got := To%sArg(nil); got != %s {" % (lk["query"], lookup_zero_value(lk)))
+        lines.append(
+            '\t\tt.Errorf("To%sArg(nil) = %%v, want zero value", got)' % lk["query"]
+        )
+        lines.append("\t}")
+        lines.append("}")
+        lines.append("")
 
     # Хелпер для optional-полей
     if any(f["proto_type"] == "*string" for f in e["create_fields"] + e["update_fields"]):
@@ -436,11 +552,31 @@ def validation_calls(entity, fields, indent="\t"):
             out.append(
                 '%sv.Int32Between("%s", %s, math.MinInt16, math.MaxInt16)' % (indent, col, getter)
             )
+        elif f["go_type"] == "uuid.UUID":
+            out.append('%sv.StringUUID("%s", %s)' % (indent, col, getter))
         elif f["go_type"] == "bool":
             pass  # любое булево значение допустимо
         else:
             raise Exception("нет правила валидации для %s (%s)" % (col, f["go_type"]))
     return out
+
+
+def lookup_validation_call(entity, lk):
+    """Проверка аргумента выборки по уникальной колонке."""
+    getter = "req.Get%s()" % lk["proto_field"]
+    if lk["arg_type"] == "uuid.UUID":
+        return 'v.StringUUID("%s", %s)' % (lk["col"], getter)
+    if lk["arg_type"] == "int64":
+        return 'v.Int64ID("%s", %s)' % (lk["col"], getter)
+    if lk["arg_type"] == "string":
+        if lk["varchar"] is None:
+            raise Exception("нет границы varchar для %s" % lk["col"])
+        return 'v.StringVarchar("%s", %s, %s)' % (
+            lk["col"],
+            getter,
+            limit_const(entity, lk["proto_field"]),
+        )
+    raise Exception("нет правила валидации для выборки по %s (%s)" % (lk["col"], lk["arg_type"]))
 
 
 def gen_validation(meta, e):
@@ -474,7 +610,13 @@ def gen_validation(meta, e):
     lines.append("func %s(" % helper)
     lines.append("\tv *validator.Validator,")
     for f in common:
-        gotype = {"int16": "int32", "int64": "int64", "string": "string", "bool": "bool"}[f["go_type"]]
+        gotype = {
+            "int16": "int32",
+            "int64": "int64",
+            "string": "string",
+            "bool": "bool",
+            "uuid.UUID": "string",
+        }[f["go_type"]]
         lines.append("\t%s %s," % (lower_first(f["proto"]), gotype))
     lines.append(") {")
     for f in common:
@@ -485,6 +627,8 @@ def gen_validation(meta, e):
             lines.append('\tv.Int64ID("%s", %s)' % (col, val))
         elif f["go_type"] == "int16":
             lines.append('\tv.Int32Between("%s", %s, math.MinInt16, math.MaxInt16)' % (col, val))
+        elif f["go_type"] == "uuid.UUID":
+            lines.append('\tv.StringUUID("%s", %s)' % (col, val))
     lines.append("}")
     lines.append("")
 
@@ -533,6 +677,27 @@ def gen_validation(meta, e):
     lines.append("}")
     lines.append("")
 
+    # Выборки по уникальной колонке: тип аргумента зависит от колонки,
+    # поэтому общий validation.ValidateID здесь не годится.
+    for lk in e["lookups"]:
+        lines.append(
+            "// Validate%s проверяет запрос на выборку строки %s по %s."
+            % (lk["query"], e["table"], lk["col"])
+        )
+        lines.append("func Validate%s(req *%s.%sRequest) error {" % (lk["query"], proto, lk["query"]))
+        lines.append("\tv := validator.New()")
+        lines.append("")
+        lines.append("\tif req == nil {")
+        lines.append('\t\tv.AddError("request", validator.MsgRequired)')
+        lines.append("\t\treturn v.Err()")
+        lines.append("\t}")
+        lines.append("")
+        lines.append("\t" + lookup_validation_call(E, lk))
+        lines.append("")
+        lines.append("\treturn v.Err()")
+        lines.append("}")
+        lines.append("")
+
     return "\n".join(lines), common, create_only
 
 
@@ -549,6 +714,8 @@ def gen_validation_test(meta, e, common, create_only):
             return str(10 + i)
         if f["go_type"] == "bool":
             return "true"
+        if f["go_type"] == "uuid.UUID":
+            return '"%s"' % uuid_literal(i)
         return "0"
 
     def build_valid(kind, fields, extra_id):
@@ -659,6 +826,20 @@ def gen_validation_test(meta, e, common, create_only):
                     '\t\t{name: "%s under smallint", mutate: func(r *%s.%s) { r.%s = math.MinInt16 - 1 }, wantField: "%s"},'
                     % (col, proto, reqtype, f["proto"], col)
                 )
+            elif f["go_type"] == "uuid.UUID":
+                out.append(
+                    '\t\t{name: "empty %s", mutate: func(r *%s.%s) { r.%s = "" }, wantField: "%s"},'
+                    % (col, proto, reqtype, f["proto"], col)
+                )
+                out.append(
+                    '\t\t{name: "malformed %s", mutate: func(r *%s.%s) { r.%s = "not-a-uuid" }, wantField: "%s"},'
+                    % (col, proto, reqtype, f["proto"], col)
+                )
+                # Сокращённая запись без дефисов — не канонический вид.
+                out.append(
+                    '\t\t{name: "%s without dashes", mutate: func(r *%s.%s) { r.%s = "00000000000040008000000000000001" }, wantField: "%s"},'
+                    % (col, proto, reqtype, f["proto"], col)
+                )
         out.append("\t}")
         out.append("")
         out.append("\tfor _, tt := range tests {")
@@ -755,7 +936,7 @@ def gen_validation_test(meta, e, common, create_only):
         lines.append("")
 
     # Пустой запрос: копятся все ошибки
-    checked = [f for f in create_fields if f["go_type"] in ("string", "int64")]
+    checked = [f for f in create_fields if f["go_type"] in ("string", "int64", "uuid.UUID")]
     if checked:
         lines.append("func TestValidateCreate%sCollectsAllErrors(t *testing.T) {" % E)
         lines.append("\t// Валидатор копит ошибки, а не падает на первой: клиент видит")
@@ -796,6 +977,65 @@ def gen_validation_test(meta, e, common, create_only):
     lines.append("\t}")
     lines.append("}")
     lines.append("")
+
+    # Выборки по уникальной колонке
+    for lk in e["lookups"]:
+        good = lookup_sample_value(lk)
+        if lk["arg_type"] == "uuid.UUID":
+            bad = [
+                ("empty", '""'),
+                ("malformed", '"not-a-uuid"'),
+                ("without dashes", '"00000000000040008000000000000001"'),
+            ]
+        elif lk["arg_type"] == "int64":
+            bad = [("zero", "0"), ("negative", "-1")]
+        else:
+            bad = [("empty", '""'), ("blank", '"   "')]
+
+        lines.append("func TestValidate%s(t *testing.T) {" % lk["query"])
+        lines.append("\ttests := []struct {")
+        lines.append("\t\tname    string")
+        lines.append("\t\tvalue   %s" % lk["proto_type"])
+        lines.append("\t\twantErr bool")
+        lines.append("\t}{")
+        lines.append('\t\t{name: "valid", value: %s},' % good)
+        for name, value in bad:
+            lines.append('\t\t{name: "%s", value: %s, wantErr: true},' % (name, value))
+        lines.append("\t}")
+        lines.append("")
+        lines.append("\tfor _, tt := range tests {")
+        lines.append("\t\tt.Run(tt.name, func(t *testing.T) {")
+        lines.append(
+            "\t\t\terr := Validate%s(&%s.%sRequest{%s: tt.value})"
+            % (lk["query"], proto, lk["query"], lk["proto_field"])
+        )
+        lines.append("")
+        lines.append("\t\t\tif (err != nil) != tt.wantErr {")
+        lines.append(
+            '\t\t\t\tt.Errorf("Validate%s() error = %%v, wantErr %%v", err, tt.wantErr)' % lk["query"]
+        )
+        lines.append("\t\t\t}")
+        lines.append("")
+        lines.append("\t\t\tif !tt.wantErr {")
+        lines.append("\t\t\t\treturn")
+        lines.append("\t\t\t}")
+        lines.append("")
+        lines.append("\t\t\tfields := %sFieldErrors(t, err)" % lower_first(E))
+        lines.append("")
+        lines.append('\t\t\tif len(fields["%s"]) == 0 {' % lk["col"])
+        lines.append('\t\t\t\tt.Errorf("no error on %s, got %%v", fields)' % lk["col"])
+        lines.append("\t\t\t}")
+        lines.append("\t\t})")
+        lines.append("\t}")
+        lines.append("}")
+        lines.append("")
+
+        lines.append("func TestValidate%sNil(t *testing.T) {" % lk["query"])
+        lines.append("\tif err := Validate%s(nil); err == nil {" % lk["query"])
+        lines.append('\t\tt.Error("Validate%s(nil) = nil, want error")' % lk["query"])
+        lines.append("\t}")
+        lines.append("}")
+        lines.append("")
 
     body = "\n".join(lines)
 
@@ -873,6 +1113,8 @@ def gen_service(meta, e):
     lines.append('\t"errors"')
     lines.append('\t"fmt"')
     lines.append("")
+    if any(lk["arg_type"] == "uuid.UUID" for lk in e["lookups"]):
+        lines.append('\t"github.com/google/uuid"')
     lines.append('\t"%s"' % meta["repo_import"])
     lines.append('\tcustomerrors "%s"' % ERRORS_IMPORT)
     lines.append(")")
@@ -943,6 +1185,35 @@ def gen_service(meta, e):
         lines.append("\t}")
         lines.append("")
         lines.append("\treturn rows, nil")
+        lines.append("}")
+        lines.append("")
+
+    for lk in e["lookups"]:
+        verb = "%d" if lk["arg_type"] == "int64" else ("%q" if lk["arg_type"] == "string" else "%v")
+        lines.append(
+            "// %s возвращает активную строку %s по уникальной колонке %s." % (lk["query"], low, lk["col"])
+        )
+        lines.append(
+            "func (%s *%s) %s(ctx context.Context, %s %s) (%s, error) {"
+            % (recv, st, lk["query"], lk["arg_name"], lk["arg_type"], row)
+        )
+        lines.append("\trow, err := %s.%s.%s(ctx, %s)" % (recv, field, lk["query"], lk["arg_name"]))
+        lines.append("")
+        lines.append("\tif err != nil {")
+        lines.append("\t\tif errors.Is(err, sql.ErrNoRows) {")
+        lines.append(
+            '\t\t\treturn %s{}, fmt.Errorf("%s %s = %s: %%w", %s, customerrors.ErrNotFound)'
+            % (row, low, lk["col"], verb, lk["arg_name"])
+        )
+        lines.append("\t\t}")
+        lines.append("")
+        lines.append(
+            '\t\treturn %s{}, fmt.Errorf("get %s %s = %s: %%w", %s, err)'
+            % (row, low, lk["col"], verb, lk["arg_name"])
+        )
+        lines.append("\t}")
+        lines.append("")
+        lines.append("\treturn row, nil")
         lines.append("}")
         lines.append("")
 
@@ -1140,6 +1411,33 @@ def gen_api(meta, e):
         lines.append(
             "\treturn &%s.%sResponse{%s: %s.%sToProto(rows)}, nil"
             % (proto, rpc, fk["resp_field"], conv, P)
+        )
+        lines.append("}")
+        lines.append("")
+
+    for lk in e["lookups"]:
+        rpc = lk["query"]
+        lines.append(
+            "// %s отдаёт активную строку %s по уникальной колонке %s." % (rpc, e["table"], lk["col"])
+        )
+        lines.append(
+            "func (%s *%s) %s(ctx context.Context, req *%s.%sRequest) (*%s.%sResponse, error) {"
+            % (recv, at, rpc, proto, rpc, proto, rpc)
+        )
+        lines.append("\tif err := %s.Validate%s(req); err != nil {" % (valid, rpc))
+        lines.append("\t\treturn nil, apierror.Wrap(err)")
+        lines.append("\t}")
+        lines.append("")
+        lines.append(
+            "\trow, err := %s.services.%s.%s(ctx, %s.To%sArg(req))" % (recv, svc, rpc, conv, rpc)
+        )
+        lines.append("\tif err != nil {")
+        lines.append("\t\treturn nil, apierror.Wrap(err)")
+        lines.append("\t}")
+        lines.append("")
+        lines.append(
+            "\treturn &%s.%sResponse{%s: %s.%sToProto(row)}, nil"
+            % (proto, rpc, lk["resp_field"], conv, E)
         )
         lines.append("}")
         lines.append("")

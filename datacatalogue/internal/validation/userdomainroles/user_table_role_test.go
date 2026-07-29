@@ -14,6 +14,7 @@ func validCreateUserTableRoleRequest() *userdomainrolesv1.CreateUserTableRoleReq
 	return &userdomainrolesv1.CreateUserTableRoleRequest{
 		UserId:       100,
 		TableRolesId: 101,
+		TableId:      102,
 	}
 }
 
@@ -22,6 +23,7 @@ func validUpdateUserTableRoleByIdRequest() *userdomainrolesv1.UpdateUserTableRol
 		Id:           42,
 		UserId:       100,
 		TableRolesId: 101,
+		TableId:      102,
 	}
 }
 
@@ -48,6 +50,8 @@ func TestValidateCreateUserTableRole(t *testing.T) {
 		{name: "negative user_id", mutate: func(r *userdomainrolesv1.CreateUserTableRoleRequest) { r.UserId = -1 }, wantField: "user_id"},
 		{name: "zero table_roles_id", mutate: func(r *userdomainrolesv1.CreateUserTableRoleRequest) { r.TableRolesId = 0 }, wantField: "table_roles_id"},
 		{name: "negative table_roles_id", mutate: func(r *userdomainrolesv1.CreateUserTableRoleRequest) { r.TableRolesId = -1 }, wantField: "table_roles_id"},
+		{name: "zero table_id", mutate: func(r *userdomainrolesv1.CreateUserTableRoleRequest) { r.TableId = 0 }, wantField: "table_id"},
+		{name: "negative table_id", mutate: func(r *userdomainrolesv1.CreateUserTableRoleRequest) { r.TableId = -1 }, wantField: "table_id"},
 	}
 
 	for _, tt := range tests {
@@ -95,6 +99,8 @@ func TestValidateUpdateUserTableRoleById(t *testing.T) {
 		{name: "negative user_id", mutate: func(r *userdomainrolesv1.UpdateUserTableRoleByIdRequest) { r.UserId = -1 }, wantField: "user_id"},
 		{name: "zero table_roles_id", mutate: func(r *userdomainrolesv1.UpdateUserTableRoleByIdRequest) { r.TableRolesId = 0 }, wantField: "table_roles_id"},
 		{name: "negative table_roles_id", mutate: func(r *userdomainrolesv1.UpdateUserTableRoleByIdRequest) { r.TableRolesId = -1 }, wantField: "table_roles_id"},
+		{name: "zero table_id", mutate: func(r *userdomainrolesv1.UpdateUserTableRoleByIdRequest) { r.TableId = 0 }, wantField: "table_id"},
+		{name: "negative table_id", mutate: func(r *userdomainrolesv1.UpdateUserTableRoleByIdRequest) { r.TableId = -1 }, wantField: "table_id"},
 	}
 
 	for _, tt := range tests {
@@ -140,7 +146,7 @@ func TestValidateCreateUserTableRoleCollectsAllErrors(t *testing.T) {
 
 	fields := userTableRoleFieldErrors(t, err)
 
-	wantFields := []string{"user_id", "table_roles_id"}
+	wantFields := []string{"user_id", "table_roles_id", "table_id"}
 
 	for _, field := range wantFields {
 		if len(fields[field]) == 0 {

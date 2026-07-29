@@ -22,6 +22,7 @@ func testUserDomainRoleRow() user_domain_roles.DcUserDomainRole {
 		CreatedAt:     userDomainRoleCreatedAt,
 		UpdatedAt:     userDomainRoleUpdatedAt,
 		IsDeleted:     false,
+		DomainID:      106,
 	}
 }
 
@@ -55,6 +56,10 @@ func TestUserDomainRoleToProto(t *testing.T) {
 
 	if got.GetIsDeleted() != row.IsDeleted {
 		t.Errorf("IsDeleted = %v, want %v", got.GetIsDeleted(), row.IsDeleted)
+	}
+
+	if got.GetDomainId() != row.DomainID {
+		t.Errorf("DomainId = %d, want %d", got.GetDomainId(), row.DomainID)
 	}
 
 }
@@ -120,11 +125,13 @@ func TestToCreateUserDomainRoleParams(t *testing.T) {
 	req := &userdomainrolesv1.CreateUserDomainRoleRequest{
 		UserId:        100,
 		DomainRolesId: 101,
+		DomainId:      102,
 	}
 
 	want := user_domain_roles.CreateUserDomainRoleParams{
 		UserID:        100,
 		DomainRolesID: 101,
+		DomainID:      102,
 	}
 
 	if got := ToCreateUserDomainRoleParams(req); got != want {
@@ -144,12 +151,14 @@ func TestToUpdateUserDomainRoleByIdParams(t *testing.T) {
 		Id:            100,
 		UserId:        101,
 		DomainRolesId: 102,
+		DomainId:      103,
 	}
 
 	want := user_domain_roles.UpdateUserDomainRoleByIdParams{
 		ID:            100,
 		UserID:        101,
 		DomainRolesID: 102,
+		DomainID:      103,
 	}
 
 	if got := ToUpdateUserDomainRoleByIdParams(req); got != want {

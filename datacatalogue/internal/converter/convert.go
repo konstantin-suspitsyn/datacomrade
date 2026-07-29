@@ -17,6 +17,7 @@ import (
 	"database/sql"
 	"time"
 
+	"github.com/google/uuid"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
@@ -66,4 +67,25 @@ func ProtoToNullString(s *string) sql.NullString {
 	}
 
 	return sql.NullString{String: *s, Valid: true}
+}
+
+// UUIDToProto переводит колонку uuid в строковое поле proto:
+// в protobuf нет типа для UUID, значение передаётся канонической записью.
+func UUIDToProto(id uuid.UUID) string {
+	return id.String()
+}
+
+// ProtoToUUID разбирает строковое поле proto в колонку uuid.
+//
+// Функции конвертации не возвращают ошибку, поэтому нераспознанное значение
+// становится uuid.Nil. До конвертера такая строка не доходит: формат проверяет
+// validator.StringUUID в api-слое, а uuid.Nil не совпадёт ни с одной записью
+// в базе, если проверку когда-нибудь обойдут.
+func ProtoToUUID(s string) uuid.UUID {
+	id, err := uuid.Parse(s)
+	if err != nil {
+		return uuid.Nil
+	}
+
+	return id
 }

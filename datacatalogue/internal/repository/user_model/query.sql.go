@@ -7,22 +7,24 @@ package user_model
 
 import (
 	"context"
+
+	"github.com/google/uuid"
 )
 
 const createUser = `-- name: CreateUser :one
 INSERT INTO dc."user"
-("name", incoming_user_id, is_deleted, created_at, updated_at)
+("name", external_id, is_deleted, created_at, updated_at)
 VALUES($1, $2, false, now(), now())
-RETURNING id, name, created_at, updated_at, is_deleted, incoming_user_id
+RETURNING id, name, created_at, updated_at, is_deleted, external_id
 `
 
 type CreateUserParams struct {
-	Name           string
-	IncomingUserID int64
+	Name       string
+	ExternalID uuid.UUID
 }
 
 func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (DcUser, error) {
-	row := q.db.QueryRowContext(ctx, createUser, arg.Name, arg.IncomingUserID)
+	row := q.db.QueryRowContext(ctx, createUser, arg.Name, arg.ExternalID)
 	var i DcUser
 	err := row.Scan(
 		&i.ID,
@@ -30,7 +32,7 @@ func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (DcUser,
 		&i.CreatedAt,
 		&i.UpdatedAt,
 		&i.IsDeleted,
-		&i.IncomingUserID,
+		&i.ExternalID,
 	)
 	return i, err
 }
@@ -47,7 +49,7 @@ func (q *Queries) DeleteUserById(ctx context.Context, id int64) error {
 }
 
 const getDeletedUserById = `-- name: GetDeletedUserById :one
-SELECT id, name, created_at, updated_at, is_deleted, incoming_user_id
+SELECT id, name, created_at, updated_at, is_deleted, external_id
 FROM dc."user"
 WHERE id = $1
 AND is_deleted = true
@@ -62,13 +64,13 @@ func (q *Queries) GetDeletedUserById(ctx context.Context, id int64) (DcUser, err
 		&i.CreatedAt,
 		&i.UpdatedAt,
 		&i.IsDeleted,
-		&i.IncomingUserID,
+		&i.ExternalID,
 	)
 	return i, err
 }
 
 const getDeletedUsers = `-- name: GetDeletedUsers :many
-SELECT id, name, created_at, updated_at, is_deleted, incoming_user_id
+SELECT id, name, created_at, updated_at, is_deleted, external_id
 FROM dc."user"
 WHERE is_deleted = true
 ORDER BY id
@@ -89,7 +91,7 @@ func (q *Queries) GetDeletedUsers(ctx context.Context) ([]DcUser, error) {
 			&i.CreatedAt,
 			&i.UpdatedAt,
 			&i.IsDeleted,
-			&i.IncomingUserID,
+			&i.ExternalID,
 		); err != nil {
 			return nil, err
 		}
@@ -104,9 +106,30 @@ func (q *Queries) GetDeletedUsers(ctx context.Context) ([]DcUser, error) {
 	return items, nil
 }
 
+const getUserByExternalId = `-- name: GetUserByExternalId :one
+SELECT id, name, created_at, updated_at, is_deleted, external_id
+FROM dc."user"
+WHERE external_id = $1
+AND is_deleted = false
+`
+
+func (q *Queries) GetUserByExternalId(ctx context.Context, externalID uuid.UUID) (DcUser, error) {
+	row := q.db.QueryRowContext(ctx, getUserByExternalId, externalID)
+	var i DcUser
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.IsDeleted,
+		&i.ExternalID,
+	)
+	return i, err
+}
+
 const getUserById = `-- name: GetUserById :one
 
-SELECT id, name, created_at, updated_at, is_deleted, incoming_user_id
+SELECT id, name, created_at, updated_at, is_deleted, external_id
 FROM dc."user"
 WHERE id = $1
 AND is_deleted = false
@@ -124,13 +147,13 @@ func (q *Queries) GetUserById(ctx context.Context, id int64) (DcUser, error) {
 		&i.CreatedAt,
 		&i.UpdatedAt,
 		&i.IsDeleted,
-		&i.IncomingUserID,
+		&i.ExternalID,
 	)
 	return i, err
 }
 
 const getUsers = `-- name: GetUsers :many
-SELECT id, name, created_at, updated_at, is_deleted, incoming_user_id
+SELECT id, name, created_at, updated_at, is_deleted, external_id
 FROM dc."user"
 WHERE is_deleted = false
 ORDER BY id
@@ -151,7 +174,7 @@ func (q *Queries) GetUsers(ctx context.Context) ([]DcUser, error) {
 			&i.CreatedAt,
 			&i.UpdatedAt,
 			&i.IsDeleted,
-			&i.IncomingUserID,
+			&i.ExternalID,
 		); err != nil {
 			return nil, err
 		}
@@ -179,20 +202,20 @@ func (q *Queries) UndeleteUserById(ctx context.Context, id int64) error {
 
 const updateUserById = `-- name: UpdateUserById :one
 UPDATE dc."user"
-SET "name"=$2, incoming_user_id=$3, updated_at=now()
+SET "name"=$2, external_id=$3, updated_at=now()
 WHERE id=$1
 AND is_deleted = false
-RETURNING id, name, created_at, updated_at, is_deleted, incoming_user_id
+RETURNING id, name, created_at, updated_at, is_deleted, external_id
 `
 
 type UpdateUserByIdParams struct {
-	ID             int64
-	Name           string
-	IncomingUserID int64
+	ID         int64
+	Name       string
+	ExternalID uuid.UUID
 }
 
 func (q *Queries) UpdateUserById(ctx context.Context, arg UpdateUserByIdParams) (DcUser, error) {
-	row := q.db.QueryRowContext(ctx, updateUserById, arg.ID, arg.Name, arg.IncomingUserID)
+	row := q.db.QueryRowContext(ctx, updateUserById, arg.ID, arg.Name, arg.ExternalID)
 	var i DcUser
 	err := row.Scan(
 		&i.ID,
@@ -200,7 +223,7 @@ func (q *Queries) UpdateUserById(ctx context.Context, arg UpdateUserByIdParams) 
 		&i.CreatedAt,
 		&i.UpdatedAt,
 		&i.IsDeleted,
-		&i.IncomingUserID,
+		&i.ExternalID,
 	)
 	return i, err
 }

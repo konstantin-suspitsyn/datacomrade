@@ -14,6 +14,7 @@ func validCreateUserDomainRoleRequest() *userdomainrolesv1.CreateUserDomainRoleR
 	return &userdomainrolesv1.CreateUserDomainRoleRequest{
 		UserId:        100,
 		DomainRolesId: 101,
+		DomainId:      102,
 	}
 }
 
@@ -22,6 +23,7 @@ func validUpdateUserDomainRoleByIdRequest() *userdomainrolesv1.UpdateUserDomainR
 		Id:            42,
 		UserId:        100,
 		DomainRolesId: 101,
+		DomainId:      102,
 	}
 }
 
@@ -48,6 +50,8 @@ func TestValidateCreateUserDomainRole(t *testing.T) {
 		{name: "negative user_id", mutate: func(r *userdomainrolesv1.CreateUserDomainRoleRequest) { r.UserId = -1 }, wantField: "user_id"},
 		{name: "zero domain_roles_id", mutate: func(r *userdomainrolesv1.CreateUserDomainRoleRequest) { r.DomainRolesId = 0 }, wantField: "domain_roles_id"},
 		{name: "negative domain_roles_id", mutate: func(r *userdomainrolesv1.CreateUserDomainRoleRequest) { r.DomainRolesId = -1 }, wantField: "domain_roles_id"},
+		{name: "zero domain_id", mutate: func(r *userdomainrolesv1.CreateUserDomainRoleRequest) { r.DomainId = 0 }, wantField: "domain_id"},
+		{name: "negative domain_id", mutate: func(r *userdomainrolesv1.CreateUserDomainRoleRequest) { r.DomainId = -1 }, wantField: "domain_id"},
 	}
 
 	for _, tt := range tests {
@@ -95,6 +99,8 @@ func TestValidateUpdateUserDomainRoleById(t *testing.T) {
 		{name: "negative user_id", mutate: func(r *userdomainrolesv1.UpdateUserDomainRoleByIdRequest) { r.UserId = -1 }, wantField: "user_id"},
 		{name: "zero domain_roles_id", mutate: func(r *userdomainrolesv1.UpdateUserDomainRoleByIdRequest) { r.DomainRolesId = 0 }, wantField: "domain_roles_id"},
 		{name: "negative domain_roles_id", mutate: func(r *userdomainrolesv1.UpdateUserDomainRoleByIdRequest) { r.DomainRolesId = -1 }, wantField: "domain_roles_id"},
+		{name: "zero domain_id", mutate: func(r *userdomainrolesv1.UpdateUserDomainRoleByIdRequest) { r.DomainId = 0 }, wantField: "domain_id"},
+		{name: "negative domain_id", mutate: func(r *userdomainrolesv1.UpdateUserDomainRoleByIdRequest) { r.DomainId = -1 }, wantField: "domain_id"},
 	}
 
 	for _, tt := range tests {
@@ -140,7 +146,7 @@ func TestValidateCreateUserDomainRoleCollectsAllErrors(t *testing.T) {
 
 	fields := userDomainRoleFieldErrors(t, err)
 
-	wantFields := []string{"user_id", "domain_roles_id"}
+	wantFields := []string{"user_id", "domain_roles_id", "domain_id"}
 
 	for _, field := range wantFields {
 		if len(fields[field]) == 0 {

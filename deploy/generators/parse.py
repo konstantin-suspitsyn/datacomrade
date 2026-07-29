@@ -24,7 +24,7 @@ def norm(name):
 def parse_schema(path):
     text = read(path)
     tables = {}
-    for m in re.finditer(r"CREATE TABLE (\S+) \((.*?)\n\);", text, re.S):
+    for m in re.finditer(r"CREATE TABLE (\S+)\s*\((.*?)\n\);", text, re.S | re.I):
         table = m.group(1).replace('"', "")
         cols = {}
         for line in m.group(2).split("\n"):
@@ -39,7 +39,7 @@ def parse_schema(path):
             cols[col] = {
                 "type": coltype,
                 "varchar": int(vm.group(1)) if vm else None,
-                "nullable": "NOT NULL" not in coltype,
+                "nullable": "not null" not in coltype.lower(),
             }
         tables[table] = cols
     return tables

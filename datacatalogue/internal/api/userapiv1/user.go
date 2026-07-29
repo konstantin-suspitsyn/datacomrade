@@ -26,7 +26,7 @@ func (u *UserApiV1) GetUserById(ctx context.Context, req *userv1.GetUserByIdRequ
 }
 
 // GetUsers отдаёт все активные строки dc.user.
-func (u *UserApiV1) GetUsers(ctx context.Context, req *userv1.GetUsersRequest) (*userv1.GetUsersResponse, error) {
+func (u *UserApiV1) GetUsers(ctx context.Context, _ *userv1.GetUsersRequest) (*userv1.GetUsersResponse, error) {
 	rows, err := u.services.UserService.GetUsers(ctx)
 	if err != nil {
 		return nil, apierror.Wrap(err)
@@ -50,13 +50,27 @@ func (u *UserApiV1) GetDeletedUserById(ctx context.Context, req *userv1.GetDelet
 }
 
 // GetDeletedUsers отдаёт все мягко удалённые строки dc.user.
-func (u *UserApiV1) GetDeletedUsers(ctx context.Context, req *userv1.GetDeletedUsersRequest) (*userv1.GetDeletedUsersResponse, error) {
+func (u *UserApiV1) GetDeletedUsers(ctx context.Context, _ *userv1.GetDeletedUsersRequest) (*userv1.GetDeletedUsersResponse, error) {
 	rows, err := u.services.UserService.GetDeletedUsers(ctx)
 	if err != nil {
 		return nil, apierror.Wrap(err)
 	}
 
 	return &userv1.GetDeletedUsersResponse{Users: userconv.UsersToProto(rows)}, nil
+}
+
+// GetUserByExternalId отдаёт активную строку dc.user по уникальной колонке external_id.
+func (u *UserApiV1) GetUserByExternalId(ctx context.Context, req *userv1.GetUserByExternalIdRequest) (*userv1.GetUserByExternalIdResponse, error) {
+	if err := uservalidation.ValidateGetUserByExternalId(req); err != nil {
+		return nil, apierror.Wrap(err)
+	}
+
+	row, err := u.services.UserService.GetUserByExternalId(ctx, userconv.ToGetUserByExternalIdArg(req))
+	if err != nil {
+		return nil, apierror.Wrap(err)
+	}
+
+	return &userv1.GetUserByExternalIdResponse{User: userconv.UserToProto(row)}, nil
 }
 
 // CreateUser вставляет строку dc.user и отдаёт её целиком.

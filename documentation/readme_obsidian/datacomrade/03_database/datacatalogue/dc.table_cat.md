@@ -37,4 +37,4 @@
 
 ## References
 - Tags: #database #datacatalogue #table
-- Links: [[dc.user]] [[dc.schema_cat]] [[dc.table_type]] [[dc.domain_cat]] [[dc.column_cat]] [[dc.tables_table_roles]]
+- Links: [[dc.user]] [[dc.schema_cat]] [[dc.table_type]] [[dc.domain_cat]] [[dc.column_cat]] [[dc.user_table_roles]]

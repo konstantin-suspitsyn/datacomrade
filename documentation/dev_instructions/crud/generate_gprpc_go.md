@@ -19,8 +19,18 @@
 Настройки — в [crud_config.json](../../../deploy/generators/crud_config.json),
 общие функции — в [genconfig.py](../../../deploy/generators/genconfig.py).
 
-На таблицу генерируется 8 стандартных RPC плюс по одному на каждую FK-выборку
-из `query.sql`. Для каждой таблицы — по файлу в каждом из четырёх слоёв.
+На таблицу генерируется 8 стандартных RPC плюс по одному на каждую
+дополнительную выборку из `query.sql`. Дополнительных видов два:
+
+| Вид | Имя запроса | Тип | Что отдаёт |
+|---|---|---|---|
+| FK-выборка | `Get<E>sBy<Fk>` | `:many` | список строк по неуникальной колонке |
+| Выборка по уникальной колонке | `Get<E>By<Column>` | `:one` | одну строку |
+
+Различает их генератор по имени: множественное число сущности — список,
+единственное — одна строка. `Get<E>By<Column>` с `:many` считается ошибкой.
+
+Для каждой таблицы — по файлу в каждом из четырёх слоёв.
 
 ## Запуск
 
@@ -139,8 +149,8 @@ for d in "tables:tablesapiv1:TablesApiV1" "user:userapiv1:UserApiV1" "user_domai
 for d in "tables_model:tables_service:TablesService" "user_model:user_service:UserService" "user_domain_roles:user_domain_roles_service:UserDomainRolesService"; do repo=$(echo $d|cut -d: -f1); sd=$(echo $d|cut -d: -f2); typ=$(echo $d|cut -d: -f3); grep -ho "^func (q \*Queries) [A-Za-z]*" datacatalogue/internal/repository/$repo/query.sql.go 2>/dev/null | sed 's/.*) //' | sort > /tmp/r.txt; grep -ho "^func (s \*$typ) [A-Za-z]*" datacatalogue/internal/service/$sd/*.go 2>/dev/null | sed 's/.*) //' | sort > /tmp/s.txt; n=$(wc -l < /tmp/r.txt); printf "%-30s repo=%s service=%s " $sd $n $(wc -l < /tmp/s.txt); if [ "$n" -eq 0 ]; then echo "ПУСТО — не тот каталог?"; elif diff -q /tmp/r.txt /tmp/s.txt > /dev/null; then echo MATCH; else echo РАСХОЖДЕНИЕ; fi; done
 ```
 
-На момент написания: 184 RPC — 128 `tables`, 8 `user`, 48 `user_domain_roles`;
-22 таблицы; 851 тест.
+На момент написания: 185 RPC — 128 `tables`, 9 `user`, 48 `user_domain_roles`;
+22 таблицы; 861 тест.
 
 ## Когда перезапускать
 
@@ -163,7 +173,7 @@ task proto:gen && python deploy/generators/parse.py && python deploy/generators/
 не додумывает. Это осознанно: молча сгенерированный неверный маппинг найти
 гораздо дороже, чем упавший скрипт. Он проверяет, что
 
-- набор запросов таблицы — ровно 8 стандартных плюс FK-выборки, без лишних и пропущенных;
+- набор запросов таблицы — ровно 8 стандартных плюс дополнительные выборки, без лишних и пропущенных;
 - каждому запросу соответствует метод репозитория;
 - каждому полю sqlc-структуры находится поле в proto-сообщении;
 - имя колонки из proto-тега есть в `schema.sql`;
@@ -181,6 +191,12 @@ task proto:gen && python deploy/generators/parse.py && python deploy/generators/
 | `int16` | `int32` | явное приведение в обе стороны |
 | `time.Time` | `*timestamppb.Timestamp` | `converter.TimeToProto` |
 | `sql.NullTime` | `*timestamppb.Timestamp` | `converter.NullTimeToProto`, NULL → `nil` |
+| `uuid.UUID` | `string` | `converter.UUIDToProto` / `converter.ProtoToUUID` |
+
+В protobuf нет типа для UUID, поэтому колонка `uuid` едет строкой в каноническом
+виде 8-4-4-4-12. Обратное преобразование не возвращает ошибку (конвертеры —
+чистые функции): нераспознанная строка становится `uuid.Nil`, а формат
+проверяется раньше, на валидации.
 
 Правила валидации по типу колонки:
 
@@ -189,6 +205,7 @@ task proto:gen && python deploy/generators/parse.py && python deploy/generators/
 | `varchar(n) NOT NULL` | `StringVarchar` — непустая и не длиннее n **символов**, не байт |
 | `bigint` | `Int64ID` — строго больше нуля |
 | `smallint` | `Int32Between` в границах `int16` — иначе значение молча обрежет Postgres |
+| `uuid` | `StringUUID` — непустая строка канонического вида 8-4-4-4-12 |
 | `boolean` | не проверяется, любое значение допустимо |
 
 Границы длин собираются в `limits.go` каждого пакета validation прямо из

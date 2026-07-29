@@ -65,6 +65,7 @@ message Host {
 | `GetDeleted<E>ById` | `int64 id = 1;` | `<E> <snake_e> = 1;` |
 | `GetDeleted<E>s` | пустое тело `{}` | `repeated <E> <snake_plural> = 1;` |
 | `Get<E>sBy<Fk>` | `int64 <fk_field> = 1;` | `repeated <E> <snake_plural> = 1;` |
+| `Get<E>By<Column>` | `<type> <column> = 1;` | `<E> <snake_e> = 1;` |
 | `Create<E>` | параметры `INSERT` | `<E> <snake_e> = 1;` |
 | `Update<E>ById` | `id` + параметры `UPDATE` | `<E> <snake_e> = 1;` |
 | `Delete<E>ById` | `int64 id = 1;` | `google.protobuf.Empty empty = 1;` |
@@ -87,6 +88,7 @@ message Host {
 | `boolean` | `bool` |
 | `timestamp` / `timestamptz` | `google.protobuf.Timestamp` |
 | `numeric` | `string` (без потери точности) |
+| `uuid` | `string` (канонический вид 8-4-4-4-12) |
 
 Nullable-колонка → `optional <type>` (для message-типов вроде `Timestamp`
 presence есть по умолчанию, `optional` не нужен).
@@ -112,6 +114,7 @@ message GetHostByIdResponse {
 - `Get...sRequest` / `Response` — `asks for / returns every active <table> row`
 - `GetDeleted...` — то же, но `soft deleted` вместо `active`
 - `Get...sBy<Fk>...` — `asks for / returns active <table> rows filtered by <fk_field>`
+- `Get...By<Column>...` — `asks for / returns a single active <table> row by <column>`
 - `Create...Request` — `carries the fields needed to insert a <table> row`
 - `Create...Response` — `returns the created <table> row`
 - `Update...ByIdRequest` — `carries the fields to update on a <table> row`

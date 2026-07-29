@@ -14,6 +14,12 @@ var EmailRX = regexp.MustCompile("^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9
 // первый символ не цифра.
 var IdentifierRX = regexp.MustCompile(`^[A-Za-z_][A-Za-z0-9_]*$`)
 
+// UUIDRX — UUID в каноническом виде 8-4-4-4-12, регистр букв любой.
+// Сокращённые формы (без дефисов, в фигурных скобках, с префиксом urn:uuid:)
+// намеренно не принимаются: колонка uuid хранит одно значение, а вариантов
+// его записи быть не должно.
+var UUIDRX = regexp.MustCompile(`^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$`)
+
 // StringRequired проверяет, что строка не пустая и состоит не из одних пробелов.
 func (v *Validator) StringRequired(field, value string) bool {
 	if strings.TrimSpace(value) == "" {
@@ -127,6 +133,22 @@ func (v *Validator) StringEmail(field, value string) bool {
 func (v *Validator) StringIdentifier(field, value string) bool {
 	if !IdentifierRX.MatchString(value) {
 		v.AddError(field, fmt.Sprintf(MsgIdentifier, value))
+		return false
+	}
+
+	return true
+}
+
+// StringUUID — проверка для колонки uuid NOT NULL: значение обязательно
+// и записано в каноническом виде. Проверка идёт до конвертера, поэтому
+// разбор строки в uuid.UUID дальше по стеку уже не может не удаться.
+func (v *Validator) StringUUID(field, value string) bool {
+	if !v.StringRequired(field, value) {
+		return false
+	}
+
+	if !UUIDRX.MatchString(value) {
+		v.AddError(field, fmt.Sprintf(MsgUUID, value))
 		return false
 	}
 

@@ -6,13 +6,15 @@ package user_model
 
 import (
 	"time"
+
+	"github.com/google/uuid"
 )
 
 type DcUser struct {
-	ID             int64
-	Name           string
-	CreatedAt      time.Time
-	UpdatedAt      time.Time
-	IsDeleted      bool
-	IncomingUserID int64
+	ID         int64
+	Name       string
+	CreatedAt  time.Time
+	UpdatedAt  time.Time
+	IsDeleted  bool
+	ExternalID uuid.UUID
 }

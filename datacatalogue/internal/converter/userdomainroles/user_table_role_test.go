@@ -22,6 +22,7 @@ func testUserTableRoleRow() user_domain_roles.DcUserTableRole {
 		CreatedAt:    userTableRoleCreatedAt,
 		UpdatedAt:    userTableRoleUpdatedAt,
 		IsDeleted:    false,
+		TableID:      106,
 	}
 }
 
@@ -55,6 +56,10 @@ func TestUserTableRoleToProto(t *testing.T) {
 
 	if got.GetIsDeleted() != row.IsDeleted {
 		t.Errorf("IsDeleted = %v, want %v", got.GetIsDeleted(), row.IsDeleted)
+	}
+
+	if got.GetTableId() != row.TableID {
+		t.Errorf("TableId = %d, want %d", got.GetTableId(), row.TableID)
 	}
 
 }
@@ -120,11 +125,13 @@ func TestToCreateUserTableRoleParams(t *testing.T) {
 	req := &userdomainrolesv1.CreateUserTableRoleRequest{
 		UserId:       100,
 		TableRolesId: 101,
+		TableId:      102,
 	}
 
 	want := user_domain_roles.CreateUserTableRoleParams{
 		UserID:       100,
 		TableRolesID: 101,
+		TableID:      102,
 	}
 
 	if got := ToCreateUserTableRoleParams(req); got != want {
@@ -144,12 +151,14 @@ func TestToUpdateUserTableRoleByIdParams(t *testing.T) {
 		Id:           100,
 		UserId:       101,
 		TableRolesId: 102,
+		TableId:      103,
 	}
 
 	want := user_domain_roles.UpdateUserTableRoleByIdParams{
 		ID:           100,
 		UserID:       101,
 		TableRolesID: 102,
+		TableID:      103,
 	}
 
 	if got := ToUpdateUserTableRoleByIdParams(req); got != want {

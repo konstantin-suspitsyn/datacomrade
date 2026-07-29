@@ -8,10 +8,11 @@ import "google/protobuf/timestamp.proto";
 option go_package = "github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/user/v1;userv1";
 
 // UserService mirrors query.sql one-to-one:
-// 8 standard CRUD calls per table.
+// 8 standard CRUD calls per table plus a lookup by external_id.
 service UserService {
   // dc.user
   rpc GetUserById(GetUserByIdRequest) returns (GetUserByIdResponse);
+  rpc GetUserByExternalId(GetUserByExternalIdRequest) returns (GetUserByExternalIdResponse);
   rpc GetUsers(GetUsersRequest) returns (GetUsersResponse);
   rpc GetDeletedUserById(GetDeletedUserByIdRequest) returns (GetDeletedUserByIdResponse);
   rpc GetDeletedUsers(GetDeletedUsersRequest) returns (GetDeletedUsersResponse);
@@ -32,7 +33,7 @@ message User {
   google.protobuf.Timestamp created_at = 3;
   google.protobuf.Timestamp updated_at = 4;
   bool is_deleted = 5;
-  int64 incoming_user_id = 6;
+  string external_id = 6;
 }
 
 // GetUserByIdRequest asks for a single active dc.user row by id (query GetUserById).
@@ -42,6 +43,16 @@ message GetUserByIdRequest {
 
 // GetUserByIdResponse returns a single active dc.user row (query GetUserById).
 message GetUserByIdResponse {
+  User user = 1;
+}
+
+// GetUserByExternalIdRequest asks for a single active dc.user row by external_id (query GetUserByExternalId).
+message GetUserByExternalIdRequest {
+  string external_id = 1;
+}
+
+// GetUserByExternalIdResponse returns a single active dc.user row (query GetUserByExternalId).
+message GetUserByExternalIdResponse {
   User user = 1;
 }
 
@@ -74,7 +85,7 @@ message GetDeletedUsersResponse {
 // CreateUserRequest carries the fields needed to insert a dc.user row (query CreateUser).
 message CreateUserRequest {
   string name = 1;
-  int64 incoming_user_id = 2;
+  string external_id = 2;
 }
 
 // CreateUserResponse returns the created dc.user row (query CreateUser).
@@ -86,7 +97,7 @@ message CreateUserResponse {
 message UpdateUserByIdRequest {
   int64 id = 1;
   string name = 2;
-  int64 incoming_user_id = 3;
+  string external_id = 3;
 }
 
 // UpdateUserByIdResponse returns the updated dc.user row (query UpdateUserById).

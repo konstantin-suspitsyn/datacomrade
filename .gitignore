@@ -20,3 +20,5 @@ __pycache__/
 deploy/generators/build/
 /documentation/readme_obsidian/datacomrade/01_architecture/arch.png
 /graphify-out/
+/uv.lock
+/pyproject.toml

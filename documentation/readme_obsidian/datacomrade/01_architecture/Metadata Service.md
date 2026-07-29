@@ -14,7 +14,7 @@ Tags: [[architecture]] [[datacatalogue]] [[db]]
 
 **Вычисления и группировки** — [[dc.calculation_type]], [[dc.database_calculation]], [[dc.following_calculation]], [[dc.group_levels]], [[dc.has_to_gpoup]].
 
-**Домены, роли, пользователи** — [[dc.domain_cat]], [[dc.domain_roles]], [[dc.domains_domain_roles]], [[dc.user_domain_roles]], [[dc.table_roles]], [[dc.tables_table_roles]], [[dc.user_table_roles]], [[dc.user]].
+**Домены, роли, пользователи** — [[dc.domain_cat]], [[dc.domain_roles]], [[dc.user_domain_roles]], [[dc.table_roles]], [[dc.user_table_roles]], [[dc.user]].
 
 Полный индекс таблиц: [[README]] в `03_database/datacatalogue`.
 
@@ -23,7 +23,7 @@ Tags: [[architecture]] [[datacatalogue]] [[db]]
 - Таблица всегда принадлежит ровно одному бизнес-домену (`table_cat.domain_id` — обязательный FK). На этом держится доменная ветка прав.
 - `alias` связывает «одинаковые по смыслу» колонки в разных таблицах. Это зачаток семантического слоя: по колонкам с общим alias допускаются агрегации, но не фильтрация.
 - Секреты подключений в `dc` **не хранятся**. [[dc.host]] хранит имена переменных окружения (`host_env`, `port_env`, `username_env`, `password_env`), а значения подставляются в рантайме из окружения сервиса — см. [[Работа с env файлами]].
-- Пользователь в [[dc.user]] — локальное зеркало с полем `incoming_user_id`, ссылающимся на внешний IdP (Keycloak). Аутентификация здесь не живёт, только привязка прав.
+- Пользователь в [[dc.user]] — локальное зеркало с полем `external_id` (Subject/`sub` из Keycloak), по которому находится строка. Аутентификация здесь не живёт, только привязка прав.
 
 ## API
 

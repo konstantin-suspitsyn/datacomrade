@@ -9,10 +9,10 @@ import (
 func userWritableFields(
 	v *validator.Validator,
 	name string,
-	incomingUserId int64,
+	externalId string,
 ) {
 	v.StringVarchar("name", name, userNameMaxLen)
-	v.Int64ID("incoming_user_id", incomingUserId)
+	v.StringUUID("external_id", externalId)
 }
 
 // ValidateCreateUser проверяет запрос на вставку строки dc.user.
@@ -27,7 +27,7 @@ func ValidateCreateUser(req *userv1.CreateUserRequest) error {
 	userWritableFields(
 		v,
 		req.GetName(),
-		req.GetIncomingUserId(),
+		req.GetExternalId(),
 	)
 
 	return v.Err()
@@ -48,8 +48,22 @@ func ValidateUpdateUserById(req *userv1.UpdateUserByIdRequest) error {
 	userWritableFields(
 		v,
 		req.GetName(),
-		req.GetIncomingUserId(),
+		req.GetExternalId(),
 	)
+
+	return v.Err()
+}
+
+// ValidateGetUserByExternalId проверяет запрос на выборку строки dc.user по external_id.
+func ValidateGetUserByExternalId(req *userv1.GetUserByExternalIdRequest) error {
+	v := validator.New()
+
+	if req == nil {
+		v.AddError("request", validator.MsgRequired)
+		return v.Err()
+	}
+
+	v.StringUUID("external_id", req.GetExternalId())
 
 	return v.Err()
 }

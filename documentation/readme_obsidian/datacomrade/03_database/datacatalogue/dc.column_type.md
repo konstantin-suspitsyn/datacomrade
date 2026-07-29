@@ -24,9 +24,13 @@
 ## Indexes
 - Явно не создаются отдельными миграциями.
 
+## Seed data
+- Миграция `000000041_insert_column_types.sql` заполняет справочник значениями `int`, `bigint`, `decimal`, `float`, `bool`, `string`, `text`, `date`, `datetime`, `datetime_tz`. `user_id` берётся из технического пользователя `Lomonosov M.` (см. [[dc.user]]).
+
 ## Migration source
 - Create: `datacatalogue/db/migrations/000000011_create_table_column_type.sql`
 - FK/Alter: `datacatalogue/db/migrations/000000019_add_fk_column_type.sql`
+- Seed: `datacatalogue/db/migrations/000000041_insert_column_types.sql`
 
 ## References
 - Tags: #database #datacatalogue #table

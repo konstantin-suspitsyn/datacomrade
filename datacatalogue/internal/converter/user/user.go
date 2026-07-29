@@ -1,6 +1,8 @@
 package user
 
 import (
+	"github.com/google/uuid"
+
 	"github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/converter"
 	"github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/repository/user_model"
 	userv1 "github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/user/v1"
@@ -9,12 +11,12 @@ import (
 // UserToProto переводит строку dc.user в сущность gRPC.
 func UserToProto(row user_model.DcUser) *userv1.User {
 	return &userv1.User{
-		Id:             row.ID,
-		Name:           row.Name,
-		CreatedAt:      converter.TimeToProto(row.CreatedAt),
-		UpdatedAt:      converter.TimeToProto(row.UpdatedAt),
-		IsDeleted:      row.IsDeleted,
-		IncomingUserId: row.IncomingUserID,
+		Id:         row.ID,
+		Name:       row.Name,
+		CreatedAt:  converter.TimeToProto(row.CreatedAt),
+		UpdatedAt:  converter.TimeToProto(row.UpdatedAt),
+		IsDeleted:  row.IsDeleted,
+		ExternalId: converter.UUIDToProto(row.ExternalID),
 	}
 }
 
@@ -34,8 +36,8 @@ func UsersToProto(rows []user_model.DcUser) []*userv1.User {
 // id, is_deleted, created_at и updated_at не переносятся — их выставляет SQL.
 func ToCreateUserParams(req *userv1.CreateUserRequest) user_model.CreateUserParams {
 	return user_model.CreateUserParams{
-		Name:           req.GetName(),
-		IncomingUserID: req.GetIncomingUserId(),
+		Name:       req.GetName(),
+		ExternalID: converter.ProtoToUUID(req.GetExternalId()),
 	}
 }
 
@@ -43,8 +45,13 @@ func ToCreateUserParams(req *userv1.CreateUserRequest) user_model.CreateUserPara
 // updated_at выставляет SQL, is_deleted через обновление не меняется.
 func ToUpdateUserByIdParams(req *userv1.UpdateUserByIdRequest) user_model.UpdateUserByIdParams {
 	return user_model.UpdateUserByIdParams{
-		ID:             req.GetId(),
-		Name:           req.GetName(),
-		IncomingUserID: req.GetIncomingUserId(),
+		ID:         req.GetId(),
+		Name:       req.GetName(),
+		ExternalID: converter.ProtoToUUID(req.GetExternalId()),
 	}
+}
+
+// ToGetUserByExternalIdArg достаёт из запроса gRPC значение external_id для выборки dc.user.
+func ToGetUserByExternalIdArg(req *userv1.GetUserByExternalIdRequest) uuid.UUID {
+	return converter.ProtoToUUID(req.GetExternalId())
 }

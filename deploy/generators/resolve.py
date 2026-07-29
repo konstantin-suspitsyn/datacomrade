@@ -55,6 +55,21 @@ def resolve_entity(sqlc, data, block):
         if m and not n.startswith("GetDeleted"):
             fk_queries.append({"query": n, "by": m.group(2)})
 
+    # Выборка одной строки по уникальной колонке: Get<E>By<Column> с :one.
+    # От FK-выборки отличается тем, что колонка уникальна, поэтому запрос
+    # возвращает строку, а не список.
+    lookup_queries = []
+    for n in names:
+        m = re.match(r"^Get(%s)By(\w+)$" % re.escape(entity), n)
+        if not m or n == "Get%sById" % entity or n.startswith("GetDeleted"):
+            continue
+        if kinds[n] != "one":
+            raise Fail(
+                "%s: %s отбирает по уникальной колонке и обязан быть :one, а не :%s"
+                % (table, n, kinds[n])
+            )
+        lookup_queries.append({"query": n, "by": m.group(2)})
+
     expected = (
         [
             "Get%sById" % entity,
@@ -63,6 +78,7 @@ def resolve_entity(sqlc, data, block):
             "GetDeleted%s" % plural,
         ]
         + [f["query"] for f in fk_queries]
+        + [l["query"] for l in lookup_queries]
         + [
             "Create%s" % entity,
             "Update%sById" % entity,
@@ -172,6 +188,32 @@ def resolve_entity(sqlc, data, block):
             }
         )
 
+    lookups = []
+    for lk in lookup_queries:
+        args = funcs[lk["query"]]["args"]
+        if len(args) != 1:
+            raise Fail("%s: у %s ожидался один аргумент, найдено %s" % (table, lk["query"], args))
+        arg = args[0]
+        req_msg = lk["query"] + "Request"
+        pf = proto.get(req_msg)
+        if not pf or len(pf) != 1:
+            raise Fail("%s: в %s ожидалось одно поле" % (table, req_msg))
+        col = pf[0]["proto_name"]
+        if col not in schema_cols:
+            raise Fail("%s: колонки %s нет в schema.sql" % (table, col))
+        lookups.append(
+            {
+                "query": lk["query"],
+                "arg_name": arg["name"],
+                "arg_type": arg["type"],
+                "proto_field": pf[0]["field"],
+                "proto_type": pf[0]["type"],
+                "col": col,
+                "varchar": schema_cols[col]["varchar"],
+                "resp_field": response_field(lk["query"] + "Response"),
+            }
+        )
+
     return {
         "sqlc": sqlc,
         "table": table,
@@ -187,6 +229,7 @@ def resolve_entity(sqlc, data, block):
         "update_fields": update_fields,
         "resp_fields": resp_fields,
         "fks": fks,
+        "lookups": lookups,
         "kinds": kinds,
     }
 
@@ -209,7 +252,7 @@ def main():
 
         model[sqlc] = {"meta": meta_by_sqlc[sqlc], "entities": entities}
         for e in entities:
-            total_rpc += 8 + len(e["fks"])
+            total_rpc += 8 + len(e["fks"]) + len(e["lookups"])
 
     write_json(args.work_dir, "model.json", model)
 
@@ -218,7 +261,11 @@ def main():
         print("\n%s (%d таблиц)" % (sqlc, len(d["entities"])))
         for e in d["entities"]:
             fk = " fk=%s" % ",".join(f["query"] for f in e["fks"]) if e["fks"] else ""
-            print("  %-24s %-22s file=%-22s%s" % (e["table"], e["entity"] + "/" + e["plural"], e["file"] + ".go", fk))
+            lk = " lookup=%s" % ",".join(l["query"] for l in e["lookups"]) if e["lookups"] else ""
+            print(
+                "  %-24s %-22s file=%-22s%s%s"
+                % (e["table"], e["entity"] + "/" + e["plural"], e["file"] + ".go", fk, lk)
+            )
 
     # Типы, которые встречаются в полях — список должен быть закрытым.
     types = set()

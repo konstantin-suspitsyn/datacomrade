@@ -836,819 +836,6 @@ func (x *UndeleteDomainRoleByIdResponse) GetEmpty() *emptypb.Empty {
 	return nil
 }
 
-// DomainsDomainRole is a full row of dc.domains_domain_roles.
-type DomainsDomainRole struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	DomainCatId   int64                  `protobuf:"varint,2,opt,name=domain_cat_id,json=domainCatId,proto3" json:"domain_cat_id,omitempty"`
-	DomainRolesId int64                  `protobuf:"varint,3,opt,name=domain_roles_id,json=domainRolesId,proto3" json:"domain_roles_id,omitempty"`
-	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
-	IsDeleted     bool                   `protobuf:"varint,6,opt,name=is_deleted,json=isDeleted,proto3" json:"is_deleted,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DomainsDomainRole) Reset() {
-	*x = DomainsDomainRole{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[17]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DomainsDomainRole) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DomainsDomainRole) ProtoMessage() {}
-
-func (x *DomainsDomainRole) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[17]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DomainsDomainRole.ProtoReflect.Descriptor instead.
-func (*DomainsDomainRole) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{17}
-}
-
-func (x *DomainsDomainRole) GetId() int64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
-}
-
-func (x *DomainsDomainRole) GetDomainCatId() int64 {
-	if x != nil {
-		return x.DomainCatId
-	}
-	return 0
-}
-
-func (x *DomainsDomainRole) GetDomainRolesId() int64 {
-	if x != nil {
-		return x.DomainRolesId
-	}
-	return 0
-}
-
-func (x *DomainsDomainRole) GetCreatedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.CreatedAt
-	}
-	return nil
-}
-
-func (x *DomainsDomainRole) GetUpdatedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.UpdatedAt
-	}
-	return nil
-}
-
-func (x *DomainsDomainRole) GetIsDeleted() bool {
-	if x != nil {
-		return x.IsDeleted
-	}
-	return false
-}
-
-// GetDomainsDomainRoleByIdRequest asks for a single active dc.domains_domain_roles row by id (query GetDomainsDomainRoleById).
-type GetDomainsDomainRoleByIdRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *GetDomainsDomainRoleByIdRequest) Reset() {
-	*x = GetDomainsDomainRoleByIdRequest{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[18]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *GetDomainsDomainRoleByIdRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetDomainsDomainRoleByIdRequest) ProtoMessage() {}
-
-func (x *GetDomainsDomainRoleByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[18]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetDomainsDomainRoleByIdRequest.ProtoReflect.Descriptor instead.
-func (*GetDomainsDomainRoleByIdRequest) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{18}
-}
-
-func (x *GetDomainsDomainRoleByIdRequest) GetId() int64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
-}
-
-// GetDomainsDomainRoleByIdResponse returns a single active dc.domains_domain_roles row (query GetDomainsDomainRoleById).
-type GetDomainsDomainRoleByIdResponse struct {
-	state             protoimpl.MessageState `protogen:"open.v1"`
-	DomainsDomainRole *DomainsDomainRole     `protobuf:"bytes,1,opt,name=domains_domain_role,json=domainsDomainRole,proto3" json:"domains_domain_role,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
-}
-
-func (x *GetDomainsDomainRoleByIdResponse) Reset() {
-	*x = GetDomainsDomainRoleByIdResponse{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[19]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *GetDomainsDomainRoleByIdResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetDomainsDomainRoleByIdResponse) ProtoMessage() {}
-
-func (x *GetDomainsDomainRoleByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[19]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetDomainsDomainRoleByIdResponse.ProtoReflect.Descriptor instead.
-func (*GetDomainsDomainRoleByIdResponse) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{19}
-}
-
-func (x *GetDomainsDomainRoleByIdResponse) GetDomainsDomainRole() *DomainsDomainRole {
-	if x != nil {
-		return x.DomainsDomainRole
-	}
-	return nil
-}
-
-// GetDomainsDomainRolesRequest asks for every active dc.domains_domain_roles row (query GetDomainsDomainRoles).
-type GetDomainsDomainRolesRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *GetDomainsDomainRolesRequest) Reset() {
-	*x = GetDomainsDomainRolesRequest{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[20]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *GetDomainsDomainRolesRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetDomainsDomainRolesRequest) ProtoMessage() {}
-
-func (x *GetDomainsDomainRolesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[20]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetDomainsDomainRolesRequest.ProtoReflect.Descriptor instead.
-func (*GetDomainsDomainRolesRequest) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{20}
-}
-
-// GetDomainsDomainRolesResponse returns every active dc.domains_domain_roles row (query GetDomainsDomainRoles).
-type GetDomainsDomainRolesResponse struct {
-	state              protoimpl.MessageState `protogen:"open.v1"`
-	DomainsDomainRoles []*DomainsDomainRole   `protobuf:"bytes,1,rep,name=domains_domain_roles,json=domainsDomainRoles,proto3" json:"domains_domain_roles,omitempty"`
-	unknownFields      protoimpl.UnknownFields
-	sizeCache          protoimpl.SizeCache
-}
-
-func (x *GetDomainsDomainRolesResponse) Reset() {
-	*x = GetDomainsDomainRolesResponse{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[21]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *GetDomainsDomainRolesResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetDomainsDomainRolesResponse) ProtoMessage() {}
-
-func (x *GetDomainsDomainRolesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[21]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetDomainsDomainRolesResponse.ProtoReflect.Descriptor instead.
-func (*GetDomainsDomainRolesResponse) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{21}
-}
-
-func (x *GetDomainsDomainRolesResponse) GetDomainsDomainRoles() []*DomainsDomainRole {
-	if x != nil {
-		return x.DomainsDomainRoles
-	}
-	return nil
-}
-
-// GetDeletedDomainsDomainRoleByIdRequest asks for a single soft deleted dc.domains_domain_roles row by id (query GetDeletedDomainsDomainRoleById).
-type GetDeletedDomainsDomainRoleByIdRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *GetDeletedDomainsDomainRoleByIdRequest) Reset() {
-	*x = GetDeletedDomainsDomainRoleByIdRequest{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[22]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *GetDeletedDomainsDomainRoleByIdRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetDeletedDomainsDomainRoleByIdRequest) ProtoMessage() {}
-
-func (x *GetDeletedDomainsDomainRoleByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[22]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetDeletedDomainsDomainRoleByIdRequest.ProtoReflect.Descriptor instead.
-func (*GetDeletedDomainsDomainRoleByIdRequest) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{22}
-}
-
-func (x *GetDeletedDomainsDomainRoleByIdRequest) GetId() int64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
-}
-
-// GetDeletedDomainsDomainRoleByIdResponse returns a single soft deleted dc.domains_domain_roles row (query GetDeletedDomainsDomainRoleById).
-type GetDeletedDomainsDomainRoleByIdResponse struct {
-	state             protoimpl.MessageState `protogen:"open.v1"`
-	DomainsDomainRole *DomainsDomainRole     `protobuf:"bytes,1,opt,name=domains_domain_role,json=domainsDomainRole,proto3" json:"domains_domain_role,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
-}
-
-func (x *GetDeletedDomainsDomainRoleByIdResponse) Reset() {
-	*x = GetDeletedDomainsDomainRoleByIdResponse{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[23]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *GetDeletedDomainsDomainRoleByIdResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetDeletedDomainsDomainRoleByIdResponse) ProtoMessage() {}
-
-func (x *GetDeletedDomainsDomainRoleByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[23]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetDeletedDomainsDomainRoleByIdResponse.ProtoReflect.Descriptor instead.
-func (*GetDeletedDomainsDomainRoleByIdResponse) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{23}
-}
-
-func (x *GetDeletedDomainsDomainRoleByIdResponse) GetDomainsDomainRole() *DomainsDomainRole {
-	if x != nil {
-		return x.DomainsDomainRole
-	}
-	return nil
-}
-
-// GetDeletedDomainsDomainRolesRequest asks for every soft deleted dc.domains_domain_roles row (query GetDeletedDomainsDomainRoles).
-type GetDeletedDomainsDomainRolesRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *GetDeletedDomainsDomainRolesRequest) Reset() {
-	*x = GetDeletedDomainsDomainRolesRequest{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[24]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *GetDeletedDomainsDomainRolesRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetDeletedDomainsDomainRolesRequest) ProtoMessage() {}
-
-func (x *GetDeletedDomainsDomainRolesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[24]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetDeletedDomainsDomainRolesRequest.ProtoReflect.Descriptor instead.
-func (*GetDeletedDomainsDomainRolesRequest) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{24}
-}
-
-// GetDeletedDomainsDomainRolesResponse returns every soft deleted dc.domains_domain_roles row (query GetDeletedDomainsDomainRoles).
-type GetDeletedDomainsDomainRolesResponse struct {
-	state              protoimpl.MessageState `protogen:"open.v1"`
-	DomainsDomainRoles []*DomainsDomainRole   `protobuf:"bytes,1,rep,name=domains_domain_roles,json=domainsDomainRoles,proto3" json:"domains_domain_roles,omitempty"`
-	unknownFields      protoimpl.UnknownFields
-	sizeCache          protoimpl.SizeCache
-}
-
-func (x *GetDeletedDomainsDomainRolesResponse) Reset() {
-	*x = GetDeletedDomainsDomainRolesResponse{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[25]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *GetDeletedDomainsDomainRolesResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetDeletedDomainsDomainRolesResponse) ProtoMessage() {}
-
-func (x *GetDeletedDomainsDomainRolesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[25]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetDeletedDomainsDomainRolesResponse.ProtoReflect.Descriptor instead.
-func (*GetDeletedDomainsDomainRolesResponse) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{25}
-}
-
-func (x *GetDeletedDomainsDomainRolesResponse) GetDomainsDomainRoles() []*DomainsDomainRole {
-	if x != nil {
-		return x.DomainsDomainRoles
-	}
-	return nil
-}
-
-// CreateDomainsDomainRoleRequest carries the fields needed to insert a dc.domains_domain_roles row (query CreateDomainsDomainRole).
-type CreateDomainsDomainRoleRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	DomainCatId   int64                  `protobuf:"varint,1,opt,name=domain_cat_id,json=domainCatId,proto3" json:"domain_cat_id,omitempty"`
-	DomainRolesId int64                  `protobuf:"varint,2,opt,name=domain_roles_id,json=domainRolesId,proto3" json:"domain_roles_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *CreateDomainsDomainRoleRequest) Reset() {
-	*x = CreateDomainsDomainRoleRequest{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[26]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *CreateDomainsDomainRoleRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*CreateDomainsDomainRoleRequest) ProtoMessage() {}
-
-func (x *CreateDomainsDomainRoleRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[26]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CreateDomainsDomainRoleRequest.ProtoReflect.Descriptor instead.
-func (*CreateDomainsDomainRoleRequest) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{26}
-}
-
-func (x *CreateDomainsDomainRoleRequest) GetDomainCatId() int64 {
-	if x != nil {
-		return x.DomainCatId
-	}
-	return 0
-}
-
-func (x *CreateDomainsDomainRoleRequest) GetDomainRolesId() int64 {
-	if x != nil {
-		return x.DomainRolesId
-	}
-	return 0
-}
-
-// CreateDomainsDomainRoleResponse returns the created dc.domains_domain_roles row (query CreateDomainsDomainRole).
-type CreateDomainsDomainRoleResponse struct {
-	state             protoimpl.MessageState `protogen:"open.v1"`
-	DomainsDomainRole *DomainsDomainRole     `protobuf:"bytes,1,opt,name=domains_domain_role,json=domainsDomainRole,proto3" json:"domains_domain_role,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
-}
-
-func (x *CreateDomainsDomainRoleResponse) Reset() {
-	*x = CreateDomainsDomainRoleResponse{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[27]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *CreateDomainsDomainRoleResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*CreateDomainsDomainRoleResponse) ProtoMessage() {}
-
-func (x *CreateDomainsDomainRoleResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[27]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CreateDomainsDomainRoleResponse.ProtoReflect.Descriptor instead.
-func (*CreateDomainsDomainRoleResponse) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{27}
-}
-
-func (x *CreateDomainsDomainRoleResponse) GetDomainsDomainRole() *DomainsDomainRole {
-	if x != nil {
-		return x.DomainsDomainRole
-	}
-	return nil
-}
-
-// UpdateDomainsDomainRoleByIdRequest carries the fields to update on a dc.domains_domain_roles row (query UpdateDomainsDomainRoleById).
-type UpdateDomainsDomainRoleByIdRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	DomainCatId   int64                  `protobuf:"varint,2,opt,name=domain_cat_id,json=domainCatId,proto3" json:"domain_cat_id,omitempty"`
-	DomainRolesId int64                  `protobuf:"varint,3,opt,name=domain_roles_id,json=domainRolesId,proto3" json:"domain_roles_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *UpdateDomainsDomainRoleByIdRequest) Reset() {
-	*x = UpdateDomainsDomainRoleByIdRequest{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[28]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UpdateDomainsDomainRoleByIdRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UpdateDomainsDomainRoleByIdRequest) ProtoMessage() {}
-
-func (x *UpdateDomainsDomainRoleByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[28]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdateDomainsDomainRoleByIdRequest.ProtoReflect.Descriptor instead.
-func (*UpdateDomainsDomainRoleByIdRequest) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{28}
-}
-
-func (x *UpdateDomainsDomainRoleByIdRequest) GetId() int64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
-}
-
-func (x *UpdateDomainsDomainRoleByIdRequest) GetDomainCatId() int64 {
-	if x != nil {
-		return x.DomainCatId
-	}
-	return 0
-}
-
-func (x *UpdateDomainsDomainRoleByIdRequest) GetDomainRolesId() int64 {
-	if x != nil {
-		return x.DomainRolesId
-	}
-	return 0
-}
-
-// UpdateDomainsDomainRoleByIdResponse returns the updated dc.domains_domain_roles row (query UpdateDomainsDomainRoleById).
-type UpdateDomainsDomainRoleByIdResponse struct {
-	state             protoimpl.MessageState `protogen:"open.v1"`
-	DomainsDomainRole *DomainsDomainRole     `protobuf:"bytes,1,opt,name=domains_domain_role,json=domainsDomainRole,proto3" json:"domains_domain_role,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
-}
-
-func (x *UpdateDomainsDomainRoleByIdResponse) Reset() {
-	*x = UpdateDomainsDomainRoleByIdResponse{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[29]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UpdateDomainsDomainRoleByIdResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UpdateDomainsDomainRoleByIdResponse) ProtoMessage() {}
-
-func (x *UpdateDomainsDomainRoleByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[29]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdateDomainsDomainRoleByIdResponse.ProtoReflect.Descriptor instead.
-func (*UpdateDomainsDomainRoleByIdResponse) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{29}
-}
-
-func (x *UpdateDomainsDomainRoleByIdResponse) GetDomainsDomainRole() *DomainsDomainRole {
-	if x != nil {
-		return x.DomainsDomainRole
-	}
-	return nil
-}
-
-// DeleteDomainsDomainRoleByIdRequest asks to soft delete a dc.domains_domain_roles row by id, setting is_deleted = true (query DeleteDomainsDomainRoleById).
-type DeleteDomainsDomainRoleByIdRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DeleteDomainsDomainRoleByIdRequest) Reset() {
-	*x = DeleteDomainsDomainRoleByIdRequest{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[30]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DeleteDomainsDomainRoleByIdRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DeleteDomainsDomainRoleByIdRequest) ProtoMessage() {}
-
-func (x *DeleteDomainsDomainRoleByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[30]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DeleteDomainsDomainRoleByIdRequest.ProtoReflect.Descriptor instead.
-func (*DeleteDomainsDomainRoleByIdRequest) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{30}
-}
-
-func (x *DeleteDomainsDomainRoleByIdRequest) GetId() int64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
-}
-
-// DeleteDomainsDomainRoleByIdResponse carries no payload (query DeleteDomainsDomainRoleById).
-type DeleteDomainsDomainRoleByIdResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Empty         *emptypb.Empty         `protobuf:"bytes,1,opt,name=empty,proto3" json:"empty,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DeleteDomainsDomainRoleByIdResponse) Reset() {
-	*x = DeleteDomainsDomainRoleByIdResponse{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[31]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DeleteDomainsDomainRoleByIdResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DeleteDomainsDomainRoleByIdResponse) ProtoMessage() {}
-
-func (x *DeleteDomainsDomainRoleByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[31]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DeleteDomainsDomainRoleByIdResponse.ProtoReflect.Descriptor instead.
-func (*DeleteDomainsDomainRoleByIdResponse) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{31}
-}
-
-func (x *DeleteDomainsDomainRoleByIdResponse) GetEmpty() *emptypb.Empty {
-	if x != nil {
-		return x.Empty
-	}
-	return nil
-}
-
-// UndeleteDomainsDomainRoleByIdRequest asks to restore a soft deleted dc.domains_domain_roles row by id, setting is_deleted = false (query UndeleteDomainsDomainRoleById).
-type UndeleteDomainsDomainRoleByIdRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *UndeleteDomainsDomainRoleByIdRequest) Reset() {
-	*x = UndeleteDomainsDomainRoleByIdRequest{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[32]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UndeleteDomainsDomainRoleByIdRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UndeleteDomainsDomainRoleByIdRequest) ProtoMessage() {}
-
-func (x *UndeleteDomainsDomainRoleByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[32]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UndeleteDomainsDomainRoleByIdRequest.ProtoReflect.Descriptor instead.
-func (*UndeleteDomainsDomainRoleByIdRequest) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{32}
-}
-
-func (x *UndeleteDomainsDomainRoleByIdRequest) GetId() int64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
-}
-
-// UndeleteDomainsDomainRoleByIdResponse carries no payload (query UndeleteDomainsDomainRoleById).
-type UndeleteDomainsDomainRoleByIdResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Empty         *emptypb.Empty         `protobuf:"bytes,1,opt,name=empty,proto3" json:"empty,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *UndeleteDomainsDomainRoleByIdResponse) Reset() {
-	*x = UndeleteDomainsDomainRoleByIdResponse{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[33]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UndeleteDomainsDomainRoleByIdResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UndeleteDomainsDomainRoleByIdResponse) ProtoMessage() {}
-
-func (x *UndeleteDomainsDomainRoleByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[33]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UndeleteDomainsDomainRoleByIdResponse.ProtoReflect.Descriptor instead.
-func (*UndeleteDomainsDomainRoleByIdResponse) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{33}
-}
-
-func (x *UndeleteDomainsDomainRoleByIdResponse) GetEmpty() *emptypb.Empty {
-	if x != nil {
-		return x.Empty
-	}
-	return nil
-}
-
 // TableRole is a full row of dc.table_roles.
 type TableRole struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -1664,7 +851,7 @@ type TableRole struct {
 
 func (x *TableRole) Reset() {
 	*x = TableRole{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[34]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1676,7 +863,7 @@ func (x *TableRole) String() string {
 func (*TableRole) ProtoMessage() {}
 
 func (x *TableRole) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[34]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1689,7 +876,7 @@ func (x *TableRole) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TableRole.ProtoReflect.Descriptor instead.
 func (*TableRole) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{34}
+	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *TableRole) GetId() int64 {
@@ -1744,7 +931,7 @@ type GetTableRoleByIdRequest struct {
 
 func (x *GetTableRoleByIdRequest) Reset() {
 	*x = GetTableRoleByIdRequest{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[35]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1756,7 +943,7 @@ func (x *GetTableRoleByIdRequest) String() string {
 func (*GetTableRoleByIdRequest) ProtoMessage() {}
 
 func (x *GetTableRoleByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[35]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1769,7 +956,7 @@ func (x *GetTableRoleByIdRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetTableRoleByIdRequest.ProtoReflect.Descriptor instead.
 func (*GetTableRoleByIdRequest) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{35}
+	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *GetTableRoleByIdRequest) GetId() int64 {
@@ -1789,7 +976,7 @@ type GetTableRoleByIdResponse struct {
 
 func (x *GetTableRoleByIdResponse) Reset() {
 	*x = GetTableRoleByIdResponse{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[36]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[19]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1801,7 +988,7 @@ func (x *GetTableRoleByIdResponse) String() string {
 func (*GetTableRoleByIdResponse) ProtoMessage() {}
 
 func (x *GetTableRoleByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[36]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[19]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1814,7 +1001,7 @@ func (x *GetTableRoleByIdResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetTableRoleByIdResponse.ProtoReflect.Descriptor instead.
 func (*GetTableRoleByIdResponse) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{36}
+	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{19}
 }
 
 func (x *GetTableRoleByIdResponse) GetTableRole() *TableRole {
@@ -1833,7 +1020,7 @@ type GetTableRolesRequest struct {
 
 func (x *GetTableRolesRequest) Reset() {
 	*x = GetTableRolesRequest{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[37]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1845,7 +1032,7 @@ func (x *GetTableRolesRequest) String() string {
 func (*GetTableRolesRequest) ProtoMessage() {}
 
 func (x *GetTableRolesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[37]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1858,7 +1045,7 @@ func (x *GetTableRolesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetTableRolesRequest.ProtoReflect.Descriptor instead.
 func (*GetTableRolesRequest) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{37}
+	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{20}
 }
 
 // GetTableRolesResponse returns every active dc.table_roles row (query GetTableRoles).
@@ -1871,7 +1058,7 @@ type GetTableRolesResponse struct {
 
 func (x *GetTableRolesResponse) Reset() {
 	*x = GetTableRolesResponse{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[38]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[21]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1883,7 +1070,7 @@ func (x *GetTableRolesResponse) String() string {
 func (*GetTableRolesResponse) ProtoMessage() {}
 
 func (x *GetTableRolesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[38]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[21]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1896,7 +1083,7 @@ func (x *GetTableRolesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetTableRolesResponse.ProtoReflect.Descriptor instead.
 func (*GetTableRolesResponse) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{38}
+	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{21}
 }
 
 func (x *GetTableRolesResponse) GetTableRoles() []*TableRole {
@@ -1916,7 +1103,7 @@ type GetDeletedTableRoleByIdRequest struct {
 
 func (x *GetDeletedTableRoleByIdRequest) Reset() {
 	*x = GetDeletedTableRoleByIdRequest{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[39]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[22]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1928,7 +1115,7 @@ func (x *GetDeletedTableRoleByIdRequest) String() string {
 func (*GetDeletedTableRoleByIdRequest) ProtoMessage() {}
 
 func (x *GetDeletedTableRoleByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[39]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[22]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1941,7 +1128,7 @@ func (x *GetDeletedTableRoleByIdRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetDeletedTableRoleByIdRequest.ProtoReflect.Descriptor instead.
 func (*GetDeletedTableRoleByIdRequest) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{39}
+	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{22}
 }
 
 func (x *GetDeletedTableRoleByIdRequest) GetId() int64 {
@@ -1961,7 +1148,7 @@ type GetDeletedTableRoleByIdResponse struct {
 
 func (x *GetDeletedTableRoleByIdResponse) Reset() {
 	*x = GetDeletedTableRoleByIdResponse{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[40]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[23]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1973,7 +1160,7 @@ func (x *GetDeletedTableRoleByIdResponse) String() string {
 func (*GetDeletedTableRoleByIdResponse) ProtoMessage() {}
 
 func (x *GetDeletedTableRoleByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[40]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[23]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1986,7 +1173,7 @@ func (x *GetDeletedTableRoleByIdResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetDeletedTableRoleByIdResponse.ProtoReflect.Descriptor instead.
 func (*GetDeletedTableRoleByIdResponse) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{40}
+	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{23}
 }
 
 func (x *GetDeletedTableRoleByIdResponse) GetTableRole() *TableRole {
@@ -2005,7 +1192,7 @@ type GetDeletedTableRolesRequest struct {
 
 func (x *GetDeletedTableRolesRequest) Reset() {
 	*x = GetDeletedTableRolesRequest{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[41]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[24]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2017,7 +1204,7 @@ func (x *GetDeletedTableRolesRequest) String() string {
 func (*GetDeletedTableRolesRequest) ProtoMessage() {}
 
 func (x *GetDeletedTableRolesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[41]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[24]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2030,7 +1217,7 @@ func (x *GetDeletedTableRolesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetDeletedTableRolesRequest.ProtoReflect.Descriptor instead.
 func (*GetDeletedTableRolesRequest) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{41}
+	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{24}
 }
 
 // GetDeletedTableRolesResponse returns every soft deleted dc.table_roles row (query GetDeletedTableRoles).
@@ -2043,7 +1230,7 @@ type GetDeletedTableRolesResponse struct {
 
 func (x *GetDeletedTableRolesResponse) Reset() {
 	*x = GetDeletedTableRolesResponse{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[42]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[25]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2055,7 +1242,7 @@ func (x *GetDeletedTableRolesResponse) String() string {
 func (*GetDeletedTableRolesResponse) ProtoMessage() {}
 
 func (x *GetDeletedTableRolesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[42]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[25]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2068,7 +1255,7 @@ func (x *GetDeletedTableRolesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetDeletedTableRolesResponse.ProtoReflect.Descriptor instead.
 func (*GetDeletedTableRolesResponse) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{42}
+	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{25}
 }
 
 func (x *GetDeletedTableRolesResponse) GetTableRoles() []*TableRole {
@@ -2089,7 +1276,7 @@ type CreateTableRoleRequest struct {
 
 func (x *CreateTableRoleRequest) Reset() {
 	*x = CreateTableRoleRequest{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[43]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[26]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2101,7 +1288,7 @@ func (x *CreateTableRoleRequest) String() string {
 func (*CreateTableRoleRequest) ProtoMessage() {}
 
 func (x *CreateTableRoleRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[43]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[26]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2114,7 +1301,7 @@ func (x *CreateTableRoleRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateTableRoleRequest.ProtoReflect.Descriptor instead.
 func (*CreateTableRoleRequest) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{43}
+	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{26}
 }
 
 func (x *CreateTableRoleRequest) GetName() string {
@@ -2141,7 +1328,7 @@ type CreateTableRoleResponse struct {
 
 func (x *CreateTableRoleResponse) Reset() {
 	*x = CreateTableRoleResponse{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[44]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[27]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2153,7 +1340,7 @@ func (x *CreateTableRoleResponse) String() string {
 func (*CreateTableRoleResponse) ProtoMessage() {}
 
 func (x *CreateTableRoleResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[44]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[27]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2166,7 +1353,7 @@ func (x *CreateTableRoleResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateTableRoleResponse.ProtoReflect.Descriptor instead.
 func (*CreateTableRoleResponse) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{44}
+	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{27}
 }
 
 func (x *CreateTableRoleResponse) GetTableRole() *TableRole {
@@ -2188,7 +1375,7 @@ type UpdateTableRoleByIdRequest struct {
 
 func (x *UpdateTableRoleByIdRequest) Reset() {
 	*x = UpdateTableRoleByIdRequest{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[45]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[28]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2200,7 +1387,7 @@ func (x *UpdateTableRoleByIdRequest) String() string {
 func (*UpdateTableRoleByIdRequest) ProtoMessage() {}
 
 func (x *UpdateTableRoleByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[45]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[28]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2213,7 +1400,7 @@ func (x *UpdateTableRoleByIdRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateTableRoleByIdRequest.ProtoReflect.Descriptor instead.
 func (*UpdateTableRoleByIdRequest) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{45}
+	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{28}
 }
 
 func (x *UpdateTableRoleByIdRequest) GetId() int64 {
@@ -2247,7 +1434,7 @@ type UpdateTableRoleByIdResponse struct {
 
 func (x *UpdateTableRoleByIdResponse) Reset() {
 	*x = UpdateTableRoleByIdResponse{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[46]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[29]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2259,7 +1446,7 @@ func (x *UpdateTableRoleByIdResponse) String() string {
 func (*UpdateTableRoleByIdResponse) ProtoMessage() {}
 
 func (x *UpdateTableRoleByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[46]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[29]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2272,7 +1459,7 @@ func (x *UpdateTableRoleByIdResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateTableRoleByIdResponse.ProtoReflect.Descriptor instead.
 func (*UpdateTableRoleByIdResponse) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{46}
+	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{29}
 }
 
 func (x *UpdateTableRoleByIdResponse) GetTableRole() *TableRole {
@@ -2292,7 +1479,7 @@ type DeleteTableRoleByIdRequest struct {
 
 func (x *DeleteTableRoleByIdRequest) Reset() {
 	*x = DeleteTableRoleByIdRequest{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[47]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[30]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2304,7 +1491,7 @@ func (x *DeleteTableRoleByIdRequest) String() string {
 func (*DeleteTableRoleByIdRequest) ProtoMessage() {}
 
 func (x *DeleteTableRoleByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[47]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[30]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2317,7 +1504,7 @@ func (x *DeleteTableRoleByIdRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteTableRoleByIdRequest.ProtoReflect.Descriptor instead.
 func (*DeleteTableRoleByIdRequest) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{47}
+	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{30}
 }
 
 func (x *DeleteTableRoleByIdRequest) GetId() int64 {
@@ -2337,7 +1524,7 @@ type DeleteTableRoleByIdResponse struct {
 
 func (x *DeleteTableRoleByIdResponse) Reset() {
 	*x = DeleteTableRoleByIdResponse{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[48]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[31]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2349,7 +1536,7 @@ func (x *DeleteTableRoleByIdResponse) String() string {
 func (*DeleteTableRoleByIdResponse) ProtoMessage() {}
 
 func (x *DeleteTableRoleByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[48]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[31]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2362,7 +1549,7 @@ func (x *DeleteTableRoleByIdResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteTableRoleByIdResponse.ProtoReflect.Descriptor instead.
 func (*DeleteTableRoleByIdResponse) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{48}
+	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{31}
 }
 
 func (x *DeleteTableRoleByIdResponse) GetEmpty() *emptypb.Empty {
@@ -2382,7 +1569,7 @@ type UndeleteTableRoleByIdRequest struct {
 
 func (x *UndeleteTableRoleByIdRequest) Reset() {
 	*x = UndeleteTableRoleByIdRequest{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[49]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[32]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2394,7 +1581,7 @@ func (x *UndeleteTableRoleByIdRequest) String() string {
 func (*UndeleteTableRoleByIdRequest) ProtoMessage() {}
 
 func (x *UndeleteTableRoleByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[49]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[32]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2407,7 +1594,7 @@ func (x *UndeleteTableRoleByIdRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UndeleteTableRoleByIdRequest.ProtoReflect.Descriptor instead.
 func (*UndeleteTableRoleByIdRequest) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{49}
+	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{32}
 }
 
 func (x *UndeleteTableRoleByIdRequest) GetId() int64 {
@@ -2427,7 +1614,7 @@ type UndeleteTableRoleByIdResponse struct {
 
 func (x *UndeleteTableRoleByIdResponse) Reset() {
 	*x = UndeleteTableRoleByIdResponse{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[50]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[33]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2439,7 +1626,7 @@ func (x *UndeleteTableRoleByIdResponse) String() string {
 func (*UndeleteTableRoleByIdResponse) ProtoMessage() {}
 
 func (x *UndeleteTableRoleByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[50]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[33]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2452,823 +1639,10 @@ func (x *UndeleteTableRoleByIdResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UndeleteTableRoleByIdResponse.ProtoReflect.Descriptor instead.
 func (*UndeleteTableRoleByIdResponse) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{50}
+	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{33}
 }
 
 func (x *UndeleteTableRoleByIdResponse) GetEmpty() *emptypb.Empty {
-	if x != nil {
-		return x.Empty
-	}
-	return nil
-}
-
-// TablesTableRole is a full row of dc.tables_table_roles.
-type TablesTableRole struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	TableCatId    int64                  `protobuf:"varint,2,opt,name=table_cat_id,json=tableCatId,proto3" json:"table_cat_id,omitempty"`
-	TableRolesId  int64                  `protobuf:"varint,3,opt,name=table_roles_id,json=tableRolesId,proto3" json:"table_roles_id,omitempty"`
-	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
-	IsDeleted     bool                   `protobuf:"varint,6,opt,name=is_deleted,json=isDeleted,proto3" json:"is_deleted,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *TablesTableRole) Reset() {
-	*x = TablesTableRole{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[51]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *TablesTableRole) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*TablesTableRole) ProtoMessage() {}
-
-func (x *TablesTableRole) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[51]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use TablesTableRole.ProtoReflect.Descriptor instead.
-func (*TablesTableRole) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{51}
-}
-
-func (x *TablesTableRole) GetId() int64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
-}
-
-func (x *TablesTableRole) GetTableCatId() int64 {
-	if x != nil {
-		return x.TableCatId
-	}
-	return 0
-}
-
-func (x *TablesTableRole) GetTableRolesId() int64 {
-	if x != nil {
-		return x.TableRolesId
-	}
-	return 0
-}
-
-func (x *TablesTableRole) GetCreatedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.CreatedAt
-	}
-	return nil
-}
-
-func (x *TablesTableRole) GetUpdatedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.UpdatedAt
-	}
-	return nil
-}
-
-func (x *TablesTableRole) GetIsDeleted() bool {
-	if x != nil {
-		return x.IsDeleted
-	}
-	return false
-}
-
-// GetTablesTableRoleByIdRequest asks for a single active dc.tables_table_roles row by id (query GetTablesTableRoleById).
-type GetTablesTableRoleByIdRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *GetTablesTableRoleByIdRequest) Reset() {
-	*x = GetTablesTableRoleByIdRequest{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[52]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *GetTablesTableRoleByIdRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetTablesTableRoleByIdRequest) ProtoMessage() {}
-
-func (x *GetTablesTableRoleByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[52]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetTablesTableRoleByIdRequest.ProtoReflect.Descriptor instead.
-func (*GetTablesTableRoleByIdRequest) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{52}
-}
-
-func (x *GetTablesTableRoleByIdRequest) GetId() int64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
-}
-
-// GetTablesTableRoleByIdResponse returns a single active dc.tables_table_roles row (query GetTablesTableRoleById).
-type GetTablesTableRoleByIdResponse struct {
-	state           protoimpl.MessageState `protogen:"open.v1"`
-	TablesTableRole *TablesTableRole       `protobuf:"bytes,1,opt,name=tables_table_role,json=tablesTableRole,proto3" json:"tables_table_role,omitempty"`
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
-}
-
-func (x *GetTablesTableRoleByIdResponse) Reset() {
-	*x = GetTablesTableRoleByIdResponse{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[53]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *GetTablesTableRoleByIdResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetTablesTableRoleByIdResponse) ProtoMessage() {}
-
-func (x *GetTablesTableRoleByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[53]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetTablesTableRoleByIdResponse.ProtoReflect.Descriptor instead.
-func (*GetTablesTableRoleByIdResponse) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{53}
-}
-
-func (x *GetTablesTableRoleByIdResponse) GetTablesTableRole() *TablesTableRole {
-	if x != nil {
-		return x.TablesTableRole
-	}
-	return nil
-}
-
-// GetTablesTableRolesRequest asks for every active dc.tables_table_roles row (query GetTablesTableRoles).
-type GetTablesTableRolesRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *GetTablesTableRolesRequest) Reset() {
-	*x = GetTablesTableRolesRequest{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[54]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *GetTablesTableRolesRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetTablesTableRolesRequest) ProtoMessage() {}
-
-func (x *GetTablesTableRolesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[54]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetTablesTableRolesRequest.ProtoReflect.Descriptor instead.
-func (*GetTablesTableRolesRequest) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{54}
-}
-
-// GetTablesTableRolesResponse returns every active dc.tables_table_roles row (query GetTablesTableRoles).
-type GetTablesTableRolesResponse struct {
-	state            protoimpl.MessageState `protogen:"open.v1"`
-	TablesTableRoles []*TablesTableRole     `protobuf:"bytes,1,rep,name=tables_table_roles,json=tablesTableRoles,proto3" json:"tables_table_roles,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
-}
-
-func (x *GetTablesTableRolesResponse) Reset() {
-	*x = GetTablesTableRolesResponse{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[55]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *GetTablesTableRolesResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetTablesTableRolesResponse) ProtoMessage() {}
-
-func (x *GetTablesTableRolesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[55]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetTablesTableRolesResponse.ProtoReflect.Descriptor instead.
-func (*GetTablesTableRolesResponse) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{55}
-}
-
-func (x *GetTablesTableRolesResponse) GetTablesTableRoles() []*TablesTableRole {
-	if x != nil {
-		return x.TablesTableRoles
-	}
-	return nil
-}
-
-// GetDeletedTablesTableRoleByIdRequest asks for a single soft deleted dc.tables_table_roles row by id (query GetDeletedTablesTableRoleById).
-type GetDeletedTablesTableRoleByIdRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *GetDeletedTablesTableRoleByIdRequest) Reset() {
-	*x = GetDeletedTablesTableRoleByIdRequest{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[56]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *GetDeletedTablesTableRoleByIdRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetDeletedTablesTableRoleByIdRequest) ProtoMessage() {}
-
-func (x *GetDeletedTablesTableRoleByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[56]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetDeletedTablesTableRoleByIdRequest.ProtoReflect.Descriptor instead.
-func (*GetDeletedTablesTableRoleByIdRequest) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{56}
-}
-
-func (x *GetDeletedTablesTableRoleByIdRequest) GetId() int64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
-}
-
-// GetDeletedTablesTableRoleByIdResponse returns a single soft deleted dc.tables_table_roles row (query GetDeletedTablesTableRoleById).
-type GetDeletedTablesTableRoleByIdResponse struct {
-	state           protoimpl.MessageState `protogen:"open.v1"`
-	TablesTableRole *TablesTableRole       `protobuf:"bytes,1,opt,name=tables_table_role,json=tablesTableRole,proto3" json:"tables_table_role,omitempty"`
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
-}
-
-func (x *GetDeletedTablesTableRoleByIdResponse) Reset() {
-	*x = GetDeletedTablesTableRoleByIdResponse{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[57]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *GetDeletedTablesTableRoleByIdResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetDeletedTablesTableRoleByIdResponse) ProtoMessage() {}
-
-func (x *GetDeletedTablesTableRoleByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[57]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetDeletedTablesTableRoleByIdResponse.ProtoReflect.Descriptor instead.
-func (*GetDeletedTablesTableRoleByIdResponse) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{57}
-}
-
-func (x *GetDeletedTablesTableRoleByIdResponse) GetTablesTableRole() *TablesTableRole {
-	if x != nil {
-		return x.TablesTableRole
-	}
-	return nil
-}
-
-// GetDeletedTablesTableRolesRequest asks for every soft deleted dc.tables_table_roles row (query GetDeletedTablesTableRoles).
-type GetDeletedTablesTableRolesRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *GetDeletedTablesTableRolesRequest) Reset() {
-	*x = GetDeletedTablesTableRolesRequest{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[58]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *GetDeletedTablesTableRolesRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetDeletedTablesTableRolesRequest) ProtoMessage() {}
-
-func (x *GetDeletedTablesTableRolesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[58]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetDeletedTablesTableRolesRequest.ProtoReflect.Descriptor instead.
-func (*GetDeletedTablesTableRolesRequest) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{58}
-}
-
-// GetDeletedTablesTableRolesResponse returns every soft deleted dc.tables_table_roles row (query GetDeletedTablesTableRoles).
-type GetDeletedTablesTableRolesResponse struct {
-	state            protoimpl.MessageState `protogen:"open.v1"`
-	TablesTableRoles []*TablesTableRole     `protobuf:"bytes,1,rep,name=tables_table_roles,json=tablesTableRoles,proto3" json:"tables_table_roles,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
-}
-
-func (x *GetDeletedTablesTableRolesResponse) Reset() {
-	*x = GetDeletedTablesTableRolesResponse{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[59]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *GetDeletedTablesTableRolesResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetDeletedTablesTableRolesResponse) ProtoMessage() {}
-
-func (x *GetDeletedTablesTableRolesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[59]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetDeletedTablesTableRolesResponse.ProtoReflect.Descriptor instead.
-func (*GetDeletedTablesTableRolesResponse) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{59}
-}
-
-func (x *GetDeletedTablesTableRolesResponse) GetTablesTableRoles() []*TablesTableRole {
-	if x != nil {
-		return x.TablesTableRoles
-	}
-	return nil
-}
-
-// CreateTablesTableRoleRequest carries the fields needed to insert a dc.tables_table_roles row (query CreateTablesTableRole).
-type CreateTablesTableRoleRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	TableCatId    int64                  `protobuf:"varint,1,opt,name=table_cat_id,json=tableCatId,proto3" json:"table_cat_id,omitempty"`
-	TableRolesId  int64                  `protobuf:"varint,2,opt,name=table_roles_id,json=tableRolesId,proto3" json:"table_roles_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *CreateTablesTableRoleRequest) Reset() {
-	*x = CreateTablesTableRoleRequest{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[60]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *CreateTablesTableRoleRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*CreateTablesTableRoleRequest) ProtoMessage() {}
-
-func (x *CreateTablesTableRoleRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[60]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CreateTablesTableRoleRequest.ProtoReflect.Descriptor instead.
-func (*CreateTablesTableRoleRequest) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{60}
-}
-
-func (x *CreateTablesTableRoleRequest) GetTableCatId() int64 {
-	if x != nil {
-		return x.TableCatId
-	}
-	return 0
-}
-
-func (x *CreateTablesTableRoleRequest) GetTableRolesId() int64 {
-	if x != nil {
-		return x.TableRolesId
-	}
-	return 0
-}
-
-// CreateTablesTableRoleResponse returns the created dc.tables_table_roles row (query CreateTablesTableRole).
-type CreateTablesTableRoleResponse struct {
-	state           protoimpl.MessageState `protogen:"open.v1"`
-	TablesTableRole *TablesTableRole       `protobuf:"bytes,1,opt,name=tables_table_role,json=tablesTableRole,proto3" json:"tables_table_role,omitempty"`
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
-}
-
-func (x *CreateTablesTableRoleResponse) Reset() {
-	*x = CreateTablesTableRoleResponse{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[61]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *CreateTablesTableRoleResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*CreateTablesTableRoleResponse) ProtoMessage() {}
-
-func (x *CreateTablesTableRoleResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[61]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CreateTablesTableRoleResponse.ProtoReflect.Descriptor instead.
-func (*CreateTablesTableRoleResponse) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{61}
-}
-
-func (x *CreateTablesTableRoleResponse) GetTablesTableRole() *TablesTableRole {
-	if x != nil {
-		return x.TablesTableRole
-	}
-	return nil
-}
-
-// UpdateTablesTableRoleByIdRequest carries the fields to update on a dc.tables_table_roles row (query UpdateTablesTableRoleById).
-type UpdateTablesTableRoleByIdRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	TableCatId    int64                  `protobuf:"varint,2,opt,name=table_cat_id,json=tableCatId,proto3" json:"table_cat_id,omitempty"`
-	TableRolesId  int64                  `protobuf:"varint,3,opt,name=table_roles_id,json=tableRolesId,proto3" json:"table_roles_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *UpdateTablesTableRoleByIdRequest) Reset() {
-	*x = UpdateTablesTableRoleByIdRequest{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[62]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UpdateTablesTableRoleByIdRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UpdateTablesTableRoleByIdRequest) ProtoMessage() {}
-
-func (x *UpdateTablesTableRoleByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[62]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdateTablesTableRoleByIdRequest.ProtoReflect.Descriptor instead.
-func (*UpdateTablesTableRoleByIdRequest) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{62}
-}
-
-func (x *UpdateTablesTableRoleByIdRequest) GetId() int64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
-}
-
-func (x *UpdateTablesTableRoleByIdRequest) GetTableCatId() int64 {
-	if x != nil {
-		return x.TableCatId
-	}
-	return 0
-}
-
-func (x *UpdateTablesTableRoleByIdRequest) GetTableRolesId() int64 {
-	if x != nil {
-		return x.TableRolesId
-	}
-	return 0
-}
-
-// UpdateTablesTableRoleByIdResponse returns the updated dc.tables_table_roles row (query UpdateTablesTableRoleById).
-type UpdateTablesTableRoleByIdResponse struct {
-	state           protoimpl.MessageState `protogen:"open.v1"`
-	TablesTableRole *TablesTableRole       `protobuf:"bytes,1,opt,name=tables_table_role,json=tablesTableRole,proto3" json:"tables_table_role,omitempty"`
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
-}
-
-func (x *UpdateTablesTableRoleByIdResponse) Reset() {
-	*x = UpdateTablesTableRoleByIdResponse{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[63]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UpdateTablesTableRoleByIdResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UpdateTablesTableRoleByIdResponse) ProtoMessage() {}
-
-func (x *UpdateTablesTableRoleByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[63]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdateTablesTableRoleByIdResponse.ProtoReflect.Descriptor instead.
-func (*UpdateTablesTableRoleByIdResponse) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{63}
-}
-
-func (x *UpdateTablesTableRoleByIdResponse) GetTablesTableRole() *TablesTableRole {
-	if x != nil {
-		return x.TablesTableRole
-	}
-	return nil
-}
-
-// DeleteTablesTableRoleByIdRequest asks to soft delete a dc.tables_table_roles row by id, setting is_deleted = true (query DeleteTablesTableRoleById).
-type DeleteTablesTableRoleByIdRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DeleteTablesTableRoleByIdRequest) Reset() {
-	*x = DeleteTablesTableRoleByIdRequest{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[64]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DeleteTablesTableRoleByIdRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DeleteTablesTableRoleByIdRequest) ProtoMessage() {}
-
-func (x *DeleteTablesTableRoleByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[64]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DeleteTablesTableRoleByIdRequest.ProtoReflect.Descriptor instead.
-func (*DeleteTablesTableRoleByIdRequest) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{64}
-}
-
-func (x *DeleteTablesTableRoleByIdRequest) GetId() int64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
-}
-
-// DeleteTablesTableRoleByIdResponse carries no payload (query DeleteTablesTableRoleById).
-type DeleteTablesTableRoleByIdResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Empty         *emptypb.Empty         `protobuf:"bytes,1,opt,name=empty,proto3" json:"empty,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DeleteTablesTableRoleByIdResponse) Reset() {
-	*x = DeleteTablesTableRoleByIdResponse{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[65]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DeleteTablesTableRoleByIdResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DeleteTablesTableRoleByIdResponse) ProtoMessage() {}
-
-func (x *DeleteTablesTableRoleByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[65]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DeleteTablesTableRoleByIdResponse.ProtoReflect.Descriptor instead.
-func (*DeleteTablesTableRoleByIdResponse) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{65}
-}
-
-func (x *DeleteTablesTableRoleByIdResponse) GetEmpty() *emptypb.Empty {
-	if x != nil {
-		return x.Empty
-	}
-	return nil
-}
-
-// UndeleteTablesTableRoleByIdRequest asks to restore a soft deleted dc.tables_table_roles row by id, setting is_deleted = false (query UndeleteTablesTableRoleById).
-type UndeleteTablesTableRoleByIdRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *UndeleteTablesTableRoleByIdRequest) Reset() {
-	*x = UndeleteTablesTableRoleByIdRequest{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[66]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UndeleteTablesTableRoleByIdRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UndeleteTablesTableRoleByIdRequest) ProtoMessage() {}
-
-func (x *UndeleteTablesTableRoleByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[66]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UndeleteTablesTableRoleByIdRequest.ProtoReflect.Descriptor instead.
-func (*UndeleteTablesTableRoleByIdRequest) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{66}
-}
-
-func (x *UndeleteTablesTableRoleByIdRequest) GetId() int64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
-}
-
-// UndeleteTablesTableRoleByIdResponse carries no payload (query UndeleteTablesTableRoleById).
-type UndeleteTablesTableRoleByIdResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Empty         *emptypb.Empty         `protobuf:"bytes,1,opt,name=empty,proto3" json:"empty,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *UndeleteTablesTableRoleByIdResponse) Reset() {
-	*x = UndeleteTablesTableRoleByIdResponse{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[67]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UndeleteTablesTableRoleByIdResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UndeleteTablesTableRoleByIdResponse) ProtoMessage() {}
-
-func (x *UndeleteTablesTableRoleByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[67]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UndeleteTablesTableRoleByIdResponse.ProtoReflect.Descriptor instead.
-func (*UndeleteTablesTableRoleByIdResponse) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{67}
-}
-
-func (x *UndeleteTablesTableRoleByIdResponse) GetEmpty() *emptypb.Empty {
 	if x != nil {
 		return x.Empty
 	}
@@ -3284,13 +1658,14 @@ type UserDomainRole struct {
 	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
 	IsDeleted     bool                   `protobuf:"varint,6,opt,name=is_deleted,json=isDeleted,proto3" json:"is_deleted,omitempty"`
+	DomainId      int64                  `protobuf:"varint,7,opt,name=domain_id,json=domainId,proto3" json:"domain_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *UserDomainRole) Reset() {
 	*x = UserDomainRole{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[68]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[34]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3302,7 +1677,7 @@ func (x *UserDomainRole) String() string {
 func (*UserDomainRole) ProtoMessage() {}
 
 func (x *UserDomainRole) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[68]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[34]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3315,7 +1690,7 @@ func (x *UserDomainRole) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UserDomainRole.ProtoReflect.Descriptor instead.
 func (*UserDomainRole) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{68}
+	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{34}
 }
 
 func (x *UserDomainRole) GetId() int64 {
@@ -3360,6 +1735,13 @@ func (x *UserDomainRole) GetIsDeleted() bool {
 	return false
 }
 
+func (x *UserDomainRole) GetDomainId() int64 {
+	if x != nil {
+		return x.DomainId
+	}
+	return 0
+}
+
 // GetUserDomainRoleByIdRequest asks for a single active dc.user_domain_roles row by id (query GetUserDomainRoleById).
 type GetUserDomainRoleByIdRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -3370,7 +1752,7 @@ type GetUserDomainRoleByIdRequest struct {
 
 func (x *GetUserDomainRoleByIdRequest) Reset() {
 	*x = GetUserDomainRoleByIdRequest{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[69]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[35]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3382,7 +1764,7 @@ func (x *GetUserDomainRoleByIdRequest) String() string {
 func (*GetUserDomainRoleByIdRequest) ProtoMessage() {}
 
 func (x *GetUserDomainRoleByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[69]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[35]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3395,7 +1777,7 @@ func (x *GetUserDomainRoleByIdRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUserDomainRoleByIdRequest.ProtoReflect.Descriptor instead.
 func (*GetUserDomainRoleByIdRequest) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{69}
+	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{35}
 }
 
 func (x *GetUserDomainRoleByIdRequest) GetId() int64 {
@@ -3415,7 +1797,7 @@ type GetUserDomainRoleByIdResponse struct {
 
 func (x *GetUserDomainRoleByIdResponse) Reset() {
 	*x = GetUserDomainRoleByIdResponse{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[70]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[36]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3427,7 +1809,7 @@ func (x *GetUserDomainRoleByIdResponse) String() string {
 func (*GetUserDomainRoleByIdResponse) ProtoMessage() {}
 
 func (x *GetUserDomainRoleByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[70]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[36]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3440,7 +1822,7 @@ func (x *GetUserDomainRoleByIdResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUserDomainRoleByIdResponse.ProtoReflect.Descriptor instead.
 func (*GetUserDomainRoleByIdResponse) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{70}
+	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{36}
 }
 
 func (x *GetUserDomainRoleByIdResponse) GetUserDomainRole() *UserDomainRole {
@@ -3459,7 +1841,7 @@ type GetUserDomainRolesRequest struct {
 
 func (x *GetUserDomainRolesRequest) Reset() {
 	*x = GetUserDomainRolesRequest{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[71]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[37]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3471,7 +1853,7 @@ func (x *GetUserDomainRolesRequest) String() string {
 func (*GetUserDomainRolesRequest) ProtoMessage() {}
 
 func (x *GetUserDomainRolesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[71]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[37]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3484,7 +1866,7 @@ func (x *GetUserDomainRolesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUserDomainRolesRequest.ProtoReflect.Descriptor instead.
 func (*GetUserDomainRolesRequest) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{71}
+	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{37}
 }
 
 // GetUserDomainRolesResponse returns every active dc.user_domain_roles row (query GetUserDomainRoles).
@@ -3497,7 +1879,7 @@ type GetUserDomainRolesResponse struct {
 
 func (x *GetUserDomainRolesResponse) Reset() {
 	*x = GetUserDomainRolesResponse{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[72]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[38]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3509,7 +1891,7 @@ func (x *GetUserDomainRolesResponse) String() string {
 func (*GetUserDomainRolesResponse) ProtoMessage() {}
 
 func (x *GetUserDomainRolesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[72]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[38]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3522,7 +1904,7 @@ func (x *GetUserDomainRolesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUserDomainRolesResponse.ProtoReflect.Descriptor instead.
 func (*GetUserDomainRolesResponse) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{72}
+	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{38}
 }
 
 func (x *GetUserDomainRolesResponse) GetUserDomainRoles() []*UserDomainRole {
@@ -3542,7 +1924,7 @@ type GetDeletedUserDomainRoleByIdRequest struct {
 
 func (x *GetDeletedUserDomainRoleByIdRequest) Reset() {
 	*x = GetDeletedUserDomainRoleByIdRequest{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[73]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[39]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3554,7 +1936,7 @@ func (x *GetDeletedUserDomainRoleByIdRequest) String() string {
 func (*GetDeletedUserDomainRoleByIdRequest) ProtoMessage() {}
 
 func (x *GetDeletedUserDomainRoleByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[73]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[39]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3567,7 +1949,7 @@ func (x *GetDeletedUserDomainRoleByIdRequest) ProtoReflect() protoreflect.Messag
 
 // Deprecated: Use GetDeletedUserDomainRoleByIdRequest.ProtoReflect.Descriptor instead.
 func (*GetDeletedUserDomainRoleByIdRequest) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{73}
+	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{39}
 }
 
 func (x *GetDeletedUserDomainRoleByIdRequest) GetId() int64 {
@@ -3587,7 +1969,7 @@ type GetDeletedUserDomainRoleByIdResponse struct {
 
 func (x *GetDeletedUserDomainRoleByIdResponse) Reset() {
 	*x = GetDeletedUserDomainRoleByIdResponse{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[74]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[40]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3599,7 +1981,7 @@ func (x *GetDeletedUserDomainRoleByIdResponse) String() string {
 func (*GetDeletedUserDomainRoleByIdResponse) ProtoMessage() {}
 
 func (x *GetDeletedUserDomainRoleByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[74]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[40]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3612,7 +1994,7 @@ func (x *GetDeletedUserDomainRoleByIdResponse) ProtoReflect() protoreflect.Messa
 
 // Deprecated: Use GetDeletedUserDomainRoleByIdResponse.ProtoReflect.Descriptor instead.
 func (*GetDeletedUserDomainRoleByIdResponse) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{74}
+	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{40}
 }
 
 func (x *GetDeletedUserDomainRoleByIdResponse) GetUserDomainRole() *UserDomainRole {
@@ -3631,7 +2013,7 @@ type GetDeletedUserDomainRolesRequest struct {
 
 func (x *GetDeletedUserDomainRolesRequest) Reset() {
 	*x = GetDeletedUserDomainRolesRequest{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[75]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[41]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3643,7 +2025,7 @@ func (x *GetDeletedUserDomainRolesRequest) String() string {
 func (*GetDeletedUserDomainRolesRequest) ProtoMessage() {}
 
 func (x *GetDeletedUserDomainRolesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[75]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[41]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3656,7 +2038,7 @@ func (x *GetDeletedUserDomainRolesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetDeletedUserDomainRolesRequest.ProtoReflect.Descriptor instead.
 func (*GetDeletedUserDomainRolesRequest) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{75}
+	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{41}
 }
 
 // GetDeletedUserDomainRolesResponse returns every soft deleted dc.user_domain_roles row (query GetDeletedUserDomainRoles).
@@ -3669,7 +2051,7 @@ type GetDeletedUserDomainRolesResponse struct {
 
 func (x *GetDeletedUserDomainRolesResponse) Reset() {
 	*x = GetDeletedUserDomainRolesResponse{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[76]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[42]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3681,7 +2063,7 @@ func (x *GetDeletedUserDomainRolesResponse) String() string {
 func (*GetDeletedUserDomainRolesResponse) ProtoMessage() {}
 
 func (x *GetDeletedUserDomainRolesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[76]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[42]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3694,7 +2076,7 @@ func (x *GetDeletedUserDomainRolesResponse) ProtoReflect() protoreflect.Message 
 
 // Deprecated: Use GetDeletedUserDomainRolesResponse.ProtoReflect.Descriptor instead.
 func (*GetDeletedUserDomainRolesResponse) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{76}
+	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{42}
 }
 
 func (x *GetDeletedUserDomainRolesResponse) GetUserDomainRoles() []*UserDomainRole {
@@ -3709,13 +2091,14 @@ type CreateUserDomainRoleRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	DomainRolesId int64                  `protobuf:"varint,2,opt,name=domain_roles_id,json=domainRolesId,proto3" json:"domain_roles_id,omitempty"`
+	DomainId      int64                  `protobuf:"varint,3,opt,name=domain_id,json=domainId,proto3" json:"domain_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *CreateUserDomainRoleRequest) Reset() {
 	*x = CreateUserDomainRoleRequest{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[77]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[43]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3727,7 +2110,7 @@ func (x *CreateUserDomainRoleRequest) String() string {
 func (*CreateUserDomainRoleRequest) ProtoMessage() {}
 
 func (x *CreateUserDomainRoleRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[77]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[43]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3740,7 +2123,7 @@ func (x *CreateUserDomainRoleRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateUserDomainRoleRequest.ProtoReflect.Descriptor instead.
 func (*CreateUserDomainRoleRequest) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{77}
+	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{43}
 }
 
 func (x *CreateUserDomainRoleRequest) GetUserId() int64 {
@@ -3757,6 +2140,13 @@ func (x *CreateUserDomainRoleRequest) GetDomainRolesId() int64 {
 	return 0
 }
 
+func (x *CreateUserDomainRoleRequest) GetDomainId() int64 {
+	if x != nil {
+		return x.DomainId
+	}
+	return 0
+}
+
 // CreateUserDomainRoleResponse returns the created dc.user_domain_roles row (query CreateUserDomainRole).
 type CreateUserDomainRoleResponse struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
@@ -3767,7 +2157,7 @@ type CreateUserDomainRoleResponse struct {
 
 func (x *CreateUserDomainRoleResponse) Reset() {
 	*x = CreateUserDomainRoleResponse{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[78]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[44]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3779,7 +2169,7 @@ func (x *CreateUserDomainRoleResponse) String() string {
 func (*CreateUserDomainRoleResponse) ProtoMessage() {}
 
 func (x *CreateUserDomainRoleResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[78]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[44]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3792,7 +2182,7 @@ func (x *CreateUserDomainRoleResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateUserDomainRoleResponse.ProtoReflect.Descriptor instead.
 func (*CreateUserDomainRoleResponse) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{78}
+	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{44}
 }
 
 func (x *CreateUserDomainRoleResponse) GetUserDomainRole() *UserDomainRole {
@@ -3808,13 +2198,14 @@ type UpdateUserDomainRoleByIdRequest struct {
 	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	UserId        int64                  `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	DomainRolesId int64                  `protobuf:"varint,3,opt,name=domain_roles_id,json=domainRolesId,proto3" json:"domain_roles_id,omitempty"`
+	DomainId      int64                  `protobuf:"varint,4,opt,name=domain_id,json=domainId,proto3" json:"domain_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *UpdateUserDomainRoleByIdRequest) Reset() {
 	*x = UpdateUserDomainRoleByIdRequest{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[79]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[45]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3826,7 +2217,7 @@ func (x *UpdateUserDomainRoleByIdRequest) String() string {
 func (*UpdateUserDomainRoleByIdRequest) ProtoMessage() {}
 
 func (x *UpdateUserDomainRoleByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[79]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[45]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3839,7 +2230,7 @@ func (x *UpdateUserDomainRoleByIdRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateUserDomainRoleByIdRequest.ProtoReflect.Descriptor instead.
 func (*UpdateUserDomainRoleByIdRequest) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{79}
+	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{45}
 }
 
 func (x *UpdateUserDomainRoleByIdRequest) GetId() int64 {
@@ -3863,6 +2254,13 @@ func (x *UpdateUserDomainRoleByIdRequest) GetDomainRolesId() int64 {
 	return 0
 }
 
+func (x *UpdateUserDomainRoleByIdRequest) GetDomainId() int64 {
+	if x != nil {
+		return x.DomainId
+	}
+	return 0
+}
+
 // UpdateUserDomainRoleByIdResponse returns the updated dc.user_domain_roles row (query UpdateUserDomainRoleById).
 type UpdateUserDomainRoleByIdResponse struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
@@ -3873,7 +2271,7 @@ type UpdateUserDomainRoleByIdResponse struct {
 
 func (x *UpdateUserDomainRoleByIdResponse) Reset() {
 	*x = UpdateUserDomainRoleByIdResponse{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[80]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[46]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3885,7 +2283,7 @@ func (x *UpdateUserDomainRoleByIdResponse) String() string {
 func (*UpdateUserDomainRoleByIdResponse) ProtoMessage() {}
 
 func (x *UpdateUserDomainRoleByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[80]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[46]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3898,7 +2296,7 @@ func (x *UpdateUserDomainRoleByIdResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateUserDomainRoleByIdResponse.ProtoReflect.Descriptor instead.
 func (*UpdateUserDomainRoleByIdResponse) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{80}
+	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{46}
 }
 
 func (x *UpdateUserDomainRoleByIdResponse) GetUserDomainRole() *UserDomainRole {
@@ -3918,7 +2316,7 @@ type DeleteUserDomainRoleByIdRequest struct {
 
 func (x *DeleteUserDomainRoleByIdRequest) Reset() {
 	*x = DeleteUserDomainRoleByIdRequest{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[81]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[47]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3930,7 +2328,7 @@ func (x *DeleteUserDomainRoleByIdRequest) String() string {
 func (*DeleteUserDomainRoleByIdRequest) ProtoMessage() {}
 
 func (x *DeleteUserDomainRoleByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[81]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[47]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3943,7 +2341,7 @@ func (x *DeleteUserDomainRoleByIdRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteUserDomainRoleByIdRequest.ProtoReflect.Descriptor instead.
 func (*DeleteUserDomainRoleByIdRequest) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{81}
+	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{47}
 }
 
 func (x *DeleteUserDomainRoleByIdRequest) GetId() int64 {
@@ -3963,7 +2361,7 @@ type DeleteUserDomainRoleByIdResponse struct {
 
 func (x *DeleteUserDomainRoleByIdResponse) Reset() {
 	*x = DeleteUserDomainRoleByIdResponse{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[82]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[48]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3975,7 +2373,7 @@ func (x *DeleteUserDomainRoleByIdResponse) String() string {
 func (*DeleteUserDomainRoleByIdResponse) ProtoMessage() {}
 
 func (x *DeleteUserDomainRoleByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[82]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[48]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3988,7 +2386,7 @@ func (x *DeleteUserDomainRoleByIdResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteUserDomainRoleByIdResponse.ProtoReflect.Descriptor instead.
 func (*DeleteUserDomainRoleByIdResponse) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{82}
+	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{48}
 }
 
 func (x *DeleteUserDomainRoleByIdResponse) GetEmpty() *emptypb.Empty {
@@ -4008,7 +2406,7 @@ type UndeleteUserDomainRoleByIdRequest struct {
 
 func (x *UndeleteUserDomainRoleByIdRequest) Reset() {
 	*x = UndeleteUserDomainRoleByIdRequest{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[83]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[49]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4020,7 +2418,7 @@ func (x *UndeleteUserDomainRoleByIdRequest) String() string {
 func (*UndeleteUserDomainRoleByIdRequest) ProtoMessage() {}
 
 func (x *UndeleteUserDomainRoleByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[83]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[49]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4033,7 +2431,7 @@ func (x *UndeleteUserDomainRoleByIdRequest) ProtoReflect() protoreflect.Message 
 
 // Deprecated: Use UndeleteUserDomainRoleByIdRequest.ProtoReflect.Descriptor instead.
 func (*UndeleteUserDomainRoleByIdRequest) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{83}
+	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{49}
 }
 
 func (x *UndeleteUserDomainRoleByIdRequest) GetId() int64 {
@@ -4053,7 +2451,7 @@ type UndeleteUserDomainRoleByIdResponse struct {
 
 func (x *UndeleteUserDomainRoleByIdResponse) Reset() {
 	*x = UndeleteUserDomainRoleByIdResponse{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[84]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[50]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4065,7 +2463,7 @@ func (x *UndeleteUserDomainRoleByIdResponse) String() string {
 func (*UndeleteUserDomainRoleByIdResponse) ProtoMessage() {}
 
 func (x *UndeleteUserDomainRoleByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[84]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[50]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4078,7 +2476,7 @@ func (x *UndeleteUserDomainRoleByIdResponse) ProtoReflect() protoreflect.Message
 
 // Deprecated: Use UndeleteUserDomainRoleByIdResponse.ProtoReflect.Descriptor instead.
 func (*UndeleteUserDomainRoleByIdResponse) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{84}
+	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{50}
 }
 
 func (x *UndeleteUserDomainRoleByIdResponse) GetEmpty() *emptypb.Empty {
@@ -4097,13 +2495,14 @@ type UserTableRole struct {
 	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
 	IsDeleted     bool                   `protobuf:"varint,6,opt,name=is_deleted,json=isDeleted,proto3" json:"is_deleted,omitempty"`
+	TableId       int64                  `protobuf:"varint,7,opt,name=table_id,json=tableId,proto3" json:"table_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *UserTableRole) Reset() {
 	*x = UserTableRole{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[85]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[51]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4115,7 +2514,7 @@ func (x *UserTableRole) String() string {
 func (*UserTableRole) ProtoMessage() {}
 
 func (x *UserTableRole) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[85]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[51]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4128,7 +2527,7 @@ func (x *UserTableRole) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UserTableRole.ProtoReflect.Descriptor instead.
 func (*UserTableRole) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{85}
+	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{51}
 }
 
 func (x *UserTableRole) GetId() int64 {
@@ -4173,6 +2572,13 @@ func (x *UserTableRole) GetIsDeleted() bool {
 	return false
 }
 
+func (x *UserTableRole) GetTableId() int64 {
+	if x != nil {
+		return x.TableId
+	}
+	return 0
+}
+
 // GetUserTableRoleByIdRequest asks for a single active dc.user_table_roles row by id (query GetUserTableRoleById).
 type GetUserTableRoleByIdRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -4183,7 +2589,7 @@ type GetUserTableRoleByIdRequest struct {
 
 func (x *GetUserTableRoleByIdRequest) Reset() {
 	*x = GetUserTableRoleByIdRequest{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[86]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[52]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4195,7 +2601,7 @@ func (x *GetUserTableRoleByIdRequest) String() string {
 func (*GetUserTableRoleByIdRequest) ProtoMessage() {}
 
 func (x *GetUserTableRoleByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[86]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[52]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4208,7 +2614,7 @@ func (x *GetUserTableRoleByIdRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUserTableRoleByIdRequest.ProtoReflect.Descriptor instead.
 func (*GetUserTableRoleByIdRequest) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{86}
+	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{52}
 }
 
 func (x *GetUserTableRoleByIdRequest) GetId() int64 {
@@ -4228,7 +2634,7 @@ type GetUserTableRoleByIdResponse struct {
 
 func (x *GetUserTableRoleByIdResponse) Reset() {
 	*x = GetUserTableRoleByIdResponse{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[87]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[53]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4240,7 +2646,7 @@ func (x *GetUserTableRoleByIdResponse) String() string {
 func (*GetUserTableRoleByIdResponse) ProtoMessage() {}
 
 func (x *GetUserTableRoleByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[87]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[53]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4253,7 +2659,7 @@ func (x *GetUserTableRoleByIdResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUserTableRoleByIdResponse.ProtoReflect.Descriptor instead.
 func (*GetUserTableRoleByIdResponse) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{87}
+	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{53}
 }
 
 func (x *GetUserTableRoleByIdResponse) GetUserTableRole() *UserTableRole {
@@ -4272,7 +2678,7 @@ type GetUserTableRolesRequest struct {
 
 func (x *GetUserTableRolesRequest) Reset() {
 	*x = GetUserTableRolesRequest{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[88]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[54]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4284,7 +2690,7 @@ func (x *GetUserTableRolesRequest) String() string {
 func (*GetUserTableRolesRequest) ProtoMessage() {}
 
 func (x *GetUserTableRolesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[88]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[54]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4297,7 +2703,7 @@ func (x *GetUserTableRolesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUserTableRolesRequest.ProtoReflect.Descriptor instead.
 func (*GetUserTableRolesRequest) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{88}
+	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{54}
 }
 
 // GetUserTableRolesResponse returns every active dc.user_table_roles row (query GetUserTableRoles).
@@ -4310,7 +2716,7 @@ type GetUserTableRolesResponse struct {
 
 func (x *GetUserTableRolesResponse) Reset() {
 	*x = GetUserTableRolesResponse{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[89]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[55]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4322,7 +2728,7 @@ func (x *GetUserTableRolesResponse) String() string {
 func (*GetUserTableRolesResponse) ProtoMessage() {}
 
 func (x *GetUserTableRolesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[89]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[55]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4335,7 +2741,7 @@ func (x *GetUserTableRolesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUserTableRolesResponse.ProtoReflect.Descriptor instead.
 func (*GetUserTableRolesResponse) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{89}
+	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{55}
 }
 
 func (x *GetUserTableRolesResponse) GetUserTableRoles() []*UserTableRole {
@@ -4355,7 +2761,7 @@ type GetDeletedUserTableRoleByIdRequest struct {
 
 func (x *GetDeletedUserTableRoleByIdRequest) Reset() {
 	*x = GetDeletedUserTableRoleByIdRequest{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[90]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[56]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4367,7 +2773,7 @@ func (x *GetDeletedUserTableRoleByIdRequest) String() string {
 func (*GetDeletedUserTableRoleByIdRequest) ProtoMessage() {}
 
 func (x *GetDeletedUserTableRoleByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[90]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[56]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4380,7 +2786,7 @@ func (x *GetDeletedUserTableRoleByIdRequest) ProtoReflect() protoreflect.Message
 
 // Deprecated: Use GetDeletedUserTableRoleByIdRequest.ProtoReflect.Descriptor instead.
 func (*GetDeletedUserTableRoleByIdRequest) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{90}
+	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{56}
 }
 
 func (x *GetDeletedUserTableRoleByIdRequest) GetId() int64 {
@@ -4400,7 +2806,7 @@ type GetDeletedUserTableRoleByIdResponse struct {
 
 func (x *GetDeletedUserTableRoleByIdResponse) Reset() {
 	*x = GetDeletedUserTableRoleByIdResponse{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[91]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[57]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4412,7 +2818,7 @@ func (x *GetDeletedUserTableRoleByIdResponse) String() string {
 func (*GetDeletedUserTableRoleByIdResponse) ProtoMessage() {}
 
 func (x *GetDeletedUserTableRoleByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[91]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[57]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4425,7 +2831,7 @@ func (x *GetDeletedUserTableRoleByIdResponse) ProtoReflect() protoreflect.Messag
 
 // Deprecated: Use GetDeletedUserTableRoleByIdResponse.ProtoReflect.Descriptor instead.
 func (*GetDeletedUserTableRoleByIdResponse) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{91}
+	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{57}
 }
 
 func (x *GetDeletedUserTableRoleByIdResponse) GetUserTableRole() *UserTableRole {
@@ -4444,7 +2850,7 @@ type GetDeletedUserTableRolesRequest struct {
 
 func (x *GetDeletedUserTableRolesRequest) Reset() {
 	*x = GetDeletedUserTableRolesRequest{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[92]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[58]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4456,7 +2862,7 @@ func (x *GetDeletedUserTableRolesRequest) String() string {
 func (*GetDeletedUserTableRolesRequest) ProtoMessage() {}
 
 func (x *GetDeletedUserTableRolesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[92]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[58]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4469,7 +2875,7 @@ func (x *GetDeletedUserTableRolesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetDeletedUserTableRolesRequest.ProtoReflect.Descriptor instead.
 func (*GetDeletedUserTableRolesRequest) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{92}
+	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{58}
 }
 
 // GetDeletedUserTableRolesResponse returns every soft deleted dc.user_table_roles row (query GetDeletedUserTableRoles).
@@ -4482,7 +2888,7 @@ type GetDeletedUserTableRolesResponse struct {
 
 func (x *GetDeletedUserTableRolesResponse) Reset() {
 	*x = GetDeletedUserTableRolesResponse{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[93]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[59]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4494,7 +2900,7 @@ func (x *GetDeletedUserTableRolesResponse) String() string {
 func (*GetDeletedUserTableRolesResponse) ProtoMessage() {}
 
 func (x *GetDeletedUserTableRolesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[93]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[59]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4507,7 +2913,7 @@ func (x *GetDeletedUserTableRolesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetDeletedUserTableRolesResponse.ProtoReflect.Descriptor instead.
 func (*GetDeletedUserTableRolesResponse) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{93}
+	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{59}
 }
 
 func (x *GetDeletedUserTableRolesResponse) GetUserTableRoles() []*UserTableRole {
@@ -4522,13 +2928,14 @@ type CreateUserTableRoleRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	TableRolesId  int64                  `protobuf:"varint,2,opt,name=table_roles_id,json=tableRolesId,proto3" json:"table_roles_id,omitempty"`
+	TableId       int64                  `protobuf:"varint,3,opt,name=table_id,json=tableId,proto3" json:"table_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *CreateUserTableRoleRequest) Reset() {
 	*x = CreateUserTableRoleRequest{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[94]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[60]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4540,7 +2947,7 @@ func (x *CreateUserTableRoleRequest) String() string {
 func (*CreateUserTableRoleRequest) ProtoMessage() {}
 
 func (x *CreateUserTableRoleRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[94]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[60]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4553,7 +2960,7 @@ func (x *CreateUserTableRoleRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateUserTableRoleRequest.ProtoReflect.Descriptor instead.
 func (*CreateUserTableRoleRequest) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{94}
+	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{60}
 }
 
 func (x *CreateUserTableRoleRequest) GetUserId() int64 {
@@ -4570,6 +2977,13 @@ func (x *CreateUserTableRoleRequest) GetTableRolesId() int64 {
 	return 0
 }
 
+func (x *CreateUserTableRoleRequest) GetTableId() int64 {
+	if x != nil {
+		return x.TableId
+	}
+	return 0
+}
+
 // CreateUserTableRoleResponse returns the created dc.user_table_roles row (query CreateUserTableRole).
 type CreateUserTableRoleResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -4580,7 +2994,7 @@ type CreateUserTableRoleResponse struct {
 
 func (x *CreateUserTableRoleResponse) Reset() {
 	*x = CreateUserTableRoleResponse{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[95]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[61]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4592,7 +3006,7 @@ func (x *CreateUserTableRoleResponse) String() string {
 func (*CreateUserTableRoleResponse) ProtoMessage() {}
 
 func (x *CreateUserTableRoleResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[95]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[61]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4605,7 +3019,7 @@ func (x *CreateUserTableRoleResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateUserTableRoleResponse.ProtoReflect.Descriptor instead.
 func (*CreateUserTableRoleResponse) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{95}
+	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{61}
 }
 
 func (x *CreateUserTableRoleResponse) GetUserTableRole() *UserTableRole {
@@ -4621,13 +3035,14 @@ type UpdateUserTableRoleByIdRequest struct {
 	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	UserId        int64                  `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	TableRolesId  int64                  `protobuf:"varint,3,opt,name=table_roles_id,json=tableRolesId,proto3" json:"table_roles_id,omitempty"`
+	TableId       int64                  `protobuf:"varint,4,opt,name=table_id,json=tableId,proto3" json:"table_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *UpdateUserTableRoleByIdRequest) Reset() {
 	*x = UpdateUserTableRoleByIdRequest{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[96]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[62]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4639,7 +3054,7 @@ func (x *UpdateUserTableRoleByIdRequest) String() string {
 func (*UpdateUserTableRoleByIdRequest) ProtoMessage() {}
 
 func (x *UpdateUserTableRoleByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[96]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[62]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4652,7 +3067,7 @@ func (x *UpdateUserTableRoleByIdRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateUserTableRoleByIdRequest.ProtoReflect.Descriptor instead.
 func (*UpdateUserTableRoleByIdRequest) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{96}
+	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{62}
 }
 
 func (x *UpdateUserTableRoleByIdRequest) GetId() int64 {
@@ -4676,6 +3091,13 @@ func (x *UpdateUserTableRoleByIdRequest) GetTableRolesId() int64 {
 	return 0
 }
 
+func (x *UpdateUserTableRoleByIdRequest) GetTableId() int64 {
+	if x != nil {
+		return x.TableId
+	}
+	return 0
+}
+
 // UpdateUserTableRoleByIdResponse returns the updated dc.user_table_roles row (query UpdateUserTableRoleById).
 type UpdateUserTableRoleByIdResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -4686,7 +3108,7 @@ type UpdateUserTableRoleByIdResponse struct {
 
 func (x *UpdateUserTableRoleByIdResponse) Reset() {
 	*x = UpdateUserTableRoleByIdResponse{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[97]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[63]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4698,7 +3120,7 @@ func (x *UpdateUserTableRoleByIdResponse) String() string {
 func (*UpdateUserTableRoleByIdResponse) ProtoMessage() {}
 
 func (x *UpdateUserTableRoleByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[97]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[63]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4711,7 +3133,7 @@ func (x *UpdateUserTableRoleByIdResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateUserTableRoleByIdResponse.ProtoReflect.Descriptor instead.
 func (*UpdateUserTableRoleByIdResponse) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{97}
+	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{63}
 }
 
 func (x *UpdateUserTableRoleByIdResponse) GetUserTableRole() *UserTableRole {
@@ -4731,7 +3153,7 @@ type DeleteUserTableRoleByIdRequest struct {
 
 func (x *DeleteUserTableRoleByIdRequest) Reset() {
 	*x = DeleteUserTableRoleByIdRequest{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[98]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[64]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4743,7 +3165,7 @@ func (x *DeleteUserTableRoleByIdRequest) String() string {
 func (*DeleteUserTableRoleByIdRequest) ProtoMessage() {}
 
 func (x *DeleteUserTableRoleByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[98]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[64]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4756,7 +3178,7 @@ func (x *DeleteUserTableRoleByIdRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteUserTableRoleByIdRequest.ProtoReflect.Descriptor instead.
 func (*DeleteUserTableRoleByIdRequest) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{98}
+	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{64}
 }
 
 func (x *DeleteUserTableRoleByIdRequest) GetId() int64 {
@@ -4776,7 +3198,7 @@ type DeleteUserTableRoleByIdResponse struct {
 
 func (x *DeleteUserTableRoleByIdResponse) Reset() {
 	*x = DeleteUserTableRoleByIdResponse{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[99]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[65]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4788,7 +3210,7 @@ func (x *DeleteUserTableRoleByIdResponse) String() string {
 func (*DeleteUserTableRoleByIdResponse) ProtoMessage() {}
 
 func (x *DeleteUserTableRoleByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[99]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[65]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4801,7 +3223,7 @@ func (x *DeleteUserTableRoleByIdResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteUserTableRoleByIdResponse.ProtoReflect.Descriptor instead.
 func (*DeleteUserTableRoleByIdResponse) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{99}
+	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{65}
 }
 
 func (x *DeleteUserTableRoleByIdResponse) GetEmpty() *emptypb.Empty {
@@ -4821,7 +3243,7 @@ type UndeleteUserTableRoleByIdRequest struct {
 
 func (x *UndeleteUserTableRoleByIdRequest) Reset() {
 	*x = UndeleteUserTableRoleByIdRequest{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[100]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[66]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4833,7 +3255,7 @@ func (x *UndeleteUserTableRoleByIdRequest) String() string {
 func (*UndeleteUserTableRoleByIdRequest) ProtoMessage() {}
 
 func (x *UndeleteUserTableRoleByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[100]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[66]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4846,7 +3268,7 @@ func (x *UndeleteUserTableRoleByIdRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UndeleteUserTableRoleByIdRequest.ProtoReflect.Descriptor instead.
 func (*UndeleteUserTableRoleByIdRequest) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{100}
+	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{66}
 }
 
 func (x *UndeleteUserTableRoleByIdRequest) GetId() int64 {
@@ -4866,7 +3288,7 @@ type UndeleteUserTableRoleByIdResponse struct {
 
 func (x *UndeleteUserTableRoleByIdResponse) Reset() {
 	*x = UndeleteUserTableRoleByIdResponse{}
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[101]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[67]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4878,7 +3300,7 @@ func (x *UndeleteUserTableRoleByIdResponse) String() string {
 func (*UndeleteUserTableRoleByIdResponse) ProtoMessage() {}
 
 func (x *UndeleteUserTableRoleByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[101]
+	mi := &file_user_domain_roles_v1_user_domain_roles_proto_msgTypes[67]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4891,7 +3313,7 @@ func (x *UndeleteUserTableRoleByIdResponse) ProtoReflect() protoreflect.Message 
 
 // Deprecated: Use UndeleteUserTableRoleByIdResponse.ProtoReflect.Descriptor instead.
 func (*UndeleteUserTableRoleByIdResponse) Descriptor() ([]byte, []int) {
-	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{101}
+	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP(), []int{67}
 }
 
 func (x *UndeleteUserTableRoleByIdResponse) GetEmpty() *emptypb.Empty {
@@ -4953,49 +3375,6 @@ const file_user_domain_roles_v1_user_domain_roles_proto_rawDesc = "" +
 	"\x1dUndeleteDomainRoleByIdRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\"N\n" +
 	"\x1eUndeleteDomainRoleByIdResponse\x12,\n" +
-	"\x05empty\x18\x01 \x01(\v2\x16.google.protobuf.EmptyR\x05empty\"\x84\x02\n" +
-	"\x11DomainsDomainRole\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\x12\"\n" +
-	"\rdomain_cat_id\x18\x02 \x01(\x03R\vdomainCatId\x12&\n" +
-	"\x0fdomain_roles_id\x18\x03 \x01(\x03R\rdomainRolesId\x129\n" +
-	"\n" +
-	"created_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
-	"\n" +
-	"updated_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12\x1d\n" +
-	"\n" +
-	"is_deleted\x18\x06 \x01(\bR\tisDeleted\"1\n" +
-	"\x1fGetDomainsDomainRoleByIdRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\"{\n" +
-	" GetDomainsDomainRoleByIdResponse\x12W\n" +
-	"\x13domains_domain_role\x18\x01 \x01(\v2'.user_domain_roles.v1.DomainsDomainRoleR\x11domainsDomainRole\"\x1e\n" +
-	"\x1cGetDomainsDomainRolesRequest\"z\n" +
-	"\x1dGetDomainsDomainRolesResponse\x12Y\n" +
-	"\x14domains_domain_roles\x18\x01 \x03(\v2'.user_domain_roles.v1.DomainsDomainRoleR\x12domainsDomainRoles\"8\n" +
-	"&GetDeletedDomainsDomainRoleByIdRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\"\x82\x01\n" +
-	"'GetDeletedDomainsDomainRoleByIdResponse\x12W\n" +
-	"\x13domains_domain_role\x18\x01 \x01(\v2'.user_domain_roles.v1.DomainsDomainRoleR\x11domainsDomainRole\"%\n" +
-	"#GetDeletedDomainsDomainRolesRequest\"\x81\x01\n" +
-	"$GetDeletedDomainsDomainRolesResponse\x12Y\n" +
-	"\x14domains_domain_roles\x18\x01 \x03(\v2'.user_domain_roles.v1.DomainsDomainRoleR\x12domainsDomainRoles\"l\n" +
-	"\x1eCreateDomainsDomainRoleRequest\x12\"\n" +
-	"\rdomain_cat_id\x18\x01 \x01(\x03R\vdomainCatId\x12&\n" +
-	"\x0fdomain_roles_id\x18\x02 \x01(\x03R\rdomainRolesId\"z\n" +
-	"\x1fCreateDomainsDomainRoleResponse\x12W\n" +
-	"\x13domains_domain_role\x18\x01 \x01(\v2'.user_domain_roles.v1.DomainsDomainRoleR\x11domainsDomainRole\"\x80\x01\n" +
-	"\"UpdateDomainsDomainRoleByIdRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\x12\"\n" +
-	"\rdomain_cat_id\x18\x02 \x01(\x03R\vdomainCatId\x12&\n" +
-	"\x0fdomain_roles_id\x18\x03 \x01(\x03R\rdomainRolesId\"~\n" +
-	"#UpdateDomainsDomainRoleByIdResponse\x12W\n" +
-	"\x13domains_domain_role\x18\x01 \x01(\v2'.user_domain_roles.v1.DomainsDomainRoleR\x11domainsDomainRole\"4\n" +
-	"\"DeleteDomainsDomainRoleByIdRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\"S\n" +
-	"#DeleteDomainsDomainRoleByIdResponse\x12,\n" +
-	"\x05empty\x18\x01 \x01(\v2\x16.google.protobuf.EmptyR\x05empty\"6\n" +
-	"$UndeleteDomainsDomainRoleByIdRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\"U\n" +
-	"%UndeleteDomainsDomainRoleByIdResponse\x12,\n" +
 	"\x05empty\x18\x01 \x01(\v2\x16.google.protobuf.EmptyR\x05empty\"\xe6\x01\n" +
 	"\tTableRole\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x12\n" +
@@ -5045,53 +3424,7 @@ const file_user_domain_roles_v1_user_domain_roles_proto_rawDesc = "" +
 	"\x1cUndeleteTableRoleByIdRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\"M\n" +
 	"\x1dUndeleteTableRoleByIdResponse\x12,\n" +
-	"\x05empty\x18\x01 \x01(\v2\x16.google.protobuf.EmptyR\x05empty\"\xfe\x01\n" +
-	"\x0fTablesTableRole\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\x12 \n" +
-	"\ftable_cat_id\x18\x02 \x01(\x03R\n" +
-	"tableCatId\x12$\n" +
-	"\x0etable_roles_id\x18\x03 \x01(\x03R\ftableRolesId\x129\n" +
-	"\n" +
-	"created_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
-	"\n" +
-	"updated_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12\x1d\n" +
-	"\n" +
-	"is_deleted\x18\x06 \x01(\bR\tisDeleted\"/\n" +
-	"\x1dGetTablesTableRoleByIdRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\"s\n" +
-	"\x1eGetTablesTableRoleByIdResponse\x12Q\n" +
-	"\x11tables_table_role\x18\x01 \x01(\v2%.user_domain_roles.v1.TablesTableRoleR\x0ftablesTableRole\"\x1c\n" +
-	"\x1aGetTablesTableRolesRequest\"r\n" +
-	"\x1bGetTablesTableRolesResponse\x12S\n" +
-	"\x12tables_table_roles\x18\x01 \x03(\v2%.user_domain_roles.v1.TablesTableRoleR\x10tablesTableRoles\"6\n" +
-	"$GetDeletedTablesTableRoleByIdRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\"z\n" +
-	"%GetDeletedTablesTableRoleByIdResponse\x12Q\n" +
-	"\x11tables_table_role\x18\x01 \x01(\v2%.user_domain_roles.v1.TablesTableRoleR\x0ftablesTableRole\"#\n" +
-	"!GetDeletedTablesTableRolesRequest\"y\n" +
-	"\"GetDeletedTablesTableRolesResponse\x12S\n" +
-	"\x12tables_table_roles\x18\x01 \x03(\v2%.user_domain_roles.v1.TablesTableRoleR\x10tablesTableRoles\"f\n" +
-	"\x1cCreateTablesTableRoleRequest\x12 \n" +
-	"\ftable_cat_id\x18\x01 \x01(\x03R\n" +
-	"tableCatId\x12$\n" +
-	"\x0etable_roles_id\x18\x02 \x01(\x03R\ftableRolesId\"r\n" +
-	"\x1dCreateTablesTableRoleResponse\x12Q\n" +
-	"\x11tables_table_role\x18\x01 \x01(\v2%.user_domain_roles.v1.TablesTableRoleR\x0ftablesTableRole\"z\n" +
-	" UpdateTablesTableRoleByIdRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\x12 \n" +
-	"\ftable_cat_id\x18\x02 \x01(\x03R\n" +
-	"tableCatId\x12$\n" +
-	"\x0etable_roles_id\x18\x03 \x01(\x03R\ftableRolesId\"v\n" +
-	"!UpdateTablesTableRoleByIdResponse\x12Q\n" +
-	"\x11tables_table_role\x18\x01 \x01(\v2%.user_domain_roles.v1.TablesTableRoleR\x0ftablesTableRole\"2\n" +
-	" DeleteTablesTableRoleByIdRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\"Q\n" +
-	"!DeleteTablesTableRoleByIdResponse\x12,\n" +
-	"\x05empty\x18\x01 \x01(\v2\x16.google.protobuf.EmptyR\x05empty\"4\n" +
-	"\"UndeleteTablesTableRoleByIdRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\"S\n" +
-	"#UndeleteTablesTableRoleByIdResponse\x12,\n" +
-	"\x05empty\x18\x01 \x01(\v2\x16.google.protobuf.EmptyR\x05empty\"\xf6\x01\n" +
+	"\x05empty\x18\x01 \x01(\v2\x16.google.protobuf.EmptyR\x05empty\"\x93\x02\n" +
 	"\x0eUserDomainRole\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x17\n" +
 	"\auser_id\x18\x02 \x01(\x03R\x06userId\x12&\n" +
@@ -5101,7 +3434,8 @@ const file_user_domain_roles_v1_user_domain_roles_proto_rawDesc = "" +
 	"\n" +
 	"updated_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12\x1d\n" +
 	"\n" +
-	"is_deleted\x18\x06 \x01(\bR\tisDeleted\".\n" +
+	"is_deleted\x18\x06 \x01(\bR\tisDeleted\x12\x1b\n" +
+	"\tdomain_id\x18\a \x01(\x03R\bdomainId\".\n" +
 	"\x1cGetUserDomainRoleByIdRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\"o\n" +
 	"\x1dGetUserDomainRoleByIdResponse\x12N\n" +
@@ -5115,16 +3449,18 @@ const file_user_domain_roles_v1_user_domain_roles_proto_rawDesc = "" +
 	"\x10user_domain_role\x18\x01 \x01(\v2$.user_domain_roles.v1.UserDomainRoleR\x0euserDomainRole\"\"\n" +
 	" GetDeletedUserDomainRolesRequest\"u\n" +
 	"!GetDeletedUserDomainRolesResponse\x12P\n" +
-	"\x11user_domain_roles\x18\x01 \x03(\v2$.user_domain_roles.v1.UserDomainRoleR\x0fuserDomainRoles\"^\n" +
+	"\x11user_domain_roles\x18\x01 \x03(\v2$.user_domain_roles.v1.UserDomainRoleR\x0fuserDomainRoles\"{\n" +
 	"\x1bCreateUserDomainRoleRequest\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12&\n" +
-	"\x0fdomain_roles_id\x18\x02 \x01(\x03R\rdomainRolesId\"n\n" +
+	"\x0fdomain_roles_id\x18\x02 \x01(\x03R\rdomainRolesId\x12\x1b\n" +
+	"\tdomain_id\x18\x03 \x01(\x03R\bdomainId\"n\n" +
 	"\x1cCreateUserDomainRoleResponse\x12N\n" +
-	"\x10user_domain_role\x18\x01 \x01(\v2$.user_domain_roles.v1.UserDomainRoleR\x0euserDomainRole\"r\n" +
+	"\x10user_domain_role\x18\x01 \x01(\v2$.user_domain_roles.v1.UserDomainRoleR\x0euserDomainRole\"\x8f\x01\n" +
 	"\x1fUpdateUserDomainRoleByIdRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x17\n" +
 	"\auser_id\x18\x02 \x01(\x03R\x06userId\x12&\n" +
-	"\x0fdomain_roles_id\x18\x03 \x01(\x03R\rdomainRolesId\"r\n" +
+	"\x0fdomain_roles_id\x18\x03 \x01(\x03R\rdomainRolesId\x12\x1b\n" +
+	"\tdomain_id\x18\x04 \x01(\x03R\bdomainId\"r\n" +
 	" UpdateUserDomainRoleByIdResponse\x12N\n" +
 	"\x10user_domain_role\x18\x01 \x01(\v2$.user_domain_roles.v1.UserDomainRoleR\x0euserDomainRole\"1\n" +
 	"\x1fDeleteUserDomainRoleByIdRequest\x12\x0e\n" +
@@ -5134,7 +3470,7 @@ const file_user_domain_roles_v1_user_domain_roles_proto_rawDesc = "" +
 	"!UndeleteUserDomainRoleByIdRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\"R\n" +
 	"\"UndeleteUserDomainRoleByIdResponse\x12,\n" +
-	"\x05empty\x18\x01 \x01(\v2\x16.google.protobuf.EmptyR\x05empty\"\xf3\x01\n" +
+	"\x05empty\x18\x01 \x01(\v2\x16.google.protobuf.EmptyR\x05empty\"\x8e\x02\n" +
 	"\rUserTableRole\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x17\n" +
 	"\auser_id\x18\x02 \x01(\x03R\x06userId\x12$\n" +
@@ -5144,7 +3480,8 @@ const file_user_domain_roles_v1_user_domain_roles_proto_rawDesc = "" +
 	"\n" +
 	"updated_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12\x1d\n" +
 	"\n" +
-	"is_deleted\x18\x06 \x01(\bR\tisDeleted\"-\n" +
+	"is_deleted\x18\x06 \x01(\bR\tisDeleted\x12\x19\n" +
+	"\btable_id\x18\a \x01(\x03R\atableId\"-\n" +
 	"\x1bGetUserTableRoleByIdRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\"k\n" +
 	"\x1cGetUserTableRoleByIdResponse\x12K\n" +
@@ -5158,16 +3495,18 @@ const file_user_domain_roles_v1_user_domain_roles_proto_rawDesc = "" +
 	"\x0fuser_table_role\x18\x01 \x01(\v2#.user_domain_roles.v1.UserTableRoleR\ruserTableRole\"!\n" +
 	"\x1fGetDeletedUserTableRolesRequest\"q\n" +
 	" GetDeletedUserTableRolesResponse\x12M\n" +
-	"\x10user_table_roles\x18\x01 \x03(\v2#.user_domain_roles.v1.UserTableRoleR\x0euserTableRoles\"[\n" +
+	"\x10user_table_roles\x18\x01 \x03(\v2#.user_domain_roles.v1.UserTableRoleR\x0euserTableRoles\"v\n" +
 	"\x1aCreateUserTableRoleRequest\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12$\n" +
-	"\x0etable_roles_id\x18\x02 \x01(\x03R\ftableRolesId\"j\n" +
+	"\x0etable_roles_id\x18\x02 \x01(\x03R\ftableRolesId\x12\x19\n" +
+	"\btable_id\x18\x03 \x01(\x03R\atableId\"j\n" +
 	"\x1bCreateUserTableRoleResponse\x12K\n" +
-	"\x0fuser_table_role\x18\x01 \x01(\v2#.user_domain_roles.v1.UserTableRoleR\ruserTableRole\"o\n" +
+	"\x0fuser_table_role\x18\x01 \x01(\v2#.user_domain_roles.v1.UserTableRoleR\ruserTableRole\"\x8a\x01\n" +
 	"\x1eUpdateUserTableRoleByIdRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x17\n" +
 	"\auser_id\x18\x02 \x01(\x03R\x06userId\x12$\n" +
-	"\x0etable_roles_id\x18\x03 \x01(\x03R\ftableRolesId\"n\n" +
+	"\x0etable_roles_id\x18\x03 \x01(\x03R\ftableRolesId\x12\x19\n" +
+	"\btable_id\x18\x04 \x01(\x03R\atableId\"n\n" +
 	"\x1fUpdateUserTableRoleByIdResponse\x12K\n" +
 	"\x0fuser_table_role\x18\x01 \x01(\v2#.user_domain_roles.v1.UserTableRoleR\ruserTableRole\"0\n" +
 	"\x1eDeleteUserTableRoleByIdRequest\x12\x0e\n" +
@@ -5177,7 +3516,7 @@ const file_user_domain_roles_v1_user_domain_roles_proto_rawDesc = "" +
 	" UndeleteUserTableRoleByIdRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\"Q\n" +
 	"!UndeleteUserTableRoleByIdResponse\x12,\n" +
-	"\x05empty\x18\x01 \x01(\v2\x16.google.protobuf.EmptyR\x05empty2\xcb2\n" +
+	"\x05empty\x18\x01 \x01(\v2\x16.google.protobuf.EmptyR\x05empty2\xd0 \n" +
 	"\x16UserDomainRolesService\x12t\n" +
 	"\x11GetDomainRoleById\x12..user_domain_roles.v1.GetDomainRoleByIdRequest\x1a/.user_domain_roles.v1.GetDomainRoleByIdResponse\x12k\n" +
 	"\x0eGetDomainRoles\x12+.user_domain_roles.v1.GetDomainRolesRequest\x1a,.user_domain_roles.v1.GetDomainRolesResponse\x12\x89\x01\n" +
@@ -5186,15 +3525,7 @@ const file_user_domain_roles_v1_user_domain_roles_proto_rawDesc = "" +
 	"\x10CreateDomainRole\x12-.user_domain_roles.v1.CreateDomainRoleRequest\x1a..user_domain_roles.v1.CreateDomainRoleResponse\x12}\n" +
 	"\x14UpdateDomainRoleById\x121.user_domain_roles.v1.UpdateDomainRoleByIdRequest\x1a2.user_domain_roles.v1.UpdateDomainRoleByIdResponse\x12}\n" +
 	"\x14DeleteDomainRoleById\x121.user_domain_roles.v1.DeleteDomainRoleByIdRequest\x1a2.user_domain_roles.v1.DeleteDomainRoleByIdResponse\x12\x83\x01\n" +
-	"\x16UndeleteDomainRoleById\x123.user_domain_roles.v1.UndeleteDomainRoleByIdRequest\x1a4.user_domain_roles.v1.UndeleteDomainRoleByIdResponse\x12\x89\x01\n" +
-	"\x18GetDomainsDomainRoleById\x125.user_domain_roles.v1.GetDomainsDomainRoleByIdRequest\x1a6.user_domain_roles.v1.GetDomainsDomainRoleByIdResponse\x12\x80\x01\n" +
-	"\x15GetDomainsDomainRoles\x122.user_domain_roles.v1.GetDomainsDomainRolesRequest\x1a3.user_domain_roles.v1.GetDomainsDomainRolesResponse\x12\x9e\x01\n" +
-	"\x1fGetDeletedDomainsDomainRoleById\x12<.user_domain_roles.v1.GetDeletedDomainsDomainRoleByIdRequest\x1a=.user_domain_roles.v1.GetDeletedDomainsDomainRoleByIdResponse\x12\x95\x01\n" +
-	"\x1cGetDeletedDomainsDomainRoles\x129.user_domain_roles.v1.GetDeletedDomainsDomainRolesRequest\x1a:.user_domain_roles.v1.GetDeletedDomainsDomainRolesResponse\x12\x86\x01\n" +
-	"\x17CreateDomainsDomainRole\x124.user_domain_roles.v1.CreateDomainsDomainRoleRequest\x1a5.user_domain_roles.v1.CreateDomainsDomainRoleResponse\x12\x92\x01\n" +
-	"\x1bUpdateDomainsDomainRoleById\x128.user_domain_roles.v1.UpdateDomainsDomainRoleByIdRequest\x1a9.user_domain_roles.v1.UpdateDomainsDomainRoleByIdResponse\x12\x92\x01\n" +
-	"\x1bDeleteDomainsDomainRoleById\x128.user_domain_roles.v1.DeleteDomainsDomainRoleByIdRequest\x1a9.user_domain_roles.v1.DeleteDomainsDomainRoleByIdResponse\x12\x98\x01\n" +
-	"\x1dUndeleteDomainsDomainRoleById\x12:.user_domain_roles.v1.UndeleteDomainsDomainRoleByIdRequest\x1a;.user_domain_roles.v1.UndeleteDomainsDomainRoleByIdResponse\x12q\n" +
+	"\x16UndeleteDomainRoleById\x123.user_domain_roles.v1.UndeleteDomainRoleByIdRequest\x1a4.user_domain_roles.v1.UndeleteDomainRoleByIdResponse\x12q\n" +
 	"\x10GetTableRoleById\x12-.user_domain_roles.v1.GetTableRoleByIdRequest\x1a..user_domain_roles.v1.GetTableRoleByIdResponse\x12h\n" +
 	"\rGetTableRoles\x12*.user_domain_roles.v1.GetTableRolesRequest\x1a+.user_domain_roles.v1.GetTableRolesResponse\x12\x86\x01\n" +
 	"\x17GetDeletedTableRoleById\x124.user_domain_roles.v1.GetDeletedTableRoleByIdRequest\x1a5.user_domain_roles.v1.GetDeletedTableRoleByIdResponse\x12}\n" +
@@ -5202,15 +3533,7 @@ const file_user_domain_roles_v1_user_domain_roles_proto_rawDesc = "" +
 	"\x0fCreateTableRole\x12,.user_domain_roles.v1.CreateTableRoleRequest\x1a-.user_domain_roles.v1.CreateTableRoleResponse\x12z\n" +
 	"\x13UpdateTableRoleById\x120.user_domain_roles.v1.UpdateTableRoleByIdRequest\x1a1.user_domain_roles.v1.UpdateTableRoleByIdResponse\x12z\n" +
 	"\x13DeleteTableRoleById\x120.user_domain_roles.v1.DeleteTableRoleByIdRequest\x1a1.user_domain_roles.v1.DeleteTableRoleByIdResponse\x12\x80\x01\n" +
-	"\x15UndeleteTableRoleById\x122.user_domain_roles.v1.UndeleteTableRoleByIdRequest\x1a3.user_domain_roles.v1.UndeleteTableRoleByIdResponse\x12\x83\x01\n" +
-	"\x16GetTablesTableRoleById\x123.user_domain_roles.v1.GetTablesTableRoleByIdRequest\x1a4.user_domain_roles.v1.GetTablesTableRoleByIdResponse\x12z\n" +
-	"\x13GetTablesTableRoles\x120.user_domain_roles.v1.GetTablesTableRolesRequest\x1a1.user_domain_roles.v1.GetTablesTableRolesResponse\x12\x98\x01\n" +
-	"\x1dGetDeletedTablesTableRoleById\x12:.user_domain_roles.v1.GetDeletedTablesTableRoleByIdRequest\x1a;.user_domain_roles.v1.GetDeletedTablesTableRoleByIdResponse\x12\x8f\x01\n" +
-	"\x1aGetDeletedTablesTableRoles\x127.user_domain_roles.v1.GetDeletedTablesTableRolesRequest\x1a8.user_domain_roles.v1.GetDeletedTablesTableRolesResponse\x12\x80\x01\n" +
-	"\x15CreateTablesTableRole\x122.user_domain_roles.v1.CreateTablesTableRoleRequest\x1a3.user_domain_roles.v1.CreateTablesTableRoleResponse\x12\x8c\x01\n" +
-	"\x19UpdateTablesTableRoleById\x126.user_domain_roles.v1.UpdateTablesTableRoleByIdRequest\x1a7.user_domain_roles.v1.UpdateTablesTableRoleByIdResponse\x12\x8c\x01\n" +
-	"\x19DeleteTablesTableRoleById\x126.user_domain_roles.v1.DeleteTablesTableRoleByIdRequest\x1a7.user_domain_roles.v1.DeleteTablesTableRoleByIdResponse\x12\x92\x01\n" +
-	"\x1bUndeleteTablesTableRoleById\x128.user_domain_roles.v1.UndeleteTablesTableRoleByIdRequest\x1a9.user_domain_roles.v1.UndeleteTablesTableRoleByIdResponse\x12\x80\x01\n" +
+	"\x15UndeleteTableRoleById\x122.user_domain_roles.v1.UndeleteTableRoleByIdRequest\x1a3.user_domain_roles.v1.UndeleteTableRoleByIdResponse\x12\x80\x01\n" +
 	"\x15GetUserDomainRoleById\x122.user_domain_roles.v1.GetUserDomainRoleByIdRequest\x1a3.user_domain_roles.v1.GetUserDomainRoleByIdResponse\x12w\n" +
 	"\x12GetUserDomainRoles\x12/.user_domain_roles.v1.GetUserDomainRolesRequest\x1a0.user_domain_roles.v1.GetUserDomainRolesResponse\x12\x95\x01\n" +
 	"\x1cGetDeletedUserDomainRoleById\x129.user_domain_roles.v1.GetDeletedUserDomainRoleByIdRequest\x1a:.user_domain_roles.v1.GetDeletedUserDomainRoleByIdResponse\x12\x8c\x01\n" +
@@ -5240,275 +3563,189 @@ func file_user_domain_roles_v1_user_domain_roles_proto_rawDescGZIP() []byte {
 	return file_user_domain_roles_v1_user_domain_roles_proto_rawDescData
 }
 
-var file_user_domain_roles_v1_user_domain_roles_proto_msgTypes = make([]protoimpl.MessageInfo, 102)
+var file_user_domain_roles_v1_user_domain_roles_proto_msgTypes = make([]protoimpl.MessageInfo, 68)
 var file_user_domain_roles_v1_user_domain_roles_proto_goTypes = []any{
-	(*DomainRole)(nil),                              // 0: user_domain_roles.v1.DomainRole
-	(*GetDomainRoleByIdRequest)(nil),                // 1: user_domain_roles.v1.GetDomainRoleByIdRequest
-	(*GetDomainRoleByIdResponse)(nil),               // 2: user_domain_roles.v1.GetDomainRoleByIdResponse
-	(*GetDomainRolesRequest)(nil),                   // 3: user_domain_roles.v1.GetDomainRolesRequest
-	(*GetDomainRolesResponse)(nil),                  // 4: user_domain_roles.v1.GetDomainRolesResponse
-	(*GetDeletedDomainRoleByIdRequest)(nil),         // 5: user_domain_roles.v1.GetDeletedDomainRoleByIdRequest
-	(*GetDeletedDomainRoleByIdResponse)(nil),        // 6: user_domain_roles.v1.GetDeletedDomainRoleByIdResponse
-	(*GetDeletedDomainRolesRequest)(nil),            // 7: user_domain_roles.v1.GetDeletedDomainRolesRequest
-	(*GetDeletedDomainRolesResponse)(nil),           // 8: user_domain_roles.v1.GetDeletedDomainRolesResponse
-	(*CreateDomainRoleRequest)(nil),                 // 9: user_domain_roles.v1.CreateDomainRoleRequest
-	(*CreateDomainRoleResponse)(nil),                // 10: user_domain_roles.v1.CreateDomainRoleResponse
-	(*UpdateDomainRoleByIdRequest)(nil),             // 11: user_domain_roles.v1.UpdateDomainRoleByIdRequest
-	(*UpdateDomainRoleByIdResponse)(nil),            // 12: user_domain_roles.v1.UpdateDomainRoleByIdResponse
-	(*DeleteDomainRoleByIdRequest)(nil),             // 13: user_domain_roles.v1.DeleteDomainRoleByIdRequest
-	(*DeleteDomainRoleByIdResponse)(nil),            // 14: user_domain_roles.v1.DeleteDomainRoleByIdResponse
-	(*UndeleteDomainRoleByIdRequest)(nil),           // 15: user_domain_roles.v1.UndeleteDomainRoleByIdRequest
-	(*UndeleteDomainRoleByIdResponse)(nil),          // 16: user_domain_roles.v1.UndeleteDomainRoleByIdResponse
-	(*DomainsDomainRole)(nil),                       // 17: user_domain_roles.v1.DomainsDomainRole
-	(*GetDomainsDomainRoleByIdRequest)(nil),         // 18: user_domain_roles.v1.GetDomainsDomainRoleByIdRequest
-	(*GetDomainsDomainRoleByIdResponse)(nil),        // 19: user_domain_roles.v1.GetDomainsDomainRoleByIdResponse
-	(*GetDomainsDomainRolesRequest)(nil),            // 20: user_domain_roles.v1.GetDomainsDomainRolesRequest
-	(*GetDomainsDomainRolesResponse)(nil),           // 21: user_domain_roles.v1.GetDomainsDomainRolesResponse
-	(*GetDeletedDomainsDomainRoleByIdRequest)(nil),  // 22: user_domain_roles.v1.GetDeletedDomainsDomainRoleByIdRequest
-	(*GetDeletedDomainsDomainRoleByIdResponse)(nil), // 23: user_domain_roles.v1.GetDeletedDomainsDomainRoleByIdResponse
-	(*GetDeletedDomainsDomainRolesRequest)(nil),     // 24: user_domain_roles.v1.GetDeletedDomainsDomainRolesRequest
-	(*GetDeletedDomainsDomainRolesResponse)(nil),    // 25: user_domain_roles.v1.GetDeletedDomainsDomainRolesResponse
-	(*CreateDomainsDomainRoleRequest)(nil),          // 26: user_domain_roles.v1.CreateDomainsDomainRoleRequest
-	(*CreateDomainsDomainRoleResponse)(nil),         // 27: user_domain_roles.v1.CreateDomainsDomainRoleResponse
-	(*UpdateDomainsDomainRoleByIdRequest)(nil),      // 28: user_domain_roles.v1.UpdateDomainsDomainRoleByIdRequest
-	(*UpdateDomainsDomainRoleByIdResponse)(nil),     // 29: user_domain_roles.v1.UpdateDomainsDomainRoleByIdResponse
-	(*DeleteDomainsDomainRoleByIdRequest)(nil),      // 30: user_domain_roles.v1.DeleteDomainsDomainRoleByIdRequest
-	(*DeleteDomainsDomainRoleByIdResponse)(nil),     // 31: user_domain_roles.v1.DeleteDomainsDomainRoleByIdResponse
-	(*UndeleteDomainsDomainRoleByIdRequest)(nil),    // 32: user_domain_roles.v1.UndeleteDomainsDomainRoleByIdRequest
-	(*UndeleteDomainsDomainRoleByIdResponse)(nil),   // 33: user_domain_roles.v1.UndeleteDomainsDomainRoleByIdResponse
-	(*TableRole)(nil),                               // 34: user_domain_roles.v1.TableRole
-	(*GetTableRoleByIdRequest)(nil),                 // 35: user_domain_roles.v1.GetTableRoleByIdRequest
-	(*GetTableRoleByIdResponse)(nil),                // 36: user_domain_roles.v1.GetTableRoleByIdResponse
-	(*GetTableRolesRequest)(nil),                    // 37: user_domain_roles.v1.GetTableRolesRequest
-	(*GetTableRolesResponse)(nil),                   // 38: user_domain_roles.v1.GetTableRolesResponse
-	(*GetDeletedTableRoleByIdRequest)(nil),          // 39: user_domain_roles.v1.GetDeletedTableRoleByIdRequest
-	(*GetDeletedTableRoleByIdResponse)(nil),         // 40: user_domain_roles.v1.GetDeletedTableRoleByIdResponse
-	(*GetDeletedTableRolesRequest)(nil),             // 41: user_domain_roles.v1.GetDeletedTableRolesRequest
-	(*GetDeletedTableRolesResponse)(nil),            // 42: user_domain_roles.v1.GetDeletedTableRolesResponse
-	(*CreateTableRoleRequest)(nil),                  // 43: user_domain_roles.v1.CreateTableRoleRequest
-	(*CreateTableRoleResponse)(nil),                 // 44: user_domain_roles.v1.CreateTableRoleResponse
-	(*UpdateTableRoleByIdRequest)(nil),              // 45: user_domain_roles.v1.UpdateTableRoleByIdRequest
-	(*UpdateTableRoleByIdResponse)(nil),             // 46: user_domain_roles.v1.UpdateTableRoleByIdResponse
-	(*DeleteTableRoleByIdRequest)(nil),              // 47: user_domain_roles.v1.DeleteTableRoleByIdRequest
-	(*DeleteTableRoleByIdResponse)(nil),             // 48: user_domain_roles.v1.DeleteTableRoleByIdResponse
-	(*UndeleteTableRoleByIdRequest)(nil),            // 49: user_domain_roles.v1.UndeleteTableRoleByIdRequest
-	(*UndeleteTableRoleByIdResponse)(nil),           // 50: user_domain_roles.v1.UndeleteTableRoleByIdResponse
-	(*TablesTableRole)(nil),                         // 51: user_domain_roles.v1.TablesTableRole
-	(*GetTablesTableRoleByIdRequest)(nil),           // 52: user_domain_roles.v1.GetTablesTableRoleByIdRequest
-	(*GetTablesTableRoleByIdResponse)(nil),          // 53: user_domain_roles.v1.GetTablesTableRoleByIdResponse
-	(*GetTablesTableRolesRequest)(nil),              // 54: user_domain_roles.v1.GetTablesTableRolesRequest
-	(*GetTablesTableRolesResponse)(nil),             // 55: user_domain_roles.v1.GetTablesTableRolesResponse
-	(*GetDeletedTablesTableRoleByIdRequest)(nil),    // 56: user_domain_roles.v1.GetDeletedTablesTableRoleByIdRequest
-	(*GetDeletedTablesTableRoleByIdResponse)(nil),   // 57: user_domain_roles.v1.GetDeletedTablesTableRoleByIdResponse
-	(*GetDeletedTablesTableRolesRequest)(nil),       // 58: user_domain_roles.v1.GetDeletedTablesTableRolesRequest
-	(*GetDeletedTablesTableRolesResponse)(nil),      // 59: user_domain_roles.v1.GetDeletedTablesTableRolesResponse
-	(*CreateTablesTableRoleRequest)(nil),            // 60: user_domain_roles.v1.CreateTablesTableRoleRequest
-	(*CreateTablesTableRoleResponse)(nil),           // 61: user_domain_roles.v1.CreateTablesTableRoleResponse
-	(*UpdateTablesTableRoleByIdRequest)(nil),        // 62: user_domain_roles.v1.UpdateTablesTableRoleByIdRequest
-	(*UpdateTablesTableRoleByIdResponse)(nil),       // 63: user_domain_roles.v1.UpdateTablesTableRoleByIdResponse
-	(*DeleteTablesTableRoleByIdRequest)(nil),        // 64: user_domain_roles.v1.DeleteTablesTableRoleByIdRequest
-	(*DeleteTablesTableRoleByIdResponse)(nil),       // 65: user_domain_roles.v1.DeleteTablesTableRoleByIdResponse
-	(*UndeleteTablesTableRoleByIdRequest)(nil),      // 66: user_domain_roles.v1.UndeleteTablesTableRoleByIdRequest
-	(*UndeleteTablesTableRoleByIdResponse)(nil),     // 67: user_domain_roles.v1.UndeleteTablesTableRoleByIdResponse
-	(*UserDomainRole)(nil),                          // 68: user_domain_roles.v1.UserDomainRole
-	(*GetUserDomainRoleByIdRequest)(nil),            // 69: user_domain_roles.v1.GetUserDomainRoleByIdRequest
-	(*GetUserDomainRoleByIdResponse)(nil),           // 70: user_domain_roles.v1.GetUserDomainRoleByIdResponse
-	(*GetUserDomainRolesRequest)(nil),               // 71: user_domain_roles.v1.GetUserDomainRolesRequest
-	(*GetUserDomainRolesResponse)(nil),              // 72: user_domain_roles.v1.GetUserDomainRolesResponse
-	(*GetDeletedUserDomainRoleByIdRequest)(nil),     // 73: user_domain_roles.v1.GetDeletedUserDomainRoleByIdRequest
-	(*GetDeletedUserDomainRoleByIdResponse)(nil),    // 74: user_domain_roles.v1.GetDeletedUserDomainRoleByIdResponse
-	(*GetDeletedUserDomainRolesRequest)(nil),        // 75: user_domain_roles.v1.GetDeletedUserDomainRolesRequest
-	(*GetDeletedUserDomainRolesResponse)(nil),       // 76: user_domain_roles.v1.GetDeletedUserDomainRolesResponse
-	(*CreateUserDomainRoleRequest)(nil),             // 77: user_domain_roles.v1.CreateUserDomainRoleRequest
-	(*CreateUserDomainRoleResponse)(nil),            // 78: user_domain_roles.v1.CreateUserDomainRoleResponse
-	(*UpdateUserDomainRoleByIdRequest)(nil),         // 79: user_domain_roles.v1.UpdateUserDomainRoleByIdRequest
-	(*UpdateUserDomainRoleByIdResponse)(nil),        // 80: user_domain_roles.v1.UpdateUserDomainRoleByIdResponse
-	(*DeleteUserDomainRoleByIdRequest)(nil),         // 81: user_domain_roles.v1.DeleteUserDomainRoleByIdRequest
-	(*DeleteUserDomainRoleByIdResponse)(nil),        // 82: user_domain_roles.v1.DeleteUserDomainRoleByIdResponse
-	(*UndeleteUserDomainRoleByIdRequest)(nil),       // 83: user_domain_roles.v1.UndeleteUserDomainRoleByIdRequest
-	(*UndeleteUserDomainRoleByIdResponse)(nil),      // 84: user_domain_roles.v1.UndeleteUserDomainRoleByIdResponse
-	(*UserTableRole)(nil),                           // 85: user_domain_roles.v1.UserTableRole
-	(*GetUserTableRoleByIdRequest)(nil),             // 86: user_domain_roles.v1.GetUserTableRoleByIdRequest
-	(*GetUserTableRoleByIdResponse)(nil),            // 87: user_domain_roles.v1.GetUserTableRoleByIdResponse
-	(*GetUserTableRolesRequest)(nil),                // 88: user_domain_roles.v1.GetUserTableRolesRequest
-	(*GetUserTableRolesResponse)(nil),               // 89: user_domain_roles.v1.GetUserTableRolesResponse
-	(*GetDeletedUserTableRoleByIdRequest)(nil),      // 90: user_domain_roles.v1.GetDeletedUserTableRoleByIdRequest
-	(*GetDeletedUserTableRoleByIdResponse)(nil),     // 91: user_domain_roles.v1.GetDeletedUserTableRoleByIdResponse
-	(*GetDeletedUserTableRolesRequest)(nil),         // 92: user_domain_roles.v1.GetDeletedUserTableRolesRequest
-	(*GetDeletedUserTableRolesResponse)(nil),        // 93: user_domain_roles.v1.GetDeletedUserTableRolesResponse
-	(*CreateUserTableRoleRequest)(nil),              // 94: user_domain_roles.v1.CreateUserTableRoleRequest
-	(*CreateUserTableRoleResponse)(nil),             // 95: user_domain_roles.v1.CreateUserTableRoleResponse
-	(*UpdateUserTableRoleByIdRequest)(nil),          // 96: user_domain_roles.v1.UpdateUserTableRoleByIdRequest
-	(*UpdateUserTableRoleByIdResponse)(nil),         // 97: user_domain_roles.v1.UpdateUserTableRoleByIdResponse
-	(*DeleteUserTableRoleByIdRequest)(nil),          // 98: user_domain_roles.v1.DeleteUserTableRoleByIdRequest
-	(*DeleteUserTableRoleByIdResponse)(nil),         // 99: user_domain_roles.v1.DeleteUserTableRoleByIdResponse
-	(*UndeleteUserTableRoleByIdRequest)(nil),        // 100: user_domain_roles.v1.UndeleteUserTableRoleByIdRequest
-	(*UndeleteUserTableRoleByIdResponse)(nil),       // 101: user_domain_roles.v1.UndeleteUserTableRoleByIdResponse
-	(*timestamppb.Timestamp)(nil),                   // 102: google.protobuf.Timestamp
-	(*emptypb.Empty)(nil),                           // 103: google.protobuf.Empty
+	(*DomainRole)(nil),                           // 0: user_domain_roles.v1.DomainRole
+	(*GetDomainRoleByIdRequest)(nil),             // 1: user_domain_roles.v1.GetDomainRoleByIdRequest
+	(*GetDomainRoleByIdResponse)(nil),            // 2: user_domain_roles.v1.GetDomainRoleByIdResponse
+	(*GetDomainRolesRequest)(nil),                // 3: user_domain_roles.v1.GetDomainRolesRequest
+	(*GetDomainRolesResponse)(nil),               // 4: user_domain_roles.v1.GetDomainRolesResponse
+	(*GetDeletedDomainRoleByIdRequest)(nil),      // 5: user_domain_roles.v1.GetDeletedDomainRoleByIdRequest
+	(*GetDeletedDomainRoleByIdResponse)(nil),     // 6: user_domain_roles.v1.GetDeletedDomainRoleByIdResponse
+	(*GetDeletedDomainRolesRequest)(nil),         // 7: user_domain_roles.v1.GetDeletedDomainRolesRequest
+	(*GetDeletedDomainRolesResponse)(nil),        // 8: user_domain_roles.v1.GetDeletedDomainRolesResponse
+	(*CreateDomainRoleRequest)(nil),              // 9: user_domain_roles.v1.CreateDomainRoleRequest
+	(*CreateDomainRoleResponse)(nil),             // 10: user_domain_roles.v1.CreateDomainRoleResponse
+	(*UpdateDomainRoleByIdRequest)(nil),          // 11: user_domain_roles.v1.UpdateDomainRoleByIdRequest
+	(*UpdateDomainRoleByIdResponse)(nil),         // 12: user_domain_roles.v1.UpdateDomainRoleByIdResponse
+	(*DeleteDomainRoleByIdRequest)(nil),          // 13: user_domain_roles.v1.DeleteDomainRoleByIdRequest
+	(*DeleteDomainRoleByIdResponse)(nil),         // 14: user_domain_roles.v1.DeleteDomainRoleByIdResponse
+	(*UndeleteDomainRoleByIdRequest)(nil),        // 15: user_domain_roles.v1.UndeleteDomainRoleByIdRequest
+	(*UndeleteDomainRoleByIdResponse)(nil),       // 16: user_domain_roles.v1.UndeleteDomainRoleByIdResponse
+	(*TableRole)(nil),                            // 17: user_domain_roles.v1.TableRole
+	(*GetTableRoleByIdRequest)(nil),              // 18: user_domain_roles.v1.GetTableRoleByIdRequest
+	(*GetTableRoleByIdResponse)(nil),             // 19: user_domain_roles.v1.GetTableRoleByIdResponse
+	(*GetTableRolesRequest)(nil),                 // 20: user_domain_roles.v1.GetTableRolesRequest
+	(*GetTableRolesResponse)(nil),                // 21: user_domain_roles.v1.GetTableRolesResponse
+	(*GetDeletedTableRoleByIdRequest)(nil),       // 22: user_domain_roles.v1.GetDeletedTableRoleByIdRequest
+	(*GetDeletedTableRoleByIdResponse)(nil),      // 23: user_domain_roles.v1.GetDeletedTableRoleByIdResponse
+	(*GetDeletedTableRolesRequest)(nil),          // 24: user_domain_roles.v1.GetDeletedTableRolesRequest
+	(*GetDeletedTableRolesResponse)(nil),         // 25: user_domain_roles.v1.GetDeletedTableRolesResponse
+	(*CreateTableRoleRequest)(nil),               // 26: user_domain_roles.v1.CreateTableRoleRequest
+	(*CreateTableRoleResponse)(nil),              // 27: user_domain_roles.v1.CreateTableRoleResponse
+	(*UpdateTableRoleByIdRequest)(nil),           // 28: user_domain_roles.v1.UpdateTableRoleByIdRequest
+	(*UpdateTableRoleByIdResponse)(nil),          // 29: user_domain_roles.v1.UpdateTableRoleByIdResponse
+	(*DeleteTableRoleByIdRequest)(nil),           // 30: user_domain_roles.v1.DeleteTableRoleByIdRequest
+	(*DeleteTableRoleByIdResponse)(nil),          // 31: user_domain_roles.v1.DeleteTableRoleByIdResponse
+	(*UndeleteTableRoleByIdRequest)(nil),         // 32: user_domain_roles.v1.UndeleteTableRoleByIdRequest
+	(*UndeleteTableRoleByIdResponse)(nil),        // 33: user_domain_roles.v1.UndeleteTableRoleByIdResponse
+	(*UserDomainRole)(nil),                       // 34: user_domain_roles.v1.UserDomainRole
+	(*GetUserDomainRoleByIdRequest)(nil),         // 35: user_domain_roles.v1.GetUserDomainRoleByIdRequest
+	(*GetUserDomainRoleByIdResponse)(nil),        // 36: user_domain_roles.v1.GetUserDomainRoleByIdResponse
+	(*GetUserDomainRolesRequest)(nil),            // 37: user_domain_roles.v1.GetUserDomainRolesRequest
+	(*GetUserDomainRolesResponse)(nil),           // 38: user_domain_roles.v1.GetUserDomainRolesResponse
+	(*GetDeletedUserDomainRoleByIdRequest)(nil),  // 39: user_domain_roles.v1.GetDeletedUserDomainRoleByIdRequest
+	(*GetDeletedUserDomainRoleByIdResponse)(nil), // 40: user_domain_roles.v1.GetDeletedUserDomainRoleByIdResponse
+	(*GetDeletedUserDomainRolesRequest)(nil),     // 41: user_domain_roles.v1.GetDeletedUserDomainRolesRequest
+	(*GetDeletedUserDomainRolesResponse)(nil),    // 42: user_domain_roles.v1.GetDeletedUserDomainRolesResponse
+	(*CreateUserDomainRoleRequest)(nil),          // 43: user_domain_roles.v1.CreateUserDomainRoleRequest
+	(*CreateUserDomainRoleResponse)(nil),         // 44: user_domain_roles.v1.CreateUserDomainRoleResponse
+	(*UpdateUserDomainRoleByIdRequest)(nil),      // 45: user_domain_roles.v1.UpdateUserDomainRoleByIdRequest
+	(*UpdateUserDomainRoleByIdResponse)(nil),     // 46: user_domain_roles.v1.UpdateUserDomainRoleByIdResponse
+	(*DeleteUserDomainRoleByIdRequest)(nil),      // 47: user_domain_roles.v1.DeleteUserDomainRoleByIdRequest
+	(*DeleteUserDomainRoleByIdResponse)(nil),     // 48: user_domain_roles.v1.DeleteUserDomainRoleByIdResponse
+	(*UndeleteUserDomainRoleByIdRequest)(nil),    // 49: user_domain_roles.v1.UndeleteUserDomainRoleByIdRequest
+	(*UndeleteUserDomainRoleByIdResponse)(nil),   // 50: user_domain_roles.v1.UndeleteUserDomainRoleByIdResponse
+	(*UserTableRole)(nil),                        // 51: user_domain_roles.v1.UserTableRole
+	(*GetUserTableRoleByIdRequest)(nil),          // 52: user_domain_roles.v1.GetUserTableRoleByIdRequest
+	(*GetUserTableRoleByIdResponse)(nil),         // 53: user_domain_roles.v1.GetUserTableRoleByIdResponse
+	(*GetUserTableRolesRequest)(nil),             // 54: user_domain_roles.v1.GetUserTableRolesRequest
+	(*GetUserTableRolesResponse)(nil),            // 55: user_domain_roles.v1.GetUserTableRolesResponse
+	(*GetDeletedUserTableRoleByIdRequest)(nil),   // 56: user_domain_roles.v1.GetDeletedUserTableRoleByIdRequest
+	(*GetDeletedUserTableRoleByIdResponse)(nil),  // 57: user_domain_roles.v1.GetDeletedUserTableRoleByIdResponse
+	(*GetDeletedUserTableRolesRequest)(nil),      // 58: user_domain_roles.v1.GetDeletedUserTableRolesRequest
+	(*GetDeletedUserTableRolesResponse)(nil),     // 59: user_domain_roles.v1.GetDeletedUserTableRolesResponse
+	(*CreateUserTableRoleRequest)(nil),           // 60: user_domain_roles.v1.CreateUserTableRoleRequest
+	(*CreateUserTableRoleResponse)(nil),          // 61: user_domain_roles.v1.CreateUserTableRoleResponse
+	(*UpdateUserTableRoleByIdRequest)(nil),       // 62: user_domain_roles.v1.UpdateUserTableRoleByIdRequest
+	(*UpdateUserTableRoleByIdResponse)(nil),      // 63: user_domain_roles.v1.UpdateUserTableRoleByIdResponse
+	(*DeleteUserTableRoleByIdRequest)(nil),       // 64: user_domain_roles.v1.DeleteUserTableRoleByIdRequest
+	(*DeleteUserTableRoleByIdResponse)(nil),      // 65: user_domain_roles.v1.DeleteUserTableRoleByIdResponse
+	(*UndeleteUserTableRoleByIdRequest)(nil),     // 66: user_domain_roles.v1.UndeleteUserTableRoleByIdRequest
+	(*UndeleteUserTableRoleByIdResponse)(nil),    // 67: user_domain_roles.v1.UndeleteUserTableRoleByIdResponse
+	(*timestamppb.Timestamp)(nil),                // 68: google.protobuf.Timestamp
+	(*emptypb.Empty)(nil),                        // 69: google.protobuf.Empty
 }
 var file_user_domain_roles_v1_user_domain_roles_proto_depIdxs = []int32{
-	102, // 0: user_domain_roles.v1.DomainRole.created_at:type_name -> google.protobuf.Timestamp
-	102, // 1: user_domain_roles.v1.DomainRole.updated_at:type_name -> google.protobuf.Timestamp
-	0,   // 2: user_domain_roles.v1.GetDomainRoleByIdResponse.domain_role:type_name -> user_domain_roles.v1.DomainRole
-	0,   // 3: user_domain_roles.v1.GetDomainRolesResponse.domain_roles:type_name -> user_domain_roles.v1.DomainRole
-	0,   // 4: user_domain_roles.v1.GetDeletedDomainRoleByIdResponse.domain_role:type_name -> user_domain_roles.v1.DomainRole
-	0,   // 5: user_domain_roles.v1.GetDeletedDomainRolesResponse.domain_roles:type_name -> user_domain_roles.v1.DomainRole
-	0,   // 6: user_domain_roles.v1.CreateDomainRoleResponse.domain_role:type_name -> user_domain_roles.v1.DomainRole
-	0,   // 7: user_domain_roles.v1.UpdateDomainRoleByIdResponse.domain_role:type_name -> user_domain_roles.v1.DomainRole
-	103, // 8: user_domain_roles.v1.DeleteDomainRoleByIdResponse.empty:type_name -> google.protobuf.Empty
-	103, // 9: user_domain_roles.v1.UndeleteDomainRoleByIdResponse.empty:type_name -> google.protobuf.Empty
-	102, // 10: user_domain_roles.v1.DomainsDomainRole.created_at:type_name -> google.protobuf.Timestamp
-	102, // 11: user_domain_roles.v1.DomainsDomainRole.updated_at:type_name -> google.protobuf.Timestamp
-	17,  // 12: user_domain_roles.v1.GetDomainsDomainRoleByIdResponse.domains_domain_role:type_name -> user_domain_roles.v1.DomainsDomainRole
-	17,  // 13: user_domain_roles.v1.GetDomainsDomainRolesResponse.domains_domain_roles:type_name -> user_domain_roles.v1.DomainsDomainRole
-	17,  // 14: user_domain_roles.v1.GetDeletedDomainsDomainRoleByIdResponse.domains_domain_role:type_name -> user_domain_roles.v1.DomainsDomainRole
-	17,  // 15: user_domain_roles.v1.GetDeletedDomainsDomainRolesResponse.domains_domain_roles:type_name -> user_domain_roles.v1.DomainsDomainRole
-	17,  // 16: user_domain_roles.v1.CreateDomainsDomainRoleResponse.domains_domain_role:type_name -> user_domain_roles.v1.DomainsDomainRole
-	17,  // 17: user_domain_roles.v1.UpdateDomainsDomainRoleByIdResponse.domains_domain_role:type_name -> user_domain_roles.v1.DomainsDomainRole
-	103, // 18: user_domain_roles.v1.DeleteDomainsDomainRoleByIdResponse.empty:type_name -> google.protobuf.Empty
-	103, // 19: user_domain_roles.v1.UndeleteDomainsDomainRoleByIdResponse.empty:type_name -> google.protobuf.Empty
-	102, // 20: user_domain_roles.v1.TableRole.created_at:type_name -> google.protobuf.Timestamp
-	102, // 21: user_domain_roles.v1.TableRole.updated_at:type_name -> google.protobuf.Timestamp
-	34,  // 22: user_domain_roles.v1.GetTableRoleByIdResponse.table_role:type_name -> user_domain_roles.v1.TableRole
-	34,  // 23: user_domain_roles.v1.GetTableRolesResponse.table_roles:type_name -> user_domain_roles.v1.TableRole
-	34,  // 24: user_domain_roles.v1.GetDeletedTableRoleByIdResponse.table_role:type_name -> user_domain_roles.v1.TableRole
-	34,  // 25: user_domain_roles.v1.GetDeletedTableRolesResponse.table_roles:type_name -> user_domain_roles.v1.TableRole
-	34,  // 26: user_domain_roles.v1.CreateTableRoleResponse.table_role:type_name -> user_domain_roles.v1.TableRole
-	34,  // 27: user_domain_roles.v1.UpdateTableRoleByIdResponse.table_role:type_name -> user_domain_roles.v1.TableRole
-	103, // 28: user_domain_roles.v1.DeleteTableRoleByIdResponse.empty:type_name -> google.protobuf.Empty
-	103, // 29: user_domain_roles.v1.UndeleteTableRoleByIdResponse.empty:type_name -> google.protobuf.Empty
-	102, // 30: user_domain_roles.v1.TablesTableRole.created_at:type_name -> google.protobuf.Timestamp
-	102, // 31: user_domain_roles.v1.TablesTableRole.updated_at:type_name -> google.protobuf.Timestamp
-	51,  // 32: user_domain_roles.v1.GetTablesTableRoleByIdResponse.tables_table_role:type_name -> user_domain_roles.v1.TablesTableRole
-	51,  // 33: user_domain_roles.v1.GetTablesTableRolesResponse.tables_table_roles:type_name -> user_domain_roles.v1.TablesTableRole
-	51,  // 34: user_domain_roles.v1.GetDeletedTablesTableRoleByIdResponse.tables_table_role:type_name -> user_domain_roles.v1.TablesTableRole
-	51,  // 35: user_domain_roles.v1.GetDeletedTablesTableRolesResponse.tables_table_roles:type_name -> user_domain_roles.v1.TablesTableRole
-	51,  // 36: user_domain_roles.v1.CreateTablesTableRoleResponse.tables_table_role:type_name -> user_domain_roles.v1.TablesTableRole
-	51,  // 37: user_domain_roles.v1.UpdateTablesTableRoleByIdResponse.tables_table_role:type_name -> user_domain_roles.v1.TablesTableRole
-	103, // 38: user_domain_roles.v1.DeleteTablesTableRoleByIdResponse.empty:type_name -> google.protobuf.Empty
-	103, // 39: user_domain_roles.v1.UndeleteTablesTableRoleByIdResponse.empty:type_name -> google.protobuf.Empty
-	102, // 40: user_domain_roles.v1.UserDomainRole.created_at:type_name -> google.protobuf.Timestamp
-	102, // 41: user_domain_roles.v1.UserDomainRole.updated_at:type_name -> google.protobuf.Timestamp
-	68,  // 42: user_domain_roles.v1.GetUserDomainRoleByIdResponse.user_domain_role:type_name -> user_domain_roles.v1.UserDomainRole
-	68,  // 43: user_domain_roles.v1.GetUserDomainRolesResponse.user_domain_roles:type_name -> user_domain_roles.v1.UserDomainRole
-	68,  // 44: user_domain_roles.v1.GetDeletedUserDomainRoleByIdResponse.user_domain_role:type_name -> user_domain_roles.v1.UserDomainRole
-	68,  // 45: user_domain_roles.v1.GetDeletedUserDomainRolesResponse.user_domain_roles:type_name -> user_domain_roles.v1.UserDomainRole
-	68,  // 46: user_domain_roles.v1.CreateUserDomainRoleResponse.user_domain_role:type_name -> user_domain_roles.v1.UserDomainRole
-	68,  // 47: user_domain_roles.v1.UpdateUserDomainRoleByIdResponse.user_domain_role:type_name -> user_domain_roles.v1.UserDomainRole
-	103, // 48: user_domain_roles.v1.DeleteUserDomainRoleByIdResponse.empty:type_name -> google.protobuf.Empty
-	103, // 49: user_domain_roles.v1.UndeleteUserDomainRoleByIdResponse.empty:type_name -> google.protobuf.Empty
-	102, // 50: user_domain_roles.v1.UserTableRole.created_at:type_name -> google.protobuf.Timestamp
-	102, // 51: user_domain_roles.v1.UserTableRole.updated_at:type_name -> google.protobuf.Timestamp
-	85,  // 52: user_domain_roles.v1.GetUserTableRoleByIdResponse.user_table_role:type_name -> user_domain_roles.v1.UserTableRole
-	85,  // 53: user_domain_roles.v1.GetUserTableRolesResponse.user_table_roles:type_name -> user_domain_roles.v1.UserTableRole
-	85,  // 54: user_domain_roles.v1.GetDeletedUserTableRoleByIdResponse.user_table_role:type_name -> user_domain_roles.v1.UserTableRole
-	85,  // 55: user_domain_roles.v1.GetDeletedUserTableRolesResponse.user_table_roles:type_name -> user_domain_roles.v1.UserTableRole
-	85,  // 56: user_domain_roles.v1.CreateUserTableRoleResponse.user_table_role:type_name -> user_domain_roles.v1.UserTableRole
-	85,  // 57: user_domain_roles.v1.UpdateUserTableRoleByIdResponse.user_table_role:type_name -> user_domain_roles.v1.UserTableRole
-	103, // 58: user_domain_roles.v1.DeleteUserTableRoleByIdResponse.empty:type_name -> google.protobuf.Empty
-	103, // 59: user_domain_roles.v1.UndeleteUserTableRoleByIdResponse.empty:type_name -> google.protobuf.Empty
-	1,   // 60: user_domain_roles.v1.UserDomainRolesService.GetDomainRoleById:input_type -> user_domain_roles.v1.GetDomainRoleByIdRequest
-	3,   // 61: user_domain_roles.v1.UserDomainRolesService.GetDomainRoles:input_type -> user_domain_roles.v1.GetDomainRolesRequest
-	5,   // 62: user_domain_roles.v1.UserDomainRolesService.GetDeletedDomainRoleById:input_type -> user_domain_roles.v1.GetDeletedDomainRoleByIdRequest
-	7,   // 63: user_domain_roles.v1.UserDomainRolesService.GetDeletedDomainRoles:input_type -> user_domain_roles.v1.GetDeletedDomainRolesRequest
-	9,   // 64: user_domain_roles.v1.UserDomainRolesService.CreateDomainRole:input_type -> user_domain_roles.v1.CreateDomainRoleRequest
-	11,  // 65: user_domain_roles.v1.UserDomainRolesService.UpdateDomainRoleById:input_type -> user_domain_roles.v1.UpdateDomainRoleByIdRequest
-	13,  // 66: user_domain_roles.v1.UserDomainRolesService.DeleteDomainRoleById:input_type -> user_domain_roles.v1.DeleteDomainRoleByIdRequest
-	15,  // 67: user_domain_roles.v1.UserDomainRolesService.UndeleteDomainRoleById:input_type -> user_domain_roles.v1.UndeleteDomainRoleByIdRequest
-	18,  // 68: user_domain_roles.v1.UserDomainRolesService.GetDomainsDomainRoleById:input_type -> user_domain_roles.v1.GetDomainsDomainRoleByIdRequest
-	20,  // 69: user_domain_roles.v1.UserDomainRolesService.GetDomainsDomainRoles:input_type -> user_domain_roles.v1.GetDomainsDomainRolesRequest
-	22,  // 70: user_domain_roles.v1.UserDomainRolesService.GetDeletedDomainsDomainRoleById:input_type -> user_domain_roles.v1.GetDeletedDomainsDomainRoleByIdRequest
-	24,  // 71: user_domain_roles.v1.UserDomainRolesService.GetDeletedDomainsDomainRoles:input_type -> user_domain_roles.v1.GetDeletedDomainsDomainRolesRequest
-	26,  // 72: user_domain_roles.v1.UserDomainRolesService.CreateDomainsDomainRole:input_type -> user_domain_roles.v1.CreateDomainsDomainRoleRequest
-	28,  // 73: user_domain_roles.v1.UserDomainRolesService.UpdateDomainsDomainRoleById:input_type -> user_domain_roles.v1.UpdateDomainsDomainRoleByIdRequest
-	30,  // 74: user_domain_roles.v1.UserDomainRolesService.DeleteDomainsDomainRoleById:input_type -> user_domain_roles.v1.DeleteDomainsDomainRoleByIdRequest
-	32,  // 75: user_domain_roles.v1.UserDomainRolesService.UndeleteDomainsDomainRoleById:input_type -> user_domain_roles.v1.UndeleteDomainsDomainRoleByIdRequest
-	35,  // 76: user_domain_roles.v1.UserDomainRolesService.GetTableRoleById:input_type -> user_domain_roles.v1.GetTableRoleByIdRequest
-	37,  // 77: user_domain_roles.v1.UserDomainRolesService.GetTableRoles:input_type -> user_domain_roles.v1.GetTableRolesRequest
-	39,  // 78: user_domain_roles.v1.UserDomainRolesService.GetDeletedTableRoleById:input_type -> user_domain_roles.v1.GetDeletedTableRoleByIdRequest
-	41,  // 79: user_domain_roles.v1.UserDomainRolesService.GetDeletedTableRoles:input_type -> user_domain_roles.v1.GetDeletedTableRolesRequest
-	43,  // 80: user_domain_roles.v1.UserDomainRolesService.CreateTableRole:input_type -> user_domain_roles.v1.CreateTableRoleRequest
-	45,  // 81: user_domain_roles.v1.UserDomainRolesService.UpdateTableRoleById:input_type -> user_domain_roles.v1.UpdateTableRoleByIdRequest
-	47,  // 82: user_domain_roles.v1.UserDomainRolesService.DeleteTableRoleById:input_type -> user_domain_roles.v1.DeleteTableRoleByIdRequest
-	49,  // 83: user_domain_roles.v1.UserDomainRolesService.UndeleteTableRoleById:input_type -> user_domain_roles.v1.UndeleteTableRoleByIdRequest
-	52,  // 84: user_domain_roles.v1.UserDomainRolesService.GetTablesTableRoleById:input_type -> user_domain_roles.v1.GetTablesTableRoleByIdRequest
-	54,  // 85: user_domain_roles.v1.UserDomainRolesService.GetTablesTableRoles:input_type -> user_domain_roles.v1.GetTablesTableRolesRequest
-	56,  // 86: user_domain_roles.v1.UserDomainRolesService.GetDeletedTablesTableRoleById:input_type -> user_domain_roles.v1.GetDeletedTablesTableRoleByIdRequest
-	58,  // 87: user_domain_roles.v1.UserDomainRolesService.GetDeletedTablesTableRoles:input_type -> user_domain_roles.v1.GetDeletedTablesTableRolesRequest
-	60,  // 88: user_domain_roles.v1.UserDomainRolesService.CreateTablesTableRole:input_type -> user_domain_roles.v1.CreateTablesTableRoleRequest
-	62,  // 89: user_domain_roles.v1.UserDomainRolesService.UpdateTablesTableRoleById:input_type -> user_domain_roles.v1.UpdateTablesTableRoleByIdRequest
-	64,  // 90: user_domain_roles.v1.UserDomainRolesService.DeleteTablesTableRoleById:input_type -> user_domain_roles.v1.DeleteTablesTableRoleByIdRequest
-	66,  // 91: user_domain_roles.v1.UserDomainRolesService.UndeleteTablesTableRoleById:input_type -> user_domain_roles.v1.UndeleteTablesTableRoleByIdRequest
-	69,  // 92: user_domain_roles.v1.UserDomainRolesService.GetUserDomainRoleById:input_type -> user_domain_roles.v1.GetUserDomainRoleByIdRequest
-	71,  // 93: user_domain_roles.v1.UserDomainRolesService.GetUserDomainRoles:input_type -> user_domain_roles.v1.GetUserDomainRolesRequest
-	73,  // 94: user_domain_roles.v1.UserDomainRolesService.GetDeletedUserDomainRoleById:input_type -> user_domain_roles.v1.GetDeletedUserDomainRoleByIdRequest
-	75,  // 95: user_domain_roles.v1.UserDomainRolesService.GetDeletedUserDomainRoles:input_type -> user_domain_roles.v1.GetDeletedUserDomainRolesRequest
-	77,  // 96: user_domain_roles.v1.UserDomainRolesService.CreateUserDomainRole:input_type -> user_domain_roles.v1.CreateUserDomainRoleRequest
-	79,  // 97: user_domain_roles.v1.UserDomainRolesService.UpdateUserDomainRoleById:input_type -> user_domain_roles.v1.UpdateUserDomainRoleByIdRequest
-	81,  // 98: user_domain_roles.v1.UserDomainRolesService.DeleteUserDomainRoleById:input_type -> user_domain_roles.v1.DeleteUserDomainRoleByIdRequest
-	83,  // 99: user_domain_roles.v1.UserDomainRolesService.UndeleteUserDomainRoleById:input_type -> user_domain_roles.v1.UndeleteUserDomainRoleByIdRequest
-	86,  // 100: user_domain_roles.v1.UserDomainRolesService.GetUserTableRoleById:input_type -> user_domain_roles.v1.GetUserTableRoleByIdRequest
-	88,  // 101: user_domain_roles.v1.UserDomainRolesService.GetUserTableRoles:input_type -> user_domain_roles.v1.GetUserTableRolesRequest
-	90,  // 102: user_domain_roles.v1.UserDomainRolesService.GetDeletedUserTableRoleById:input_type -> user_domain_roles.v1.GetDeletedUserTableRoleByIdRequest
-	92,  // 103: user_domain_roles.v1.UserDomainRolesService.GetDeletedUserTableRoles:input_type -> user_domain_roles.v1.GetDeletedUserTableRolesRequest
-	94,  // 104: user_domain_roles.v1.UserDomainRolesService.CreateUserTableRole:input_type -> user_domain_roles.v1.CreateUserTableRoleRequest
-	96,  // 105: user_domain_roles.v1.UserDomainRolesService.UpdateUserTableRoleById:input_type -> user_domain_roles.v1.UpdateUserTableRoleByIdRequest
-	98,  // 106: user_domain_roles.v1.UserDomainRolesService.DeleteUserTableRoleById:input_type -> user_domain_roles.v1.DeleteUserTableRoleByIdRequest
-	100, // 107: user_domain_roles.v1.UserDomainRolesService.UndeleteUserTableRoleById:input_type -> user_domain_roles.v1.UndeleteUserTableRoleByIdRequest
-	2,   // 108: user_domain_roles.v1.UserDomainRolesService.GetDomainRoleById:output_type -> user_domain_roles.v1.GetDomainRoleByIdResponse
-	4,   // 109: user_domain_roles.v1.UserDomainRolesService.GetDomainRoles:output_type -> user_domain_roles.v1.GetDomainRolesResponse
-	6,   // 110: user_domain_roles.v1.UserDomainRolesService.GetDeletedDomainRoleById:output_type -> user_domain_roles.v1.GetDeletedDomainRoleByIdResponse
-	8,   // 111: user_domain_roles.v1.UserDomainRolesService.GetDeletedDomainRoles:output_type -> user_domain_roles.v1.GetDeletedDomainRolesResponse
-	10,  // 112: user_domain_roles.v1.UserDomainRolesService.CreateDomainRole:output_type -> user_domain_roles.v1.CreateDomainRoleResponse
-	12,  // 113: user_domain_roles.v1.UserDomainRolesService.UpdateDomainRoleById:output_type -> user_domain_roles.v1.UpdateDomainRoleByIdResponse
-	14,  // 114: user_domain_roles.v1.UserDomainRolesService.DeleteDomainRoleById:output_type -> user_domain_roles.v1.DeleteDomainRoleByIdResponse
-	16,  // 115: user_domain_roles.v1.UserDomainRolesService.UndeleteDomainRoleById:output_type -> user_domain_roles.v1.UndeleteDomainRoleByIdResponse
-	19,  // 116: user_domain_roles.v1.UserDomainRolesService.GetDomainsDomainRoleById:output_type -> user_domain_roles.v1.GetDomainsDomainRoleByIdResponse
-	21,  // 117: user_domain_roles.v1.UserDomainRolesService.GetDomainsDomainRoles:output_type -> user_domain_roles.v1.GetDomainsDomainRolesResponse
-	23,  // 118: user_domain_roles.v1.UserDomainRolesService.GetDeletedDomainsDomainRoleById:output_type -> user_domain_roles.v1.GetDeletedDomainsDomainRoleByIdResponse
-	25,  // 119: user_domain_roles.v1.UserDomainRolesService.GetDeletedDomainsDomainRoles:output_type -> user_domain_roles.v1.GetDeletedDomainsDomainRolesResponse
-	27,  // 120: user_domain_roles.v1.UserDomainRolesService.CreateDomainsDomainRole:output_type -> user_domain_roles.v1.CreateDomainsDomainRoleResponse
-	29,  // 121: user_domain_roles.v1.UserDomainRolesService.UpdateDomainsDomainRoleById:output_type -> user_domain_roles.v1.UpdateDomainsDomainRoleByIdResponse
-	31,  // 122: user_domain_roles.v1.UserDomainRolesService.DeleteDomainsDomainRoleById:output_type -> user_domain_roles.v1.DeleteDomainsDomainRoleByIdResponse
-	33,  // 123: user_domain_roles.v1.UserDomainRolesService.UndeleteDomainsDomainRoleById:output_type -> user_domain_roles.v1.UndeleteDomainsDomainRoleByIdResponse
-	36,  // 124: user_domain_roles.v1.UserDomainRolesService.GetTableRoleById:output_type -> user_domain_roles.v1.GetTableRoleByIdResponse
-	38,  // 125: user_domain_roles.v1.UserDomainRolesService.GetTableRoles:output_type -> user_domain_roles.v1.GetTableRolesResponse
-	40,  // 126: user_domain_roles.v1.UserDomainRolesService.GetDeletedTableRoleById:output_type -> user_domain_roles.v1.GetDeletedTableRoleByIdResponse
-	42,  // 127: user_domain_roles.v1.UserDomainRolesService.GetDeletedTableRoles:output_type -> user_domain_roles.v1.GetDeletedTableRolesResponse
-	44,  // 128: user_domain_roles.v1.UserDomainRolesService.CreateTableRole:output_type -> user_domain_roles.v1.CreateTableRoleResponse
-	46,  // 129: user_domain_roles.v1.UserDomainRolesService.UpdateTableRoleById:output_type -> user_domain_roles.v1.UpdateTableRoleByIdResponse
-	48,  // 130: user_domain_roles.v1.UserDomainRolesService.DeleteTableRoleById:output_type -> user_domain_roles.v1.DeleteTableRoleByIdResponse
-	50,  // 131: user_domain_roles.v1.UserDomainRolesService.UndeleteTableRoleById:output_type -> user_domain_roles.v1.UndeleteTableRoleByIdResponse
-	53,  // 132: user_domain_roles.v1.UserDomainRolesService.GetTablesTableRoleById:output_type -> user_domain_roles.v1.GetTablesTableRoleByIdResponse
-	55,  // 133: user_domain_roles.v1.UserDomainRolesService.GetTablesTableRoles:output_type -> user_domain_roles.v1.GetTablesTableRolesResponse
-	57,  // 134: user_domain_roles.v1.UserDomainRolesService.GetDeletedTablesTableRoleById:output_type -> user_domain_roles.v1.GetDeletedTablesTableRoleByIdResponse
-	59,  // 135: user_domain_roles.v1.UserDomainRolesService.GetDeletedTablesTableRoles:output_type -> user_domain_roles.v1.GetDeletedTablesTableRolesResponse
-	61,  // 136: user_domain_roles.v1.UserDomainRolesService.CreateTablesTableRole:output_type -> user_domain_roles.v1.CreateTablesTableRoleResponse
-	63,  // 137: user_domain_roles.v1.UserDomainRolesService.UpdateTablesTableRoleById:output_type -> user_domain_roles.v1.UpdateTablesTableRoleByIdResponse
-	65,  // 138: user_domain_roles.v1.UserDomainRolesService.DeleteTablesTableRoleById:output_type -> user_domain_roles.v1.DeleteTablesTableRoleByIdResponse
-	67,  // 139: user_domain_roles.v1.UserDomainRolesService.UndeleteTablesTableRoleById:output_type -> user_domain_roles.v1.UndeleteTablesTableRoleByIdResponse
-	70,  // 140: user_domain_roles.v1.UserDomainRolesService.GetUserDomainRoleById:output_type -> user_domain_roles.v1.GetUserDomainRoleByIdResponse
-	72,  // 141: user_domain_roles.v1.UserDomainRolesService.GetUserDomainRoles:output_type -> user_domain_roles.v1.GetUserDomainRolesResponse
-	74,  // 142: user_domain_roles.v1.UserDomainRolesService.GetDeletedUserDomainRoleById:output_type -> user_domain_roles.v1.GetDeletedUserDomainRoleByIdResponse
-	76,  // 143: user_domain_roles.v1.UserDomainRolesService.GetDeletedUserDomainRoles:output_type -> user_domain_roles.v1.GetDeletedUserDomainRolesResponse
-	78,  // 144: user_domain_roles.v1.UserDomainRolesService.CreateUserDomainRole:output_type -> user_domain_roles.v1.CreateUserDomainRoleResponse
-	80,  // 145: user_domain_roles.v1.UserDomainRolesService.UpdateUserDomainRoleById:output_type -> user_domain_roles.v1.UpdateUserDomainRoleByIdResponse
-	82,  // 146: user_domain_roles.v1.UserDomainRolesService.DeleteUserDomainRoleById:output_type -> user_domain_roles.v1.DeleteUserDomainRoleByIdResponse
-	84,  // 147: user_domain_roles.v1.UserDomainRolesService.UndeleteUserDomainRoleById:output_type -> user_domain_roles.v1.UndeleteUserDomainRoleByIdResponse
-	87,  // 148: user_domain_roles.v1.UserDomainRolesService.GetUserTableRoleById:output_type -> user_domain_roles.v1.GetUserTableRoleByIdResponse
-	89,  // 149: user_domain_roles.v1.UserDomainRolesService.GetUserTableRoles:output_type -> user_domain_roles.v1.GetUserTableRolesResponse
-	91,  // 150: user_domain_roles.v1.UserDomainRolesService.GetDeletedUserTableRoleById:output_type -> user_domain_roles.v1.GetDeletedUserTableRoleByIdResponse
-	93,  // 151: user_domain_roles.v1.UserDomainRolesService.GetDeletedUserTableRoles:output_type -> user_domain_roles.v1.GetDeletedUserTableRolesResponse
-	95,  // 152: user_domain_roles.v1.UserDomainRolesService.CreateUserTableRole:output_type -> user_domain_roles.v1.CreateUserTableRoleResponse
-	97,  // 153: user_domain_roles.v1.UserDomainRolesService.UpdateUserTableRoleById:output_type -> user_domain_roles.v1.UpdateUserTableRoleByIdResponse
-	99,  // 154: user_domain_roles.v1.UserDomainRolesService.DeleteUserTableRoleById:output_type -> user_domain_roles.v1.DeleteUserTableRoleByIdResponse
-	101, // 155: user_domain_roles.v1.UserDomainRolesService.UndeleteUserTableRoleById:output_type -> user_domain_roles.v1.UndeleteUserTableRoleByIdResponse
-	108, // [108:156] is the sub-list for method output_type
-	60,  // [60:108] is the sub-list for method input_type
-	60,  // [60:60] is the sub-list for extension type_name
-	60,  // [60:60] is the sub-list for extension extendee
-	0,   // [0:60] is the sub-list for field type_name
+	68, // 0: user_domain_roles.v1.DomainRole.created_at:type_name -> google.protobuf.Timestamp
+	68, // 1: user_domain_roles.v1.DomainRole.updated_at:type_name -> google.protobuf.Timestamp
+	0,  // 2: user_domain_roles.v1.GetDomainRoleByIdResponse.domain_role:type_name -> user_domain_roles.v1.DomainRole
+	0,  // 3: user_domain_roles.v1.GetDomainRolesResponse.domain_roles:type_name -> user_domain_roles.v1.DomainRole
+	0,  // 4: user_domain_roles.v1.GetDeletedDomainRoleByIdResponse.domain_role:type_name -> user_domain_roles.v1.DomainRole
+	0,  // 5: user_domain_roles.v1.GetDeletedDomainRolesResponse.domain_roles:type_name -> user_domain_roles.v1.DomainRole
+	0,  // 6: user_domain_roles.v1.CreateDomainRoleResponse.domain_role:type_name -> user_domain_roles.v1.DomainRole
+	0,  // 7: user_domain_roles.v1.UpdateDomainRoleByIdResponse.domain_role:type_name -> user_domain_roles.v1.DomainRole
+	69, // 8: user_domain_roles.v1.DeleteDomainRoleByIdResponse.empty:type_name -> google.protobuf.Empty
+	69, // 9: user_domain_roles.v1.UndeleteDomainRoleByIdResponse.empty:type_name -> google.protobuf.Empty
+	68, // 10: user_domain_roles.v1.TableRole.created_at:type_name -> google.protobuf.Timestamp
+	68, // 11: user_domain_roles.v1.TableRole.updated_at:type_name -> google.protobuf.Timestamp
+	17, // 12: user_domain_roles.v1.GetTableRoleByIdResponse.table_role:type_name -> user_domain_roles.v1.TableRole
+	17, // 13: user_domain_roles.v1.GetTableRolesResponse.table_roles:type_name -> user_domain_roles.v1.TableRole
+	17, // 14: user_domain_roles.v1.GetDeletedTableRoleByIdResponse.table_role:type_name -> user_domain_roles.v1.TableRole
+	17, // 15: user_domain_roles.v1.GetDeletedTableRolesResponse.table_roles:type_name -> user_domain_roles.v1.TableRole
+	17, // 16: user_domain_roles.v1.CreateTableRoleResponse.table_role:type_name -> user_domain_roles.v1.TableRole
+	17, // 17: user_domain_roles.v1.UpdateTableRoleByIdResponse.table_role:type_name -> user_domain_roles.v1.TableRole
+	69, // 18: user_domain_roles.v1.DeleteTableRoleByIdResponse.empty:type_name -> google.protobuf.Empty
+	69, // 19: user_domain_roles.v1.UndeleteTableRoleByIdResponse.empty:type_name -> google.protobuf.Empty
+	68, // 20: user_domain_roles.v1.UserDomainRole.created_at:type_name -> google.protobuf.Timestamp
+	68, // 21: user_domain_roles.v1.UserDomainRole.updated_at:type_name -> google.protobuf.Timestamp
+	34, // 22: user_domain_roles.v1.GetUserDomainRoleByIdResponse.user_domain_role:type_name -> user_domain_roles.v1.UserDomainRole
+	34, // 23: user_domain_roles.v1.GetUserDomainRolesResponse.user_domain_roles:type_name -> user_domain_roles.v1.UserDomainRole
+	34, // 24: user_domain_roles.v1.GetDeletedUserDomainRoleByIdResponse.user_domain_role:type_name -> user_domain_roles.v1.UserDomainRole
+	34, // 25: user_domain_roles.v1.GetDeletedUserDomainRolesResponse.user_domain_roles:type_name -> user_domain_roles.v1.UserDomainRole
+	34, // 26: user_domain_roles.v1.CreateUserDomainRoleResponse.user_domain_role:type_name -> user_domain_roles.v1.UserDomainRole
+	34, // 27: user_domain_roles.v1.UpdateUserDomainRoleByIdResponse.user_domain_role:type_name -> user_domain_roles.v1.UserDomainRole
+	69, // 28: user_domain_roles.v1.DeleteUserDomainRoleByIdResponse.empty:type_name -> google.protobuf.Empty
+	69, // 29: user_domain_roles.v1.UndeleteUserDomainRoleByIdResponse.empty:type_name -> google.protobuf.Empty
+	68, // 30: user_domain_roles.v1.UserTableRole.created_at:type_name -> google.protobuf.Timestamp
+	68, // 31: user_domain_roles.v1.UserTableRole.updated_at:type_name -> google.protobuf.Timestamp
+	51, // 32: user_domain_roles.v1.GetUserTableRoleByIdResponse.user_table_role:type_name -> user_domain_roles.v1.UserTableRole
+	51, // 33: user_domain_roles.v1.GetUserTableRolesResponse.user_table_roles:type_name -> user_domain_roles.v1.UserTableRole
+	51, // 34: user_domain_roles.v1.GetDeletedUserTableRoleByIdResponse.user_table_role:type_name -> user_domain_roles.v1.UserTableRole
+	51, // 35: user_domain_roles.v1.GetDeletedUserTableRolesResponse.user_table_roles:type_name -> user_domain_roles.v1.UserTableRole
+	51, // 36: user_domain_roles.v1.CreateUserTableRoleResponse.user_table_role:type_name -> user_domain_roles.v1.UserTableRole
+	51, // 37: user_domain_roles.v1.UpdateUserTableRoleByIdResponse.user_table_role:type_name -> user_domain_roles.v1.UserTableRole
+	69, // 38: user_domain_roles.v1.DeleteUserTableRoleByIdResponse.empty:type_name -> google.protobuf.Empty
+	69, // 39: user_domain_roles.v1.UndeleteUserTableRoleByIdResponse.empty:type_name -> google.protobuf.Empty
+	1,  // 40: user_domain_roles.v1.UserDomainRolesService.GetDomainRoleById:input_type -> user_domain_roles.v1.GetDomainRoleByIdRequest
+	3,  // 41: user_domain_roles.v1.UserDomainRolesService.GetDomainRoles:input_type -> user_domain_roles.v1.GetDomainRolesRequest
+	5,  // 42: user_domain_roles.v1.UserDomainRolesService.GetDeletedDomainRoleById:input_type -> user_domain_roles.v1.GetDeletedDomainRoleByIdRequest
+	7,  // 43: user_domain_roles.v1.UserDomainRolesService.GetDeletedDomainRoles:input_type -> user_domain_roles.v1.GetDeletedDomainRolesRequest
+	9,  // 44: user_domain_roles.v1.UserDomainRolesService.CreateDomainRole:input_type -> user_domain_roles.v1.CreateDomainRoleRequest
+	11, // 45: user_domain_roles.v1.UserDomainRolesService.UpdateDomainRoleById:input_type -> user_domain_roles.v1.UpdateDomainRoleByIdRequest
+	13, // 46: user_domain_roles.v1.UserDomainRolesService.DeleteDomainRoleById:input_type -> user_domain_roles.v1.DeleteDomainRoleByIdRequest
+	15, // 47: user_domain_roles.v1.UserDomainRolesService.UndeleteDomainRoleById:input_type -> user_domain_roles.v1.UndeleteDomainRoleByIdRequest
+	18, // 48: user_domain_roles.v1.UserDomainRolesService.GetTableRoleById:input_type -> user_domain_roles.v1.GetTableRoleByIdRequest
+	20, // 49: user_domain_roles.v1.UserDomainRolesService.GetTableRoles:input_type -> user_domain_roles.v1.GetTableRolesRequest
+	22, // 50: user_domain_roles.v1.UserDomainRolesService.GetDeletedTableRoleById:input_type -> user_domain_roles.v1.GetDeletedTableRoleByIdRequest
+	24, // 51: user_domain_roles.v1.UserDomainRolesService.GetDeletedTableRoles:input_type -> user_domain_roles.v1.GetDeletedTableRolesRequest
+	26, // 52: user_domain_roles.v1.UserDomainRolesService.CreateTableRole:input_type -> user_domain_roles.v1.CreateTableRoleRequest
+	28, // 53: user_domain_roles.v1.UserDomainRolesService.UpdateTableRoleById:input_type -> user_domain_roles.v1.UpdateTableRoleByIdRequest
+	30, // 54: user_domain_roles.v1.UserDomainRolesService.DeleteTableRoleById:input_type -> user_domain_roles.v1.DeleteTableRoleByIdRequest
+	32, // 55: user_domain_roles.v1.UserDomainRolesService.UndeleteTableRoleById:input_type -> user_domain_roles.v1.UndeleteTableRoleByIdRequest
+	35, // 56: user_domain_roles.v1.UserDomainRolesService.GetUserDomainRoleById:input_type -> user_domain_roles.v1.GetUserDomainRoleByIdRequest
+	37, // 57: user_domain_roles.v1.UserDomainRolesService.GetUserDomainRoles:input_type -> user_domain_roles.v1.GetUserDomainRolesRequest
+	39, // 58: user_domain_roles.v1.UserDomainRolesService.GetDeletedUserDomainRoleById:input_type -> user_domain_roles.v1.GetDeletedUserDomainRoleByIdRequest
+	41, // 59: user_domain_roles.v1.UserDomainRolesService.GetDeletedUserDomainRoles:input_type -> user_domain_roles.v1.GetDeletedUserDomainRolesRequest
+	43, // 60: user_domain_roles.v1.UserDomainRolesService.CreateUserDomainRole:input_type -> user_domain_roles.v1.CreateUserDomainRoleRequest
+	45, // 61: user_domain_roles.v1.UserDomainRolesService.UpdateUserDomainRoleById:input_type -> user_domain_roles.v1.UpdateUserDomainRoleByIdRequest
+	47, // 62: user_domain_roles.v1.UserDomainRolesService.DeleteUserDomainRoleById:input_type -> user_domain_roles.v1.DeleteUserDomainRoleByIdRequest
+	49, // 63: user_domain_roles.v1.UserDomainRolesService.UndeleteUserDomainRoleById:input_type -> user_domain_roles.v1.UndeleteUserDomainRoleByIdRequest
+	52, // 64: user_domain_roles.v1.UserDomainRolesService.GetUserTableRoleById:input_type -> user_domain_roles.v1.GetUserTableRoleByIdRequest
+	54, // 65: user_domain_roles.v1.UserDomainRolesService.GetUserTableRoles:input_type -> user_domain_roles.v1.GetUserTableRolesRequest
+	56, // 66: user_domain_roles.v1.UserDomainRolesService.GetDeletedUserTableRoleById:input_type -> user_domain_roles.v1.GetDeletedUserTableRoleByIdRequest
+	58, // 67: user_domain_roles.v1.UserDomainRolesService.GetDeletedUserTableRoles:input_type -> user_domain_roles.v1.GetDeletedUserTableRolesRequest
+	60, // 68: user_domain_roles.v1.UserDomainRolesService.CreateUserTableRole:input_type -> user_domain_roles.v1.CreateUserTableRoleRequest
+	62, // 69: user_domain_roles.v1.UserDomainRolesService.UpdateUserTableRoleById:input_type -> user_domain_roles.v1.UpdateUserTableRoleByIdRequest
+	64, // 70: user_domain_roles.v1.UserDomainRolesService.DeleteUserTableRoleById:input_type -> user_domain_roles.v1.DeleteUserTableRoleByIdRequest
+	66, // 71: user_domain_roles.v1.UserDomainRolesService.UndeleteUserTableRoleById:input_type -> user_domain_roles.v1.UndeleteUserTableRoleByIdRequest
+	2,  // 72: user_domain_roles.v1.UserDomainRolesService.GetDomainRoleById:output_type -> user_domain_roles.v1.GetDomainRoleByIdResponse
+	4,  // 73: user_domain_roles.v1.UserDomainRolesService.GetDomainRoles:output_type -> user_domain_roles.v1.GetDomainRolesResponse
+	6,  // 74: user_domain_roles.v1.UserDomainRolesService.GetDeletedDomainRoleById:output_type -> user_domain_roles.v1.GetDeletedDomainRoleByIdResponse
+	8,  // 75: user_domain_roles.v1.UserDomainRolesService.GetDeletedDomainRoles:output_type -> user_domain_roles.v1.GetDeletedDomainRolesResponse
+	10, // 76: user_domain_roles.v1.UserDomainRolesService.CreateDomainRole:output_type -> user_domain_roles.v1.CreateDomainRoleResponse
+	12, // 77: user_domain_roles.v1.UserDomainRolesService.UpdateDomainRoleById:output_type -> user_domain_roles.v1.UpdateDomainRoleByIdResponse
+	14, // 78: user_domain_roles.v1.UserDomainRolesService.DeleteDomainRoleById:output_type -> user_domain_roles.v1.DeleteDomainRoleByIdResponse
+	16, // 79: user_domain_roles.v1.UserDomainRolesService.UndeleteDomainRoleById:output_type -> user_domain_roles.v1.UndeleteDomainRoleByIdResponse
+	19, // 80: user_domain_roles.v1.UserDomainRolesService.GetTableRoleById:output_type -> user_domain_roles.v1.GetTableRoleByIdResponse
+	21, // 81: user_domain_roles.v1.UserDomainRolesService.GetTableRoles:output_type -> user_domain_roles.v1.GetTableRolesResponse
+	23, // 82: user_domain_roles.v1.UserDomainRolesService.GetDeletedTableRoleById:output_type -> user_domain_roles.v1.GetDeletedTableRoleByIdResponse
+	25, // 83: user_domain_roles.v1.UserDomainRolesService.GetDeletedTableRoles:output_type -> user_domain_roles.v1.GetDeletedTableRolesResponse
+	27, // 84: user_domain_roles.v1.UserDomainRolesService.CreateTableRole:output_type -> user_domain_roles.v1.CreateTableRoleResponse
+	29, // 85: user_domain_roles.v1.UserDomainRolesService.UpdateTableRoleById:output_type -> user_domain_roles.v1.UpdateTableRoleByIdResponse
+	31, // 86: user_domain_roles.v1.UserDomainRolesService.DeleteTableRoleById:output_type -> user_domain_roles.v1.DeleteTableRoleByIdResponse
+	33, // 87: user_domain_roles.v1.UserDomainRolesService.UndeleteTableRoleById:output_type -> user_domain_roles.v1.UndeleteTableRoleByIdResponse
+	36, // 88: user_domain_roles.v1.UserDomainRolesService.GetUserDomainRoleById:output_type -> user_domain_roles.v1.GetUserDomainRoleByIdResponse
+	38, // 89: user_domain_roles.v1.UserDomainRolesService.GetUserDomainRoles:output_type -> user_domain_roles.v1.GetUserDomainRolesResponse
+	40, // 90: user_domain_roles.v1.UserDomainRolesService.GetDeletedUserDomainRoleById:output_type -> user_domain_roles.v1.GetDeletedUserDomainRoleByIdResponse
+	42, // 91: user_domain_roles.v1.UserDomainRolesService.GetDeletedUserDomainRoles:output_type -> user_domain_roles.v1.GetDeletedUserDomainRolesResponse
+	44, // 92: user_domain_roles.v1.UserDomainRolesService.CreateUserDomainRole:output_type -> user_domain_roles.v1.CreateUserDomainRoleResponse
+	46, // 93: user_domain_roles.v1.UserDomainRolesService.UpdateUserDomainRoleById:output_type -> user_domain_roles.v1.UpdateUserDomainRoleByIdResponse
+	48, // 94: user_domain_roles.v1.UserDomainRolesService.DeleteUserDomainRoleById:output_type -> user_domain_roles.v1.DeleteUserDomainRoleByIdResponse
+	50, // 95: user_domain_roles.v1.UserDomainRolesService.UndeleteUserDomainRoleById:output_type -> user_domain_roles.v1.UndeleteUserDomainRoleByIdResponse
+	53, // 96: user_domain_roles.v1.UserDomainRolesService.GetUserTableRoleById:output_type -> user_domain_roles.v1.GetUserTableRoleByIdResponse
+	55, // 97: user_domain_roles.v1.UserDomainRolesService.GetUserTableRoles:output_type -> user_domain_roles.v1.GetUserTableRolesResponse
+	57, // 98: user_domain_roles.v1.UserDomainRolesService.GetDeletedUserTableRoleById:output_type -> user_domain_roles.v1.GetDeletedUserTableRoleByIdResponse
+	59, // 99: user_domain_roles.v1.UserDomainRolesService.GetDeletedUserTableRoles:output_type -> user_domain_roles.v1.GetDeletedUserTableRolesResponse
+	61, // 100: user_domain_roles.v1.UserDomainRolesService.CreateUserTableRole:output_type -> user_domain_roles.v1.CreateUserTableRoleResponse
+	63, // 101: user_domain_roles.v1.UserDomainRolesService.UpdateUserTableRoleById:output_type -> user_domain_roles.v1.UpdateUserTableRoleByIdResponse
+	65, // 102: user_domain_roles.v1.UserDomainRolesService.DeleteUserTableRoleById:output_type -> user_domain_roles.v1.DeleteUserTableRoleByIdResponse
+	67, // 103: user_domain_roles.v1.UserDomainRolesService.UndeleteUserTableRoleById:output_type -> user_domain_roles.v1.UndeleteUserTableRoleByIdResponse
+	72, // [72:104] is the sub-list for method output_type
+	40, // [40:72] is the sub-list for method input_type
+	40, // [40:40] is the sub-list for extension type_name
+	40, // [40:40] is the sub-list for extension extendee
+	0,  // [0:40] is the sub-list for field type_name
 }
 
 func init() { file_user_domain_roles_v1_user_domain_roles_proto_init() }
@@ -5522,7 +3759,7 @@ func file_user_domain_roles_v1_user_domain_roles_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_user_domain_roles_v1_user_domain_roles_proto_rawDesc), len(file_user_domain_roles_v1_user_domain_roles_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   102,
+			NumMessages:   68,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

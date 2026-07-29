@@ -23,9 +23,13 @@
 ## Indexes
 - Явно не создаются отдельными миграциями.
 
+## Seed data
+- Миграция `000000040_insert_table_roles.sql` заполняет справочник тремя ролями: `can_read`, `can_write`, `can_grant`.
+
 ## Migration source
 - Create: `datacatalogue/db/migrations/000000030_create_table_table_roles.sql`
+- Seed: `datacatalogue/db/migrations/000000040_insert_table_roles.sql`
 
 ## References
 - Tags: #database #datacatalogue #table
-- Links: [[dc.user_table_roles]] [[dc.tables_table_roles]]
+- Links: [[dc.user_table_roles]]

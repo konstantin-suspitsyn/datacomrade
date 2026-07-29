@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/google/uuid"
 	"github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/repository/user_model"
 	customerrors "github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/utils/custom_errors"
 )
@@ -60,6 +61,21 @@ func (s *UserService) GetDeletedUsers(ctx context.Context) ([]user_model.DcUser,
 	}
 
 	return rows, nil
+}
+
+// GetUserByExternalId возвращает активную строку dc.user по уникальной колонке external_id.
+func (s *UserService) GetUserByExternalId(ctx context.Context, externalID uuid.UUID) (user_model.DcUser, error) {
+	row, err := s.UserRepository.GetUserByExternalId(ctx, externalID)
+
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return user_model.DcUser{}, fmt.Errorf("dc.user external_id = %v: %w", externalID, customerrors.ErrNotFound)
+		}
+
+		return user_model.DcUser{}, fmt.Errorf("get dc.user external_id = %v: %w", externalID, err)
+	}
+
+	return row, nil
 }
 
 // CreateUser вставляет строку dc.user и возвращает её целиком.

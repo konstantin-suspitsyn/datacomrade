@@ -13,16 +13,16 @@ import (
 // Тесты портят по одному полю, чтобы проверять правила по отдельности.
 func validCreateUserRequest() *userv1.CreateUserRequest {
 	return &userv1.CreateUserRequest{
-		Name:           "name-0",
-		IncomingUserId: 101,
+		Name:       "name-0",
+		ExternalId: "00000000-0000-4000-8000-000000000002",
 	}
 }
 
 func validUpdateUserByIdRequest() *userv1.UpdateUserByIdRequest {
 	return &userv1.UpdateUserByIdRequest{
-		Id:             42,
-		Name:           "name-0",
-		IncomingUserId: 101,
+		Id:         42,
+		Name:       "name-0",
+		ExternalId: "00000000-0000-4000-8000-000000000002",
 	}
 }
 
@@ -48,8 +48,9 @@ func TestValidateCreateUser(t *testing.T) {
 		{name: "empty name", mutate: func(r *userv1.CreateUserRequest) { r.Name = "" }, wantField: "name"},
 		{name: "blank name", mutate: func(r *userv1.CreateUserRequest) { r.Name = "   " }, wantField: "name"},
 		{name: "name too long", mutate: func(r *userv1.CreateUserRequest) { r.Name = strings.Repeat("a", userNameMaxLen+1) }, wantField: "name"},
-		{name: "zero incoming_user_id", mutate: func(r *userv1.CreateUserRequest) { r.IncomingUserId = 0 }, wantField: "incoming_user_id"},
-		{name: "negative incoming_user_id", mutate: func(r *userv1.CreateUserRequest) { r.IncomingUserId = -1 }, wantField: "incoming_user_id"},
+		{name: "empty external_id", mutate: func(r *userv1.CreateUserRequest) { r.ExternalId = "" }, wantField: "external_id"},
+		{name: "malformed external_id", mutate: func(r *userv1.CreateUserRequest) { r.ExternalId = "not-a-uuid" }, wantField: "external_id"},
+		{name: "external_id without dashes", mutate: func(r *userv1.CreateUserRequest) { r.ExternalId = "00000000000040008000000000000001" }, wantField: "external_id"},
 	}
 
 	for _, tt := range tests {
@@ -96,8 +97,9 @@ func TestValidateUpdateUserById(t *testing.T) {
 		{name: "empty name", mutate: func(r *userv1.UpdateUserByIdRequest) { r.Name = "" }, wantField: "name"},
 		{name: "blank name", mutate: func(r *userv1.UpdateUserByIdRequest) { r.Name = "   " }, wantField: "name"},
 		{name: "name too long", mutate: func(r *userv1.UpdateUserByIdRequest) { r.Name = strings.Repeat("a", userNameMaxLen+1) }, wantField: "name"},
-		{name: "zero incoming_user_id", mutate: func(r *userv1.UpdateUserByIdRequest) { r.IncomingUserId = 0 }, wantField: "incoming_user_id"},
-		{name: "negative incoming_user_id", mutate: func(r *userv1.UpdateUserByIdRequest) { r.IncomingUserId = -1 }, wantField: "incoming_user_id"},
+		{name: "empty external_id", mutate: func(r *userv1.UpdateUserByIdRequest) { r.ExternalId = "" }, wantField: "external_id"},
+		{name: "malformed external_id", mutate: func(r *userv1.UpdateUserByIdRequest) { r.ExternalId = "not-a-uuid" }, wantField: "external_id"},
+		{name: "external_id without dashes", mutate: func(r *userv1.UpdateUserByIdRequest) { r.ExternalId = "00000000000040008000000000000001" }, wantField: "external_id"},
 	}
 
 	for _, tt := range tests {
@@ -163,7 +165,7 @@ func TestValidateCreateUserCollectsAllErrors(t *testing.T) {
 
 	fields := userFieldErrors(t, err)
 
-	wantFields := []string{"name", "incoming_user_id"}
+	wantFields := []string{"name", "external_id"}
 
 	for _, field := range wantFields {
 		if len(fields[field]) == 0 {
@@ -185,5 +187,44 @@ func TestValidateCreateUserNil(t *testing.T) {
 func TestValidateUpdateUserByIdNil(t *testing.T) {
 	if err := ValidateUpdateUserById(nil); err == nil {
 		t.Error("ValidateUpdateUserById(nil) = nil, want error")
+	}
+}
+
+func TestValidateGetUserByExternalId(t *testing.T) {
+	tests := []struct {
+		name    string
+		value   string
+		wantErr bool
+	}{
+		{name: "valid", value: "00000000-0000-4000-8000-000000007001"},
+		{name: "empty", value: "", wantErr: true},
+		{name: "malformed", value: "not-a-uuid", wantErr: true},
+		{name: "without dashes", value: "00000000000040008000000000000001", wantErr: true},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			err := ValidateGetUserByExternalId(&userv1.GetUserByExternalIdRequest{ExternalId: tt.value})
+
+			if (err != nil) != tt.wantErr {
+				t.Errorf("ValidateGetUserByExternalId() error = %v, wantErr %v", err, tt.wantErr)
+			}
+
+			if !tt.wantErr {
+				return
+			}
+
+			fields := userFieldErrors(t, err)
+
+			if len(fields["external_id"]) == 0 {
+				t.Errorf("no error on external_id, got %v", fields)
+			}
+		})
+	}
+}
+
+func TestValidateGetUserByExternalIdNil(t *testing.T) {
+	if err := ValidateGetUserByExternalId(nil); err == nil {
+		t.Error("ValidateGetUserByExternalId(nil) = nil, want error")
 	}
 }

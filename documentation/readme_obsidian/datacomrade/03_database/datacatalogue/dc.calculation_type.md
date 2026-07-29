@@ -24,8 +24,12 @@
 ## Indexes
 - Явно не создаются отдельными миграциями.
 
+## Seed data
+- Миграция `000000034_insert_calculation_types.sql` заполняет справочник значениями `sum`, `count`, `count_distinct`, `avg`, `max`, `min`.
+
 ## Migration source
 - Create: `datacatalogue/db/migrations/000000023_create_table_calculation_type.sql`
+- Seed: `datacatalogue/db/migrations/000000034_insert_calculation_types.sql`
 
 ## References
 - Tags: #database #datacatalogue #table

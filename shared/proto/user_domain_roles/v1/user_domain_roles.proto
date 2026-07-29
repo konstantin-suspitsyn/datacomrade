@@ -20,16 +20,6 @@ service UserDomainRolesService {
   rpc DeleteDomainRoleById(DeleteDomainRoleByIdRequest) returns (DeleteDomainRoleByIdResponse);
   rpc UndeleteDomainRoleById(UndeleteDomainRoleByIdRequest) returns (UndeleteDomainRoleByIdResponse);
 
-  // dc.domains_domain_roles
-  rpc GetDomainsDomainRoleById(GetDomainsDomainRoleByIdRequest) returns (GetDomainsDomainRoleByIdResponse);
-  rpc GetDomainsDomainRoles(GetDomainsDomainRolesRequest) returns (GetDomainsDomainRolesResponse);
-  rpc GetDeletedDomainsDomainRoleById(GetDeletedDomainsDomainRoleByIdRequest) returns (GetDeletedDomainsDomainRoleByIdResponse);
-  rpc GetDeletedDomainsDomainRoles(GetDeletedDomainsDomainRolesRequest) returns (GetDeletedDomainsDomainRolesResponse);
-  rpc CreateDomainsDomainRole(CreateDomainsDomainRoleRequest) returns (CreateDomainsDomainRoleResponse);
-  rpc UpdateDomainsDomainRoleById(UpdateDomainsDomainRoleByIdRequest) returns (UpdateDomainsDomainRoleByIdResponse);
-  rpc DeleteDomainsDomainRoleById(DeleteDomainsDomainRoleByIdRequest) returns (DeleteDomainsDomainRoleByIdResponse);
-  rpc UndeleteDomainsDomainRoleById(UndeleteDomainsDomainRoleByIdRequest) returns (UndeleteDomainsDomainRoleByIdResponse);
-
   // dc.table_roles
   rpc GetTableRoleById(GetTableRoleByIdRequest) returns (GetTableRoleByIdResponse);
   rpc GetTableRoles(GetTableRolesRequest) returns (GetTableRolesResponse);
@@ -39,16 +29,6 @@ service UserDomainRolesService {
   rpc UpdateTableRoleById(UpdateTableRoleByIdRequest) returns (UpdateTableRoleByIdResponse);
   rpc DeleteTableRoleById(DeleteTableRoleByIdRequest) returns (DeleteTableRoleByIdResponse);
   rpc UndeleteTableRoleById(UndeleteTableRoleByIdRequest) returns (UndeleteTableRoleByIdResponse);
-
-  // dc.tables_table_roles
-  rpc GetTablesTableRoleById(GetTablesTableRoleByIdRequest) returns (GetTablesTableRoleByIdResponse);
-  rpc GetTablesTableRoles(GetTablesTableRolesRequest) returns (GetTablesTableRolesResponse);
-  rpc GetDeletedTablesTableRoleById(GetDeletedTablesTableRoleByIdRequest) returns (GetDeletedTablesTableRoleByIdResponse);
-  rpc GetDeletedTablesTableRoles(GetDeletedTablesTableRolesRequest) returns (GetDeletedTablesTableRolesResponse);
-  rpc CreateTablesTableRole(CreateTablesTableRoleRequest) returns (CreateTablesTableRoleResponse);
-  rpc UpdateTablesTableRoleById(UpdateTablesTableRoleByIdRequest) returns (UpdateTablesTableRoleByIdResponse);
-  rpc DeleteTablesTableRoleById(DeleteTablesTableRoleByIdRequest) returns (DeleteTablesTableRoleByIdResponse);
-  rpc UndeleteTablesTableRoleById(UndeleteTablesTableRoleByIdRequest) returns (UndeleteTablesTableRoleByIdResponse);
 
   // dc.user_domain_roles
   rpc GetUserDomainRoleById(GetUserDomainRoleByIdRequest) returns (GetUserDomainRoleByIdResponse);
@@ -165,99 +145,6 @@ message UndeleteDomainRoleByIdResponse {
 }
 
 // =========================================================
-// dc.domains_domain_roles
-// =========================================================
-
-// DomainsDomainRole is a full row of dc.domains_domain_roles.
-message DomainsDomainRole {
-  int64 id = 1;
-  int64 domain_cat_id = 2;
-  int64 domain_roles_id = 3;
-  google.protobuf.Timestamp created_at = 4;
-  google.protobuf.Timestamp updated_at = 5;
-  bool is_deleted = 6;
-}
-
-// GetDomainsDomainRoleByIdRequest asks for a single active dc.domains_domain_roles row by id (query GetDomainsDomainRoleById).
-message GetDomainsDomainRoleByIdRequest {
-  int64 id = 1;
-}
-
-// GetDomainsDomainRoleByIdResponse returns a single active dc.domains_domain_roles row (query GetDomainsDomainRoleById).
-message GetDomainsDomainRoleByIdResponse {
-  DomainsDomainRole domains_domain_role = 1;
-}
-
-// GetDomainsDomainRolesRequest asks for every active dc.domains_domain_roles row (query GetDomainsDomainRoles).
-message GetDomainsDomainRolesRequest {}
-
-// GetDomainsDomainRolesResponse returns every active dc.domains_domain_roles row (query GetDomainsDomainRoles).
-message GetDomainsDomainRolesResponse {
-  repeated DomainsDomainRole domains_domain_roles = 1;
-}
-
-// GetDeletedDomainsDomainRoleByIdRequest asks for a single soft deleted dc.domains_domain_roles row by id (query GetDeletedDomainsDomainRoleById).
-message GetDeletedDomainsDomainRoleByIdRequest {
-  int64 id = 1;
-}
-
-// GetDeletedDomainsDomainRoleByIdResponse returns a single soft deleted dc.domains_domain_roles row (query GetDeletedDomainsDomainRoleById).
-message GetDeletedDomainsDomainRoleByIdResponse {
-  DomainsDomainRole domains_domain_role = 1;
-}
-
-// GetDeletedDomainsDomainRolesRequest asks for every soft deleted dc.domains_domain_roles row (query GetDeletedDomainsDomainRoles).
-message GetDeletedDomainsDomainRolesRequest {}
-
-// GetDeletedDomainsDomainRolesResponse returns every soft deleted dc.domains_domain_roles row (query GetDeletedDomainsDomainRoles).
-message GetDeletedDomainsDomainRolesResponse {
-  repeated DomainsDomainRole domains_domain_roles = 1;
-}
-
-// CreateDomainsDomainRoleRequest carries the fields needed to insert a dc.domains_domain_roles row (query CreateDomainsDomainRole).
-message CreateDomainsDomainRoleRequest {
-  int64 domain_cat_id = 1;
-  int64 domain_roles_id = 2;
-}
-
-// CreateDomainsDomainRoleResponse returns the created dc.domains_domain_roles row (query CreateDomainsDomainRole).
-message CreateDomainsDomainRoleResponse {
-  DomainsDomainRole domains_domain_role = 1;
-}
-
-// UpdateDomainsDomainRoleByIdRequest carries the fields to update on a dc.domains_domain_roles row (query UpdateDomainsDomainRoleById).
-message UpdateDomainsDomainRoleByIdRequest {
-  int64 id = 1;
-  int64 domain_cat_id = 2;
-  int64 domain_roles_id = 3;
-}
-
-// UpdateDomainsDomainRoleByIdResponse returns the updated dc.domains_domain_roles row (query UpdateDomainsDomainRoleById).
-message UpdateDomainsDomainRoleByIdResponse {
-  DomainsDomainRole domains_domain_role = 1;
-}
-
-// DeleteDomainsDomainRoleByIdRequest asks to soft delete a dc.domains_domain_roles row by id, setting is_deleted = true (query DeleteDomainsDomainRoleById).
-message DeleteDomainsDomainRoleByIdRequest {
-  int64 id = 1;
-}
-
-// DeleteDomainsDomainRoleByIdResponse carries no payload (query DeleteDomainsDomainRoleById).
-message DeleteDomainsDomainRoleByIdResponse {
-  google.protobuf.Empty empty = 1;
-}
-
-// UndeleteDomainsDomainRoleByIdRequest asks to restore a soft deleted dc.domains_domain_roles row by id, setting is_deleted = false (query UndeleteDomainsDomainRoleById).
-message UndeleteDomainsDomainRoleByIdRequest {
-  int64 id = 1;
-}
-
-// UndeleteDomainsDomainRoleByIdResponse carries no payload (query UndeleteDomainsDomainRoleById).
-message UndeleteDomainsDomainRoleByIdResponse {
-  google.protobuf.Empty empty = 1;
-}
-
-// =========================================================
 // dc.table_roles
 // =========================================================
 
@@ -351,99 +238,6 @@ message UndeleteTableRoleByIdResponse {
 }
 
 // =========================================================
-// dc.tables_table_roles
-// =========================================================
-
-// TablesTableRole is a full row of dc.tables_table_roles.
-message TablesTableRole {
-  int64 id = 1;
-  int64 table_cat_id = 2;
-  int64 table_roles_id = 3;
-  google.protobuf.Timestamp created_at = 4;
-  google.protobuf.Timestamp updated_at = 5;
-  bool is_deleted = 6;
-}
-
-// GetTablesTableRoleByIdRequest asks for a single active dc.tables_table_roles row by id (query GetTablesTableRoleById).
-message GetTablesTableRoleByIdRequest {
-  int64 id = 1;
-}
-
-// GetTablesTableRoleByIdResponse returns a single active dc.tables_table_roles row (query GetTablesTableRoleById).
-message GetTablesTableRoleByIdResponse {
-  TablesTableRole tables_table_role = 1;
-}
-
-// GetTablesTableRolesRequest asks for every active dc.tables_table_roles row (query GetTablesTableRoles).
-message GetTablesTableRolesRequest {}
-
-// GetTablesTableRolesResponse returns every active dc.tables_table_roles row (query GetTablesTableRoles).
-message GetTablesTableRolesResponse {
-  repeated TablesTableRole tables_table_roles = 1;
-}
-
-// GetDeletedTablesTableRoleByIdRequest asks for a single soft deleted dc.tables_table_roles row by id (query GetDeletedTablesTableRoleById).
-message GetDeletedTablesTableRoleByIdRequest {
-  int64 id = 1;
-}
-
-// GetDeletedTablesTableRoleByIdResponse returns a single soft deleted dc.tables_table_roles row (query GetDeletedTablesTableRoleById).
-message GetDeletedTablesTableRoleByIdResponse {
-  TablesTableRole tables_table_role = 1;
-}
-
-// GetDeletedTablesTableRolesRequest asks for every soft deleted dc.tables_table_roles row (query GetDeletedTablesTableRoles).
-message GetDeletedTablesTableRolesRequest {}
-
-// GetDeletedTablesTableRolesResponse returns every soft deleted dc.tables_table_roles row (query GetDeletedTablesTableRoles).
-message GetDeletedTablesTableRolesResponse {
-  repeated TablesTableRole tables_table_roles = 1;
-}
-
-// CreateTablesTableRoleRequest carries the fields needed to insert a dc.tables_table_roles row (query CreateTablesTableRole).
-message CreateTablesTableRoleRequest {
-  int64 table_cat_id = 1;
-  int64 table_roles_id = 2;
-}
-
-// CreateTablesTableRoleResponse returns the created dc.tables_table_roles row (query CreateTablesTableRole).
-message CreateTablesTableRoleResponse {
-  TablesTableRole tables_table_role = 1;
-}
-
-// UpdateTablesTableRoleByIdRequest carries the fields to update on a dc.tables_table_roles row (query UpdateTablesTableRoleById).
-message UpdateTablesTableRoleByIdRequest {
-  int64 id = 1;
-  int64 table_cat_id = 2;
-  int64 table_roles_id = 3;
-}
-
-// UpdateTablesTableRoleByIdResponse returns the updated dc.tables_table_roles row (query UpdateTablesTableRoleById).
-message UpdateTablesTableRoleByIdResponse {
-  TablesTableRole tables_table_role = 1;
-}
-
-// DeleteTablesTableRoleByIdRequest asks to soft delete a dc.tables_table_roles row by id, setting is_deleted = true (query DeleteTablesTableRoleById).
-message DeleteTablesTableRoleByIdRequest {
-  int64 id = 1;
-}
-
-// DeleteTablesTableRoleByIdResponse carries no payload (query DeleteTablesTableRoleById).
-message DeleteTablesTableRoleByIdResponse {
-  google.protobuf.Empty empty = 1;
-}
-
-// UndeleteTablesTableRoleByIdRequest asks to restore a soft deleted dc.tables_table_roles row by id, setting is_deleted = false (query UndeleteTablesTableRoleById).
-message UndeleteTablesTableRoleByIdRequest {
-  int64 id = 1;
-}
-
-// UndeleteTablesTableRoleByIdResponse carries no payload (query UndeleteTablesTableRoleById).
-message UndeleteTablesTableRoleByIdResponse {
-  google.protobuf.Empty empty = 1;
-}
-
-// =========================================================
 // dc.user_domain_roles
 // =========================================================
 
@@ -455,6 +249,7 @@ message UserDomainRole {
   google.protobuf.Timestamp created_at = 4;
   google.protobuf.Timestamp updated_at = 5;
   bool is_deleted = 6;
+  int64 domain_id = 7;
 }
 
 // GetUserDomainRoleByIdRequest asks for a single active dc.user_domain_roles row by id (query GetUserDomainRoleById).
@@ -497,6 +292,7 @@ message GetDeletedUserDomainRolesResponse {
 message CreateUserDomainRoleRequest {
   int64 user_id = 1;
   int64 domain_roles_id = 2;
+  int64 domain_id = 3;
 }
 
 // CreateUserDomainRoleResponse returns the created dc.user_domain_roles row (query CreateUserDomainRole).
@@ -509,6 +305,7 @@ message UpdateUserDomainRoleByIdRequest {
   int64 id = 1;
   int64 user_id = 2;
   int64 domain_roles_id = 3;
+  int64 domain_id = 4;
 }
 
 // UpdateUserDomainRoleByIdResponse returns the updated dc.user_domain_roles row (query UpdateUserDomainRoleById).
@@ -548,6 +345,7 @@ message UserTableRole {
   google.protobuf.Timestamp created_at = 4;
   google.protobuf.Timestamp updated_at = 5;
   bool is_deleted = 6;
+  int64 table_id = 7;
 }
 
 // GetUserTableRoleByIdRequest asks for a single active dc.user_table_roles row by id (query GetUserTableRoleById).
@@ -590,6 +388,7 @@ message GetDeletedUserTableRolesResponse {
 message CreateUserTableRoleRequest {
   int64 user_id = 1;
   int64 table_roles_id = 2;
+  int64 table_id = 3;
 }
 
 // CreateUserTableRoleResponse returns the created dc.user_table_roles row (query CreateUserTableRole).
@@ -602,6 +401,7 @@ message UpdateUserTableRoleByIdRequest {
   int64 id = 1;
   int64 user_id = 2;
   int64 table_roles_id = 3;
+  int64 table_id = 4;
 }
 
 // UpdateUserTableRoleByIdResponse returns the updated dc.user_table_roles row (query UpdateUserTableRoleById).

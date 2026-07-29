@@ -35,32 +35,6 @@ func (q *Queries) CreateDomainRole(ctx context.Context, arg CreateDomainRolePara
 	return i, err
 }
 
-const createDomainsDomainRole = `-- name: CreateDomainsDomainRole :one
-INSERT INTO dc.domains_domain_roles
-(domain_cat_id, domain_roles_id, created_at, updated_at, is_deleted)
-VALUES($1, $2, now(), now(), false)
-RETURNING id, domain_cat_id, domain_roles_id, created_at, updated_at, is_deleted
-`
-
-type CreateDomainsDomainRoleParams struct {
-	DomainCatID   int64
-	DomainRolesID int64
-}
-
-func (q *Queries) CreateDomainsDomainRole(ctx context.Context, arg CreateDomainsDomainRoleParams) (DcDomainsDomainRole, error) {
-	row := q.db.QueryRowContext(ctx, createDomainsDomainRole, arg.DomainCatID, arg.DomainRolesID)
-	var i DcDomainsDomainRole
-	err := row.Scan(
-		&i.ID,
-		&i.DomainCatID,
-		&i.DomainRolesID,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.IsDeleted,
-	)
-	return i, err
-}
-
 const createTableRole = `-- name: CreateTableRole :one
 INSERT INTO dc.table_roles
 ("name", description, created_at, updated_at, is_deleted)
@@ -87,46 +61,21 @@ func (q *Queries) CreateTableRole(ctx context.Context, arg CreateTableRoleParams
 	return i, err
 }
 
-const createTablesTableRole = `-- name: CreateTablesTableRole :one
-INSERT INTO dc.tables_table_roles
-(table_cat_id, table_roles_id, created_at, updated_at, is_deleted)
-VALUES($1, $2, now(), now(), false)
-RETURNING id, table_cat_id, table_roles_id, created_at, updated_at, is_deleted
-`
-
-type CreateTablesTableRoleParams struct {
-	TableCatID   int64
-	TableRolesID int64
-}
-
-func (q *Queries) CreateTablesTableRole(ctx context.Context, arg CreateTablesTableRoleParams) (DcTablesTableRole, error) {
-	row := q.db.QueryRowContext(ctx, createTablesTableRole, arg.TableCatID, arg.TableRolesID)
-	var i DcTablesTableRole
-	err := row.Scan(
-		&i.ID,
-		&i.TableCatID,
-		&i.TableRolesID,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.IsDeleted,
-	)
-	return i, err
-}
-
 const createUserDomainRole = `-- name: CreateUserDomainRole :one
 INSERT INTO dc.user_domain_roles
-(user_id, domain_roles_id, created_at, updated_at, is_deleted)
-VALUES($1, $2, now(), now(), false)
-RETURNING id, user_id, domain_roles_id, created_at, updated_at, is_deleted
+(user_id, domain_roles_id, created_at, updated_at, is_deleted, domain_id)
+VALUES($1, $2, now(), now(), false, $3)
+RETURNING id, user_id, domain_roles_id, created_at, updated_at, is_deleted, domain_id
 `
 
 type CreateUserDomainRoleParams struct {
 	UserID        int64
 	DomainRolesID int64
+	DomainID      int64
 }
 
 func (q *Queries) CreateUserDomainRole(ctx context.Context, arg CreateUserDomainRoleParams) (DcUserDomainRole, error) {
-	row := q.db.QueryRowContext(ctx, createUserDomainRole, arg.UserID, arg.DomainRolesID)
+	row := q.db.QueryRowContext(ctx, createUserDomainRole, arg.UserID, arg.DomainRolesID, arg.DomainID)
 	var i DcUserDomainRole
 	err := row.Scan(
 		&i.ID,
@@ -135,24 +84,26 @@ func (q *Queries) CreateUserDomainRole(ctx context.Context, arg CreateUserDomain
 		&i.CreatedAt,
 		&i.UpdatedAt,
 		&i.IsDeleted,
+		&i.DomainID,
 	)
 	return i, err
 }
 
 const createUserTableRole = `-- name: CreateUserTableRole :one
 INSERT INTO dc.user_table_roles
-(user_id, table_roles_id, created_at, updated_at, is_deleted)
-VALUES($1, $2, now(), now(), false)
-RETURNING id, user_id, table_roles_id, created_at, updated_at, is_deleted
+(user_id, table_roles_id, created_at, updated_at, is_deleted, table_id)
+VALUES($1, $2, now(), now(), false, $3)
+RETURNING id, user_id, table_roles_id, created_at, updated_at, is_deleted, table_id
 `
 
 type CreateUserTableRoleParams struct {
 	UserID       int64
 	TableRolesID int64
+	TableID      int64
 }
 
 func (q *Queries) CreateUserTableRole(ctx context.Context, arg CreateUserTableRoleParams) (DcUserTableRole, error) {
-	row := q.db.QueryRowContext(ctx, createUserTableRole, arg.UserID, arg.TableRolesID)
+	row := q.db.QueryRowContext(ctx, createUserTableRole, arg.UserID, arg.TableRolesID, arg.TableID)
 	var i DcUserTableRole
 	err := row.Scan(
 		&i.ID,
@@ -161,6 +112,7 @@ func (q *Queries) CreateUserTableRole(ctx context.Context, arg CreateUserTableRo
 		&i.CreatedAt,
 		&i.UpdatedAt,
 		&i.IsDeleted,
+		&i.TableID,
 	)
 	return i, err
 }
@@ -176,17 +128,6 @@ func (q *Queries) DeleteDomainRoleById(ctx context.Context, id int64) error {
 	return err
 }
 
-const deleteDomainsDomainRoleById = `-- name: DeleteDomainsDomainRoleById :exec
-UPDATE dc.domains_domain_roles
-SET is_deleted=true, updated_at=now()
-WHERE id=$1
-`
-
-func (q *Queries) DeleteDomainsDomainRoleById(ctx context.Context, id int64) error {
-	_, err := q.db.ExecContext(ctx, deleteDomainsDomainRoleById, id)
-	return err
-}
-
 const deleteTableRoleById = `-- name: DeleteTableRoleById :exec
 UPDATE dc.table_roles
 SET is_deleted=true, updated_at=now()
@@ -195,17 +136,6 @@ WHERE id=$1
 
 func (q *Queries) DeleteTableRoleById(ctx context.Context, id int64) error {
 	_, err := q.db.ExecContext(ctx, deleteTableRoleById, id)
-	return err
-}
-
-const deleteTablesTableRoleById = `-- name: DeleteTablesTableRoleById :exec
-UPDATE dc.tables_table_roles
-SET is_deleted=true, updated_at=now()
-WHERE id=$1
-`
-
-func (q *Queries) DeleteTablesTableRoleById(ctx context.Context, id int64) error {
-	_, err := q.db.ExecContext(ctx, deleteTablesTableRoleById, id)
 	return err
 }
 
@@ -289,64 +219,6 @@ func (q *Queries) GetDeletedDomainRoles(ctx context.Context) ([]DcDomainRole, er
 	return items, nil
 }
 
-const getDeletedDomainsDomainRoleById = `-- name: GetDeletedDomainsDomainRoleById :one
-SELECT id, domain_cat_id, domain_roles_id, created_at, updated_at, is_deleted
-FROM dc.domains_domain_roles
-WHERE id = $1
-AND is_deleted = true
-`
-
-func (q *Queries) GetDeletedDomainsDomainRoleById(ctx context.Context, id int64) (DcDomainsDomainRole, error) {
-	row := q.db.QueryRowContext(ctx, getDeletedDomainsDomainRoleById, id)
-	var i DcDomainsDomainRole
-	err := row.Scan(
-		&i.ID,
-		&i.DomainCatID,
-		&i.DomainRolesID,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.IsDeleted,
-	)
-	return i, err
-}
-
-const getDeletedDomainsDomainRoles = `-- name: GetDeletedDomainsDomainRoles :many
-SELECT id, domain_cat_id, domain_roles_id, created_at, updated_at, is_deleted
-FROM dc.domains_domain_roles
-WHERE is_deleted = true
-ORDER BY id
-`
-
-func (q *Queries) GetDeletedDomainsDomainRoles(ctx context.Context) ([]DcDomainsDomainRole, error) {
-	rows, err := q.db.QueryContext(ctx, getDeletedDomainsDomainRoles)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []DcDomainsDomainRole
-	for rows.Next() {
-		var i DcDomainsDomainRole
-		if err := rows.Scan(
-			&i.ID,
-			&i.DomainCatID,
-			&i.DomainRolesID,
-			&i.CreatedAt,
-			&i.UpdatedAt,
-			&i.IsDeleted,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
 const getDeletedTableRoleById = `-- name: GetDeletedTableRoleById :one
 SELECT id, name, description, created_at, updated_at, is_deleted
 FROM dc.table_roles
@@ -405,66 +277,8 @@ func (q *Queries) GetDeletedTableRoles(ctx context.Context) ([]DcTableRole, erro
 	return items, nil
 }
 
-const getDeletedTablesTableRoleById = `-- name: GetDeletedTablesTableRoleById :one
-SELECT id, table_cat_id, table_roles_id, created_at, updated_at, is_deleted
-FROM dc.tables_table_roles
-WHERE id = $1
-AND is_deleted = true
-`
-
-func (q *Queries) GetDeletedTablesTableRoleById(ctx context.Context, id int64) (DcTablesTableRole, error) {
-	row := q.db.QueryRowContext(ctx, getDeletedTablesTableRoleById, id)
-	var i DcTablesTableRole
-	err := row.Scan(
-		&i.ID,
-		&i.TableCatID,
-		&i.TableRolesID,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.IsDeleted,
-	)
-	return i, err
-}
-
-const getDeletedTablesTableRoles = `-- name: GetDeletedTablesTableRoles :many
-SELECT id, table_cat_id, table_roles_id, created_at, updated_at, is_deleted
-FROM dc.tables_table_roles
-WHERE is_deleted = true
-ORDER BY id
-`
-
-func (q *Queries) GetDeletedTablesTableRoles(ctx context.Context) ([]DcTablesTableRole, error) {
-	rows, err := q.db.QueryContext(ctx, getDeletedTablesTableRoles)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []DcTablesTableRole
-	for rows.Next() {
-		var i DcTablesTableRole
-		if err := rows.Scan(
-			&i.ID,
-			&i.TableCatID,
-			&i.TableRolesID,
-			&i.CreatedAt,
-			&i.UpdatedAt,
-			&i.IsDeleted,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
 const getDeletedUserDomainRoleById = `-- name: GetDeletedUserDomainRoleById :one
-SELECT id, user_id, domain_roles_id, created_at, updated_at, is_deleted
+SELECT id, user_id, domain_roles_id, created_at, updated_at, is_deleted, domain_id
 FROM dc.user_domain_roles
 WHERE id = $1
 AND is_deleted = true
@@ -480,12 +294,13 @@ func (q *Queries) GetDeletedUserDomainRoleById(ctx context.Context, id int64) (D
 		&i.CreatedAt,
 		&i.UpdatedAt,
 		&i.IsDeleted,
+		&i.DomainID,
 	)
 	return i, err
 }
 
 const getDeletedUserDomainRoles = `-- name: GetDeletedUserDomainRoles :many
-SELECT id, user_id, domain_roles_id, created_at, updated_at, is_deleted
+SELECT id, user_id, domain_roles_id, created_at, updated_at, is_deleted, domain_id
 FROM dc.user_domain_roles
 WHERE is_deleted = true
 ORDER BY id
@@ -507,6 +322,7 @@ func (q *Queries) GetDeletedUserDomainRoles(ctx context.Context) ([]DcUserDomain
 			&i.CreatedAt,
 			&i.UpdatedAt,
 			&i.IsDeleted,
+			&i.DomainID,
 		); err != nil {
 			return nil, err
 		}
@@ -522,7 +338,7 @@ func (q *Queries) GetDeletedUserDomainRoles(ctx context.Context) ([]DcUserDomain
 }
 
 const getDeletedUserTableRoleById = `-- name: GetDeletedUserTableRoleById :one
-SELECT id, user_id, table_roles_id, created_at, updated_at, is_deleted
+SELECT id, user_id, table_roles_id, created_at, updated_at, is_deleted, table_id
 FROM dc.user_table_roles
 WHERE id = $1
 AND is_deleted = true
@@ -538,12 +354,13 @@ func (q *Queries) GetDeletedUserTableRoleById(ctx context.Context, id int64) (Dc
 		&i.CreatedAt,
 		&i.UpdatedAt,
 		&i.IsDeleted,
+		&i.TableID,
 	)
 	return i, err
 }
 
 const getDeletedUserTableRoles = `-- name: GetDeletedUserTableRoles :many
-SELECT id, user_id, table_roles_id, created_at, updated_at, is_deleted
+SELECT id, user_id, table_roles_id, created_at, updated_at, is_deleted, table_id
 FROM dc.user_table_roles
 WHERE is_deleted = true
 ORDER BY id
@@ -565,6 +382,7 @@ func (q *Queries) GetDeletedUserTableRoles(ctx context.Context) ([]DcUserTableRo
 			&i.CreatedAt,
 			&i.UpdatedAt,
 			&i.IsDeleted,
+			&i.TableID,
 		); err != nil {
 			return nil, err
 		}
@@ -624,68 +442,6 @@ func (q *Queries) GetDomainRoles(ctx context.Context) ([]DcDomainRole, error) {
 			&i.ID,
 			&i.Name,
 			&i.Description,
-			&i.CreatedAt,
-			&i.UpdatedAt,
-			&i.IsDeleted,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const getDomainsDomainRoleById = `-- name: GetDomainsDomainRoleById :one
-
-SELECT id, domain_cat_id, domain_roles_id, created_at, updated_at, is_deleted
-FROM dc.domains_domain_roles
-WHERE id = $1
-AND is_deleted = false
-`
-
-// =========================================================
-// dc.domains_domain_roles
-// =========================================================
-func (q *Queries) GetDomainsDomainRoleById(ctx context.Context, id int64) (DcDomainsDomainRole, error) {
-	row := q.db.QueryRowContext(ctx, getDomainsDomainRoleById, id)
-	var i DcDomainsDomainRole
-	err := row.Scan(
-		&i.ID,
-		&i.DomainCatID,
-		&i.DomainRolesID,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.IsDeleted,
-	)
-	return i, err
-}
-
-const getDomainsDomainRoles = `-- name: GetDomainsDomainRoles :many
-SELECT id, domain_cat_id, domain_roles_id, created_at, updated_at, is_deleted
-FROM dc.domains_domain_roles
-WHERE is_deleted = false
-ORDER BY id
-`
-
-func (q *Queries) GetDomainsDomainRoles(ctx context.Context) ([]DcDomainsDomainRole, error) {
-	rows, err := q.db.QueryContext(ctx, getDomainsDomainRoles)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []DcDomainsDomainRole
-	for rows.Next() {
-		var i DcDomainsDomainRole
-		if err := rows.Scan(
-			&i.ID,
-			&i.DomainCatID,
-			&i.DomainRolesID,
 			&i.CreatedAt,
 			&i.UpdatedAt,
 			&i.IsDeleted,
@@ -765,71 +521,9 @@ func (q *Queries) GetTableRoles(ctx context.Context) ([]DcTableRole, error) {
 	return items, nil
 }
 
-const getTablesTableRoleById = `-- name: GetTablesTableRoleById :one
-
-SELECT id, table_cat_id, table_roles_id, created_at, updated_at, is_deleted
-FROM dc.tables_table_roles
-WHERE id = $1
-AND is_deleted = false
-`
-
-// =========================================================
-// dc.tables_table_roles
-// =========================================================
-func (q *Queries) GetTablesTableRoleById(ctx context.Context, id int64) (DcTablesTableRole, error) {
-	row := q.db.QueryRowContext(ctx, getTablesTableRoleById, id)
-	var i DcTablesTableRole
-	err := row.Scan(
-		&i.ID,
-		&i.TableCatID,
-		&i.TableRolesID,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.IsDeleted,
-	)
-	return i, err
-}
-
-const getTablesTableRoles = `-- name: GetTablesTableRoles :many
-SELECT id, table_cat_id, table_roles_id, created_at, updated_at, is_deleted
-FROM dc.tables_table_roles
-WHERE is_deleted = false
-ORDER BY id
-`
-
-func (q *Queries) GetTablesTableRoles(ctx context.Context) ([]DcTablesTableRole, error) {
-	rows, err := q.db.QueryContext(ctx, getTablesTableRoles)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []DcTablesTableRole
-	for rows.Next() {
-		var i DcTablesTableRole
-		if err := rows.Scan(
-			&i.ID,
-			&i.TableCatID,
-			&i.TableRolesID,
-			&i.CreatedAt,
-			&i.UpdatedAt,
-			&i.IsDeleted,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
 const getUserDomainRoleById = `-- name: GetUserDomainRoleById :one
 
-SELECT id, user_id, domain_roles_id, created_at, updated_at, is_deleted
+SELECT id, user_id, domain_roles_id, created_at, updated_at, is_deleted, domain_id
 FROM dc.user_domain_roles
 WHERE id = $1
 AND is_deleted = false
@@ -848,12 +542,13 @@ func (q *Queries) GetUserDomainRoleById(ctx context.Context, id int64) (DcUserDo
 		&i.CreatedAt,
 		&i.UpdatedAt,
 		&i.IsDeleted,
+		&i.DomainID,
 	)
 	return i, err
 }
 
 const getUserDomainRoles = `-- name: GetUserDomainRoles :many
-SELECT id, user_id, domain_roles_id, created_at, updated_at, is_deleted
+SELECT id, user_id, domain_roles_id, created_at, updated_at, is_deleted, domain_id
 FROM dc.user_domain_roles
 WHERE is_deleted = false
 ORDER BY id
@@ -875,6 +570,7 @@ func (q *Queries) GetUserDomainRoles(ctx context.Context) ([]DcUserDomainRole, e
 			&i.CreatedAt,
 			&i.UpdatedAt,
 			&i.IsDeleted,
+			&i.DomainID,
 		); err != nil {
 			return nil, err
 		}
@@ -891,7 +587,7 @@ func (q *Queries) GetUserDomainRoles(ctx context.Context) ([]DcUserDomainRole, e
 
 const getUserTableRoleById = `-- name: GetUserTableRoleById :one
 
-SELECT id, user_id, table_roles_id, created_at, updated_at, is_deleted
+SELECT id, user_id, table_roles_id, created_at, updated_at, is_deleted, table_id
 FROM dc.user_table_roles
 WHERE id = $1
 AND is_deleted = false
@@ -910,12 +606,13 @@ func (q *Queries) GetUserTableRoleById(ctx context.Context, id int64) (DcUserTab
 		&i.CreatedAt,
 		&i.UpdatedAt,
 		&i.IsDeleted,
+		&i.TableID,
 	)
 	return i, err
 }
 
 const getUserTableRoles = `-- name: GetUserTableRoles :many
-SELECT id, user_id, table_roles_id, created_at, updated_at, is_deleted
+SELECT id, user_id, table_roles_id, created_at, updated_at, is_deleted, table_id
 FROM dc.user_table_roles
 WHERE is_deleted = false
 ORDER BY id
@@ -937,6 +634,7 @@ func (q *Queries) GetUserTableRoles(ctx context.Context) ([]DcUserTableRole, err
 			&i.CreatedAt,
 			&i.UpdatedAt,
 			&i.IsDeleted,
+			&i.TableID,
 		); err != nil {
 			return nil, err
 		}
@@ -962,17 +660,6 @@ func (q *Queries) UndeleteDomainRoleById(ctx context.Context, id int64) error {
 	return err
 }
 
-const undeleteDomainsDomainRoleById = `-- name: UndeleteDomainsDomainRoleById :exec
-UPDATE dc.domains_domain_roles
-SET is_deleted=false, updated_at=now()
-WHERE id=$1
-`
-
-func (q *Queries) UndeleteDomainsDomainRoleById(ctx context.Context, id int64) error {
-	_, err := q.db.ExecContext(ctx, undeleteDomainsDomainRoleById, id)
-	return err
-}
-
 const undeleteTableRoleById = `-- name: UndeleteTableRoleById :exec
 UPDATE dc.table_roles
 SET is_deleted=false, updated_at=now()
@@ -981,17 +668,6 @@ WHERE id=$1
 
 func (q *Queries) UndeleteTableRoleById(ctx context.Context, id int64) error {
 	_, err := q.db.ExecContext(ctx, undeleteTableRoleById, id)
-	return err
-}
-
-const undeleteTablesTableRoleById = `-- name: UndeleteTablesTableRoleById :exec
-UPDATE dc.tables_table_roles
-SET is_deleted=false, updated_at=now()
-WHERE id=$1
-`
-
-func (q *Queries) UndeleteTablesTableRoleById(ctx context.Context, id int64) error {
-	_, err := q.db.ExecContext(ctx, undeleteTablesTableRoleById, id)
 	return err
 }
 
@@ -1045,34 +721,6 @@ func (q *Queries) UpdateDomainRoleById(ctx context.Context, arg UpdateDomainRole
 	return i, err
 }
 
-const updateDomainsDomainRoleById = `-- name: UpdateDomainsDomainRoleById :one
-UPDATE dc.domains_domain_roles
-SET domain_cat_id=$2, domain_roles_id=$3, updated_at=now()
-WHERE id=$1
-AND is_deleted = false
-RETURNING id, domain_cat_id, domain_roles_id, created_at, updated_at, is_deleted
-`
-
-type UpdateDomainsDomainRoleByIdParams struct {
-	ID            int64
-	DomainCatID   int64
-	DomainRolesID int64
-}
-
-func (q *Queries) UpdateDomainsDomainRoleById(ctx context.Context, arg UpdateDomainsDomainRoleByIdParams) (DcDomainsDomainRole, error) {
-	row := q.db.QueryRowContext(ctx, updateDomainsDomainRoleById, arg.ID, arg.DomainCatID, arg.DomainRolesID)
-	var i DcDomainsDomainRole
-	err := row.Scan(
-		&i.ID,
-		&i.DomainCatID,
-		&i.DomainRolesID,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.IsDeleted,
-	)
-	return i, err
-}
-
 const updateTableRoleById = `-- name: UpdateTableRoleById :one
 UPDATE dc.table_roles
 SET "name"=$2, description=$3, updated_at=now()
@@ -1101,50 +749,28 @@ func (q *Queries) UpdateTableRoleById(ctx context.Context, arg UpdateTableRoleBy
 	return i, err
 }
 
-const updateTablesTableRoleById = `-- name: UpdateTablesTableRoleById :one
-UPDATE dc.tables_table_roles
-SET table_cat_id=$2, table_roles_id=$3, updated_at=now()
-WHERE id=$1
-AND is_deleted = false
-RETURNING id, table_cat_id, table_roles_id, created_at, updated_at, is_deleted
-`
-
-type UpdateTablesTableRoleByIdParams struct {
-	ID           int64
-	TableCatID   int64
-	TableRolesID int64
-}
-
-func (q *Queries) UpdateTablesTableRoleById(ctx context.Context, arg UpdateTablesTableRoleByIdParams) (DcTablesTableRole, error) {
-	row := q.db.QueryRowContext(ctx, updateTablesTableRoleById, arg.ID, arg.TableCatID, arg.TableRolesID)
-	var i DcTablesTableRole
-	err := row.Scan(
-		&i.ID,
-		&i.TableCatID,
-		&i.TableRolesID,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.IsDeleted,
-	)
-	return i, err
-}
-
 const updateUserDomainRoleById = `-- name: UpdateUserDomainRoleById :one
 UPDATE dc.user_domain_roles
-SET user_id=$2, domain_roles_id=$3, updated_at=now()
+SET user_id=$2, domain_roles_id=$3, domain_id=$4, updated_at=now()
 WHERE id=$1
 AND is_deleted = false
-RETURNING id, user_id, domain_roles_id, created_at, updated_at, is_deleted
+RETURNING id, user_id, domain_roles_id, created_at, updated_at, is_deleted, domain_id
 `
 
 type UpdateUserDomainRoleByIdParams struct {
 	ID            int64
 	UserID        int64
 	DomainRolesID int64
+	DomainID      int64
 }
 
 func (q *Queries) UpdateUserDomainRoleById(ctx context.Context, arg UpdateUserDomainRoleByIdParams) (DcUserDomainRole, error) {
-	row := q.db.QueryRowContext(ctx, updateUserDomainRoleById, arg.ID, arg.UserID, arg.DomainRolesID)
+	row := q.db.QueryRowContext(ctx, updateUserDomainRoleById,
+		arg.ID,
+		arg.UserID,
+		arg.DomainRolesID,
+		arg.DomainID,
+	)
 	var i DcUserDomainRole
 	err := row.Scan(
 		&i.ID,
@@ -1153,26 +779,33 @@ func (q *Queries) UpdateUserDomainRoleById(ctx context.Context, arg UpdateUserDo
 		&i.CreatedAt,
 		&i.UpdatedAt,
 		&i.IsDeleted,
+		&i.DomainID,
 	)
 	return i, err
 }
 
 const updateUserTableRoleById = `-- name: UpdateUserTableRoleById :one
 UPDATE dc.user_table_roles
-SET user_id=$2, table_roles_id=$3, updated_at=now()
+SET user_id=$2, table_roles_id=$3, table_id=$4, updated_at=now()
 WHERE id=$1
 AND is_deleted = false
-RETURNING id, user_id, table_roles_id, created_at, updated_at, is_deleted
+RETURNING id, user_id, table_roles_id, created_at, updated_at, is_deleted, table_id
 `
 
 type UpdateUserTableRoleByIdParams struct {
 	ID           int64
 	UserID       int64
 	TableRolesID int64
+	TableID      int64
 }
 
 func (q *Queries) UpdateUserTableRoleById(ctx context.Context, arg UpdateUserTableRoleByIdParams) (DcUserTableRole, error) {
-	row := q.db.QueryRowContext(ctx, updateUserTableRoleById, arg.ID, arg.UserID, arg.TableRolesID)
+	row := q.db.QueryRowContext(ctx, updateUserTableRoleById,
+		arg.ID,
+		arg.UserID,
+		arg.TableRolesID,
+		arg.TableID,
+	)
 	var i DcUserTableRole
 	err := row.Scan(
 		&i.ID,
@@ -1181,6 +814,7 @@ func (q *Queries) UpdateUserTableRoleById(ctx context.Context, arg UpdateUserTab
 		&i.CreatedAt,
 		&i.UpdatedAt,
 		&i.IsDeleted,
+		&i.TableID,
 	)
 	return i, err
 }

@@ -4,6 +4,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/repository/user_model"
 	userv1 "github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/user/v1"
 )
@@ -16,12 +17,12 @@ var (
 // testUserRow — строка dc.user со значениями, различимыми между полями.
 func testUserRow() user_model.DcUser {
 	return user_model.DcUser{
-		ID:             100,
-		Name:           "name-0",
-		CreatedAt:      userCreatedAt,
-		UpdatedAt:      userUpdatedAt,
-		IsDeleted:      false,
-		IncomingUserID: 105,
+		ID:         100,
+		Name:       "name-0",
+		CreatedAt:  userCreatedAt,
+		UpdatedAt:  userUpdatedAt,
+		IsDeleted:  false,
+		ExternalID: uuid.MustParse("00000000-0000-4000-8000-000000000006"),
 	}
 }
 
@@ -53,8 +54,8 @@ func TestUserToProto(t *testing.T) {
 		t.Errorf("IsDeleted = %v, want %v", got.GetIsDeleted(), row.IsDeleted)
 	}
 
-	if got.GetIncomingUserId() != row.IncomingUserID {
-		t.Errorf("IncomingUserId = %d, want %d", got.GetIncomingUserId(), row.IncomingUserID)
+	if got.GetExternalId() != row.ExternalID.String() {
+		t.Errorf("ExternalId = %q, want %q", got.GetExternalId(), row.ExternalID.String())
 	}
 
 }
@@ -119,13 +120,13 @@ func TestUsersToProtoKeepsOrder(t *testing.T) {
 
 func TestToCreateUserParams(t *testing.T) {
 	req := &userv1.CreateUserRequest{
-		Name:           "name-0",
-		IncomingUserId: 101,
+		Name:       "name-0",
+		ExternalId: "00000000-0000-4000-8000-000000000002",
 	}
 
 	want := user_model.CreateUserParams{
-		Name:           "name-0",
-		IncomingUserID: 101,
+		Name:       "name-0",
+		ExternalID: uuid.MustParse("00000000-0000-4000-8000-000000000002"),
 	}
 
 	if got := ToCreateUserParams(req); got != want {
@@ -142,15 +143,15 @@ func TestToCreateUserParamsNil(t *testing.T) {
 
 func TestToUpdateUserByIdParams(t *testing.T) {
 	req := &userv1.UpdateUserByIdRequest{
-		Id:             100,
-		Name:           "name-0",
-		IncomingUserId: 102,
+		Id:         100,
+		Name:       "name-0",
+		ExternalId: "00000000-0000-4000-8000-000000000003",
 	}
 
 	want := user_model.UpdateUserByIdParams{
-		ID:             100,
-		Name:           "name-0",
-		IncomingUserID: 102,
+		ID:         100,
+		Name:       "name-0",
+		ExternalID: uuid.MustParse("00000000-0000-4000-8000-000000000003"),
 	}
 
 	if got := ToUpdateUserByIdParams(req); got != want {
@@ -161,5 +162,20 @@ func TestToUpdateUserByIdParams(t *testing.T) {
 func TestToUpdateUserByIdParamsNil(t *testing.T) {
 	if got := ToUpdateUserByIdParams(nil); got != (user_model.UpdateUserByIdParams{}) {
 		t.Errorf("ToUpdateUserByIdParams(nil) = %+v, want zero value", got)
+	}
+}
+
+func TestToGetUserByExternalIdArg(t *testing.T) {
+	req := &userv1.GetUserByExternalIdRequest{ExternalId: "00000000-0000-4000-8000-000000007001"}
+
+	if got := ToGetUserByExternalIdArg(req); got != uuid.MustParse("00000000-0000-4000-8000-000000007001") {
+		t.Errorf("ToGetUserByExternalIdArg() = %v, want %v", got, uuid.MustParse("00000000-0000-4000-8000-000000007001"))
+	}
+}
+
+func TestToGetUserByExternalIdArgNil(t *testing.T) {
+	// Геттеры protobuf безопасны на nil: сервер не должен падать.
+	if got := ToGetUserByExternalIdArg(nil); got != uuid.Nil {
+		t.Errorf("ToGetUserByExternalIdArg(nil) = %v, want zero value", got)
 	}
 }

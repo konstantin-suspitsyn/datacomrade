@@ -222,14 +222,30 @@ tasks:
       - echo "[task] 🛑 Останавливаем core контейнеры"
       - docker compose down
 
+  up-keycloak:
+    desc: Поднять keycloak-контейнеры
+    dir: deploy/compose/keycloak
+    cmds:
+      - echo "[task] 🚀 Поднимаем keycloak контейнеры"
+      - docker compose up --build --detach
+
+  down-keycloak:
+    desc: Убиваем keycloak-контейнеры
+    dir: deploy/compose/keycloak
+    cmds:
+      - echo "[task] 🛑 Останавливаем keycloak контейнеры"
+      - docker compose down
+
   up-all:
     desc: Поднять все контейнеры
     cmds:
       - task up-core
       - task up-datacatalogue
+      - task up-keycloak
 
   down-all:
     desc: Поднять все контейнеры
     cmds:
+      - task down-keycloak
       - task down-datacatalogue
       - task down-core

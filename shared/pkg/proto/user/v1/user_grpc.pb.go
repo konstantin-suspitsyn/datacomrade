@@ -19,14 +19,15 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	UserService_GetUserById_FullMethodName        = "/user.v1.UserService/GetUserById"
-	UserService_GetUsers_FullMethodName           = "/user.v1.UserService/GetUsers"
-	UserService_GetDeletedUserById_FullMethodName = "/user.v1.UserService/GetDeletedUserById"
-	UserService_GetDeletedUsers_FullMethodName    = "/user.v1.UserService/GetDeletedUsers"
-	UserService_CreateUser_FullMethodName         = "/user.v1.UserService/CreateUser"
-	UserService_UpdateUserById_FullMethodName     = "/user.v1.UserService/UpdateUserById"
-	UserService_DeleteUserById_FullMethodName     = "/user.v1.UserService/DeleteUserById"
-	UserService_UndeleteUserById_FullMethodName   = "/user.v1.UserService/UndeleteUserById"
+	UserService_GetUserById_FullMethodName         = "/user.v1.UserService/GetUserById"
+	UserService_GetUserByExternalId_FullMethodName = "/user.v1.UserService/GetUserByExternalId"
+	UserService_GetUsers_FullMethodName            = "/user.v1.UserService/GetUsers"
+	UserService_GetDeletedUserById_FullMethodName  = "/user.v1.UserService/GetDeletedUserById"
+	UserService_GetDeletedUsers_FullMethodName     = "/user.v1.UserService/GetDeletedUsers"
+	UserService_CreateUser_FullMethodName          = "/user.v1.UserService/CreateUser"
+	UserService_UpdateUserById_FullMethodName      = "/user.v1.UserService/UpdateUserById"
+	UserService_DeleteUserById_FullMethodName      = "/user.v1.UserService/DeleteUserById"
+	UserService_UndeleteUserById_FullMethodName    = "/user.v1.UserService/UndeleteUserById"
 )
 
 // UserServiceClient is the client API for UserService service.
@@ -34,10 +35,11 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
 // UserService mirrors query.sql one-to-one:
-// 8 standard CRUD calls per table.
+// 8 standard CRUD calls per table plus a lookup by external_id.
 type UserServiceClient interface {
 	// dc.user
 	GetUserById(ctx context.Context, in *GetUserByIdRequest, opts ...grpc.CallOption) (*GetUserByIdResponse, error)
+	GetUserByExternalId(ctx context.Context, in *GetUserByExternalIdRequest, opts ...grpc.CallOption) (*GetUserByExternalIdResponse, error)
 	GetUsers(ctx context.Context, in *GetUsersRequest, opts ...grpc.CallOption) (*GetUsersResponse, error)
 	GetDeletedUserById(ctx context.Context, in *GetDeletedUserByIdRequest, opts ...grpc.CallOption) (*GetDeletedUserByIdResponse, error)
 	GetDeletedUsers(ctx context.Context, in *GetDeletedUsersRequest, opts ...grpc.CallOption) (*GetDeletedUsersResponse, error)
@@ -59,6 +61,16 @@ func (c *userServiceClient) GetUserById(ctx context.Context, in *GetUserByIdRequ
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetUserByIdResponse)
 	err := c.cc.Invoke(ctx, UserService_GetUserById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) GetUserByExternalId(ctx context.Context, in *GetUserByExternalIdRequest, opts ...grpc.CallOption) (*GetUserByExternalIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetUserByExternalIdResponse)
+	err := c.cc.Invoke(ctx, UserService_GetUserByExternalId_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -140,10 +152,11 @@ func (c *userServiceClient) UndeleteUserById(ctx context.Context, in *UndeleteUs
 // for forward compatibility.
 //
 // UserService mirrors query.sql one-to-one:
-// 8 standard CRUD calls per table.
+// 8 standard CRUD calls per table plus a lookup by external_id.
 type UserServiceServer interface {
 	// dc.user
 	GetUserById(context.Context, *GetUserByIdRequest) (*GetUserByIdResponse, error)
+	GetUserByExternalId(context.Context, *GetUserByExternalIdRequest) (*GetUserByExternalIdResponse, error)
 	GetUsers(context.Context, *GetUsersRequest) (*GetUsersResponse, error)
 	GetDeletedUserById(context.Context, *GetDeletedUserByIdRequest) (*GetDeletedUserByIdResponse, error)
 	GetDeletedUsers(context.Context, *GetDeletedUsersRequest) (*GetDeletedUsersResponse, error)
@@ -163,6 +176,9 @@ type UnimplementedUserServiceServer struct{}
 
 func (UnimplementedUserServiceServer) GetUserById(context.Context, *GetUserByIdRequest) (*GetUserByIdResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserById not implemented")
+}
+func (UnimplementedUserServiceServer) GetUserByExternalId(context.Context, *GetUserByExternalIdRequest) (*GetUserByExternalIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserByExternalId not implemented")
 }
 func (UnimplementedUserServiceServer) GetUsers(context.Context, *GetUsersRequest) (*GetUsersResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUsers not implemented")
@@ -220,6 +236,24 @@ func _UserService_GetUserById_Handler(srv interface{}, ctx context.Context, dec 
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UserServiceServer).GetUserById(ctx, req.(*GetUserByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_GetUserByExternalId_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserByExternalIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).GetUserByExternalId(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_GetUserByExternalId_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).GetUserByExternalId(ctx, req.(*GetUserByExternalIdRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -360,6 +394,10 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetUserById",
 			Handler:    _UserService_GetUserById_Handler,
+		},
+		{
+			MethodName: "GetUserByExternalId",
+			Handler:    _UserService_GetUserByExternalId_Handler,
 		},
 		{
 			MethodName: "GetUsers",

@@ -8,14 +8,6 @@ CREATE TABLE dc.domain_roles (
     updated_at timestamp without time zone DEFAULT now() NOT NULL,
     is_deleted boolean DEFAULT false NOT NULL
 );
-CREATE TABLE dc.domains_domain_roles (
-    id bigint NOT NULL,
-    domain_cat_id bigint NOT NULL,
-    domain_roles_id bigint NOT NULL,
-    created_at timestamp without time zone DEFAULT now() NOT NULL,
-    updated_at timestamp without time zone DEFAULT now() NOT NULL,
-    is_deleted boolean DEFAULT false NOT NULL
-);
 CREATE TABLE dc.table_roles (
     id bigint NOT NULL,
     name character varying(128) NOT NULL,
@@ -24,27 +16,23 @@ CREATE TABLE dc.table_roles (
     updated_at timestamp without time zone DEFAULT now() NOT NULL,
     is_deleted boolean DEFAULT false NOT NULL
 );
-CREATE TABLE dc.tables_table_roles (
-    id bigint NOT NULL,
-    table_cat_id bigint NOT NULL,
-    table_roles_id bigint NOT NULL,
-    created_at timestamp without time zone DEFAULT now() NOT NULL,
-    updated_at timestamp without time zone DEFAULT now() NOT NULL,
-    is_deleted boolean DEFAULT false NOT NULL
+create table dc.user_domain_roles (
+                          id bigint primary key not null default nextval('user_domain_roles_id_seq'::regclass),
+                          user_id bigint not null,
+                          domain_roles_id bigint not null,
+                          created_at timestamp without time zone not null default now(),
+                          updated_at timestamp without time zone not null default now(),
+                          is_deleted boolean not null default false,
+                          domain_id bigint not null
 );
-CREATE TABLE dc.user_domain_roles (
-    id bigint NOT NULL,
-    user_id bigint NOT NULL,
-    domain_roles_id bigint NOT NULL,
-    created_at timestamp without time zone DEFAULT now() NOT NULL,
-    updated_at timestamp without time zone DEFAULT now() NOT NULL,
-    is_deleted boolean DEFAULT false NOT NULL
+create table dc.user_table_roles
+(
+    id             bigserial not null,
+    user_id        bigint                  not null,
+    table_roles_id bigint                  not null,
+    created_at     timestamp default now() not null,
+    updated_at     timestamp default now() not null,
+    is_deleted     boolean   default false not null,
+    table_id       bigint                  not null
 );
-CREATE TABLE dc.user_table_roles (
-    id bigint NOT NULL,
-    user_id bigint NOT NULL,
-    table_roles_id bigint NOT NULL,
-    created_at timestamp without time zone DEFAULT now() NOT NULL,
-    updated_at timestamp without time zone DEFAULT now() NOT NULL,
-    is_deleted boolean DEFAULT false NOT NULL
-);
+

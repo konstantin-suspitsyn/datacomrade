@@ -6,5 +6,5 @@ CREATE TABLE dc."user" (
     created_at timestamp without time zone DEFAULT now() NOT NULL,
     updated_at timestamp without time zone DEFAULT now() NOT NULL,
     is_deleted boolean DEFAULT false NOT NULL,
-    incoming_user_id bigint DEFAULT '-1'::integer NOT NULL
+    external_id uuid NOT NULL
 );

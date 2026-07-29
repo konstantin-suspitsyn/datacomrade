@@ -29,4 +29,4 @@
 
 ## References
 - Tags: #database #datacatalogue #table
-- Links: [[dc.user]] [[dc.table_cat]] [[dc.domains_domain_roles]]
+- Links: [[dc.user]] [[dc.table_cat]] [[dc.user_domain_roles]]

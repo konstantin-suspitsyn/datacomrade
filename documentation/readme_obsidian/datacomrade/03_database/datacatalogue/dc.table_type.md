@@ -29,9 +29,13 @@ API для измения делать не буду. Это мини-справ
 ## Indexes
 - Явно не создаются отдельными миграциями.
 
+## Seed data
+- Миграция `000000038_insert_table_type.sql` заполняет справочник значениями `fact` и `dimension`, `user_id` указывает на технического пользователя `Lomonosov M.` (см. [[dc.user]]).
+
 ## Migration source
 - Create: `datacatalogue/db/migrations/000000008_create_table _table_type.sql`
 - FK/Alter: `datacatalogue/db/migrations/000000014_add_fk_table_type_user.sql`
+- Seed: `datacatalogue/db/migrations/000000038_insert_table_type.sql`
 
 ## References
 - Tags: #database #datacatalogue #table

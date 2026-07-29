@@ -19,54 +19,38 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	UserDomainRolesService_GetDomainRoleById_FullMethodName               = "/user_domain_roles.v1.UserDomainRolesService/GetDomainRoleById"
-	UserDomainRolesService_GetDomainRoles_FullMethodName                  = "/user_domain_roles.v1.UserDomainRolesService/GetDomainRoles"
-	UserDomainRolesService_GetDeletedDomainRoleById_FullMethodName        = "/user_domain_roles.v1.UserDomainRolesService/GetDeletedDomainRoleById"
-	UserDomainRolesService_GetDeletedDomainRoles_FullMethodName           = "/user_domain_roles.v1.UserDomainRolesService/GetDeletedDomainRoles"
-	UserDomainRolesService_CreateDomainRole_FullMethodName                = "/user_domain_roles.v1.UserDomainRolesService/CreateDomainRole"
-	UserDomainRolesService_UpdateDomainRoleById_FullMethodName            = "/user_domain_roles.v1.UserDomainRolesService/UpdateDomainRoleById"
-	UserDomainRolesService_DeleteDomainRoleById_FullMethodName            = "/user_domain_roles.v1.UserDomainRolesService/DeleteDomainRoleById"
-	UserDomainRolesService_UndeleteDomainRoleById_FullMethodName          = "/user_domain_roles.v1.UserDomainRolesService/UndeleteDomainRoleById"
-	UserDomainRolesService_GetDomainsDomainRoleById_FullMethodName        = "/user_domain_roles.v1.UserDomainRolesService/GetDomainsDomainRoleById"
-	UserDomainRolesService_GetDomainsDomainRoles_FullMethodName           = "/user_domain_roles.v1.UserDomainRolesService/GetDomainsDomainRoles"
-	UserDomainRolesService_GetDeletedDomainsDomainRoleById_FullMethodName = "/user_domain_roles.v1.UserDomainRolesService/GetDeletedDomainsDomainRoleById"
-	UserDomainRolesService_GetDeletedDomainsDomainRoles_FullMethodName    = "/user_domain_roles.v1.UserDomainRolesService/GetDeletedDomainsDomainRoles"
-	UserDomainRolesService_CreateDomainsDomainRole_FullMethodName         = "/user_domain_roles.v1.UserDomainRolesService/CreateDomainsDomainRole"
-	UserDomainRolesService_UpdateDomainsDomainRoleById_FullMethodName     = "/user_domain_roles.v1.UserDomainRolesService/UpdateDomainsDomainRoleById"
-	UserDomainRolesService_DeleteDomainsDomainRoleById_FullMethodName     = "/user_domain_roles.v1.UserDomainRolesService/DeleteDomainsDomainRoleById"
-	UserDomainRolesService_UndeleteDomainsDomainRoleById_FullMethodName   = "/user_domain_roles.v1.UserDomainRolesService/UndeleteDomainsDomainRoleById"
-	UserDomainRolesService_GetTableRoleById_FullMethodName                = "/user_domain_roles.v1.UserDomainRolesService/GetTableRoleById"
-	UserDomainRolesService_GetTableRoles_FullMethodName                   = "/user_domain_roles.v1.UserDomainRolesService/GetTableRoles"
-	UserDomainRolesService_GetDeletedTableRoleById_FullMethodName         = "/user_domain_roles.v1.UserDomainRolesService/GetDeletedTableRoleById"
-	UserDomainRolesService_GetDeletedTableRoles_FullMethodName            = "/user_domain_roles.v1.UserDomainRolesService/GetDeletedTableRoles"
-	UserDomainRolesService_CreateTableRole_FullMethodName                 = "/user_domain_roles.v1.UserDomainRolesService/CreateTableRole"
-	UserDomainRolesService_UpdateTableRoleById_FullMethodName             = "/user_domain_roles.v1.UserDomainRolesService/UpdateTableRoleById"
-	UserDomainRolesService_DeleteTableRoleById_FullMethodName             = "/user_domain_roles.v1.UserDomainRolesService/DeleteTableRoleById"
-	UserDomainRolesService_UndeleteTableRoleById_FullMethodName           = "/user_domain_roles.v1.UserDomainRolesService/UndeleteTableRoleById"
-	UserDomainRolesService_GetTablesTableRoleById_FullMethodName          = "/user_domain_roles.v1.UserDomainRolesService/GetTablesTableRoleById"
-	UserDomainRolesService_GetTablesTableRoles_FullMethodName             = "/user_domain_roles.v1.UserDomainRolesService/GetTablesTableRoles"
-	UserDomainRolesService_GetDeletedTablesTableRoleById_FullMethodName   = "/user_domain_roles.v1.UserDomainRolesService/GetDeletedTablesTableRoleById"
-	UserDomainRolesService_GetDeletedTablesTableRoles_FullMethodName      = "/user_domain_roles.v1.UserDomainRolesService/GetDeletedTablesTableRoles"
-	UserDomainRolesService_CreateTablesTableRole_FullMethodName           = "/user_domain_roles.v1.UserDomainRolesService/CreateTablesTableRole"
-	UserDomainRolesService_UpdateTablesTableRoleById_FullMethodName       = "/user_domain_roles.v1.UserDomainRolesService/UpdateTablesTableRoleById"
-	UserDomainRolesService_DeleteTablesTableRoleById_FullMethodName       = "/user_domain_roles.v1.UserDomainRolesService/DeleteTablesTableRoleById"
-	UserDomainRolesService_UndeleteTablesTableRoleById_FullMethodName     = "/user_domain_roles.v1.UserDomainRolesService/UndeleteTablesTableRoleById"
-	UserDomainRolesService_GetUserDomainRoleById_FullMethodName           = "/user_domain_roles.v1.UserDomainRolesService/GetUserDomainRoleById"
-	UserDomainRolesService_GetUserDomainRoles_FullMethodName              = "/user_domain_roles.v1.UserDomainRolesService/GetUserDomainRoles"
-	UserDomainRolesService_GetDeletedUserDomainRoleById_FullMethodName    = "/user_domain_roles.v1.UserDomainRolesService/GetDeletedUserDomainRoleById"
-	UserDomainRolesService_GetDeletedUserDomainRoles_FullMethodName       = "/user_domain_roles.v1.UserDomainRolesService/GetDeletedUserDomainRoles"
-	UserDomainRolesService_CreateUserDomainRole_FullMethodName            = "/user_domain_roles.v1.UserDomainRolesService/CreateUserDomainRole"
-	UserDomainRolesService_UpdateUserDomainRoleById_FullMethodName        = "/user_domain_roles.v1.UserDomainRolesService/UpdateUserDomainRoleById"
-	UserDomainRolesService_DeleteUserDomainRoleById_FullMethodName        = "/user_domain_roles.v1.UserDomainRolesService/DeleteUserDomainRoleById"
-	UserDomainRolesService_UndeleteUserDomainRoleById_FullMethodName      = "/user_domain_roles.v1.UserDomainRolesService/UndeleteUserDomainRoleById"
-	UserDomainRolesService_GetUserTableRoleById_FullMethodName            = "/user_domain_roles.v1.UserDomainRolesService/GetUserTableRoleById"
-	UserDomainRolesService_GetUserTableRoles_FullMethodName               = "/user_domain_roles.v1.UserDomainRolesService/GetUserTableRoles"
-	UserDomainRolesService_GetDeletedUserTableRoleById_FullMethodName     = "/user_domain_roles.v1.UserDomainRolesService/GetDeletedUserTableRoleById"
-	UserDomainRolesService_GetDeletedUserTableRoles_FullMethodName        = "/user_domain_roles.v1.UserDomainRolesService/GetDeletedUserTableRoles"
-	UserDomainRolesService_CreateUserTableRole_FullMethodName             = "/user_domain_roles.v1.UserDomainRolesService/CreateUserTableRole"
-	UserDomainRolesService_UpdateUserTableRoleById_FullMethodName         = "/user_domain_roles.v1.UserDomainRolesService/UpdateUserTableRoleById"
-	UserDomainRolesService_DeleteUserTableRoleById_FullMethodName         = "/user_domain_roles.v1.UserDomainRolesService/DeleteUserTableRoleById"
-	UserDomainRolesService_UndeleteUserTableRoleById_FullMethodName       = "/user_domain_roles.v1.UserDomainRolesService/UndeleteUserTableRoleById"
+	UserDomainRolesService_GetDomainRoleById_FullMethodName            = "/user_domain_roles.v1.UserDomainRolesService/GetDomainRoleById"
+	UserDomainRolesService_GetDomainRoles_FullMethodName               = "/user_domain_roles.v1.UserDomainRolesService/GetDomainRoles"
+	UserDomainRolesService_GetDeletedDomainRoleById_FullMethodName     = "/user_domain_roles.v1.UserDomainRolesService/GetDeletedDomainRoleById"
+	UserDomainRolesService_GetDeletedDomainRoles_FullMethodName        = "/user_domain_roles.v1.UserDomainRolesService/GetDeletedDomainRoles"
+	UserDomainRolesService_CreateDomainRole_FullMethodName             = "/user_domain_roles.v1.UserDomainRolesService/CreateDomainRole"
+	UserDomainRolesService_UpdateDomainRoleById_FullMethodName         = "/user_domain_roles.v1.UserDomainRolesService/UpdateDomainRoleById"
+	UserDomainRolesService_DeleteDomainRoleById_FullMethodName         = "/user_domain_roles.v1.UserDomainRolesService/DeleteDomainRoleById"
+	UserDomainRolesService_UndeleteDomainRoleById_FullMethodName       = "/user_domain_roles.v1.UserDomainRolesService/UndeleteDomainRoleById"
+	UserDomainRolesService_GetTableRoleById_FullMethodName             = "/user_domain_roles.v1.UserDomainRolesService/GetTableRoleById"
+	UserDomainRolesService_GetTableRoles_FullMethodName                = "/user_domain_roles.v1.UserDomainRolesService/GetTableRoles"
+	UserDomainRolesService_GetDeletedTableRoleById_FullMethodName      = "/user_domain_roles.v1.UserDomainRolesService/GetDeletedTableRoleById"
+	UserDomainRolesService_GetDeletedTableRoles_FullMethodName         = "/user_domain_roles.v1.UserDomainRolesService/GetDeletedTableRoles"
+	UserDomainRolesService_CreateTableRole_FullMethodName              = "/user_domain_roles.v1.UserDomainRolesService/CreateTableRole"
+	UserDomainRolesService_UpdateTableRoleById_FullMethodName          = "/user_domain_roles.v1.UserDomainRolesService/UpdateTableRoleById"
+	UserDomainRolesService_DeleteTableRoleById_FullMethodName          = "/user_domain_roles.v1.UserDomainRolesService/DeleteTableRoleById"
+	UserDomainRolesService_UndeleteTableRoleById_FullMethodName        = "/user_domain_roles.v1.UserDomainRolesService/UndeleteTableRoleById"
+	UserDomainRolesService_GetUserDomainRoleById_FullMethodName        = "/user_domain_roles.v1.UserDomainRolesService/GetUserDomainRoleById"
+	UserDomainRolesService_GetUserDomainRoles_FullMethodName           = "/user_domain_roles.v1.UserDomainRolesService/GetUserDomainRoles"
+	UserDomainRolesService_GetDeletedUserDomainRoleById_FullMethodName = "/user_domain_roles.v1.UserDomainRolesService/GetDeletedUserDomainRoleById"
+	UserDomainRolesService_GetDeletedUserDomainRoles_FullMethodName    = "/user_domain_roles.v1.UserDomainRolesService/GetDeletedUserDomainRoles"
+	UserDomainRolesService_CreateUserDomainRole_FullMethodName         = "/user_domain_roles.v1.UserDomainRolesService/CreateUserDomainRole"
+	UserDomainRolesService_UpdateUserDomainRoleById_FullMethodName     = "/user_domain_roles.v1.UserDomainRolesService/UpdateUserDomainRoleById"
+	UserDomainRolesService_DeleteUserDomainRoleById_FullMethodName     = "/user_domain_roles.v1.UserDomainRolesService/DeleteUserDomainRoleById"
+	UserDomainRolesService_UndeleteUserDomainRoleById_FullMethodName   = "/user_domain_roles.v1.UserDomainRolesService/UndeleteUserDomainRoleById"
+	UserDomainRolesService_GetUserTableRoleById_FullMethodName         = "/user_domain_roles.v1.UserDomainRolesService/GetUserTableRoleById"
+	UserDomainRolesService_GetUserTableRoles_FullMethodName            = "/user_domain_roles.v1.UserDomainRolesService/GetUserTableRoles"
+	UserDomainRolesService_GetDeletedUserTableRoleById_FullMethodName  = "/user_domain_roles.v1.UserDomainRolesService/GetDeletedUserTableRoleById"
+	UserDomainRolesService_GetDeletedUserTableRoles_FullMethodName     = "/user_domain_roles.v1.UserDomainRolesService/GetDeletedUserTableRoles"
+	UserDomainRolesService_CreateUserTableRole_FullMethodName          = "/user_domain_roles.v1.UserDomainRolesService/CreateUserTableRole"
+	UserDomainRolesService_UpdateUserTableRoleById_FullMethodName      = "/user_domain_roles.v1.UserDomainRolesService/UpdateUserTableRoleById"
+	UserDomainRolesService_DeleteUserTableRoleById_FullMethodName      = "/user_domain_roles.v1.UserDomainRolesService/DeleteUserTableRoleById"
+	UserDomainRolesService_UndeleteUserTableRoleById_FullMethodName    = "/user_domain_roles.v1.UserDomainRolesService/UndeleteUserTableRoleById"
 )
 
 // UserDomainRolesServiceClient is the client API for UserDomainRolesService service.
@@ -85,15 +69,6 @@ type UserDomainRolesServiceClient interface {
 	UpdateDomainRoleById(ctx context.Context, in *UpdateDomainRoleByIdRequest, opts ...grpc.CallOption) (*UpdateDomainRoleByIdResponse, error)
 	DeleteDomainRoleById(ctx context.Context, in *DeleteDomainRoleByIdRequest, opts ...grpc.CallOption) (*DeleteDomainRoleByIdResponse, error)
 	UndeleteDomainRoleById(ctx context.Context, in *UndeleteDomainRoleByIdRequest, opts ...grpc.CallOption) (*UndeleteDomainRoleByIdResponse, error)
-	// dc.domains_domain_roles
-	GetDomainsDomainRoleById(ctx context.Context, in *GetDomainsDomainRoleByIdRequest, opts ...grpc.CallOption) (*GetDomainsDomainRoleByIdResponse, error)
-	GetDomainsDomainRoles(ctx context.Context, in *GetDomainsDomainRolesRequest, opts ...grpc.CallOption) (*GetDomainsDomainRolesResponse, error)
-	GetDeletedDomainsDomainRoleById(ctx context.Context, in *GetDeletedDomainsDomainRoleByIdRequest, opts ...grpc.CallOption) (*GetDeletedDomainsDomainRoleByIdResponse, error)
-	GetDeletedDomainsDomainRoles(ctx context.Context, in *GetDeletedDomainsDomainRolesRequest, opts ...grpc.CallOption) (*GetDeletedDomainsDomainRolesResponse, error)
-	CreateDomainsDomainRole(ctx context.Context, in *CreateDomainsDomainRoleRequest, opts ...grpc.CallOption) (*CreateDomainsDomainRoleResponse, error)
-	UpdateDomainsDomainRoleById(ctx context.Context, in *UpdateDomainsDomainRoleByIdRequest, opts ...grpc.CallOption) (*UpdateDomainsDomainRoleByIdResponse, error)
-	DeleteDomainsDomainRoleById(ctx context.Context, in *DeleteDomainsDomainRoleByIdRequest, opts ...grpc.CallOption) (*DeleteDomainsDomainRoleByIdResponse, error)
-	UndeleteDomainsDomainRoleById(ctx context.Context, in *UndeleteDomainsDomainRoleByIdRequest, opts ...grpc.CallOption) (*UndeleteDomainsDomainRoleByIdResponse, error)
 	// dc.table_roles
 	GetTableRoleById(ctx context.Context, in *GetTableRoleByIdRequest, opts ...grpc.CallOption) (*GetTableRoleByIdResponse, error)
 	GetTableRoles(ctx context.Context, in *GetTableRolesRequest, opts ...grpc.CallOption) (*GetTableRolesResponse, error)
@@ -103,15 +78,6 @@ type UserDomainRolesServiceClient interface {
 	UpdateTableRoleById(ctx context.Context, in *UpdateTableRoleByIdRequest, opts ...grpc.CallOption) (*UpdateTableRoleByIdResponse, error)
 	DeleteTableRoleById(ctx context.Context, in *DeleteTableRoleByIdRequest, opts ...grpc.CallOption) (*DeleteTableRoleByIdResponse, error)
 	UndeleteTableRoleById(ctx context.Context, in *UndeleteTableRoleByIdRequest, opts ...grpc.CallOption) (*UndeleteTableRoleByIdResponse, error)
-	// dc.tables_table_roles
-	GetTablesTableRoleById(ctx context.Context, in *GetTablesTableRoleByIdRequest, opts ...grpc.CallOption) (*GetTablesTableRoleByIdResponse, error)
-	GetTablesTableRoles(ctx context.Context, in *GetTablesTableRolesRequest, opts ...grpc.CallOption) (*GetTablesTableRolesResponse, error)
-	GetDeletedTablesTableRoleById(ctx context.Context, in *GetDeletedTablesTableRoleByIdRequest, opts ...grpc.CallOption) (*GetDeletedTablesTableRoleByIdResponse, error)
-	GetDeletedTablesTableRoles(ctx context.Context, in *GetDeletedTablesTableRolesRequest, opts ...grpc.CallOption) (*GetDeletedTablesTableRolesResponse, error)
-	CreateTablesTableRole(ctx context.Context, in *CreateTablesTableRoleRequest, opts ...grpc.CallOption) (*CreateTablesTableRoleResponse, error)
-	UpdateTablesTableRoleById(ctx context.Context, in *UpdateTablesTableRoleByIdRequest, opts ...grpc.CallOption) (*UpdateTablesTableRoleByIdResponse, error)
-	DeleteTablesTableRoleById(ctx context.Context, in *DeleteTablesTableRoleByIdRequest, opts ...grpc.CallOption) (*DeleteTablesTableRoleByIdResponse, error)
-	UndeleteTablesTableRoleById(ctx context.Context, in *UndeleteTablesTableRoleByIdRequest, opts ...grpc.CallOption) (*UndeleteTablesTableRoleByIdResponse, error)
 	// dc.user_domain_roles
 	GetUserDomainRoleById(ctx context.Context, in *GetUserDomainRoleByIdRequest, opts ...grpc.CallOption) (*GetUserDomainRoleByIdResponse, error)
 	GetUserDomainRoles(ctx context.Context, in *GetUserDomainRolesRequest, opts ...grpc.CallOption) (*GetUserDomainRolesResponse, error)
@@ -220,86 +186,6 @@ func (c *userDomainRolesServiceClient) UndeleteDomainRoleById(ctx context.Contex
 	return out, nil
 }
 
-func (c *userDomainRolesServiceClient) GetDomainsDomainRoleById(ctx context.Context, in *GetDomainsDomainRoleByIdRequest, opts ...grpc.CallOption) (*GetDomainsDomainRoleByIdResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetDomainsDomainRoleByIdResponse)
-	err := c.cc.Invoke(ctx, UserDomainRolesService_GetDomainsDomainRoleById_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *userDomainRolesServiceClient) GetDomainsDomainRoles(ctx context.Context, in *GetDomainsDomainRolesRequest, opts ...grpc.CallOption) (*GetDomainsDomainRolesResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetDomainsDomainRolesResponse)
-	err := c.cc.Invoke(ctx, UserDomainRolesService_GetDomainsDomainRoles_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *userDomainRolesServiceClient) GetDeletedDomainsDomainRoleById(ctx context.Context, in *GetDeletedDomainsDomainRoleByIdRequest, opts ...grpc.CallOption) (*GetDeletedDomainsDomainRoleByIdResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetDeletedDomainsDomainRoleByIdResponse)
-	err := c.cc.Invoke(ctx, UserDomainRolesService_GetDeletedDomainsDomainRoleById_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *userDomainRolesServiceClient) GetDeletedDomainsDomainRoles(ctx context.Context, in *GetDeletedDomainsDomainRolesRequest, opts ...grpc.CallOption) (*GetDeletedDomainsDomainRolesResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetDeletedDomainsDomainRolesResponse)
-	err := c.cc.Invoke(ctx, UserDomainRolesService_GetDeletedDomainsDomainRoles_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *userDomainRolesServiceClient) CreateDomainsDomainRole(ctx context.Context, in *CreateDomainsDomainRoleRequest, opts ...grpc.CallOption) (*CreateDomainsDomainRoleResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(CreateDomainsDomainRoleResponse)
-	err := c.cc.Invoke(ctx, UserDomainRolesService_CreateDomainsDomainRole_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *userDomainRolesServiceClient) UpdateDomainsDomainRoleById(ctx context.Context, in *UpdateDomainsDomainRoleByIdRequest, opts ...grpc.CallOption) (*UpdateDomainsDomainRoleByIdResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(UpdateDomainsDomainRoleByIdResponse)
-	err := c.cc.Invoke(ctx, UserDomainRolesService_UpdateDomainsDomainRoleById_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *userDomainRolesServiceClient) DeleteDomainsDomainRoleById(ctx context.Context, in *DeleteDomainsDomainRoleByIdRequest, opts ...grpc.CallOption) (*DeleteDomainsDomainRoleByIdResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DeleteDomainsDomainRoleByIdResponse)
-	err := c.cc.Invoke(ctx, UserDomainRolesService_DeleteDomainsDomainRoleById_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *userDomainRolesServiceClient) UndeleteDomainsDomainRoleById(ctx context.Context, in *UndeleteDomainsDomainRoleByIdRequest, opts ...grpc.CallOption) (*UndeleteDomainsDomainRoleByIdResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(UndeleteDomainsDomainRoleByIdResponse)
-	err := c.cc.Invoke(ctx, UserDomainRolesService_UndeleteDomainsDomainRoleById_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *userDomainRolesServiceClient) GetTableRoleById(ctx context.Context, in *GetTableRoleByIdRequest, opts ...grpc.CallOption) (*GetTableRoleByIdResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetTableRoleByIdResponse)
@@ -374,86 +260,6 @@ func (c *userDomainRolesServiceClient) UndeleteTableRoleById(ctx context.Context
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UndeleteTableRoleByIdResponse)
 	err := c.cc.Invoke(ctx, UserDomainRolesService_UndeleteTableRoleById_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *userDomainRolesServiceClient) GetTablesTableRoleById(ctx context.Context, in *GetTablesTableRoleByIdRequest, opts ...grpc.CallOption) (*GetTablesTableRoleByIdResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetTablesTableRoleByIdResponse)
-	err := c.cc.Invoke(ctx, UserDomainRolesService_GetTablesTableRoleById_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *userDomainRolesServiceClient) GetTablesTableRoles(ctx context.Context, in *GetTablesTableRolesRequest, opts ...grpc.CallOption) (*GetTablesTableRolesResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetTablesTableRolesResponse)
-	err := c.cc.Invoke(ctx, UserDomainRolesService_GetTablesTableRoles_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *userDomainRolesServiceClient) GetDeletedTablesTableRoleById(ctx context.Context, in *GetDeletedTablesTableRoleByIdRequest, opts ...grpc.CallOption) (*GetDeletedTablesTableRoleByIdResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetDeletedTablesTableRoleByIdResponse)
-	err := c.cc.Invoke(ctx, UserDomainRolesService_GetDeletedTablesTableRoleById_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *userDomainRolesServiceClient) GetDeletedTablesTableRoles(ctx context.Context, in *GetDeletedTablesTableRolesRequest, opts ...grpc.CallOption) (*GetDeletedTablesTableRolesResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetDeletedTablesTableRolesResponse)
-	err := c.cc.Invoke(ctx, UserDomainRolesService_GetDeletedTablesTableRoles_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *userDomainRolesServiceClient) CreateTablesTableRole(ctx context.Context, in *CreateTablesTableRoleRequest, opts ...grpc.CallOption) (*CreateTablesTableRoleResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(CreateTablesTableRoleResponse)
-	err := c.cc.Invoke(ctx, UserDomainRolesService_CreateTablesTableRole_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *userDomainRolesServiceClient) UpdateTablesTableRoleById(ctx context.Context, in *UpdateTablesTableRoleByIdRequest, opts ...grpc.CallOption) (*UpdateTablesTableRoleByIdResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(UpdateTablesTableRoleByIdResponse)
-	err := c.cc.Invoke(ctx, UserDomainRolesService_UpdateTablesTableRoleById_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *userDomainRolesServiceClient) DeleteTablesTableRoleById(ctx context.Context, in *DeleteTablesTableRoleByIdRequest, opts ...grpc.CallOption) (*DeleteTablesTableRoleByIdResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DeleteTablesTableRoleByIdResponse)
-	err := c.cc.Invoke(ctx, UserDomainRolesService_DeleteTablesTableRoleById_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *userDomainRolesServiceClient) UndeleteTablesTableRoleById(ctx context.Context, in *UndeleteTablesTableRoleByIdRequest, opts ...grpc.CallOption) (*UndeleteTablesTableRoleByIdResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(UndeleteTablesTableRoleByIdResponse)
-	err := c.cc.Invoke(ctx, UserDomainRolesService_UndeleteTablesTableRoleById_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -636,15 +442,6 @@ type UserDomainRolesServiceServer interface {
 	UpdateDomainRoleById(context.Context, *UpdateDomainRoleByIdRequest) (*UpdateDomainRoleByIdResponse, error)
 	DeleteDomainRoleById(context.Context, *DeleteDomainRoleByIdRequest) (*DeleteDomainRoleByIdResponse, error)
 	UndeleteDomainRoleById(context.Context, *UndeleteDomainRoleByIdRequest) (*UndeleteDomainRoleByIdResponse, error)
-	// dc.domains_domain_roles
-	GetDomainsDomainRoleById(context.Context, *GetDomainsDomainRoleByIdRequest) (*GetDomainsDomainRoleByIdResponse, error)
-	GetDomainsDomainRoles(context.Context, *GetDomainsDomainRolesRequest) (*GetDomainsDomainRolesResponse, error)
-	GetDeletedDomainsDomainRoleById(context.Context, *GetDeletedDomainsDomainRoleByIdRequest) (*GetDeletedDomainsDomainRoleByIdResponse, error)
-	GetDeletedDomainsDomainRoles(context.Context, *GetDeletedDomainsDomainRolesRequest) (*GetDeletedDomainsDomainRolesResponse, error)
-	CreateDomainsDomainRole(context.Context, *CreateDomainsDomainRoleRequest) (*CreateDomainsDomainRoleResponse, error)
-	UpdateDomainsDomainRoleById(context.Context, *UpdateDomainsDomainRoleByIdRequest) (*UpdateDomainsDomainRoleByIdResponse, error)
-	DeleteDomainsDomainRoleById(context.Context, *DeleteDomainsDomainRoleByIdRequest) (*DeleteDomainsDomainRoleByIdResponse, error)
-	UndeleteDomainsDomainRoleById(context.Context, *UndeleteDomainsDomainRoleByIdRequest) (*UndeleteDomainsDomainRoleByIdResponse, error)
 	// dc.table_roles
 	GetTableRoleById(context.Context, *GetTableRoleByIdRequest) (*GetTableRoleByIdResponse, error)
 	GetTableRoles(context.Context, *GetTableRolesRequest) (*GetTableRolesResponse, error)
@@ -654,15 +451,6 @@ type UserDomainRolesServiceServer interface {
 	UpdateTableRoleById(context.Context, *UpdateTableRoleByIdRequest) (*UpdateTableRoleByIdResponse, error)
 	DeleteTableRoleById(context.Context, *DeleteTableRoleByIdRequest) (*DeleteTableRoleByIdResponse, error)
 	UndeleteTableRoleById(context.Context, *UndeleteTableRoleByIdRequest) (*UndeleteTableRoleByIdResponse, error)
-	// dc.tables_table_roles
-	GetTablesTableRoleById(context.Context, *GetTablesTableRoleByIdRequest) (*GetTablesTableRoleByIdResponse, error)
-	GetTablesTableRoles(context.Context, *GetTablesTableRolesRequest) (*GetTablesTableRolesResponse, error)
-	GetDeletedTablesTableRoleById(context.Context, *GetDeletedTablesTableRoleByIdRequest) (*GetDeletedTablesTableRoleByIdResponse, error)
-	GetDeletedTablesTableRoles(context.Context, *GetDeletedTablesTableRolesRequest) (*GetDeletedTablesTableRolesResponse, error)
-	CreateTablesTableRole(context.Context, *CreateTablesTableRoleRequest) (*CreateTablesTableRoleResponse, error)
-	UpdateTablesTableRoleById(context.Context, *UpdateTablesTableRoleByIdRequest) (*UpdateTablesTableRoleByIdResponse, error)
-	DeleteTablesTableRoleById(context.Context, *DeleteTablesTableRoleByIdRequest) (*DeleteTablesTableRoleByIdResponse, error)
-	UndeleteTablesTableRoleById(context.Context, *UndeleteTablesTableRoleByIdRequest) (*UndeleteTablesTableRoleByIdResponse, error)
 	// dc.user_domain_roles
 	GetUserDomainRoleById(context.Context, *GetUserDomainRoleByIdRequest) (*GetUserDomainRoleByIdResponse, error)
 	GetUserDomainRoles(context.Context, *GetUserDomainRolesRequest) (*GetUserDomainRolesResponse, error)
@@ -715,30 +503,6 @@ func (UnimplementedUserDomainRolesServiceServer) DeleteDomainRoleById(context.Co
 func (UnimplementedUserDomainRolesServiceServer) UndeleteDomainRoleById(context.Context, *UndeleteDomainRoleByIdRequest) (*UndeleteDomainRoleByIdResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UndeleteDomainRoleById not implemented")
 }
-func (UnimplementedUserDomainRolesServiceServer) GetDomainsDomainRoleById(context.Context, *GetDomainsDomainRoleByIdRequest) (*GetDomainsDomainRoleByIdResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetDomainsDomainRoleById not implemented")
-}
-func (UnimplementedUserDomainRolesServiceServer) GetDomainsDomainRoles(context.Context, *GetDomainsDomainRolesRequest) (*GetDomainsDomainRolesResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetDomainsDomainRoles not implemented")
-}
-func (UnimplementedUserDomainRolesServiceServer) GetDeletedDomainsDomainRoleById(context.Context, *GetDeletedDomainsDomainRoleByIdRequest) (*GetDeletedDomainsDomainRoleByIdResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetDeletedDomainsDomainRoleById not implemented")
-}
-func (UnimplementedUserDomainRolesServiceServer) GetDeletedDomainsDomainRoles(context.Context, *GetDeletedDomainsDomainRolesRequest) (*GetDeletedDomainsDomainRolesResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetDeletedDomainsDomainRoles not implemented")
-}
-func (UnimplementedUserDomainRolesServiceServer) CreateDomainsDomainRole(context.Context, *CreateDomainsDomainRoleRequest) (*CreateDomainsDomainRoleResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateDomainsDomainRole not implemented")
-}
-func (UnimplementedUserDomainRolesServiceServer) UpdateDomainsDomainRoleById(context.Context, *UpdateDomainsDomainRoleByIdRequest) (*UpdateDomainsDomainRoleByIdResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateDomainsDomainRoleById not implemented")
-}
-func (UnimplementedUserDomainRolesServiceServer) DeleteDomainsDomainRoleById(context.Context, *DeleteDomainsDomainRoleByIdRequest) (*DeleteDomainsDomainRoleByIdResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteDomainsDomainRoleById not implemented")
-}
-func (UnimplementedUserDomainRolesServiceServer) UndeleteDomainsDomainRoleById(context.Context, *UndeleteDomainsDomainRoleByIdRequest) (*UndeleteDomainsDomainRoleByIdResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UndeleteDomainsDomainRoleById not implemented")
-}
 func (UnimplementedUserDomainRolesServiceServer) GetTableRoleById(context.Context, *GetTableRoleByIdRequest) (*GetTableRoleByIdResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTableRoleById not implemented")
 }
@@ -762,30 +526,6 @@ func (UnimplementedUserDomainRolesServiceServer) DeleteTableRoleById(context.Con
 }
 func (UnimplementedUserDomainRolesServiceServer) UndeleteTableRoleById(context.Context, *UndeleteTableRoleByIdRequest) (*UndeleteTableRoleByIdResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UndeleteTableRoleById not implemented")
-}
-func (UnimplementedUserDomainRolesServiceServer) GetTablesTableRoleById(context.Context, *GetTablesTableRoleByIdRequest) (*GetTablesTableRoleByIdResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetTablesTableRoleById not implemented")
-}
-func (UnimplementedUserDomainRolesServiceServer) GetTablesTableRoles(context.Context, *GetTablesTableRolesRequest) (*GetTablesTableRolesResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetTablesTableRoles not implemented")
-}
-func (UnimplementedUserDomainRolesServiceServer) GetDeletedTablesTableRoleById(context.Context, *GetDeletedTablesTableRoleByIdRequest) (*GetDeletedTablesTableRoleByIdResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetDeletedTablesTableRoleById not implemented")
-}
-func (UnimplementedUserDomainRolesServiceServer) GetDeletedTablesTableRoles(context.Context, *GetDeletedTablesTableRolesRequest) (*GetDeletedTablesTableRolesResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetDeletedTablesTableRoles not implemented")
-}
-func (UnimplementedUserDomainRolesServiceServer) CreateTablesTableRole(context.Context, *CreateTablesTableRoleRequest) (*CreateTablesTableRoleResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateTablesTableRole not implemented")
-}
-func (UnimplementedUserDomainRolesServiceServer) UpdateTablesTableRoleById(context.Context, *UpdateTablesTableRoleByIdRequest) (*UpdateTablesTableRoleByIdResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateTablesTableRoleById not implemented")
-}
-func (UnimplementedUserDomainRolesServiceServer) DeleteTablesTableRoleById(context.Context, *DeleteTablesTableRoleByIdRequest) (*DeleteTablesTableRoleByIdResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteTablesTableRoleById not implemented")
-}
-func (UnimplementedUserDomainRolesServiceServer) UndeleteTablesTableRoleById(context.Context, *UndeleteTablesTableRoleByIdRequest) (*UndeleteTablesTableRoleByIdResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UndeleteTablesTableRoleById not implemented")
 }
 func (UnimplementedUserDomainRolesServiceServer) GetUserDomainRoleById(context.Context, *GetUserDomainRoleByIdRequest) (*GetUserDomainRoleByIdResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserDomainRoleById not implemented")
@@ -1001,150 +741,6 @@ func _UserDomainRolesService_UndeleteDomainRoleById_Handler(srv interface{}, ctx
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserDomainRolesService_GetDomainsDomainRoleById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetDomainsDomainRoleByIdRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserDomainRolesServiceServer).GetDomainsDomainRoleById(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: UserDomainRolesService_GetDomainsDomainRoleById_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserDomainRolesServiceServer).GetDomainsDomainRoleById(ctx, req.(*GetDomainsDomainRoleByIdRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _UserDomainRolesService_GetDomainsDomainRoles_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetDomainsDomainRolesRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserDomainRolesServiceServer).GetDomainsDomainRoles(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: UserDomainRolesService_GetDomainsDomainRoles_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserDomainRolesServiceServer).GetDomainsDomainRoles(ctx, req.(*GetDomainsDomainRolesRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _UserDomainRolesService_GetDeletedDomainsDomainRoleById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetDeletedDomainsDomainRoleByIdRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserDomainRolesServiceServer).GetDeletedDomainsDomainRoleById(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: UserDomainRolesService_GetDeletedDomainsDomainRoleById_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserDomainRolesServiceServer).GetDeletedDomainsDomainRoleById(ctx, req.(*GetDeletedDomainsDomainRoleByIdRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _UserDomainRolesService_GetDeletedDomainsDomainRoles_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetDeletedDomainsDomainRolesRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserDomainRolesServiceServer).GetDeletedDomainsDomainRoles(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: UserDomainRolesService_GetDeletedDomainsDomainRoles_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserDomainRolesServiceServer).GetDeletedDomainsDomainRoles(ctx, req.(*GetDeletedDomainsDomainRolesRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _UserDomainRolesService_CreateDomainsDomainRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateDomainsDomainRoleRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserDomainRolesServiceServer).CreateDomainsDomainRole(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: UserDomainRolesService_CreateDomainsDomainRole_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserDomainRolesServiceServer).CreateDomainsDomainRole(ctx, req.(*CreateDomainsDomainRoleRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _UserDomainRolesService_UpdateDomainsDomainRoleById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateDomainsDomainRoleByIdRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserDomainRolesServiceServer).UpdateDomainsDomainRoleById(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: UserDomainRolesService_UpdateDomainsDomainRoleById_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserDomainRolesServiceServer).UpdateDomainsDomainRoleById(ctx, req.(*UpdateDomainsDomainRoleByIdRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _UserDomainRolesService_DeleteDomainsDomainRoleById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteDomainsDomainRoleByIdRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserDomainRolesServiceServer).DeleteDomainsDomainRoleById(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: UserDomainRolesService_DeleteDomainsDomainRoleById_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserDomainRolesServiceServer).DeleteDomainsDomainRoleById(ctx, req.(*DeleteDomainsDomainRoleByIdRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _UserDomainRolesService_UndeleteDomainsDomainRoleById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UndeleteDomainsDomainRoleByIdRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserDomainRolesServiceServer).UndeleteDomainsDomainRoleById(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: UserDomainRolesService_UndeleteDomainsDomainRoleById_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserDomainRolesServiceServer).UndeleteDomainsDomainRoleById(ctx, req.(*UndeleteDomainsDomainRoleByIdRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _UserDomainRolesService_GetTableRoleById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetTableRoleByIdRequest)
 	if err := dec(in); err != nil {
@@ -1285,150 +881,6 @@ func _UserDomainRolesService_UndeleteTableRoleById_Handler(srv interface{}, ctx 
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UserDomainRolesServiceServer).UndeleteTableRoleById(ctx, req.(*UndeleteTableRoleByIdRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _UserDomainRolesService_GetTablesTableRoleById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetTablesTableRoleByIdRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserDomainRolesServiceServer).GetTablesTableRoleById(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: UserDomainRolesService_GetTablesTableRoleById_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserDomainRolesServiceServer).GetTablesTableRoleById(ctx, req.(*GetTablesTableRoleByIdRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _UserDomainRolesService_GetTablesTableRoles_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetTablesTableRolesRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserDomainRolesServiceServer).GetTablesTableRoles(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: UserDomainRolesService_GetTablesTableRoles_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserDomainRolesServiceServer).GetTablesTableRoles(ctx, req.(*GetTablesTableRolesRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _UserDomainRolesService_GetDeletedTablesTableRoleById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetDeletedTablesTableRoleByIdRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserDomainRolesServiceServer).GetDeletedTablesTableRoleById(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: UserDomainRolesService_GetDeletedTablesTableRoleById_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserDomainRolesServiceServer).GetDeletedTablesTableRoleById(ctx, req.(*GetDeletedTablesTableRoleByIdRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _UserDomainRolesService_GetDeletedTablesTableRoles_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetDeletedTablesTableRolesRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserDomainRolesServiceServer).GetDeletedTablesTableRoles(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: UserDomainRolesService_GetDeletedTablesTableRoles_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserDomainRolesServiceServer).GetDeletedTablesTableRoles(ctx, req.(*GetDeletedTablesTableRolesRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _UserDomainRolesService_CreateTablesTableRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateTablesTableRoleRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserDomainRolesServiceServer).CreateTablesTableRole(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: UserDomainRolesService_CreateTablesTableRole_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserDomainRolesServiceServer).CreateTablesTableRole(ctx, req.(*CreateTablesTableRoleRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _UserDomainRolesService_UpdateTablesTableRoleById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateTablesTableRoleByIdRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserDomainRolesServiceServer).UpdateTablesTableRoleById(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: UserDomainRolesService_UpdateTablesTableRoleById_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserDomainRolesServiceServer).UpdateTablesTableRoleById(ctx, req.(*UpdateTablesTableRoleByIdRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _UserDomainRolesService_DeleteTablesTableRoleById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteTablesTableRoleByIdRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserDomainRolesServiceServer).DeleteTablesTableRoleById(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: UserDomainRolesService_DeleteTablesTableRoleById_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserDomainRolesServiceServer).DeleteTablesTableRoleById(ctx, req.(*DeleteTablesTableRoleByIdRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _UserDomainRolesService_UndeleteTablesTableRoleById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UndeleteTablesTableRoleByIdRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserDomainRolesServiceServer).UndeleteTablesTableRoleById(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: UserDomainRolesService_UndeleteTablesTableRoleById_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserDomainRolesServiceServer).UndeleteTablesTableRoleById(ctx, req.(*UndeleteTablesTableRoleByIdRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1761,38 +1213,6 @@ var UserDomainRolesService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _UserDomainRolesService_UndeleteDomainRoleById_Handler,
 		},
 		{
-			MethodName: "GetDomainsDomainRoleById",
-			Handler:    _UserDomainRolesService_GetDomainsDomainRoleById_Handler,
-		},
-		{
-			MethodName: "GetDomainsDomainRoles",
-			Handler:    _UserDomainRolesService_GetDomainsDomainRoles_Handler,
-		},
-		{
-			MethodName: "GetDeletedDomainsDomainRoleById",
-			Handler:    _UserDomainRolesService_GetDeletedDomainsDomainRoleById_Handler,
-		},
-		{
-			MethodName: "GetDeletedDomainsDomainRoles",
-			Handler:    _UserDomainRolesService_GetDeletedDomainsDomainRoles_Handler,
-		},
-		{
-			MethodName: "CreateDomainsDomainRole",
-			Handler:    _UserDomainRolesService_CreateDomainsDomainRole_Handler,
-		},
-		{
-			MethodName: "UpdateDomainsDomainRoleById",
-			Handler:    _UserDomainRolesService_UpdateDomainsDomainRoleById_Handler,
-		},
-		{
-			MethodName: "DeleteDomainsDomainRoleById",
-			Handler:    _UserDomainRolesService_DeleteDomainsDomainRoleById_Handler,
-		},
-		{
-			MethodName: "UndeleteDomainsDomainRoleById",
-			Handler:    _UserDomainRolesService_UndeleteDomainsDomainRoleById_Handler,
-		},
-		{
 			MethodName: "GetTableRoleById",
 			Handler:    _UserDomainRolesService_GetTableRoleById_Handler,
 		},
@@ -1823,38 +1243,6 @@ var UserDomainRolesService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UndeleteTableRoleById",
 			Handler:    _UserDomainRolesService_UndeleteTableRoleById_Handler,
-		},
-		{
-			MethodName: "GetTablesTableRoleById",
-			Handler:    _UserDomainRolesService_GetTablesTableRoleById_Handler,
-		},
-		{
-			MethodName: "GetTablesTableRoles",
-			Handler:    _UserDomainRolesService_GetTablesTableRoles_Handler,
-		},
-		{
-			MethodName: "GetDeletedTablesTableRoleById",
-			Handler:    _UserDomainRolesService_GetDeletedTablesTableRoleById_Handler,
-		},
-		{
-			MethodName: "GetDeletedTablesTableRoles",
-			Handler:    _UserDomainRolesService_GetDeletedTablesTableRoles_Handler,
-		},
-		{
-			MethodName: "CreateTablesTableRole",
-			Handler:    _UserDomainRolesService_CreateTablesTableRole_Handler,
-		},
-		{
-			MethodName: "UpdateTablesTableRoleById",
-			Handler:    _UserDomainRolesService_UpdateTablesTableRoleById_Handler,
-		},
-		{
-			MethodName: "DeleteTablesTableRoleById",
-			Handler:    _UserDomainRolesService_DeleteTablesTableRoleById_Handler,
-		},
-		{
-			MethodName: "UndeleteTablesTableRoleById",
-			Handler:    _UserDomainRolesService_UndeleteTablesTableRoleById_Handler,
 		},
 		{
 			MethodName: "GetUserDomainRoleById",
