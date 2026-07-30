@@ -17,7 +17,6 @@ import (
 	"github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/config/constants"
 	"github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/db"
 	"github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/service/services"
-	"github.com/konstantin-suspitsyn/datacomrade/datacatalogue/pkg/externalconfig"
 	authlogicv1 "github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/auth_logic/v1"
 	tablesv1 "github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/tables/v1"
 	userv1 "github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/user/v1"
@@ -64,7 +63,7 @@ func main() {
 		log.Fatalf("failed to open database %q: %v\n", envConfig.DB_DATABASE, err)
 	}
 
-	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", externalconfig.Port))
+	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", hostPort.PORT))
 
 	if err != nil {
 		log.Printf("Failed to listen: %v\n", err)
