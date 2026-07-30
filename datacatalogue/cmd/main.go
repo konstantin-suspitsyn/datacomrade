@@ -35,8 +35,12 @@ type APIServerConfiguration struct {
 
 func main() {
 
+	if err := godotenv.Load(".env"); err != nil {
+		panic("godotenv file was not found")
+	}
 	var serverConfig APIServerConfiguration
-	serverConfig.Port = externalconfig.Port
+	hostPort := constants.InitHostPort()
+	serverConfig.Port = hostPort.PORT
 
 	flag.StringVar(&serverConfig.Env, "env", "development", "Environment (development|staging|production)")
 	flag.Parse()
