@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package auth_logic.v1;
+
+option go_package = "github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/auth_logic/v1;authlogicv1";
+
+// AuthLogicService mirrors query.sql one-to-one: table-id lookups by user and role.
+service AuthLogicService {
+  // dc.table_cat
+  rpc GetTableIdsByExternalUserIdAndRoles(GetTableIdsByExternalUserIdAndRolesRequest) returns (GetTableIdsByExternalUserIdAndRolesResponse);
+  rpc GetTableIdsByUserIdAndRoles(GetTableIdsByUserIdAndRolesRequest) returns (GetTableIdsByUserIdAndRolesResponse);
+}
+
+// =========================================================
+// dc.table_cat
+// =========================================================
+
+// GetTableIdsByExternalUserIdAndRolesRequest carries the external user id and role name used to look up accessible dc.table_cat ids (query GetTableIdsByExternalUserIdAndRoles).
+message GetTableIdsByExternalUserIdAndRolesRequest {
+  string external_id = 1;
+  string name = 2;
+}
+
+// GetTableIdsByExternalUserIdAndRolesResponse returns the dc.table_cat ids accessible to the user (query GetTableIdsByExternalUserIdAndRoles).
+message GetTableIdsByExternalUserIdAndRolesResponse {
+  repeated int64 table_ids = 1;
+}
+
+// GetTableIdsByUserIdAndRolesRequest carries the user id and role name used to look up accessible dc.table_cat ids (query GetTableIdsByUserIdAndRoles).
+message GetTableIdsByUserIdAndRolesRequest {
+  int64 user_id = 1;
+  string name = 2;
+}
+
+// GetTableIdsByUserIdAndRolesResponse returns the dc.table_cat ids accessible to the user (query GetTableIdsByUserIdAndRoles).
+message GetTableIdsByUserIdAndRolesResponse {
+  repeated int64 table_ids = 1;
+}

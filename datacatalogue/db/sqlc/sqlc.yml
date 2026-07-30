@@ -35,3 +35,10 @@ sql:
     go:
       package: "user_domain_roles"
       out: "../../internal/repository/user_domain_roles"
+- schema: "./auth_logic/schema.sql"
+  queries: "./auth_logic/query.sql"
+  engine: "postgresql"
+  gen:
+    go:
+      package: "auth_logic"
+      out: "../../internal/repository/auth_logic"

@@ -87,5 +87,37 @@
       "api_type": "UserDomainRolesApiV1",
       "api_recv": "u"
     }
+  ],
+
+  "custom_domains": [
+    {
+      "sqlc": "auth_logic",
+      "proto_pkg": "auth_logic/v1",
+      "proto_file": "auth_logic.pb.go",
+      "proto_alias": "authlogicv1",
+      "proto_import": "authlogicv1 \"github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/auth_logic/v1\"",
+      "repo_import": "github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/repository/auth_logic",
+      "repo_alias": "auth_logic",
+
+      "conv_pkg": "authlogic",
+      "conv_dir": "converter/authlogic",
+      "valid_dir": "validation/authlogic",
+
+      "service_dir": "service/auth_logic_service",
+      "service_pkg": "authlogicservice",
+      "service_type": "AuthLogicService",
+      "service_field": "AuthLogicService",
+      "repo_field": "AuthLogicRepository",
+
+      "api_dir": "api/authlogicapiv1",
+      "api_pkg": "authlogicapiv1",
+      "api_type": "AuthLogicApiV1",
+      "api_recv": "a",
+
+      "column_hints": {
+        "GetTableIdsByExternalUserIdAndRoles": { "name": "dc.domain_roles" },
+        "GetTableIdsByUserIdAndRoles": { "name": "dc.domain_roles" }
+      }
+    }
   ]
 }

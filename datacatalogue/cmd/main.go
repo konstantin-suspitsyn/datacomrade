@@ -10,6 +10,7 @@ import (
 	"syscall"
 
 	"github.com/joho/godotenv"
+	"github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/api/authlogicapiv1"
 	"github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/api/tablesapiv1"
 	"github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/api/userapiv1"
 	"github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/api/userdomainrolesapiv1"
@@ -17,6 +18,7 @@ import (
 	"github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/db"
 	"github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/service/services"
 	"github.com/konstantin-suspitsyn/datacomrade/datacatalogue/pkg/externalconfig"
+	authlogicv1 "github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/auth_logic/v1"
 	tablesv1 "github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/tables/v1"
 	userv1 "github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/user/v1"
 	userdomainrolesv1 "github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/user_domain_roles/v1"
@@ -54,6 +56,9 @@ func main() {
 	//Инициализируем БД
 	envConfig := constants.InitDbConfig()
 	dbConnection, err := db.OpenDB(envConfig.DB_USER, envConfig.DB_PASSWORD, envConfig.DB_HOST, envConfig.DB_PORT, envConfig.DB_DATABASE, envConfig.DB_MAX_OPEN_CONNS, envConfig.DB_MAX_IDLE_CONNS, envConfig.DB_MAX_IDLE_TIME_MINS)
+	if err != nil {
+		log.Fatalf("failed to open database %q: %v\n", envConfig.DB_DATABASE, err)
+	}
 
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", externalconfig.Port))
 
@@ -72,6 +77,7 @@ func main() {
 	tablesapiv1 := tablesapiv1.New(seviceLayer)
 	userapiv1 := userapiv1.New(seviceLayer)
 	userdomainrolesapiv1 := userdomainrolesapiv1.New(seviceLayer)
+	authlogicapiv1 := authlogicapiv1.New(seviceLayer)
 
 	// Создаем GRPC сервер
 	s := grpc.NewServer()
@@ -80,6 +86,7 @@ func main() {
 	userv1.RegisterUserServiceServer(s, userapiv1)
 	tablesv1.RegisterTableServiceServer(s, tablesapiv1)
 	userdomainrolesv1.RegisterUserDomainRolesServiceServer(s, userdomainrolesapiv1)
+	authlogicv1.RegisterAuthLogicServiceServer(s, authlogicapiv1)
 
 	reflection.Register(s)
 
