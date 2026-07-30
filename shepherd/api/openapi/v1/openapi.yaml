@@ -1,0 +1,69 @@
+openapi: 3.0.3
+info:
+  title: Shepherd API
+  description: >
+    REST-контракт API Gateway (contract-first). Этот файл — источник истины:
+    internal/api/openapiv1 генерируется из него через `task openapi:gen`
+    (oapi-codegen). См. documentation/readme_obsidian/datacomrade/01_architecture/API Gateway.md
+  version: "1.0.0"
+servers:
+  - url: /v1
+security:
+  - bearerAuth: []
+paths:
+  /me:
+    get:
+      operationId: getMe
+      summary: Текущий аутентифицированный пользователь
+      description: >
+        Identity, разрешённая из Bearer-токена Keycloak и автосоздания
+        пользователя в Metadata Service (флоу EnsureUser).
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Me"
+        "401":
+          description: Не аутентифицирован — отсутствует или недействителен токен
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Me:
+      type: object
+      required: [external_id, user_id, name, roles]
+      properties:
+        external_id:
+          type: string
+          format: uuid
+          description: "sub из Keycloak — он же external_id в dc.user"
+        user_id:
+          type: integer
+          format: int64
+          description: Численный id строки dc.user в Metadata Service
+        name:
+          type: string
+        email:
+          type: string
+        roles:
+          type: array
+          items:
+            type: string
+          description: Realm-роли Keycloak (Admin/Reader/Writer)
+    Error:
+      type: object
+      required: [code, message]
+      properties:
+        code:
+          type: string
+        message:
+          type: string

@@ -9,6 +9,7 @@ vars:
   BUF_VERSION: "1.53.0"
   PROTOC_GEN_GO_VERSION: "v1.36.6"
   PROTOC_GEN_GO_GRPC_VERSION: "v1.5.1"
+  OAPI_CODEGEN_VERSION: "v2.8.0"
 
   BIN_DIR: "{{.ROOT_DIR}}/bin"
   ENVDIR: "{{.ROOT_DIR}}/deploy/env"
@@ -16,11 +17,12 @@ vars:
   GCI: "{{.BIN_DIR}}/gci"
   GOFUMPT: "{{.BIN_DIR}}/gofumpt"
   BUF: "{{.BIN_DIR}}/buf"
-  MODULES: datacatalogue
-  SERVICES: datacatalogue
+  MODULES: datacatalogue shepherd
+  SERVICES: datacatalogue shepherd
   PROTOC_GEN_GO: "{{.BIN_DIR}}/protoc-gen-go"
   PROTOC_GEN_GO_GRPC: "{{.BIN_DIR}}/protoc-gen-go-grpc"
   GRPCURL: "{{.BIN_DIR}}/grpcurl"
+  OAPI_CODEGEN: "{{.BIN_DIR}}/oapi-codegen"
 
 tasks:
   install-formatters:
@@ -158,6 +160,25 @@ tasks:
     dir: shared/proto
     cmds:
       - "{{.BUF}} generate"
+
+  openapi:install-plugins:
+    desc: "Устанавливает oapi-codegen в каталог bin"
+    cmds:
+      - |
+        mkdir -p {{.BIN_DIR}}
+        [ -f {{.OAPI_CODEGEN}} ] || {
+          echo '📦 Устанавливаем oapi-codegen {{.OAPI_CODEGEN_VERSION}}...'
+          GOBIN={{.BIN_DIR}} go install github.com/oapi-codegen/oapi-codegen/v2/cmd/oapi-codegen@{{.OAPI_CODEGEN_VERSION}}
+        }
+    status:
+      - test -x {{.OAPI_CODEGEN}}
+
+  openapi:gen:
+    deps: [openapi:install-plugins]
+    desc: "Генерация Go-кода (types + chi ServerInterface) из OpenAPI-спеки Shepherd"
+    dir: shepherd
+    cmds:
+      - "{{.OAPI_CODEGEN}} -config api/openapi/v1/oapi-codegen.config.yaml api/openapi/v1/openapi.yaml"
   env:install-envsubst:
     desc: "Устанавливает envsubst для замены переменных в конфигурации"
     cmds:
@@ -236,16 +257,32 @@ tasks:
       - echo "[task] 🛑 Останавливаем keycloak контейнеры"
       - docker compose down
 
+  up-redis:
+    desc: Поднять redis-контейнер
+    dir: deploy/compose/redis
+    cmds:
+      - echo "[task] 🚀 Поднимаем redis контейнер"
+      - docker compose up --build --detach
+
+  down-redis:
+    desc: Убиваем redis-контейнер
+    dir: deploy/compose/redis
+    cmds:
+      - echo "[task] 🛑 Останавливаем redis контейнер"
+      - docker compose down
+
   up-all:
     desc: Поднять все контейнеры
     cmds:
       - task up-core
       - task up-datacatalogue
       - task up-keycloak
+      - task up-redis
 
   down-all:
     desc: Поднять все контейнеры
     cmds:
+      - task down-redis
       - task down-keycloak
       - task down-datacatalogue
       - task down-core

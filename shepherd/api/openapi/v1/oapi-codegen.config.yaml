@@ -1,0 +1,5 @@
+package: openapiv1
+generate:
+  chi-server: true
+  models: true
+output: internal/api/openapiv1/openapi.gen.go

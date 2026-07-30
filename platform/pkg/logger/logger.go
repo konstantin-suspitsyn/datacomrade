@@ -102,6 +102,18 @@ func Logger() *logger {
 	return globalLogger
 }
 
+// ContextWithTraceID кладёт trace_id в контекст, чтобы Debug/Info/Warn/Error/Fatal
+// подхватили его через fieldsFromContext. Ключ не экспортирован специально —
+// это единственный способ его туда положить.
+func ContextWithTraceID(ctx context.Context, traceID string) context.Context {
+	return context.WithValue(ctx, traceIdKey, traceID)
+}
+
+// ContextWithUserID кладёт user_id в контекст — аналогично ContextWithTraceID.
+func ContextWithUserID(ctx context.Context, userID string) context.Context {
+	return context.WithValue(ctx, userIdKey, userID)
+}
+
 func SetNopLogger() {
 	globalLogger = &logger{
 		zapLogger: zap.NewNop(),
