@@ -23,7 +23,8 @@ type Claims struct {
 	Subject string
 	Name    string
 	Email   string
-	// Roles — realm-роли Keycloak (Admin/Reader/Writer). Не путать с
+	// Roles — realm-роли Keycloak (admin/maintainer/viewer, см. константы
+	// RoleAdmin/RoleMaintainer/RoleViewer в middleware/rbac). Не путать с
 	// dc.domain_roles/dc.table_roles — это гейт на уровне маршрута Gateway,
 	// а не прав на домены/таблицы. См. Разграничение доступа.md.
 	Roles []string

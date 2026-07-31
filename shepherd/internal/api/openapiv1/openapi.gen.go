@@ -25,7 +25,7 @@ type Me struct {
 	ExternalId openapi_types.UUID `json:"external_id"`
 	Name       string             `json:"name"`
 
-	// Roles Realm-роли Keycloak (Admin/Reader/Writer)
+	// Roles Realm-роли Keycloak (admin/maintainer/viewer)
 	Roles []string `json:"roles"`
 
 	// UserId Численный id строки dc.user в Metadata Service
@@ -34,6 +34,9 @@ type Me struct {
 
 // ServerInterface represents all server handlers.
 type ServerInterface interface {
+	// Login Получить или создать пользователя dc.user
+	// (POST /login)
+	Login(w http.ResponseWriter, r *http.Request)
 	// GetMe Текущий аутентифицированный пользователь
 	// (GET /me)
 	GetMe(w http.ResponseWriter, r *http.Request)
@@ -42,6 +45,12 @@ type ServerInterface interface {
 // Unimplemented server implementation that returns http.StatusNotImplemented for each endpoint.
 
 type Unimplemented struct{}
+
+// Login Получить или создать пользователя dc.user
+// (POST /login)
+func (_ Unimplemented) Login(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
 
 // GetMe Текущий аутентифицированный пользователь
 // (GET /me)
@@ -57,6 +66,20 @@ type ServerInterfaceWrapper struct {
 }
 
 type MiddlewareFunc func(http.Handler) http.Handler
+
+// Login operation middleware
+func (siw *ServerInterfaceWrapper) Login(w http.ResponseWriter, r *http.Request) {
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.Login(w, r)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
 
 // GetMe operation middleware
 func (siw *ServerInterfaceWrapper) GetMe(w http.ResponseWriter, r *http.Request) {
@@ -187,6 +210,9 @@ func HandlerWithOptions(si ServerInterface, options ChiServerOptions) http.Handl
 
 	r.Group(func(r chi.Router) {
 		r.Get(options.BaseURL+"/me", wrapper.GetMe)
+	})
+	r.Group(func(r chi.Router) {
+		r.Post(options.BaseURL+"/login", wrapper.Login)
 	})
 
 	return r

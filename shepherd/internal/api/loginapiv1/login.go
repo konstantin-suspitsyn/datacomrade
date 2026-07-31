@@ -1,11 +1,11 @@
-// Package meapiv1 реализует часть openapiv1.ServerInterface, отвечающую за
-// identity текущего пользователя (GET /v1/me). В отличие от /v1/login,
-// только читает dc.user и никогда его не создаёт — см. API Gateway.md.
-package meapiv1
+// Package loginapiv1 реализует часть openapiv1.ServerInterface, отвечающую
+// за POST /v1/login — единственное место, где Gateway создаёт запись dc.user
+// при первом входе пользователя. См. API Gateway.md ("Автосоздание
+// пользователя").
+package loginapiv1
 
 import (
 	"encoding/json"
-	"errors"
 	"net/http"
 
 	"github.com/google/uuid"
@@ -15,7 +15,7 @@ import (
 	"github.com/konstantin-suspitsyn/datacomrade/shepherd/internal/middleware/auth"
 )
 
-// Handler реализует методы openapiv1.ServerInterface, относящиеся к /me.
+// Handler реализует методы openapiv1.ServerInterface, относящиеся к /login.
 type Handler struct {
 	resolver *ensureuser.Resolver
 }
@@ -24,23 +24,18 @@ func New(resolver *ensureuser.Resolver) *Handler {
 	return &Handler{resolver: resolver}
 }
 
-// GetMe отдаёт identity, собранную из claims токена и (read-only) резолва
-// user_id в Metadata Service. Если dc.user ещё не создан — 404, вызывающий
-// должен сначала сходить в POST /login.
-func (h *Handler) GetMe(w http.ResponseWriter, r *http.Request) {
+// Login резолвит dc.user по external_id из токена, создавая запись, если её
+// ещё нет.
+func (h *Handler) Login(w http.ResponseWriter, r *http.Request) {
 	claims, ok := auth.ClaimsFromContext(r.Context())
 	if !ok {
 		apierror.Write(w, http.StatusUnauthorized, "unauthenticated", "требуется аутентификация")
 		return
 	}
 
-	userID, err := h.resolver.Resolve(r.Context(), claims.Subject)
+	userID, err := h.resolver.GetOrCreate(r.Context(), claims)
 	if err != nil {
-		if errors.Is(err, ensureuser.ErrNotFound) {
-			apierror.Write(w, http.StatusNotFound, "user_not_provisioned", "пользователь ещё не создан — сначала вызовите POST /login")
-			return
-		}
-		apierror.Write(w, http.StatusInternalServerError, "internal", "не удалось получить пользователя")
+		apierror.Write(w, http.StatusInternalServerError, "user_provisioning_failed", err.Error())
 		return
 	}
 

@@ -8,6 +8,7 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 
 	"github.com/joho/godotenv"
 	"github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/api/authlogicapiv1"
@@ -34,9 +35,6 @@ type APIServerConfiguration struct {
 
 func main() {
 
-	if err := godotenv.Load(".env"); err != nil {
-		panic("godotenv file was not found")
-	}
 	var serverConfig APIServerConfiguration
 	hostPort := constants.InitHostPort()
 	serverConfig.Port = hostPort.PORT
@@ -44,15 +42,8 @@ func main() {
 	flag.StringVar(&serverConfig.Env, "env", "development", "Environment (development|staging|production)")
 	flag.Parse()
 
-	// Потом надо переделать под разные env файлы
-	envName := map[string]string{
-		"development": ".env",
-		"production":  ".env",
-	}
-
-	err := godotenv.Load(envName[serverConfig.Env])
-
-	if err != nil {
+	// Потом надо переделать под разные env файлы для разных окружений
+	if err := godotenv.Load(".env"); err != nil {
 		panic("godotenv file was not found")
 	}
 
@@ -62,51 +53,61 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed to open database %q: %v\n", envConfig.DB_DATABASE, err)
 	}
+	defer dbConnection.Close()
 
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", hostPort.PORT))
-
 	if err != nil {
-		log.Printf("Failed to listen: %v\n", err)
+		log.Fatalf("failed to listen: %v\n", err)
 	}
 
-	defer func() {
-		if cerr := lis.Close(); cerr != nil {
-			log.Printf("Failed to close listner: %v\n", cerr)
-		}
-	}()
-
 	// Сервисы
-	seviceLayer := services.New(dbConnection)
-	tablesapiv1 := tablesapiv1.New(seviceLayer)
-	userapiv1 := userapiv1.New(seviceLayer)
-	userdomainrolesapiv1 := userdomainrolesapiv1.New(seviceLayer)
-	authlogicapiv1 := authlogicapiv1.New(seviceLayer)
+	serviceLayer := services.New(dbConnection)
+	tablesAPI := tablesapiv1.New(serviceLayer)
+	userAPI := userapiv1.New(serviceLayer)
+	userDomainRolesAPI := userdomainrolesapiv1.New(serviceLayer)
+	authLogicAPI := authlogicapiv1.New(serviceLayer)
 
 	// Создаем GRPC сервер
 	s := grpc.NewServer()
 
 	// Регистрация сервисов
-	userv1.RegisterUserServiceServer(s, userapiv1)
-	tablesv1.RegisterTableServiceServer(s, tablesapiv1)
-	userdomainrolesv1.RegisterUserDomainRolesServiceServer(s, userdomainrolesapiv1)
-	authlogicv1.RegisterAuthLogicServiceServer(s, authlogicapiv1)
+	userv1.RegisterUserServiceServer(s, userAPI)
+	tablesv1.RegisterTableServiceServer(s, tablesAPI)
+	userdomainrolesv1.RegisterUserDomainRolesServiceServer(s, userDomainRolesAPI)
+	authlogicv1.RegisterAuthLogicServiceServer(s, authLogicAPI)
 
 	reflection.Register(s)
 
+	serveErr := make(chan error, 1)
 	go func() {
 		log.Printf("🚀 gRPC server listening on %d\n", serverConfig.Port)
-		err = s.Serve(lis)
-		if err != nil {
-			log.Printf("failed to serve: %v\n", err)
-			return
+		if err := s.Serve(lis); err != nil {
+			serveErr <- err
 		}
 	}()
 
-	// Graceful shutdown
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
-	<-quit
-	log.Println("🛑 Shutting down gRPC server...")
-	s.GracefulStop()
+
+	select {
+	case err := <-serveErr:
+		log.Printf("gRPC server failed: %v\n", err)
+	case <-quit:
+		log.Println("🛑 Shutting down gRPC server...")
+	}
+
+	stopped := make(chan struct{})
+	go func() {
+		s.GracefulStop()
+		close(stopped)
+	}()
+
+	select {
+	case <-stopped:
+	case <-time.After(10 * time.Second):
+		log.Println("graceful shutdown timed out, forcing stop")
+		s.Stop()
+	}
+
 	log.Println("✅ Server stopped")
 }

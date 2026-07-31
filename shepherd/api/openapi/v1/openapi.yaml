@@ -16,8 +16,37 @@ paths:
       operationId: getMe
       summary: Текущий аутентифицированный пользователь
       description: >
-        Identity, разрешённая из Bearer-токена Keycloak и автосоздания
-        пользователя в Metadata Service (флоу EnsureUser).
+        Identity из Bearer-токена Keycloak, дополненная user_id из
+        Metadata Service. Только читает dc.user — не создаёт: если строки ещё
+        нет, отвечает 404, вызывающий должен сначала сходить в POST /login.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Me"
+        "401":
+          description: Не аутентифицирован — отсутствует или недействителен токен
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Пользователь ещё не создан в Metadata Service — сначала вызовите POST /login
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /login:
+    post:
+      operationId: login
+      summary: Получить или создать пользователя dc.user
+      description: >
+        Резолвит dc.user по external_id (=sub из Keycloak); если записи ещё
+        нет — создаёт её. Единственная ручка, которая пишет в Metadata
+        Service при первом входе пользователя — см. «Автосоздание
+        пользователя» в API Gateway.md.
       responses:
         "200":
           description: OK
@@ -58,7 +87,7 @@ components:
           type: array
           items:
             type: string
-          description: Realm-роли Keycloak (Admin/Reader/Writer)
+          description: Realm-роли Keycloak (admin/maintainer/viewer)
     Error:
       type: object
       required: [code, message]

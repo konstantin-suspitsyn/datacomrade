@@ -15,13 +15,14 @@ import (
 	"github.com/go-chi/cors"
 	"github.com/joho/godotenv"
 	pkglogger "github.com/konstantin-suspitsyn/datacomrade/platform/pkg/logger"
+	"github.com/konstantin-suspitsyn/datacomrade/shepherd/internal/api/loginapiv1"
 	"github.com/konstantin-suspitsyn/datacomrade/shepherd/internal/api/meapiv1"
 	"github.com/konstantin-suspitsyn/datacomrade/shepherd/internal/api/openapiv1"
 	"github.com/konstantin-suspitsyn/datacomrade/shepherd/internal/apierror"
 	"github.com/konstantin-suspitsyn/datacomrade/shepherd/internal/client/datacatalogue"
 	"github.com/konstantin-suspitsyn/datacomrade/shepherd/internal/config/constants"
+	"github.com/konstantin-suspitsyn/datacomrade/shepherd/internal/ensureuser"
 	"github.com/konstantin-suspitsyn/datacomrade/shepherd/internal/middleware/auth"
-	"github.com/konstantin-suspitsyn/datacomrade/shepherd/internal/middleware/ensureuser"
 	"github.com/konstantin-suspitsyn/datacomrade/shepherd/internal/middleware/requestlog"
 	"github.com/redis/go-redis/v9"
 	"go.uber.org/zap"
@@ -55,7 +56,7 @@ func main() {
 
 	jwks := auth.NewJWKSFetcher(redisClient, cfg.KeycloakIssuerURL)
 	authMiddleware := auth.NewMiddleware(jwks, cfg.KeycloakIssuerURL)
-	ensureUserMiddleware := ensureuser.New(dcClient.User, redisClient, cfg.EnsureUserCacheTTL)
+	userResolver := ensureuser.New(dcClient.User, redisClient, cfg.EnsureUserCacheTTL)
 
 	router := chi.NewRouter()
 	router.Use(requestlog.Middleware)
@@ -76,9 +77,8 @@ func main() {
 
 	router.Route("/v1", func(r chi.Router) {
 		r.Use(authMiddleware.Authenticate)
-		r.Use(ensureUserMiddleware.Handler)
 
-		openapiv1.HandlerFromMux(meapiv1.New(), r)
+		openapiv1.HandlerFromMux(newAPI(userResolver), r)
 	})
 
 	srv := &http.Server{
@@ -114,6 +114,26 @@ func main() {
 
 	pkglogger.Info(context.Background(), "shepherd stopped")
 }
+
+// api собирает независимые под-хендлеры (/me, /login — каждый в своём
+// пакете) в единственную реализацию openapiv1.ServerInterface. Оба пакета
+// экспортируют тип с одним и тем же именем Handler, поэтому анонимное
+// встраивание невозможно (коллизия имени поля) — здесь явные именованные
+// поля и тривиальные методы-делегаты.
+type api struct {
+	me    *meapiv1.Handler
+	login *loginapiv1.Handler
+}
+
+func newAPI(resolver *ensureuser.Resolver) api {
+	return api{
+		me:    meapiv1.New(resolver),
+		login: loginapiv1.New(resolver),
+	}
+}
+
+func (a api) GetMe(w http.ResponseWriter, r *http.Request) { a.me.GetMe(w, r) }
+func (a api) Login(w http.ResponseWriter, r *http.Request) { a.login.Login(w, r) }
 
 func handleHealthz(w http.ResponseWriter, _ *http.Request) {
 	w.WriteHeader(http.StatusOK)

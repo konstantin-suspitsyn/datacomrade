@@ -1,6 +1,16 @@
-// Package rbac проверяет realm-роли Keycloak (Admin/Reader/Writer) на уровне
-// маршрута — это отдельный, более грубый гейт, чем dc.domain_roles/dc.table_roles
-// в Metadata Service. См. API Gateway.md и Разграничение доступа.md.
+// Package rbac проверяет realm-роли Keycloak (admin/maintainer/viewer, см.
+// roles.go) на уровне маршрута — это отдельный, более грубый гейт, чем
+// dc.domain_roles/dc.table_roles в Metadata Service. См. API Gateway.md и
+// Разграничение доступа.md.
+//
+// Ожидаемое сопоставление роль → группа методов Data Catalog:
+//   - RoleAdmin: datacatalogue/internal/api/userdomainrolesapiv1 (просмотр
+//     пользователей, назначение прав).
+//   - RoleMaintainer: datacatalogue/internal/api/tablesapiv1 (каталог: хосты,
+//     базы, домены, таблицы, колонки).
+//   - Создание пользователя (UserService.CreateUser через EnsureUser)
+//     нарочно НЕ гейтится ролью — доступно любому аутентифицированному
+//     пользователю независимо от роли.
 package rbac
 
 import (
