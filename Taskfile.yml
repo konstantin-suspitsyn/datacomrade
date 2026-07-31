@@ -10,6 +10,7 @@ vars:
   PROTOC_GEN_GO_VERSION: "v1.36.6"
   PROTOC_GEN_GO_GRPC_VERSION: "v1.5.1"
   OAPI_CODEGEN_VERSION: "v2.8.0"
+  SQLC_VERSION: "v1.31.1"
 
   BIN_DIR: "{{.ROOT_DIR}}/bin"
   ENVDIR: "{{.ROOT_DIR}}/deploy/env"
@@ -23,6 +24,7 @@ vars:
   PROTOC_GEN_GO_GRPC: "{{.BIN_DIR}}/protoc-gen-go-grpc"
   GRPCURL: "{{.BIN_DIR}}/grpcurl"
   OAPI_CODEGEN: "{{.BIN_DIR}}/oapi-codegen"
+  SQLC: "{{.BIN_DIR}}/sqlc"
 
 tasks:
   install-formatters:
@@ -179,6 +181,31 @@ tasks:
     dir: shepherd
     cmds:
       - "{{.OAPI_CODEGEN}} -config api/openapi/v1/oapi-codegen.config.yaml api/openapi/v1/openapi.yaml"
+
+  sqlc:install-plugins:
+    desc: "Устанавливает sqlc в каталог bin"
+    cmds:
+      - |
+        mkdir -p {{.BIN_DIR}}
+        [ -f {{.SQLC}} ] || {
+          echo '📦 Устанавливаем sqlc {{.SQLC_VERSION}}...'
+          GOBIN={{.BIN_DIR}} go install github.com/sqlc-dev/sqlc/cmd/sqlc@{{.SQLC_VERSION}}
+        }
+    status:
+      - test -x {{.SQLC}}
+
+  sqlc:gen:
+    desc: "Генерирует код sqlc для всех микросервисов — запускает под-таски sqlc:gen:<микросервис>"
+    cmds:
+      - task: sqlc:gen:datacatalogue
+
+  sqlc:gen:datacatalogue:
+    deps: [sqlc:install-plugins]
+    desc: "Генерация Go-кода sqlc для datacatalogue (Data Catalog)"
+    dir: datacatalogue/db/sqlc
+    cmds:
+      - "{{.SQLC}} generate"
+
   env:install-envsubst:
     desc: "Устанавливает envsubst для замены переменных в конфигурации"
     cmds:
