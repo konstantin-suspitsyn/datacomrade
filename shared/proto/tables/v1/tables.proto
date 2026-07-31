@@ -224,7 +224,7 @@ message GetDeletedAliasesResponse {
 message CreateAliasRequest {
   string name = 1;
   string description = 2;
-  int64 user_id = 3;
+  string user_external_id = 3;
 }
 
 // CreateAliasResponse returns the created dc.alias row (query CreateAlias).
@@ -237,7 +237,7 @@ message UpdateAliasByIdRequest {
   int64 id = 1;
   string name = 2;
   string description = 3;
-  int64 user_id = 4;
+  string user_external_id = 4;
 }
 
 // UpdateAliasByIdResponse returns the updated dc.alias row (query UpdateAliasById).
@@ -350,7 +350,7 @@ message CreateColumnCatRequest {
   string description = 5;
   int64 calculation_type_id = 6;
   bool show_in_ui = 7;
-  int64 user_id = 8;
+  string user_external_id = 8;
 }
 
 // CreateColumnCatResponse returns the created dc.column_cat row (query CreateColumnCat).
@@ -368,7 +368,7 @@ message UpdateColumnCatByIdRequest {
   string description = 6;
   int64 calculation_type_id = 7;
   bool show_in_ui = 8;
-  int64 user_id = 9;
+  string user_external_id = 9;
 }
 
 // UpdateColumnCatByIdResponse returns the updated dc.column_cat row (query UpdateColumnCatById).
@@ -451,7 +451,7 @@ message GetDeletedColumnTypesResponse {
 message CreateColumnTypeRequest {
   string name = 1;
   string description = 2;
-  int64 user_id = 3;
+  string user_external_id = 3;
 }
 
 // CreateColumnTypeResponse returns the created dc.column_type row (query CreateColumnType).
@@ -464,7 +464,7 @@ message UpdateColumnTypeByIdRequest {
   int64 id = 1;
   string name = 2;
   string description = 3;
-  int64 user_id = 4;
+  string user_external_id = 4;
 }
 
 // UpdateColumnTypeByIdResponse returns the updated dc.column_type row (query UpdateColumnTypeById).
@@ -640,7 +640,7 @@ message GetDeletedDatabaseCalculationsResponse {
 message CreateDatabaseCalculationRequest {
   int64 database_cat_id = 1;
   int64 calculation_type_id = 2;
-  int64 user_id = 3;
+  string user_external_id = 3;
 }
 
 // CreateDatabaseCalculationResponse returns the created dc.database_calculation row (query CreateDatabaseCalculation).
@@ -653,7 +653,7 @@ message UpdateDatabaseCalculationByIdRequest {
   int64 id = 1;
   int64 database_cat_id = 2;
   int64 calculation_type_id = 3;
-  int64 user_id = 4;
+  string user_external_id = 4;
 }
 
 // UpdateDatabaseCalculationByIdResponse returns the updated dc.database_calculation row (query UpdateDatabaseCalculationById).
@@ -760,7 +760,7 @@ message CreateDatabaseCatRequest {
   int64 host_id = 2;
   int64 database_type_id = 3;
   string description = 4;
-  int64 user_id = 5;
+  string user_external_id = 5;
 }
 
 // CreateDatabaseCatResponse returns the created dc.database_cat row (query CreateDatabaseCat).
@@ -775,7 +775,7 @@ message UpdateDatabaseCatByIdRequest {
   int64 host_id = 3;
   int64 database_type_id = 4;
   string description = 5;
-  int64 user_id = 6;
+  string user_external_id = 6;
 }
 
 // UpdateDatabaseCatByIdResponse returns the updated dc.database_cat row (query UpdateDatabaseCatById).
@@ -858,7 +858,7 @@ message GetDeletedDatabaseTypesResponse {
 message CreateDatabaseTypeRequest {
   string name = 1;
   string db_version = 2;
-  int64 user_id = 3;
+  string user_external_id = 3;
 }
 
 // CreateDatabaseTypeResponse returns the created dc.database_type row (query CreateDatabaseType).
@@ -871,7 +871,7 @@ message UpdateDatabaseTypeByIdRequest {
   int64 id = 1;
   string name = 2;
   string db_version = 3;
-  int64 user_id = 4;
+  string user_external_id = 4;
 }
 
 // UpdateDatabaseTypeByIdResponse returns the updated dc.database_type row (query UpdateDatabaseTypeById).
@@ -952,7 +952,7 @@ message GetDeletedDomainCatsResponse {
 // CreateDomainCatRequest carries the fields needed to insert a dc.domain_cat row (query CreateDomainCat).
 message CreateDomainCatRequest {
   string domain_name = 1;
-  int64 user_id = 2;
+  string user_external_id = 2;
 }
 
 // CreateDomainCatResponse returns the created dc.domain_cat row (query CreateDomainCat).
@@ -964,7 +964,7 @@ message CreateDomainCatResponse {
 message UpdateDomainCatByIdRequest {
   int64 id = 1;
   string domain_name = 2;
-  int64 user_id = 3;
+  string user_external_id = 3;
 }
 
 // UpdateDomainCatByIdResponse returns the updated dc.domain_cat row (query UpdateDomainCatById).
@@ -1047,7 +1047,7 @@ message GetDeletedFollowingCalculationsResponse {
 message CreateFollowingCalculationRequest {
   int64 column_cat_id = 1;
   int64 calculation_type_id = 2;
-  int64 user_id = 3;
+  string user_external_id = 3;
 }
 
 // CreateFollowingCalculationResponse returns the created dc.following_calculation row (query CreateFollowingCalculation).
@@ -1060,7 +1060,7 @@ message UpdateFollowingCalculationByIdRequest {
   int64 id = 1;
   int64 column_cat_id = 2;
   int64 calculation_type_id = 3;
-  int64 user_id = 4;
+  string user_external_id = 4;
 }
 
 // UpdateFollowingCalculationByIdResponse returns the updated dc.following_calculation row (query UpdateFollowingCalculationById).
@@ -1147,7 +1147,7 @@ message CreateGroupLevelRequest {
   int64 parent_column_id = 2;
   int32 level = 3;
   string description = 4;
-  int64 user_id = 5;
+  string user_external_id = 5;
 }
 
 // CreateGroupLevelResponse returns the created dc.group_levels row (query CreateGroupLevel).
@@ -1162,7 +1162,7 @@ message UpdateGroupLevelByIdRequest {
   int64 parent_column_id = 3;
   int32 level = 4;
   string description = 5;
-  int64 user_id = 6;
+  string user_external_id = 6;
 }
 
 // UpdateGroupLevelByIdResponse returns the updated dc.group_levels row (query UpdateGroupLevelById).
@@ -1247,7 +1247,7 @@ message CreateHasToGroupRequest {
   int64 column_id_a = 1;
   int64 column_id_b = 2;
   string description = 3;
-  int64 user_id = 4;
+  string user_external_id = 4;
 }
 
 // CreateHasToGroupResponse returns the created dc.has_to_group row (query CreateHasToGroup).
@@ -1261,7 +1261,7 @@ message UpdateHasToGroupByIdRequest {
   int64 column_id_a = 2;
   int64 column_id_b = 3;
   string description = 4;
-  int64 user_id = 5;
+  string user_external_id = 5;
 }
 
 // UpdateHasToGroupByIdResponse returns the updated dc.has_to_group row (query UpdateHasToGroupById).
@@ -1352,7 +1352,7 @@ message CreateHostRequest {
   string port_env = 4;
   string username_env = 5;
   string password_env = 6;
-  int64 user_id = 7;
+  string user_external_id = 7;
 }
 
 // CreateHostResponse returns the created dc.host row (query CreateHost).
@@ -1369,7 +1369,7 @@ message UpdateHostByIdRequest {
   string port_env = 5;
   string username_env = 6;
   string password_env = 7;
-  int64 user_id = 8;
+  string user_external_id = 8;
 }
 
 // UpdateHostByIdResponse returns the updated dc.host row (query UpdateHostById).
@@ -1462,7 +1462,7 @@ message GetSchemaCatsByDatabaseIdResponse {
 message CreateSchemaCatRequest {
   int64 database_id = 1;
   string name = 2;
-  int64 user_id = 3;
+  string user_external_id = 3;
 }
 
 // CreateSchemaCatResponse returns the created dc.schema_cat row (query CreateSchemaCat).
@@ -1475,7 +1475,7 @@ message UpdateSchemaCatByIdRequest {
   int64 id = 1;
   int64 database_id = 2;
   string name = 3;
-  int64 user_id = 4;
+  string user_external_id = 4;
 }
 
 // UpdateSchemaCatByIdResponse returns the updated dc.schema_cat row (query UpdateSchemaCatById).
@@ -1596,7 +1596,7 @@ message CreateTableCatRequest {
   int64 table_type_id = 4;
   int64 domain_id = 5;
   bool is_get_dict = 6;
-  int64 user_id = 7;
+  string user_external_id = 7;
 }
 
 // CreateTableCatResponse returns the created dc.table_cat row (query CreateTableCat).
@@ -1613,7 +1613,7 @@ message UpdateTableCatByIdRequest {
   int64 table_type_id = 5;
   int64 domain_id = 6;
   bool is_get_dict = 7;
-  int64 user_id = 8;
+  string user_external_id = 8;
 }
 
 // UpdateTableCatByIdResponse returns the updated dc.table_cat row (query UpdateTableCatById).
@@ -1696,7 +1696,7 @@ message GetDeletedTableTypesResponse {
 message CreateTableTypeRequest {
   string name = 1;
   string description = 2;
-  int64 user_id = 3;
+  string user_external_id = 3;
 }
 
 // CreateTableTypeResponse returns the created dc.table_type row (query CreateTableType).
@@ -1709,7 +1709,7 @@ message UpdateTableTypeByIdRequest {
   int64 id = 1;
   string name = 2;
   string description = 3;
-  int64 user_id = 4;
+  string user_external_id = 4;
 }
 
 // UpdateTableTypeByIdResponse returns the updated dc.table_type row (query UpdateTableTypeById).

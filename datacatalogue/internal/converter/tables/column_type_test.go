@@ -4,6 +4,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/repository/tables_model"
 	tablesv1 "github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/tables/v1"
 )
@@ -124,15 +125,15 @@ func TestColumnTypesToProtoKeepsOrder(t *testing.T) {
 
 func TestToCreateColumnTypeParams(t *testing.T) {
 	req := &tablesv1.CreateColumnTypeRequest{
-		Name:        "name-0",
-		Description: "description-0",
-		UserId:      102,
+		Name:           "name-0",
+		Description:    "description-0",
+		UserExternalId: "00000000-0000-4000-8000-000000000003",
 	}
 
 	want := tables_model.CreateColumnTypeParams{
 		Name:        "name-0",
 		Description: "description-0",
-		UserID:      102,
+		ExternalID:  uuid.MustParse("00000000-0000-4000-8000-000000000003"),
 	}
 
 	if got := ToCreateColumnTypeParams(req); got != want {
@@ -149,17 +150,17 @@ func TestToCreateColumnTypeParamsNil(t *testing.T) {
 
 func TestToUpdateColumnTypeByIdParams(t *testing.T) {
 	req := &tablesv1.UpdateColumnTypeByIdRequest{
-		Id:          100,
-		Name:        "name-0",
-		Description: "description-0",
-		UserId:      103,
+		Id:             100,
+		Name:           "name-0",
+		Description:    "description-0",
+		UserExternalId: "00000000-0000-4000-8000-000000000004",
 	}
 
 	want := tables_model.UpdateColumnTypeByIdParams{
 		ID:          100,
 		Name:        "name-0",
 		Description: "description-0",
-		UserID:      103,
+		ExternalID:  uuid.MustParse("00000000-0000-4000-8000-000000000004"),
 	}
 
 	if got := ToUpdateColumnTypeByIdParams(req); got != want {

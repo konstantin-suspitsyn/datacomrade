@@ -4,6 +4,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/repository/tables_model"
 	tablesv1 "github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/tables/v1"
 )
@@ -125,13 +126,13 @@ func TestToCreateFollowingCalculationParams(t *testing.T) {
 	req := &tablesv1.CreateFollowingCalculationRequest{
 		ColumnCatId:       100,
 		CalculationTypeId: 101,
-		UserId:            102,
+		UserExternalId:    "00000000-0000-4000-8000-000000000003",
 	}
 
 	want := tables_model.CreateFollowingCalculationParams{
 		ColumnCatID:       100,
 		CalculationTypeID: 101,
-		UserID:            102,
+		ExternalID:        uuid.MustParse("00000000-0000-4000-8000-000000000003"),
 	}
 
 	if got := ToCreateFollowingCalculationParams(req); got != want {
@@ -151,14 +152,14 @@ func TestToUpdateFollowingCalculationByIdParams(t *testing.T) {
 		Id:                100,
 		ColumnCatId:       101,
 		CalculationTypeId: 102,
-		UserId:            103,
+		UserExternalId:    "00000000-0000-4000-8000-000000000004",
 	}
 
 	want := tables_model.UpdateFollowingCalculationByIdParams{
 		ID:                100,
 		ColumnCatID:       101,
 		CalculationTypeID: 102,
-		UserID:            103,
+		ExternalID:        uuid.MustParse("00000000-0000-4000-8000-000000000004"),
 	}
 
 	if got := ToUpdateFollowingCalculationByIdParams(req); got != want {

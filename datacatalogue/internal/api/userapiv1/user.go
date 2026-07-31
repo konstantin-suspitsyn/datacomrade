@@ -26,7 +26,7 @@ func (u *UserApiV1) GetUserById(ctx context.Context, req *userv1.GetUserByIdRequ
 }
 
 // GetUsers отдаёт все активные строки dc.user.
-func (u *UserApiV1) GetUsers(ctx context.Context, _ *userv1.GetUsersRequest) (*userv1.GetUsersResponse, error) {
+func (u *UserApiV1) GetUsers(ctx context.Context, req *userv1.GetUsersRequest) (*userv1.GetUsersResponse, error) {
 	rows, err := u.services.UserService.GetUsers(ctx)
 	if err != nil {
 		return nil, apierror.Wrap(err)
@@ -50,7 +50,7 @@ func (u *UserApiV1) GetDeletedUserById(ctx context.Context, req *userv1.GetDelet
 }
 
 // GetDeletedUsers отдаёт все мягко удалённые строки dc.user.
-func (u *UserApiV1) GetDeletedUsers(ctx context.Context, _ *userv1.GetDeletedUsersRequest) (*userv1.GetDeletedUsersResponse, error) {
+func (u *UserApiV1) GetDeletedUsers(ctx context.Context, req *userv1.GetDeletedUsersRequest) (*userv1.GetDeletedUsersResponse, error) {
 	rows, err := u.services.UserService.GetDeletedUsers(ctx)
 	if err != nil {
 		return nil, apierror.Wrap(err)

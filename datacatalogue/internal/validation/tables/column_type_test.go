@@ -13,18 +13,18 @@ import (
 // Тесты портят по одному полю, чтобы проверять правила по отдельности.
 func validCreateColumnTypeRequest() *tablesv1.CreateColumnTypeRequest {
 	return &tablesv1.CreateColumnTypeRequest{
-		Name:        "name-0",
-		Description: "description-1",
-		UserId:      102,
+		Name:           "name-0",
+		Description:    "description-1",
+		UserExternalId: "00000000-0000-4000-8000-000000000003",
 	}
 }
 
 func validUpdateColumnTypeByIdRequest() *tablesv1.UpdateColumnTypeByIdRequest {
 	return &tablesv1.UpdateColumnTypeByIdRequest{
-		Id:          42,
-		Name:        "name-0",
-		Description: "description-1",
-		UserId:      102,
+		Id:             42,
+		Name:           "name-0",
+		Description:    "description-1",
+		UserExternalId: "00000000-0000-4000-8000-000000000003",
 	}
 }
 
@@ -55,8 +55,9 @@ func TestValidateCreateColumnType(t *testing.T) {
 		{name: "description too long", mutate: func(r *tablesv1.CreateColumnTypeRequest) {
 			r.Description = strings.Repeat("a", columnTypeDescriptionMaxLen+1)
 		}, wantField: "description"},
-		{name: "zero user_id", mutate: func(r *tablesv1.CreateColumnTypeRequest) { r.UserId = 0 }, wantField: "user_id"},
-		{name: "negative user_id", mutate: func(r *tablesv1.CreateColumnTypeRequest) { r.UserId = -1 }, wantField: "user_id"},
+		{name: "empty user_id", mutate: func(r *tablesv1.CreateColumnTypeRequest) { r.UserExternalId = "" }, wantField: "user_id"},
+		{name: "malformed user_id", mutate: func(r *tablesv1.CreateColumnTypeRequest) { r.UserExternalId = "not-a-uuid" }, wantField: "user_id"},
+		{name: "user_id without dashes", mutate: func(r *tablesv1.CreateColumnTypeRequest) { r.UserExternalId = "00000000000040008000000000000001" }, wantField: "user_id"},
 	}
 
 	for _, tt := range tests {
@@ -108,8 +109,9 @@ func TestValidateUpdateColumnTypeById(t *testing.T) {
 		{name: "description too long", mutate: func(r *tablesv1.UpdateColumnTypeByIdRequest) {
 			r.Description = strings.Repeat("a", columnTypeDescriptionMaxLen+1)
 		}, wantField: "description"},
-		{name: "zero user_id", mutate: func(r *tablesv1.UpdateColumnTypeByIdRequest) { r.UserId = 0 }, wantField: "user_id"},
-		{name: "negative user_id", mutate: func(r *tablesv1.UpdateColumnTypeByIdRequest) { r.UserId = -1 }, wantField: "user_id"},
+		{name: "empty user_id", mutate: func(r *tablesv1.UpdateColumnTypeByIdRequest) { r.UserExternalId = "" }, wantField: "user_id"},
+		{name: "malformed user_id", mutate: func(r *tablesv1.UpdateColumnTypeByIdRequest) { r.UserExternalId = "not-a-uuid" }, wantField: "user_id"},
+		{name: "user_id without dashes", mutate: func(r *tablesv1.UpdateColumnTypeByIdRequest) { r.UserExternalId = "00000000000040008000000000000001" }, wantField: "user_id"},
 	}
 
 	for _, tt := range tests {

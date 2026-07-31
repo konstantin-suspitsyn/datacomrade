@@ -7,6 +7,8 @@ package user_domain_roles
 
 import (
 	"context"
+
+	"github.com/google/uuid"
 )
 
 const createDomainRole = `-- name: CreateDomainRole :one
@@ -63,19 +65,25 @@ func (q *Queries) CreateTableRole(ctx context.Context, arg CreateTableRoleParams
 
 const createUserDomainRole = `-- name: CreateUserDomainRole :one
 INSERT INTO dc.user_domain_roles
-(user_id, domain_roles_id, created_at, updated_at, is_deleted, domain_id)
-VALUES($1, $2, now(), now(), false, $3)
-RETURNING id, user_id, domain_roles_id, created_at, updated_at, is_deleted, domain_id
+(user_id, domain_roles_id, created_at, updated_at, is_deleted, domain_id, updated_by_id)
+VALUES($1, $2, now(), now(), false, $3, (SELECT u.id FROM dc."user" u WHERE u.external_id = $4))
+RETURNING id, user_id, domain_roles_id, created_at, updated_at, is_deleted, domain_id, updated_by_id
 `
 
 type CreateUserDomainRoleParams struct {
 	UserID        int64
 	DomainRolesID int64
 	DomainID      int64
+	ExternalID    uuid.UUID
 }
 
 func (q *Queries) CreateUserDomainRole(ctx context.Context, arg CreateUserDomainRoleParams) (DcUserDomainRole, error) {
-	row := q.db.QueryRowContext(ctx, createUserDomainRole, arg.UserID, arg.DomainRolesID, arg.DomainID)
+	row := q.db.QueryRowContext(ctx, createUserDomainRole,
+		arg.UserID,
+		arg.DomainRolesID,
+		arg.DomainID,
+		arg.ExternalID,
+	)
 	var i DcUserDomainRole
 	err := row.Scan(
 		&i.ID,
@@ -85,25 +93,32 @@ func (q *Queries) CreateUserDomainRole(ctx context.Context, arg CreateUserDomain
 		&i.UpdatedAt,
 		&i.IsDeleted,
 		&i.DomainID,
+		&i.UpdatedByID,
 	)
 	return i, err
 }
 
 const createUserTableRole = `-- name: CreateUserTableRole :one
 INSERT INTO dc.user_table_roles
-(user_id, table_roles_id, created_at, updated_at, is_deleted, table_id)
-VALUES($1, $2, now(), now(), false, $3)
-RETURNING id, user_id, table_roles_id, created_at, updated_at, is_deleted, table_id
+(user_id, table_roles_id, created_at, updated_at, is_deleted, table_id, updated_by_id)
+VALUES($1, $2, now(), now(), false, $3, (SELECT u.id FROM dc."user" u WHERE u.external_id = $4))
+RETURNING id, user_id, table_roles_id, created_at, updated_at, is_deleted, table_id, updated_by_id
 `
 
 type CreateUserTableRoleParams struct {
 	UserID       int64
 	TableRolesID int64
 	TableID      int64
+	ExternalID   uuid.UUID
 }
 
 func (q *Queries) CreateUserTableRole(ctx context.Context, arg CreateUserTableRoleParams) (DcUserTableRole, error) {
-	row := q.db.QueryRowContext(ctx, createUserTableRole, arg.UserID, arg.TableRolesID, arg.TableID)
+	row := q.db.QueryRowContext(ctx, createUserTableRole,
+		arg.UserID,
+		arg.TableRolesID,
+		arg.TableID,
+		arg.ExternalID,
+	)
 	var i DcUserTableRole
 	err := row.Scan(
 		&i.ID,
@@ -113,6 +128,7 @@ func (q *Queries) CreateUserTableRole(ctx context.Context, arg CreateUserTableRo
 		&i.UpdatedAt,
 		&i.IsDeleted,
 		&i.TableID,
+		&i.UpdatedByID,
 	)
 	return i, err
 }
@@ -278,7 +294,7 @@ func (q *Queries) GetDeletedTableRoles(ctx context.Context) ([]DcTableRole, erro
 }
 
 const getDeletedUserDomainRoleById = `-- name: GetDeletedUserDomainRoleById :one
-SELECT id, user_id, domain_roles_id, created_at, updated_at, is_deleted, domain_id
+SELECT id, user_id, domain_roles_id, created_at, updated_at, is_deleted, domain_id, updated_by_id
 FROM dc.user_domain_roles
 WHERE id = $1
 AND is_deleted = true
@@ -295,12 +311,13 @@ func (q *Queries) GetDeletedUserDomainRoleById(ctx context.Context, id int64) (D
 		&i.UpdatedAt,
 		&i.IsDeleted,
 		&i.DomainID,
+		&i.UpdatedByID,
 	)
 	return i, err
 }
 
 const getDeletedUserDomainRoles = `-- name: GetDeletedUserDomainRoles :many
-SELECT id, user_id, domain_roles_id, created_at, updated_at, is_deleted, domain_id
+SELECT id, user_id, domain_roles_id, created_at, updated_at, is_deleted, domain_id, updated_by_id
 FROM dc.user_domain_roles
 WHERE is_deleted = true
 ORDER BY id
@@ -323,6 +340,7 @@ func (q *Queries) GetDeletedUserDomainRoles(ctx context.Context) ([]DcUserDomain
 			&i.UpdatedAt,
 			&i.IsDeleted,
 			&i.DomainID,
+			&i.UpdatedByID,
 		); err != nil {
 			return nil, err
 		}
@@ -338,7 +356,7 @@ func (q *Queries) GetDeletedUserDomainRoles(ctx context.Context) ([]DcUserDomain
 }
 
 const getDeletedUserTableRoleById = `-- name: GetDeletedUserTableRoleById :one
-SELECT id, user_id, table_roles_id, created_at, updated_at, is_deleted, table_id
+SELECT id, user_id, table_roles_id, created_at, updated_at, is_deleted, table_id, updated_by_id
 FROM dc.user_table_roles
 WHERE id = $1
 AND is_deleted = true
@@ -355,12 +373,13 @@ func (q *Queries) GetDeletedUserTableRoleById(ctx context.Context, id int64) (Dc
 		&i.UpdatedAt,
 		&i.IsDeleted,
 		&i.TableID,
+		&i.UpdatedByID,
 	)
 	return i, err
 }
 
 const getDeletedUserTableRoles = `-- name: GetDeletedUserTableRoles :many
-SELECT id, user_id, table_roles_id, created_at, updated_at, is_deleted, table_id
+SELECT id, user_id, table_roles_id, created_at, updated_at, is_deleted, table_id, updated_by_id
 FROM dc.user_table_roles
 WHERE is_deleted = true
 ORDER BY id
@@ -383,6 +402,7 @@ func (q *Queries) GetDeletedUserTableRoles(ctx context.Context) ([]DcUserTableRo
 			&i.UpdatedAt,
 			&i.IsDeleted,
 			&i.TableID,
+			&i.UpdatedByID,
 		); err != nil {
 			return nil, err
 		}
@@ -523,7 +543,7 @@ func (q *Queries) GetTableRoles(ctx context.Context) ([]DcTableRole, error) {
 
 const getUserDomainRoleById = `-- name: GetUserDomainRoleById :one
 
-SELECT id, user_id, domain_roles_id, created_at, updated_at, is_deleted, domain_id
+SELECT id, user_id, domain_roles_id, created_at, updated_at, is_deleted, domain_id, updated_by_id
 FROM dc.user_domain_roles
 WHERE id = $1
 AND is_deleted = false
@@ -543,12 +563,13 @@ func (q *Queries) GetUserDomainRoleById(ctx context.Context, id int64) (DcUserDo
 		&i.UpdatedAt,
 		&i.IsDeleted,
 		&i.DomainID,
+		&i.UpdatedByID,
 	)
 	return i, err
 }
 
 const getUserDomainRoles = `-- name: GetUserDomainRoles :many
-SELECT id, user_id, domain_roles_id, created_at, updated_at, is_deleted, domain_id
+SELECT id, user_id, domain_roles_id, created_at, updated_at, is_deleted, domain_id, updated_by_id
 FROM dc.user_domain_roles
 WHERE is_deleted = false
 ORDER BY id
@@ -571,6 +592,7 @@ func (q *Queries) GetUserDomainRoles(ctx context.Context) ([]DcUserDomainRole, e
 			&i.UpdatedAt,
 			&i.IsDeleted,
 			&i.DomainID,
+			&i.UpdatedByID,
 		); err != nil {
 			return nil, err
 		}
@@ -587,7 +609,7 @@ func (q *Queries) GetUserDomainRoles(ctx context.Context) ([]DcUserDomainRole, e
 
 const getUserTableRoleById = `-- name: GetUserTableRoleById :one
 
-SELECT id, user_id, table_roles_id, created_at, updated_at, is_deleted, table_id
+SELECT id, user_id, table_roles_id, created_at, updated_at, is_deleted, table_id, updated_by_id
 FROM dc.user_table_roles
 WHERE id = $1
 AND is_deleted = false
@@ -607,12 +629,13 @@ func (q *Queries) GetUserTableRoleById(ctx context.Context, id int64) (DcUserTab
 		&i.UpdatedAt,
 		&i.IsDeleted,
 		&i.TableID,
+		&i.UpdatedByID,
 	)
 	return i, err
 }
 
 const getUserTableRoles = `-- name: GetUserTableRoles :many
-SELECT id, user_id, table_roles_id, created_at, updated_at, is_deleted, table_id
+SELECT id, user_id, table_roles_id, created_at, updated_at, is_deleted, table_id, updated_by_id
 FROM dc.user_table_roles
 WHERE is_deleted = false
 ORDER BY id
@@ -635,6 +658,7 @@ func (q *Queries) GetUserTableRoles(ctx context.Context) ([]DcUserTableRole, err
 			&i.UpdatedAt,
 			&i.IsDeleted,
 			&i.TableID,
+			&i.UpdatedByID,
 		); err != nil {
 			return nil, err
 		}
@@ -751,10 +775,10 @@ func (q *Queries) UpdateTableRoleById(ctx context.Context, arg UpdateTableRoleBy
 
 const updateUserDomainRoleById = `-- name: UpdateUserDomainRoleById :one
 UPDATE dc.user_domain_roles
-SET user_id=$2, domain_roles_id=$3, domain_id=$4, updated_at=now()
-WHERE id=$1
+SET user_id=$2, domain_roles_id=$3, domain_id=$4, updated_by_id=(SELECT u.id FROM dc."user" u WHERE u.external_id = $5), updated_at=now()
+WHERE dc.user_domain_roles.id=$1
 AND is_deleted = false
-RETURNING id, user_id, domain_roles_id, created_at, updated_at, is_deleted, domain_id
+RETURNING id, user_id, domain_roles_id, created_at, updated_at, is_deleted, domain_id, updated_by_id
 `
 
 type UpdateUserDomainRoleByIdParams struct {
@@ -762,6 +786,7 @@ type UpdateUserDomainRoleByIdParams struct {
 	UserID        int64
 	DomainRolesID int64
 	DomainID      int64
+	ExternalID    uuid.UUID
 }
 
 func (q *Queries) UpdateUserDomainRoleById(ctx context.Context, arg UpdateUserDomainRoleByIdParams) (DcUserDomainRole, error) {
@@ -770,6 +795,7 @@ func (q *Queries) UpdateUserDomainRoleById(ctx context.Context, arg UpdateUserDo
 		arg.UserID,
 		arg.DomainRolesID,
 		arg.DomainID,
+		arg.ExternalID,
 	)
 	var i DcUserDomainRole
 	err := row.Scan(
@@ -780,16 +806,17 @@ func (q *Queries) UpdateUserDomainRoleById(ctx context.Context, arg UpdateUserDo
 		&i.UpdatedAt,
 		&i.IsDeleted,
 		&i.DomainID,
+		&i.UpdatedByID,
 	)
 	return i, err
 }
 
 const updateUserTableRoleById = `-- name: UpdateUserTableRoleById :one
 UPDATE dc.user_table_roles
-SET user_id=$2, table_roles_id=$3, table_id=$4, updated_at=now()
-WHERE id=$1
+SET user_id=$2, table_roles_id=$3, table_id=$4, updated_by_id=(SELECT u.id FROM dc."user" u WHERE u.external_id = $5), updated_at=now()
+WHERE dc.user_table_roles.id=$1
 AND is_deleted = false
-RETURNING id, user_id, table_roles_id, created_at, updated_at, is_deleted, table_id
+RETURNING id, user_id, table_roles_id, created_at, updated_at, is_deleted, table_id, updated_by_id
 `
 
 type UpdateUserTableRoleByIdParams struct {
@@ -797,6 +824,7 @@ type UpdateUserTableRoleByIdParams struct {
 	UserID       int64
 	TableRolesID int64
 	TableID      int64
+	ExternalID   uuid.UUID
 }
 
 func (q *Queries) UpdateUserTableRoleById(ctx context.Context, arg UpdateUserTableRoleByIdParams) (DcUserTableRole, error) {
@@ -805,6 +833,7 @@ func (q *Queries) UpdateUserTableRoleById(ctx context.Context, arg UpdateUserTab
 		arg.UserID,
 		arg.TableRolesID,
 		arg.TableID,
+		arg.ExternalID,
 	)
 	var i DcUserTableRole
 	err := row.Scan(
@@ -815,6 +844,7 @@ func (q *Queries) UpdateUserTableRoleById(ctx context.Context, arg UpdateUserTab
 		&i.UpdatedAt,
 		&i.IsDeleted,
 		&i.TableID,
+		&i.UpdatedByID,
 	)
 	return i, err
 }

@@ -35,7 +35,7 @@ func DomainCatsToProto(rows []tables_model.DcDomainCat) []*tablesv1.DomainCat {
 func ToCreateDomainCatParams(req *tablesv1.CreateDomainCatRequest) tables_model.CreateDomainCatParams {
 	return tables_model.CreateDomainCatParams{
 		DomainName: req.GetDomainName(),
-		UserID:     req.GetUserId(),
+		ExternalID: converter.ProtoToUUID(req.GetUserExternalId()),
 	}
 }
 
@@ -45,6 +45,6 @@ func ToUpdateDomainCatByIdParams(req *tablesv1.UpdateDomainCatByIdRequest) table
 	return tables_model.UpdateDomainCatByIdParams{
 		ID:         req.GetId(),
 		DomainName: req.GetDomainName(),
-		UserID:     req.GetUserId(),
+		ExternalID: converter.ProtoToUUID(req.GetUserExternalId()),
 	}
 }

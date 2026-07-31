@@ -14,14 +14,14 @@ func tableCatWritableFields(
 	tableTypeId int64,
 	domainId int64,
 	isGetDict bool,
-	userId int64,
+	userExternalId string,
 ) {
 	v.StringVarchar("name", name, tableCatNameMaxLen)
 	v.StringVarchar("description", description, tableCatDescriptionMaxLen)
 	v.Int64ID("schema_id", schemaId)
 	v.Int64ID("table_type_id", tableTypeId)
 	v.Int64ID("domain_id", domainId)
-	v.Int64ID("user_id", userId)
+	v.StringUUID("user_id", userExternalId)
 }
 
 // ValidateCreateTableCat проверяет запрос на вставку строки dc.table_cat.
@@ -41,7 +41,7 @@ func ValidateCreateTableCat(req *tablesv1.CreateTableCatRequest) error {
 		req.GetTableTypeId(),
 		req.GetDomainId(),
 		req.GetIsGetDict(),
-		req.GetUserId(),
+		req.GetUserExternalId(),
 	)
 
 	return v.Err()
@@ -67,7 +67,7 @@ func ValidateUpdateTableCatById(req *tablesv1.UpdateTableCatByIdRequest) error {
 		req.GetTableTypeId(),
 		req.GetDomainId(),
 		req.GetIsGetDict(),
-		req.GetUserId(),
+		req.GetUserExternalId(),
 	)
 
 	return v.Err()

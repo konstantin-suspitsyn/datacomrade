@@ -10,11 +10,11 @@ func databaseTypeWritableFields(
 	v *validator.Validator,
 	name string,
 	dbVersion string,
-	userId int64,
+	userExternalId string,
 ) {
 	v.StringVarchar("name", name, databaseTypeNameMaxLen)
 	v.StringVarchar("db_version", dbVersion, databaseTypeDbVersionMaxLen)
-	v.Int64ID("user_id", userId)
+	v.StringUUID("user_id", userExternalId)
 }
 
 // ValidateCreateDatabaseType проверяет запрос на вставку строки dc.database_type.
@@ -30,7 +30,7 @@ func ValidateCreateDatabaseType(req *tablesv1.CreateDatabaseTypeRequest) error {
 		v,
 		req.GetName(),
 		req.GetDbVersion(),
-		req.GetUserId(),
+		req.GetUserExternalId(),
 	)
 
 	return v.Err()
@@ -52,7 +52,7 @@ func ValidateUpdateDatabaseTypeById(req *tablesv1.UpdateDatabaseTypeByIdRequest)
 		v,
 		req.GetName(),
 		req.GetDbVersion(),
-		req.GetUserId(),
+		req.GetUserExternalId(),
 	)
 
 	return v.Err()

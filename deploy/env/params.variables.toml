@@ -1,0 +1,14 @@
+# Общие значения, переиспользуемые в params.toml через ${ИМЯ_ПЕРЕМЕННОЙ}.
+# Файл опционален: generate_env.py работает и без него, если ссылок ${...} в params.toml нет.
+
+REDIS_PORT=6379
+REDIS_PASSWORD="password"
+
+DATACATALOGUE_GRPC_HOST="localhost"
+DATACATALOGUE_GRPC_PORT=5052
+
+DATACATALOGUE_POSTGRES_USER="postgres_user"
+DATACATALOGUE_POSTGRES_PASSWORD="pass"
+DATACATALOGUE_POSTGRES_HOST="localhost"
+DATACATALOGUE_POSTGRES_PORT=5432
+DATACATALOGUE_POSTGRES_DB="dcat"

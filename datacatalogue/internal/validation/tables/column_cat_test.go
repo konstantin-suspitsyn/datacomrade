@@ -20,7 +20,7 @@ func validCreateColumnCatRequest() *tablesv1.CreateColumnCatRequest {
 		Description:       "description-4",
 		CalculationTypeId: 105,
 		ShowInUi:          true,
-		UserId:            107,
+		UserExternalId:    "00000000-0000-4000-8000-000000000008",
 	}
 }
 
@@ -34,7 +34,7 @@ func validUpdateColumnCatByIdRequest() *tablesv1.UpdateColumnCatByIdRequest {
 		Description:       "description-4",
 		CalculationTypeId: 105,
 		ShowInUi:          true,
-		UserId:            107,
+		UserExternalId:    "00000000-0000-4000-8000-000000000008",
 	}
 }
 
@@ -73,8 +73,9 @@ func TestValidateCreateColumnCat(t *testing.T) {
 		}, wantField: "description"},
 		{name: "zero calculation_type_id", mutate: func(r *tablesv1.CreateColumnCatRequest) { r.CalculationTypeId = 0 }, wantField: "calculation_type_id"},
 		{name: "negative calculation_type_id", mutate: func(r *tablesv1.CreateColumnCatRequest) { r.CalculationTypeId = -1 }, wantField: "calculation_type_id"},
-		{name: "zero user_id", mutate: func(r *tablesv1.CreateColumnCatRequest) { r.UserId = 0 }, wantField: "user_id"},
-		{name: "negative user_id", mutate: func(r *tablesv1.CreateColumnCatRequest) { r.UserId = -1 }, wantField: "user_id"},
+		{name: "empty user_id", mutate: func(r *tablesv1.CreateColumnCatRequest) { r.UserExternalId = "" }, wantField: "user_id"},
+		{name: "malformed user_id", mutate: func(r *tablesv1.CreateColumnCatRequest) { r.UserExternalId = "not-a-uuid" }, wantField: "user_id"},
+		{name: "user_id without dashes", mutate: func(r *tablesv1.CreateColumnCatRequest) { r.UserExternalId = "00000000000040008000000000000001" }, wantField: "user_id"},
 	}
 
 	for _, tt := range tests {
@@ -134,8 +135,9 @@ func TestValidateUpdateColumnCatById(t *testing.T) {
 		}, wantField: "description"},
 		{name: "zero calculation_type_id", mutate: func(r *tablesv1.UpdateColumnCatByIdRequest) { r.CalculationTypeId = 0 }, wantField: "calculation_type_id"},
 		{name: "negative calculation_type_id", mutate: func(r *tablesv1.UpdateColumnCatByIdRequest) { r.CalculationTypeId = -1 }, wantField: "calculation_type_id"},
-		{name: "zero user_id", mutate: func(r *tablesv1.UpdateColumnCatByIdRequest) { r.UserId = 0 }, wantField: "user_id"},
-		{name: "negative user_id", mutate: func(r *tablesv1.UpdateColumnCatByIdRequest) { r.UserId = -1 }, wantField: "user_id"},
+		{name: "empty user_id", mutate: func(r *tablesv1.UpdateColumnCatByIdRequest) { r.UserExternalId = "" }, wantField: "user_id"},
+		{name: "malformed user_id", mutate: func(r *tablesv1.UpdateColumnCatByIdRequest) { r.UserExternalId = "not-a-uuid" }, wantField: "user_id"},
+		{name: "user_id without dashes", mutate: func(r *tablesv1.UpdateColumnCatByIdRequest) { r.UserExternalId = "00000000000040008000000000000001" }, wantField: "user_id"},
 	}
 
 	for _, tt := range tests {

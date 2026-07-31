@@ -37,7 +37,7 @@ func ToCreateFollowingCalculationParams(req *tablesv1.CreateFollowingCalculation
 	return tables_model.CreateFollowingCalculationParams{
 		ColumnCatID:       req.GetColumnCatId(),
 		CalculationTypeID: req.GetCalculationTypeId(),
-		UserID:            req.GetUserId(),
+		ExternalID:        converter.ProtoToUUID(req.GetUserExternalId()),
 	}
 }
 
@@ -48,6 +48,6 @@ func ToUpdateFollowingCalculationByIdParams(req *tablesv1.UpdateFollowingCalcula
 		ID:                req.GetId(),
 		ColumnCatID:       req.GetColumnCatId(),
 		CalculationTypeID: req.GetCalculationTypeId(),
-		UserID:            req.GetUserId(),
+		ExternalID:        converter.ProtoToUUID(req.GetUserExternalId()),
 	}
 }

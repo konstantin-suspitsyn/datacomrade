@@ -250,6 +250,7 @@ message UserDomainRole {
   google.protobuf.Timestamp updated_at = 5;
   bool is_deleted = 6;
   int64 domain_id = 7;
+  int64 updated_by_id = 8;
 }
 
 // GetUserDomainRoleByIdRequest asks for a single active dc.user_domain_roles row by id (query GetUserDomainRoleById).
@@ -293,6 +294,7 @@ message CreateUserDomainRoleRequest {
   int64 user_id = 1;
   int64 domain_roles_id = 2;
   int64 domain_id = 3;
+  string updated_by_external_id = 4;
 }
 
 // CreateUserDomainRoleResponse returns the created dc.user_domain_roles row (query CreateUserDomainRole).
@@ -306,6 +308,7 @@ message UpdateUserDomainRoleByIdRequest {
   int64 user_id = 2;
   int64 domain_roles_id = 3;
   int64 domain_id = 4;
+  string updated_by_external_id = 5;
 }
 
 // UpdateUserDomainRoleByIdResponse returns the updated dc.user_domain_roles row (query UpdateUserDomainRoleById).
@@ -346,6 +349,7 @@ message UserTableRole {
   google.protobuf.Timestamp updated_at = 5;
   bool is_deleted = 6;
   int64 table_id = 7;
+  int64 updated_by_id = 8;
 }
 
 // GetUserTableRoleByIdRequest asks for a single active dc.user_table_roles row by id (query GetUserTableRoleById).
@@ -389,6 +393,7 @@ message CreateUserTableRoleRequest {
   int64 user_id = 1;
   int64 table_roles_id = 2;
   int64 table_id = 3;
+  string updated_by_external_id = 4;
 }
 
 // CreateUserTableRoleResponse returns the created dc.user_table_roles row (query CreateUserTableRole).
@@ -402,6 +407,7 @@ message UpdateUserTableRoleByIdRequest {
   int64 user_id = 2;
   int64 table_roles_id = 3;
   int64 table_id = 4;
+  string updated_by_external_id = 5;
 }
 
 // UpdateUserTableRoleByIdResponse returns the updated dc.user_table_roles row (query UpdateUserTableRoleById).

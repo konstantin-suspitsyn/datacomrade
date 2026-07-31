@@ -14,7 +14,7 @@ func validCreateFollowingCalculationRequest() *tablesv1.CreateFollowingCalculati
 	return &tablesv1.CreateFollowingCalculationRequest{
 		ColumnCatId:       100,
 		CalculationTypeId: 101,
-		UserId:            102,
+		UserExternalId:    "00000000-0000-4000-8000-000000000003",
 	}
 }
 
@@ -23,7 +23,7 @@ func validUpdateFollowingCalculationByIdRequest() *tablesv1.UpdateFollowingCalcu
 		Id:                42,
 		ColumnCatId:       100,
 		CalculationTypeId: 101,
-		UserId:            102,
+		UserExternalId:    "00000000-0000-4000-8000-000000000003",
 	}
 }
 
@@ -50,8 +50,11 @@ func TestValidateCreateFollowingCalculation(t *testing.T) {
 		{name: "negative column_cat_id", mutate: func(r *tablesv1.CreateFollowingCalculationRequest) { r.ColumnCatId = -1 }, wantField: "column_cat_id"},
 		{name: "zero calculation_type_id", mutate: func(r *tablesv1.CreateFollowingCalculationRequest) { r.CalculationTypeId = 0 }, wantField: "calculation_type_id"},
 		{name: "negative calculation_type_id", mutate: func(r *tablesv1.CreateFollowingCalculationRequest) { r.CalculationTypeId = -1 }, wantField: "calculation_type_id"},
-		{name: "zero user_id", mutate: func(r *tablesv1.CreateFollowingCalculationRequest) { r.UserId = 0 }, wantField: "user_id"},
-		{name: "negative user_id", mutate: func(r *tablesv1.CreateFollowingCalculationRequest) { r.UserId = -1 }, wantField: "user_id"},
+		{name: "empty user_id", mutate: func(r *tablesv1.CreateFollowingCalculationRequest) { r.UserExternalId = "" }, wantField: "user_id"},
+		{name: "malformed user_id", mutate: func(r *tablesv1.CreateFollowingCalculationRequest) { r.UserExternalId = "not-a-uuid" }, wantField: "user_id"},
+		{name: "user_id without dashes", mutate: func(r *tablesv1.CreateFollowingCalculationRequest) {
+			r.UserExternalId = "00000000000040008000000000000001"
+		}, wantField: "user_id"},
 	}
 
 	for _, tt := range tests {
@@ -99,8 +102,11 @@ func TestValidateUpdateFollowingCalculationById(t *testing.T) {
 		{name: "negative column_cat_id", mutate: func(r *tablesv1.UpdateFollowingCalculationByIdRequest) { r.ColumnCatId = -1 }, wantField: "column_cat_id"},
 		{name: "zero calculation_type_id", mutate: func(r *tablesv1.UpdateFollowingCalculationByIdRequest) { r.CalculationTypeId = 0 }, wantField: "calculation_type_id"},
 		{name: "negative calculation_type_id", mutate: func(r *tablesv1.UpdateFollowingCalculationByIdRequest) { r.CalculationTypeId = -1 }, wantField: "calculation_type_id"},
-		{name: "zero user_id", mutate: func(r *tablesv1.UpdateFollowingCalculationByIdRequest) { r.UserId = 0 }, wantField: "user_id"},
-		{name: "negative user_id", mutate: func(r *tablesv1.UpdateFollowingCalculationByIdRequest) { r.UserId = -1 }, wantField: "user_id"},
+		{name: "empty user_id", mutate: func(r *tablesv1.UpdateFollowingCalculationByIdRequest) { r.UserExternalId = "" }, wantField: "user_id"},
+		{name: "malformed user_id", mutate: func(r *tablesv1.UpdateFollowingCalculationByIdRequest) { r.UserExternalId = "not-a-uuid" }, wantField: "user_id"},
+		{name: "user_id without dashes", mutate: func(r *tablesv1.UpdateFollowingCalculationByIdRequest) {
+			r.UserExternalId = "00000000000040008000000000000001"
+		}, wantField: "user_id"},
 	}
 
 	for _, tt := range tests {

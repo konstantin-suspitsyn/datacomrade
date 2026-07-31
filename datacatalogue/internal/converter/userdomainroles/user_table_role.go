@@ -16,6 +16,7 @@ func UserTableRoleToProto(row user_domain_roles.DcUserTableRole) *userdomainrole
 		UpdatedAt:    converter.TimeToProto(row.UpdatedAt),
 		IsDeleted:    row.IsDeleted,
 		TableId:      row.TableID,
+		UpdatedById:  row.UpdatedByID,
 	}
 }
 
@@ -38,6 +39,7 @@ func ToCreateUserTableRoleParams(req *userdomainrolesv1.CreateUserTableRoleReque
 		UserID:       req.GetUserId(),
 		TableRolesID: req.GetTableRolesId(),
 		TableID:      req.GetTableId(),
+		ExternalID:   converter.ProtoToUUID(req.GetUpdatedByExternalId()),
 	}
 }
 
@@ -49,5 +51,6 @@ func ToUpdateUserTableRoleByIdParams(req *userdomainrolesv1.UpdateUserTableRoleB
 		UserID:       req.GetUserId(),
 		TableRolesID: req.GetTableRolesId(),
 		TableID:      req.GetTableId(),
+		ExternalID:   converter.ProtoToUUID(req.GetUpdatedByExternalId()),
 	}
 }

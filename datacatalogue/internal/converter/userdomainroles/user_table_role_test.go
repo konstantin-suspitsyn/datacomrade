@@ -4,6 +4,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/repository/user_domain_roles"
 	userdomainrolesv1 "github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/user_domain_roles/v1"
 )
@@ -23,6 +24,7 @@ func testUserTableRoleRow() user_domain_roles.DcUserTableRole {
 		UpdatedAt:    userTableRoleUpdatedAt,
 		IsDeleted:    false,
 		TableID:      106,
+		UpdatedByID:  107,
 	}
 }
 
@@ -60,6 +62,10 @@ func TestUserTableRoleToProto(t *testing.T) {
 
 	if got.GetTableId() != row.TableID {
 		t.Errorf("TableId = %d, want %d", got.GetTableId(), row.TableID)
+	}
+
+	if got.GetUpdatedById() != row.UpdatedByID {
+		t.Errorf("UpdatedById = %d, want %d", got.GetUpdatedById(), row.UpdatedByID)
 	}
 
 }
@@ -123,15 +129,17 @@ func TestUserTableRolesToProtoKeepsOrder(t *testing.T) {
 
 func TestToCreateUserTableRoleParams(t *testing.T) {
 	req := &userdomainrolesv1.CreateUserTableRoleRequest{
-		UserId:       100,
-		TableRolesId: 101,
-		TableId:      102,
+		UserId:              100,
+		TableRolesId:        101,
+		TableId:             102,
+		UpdatedByExternalId: "00000000-0000-4000-8000-000000000004",
 	}
 
 	want := user_domain_roles.CreateUserTableRoleParams{
 		UserID:       100,
 		TableRolesID: 101,
 		TableID:      102,
+		ExternalID:   uuid.MustParse("00000000-0000-4000-8000-000000000004"),
 	}
 
 	if got := ToCreateUserTableRoleParams(req); got != want {
@@ -148,10 +156,11 @@ func TestToCreateUserTableRoleParamsNil(t *testing.T) {
 
 func TestToUpdateUserTableRoleByIdParams(t *testing.T) {
 	req := &userdomainrolesv1.UpdateUserTableRoleByIdRequest{
-		Id:           100,
-		UserId:       101,
-		TableRolesId: 102,
-		TableId:      103,
+		Id:                  100,
+		UserId:              101,
+		TableRolesId:        102,
+		TableId:             103,
+		UpdatedByExternalId: "00000000-0000-4000-8000-000000000005",
 	}
 
 	want := user_domain_roles.UpdateUserTableRoleByIdParams{
@@ -159,6 +168,7 @@ func TestToUpdateUserTableRoleByIdParams(t *testing.T) {
 		UserID:       101,
 		TableRolesID: 102,
 		TableID:      103,
+		ExternalID:   uuid.MustParse("00000000-0000-4000-8000-000000000005"),
 	}
 
 	if got := ToUpdateUserTableRoleByIdParams(req); got != want {

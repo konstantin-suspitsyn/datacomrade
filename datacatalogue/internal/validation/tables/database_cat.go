@@ -12,13 +12,13 @@ func databaseCatWritableFields(
 	hostId int64,
 	databaseTypeId int64,
 	description string,
-	userId int64,
+	userExternalId string,
 ) {
 	v.StringVarchar("name", name, databaseCatNameMaxLen)
 	v.Int64ID("host_id", hostId)
 	v.Int64ID("database_type_id", databaseTypeId)
 	v.StringVarchar("description", description, databaseCatDescriptionMaxLen)
-	v.Int64ID("user_id", userId)
+	v.StringUUID("user_id", userExternalId)
 }
 
 // ValidateCreateDatabaseCat проверяет запрос на вставку строки dc.database_cat.
@@ -36,7 +36,7 @@ func ValidateCreateDatabaseCat(req *tablesv1.CreateDatabaseCatRequest) error {
 		req.GetHostId(),
 		req.GetDatabaseTypeId(),
 		req.GetDescription(),
-		req.GetUserId(),
+		req.GetUserExternalId(),
 	)
 
 	return v.Err()
@@ -60,7 +60,7 @@ func ValidateUpdateDatabaseCatById(req *tablesv1.UpdateDatabaseCatByIdRequest) e
 		req.GetHostId(),
 		req.GetDatabaseTypeId(),
 		req.GetDescription(),
-		req.GetUserId(),
+		req.GetUserExternalId(),
 	)
 
 	return v.Err()

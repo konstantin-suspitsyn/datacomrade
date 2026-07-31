@@ -35,9 +35,9 @@ func DatabaseTypesToProto(rows []tables_model.DcDatabaseType) []*tablesv1.Databa
 // id, is_deleted, created_at и updated_at не переносятся — их выставляет SQL.
 func ToCreateDatabaseTypeParams(req *tablesv1.CreateDatabaseTypeRequest) tables_model.CreateDatabaseTypeParams {
 	return tables_model.CreateDatabaseTypeParams{
-		Name:      req.GetName(),
-		DbVersion: req.GetDbVersion(),
-		UserID:    req.GetUserId(),
+		Name:       req.GetName(),
+		DbVersion:  req.GetDbVersion(),
+		ExternalID: converter.ProtoToUUID(req.GetUserExternalId()),
 	}
 }
 
@@ -45,9 +45,9 @@ func ToCreateDatabaseTypeParams(req *tablesv1.CreateDatabaseTypeRequest) tables_
 // updated_at выставляет SQL, is_deleted через обновление не меняется.
 func ToUpdateDatabaseTypeByIdParams(req *tablesv1.UpdateDatabaseTypeByIdRequest) tables_model.UpdateDatabaseTypeByIdParams {
 	return tables_model.UpdateDatabaseTypeByIdParams{
-		ID:        req.GetId(),
-		Name:      req.GetName(),
-		DbVersion: req.GetDbVersion(),
-		UserID:    req.GetUserId(),
+		ID:         req.GetId(),
+		Name:       req.GetName(),
+		DbVersion:  req.GetDbVersion(),
+		ExternalID: converter.ProtoToUUID(req.GetUserExternalId()),
 	}
 }

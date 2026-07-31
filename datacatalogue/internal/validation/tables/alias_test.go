@@ -13,18 +13,18 @@ import (
 // Тесты портят по одному полю, чтобы проверять правила по отдельности.
 func validCreateAliasRequest() *tablesv1.CreateAliasRequest {
 	return &tablesv1.CreateAliasRequest{
-		Name:        "name-0",
-		Description: "description-1",
-		UserId:      102,
+		Name:           "name-0",
+		Description:    "description-1",
+		UserExternalId: "00000000-0000-4000-8000-000000000003",
 	}
 }
 
 func validUpdateAliasByIdRequest() *tablesv1.UpdateAliasByIdRequest {
 	return &tablesv1.UpdateAliasByIdRequest{
-		Id:          42,
-		Name:        "name-0",
-		Description: "description-1",
-		UserId:      102,
+		Id:             42,
+		Name:           "name-0",
+		Description:    "description-1",
+		UserExternalId: "00000000-0000-4000-8000-000000000003",
 	}
 }
 
@@ -53,8 +53,9 @@ func TestValidateCreateAlias(t *testing.T) {
 		{name: "empty description", mutate: func(r *tablesv1.CreateAliasRequest) { r.Description = "" }, wantField: "description"},
 		{name: "blank description", mutate: func(r *tablesv1.CreateAliasRequest) { r.Description = "   " }, wantField: "description"},
 		{name: "description too long", mutate: func(r *tablesv1.CreateAliasRequest) { r.Description = strings.Repeat("a", aliasDescriptionMaxLen+1) }, wantField: "description"},
-		{name: "zero user_id", mutate: func(r *tablesv1.CreateAliasRequest) { r.UserId = 0 }, wantField: "user_id"},
-		{name: "negative user_id", mutate: func(r *tablesv1.CreateAliasRequest) { r.UserId = -1 }, wantField: "user_id"},
+		{name: "empty user_id", mutate: func(r *tablesv1.CreateAliasRequest) { r.UserExternalId = "" }, wantField: "user_id"},
+		{name: "malformed user_id", mutate: func(r *tablesv1.CreateAliasRequest) { r.UserExternalId = "not-a-uuid" }, wantField: "user_id"},
+		{name: "user_id without dashes", mutate: func(r *tablesv1.CreateAliasRequest) { r.UserExternalId = "00000000000040008000000000000001" }, wantField: "user_id"},
 	}
 
 	for _, tt := range tests {
@@ -106,8 +107,9 @@ func TestValidateUpdateAliasById(t *testing.T) {
 		{name: "description too long", mutate: func(r *tablesv1.UpdateAliasByIdRequest) {
 			r.Description = strings.Repeat("a", aliasDescriptionMaxLen+1)
 		}, wantField: "description"},
-		{name: "zero user_id", mutate: func(r *tablesv1.UpdateAliasByIdRequest) { r.UserId = 0 }, wantField: "user_id"},
-		{name: "negative user_id", mutate: func(r *tablesv1.UpdateAliasByIdRequest) { r.UserId = -1 }, wantField: "user_id"},
+		{name: "empty user_id", mutate: func(r *tablesv1.UpdateAliasByIdRequest) { r.UserExternalId = "" }, wantField: "user_id"},
+		{name: "malformed user_id", mutate: func(r *tablesv1.UpdateAliasByIdRequest) { r.UserExternalId = "not-a-uuid" }, wantField: "user_id"},
+		{name: "user_id without dashes", mutate: func(r *tablesv1.UpdateAliasByIdRequest) { r.UserExternalId = "00000000000040008000000000000001" }, wantField: "user_id"},
 	}
 
 	for _, tt := range tests {

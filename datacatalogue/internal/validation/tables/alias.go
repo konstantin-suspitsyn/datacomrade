@@ -10,11 +10,11 @@ func aliasWritableFields(
 	v *validator.Validator,
 	name string,
 	description string,
-	userId int64,
+	userExternalId string,
 ) {
 	v.StringVarchar("name", name, aliasNameMaxLen)
 	v.StringVarchar("description", description, aliasDescriptionMaxLen)
-	v.Int64ID("user_id", userId)
+	v.StringUUID("user_id", userExternalId)
 }
 
 // ValidateCreateAlias проверяет запрос на вставку строки dc.alias.
@@ -30,7 +30,7 @@ func ValidateCreateAlias(req *tablesv1.CreateAliasRequest) error {
 		v,
 		req.GetName(),
 		req.GetDescription(),
-		req.GetUserId(),
+		req.GetUserExternalId(),
 	)
 
 	return v.Err()
@@ -52,7 +52,7 @@ func ValidateUpdateAliasById(req *tablesv1.UpdateAliasByIdRequest) error {
 		v,
 		req.GetName(),
 		req.GetDescription(),
-		req.GetUserId(),
+		req.GetUserExternalId(),
 	)
 
 	return v.Err()

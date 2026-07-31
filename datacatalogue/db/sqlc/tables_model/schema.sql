@@ -151,3 +151,18 @@ CREATE TABLE dc.table_type (
     updated_at timestamp without time zone DEFAULT now() NOT NULL,
     user_id bigint NOT NULL
 );
+create table dc."user"
+(
+    id          bigserial
+        constraint user_pk
+            primary key,
+    name        varchar(512)            not null
+        constraint user_name_unique
+            unique,
+    created_at  timestamp default now() not null,
+    updated_at  timestamp default now() not null,
+    is_deleted  boolean   default false not null,
+    external_id uuid                    not null
+        constraint user_external_id_unique
+            unique
+);

@@ -10,11 +10,11 @@ func followingCalculationWritableFields(
 	v *validator.Validator,
 	columnCatId int64,
 	calculationTypeId int64,
-	userId int64,
+	userExternalId string,
 ) {
 	v.Int64ID("column_cat_id", columnCatId)
 	v.Int64ID("calculation_type_id", calculationTypeId)
-	v.Int64ID("user_id", userId)
+	v.StringUUID("user_id", userExternalId)
 }
 
 // ValidateCreateFollowingCalculation проверяет запрос на вставку строки dc.following_calculation.
@@ -30,7 +30,7 @@ func ValidateCreateFollowingCalculation(req *tablesv1.CreateFollowingCalculation
 		v,
 		req.GetColumnCatId(),
 		req.GetCalculationTypeId(),
-		req.GetUserId(),
+		req.GetUserExternalId(),
 	)
 
 	return v.Err()
@@ -52,7 +52,7 @@ func ValidateUpdateFollowingCalculationById(req *tablesv1.UpdateFollowingCalcula
 		v,
 		req.GetColumnCatId(),
 		req.GetCalculationTypeId(),
-		req.GetUserId(),
+		req.GetUserExternalId(),
 	)
 
 	return v.Err()

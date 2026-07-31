@@ -37,7 +37,7 @@ func ToCreateDatabaseCalculationParams(req *tablesv1.CreateDatabaseCalculationRe
 	return tables_model.CreateDatabaseCalculationParams{
 		DatabaseCatID:     req.GetDatabaseCatId(),
 		CalculationTypeID: req.GetCalculationTypeId(),
-		UserID:            req.GetUserId(),
+		ExternalID:        converter.ProtoToUUID(req.GetUserExternalId()),
 	}
 }
 
@@ -48,6 +48,6 @@ func ToUpdateDatabaseCalculationByIdParams(req *tablesv1.UpdateDatabaseCalculati
 		ID:                req.GetId(),
 		DatabaseCatID:     req.GetDatabaseCatId(),
 		CalculationTypeID: req.GetCalculationTypeId(),
-		UserID:            req.GetUserId(),
+		ExternalID:        converter.ProtoToUUID(req.GetUserExternalId()),
 	}
 }

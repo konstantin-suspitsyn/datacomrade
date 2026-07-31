@@ -18,7 +18,7 @@ func validCreateGroupLevelRequest() *tablesv1.CreateGroupLevelRequest {
 		ParentColumnId: 101,
 		Level:          12,
 		Description:    "description-3",
-		UserId:         104,
+		UserExternalId: "00000000-0000-4000-8000-000000000005",
 	}
 }
 
@@ -29,7 +29,7 @@ func validUpdateGroupLevelByIdRequest() *tablesv1.UpdateGroupLevelByIdRequest {
 		ParentColumnId: 101,
 		Level:          12,
 		Description:    "description-3",
-		UserId:         104,
+		UserExternalId: "00000000-0000-4000-8000-000000000005",
 	}
 }
 
@@ -63,8 +63,9 @@ func TestValidateCreateGroupLevel(t *testing.T) {
 		{name: "description too long", mutate: func(r *tablesv1.CreateGroupLevelRequest) {
 			r.Description = strings.Repeat("a", groupLevelDescriptionMaxLen+1)
 		}, wantField: "description"},
-		{name: "zero user_id", mutate: func(r *tablesv1.CreateGroupLevelRequest) { r.UserId = 0 }, wantField: "user_id"},
-		{name: "negative user_id", mutate: func(r *tablesv1.CreateGroupLevelRequest) { r.UserId = -1 }, wantField: "user_id"},
+		{name: "empty user_id", mutate: func(r *tablesv1.CreateGroupLevelRequest) { r.UserExternalId = "" }, wantField: "user_id"},
+		{name: "malformed user_id", mutate: func(r *tablesv1.CreateGroupLevelRequest) { r.UserExternalId = "not-a-uuid" }, wantField: "user_id"},
+		{name: "user_id without dashes", mutate: func(r *tablesv1.CreateGroupLevelRequest) { r.UserExternalId = "00000000000040008000000000000001" }, wantField: "user_id"},
 	}
 
 	for _, tt := range tests {
@@ -119,8 +120,9 @@ func TestValidateUpdateGroupLevelById(t *testing.T) {
 		{name: "description too long", mutate: func(r *tablesv1.UpdateGroupLevelByIdRequest) {
 			r.Description = strings.Repeat("a", groupLevelDescriptionMaxLen+1)
 		}, wantField: "description"},
-		{name: "zero user_id", mutate: func(r *tablesv1.UpdateGroupLevelByIdRequest) { r.UserId = 0 }, wantField: "user_id"},
-		{name: "negative user_id", mutate: func(r *tablesv1.UpdateGroupLevelByIdRequest) { r.UserId = -1 }, wantField: "user_id"},
+		{name: "empty user_id", mutate: func(r *tablesv1.UpdateGroupLevelByIdRequest) { r.UserExternalId = "" }, wantField: "user_id"},
+		{name: "malformed user_id", mutate: func(r *tablesv1.UpdateGroupLevelByIdRequest) { r.UserExternalId = "not-a-uuid" }, wantField: "user_id"},
+		{name: "user_id without dashes", mutate: func(r *tablesv1.UpdateGroupLevelByIdRequest) { r.UserExternalId = "00000000000040008000000000000001" }, wantField: "user_id"},
 	}
 
 	for _, tt := range tests {

@@ -14,13 +14,13 @@ func groupLevelWritableFields(
 	parentColumnId int64,
 	level int32,
 	description string,
-	userId int64,
+	userExternalId string,
 ) {
 	v.Int64ID("column_id", columnId)
 	v.Int64ID("parent_column_id", parentColumnId)
 	v.Int32Between("level", level, math.MinInt16, math.MaxInt16)
 	v.StringVarchar("description", description, groupLevelDescriptionMaxLen)
-	v.Int64ID("user_id", userId)
+	v.StringUUID("user_id", userExternalId)
 }
 
 // ValidateCreateGroupLevel проверяет запрос на вставку строки dc.group_levels.
@@ -38,7 +38,7 @@ func ValidateCreateGroupLevel(req *tablesv1.CreateGroupLevelRequest) error {
 		req.GetParentColumnId(),
 		req.GetLevel(),
 		req.GetDescription(),
-		req.GetUserId(),
+		req.GetUserExternalId(),
 	)
 
 	return v.Err()
@@ -62,7 +62,7 @@ func ValidateUpdateGroupLevelById(req *tablesv1.UpdateGroupLevelByIdRequest) err
 		req.GetParentColumnId(),
 		req.GetLevel(),
 		req.GetDescription(),
-		req.GetUserId(),
+		req.GetUserExternalId(),
 	)
 
 	return v.Err()

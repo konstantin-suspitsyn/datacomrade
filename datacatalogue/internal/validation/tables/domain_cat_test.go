@@ -13,16 +13,16 @@ import (
 // Тесты портят по одному полю, чтобы проверять правила по отдельности.
 func validCreateDomainCatRequest() *tablesv1.CreateDomainCatRequest {
 	return &tablesv1.CreateDomainCatRequest{
-		DomainName: "domain-name-0",
-		UserId:     101,
+		DomainName:     "domain-name-0",
+		UserExternalId: "00000000-0000-4000-8000-000000000002",
 	}
 }
 
 func validUpdateDomainCatByIdRequest() *tablesv1.UpdateDomainCatByIdRequest {
 	return &tablesv1.UpdateDomainCatByIdRequest{
-		Id:         42,
-		DomainName: "domain-name-0",
-		UserId:     101,
+		Id:             42,
+		DomainName:     "domain-name-0",
+		UserExternalId: "00000000-0000-4000-8000-000000000002",
 	}
 }
 
@@ -50,8 +50,9 @@ func TestValidateCreateDomainCat(t *testing.T) {
 		{name: "domain_name too long", mutate: func(r *tablesv1.CreateDomainCatRequest) {
 			r.DomainName = strings.Repeat("a", domainCatDomainNameMaxLen+1)
 		}, wantField: "domain_name"},
-		{name: "zero user_id", mutate: func(r *tablesv1.CreateDomainCatRequest) { r.UserId = 0 }, wantField: "user_id"},
-		{name: "negative user_id", mutate: func(r *tablesv1.CreateDomainCatRequest) { r.UserId = -1 }, wantField: "user_id"},
+		{name: "empty user_id", mutate: func(r *tablesv1.CreateDomainCatRequest) { r.UserExternalId = "" }, wantField: "user_id"},
+		{name: "malformed user_id", mutate: func(r *tablesv1.CreateDomainCatRequest) { r.UserExternalId = "not-a-uuid" }, wantField: "user_id"},
+		{name: "user_id without dashes", mutate: func(r *tablesv1.CreateDomainCatRequest) { r.UserExternalId = "00000000000040008000000000000001" }, wantField: "user_id"},
 	}
 
 	for _, tt := range tests {
@@ -100,8 +101,9 @@ func TestValidateUpdateDomainCatById(t *testing.T) {
 		{name: "domain_name too long", mutate: func(r *tablesv1.UpdateDomainCatByIdRequest) {
 			r.DomainName = strings.Repeat("a", domainCatDomainNameMaxLen+1)
 		}, wantField: "domain_name"},
-		{name: "zero user_id", mutate: func(r *tablesv1.UpdateDomainCatByIdRequest) { r.UserId = 0 }, wantField: "user_id"},
-		{name: "negative user_id", mutate: func(r *tablesv1.UpdateDomainCatByIdRequest) { r.UserId = -1 }, wantField: "user_id"},
+		{name: "empty user_id", mutate: func(r *tablesv1.UpdateDomainCatByIdRequest) { r.UserExternalId = "" }, wantField: "user_id"},
+		{name: "malformed user_id", mutate: func(r *tablesv1.UpdateDomainCatByIdRequest) { r.UserExternalId = "not-a-uuid" }, wantField: "user_id"},
+		{name: "user_id without dashes", mutate: func(r *tablesv1.UpdateDomainCatByIdRequest) { r.UserExternalId = "00000000000040008000000000000001" }, wantField: "user_id"},
 	}
 
 	for _, tt := range tests {

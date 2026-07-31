@@ -13,26 +13,26 @@ import (
 // Тесты портят по одному полю, чтобы проверять правила по отдельности.
 func validCreateHostRequest() *tablesv1.CreateHostRequest {
 	return &tablesv1.CreateHostRequest{
-		Name:        "name-0",
-		Description: "description-1",
-		HostEnv:     "host-env-2",
-		PortEnv:     "port-env-3",
-		UsernameEnv: "username-env-4",
-		PasswordEnv: "password-env-5",
-		UserId:      106,
+		Name:           "name-0",
+		Description:    "description-1",
+		HostEnv:        "host-env-2",
+		PortEnv:        "port-env-3",
+		UsernameEnv:    "username-env-4",
+		PasswordEnv:    "password-env-5",
+		UserExternalId: "00000000-0000-4000-8000-000000000007",
 	}
 }
 
 func validUpdateHostByIdRequest() *tablesv1.UpdateHostByIdRequest {
 	return &tablesv1.UpdateHostByIdRequest{
-		Id:          42,
-		Name:        "name-0",
-		Description: "description-1",
-		HostEnv:     "host-env-2",
-		PortEnv:     "port-env-3",
-		UsernameEnv: "username-env-4",
-		PasswordEnv: "password-env-5",
-		UserId:      106,
+		Id:             42,
+		Name:           "name-0",
+		Description:    "description-1",
+		HostEnv:        "host-env-2",
+		PortEnv:        "port-env-3",
+		UsernameEnv:    "username-env-4",
+		PasswordEnv:    "password-env-5",
+		UserExternalId: "00000000-0000-4000-8000-000000000007",
 	}
 }
 
@@ -73,8 +73,9 @@ func TestValidateCreateHost(t *testing.T) {
 		{name: "empty password_env", mutate: func(r *tablesv1.CreateHostRequest) { r.PasswordEnv = "" }, wantField: "password_env"},
 		{name: "blank password_env", mutate: func(r *tablesv1.CreateHostRequest) { r.PasswordEnv = "   " }, wantField: "password_env"},
 		{name: "password_env too long", mutate: func(r *tablesv1.CreateHostRequest) { r.PasswordEnv = strings.Repeat("a", hostPasswordEnvMaxLen+1) }, wantField: "password_env"},
-		{name: "zero user_id", mutate: func(r *tablesv1.CreateHostRequest) { r.UserId = 0 }, wantField: "user_id"},
-		{name: "negative user_id", mutate: func(r *tablesv1.CreateHostRequest) { r.UserId = -1 }, wantField: "user_id"},
+		{name: "empty user_id", mutate: func(r *tablesv1.CreateHostRequest) { r.UserExternalId = "" }, wantField: "user_id"},
+		{name: "malformed user_id", mutate: func(r *tablesv1.CreateHostRequest) { r.UserExternalId = "not-a-uuid" }, wantField: "user_id"},
+		{name: "user_id without dashes", mutate: func(r *tablesv1.CreateHostRequest) { r.UserExternalId = "00000000000040008000000000000001" }, wantField: "user_id"},
 	}
 
 	for _, tt := range tests {
@@ -136,8 +137,9 @@ func TestValidateUpdateHostById(t *testing.T) {
 		{name: "empty password_env", mutate: func(r *tablesv1.UpdateHostByIdRequest) { r.PasswordEnv = "" }, wantField: "password_env"},
 		{name: "blank password_env", mutate: func(r *tablesv1.UpdateHostByIdRequest) { r.PasswordEnv = "   " }, wantField: "password_env"},
 		{name: "password_env too long", mutate: func(r *tablesv1.UpdateHostByIdRequest) { r.PasswordEnv = strings.Repeat("a", hostPasswordEnvMaxLen+1) }, wantField: "password_env"},
-		{name: "zero user_id", mutate: func(r *tablesv1.UpdateHostByIdRequest) { r.UserId = 0 }, wantField: "user_id"},
-		{name: "negative user_id", mutate: func(r *tablesv1.UpdateHostByIdRequest) { r.UserId = -1 }, wantField: "user_id"},
+		{name: "empty user_id", mutate: func(r *tablesv1.UpdateHostByIdRequest) { r.UserExternalId = "" }, wantField: "user_id"},
+		{name: "malformed user_id", mutate: func(r *tablesv1.UpdateHostByIdRequest) { r.UserExternalId = "not-a-uuid" }, wantField: "user_id"},
+		{name: "user_id without dashes", mutate: func(r *tablesv1.UpdateHostByIdRequest) { r.UserExternalId = "00000000000040008000000000000001" }, wantField: "user_id"},
 	}
 
 	for _, tt := range tests {

@@ -13,26 +13,26 @@ import (
 // Тесты портят по одному полю, чтобы проверять правила по отдельности.
 func validCreateTableCatRequest() *tablesv1.CreateTableCatRequest {
 	return &tablesv1.CreateTableCatRequest{
-		Name:        "name-0",
-		Description: "description-1",
-		SchemaId:    102,
-		TableTypeId: 103,
-		DomainId:    104,
-		IsGetDict:   true,
-		UserId:      106,
+		Name:           "name-0",
+		Description:    "description-1",
+		SchemaId:       102,
+		TableTypeId:    103,
+		DomainId:       104,
+		IsGetDict:      true,
+		UserExternalId: "00000000-0000-4000-8000-000000000007",
 	}
 }
 
 func validUpdateTableCatByIdRequest() *tablesv1.UpdateTableCatByIdRequest {
 	return &tablesv1.UpdateTableCatByIdRequest{
-		Id:          42,
-		Name:        "name-0",
-		Description: "description-1",
-		SchemaId:    102,
-		TableTypeId: 103,
-		DomainId:    104,
-		IsGetDict:   true,
-		UserId:      106,
+		Id:             42,
+		Name:           "name-0",
+		Description:    "description-1",
+		SchemaId:       102,
+		TableTypeId:    103,
+		DomainId:       104,
+		IsGetDict:      true,
+		UserExternalId: "00000000-0000-4000-8000-000000000007",
 	}
 }
 
@@ -69,8 +69,9 @@ func TestValidateCreateTableCat(t *testing.T) {
 		{name: "negative table_type_id", mutate: func(r *tablesv1.CreateTableCatRequest) { r.TableTypeId = -1 }, wantField: "table_type_id"},
 		{name: "zero domain_id", mutate: func(r *tablesv1.CreateTableCatRequest) { r.DomainId = 0 }, wantField: "domain_id"},
 		{name: "negative domain_id", mutate: func(r *tablesv1.CreateTableCatRequest) { r.DomainId = -1 }, wantField: "domain_id"},
-		{name: "zero user_id", mutate: func(r *tablesv1.CreateTableCatRequest) { r.UserId = 0 }, wantField: "user_id"},
-		{name: "negative user_id", mutate: func(r *tablesv1.CreateTableCatRequest) { r.UserId = -1 }, wantField: "user_id"},
+		{name: "empty user_id", mutate: func(r *tablesv1.CreateTableCatRequest) { r.UserExternalId = "" }, wantField: "user_id"},
+		{name: "malformed user_id", mutate: func(r *tablesv1.CreateTableCatRequest) { r.UserExternalId = "not-a-uuid" }, wantField: "user_id"},
+		{name: "user_id without dashes", mutate: func(r *tablesv1.CreateTableCatRequest) { r.UserExternalId = "00000000000040008000000000000001" }, wantField: "user_id"},
 	}
 
 	for _, tt := range tests {
@@ -128,8 +129,9 @@ func TestValidateUpdateTableCatById(t *testing.T) {
 		{name: "negative table_type_id", mutate: func(r *tablesv1.UpdateTableCatByIdRequest) { r.TableTypeId = -1 }, wantField: "table_type_id"},
 		{name: "zero domain_id", mutate: func(r *tablesv1.UpdateTableCatByIdRequest) { r.DomainId = 0 }, wantField: "domain_id"},
 		{name: "negative domain_id", mutate: func(r *tablesv1.UpdateTableCatByIdRequest) { r.DomainId = -1 }, wantField: "domain_id"},
-		{name: "zero user_id", mutate: func(r *tablesv1.UpdateTableCatByIdRequest) { r.UserId = 0 }, wantField: "user_id"},
-		{name: "negative user_id", mutate: func(r *tablesv1.UpdateTableCatByIdRequest) { r.UserId = -1 }, wantField: "user_id"},
+		{name: "empty user_id", mutate: func(r *tablesv1.UpdateTableCatByIdRequest) { r.UserExternalId = "" }, wantField: "user_id"},
+		{name: "malformed user_id", mutate: func(r *tablesv1.UpdateTableCatByIdRequest) { r.UserExternalId = "not-a-uuid" }, wantField: "user_id"},
+		{name: "user_id without dashes", mutate: func(r *tablesv1.UpdateTableCatByIdRequest) { r.UserExternalId = "00000000000040008000000000000001" }, wantField: "user_id"},
 	}
 
 	for _, tt := range tests {

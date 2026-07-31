@@ -10,11 +10,11 @@ func columnTypeWritableFields(
 	v *validator.Validator,
 	name string,
 	description string,
-	userId int64,
+	userExternalId string,
 ) {
 	v.StringVarchar("name", name, columnTypeNameMaxLen)
 	v.StringVarchar("description", description, columnTypeDescriptionMaxLen)
-	v.Int64ID("user_id", userId)
+	v.StringUUID("user_id", userExternalId)
 }
 
 // ValidateCreateColumnType проверяет запрос на вставку строки dc.column_type.
@@ -30,7 +30,7 @@ func ValidateCreateColumnType(req *tablesv1.CreateColumnTypeRequest) error {
 		v,
 		req.GetName(),
 		req.GetDescription(),
-		req.GetUserId(),
+		req.GetUserExternalId(),
 	)
 
 	return v.Err()
@@ -52,7 +52,7 @@ func ValidateUpdateColumnTypeById(req *tablesv1.UpdateColumnTypeByIdRequest) err
 		v,
 		req.GetName(),
 		req.GetDescription(),
-		req.GetUserId(),
+		req.GetUserExternalId(),
 	)
 
 	return v.Err()

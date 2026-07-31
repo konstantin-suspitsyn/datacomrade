@@ -45,7 +45,7 @@ func ToCreateTableCatParams(req *tablesv1.CreateTableCatRequest) tables_model.Cr
 		TableTypeID: req.GetTableTypeId(),
 		DomainID:    req.GetDomainId(),
 		IsGetDict:   req.GetIsGetDict(),
-		UserID:      req.GetUserId(),
+		ExternalID:  converter.ProtoToUUID(req.GetUserExternalId()),
 	}
 }
 
@@ -60,6 +60,6 @@ func ToUpdateTableCatByIdParams(req *tablesv1.UpdateTableCatByIdRequest) tables_
 		TableTypeID: req.GetTableTypeId(),
 		DomainID:    req.GetDomainId(),
 		IsGetDict:   req.GetIsGetDict(),
-		UserID:      req.GetUserId(),
+		ExternalID:  converter.ProtoToUUID(req.GetUserExternalId()),
 	}
 }

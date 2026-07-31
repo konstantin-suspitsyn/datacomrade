@@ -41,7 +41,7 @@ func ToCreateDatabaseCatParams(req *tablesv1.CreateDatabaseCatRequest) tables_mo
 		HostID:         req.GetHostId(),
 		DatabaseTypeID: req.GetDatabaseTypeId(),
 		Description:    req.GetDescription(),
-		UserID:         req.GetUserId(),
+		ExternalID:     converter.ProtoToUUID(req.GetUserExternalId()),
 	}
 }
 
@@ -54,6 +54,6 @@ func ToUpdateDatabaseCatByIdParams(req *tablesv1.UpdateDatabaseCatByIdRequest) t
 		HostID:         req.GetHostId(),
 		DatabaseTypeID: req.GetDatabaseTypeId(),
 		Description:    req.GetDescription(),
-		UserID:         req.GetUserId(),
+		ExternalID:     converter.ProtoToUUID(req.GetUserExternalId()),
 	}
 }

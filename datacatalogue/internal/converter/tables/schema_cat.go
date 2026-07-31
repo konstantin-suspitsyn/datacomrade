@@ -37,7 +37,7 @@ func ToCreateSchemaCatParams(req *tablesv1.CreateSchemaCatRequest) tables_model.
 	return tables_model.CreateSchemaCatParams{
 		DatabaseID: req.GetDatabaseId(),
 		Name:       req.GetName(),
-		UserID:     req.GetUserId(),
+		ExternalID: converter.ProtoToUUID(req.GetUserExternalId()),
 	}
 }
 
@@ -48,6 +48,6 @@ func ToUpdateSchemaCatByIdParams(req *tablesv1.UpdateSchemaCatByIdRequest) table
 		ID:         req.GetId(),
 		DatabaseID: req.GetDatabaseId(),
 		Name:       req.GetName(),
-		UserID:     req.GetUserId(),
+		ExternalID: converter.ProtoToUUID(req.GetUserExternalId()),
 	}
 }

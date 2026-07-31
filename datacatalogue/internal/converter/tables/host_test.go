@@ -4,6 +4,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/repository/tables_model"
 	tablesv1 "github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/tables/v1"
 )
@@ -144,13 +145,13 @@ func TestHostsToProtoKeepsOrder(t *testing.T) {
 
 func TestToCreateHostParams(t *testing.T) {
 	req := &tablesv1.CreateHostRequest{
-		Name:        "name-0",
-		Description: "description-0",
-		HostEnv:     "host-env-0",
-		PortEnv:     "port-env-0",
-		UsernameEnv: "username-env-0",
-		PasswordEnv: "password-env-0",
-		UserId:      106,
+		Name:           "name-0",
+		Description:    "description-0",
+		HostEnv:        "host-env-0",
+		PortEnv:        "port-env-0",
+		UsernameEnv:    "username-env-0",
+		PasswordEnv:    "password-env-0",
+		UserExternalId: "00000000-0000-4000-8000-000000000007",
 	}
 
 	want := tables_model.CreateHostParams{
@@ -160,7 +161,7 @@ func TestToCreateHostParams(t *testing.T) {
 		PortEnv:     "port-env-0",
 		UsernameEnv: "username-env-0",
 		PasswordEnv: "password-env-0",
-		UserID:      106,
+		ExternalID:  uuid.MustParse("00000000-0000-4000-8000-000000000007"),
 	}
 
 	if got := ToCreateHostParams(req); got != want {
@@ -177,14 +178,14 @@ func TestToCreateHostParamsNil(t *testing.T) {
 
 func TestToUpdateHostByIdParams(t *testing.T) {
 	req := &tablesv1.UpdateHostByIdRequest{
-		Id:          100,
-		Name:        "name-0",
-		Description: "description-0",
-		HostEnv:     "host-env-0",
-		PortEnv:     "port-env-0",
-		UsernameEnv: "username-env-0",
-		PasswordEnv: "password-env-0",
-		UserId:      107,
+		Id:             100,
+		Name:           "name-0",
+		Description:    "description-0",
+		HostEnv:        "host-env-0",
+		PortEnv:        "port-env-0",
+		UsernameEnv:    "username-env-0",
+		PasswordEnv:    "password-env-0",
+		UserExternalId: "00000000-0000-4000-8000-000000000008",
 	}
 
 	want := tables_model.UpdateHostByIdParams{
@@ -195,7 +196,7 @@ func TestToUpdateHostByIdParams(t *testing.T) {
 		PortEnv:     "port-env-0",
 		UsernameEnv: "username-env-0",
 		PasswordEnv: "password-env-0",
-		UserID:      107,
+		ExternalID:  uuid.MustParse("00000000-0000-4000-8000-000000000008"),
 	}
 
 	if got := ToUpdateHostByIdParams(req); got != want {

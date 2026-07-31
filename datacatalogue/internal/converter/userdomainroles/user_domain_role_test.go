@@ -4,6 +4,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/repository/user_domain_roles"
 	userdomainrolesv1 "github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/user_domain_roles/v1"
 )
@@ -23,6 +24,7 @@ func testUserDomainRoleRow() user_domain_roles.DcUserDomainRole {
 		UpdatedAt:     userDomainRoleUpdatedAt,
 		IsDeleted:     false,
 		DomainID:      106,
+		UpdatedByID:   107,
 	}
 }
 
@@ -60,6 +62,10 @@ func TestUserDomainRoleToProto(t *testing.T) {
 
 	if got.GetDomainId() != row.DomainID {
 		t.Errorf("DomainId = %d, want %d", got.GetDomainId(), row.DomainID)
+	}
+
+	if got.GetUpdatedById() != row.UpdatedByID {
+		t.Errorf("UpdatedById = %d, want %d", got.GetUpdatedById(), row.UpdatedByID)
 	}
 
 }
@@ -123,15 +129,17 @@ func TestUserDomainRolesToProtoKeepsOrder(t *testing.T) {
 
 func TestToCreateUserDomainRoleParams(t *testing.T) {
 	req := &userdomainrolesv1.CreateUserDomainRoleRequest{
-		UserId:        100,
-		DomainRolesId: 101,
-		DomainId:      102,
+		UserId:              100,
+		DomainRolesId:       101,
+		DomainId:            102,
+		UpdatedByExternalId: "00000000-0000-4000-8000-000000000004",
 	}
 
 	want := user_domain_roles.CreateUserDomainRoleParams{
 		UserID:        100,
 		DomainRolesID: 101,
 		DomainID:      102,
+		ExternalID:    uuid.MustParse("00000000-0000-4000-8000-000000000004"),
 	}
 
 	if got := ToCreateUserDomainRoleParams(req); got != want {
@@ -148,10 +156,11 @@ func TestToCreateUserDomainRoleParamsNil(t *testing.T) {
 
 func TestToUpdateUserDomainRoleByIdParams(t *testing.T) {
 	req := &userdomainrolesv1.UpdateUserDomainRoleByIdRequest{
-		Id:            100,
-		UserId:        101,
-		DomainRolesId: 102,
-		DomainId:      103,
+		Id:                  100,
+		UserId:              101,
+		DomainRolesId:       102,
+		DomainId:            103,
+		UpdatedByExternalId: "00000000-0000-4000-8000-000000000005",
 	}
 
 	want := user_domain_roles.UpdateUserDomainRoleByIdParams{
@@ -159,6 +168,7 @@ func TestToUpdateUserDomainRoleByIdParams(t *testing.T) {
 		UserID:        101,
 		DomainRolesID: 102,
 		DomainID:      103,
+		ExternalID:    uuid.MustParse("00000000-0000-4000-8000-000000000005"),
 	}
 
 	if got := ToUpdateUserDomainRoleByIdParams(req); got != want {

@@ -12,18 +12,20 @@ import (
 // Тесты портят по одному полю, чтобы проверять правила по отдельности.
 func validCreateUserTableRoleRequest() *userdomainrolesv1.CreateUserTableRoleRequest {
 	return &userdomainrolesv1.CreateUserTableRoleRequest{
-		UserId:       100,
-		TableRolesId: 101,
-		TableId:      102,
+		UserId:              100,
+		TableRolesId:        101,
+		TableId:             102,
+		UpdatedByExternalId: "00000000-0000-4000-8000-000000000004",
 	}
 }
 
 func validUpdateUserTableRoleByIdRequest() *userdomainrolesv1.UpdateUserTableRoleByIdRequest {
 	return &userdomainrolesv1.UpdateUserTableRoleByIdRequest{
-		Id:           42,
-		UserId:       100,
-		TableRolesId: 101,
-		TableId:      102,
+		Id:                  42,
+		UserId:              100,
+		TableRolesId:        101,
+		TableId:             102,
+		UpdatedByExternalId: "00000000-0000-4000-8000-000000000004",
 	}
 }
 
@@ -52,6 +54,11 @@ func TestValidateCreateUserTableRole(t *testing.T) {
 		{name: "negative table_roles_id", mutate: func(r *userdomainrolesv1.CreateUserTableRoleRequest) { r.TableRolesId = -1 }, wantField: "table_roles_id"},
 		{name: "zero table_id", mutate: func(r *userdomainrolesv1.CreateUserTableRoleRequest) { r.TableId = 0 }, wantField: "table_id"},
 		{name: "negative table_id", mutate: func(r *userdomainrolesv1.CreateUserTableRoleRequest) { r.TableId = -1 }, wantField: "table_id"},
+		{name: "empty updated_by_id", mutate: func(r *userdomainrolesv1.CreateUserTableRoleRequest) { r.UpdatedByExternalId = "" }, wantField: "updated_by_id"},
+		{name: "malformed updated_by_id", mutate: func(r *userdomainrolesv1.CreateUserTableRoleRequest) { r.UpdatedByExternalId = "not-a-uuid" }, wantField: "updated_by_id"},
+		{name: "updated_by_id without dashes", mutate: func(r *userdomainrolesv1.CreateUserTableRoleRequest) {
+			r.UpdatedByExternalId = "00000000000040008000000000000001"
+		}, wantField: "updated_by_id"},
 	}
 
 	for _, tt := range tests {
@@ -101,6 +108,11 @@ func TestValidateUpdateUserTableRoleById(t *testing.T) {
 		{name: "negative table_roles_id", mutate: func(r *userdomainrolesv1.UpdateUserTableRoleByIdRequest) { r.TableRolesId = -1 }, wantField: "table_roles_id"},
 		{name: "zero table_id", mutate: func(r *userdomainrolesv1.UpdateUserTableRoleByIdRequest) { r.TableId = 0 }, wantField: "table_id"},
 		{name: "negative table_id", mutate: func(r *userdomainrolesv1.UpdateUserTableRoleByIdRequest) { r.TableId = -1 }, wantField: "table_id"},
+		{name: "empty updated_by_id", mutate: func(r *userdomainrolesv1.UpdateUserTableRoleByIdRequest) { r.UpdatedByExternalId = "" }, wantField: "updated_by_id"},
+		{name: "malformed updated_by_id", mutate: func(r *userdomainrolesv1.UpdateUserTableRoleByIdRequest) { r.UpdatedByExternalId = "not-a-uuid" }, wantField: "updated_by_id"},
+		{name: "updated_by_id without dashes", mutate: func(r *userdomainrolesv1.UpdateUserTableRoleByIdRequest) {
+			r.UpdatedByExternalId = "00000000000040008000000000000001"
+		}, wantField: "updated_by_id"},
 	}
 
 	for _, tt := range tests {
@@ -146,7 +158,7 @@ func TestValidateCreateUserTableRoleCollectsAllErrors(t *testing.T) {
 
 	fields := userTableRoleFieldErrors(t, err)
 
-	wantFields := []string{"user_id", "table_roles_id", "table_id"}
+	wantFields := []string{"user_id", "table_roles_id", "table_id", "updated_by_id"}
 
 	for _, field := range wantFields {
 		if len(fields[field]) == 0 {

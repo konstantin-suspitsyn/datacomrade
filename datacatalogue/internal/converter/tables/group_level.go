@@ -41,7 +41,7 @@ func ToCreateGroupLevelParams(req *tablesv1.CreateGroupLevelRequest) tables_mode
 		ParentColumnID: req.GetParentColumnId(),
 		Level:          int16(req.GetLevel()),
 		Description:    req.GetDescription(),
-		UserID:         req.GetUserId(),
+		ExternalID:     converter.ProtoToUUID(req.GetUserExternalId()),
 	}
 }
 
@@ -54,6 +54,6 @@ func ToUpdateGroupLevelByIdParams(req *tablesv1.UpdateGroupLevelByIdRequest) tab
 		ParentColumnID: req.GetParentColumnId(),
 		Level:          int16(req.GetLevel()),
 		Description:    req.GetDescription(),
-		UserID:         req.GetUserId(),
+		ExternalID:     converter.ProtoToUUID(req.GetUserExternalId()),
 	}
 }

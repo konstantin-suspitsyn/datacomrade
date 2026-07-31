@@ -13,18 +13,18 @@ import (
 // Тесты портят по одному полю, чтобы проверять правила по отдельности.
 func validCreateSchemaCatRequest() *tablesv1.CreateSchemaCatRequest {
 	return &tablesv1.CreateSchemaCatRequest{
-		DatabaseId: 100,
-		Name:       "name-1",
-		UserId:     102,
+		DatabaseId:     100,
+		Name:           "name-1",
+		UserExternalId: "00000000-0000-4000-8000-000000000003",
 	}
 }
 
 func validUpdateSchemaCatByIdRequest() *tablesv1.UpdateSchemaCatByIdRequest {
 	return &tablesv1.UpdateSchemaCatByIdRequest{
-		Id:         42,
-		DatabaseId: 100,
-		Name:       "name-1",
-		UserId:     102,
+		Id:             42,
+		DatabaseId:     100,
+		Name:           "name-1",
+		UserExternalId: "00000000-0000-4000-8000-000000000003",
 	}
 }
 
@@ -52,8 +52,9 @@ func TestValidateCreateSchemaCat(t *testing.T) {
 		{name: "empty name", mutate: func(r *tablesv1.CreateSchemaCatRequest) { r.Name = "" }, wantField: "name"},
 		{name: "blank name", mutate: func(r *tablesv1.CreateSchemaCatRequest) { r.Name = "   " }, wantField: "name"},
 		{name: "name too long", mutate: func(r *tablesv1.CreateSchemaCatRequest) { r.Name = strings.Repeat("a", schemaCatNameMaxLen+1) }, wantField: "name"},
-		{name: "zero user_id", mutate: func(r *tablesv1.CreateSchemaCatRequest) { r.UserId = 0 }, wantField: "user_id"},
-		{name: "negative user_id", mutate: func(r *tablesv1.CreateSchemaCatRequest) { r.UserId = -1 }, wantField: "user_id"},
+		{name: "empty user_id", mutate: func(r *tablesv1.CreateSchemaCatRequest) { r.UserExternalId = "" }, wantField: "user_id"},
+		{name: "malformed user_id", mutate: func(r *tablesv1.CreateSchemaCatRequest) { r.UserExternalId = "not-a-uuid" }, wantField: "user_id"},
+		{name: "user_id without dashes", mutate: func(r *tablesv1.CreateSchemaCatRequest) { r.UserExternalId = "00000000000040008000000000000001" }, wantField: "user_id"},
 	}
 
 	for _, tt := range tests {
@@ -102,8 +103,9 @@ func TestValidateUpdateSchemaCatById(t *testing.T) {
 		{name: "empty name", mutate: func(r *tablesv1.UpdateSchemaCatByIdRequest) { r.Name = "" }, wantField: "name"},
 		{name: "blank name", mutate: func(r *tablesv1.UpdateSchemaCatByIdRequest) { r.Name = "   " }, wantField: "name"},
 		{name: "name too long", mutate: func(r *tablesv1.UpdateSchemaCatByIdRequest) { r.Name = strings.Repeat("a", schemaCatNameMaxLen+1) }, wantField: "name"},
-		{name: "zero user_id", mutate: func(r *tablesv1.UpdateSchemaCatByIdRequest) { r.UserId = 0 }, wantField: "user_id"},
-		{name: "negative user_id", mutate: func(r *tablesv1.UpdateSchemaCatByIdRequest) { r.UserId = -1 }, wantField: "user_id"},
+		{name: "empty user_id", mutate: func(r *tablesv1.UpdateSchemaCatByIdRequest) { r.UserExternalId = "" }, wantField: "user_id"},
+		{name: "malformed user_id", mutate: func(r *tablesv1.UpdateSchemaCatByIdRequest) { r.UserExternalId = "not-a-uuid" }, wantField: "user_id"},
+		{name: "user_id without dashes", mutate: func(r *tablesv1.UpdateSchemaCatByIdRequest) { r.UserExternalId = "00000000000040008000000000000001" }, wantField: "user_id"},
 	}
 
 	for _, tt := range tests {

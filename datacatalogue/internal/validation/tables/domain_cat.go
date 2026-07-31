@@ -9,10 +9,10 @@ import (
 func domainCatWritableFields(
 	v *validator.Validator,
 	domainName string,
-	userId int64,
+	userExternalId string,
 ) {
 	v.StringVarchar("domain_name", domainName, domainCatDomainNameMaxLen)
-	v.Int64ID("user_id", userId)
+	v.StringUUID("user_id", userExternalId)
 }
 
 // ValidateCreateDomainCat проверяет запрос на вставку строки dc.domain_cat.
@@ -27,7 +27,7 @@ func ValidateCreateDomainCat(req *tablesv1.CreateDomainCatRequest) error {
 	domainCatWritableFields(
 		v,
 		req.GetDomainName(),
-		req.GetUserId(),
+		req.GetUserExternalId(),
 	)
 
 	return v.Err()
@@ -48,7 +48,7 @@ func ValidateUpdateDomainCatById(req *tablesv1.UpdateDomainCatByIdRequest) error
 	domainCatWritableFields(
 		v,
 		req.GetDomainName(),
-		req.GetUserId(),
+		req.GetUserExternalId(),
 	)
 
 	return v.Err()

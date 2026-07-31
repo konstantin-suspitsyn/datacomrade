@@ -7,23 +7,25 @@ package tables_model
 
 import (
 	"context"
+
+	"github.com/google/uuid"
 )
 
 const createAlias = `-- name: CreateAlias :one
 INSERT INTO dc.alias
 ("name", description, created_at, updated_at, is_deleted, user_id)
-VALUES($1, $2, now(), now(), false, $3)
+VALUES($1, $2, now(), now(), false, (SELECT u.id FROM dc."user" u WHERE u.external_id = $3))
 RETURNING id, name, description, created_at, updated_at, is_deleted, user_id
 `
 
 type CreateAliasParams struct {
 	Name        string
 	Description string
-	UserID      int64
+	ExternalID  uuid.UUID
 }
 
 func (q *Queries) CreateAlias(ctx context.Context, arg CreateAliasParams) (DcAlias, error) {
-	row := q.db.QueryRowContext(ctx, createAlias, arg.Name, arg.Description, arg.UserID)
+	row := q.db.QueryRowContext(ctx, createAlias, arg.Name, arg.Description, arg.ExternalID)
 	var i DcAlias
 	err := row.Scan(
 		&i.ID,
@@ -66,7 +68,7 @@ func (q *Queries) CreateCalculationType(ctx context.Context, arg CreateCalculati
 const createColumnCat = `-- name: CreateColumnCat :one
 INSERT INTO dc.column_cat
 (table_id, "name", alias_id, column_type_id, description, calculation_type_id, is_deleted, show_in_ui, created_at, updated_at, user_id)
-VALUES($1, $2, $3, $4, $5, $6, false, $7, now(), now(), $8)
+VALUES($1, $2, $3, $4, $5, $6, false, $7, now(), now(), (SELECT u.id FROM dc."user" u WHERE u.external_id = $8))
 RETURNING id, table_id, name, alias_id, column_type_id, description, calculation_type_id, is_deleted, show_in_ui, created_at, updated_at, user_id
 `
 
@@ -78,7 +80,7 @@ type CreateColumnCatParams struct {
 	Description       string
 	CalculationTypeID int64
 	ShowInUi          bool
-	UserID            int64
+	ExternalID        uuid.UUID
 }
 
 func (q *Queries) CreateColumnCat(ctx context.Context, arg CreateColumnCatParams) (DcColumnCat, error) {
@@ -90,7 +92,7 @@ func (q *Queries) CreateColumnCat(ctx context.Context, arg CreateColumnCatParams
 		arg.Description,
 		arg.CalculationTypeID,
 		arg.ShowInUi,
-		arg.UserID,
+		arg.ExternalID,
 	)
 	var i DcColumnCat
 	err := row.Scan(
@@ -113,18 +115,18 @@ func (q *Queries) CreateColumnCat(ctx context.Context, arg CreateColumnCatParams
 const createColumnType = `-- name: CreateColumnType :one
 INSERT INTO dc.column_type
 ("name", description, is_deleted, created_at, updated_at, user_id)
-VALUES($1, $2, false, now(), now(), $3)
+VALUES($1, $2, false, now(), now(), (SELECT u.id FROM dc."user" u WHERE u.external_id = $3))
 RETURNING id, name, description, is_deleted, created_at, updated_at, user_id
 `
 
 type CreateColumnTypeParams struct {
 	Name        string
 	Description string
-	UserID      int64
+	ExternalID  uuid.UUID
 }
 
 func (q *Queries) CreateColumnType(ctx context.Context, arg CreateColumnTypeParams) (DcColumnType, error) {
-	row := q.db.QueryRowContext(ctx, createColumnType, arg.Name, arg.Description, arg.UserID)
+	row := q.db.QueryRowContext(ctx, createColumnType, arg.Name, arg.Description, arg.ExternalID)
 	var i DcColumnType
 	err := row.Scan(
 		&i.ID,
@@ -141,18 +143,18 @@ func (q *Queries) CreateColumnType(ctx context.Context, arg CreateColumnTypePara
 const createDatabaseCalculation = `-- name: CreateDatabaseCalculation :one
 INSERT INTO dc.database_calculation
 (database_cat_id, calculation_type_id, created_at, updated_at, is_deleted, user_id)
-VALUES($1, $2, now(), now(), false, $3)
+VALUES($1, $2, now(), now(), false, (SELECT u.id FROM dc."user" u WHERE u.external_id = $3))
 RETURNING id, database_cat_id, calculation_type_id, created_at, updated_at, is_deleted, user_id
 `
 
 type CreateDatabaseCalculationParams struct {
 	DatabaseCatID     int64
 	CalculationTypeID int64
-	UserID            int64
+	ExternalID        uuid.UUID
 }
 
 func (q *Queries) CreateDatabaseCalculation(ctx context.Context, arg CreateDatabaseCalculationParams) (DcDatabaseCalculation, error) {
-	row := q.db.QueryRowContext(ctx, createDatabaseCalculation, arg.DatabaseCatID, arg.CalculationTypeID, arg.UserID)
+	row := q.db.QueryRowContext(ctx, createDatabaseCalculation, arg.DatabaseCatID, arg.CalculationTypeID, arg.ExternalID)
 	var i DcDatabaseCalculation
 	err := row.Scan(
 		&i.ID,
@@ -169,7 +171,7 @@ func (q *Queries) CreateDatabaseCalculation(ctx context.Context, arg CreateDatab
 const createDatabaseCat = `-- name: CreateDatabaseCat :one
 INSERT INTO dc.database_cat
 ("name", host_id, database_type_id, description, is_deleted, created_at, updated_at, user_id)
-VALUES($1, $2, $3, $4, false, now(), now(), $5)
+VALUES($1, $2, $3, $4, false, now(), now(), (SELECT u.id FROM dc."user" u WHERE u.external_id = $5))
 RETURNING id, name, host_id, database_type_id, description, is_deleted, created_at, updated_at, user_id
 `
 
@@ -178,7 +180,7 @@ type CreateDatabaseCatParams struct {
 	HostID         int64
 	DatabaseTypeID int64
 	Description    string
-	UserID         int64
+	ExternalID     uuid.UUID
 }
 
 func (q *Queries) CreateDatabaseCat(ctx context.Context, arg CreateDatabaseCatParams) (DcDatabaseCat, error) {
@@ -187,7 +189,7 @@ func (q *Queries) CreateDatabaseCat(ctx context.Context, arg CreateDatabaseCatPa
 		arg.HostID,
 		arg.DatabaseTypeID,
 		arg.Description,
-		arg.UserID,
+		arg.ExternalID,
 	)
 	var i DcDatabaseCat
 	err := row.Scan(
@@ -207,18 +209,18 @@ func (q *Queries) CreateDatabaseCat(ctx context.Context, arg CreateDatabaseCatPa
 const createDatabaseType = `-- name: CreateDatabaseType :one
 INSERT INTO dc.database_type
 ("name", db_version, is_deleted, created_at, updated_at, user_id)
-VALUES($1, $2, false, now(), now(), $3)
+VALUES($1, $2, false, now(), now(), (SELECT u.id FROM dc."user" u WHERE u.external_id = $3))
 RETURNING id, name, db_version, is_deleted, created_at, updated_at, user_id
 `
 
 type CreateDatabaseTypeParams struct {
-	Name      string
-	DbVersion string
-	UserID    int64
+	Name       string
+	DbVersion  string
+	ExternalID uuid.UUID
 }
 
 func (q *Queries) CreateDatabaseType(ctx context.Context, arg CreateDatabaseTypeParams) (DcDatabaseType, error) {
-	row := q.db.QueryRowContext(ctx, createDatabaseType, arg.Name, arg.DbVersion, arg.UserID)
+	row := q.db.QueryRowContext(ctx, createDatabaseType, arg.Name, arg.DbVersion, arg.ExternalID)
 	var i DcDatabaseType
 	err := row.Scan(
 		&i.ID,
@@ -235,17 +237,17 @@ func (q *Queries) CreateDatabaseType(ctx context.Context, arg CreateDatabaseType
 const createDomainCat = `-- name: CreateDomainCat :one
 INSERT INTO dc.domain_cat
 (domain_name, is_deleted, created_at, updated_at, user_id)
-VALUES($1, false, now(), now(), $2)
+VALUES($1, false, now(), now(), (SELECT u.id FROM dc."user" u WHERE u.external_id = $2))
 RETURNING id, domain_name, is_deleted, created_at, updated_at, user_id
 `
 
 type CreateDomainCatParams struct {
 	DomainName string
-	UserID     int64
+	ExternalID uuid.UUID
 }
 
 func (q *Queries) CreateDomainCat(ctx context.Context, arg CreateDomainCatParams) (DcDomainCat, error) {
-	row := q.db.QueryRowContext(ctx, createDomainCat, arg.DomainName, arg.UserID)
+	row := q.db.QueryRowContext(ctx, createDomainCat, arg.DomainName, arg.ExternalID)
 	var i DcDomainCat
 	err := row.Scan(
 		&i.ID,
@@ -261,18 +263,18 @@ func (q *Queries) CreateDomainCat(ctx context.Context, arg CreateDomainCatParams
 const createFollowingCalculation = `-- name: CreateFollowingCalculation :one
 INSERT INTO dc.following_calculation
 (column_cat_id, calculation_type_id, created_at, updated_at, is_deleted, user_id)
-VALUES($1, $2, now(), now(), false, $3)
+VALUES($1, $2, now(), now(), false, (SELECT u.id FROM dc."user" u WHERE u.external_id = $3))
 RETURNING id, column_cat_id, calculation_type_id, created_at, updated_at, is_deleted, user_id
 `
 
 type CreateFollowingCalculationParams struct {
 	ColumnCatID       int64
 	CalculationTypeID int64
-	UserID            int64
+	ExternalID        uuid.UUID
 }
 
 func (q *Queries) CreateFollowingCalculation(ctx context.Context, arg CreateFollowingCalculationParams) (DcFollowingCalculation, error) {
-	row := q.db.QueryRowContext(ctx, createFollowingCalculation, arg.ColumnCatID, arg.CalculationTypeID, arg.UserID)
+	row := q.db.QueryRowContext(ctx, createFollowingCalculation, arg.ColumnCatID, arg.CalculationTypeID, arg.ExternalID)
 	var i DcFollowingCalculation
 	err := row.Scan(
 		&i.ID,
@@ -289,7 +291,7 @@ func (q *Queries) CreateFollowingCalculation(ctx context.Context, arg CreateFoll
 const createGroupLevel = `-- name: CreateGroupLevel :one
 INSERT INTO dc.group_levels
 (column_id, parent_column_id, "level", description, created_at, updated_at, is_deleted, user_id)
-VALUES($1, $2, $3, $4, now(), now(), false, $5)
+VALUES($1, $2, $3, $4, now(), now(), false, (SELECT u.id FROM dc."user" u WHERE u.external_id = $5))
 RETURNING id, column_id, parent_column_id, level, description, created_at, updated_at, is_deleted, user_id
 `
 
@@ -298,7 +300,7 @@ type CreateGroupLevelParams struct {
 	ParentColumnID int64
 	Level          int16
 	Description    string
-	UserID         int64
+	ExternalID     uuid.UUID
 }
 
 func (q *Queries) CreateGroupLevel(ctx context.Context, arg CreateGroupLevelParams) (DcGroupLevel, error) {
@@ -307,7 +309,7 @@ func (q *Queries) CreateGroupLevel(ctx context.Context, arg CreateGroupLevelPara
 		arg.ParentColumnID,
 		arg.Level,
 		arg.Description,
-		arg.UserID,
+		arg.ExternalID,
 	)
 	var i DcGroupLevel
 	err := row.Scan(
@@ -327,7 +329,7 @@ func (q *Queries) CreateGroupLevel(ctx context.Context, arg CreateGroupLevelPara
 const createHasToGroup = `-- name: CreateHasToGroup :one
 INSERT INTO dc.has_to_group
 (column_id_a, column_id_b, description, is_deleted, created_at, updated_at, user_id)
-VALUES($1, $2, $3, false, now(), now(), $4)
+VALUES($1, $2, $3, false, now(), now(), (SELECT u.id FROM dc."user" u WHERE u.external_id = $4))
 RETURNING id, column_id_a, column_id_b, description, is_deleted, created_at, updated_at, user_id
 `
 
@@ -335,7 +337,7 @@ type CreateHasToGroupParams struct {
 	ColumnIDA   int64
 	ColumnIDB   int64
 	Description string
-	UserID      int64
+	ExternalID  uuid.UUID
 }
 
 func (q *Queries) CreateHasToGroup(ctx context.Context, arg CreateHasToGroupParams) (DcHasToGroup, error) {
@@ -343,7 +345,7 @@ func (q *Queries) CreateHasToGroup(ctx context.Context, arg CreateHasToGroupPara
 		arg.ColumnIDA,
 		arg.ColumnIDB,
 		arg.Description,
-		arg.UserID,
+		arg.ExternalID,
 	)
 	var i DcHasToGroup
 	err := row.Scan(
@@ -362,7 +364,7 @@ func (q *Queries) CreateHasToGroup(ctx context.Context, arg CreateHasToGroupPara
 const createHost = `-- name: CreateHost :one
 INSERT INTO dc.host
 ("name", description, host_env, port_env, username_env, password_env, is_deleted, created_at, updated_at, user_id)
-VALUES($1, $2, $3, $4, $5, $6, false, now(), now(), $7)
+VALUES($1, $2, $3, $4, $5, $6, false, now(), now(), (SELECT u.id FROM dc."user" u WHERE u.external_id = $7))
 RETURNING id, name, description, host_env, port_env, username_env, password_env, is_deleted, created_at, updated_at, user_id
 `
 
@@ -373,7 +375,7 @@ type CreateHostParams struct {
 	PortEnv     string
 	UsernameEnv string
 	PasswordEnv string
-	UserID      int64
+	ExternalID  uuid.UUID
 }
 
 func (q *Queries) CreateHost(ctx context.Context, arg CreateHostParams) (DcHost, error) {
@@ -384,7 +386,7 @@ func (q *Queries) CreateHost(ctx context.Context, arg CreateHostParams) (DcHost,
 		arg.PortEnv,
 		arg.UsernameEnv,
 		arg.PasswordEnv,
-		arg.UserID,
+		arg.ExternalID,
 	)
 	var i DcHost
 	err := row.Scan(
@@ -406,18 +408,18 @@ func (q *Queries) CreateHost(ctx context.Context, arg CreateHostParams) (DcHost,
 const createSchemaCat = `-- name: CreateSchemaCat :one
 INSERT INTO dc.schema_cat
 (database_id, "name", is_deleted, created_at, updated_at, user_id)
-VALUES($1, $2, false, now(), now(), $3)
+VALUES($1, $2, false, now(), now(), (SELECT u.id FROM dc."user" u WHERE u.external_id = $3))
 RETURNING id, database_id, name, is_deleted, created_at, updated_at, user_id
 `
 
 type CreateSchemaCatParams struct {
 	DatabaseID int64
 	Name       string
-	UserID     int64
+	ExternalID uuid.UUID
 }
 
 func (q *Queries) CreateSchemaCat(ctx context.Context, arg CreateSchemaCatParams) (DcSchemaCat, error) {
-	row := q.db.QueryRowContext(ctx, createSchemaCat, arg.DatabaseID, arg.Name, arg.UserID)
+	row := q.db.QueryRowContext(ctx, createSchemaCat, arg.DatabaseID, arg.Name, arg.ExternalID)
 	var i DcSchemaCat
 	err := row.Scan(
 		&i.ID,
@@ -434,7 +436,7 @@ func (q *Queries) CreateSchemaCat(ctx context.Context, arg CreateSchemaCatParams
 const createTableCat = `-- name: CreateTableCat :one
 INSERT INTO dc.table_cat
 ("name", description, schema_id, table_type_id, domain_id, is_deleted, created_at, updated_at, is_get_dict, user_id)
-VALUES($1, $2, $3, $4, $5, false, now(), now(), $6, $7)
+VALUES($1, $2, $3, $4, $5, false, now(), now(), $6, (SELECT u.id FROM dc."user" u WHERE u.external_id = $7))
 RETURNING id, name, description, schema_id, table_type_id, domain_id, is_deleted, created_at, updated_at, is_get_dict, user_id
 `
 
@@ -445,7 +447,7 @@ type CreateTableCatParams struct {
 	TableTypeID int64
 	DomainID    int64
 	IsGetDict   bool
-	UserID      int64
+	ExternalID  uuid.UUID
 }
 
 func (q *Queries) CreateTableCat(ctx context.Context, arg CreateTableCatParams) (DcTableCat, error) {
@@ -456,7 +458,7 @@ func (q *Queries) CreateTableCat(ctx context.Context, arg CreateTableCatParams) 
 		arg.TableTypeID,
 		arg.DomainID,
 		arg.IsGetDict,
-		arg.UserID,
+		arg.ExternalID,
 	)
 	var i DcTableCat
 	err := row.Scan(
@@ -478,18 +480,18 @@ func (q *Queries) CreateTableCat(ctx context.Context, arg CreateTableCatParams) 
 const createTableType = `-- name: CreateTableType :one
 INSERT INTO dc.table_type
 ("name", description, is_deleted, created_at, updated_at, user_id)
-VALUES($1, $2, false, now(), now(), $3)
+VALUES($1, $2, false, now(), now(), (SELECT u.id FROM dc."user" u WHERE u.external_id = $3))
 RETURNING id, name, description, is_deleted, created_at, updated_at, user_id
 `
 
 type CreateTableTypeParams struct {
 	Name        string
 	Description string
-	UserID      int64
+	ExternalID  uuid.UUID
 }
 
 func (q *Queries) CreateTableType(ctx context.Context, arg CreateTableTypeParams) (DcTableType, error) {
-	row := q.db.QueryRowContext(ctx, createTableType, arg.Name, arg.Description, arg.UserID)
+	row := q.db.QueryRowContext(ctx, createTableType, arg.Name, arg.Description, arg.ExternalID)
 	var i DcTableType
 	err := row.Scan(
 		&i.ID,
@@ -3097,8 +3099,8 @@ func (q *Queries) UndeleteTableTypeById(ctx context.Context, id int64) error {
 
 const updateAliasById = `-- name: UpdateAliasById :one
 UPDATE dc.alias
-SET "name"=$2, description=$3, user_id=$4, updated_at=now()
-WHERE id=$1
+SET "name"=$2, description=$3, user_id=(SELECT u.id FROM dc."user" u WHERE u.external_id = $4), updated_at=now()
+WHERE dc.alias.id=$1
 AND is_deleted = false
 RETURNING id, name, description, created_at, updated_at, is_deleted, user_id
 `
@@ -3107,7 +3109,7 @@ type UpdateAliasByIdParams struct {
 	ID          int64
 	Name        string
 	Description string
-	UserID      int64
+	ExternalID  uuid.UUID
 }
 
 func (q *Queries) UpdateAliasById(ctx context.Context, arg UpdateAliasByIdParams) (DcAlias, error) {
@@ -3115,7 +3117,7 @@ func (q *Queries) UpdateAliasById(ctx context.Context, arg UpdateAliasByIdParams
 		arg.ID,
 		arg.Name,
 		arg.Description,
-		arg.UserID,
+		arg.ExternalID,
 	)
 	var i DcAlias
 	err := row.Scan(
@@ -3160,8 +3162,8 @@ func (q *Queries) UpdateCalculationTypeById(ctx context.Context, arg UpdateCalcu
 
 const updateColumnCatById = `-- name: UpdateColumnCatById :one
 UPDATE dc.column_cat
-SET table_id=$2, "name"=$3, alias_id=$4, column_type_id=$5, description=$6, calculation_type_id=$7, show_in_ui=$8, user_id=$9, updated_at=now()
-WHERE id=$1
+SET table_id=$2, "name"=$3, alias_id=$4, column_type_id=$5, description=$6, calculation_type_id=$7, show_in_ui=$8, user_id=(SELECT u.id FROM dc."user" u WHERE u.external_id = $9), updated_at=now()
+WHERE dc.column_cat.id=$1
 AND is_deleted = false
 RETURNING id, table_id, name, alias_id, column_type_id, description, calculation_type_id, is_deleted, show_in_ui, created_at, updated_at, user_id
 `
@@ -3175,7 +3177,7 @@ type UpdateColumnCatByIdParams struct {
 	Description       string
 	CalculationTypeID int64
 	ShowInUi          bool
-	UserID            int64
+	ExternalID        uuid.UUID
 }
 
 func (q *Queries) UpdateColumnCatById(ctx context.Context, arg UpdateColumnCatByIdParams) (DcColumnCat, error) {
@@ -3188,7 +3190,7 @@ func (q *Queries) UpdateColumnCatById(ctx context.Context, arg UpdateColumnCatBy
 		arg.Description,
 		arg.CalculationTypeID,
 		arg.ShowInUi,
-		arg.UserID,
+		arg.ExternalID,
 	)
 	var i DcColumnCat
 	err := row.Scan(
@@ -3210,8 +3212,8 @@ func (q *Queries) UpdateColumnCatById(ctx context.Context, arg UpdateColumnCatBy
 
 const updateColumnTypeById = `-- name: UpdateColumnTypeById :one
 UPDATE dc.column_type
-SET "name"=$2, description=$3, user_id=$4, updated_at=now()
-WHERE id=$1
+SET "name"=$2, description=$3, user_id=(SELECT u.id FROM dc."user" u WHERE u.external_id = $4), updated_at=now()
+WHERE dc.column_type.id=$1
 AND is_deleted = false
 RETURNING id, name, description, is_deleted, created_at, updated_at, user_id
 `
@@ -3220,7 +3222,7 @@ type UpdateColumnTypeByIdParams struct {
 	ID          int64
 	Name        string
 	Description string
-	UserID      int64
+	ExternalID  uuid.UUID
 }
 
 func (q *Queries) UpdateColumnTypeById(ctx context.Context, arg UpdateColumnTypeByIdParams) (DcColumnType, error) {
@@ -3228,7 +3230,7 @@ func (q *Queries) UpdateColumnTypeById(ctx context.Context, arg UpdateColumnType
 		arg.ID,
 		arg.Name,
 		arg.Description,
-		arg.UserID,
+		arg.ExternalID,
 	)
 	var i DcColumnType
 	err := row.Scan(
@@ -3245,8 +3247,8 @@ func (q *Queries) UpdateColumnTypeById(ctx context.Context, arg UpdateColumnType
 
 const updateDatabaseCalculationById = `-- name: UpdateDatabaseCalculationById :one
 UPDATE dc.database_calculation
-SET database_cat_id=$2, calculation_type_id=$3, user_id=$4, updated_at=now()
-WHERE id=$1
+SET database_cat_id=$2, calculation_type_id=$3, user_id=(SELECT u.id FROM dc."user" u WHERE u.external_id = $4), updated_at=now()
+WHERE dc.database_calculation.id=$1
 AND is_deleted = false
 RETURNING id, database_cat_id, calculation_type_id, created_at, updated_at, is_deleted, user_id
 `
@@ -3255,7 +3257,7 @@ type UpdateDatabaseCalculationByIdParams struct {
 	ID                int64
 	DatabaseCatID     int64
 	CalculationTypeID int64
-	UserID            int64
+	ExternalID        uuid.UUID
 }
 
 func (q *Queries) UpdateDatabaseCalculationById(ctx context.Context, arg UpdateDatabaseCalculationByIdParams) (DcDatabaseCalculation, error) {
@@ -3263,7 +3265,7 @@ func (q *Queries) UpdateDatabaseCalculationById(ctx context.Context, arg UpdateD
 		arg.ID,
 		arg.DatabaseCatID,
 		arg.CalculationTypeID,
-		arg.UserID,
+		arg.ExternalID,
 	)
 	var i DcDatabaseCalculation
 	err := row.Scan(
@@ -3280,8 +3282,8 @@ func (q *Queries) UpdateDatabaseCalculationById(ctx context.Context, arg UpdateD
 
 const updateDatabaseCatById = `-- name: UpdateDatabaseCatById :one
 UPDATE dc.database_cat
-SET "name"=$2, host_id=$3, database_type_id=$4, description=$5, user_id=$6, updated_at=now()
-WHERE id=$1
+SET "name"=$2, host_id=$3, database_type_id=$4, description=$5, user_id=(SELECT u.id FROM dc."user" u WHERE u.external_id = $6), updated_at=now()
+WHERE dc.database_cat.id=$1
 AND is_deleted = false
 RETURNING id, name, host_id, database_type_id, description, is_deleted, created_at, updated_at, user_id
 `
@@ -3292,7 +3294,7 @@ type UpdateDatabaseCatByIdParams struct {
 	HostID         int64
 	DatabaseTypeID int64
 	Description    string
-	UserID         int64
+	ExternalID     uuid.UUID
 }
 
 func (q *Queries) UpdateDatabaseCatById(ctx context.Context, arg UpdateDatabaseCatByIdParams) (DcDatabaseCat, error) {
@@ -3302,7 +3304,7 @@ func (q *Queries) UpdateDatabaseCatById(ctx context.Context, arg UpdateDatabaseC
 		arg.HostID,
 		arg.DatabaseTypeID,
 		arg.Description,
-		arg.UserID,
+		arg.ExternalID,
 	)
 	var i DcDatabaseCat
 	err := row.Scan(
@@ -3321,17 +3323,17 @@ func (q *Queries) UpdateDatabaseCatById(ctx context.Context, arg UpdateDatabaseC
 
 const updateDatabaseTypeById = `-- name: UpdateDatabaseTypeById :one
 UPDATE dc.database_type
-SET "name"=$2, db_version=$3, user_id=$4, updated_at=now()
-WHERE id=$1
+SET "name"=$2, db_version=$3, user_id=(SELECT u.id FROM dc."user" u WHERE u.external_id = $4), updated_at=now()
+WHERE dc.database_type.id=$1
 AND is_deleted = false
 RETURNING id, name, db_version, is_deleted, created_at, updated_at, user_id
 `
 
 type UpdateDatabaseTypeByIdParams struct {
-	ID        int64
-	Name      string
-	DbVersion string
-	UserID    int64
+	ID         int64
+	Name       string
+	DbVersion  string
+	ExternalID uuid.UUID
 }
 
 func (q *Queries) UpdateDatabaseTypeById(ctx context.Context, arg UpdateDatabaseTypeByIdParams) (DcDatabaseType, error) {
@@ -3339,7 +3341,7 @@ func (q *Queries) UpdateDatabaseTypeById(ctx context.Context, arg UpdateDatabase
 		arg.ID,
 		arg.Name,
 		arg.DbVersion,
-		arg.UserID,
+		arg.ExternalID,
 	)
 	var i DcDatabaseType
 	err := row.Scan(
@@ -3356,8 +3358,8 @@ func (q *Queries) UpdateDatabaseTypeById(ctx context.Context, arg UpdateDatabase
 
 const updateDomainCatById = `-- name: UpdateDomainCatById :one
 UPDATE dc.domain_cat
-SET domain_name=$2, user_id=$3, updated_at=now()
-WHERE id=$1
+SET domain_name=$2, user_id=(SELECT u.id FROM dc."user" u WHERE u.external_id = $3), updated_at=now()
+WHERE dc.domain_cat.id=$1
 AND is_deleted = false
 RETURNING id, domain_name, is_deleted, created_at, updated_at, user_id
 `
@@ -3365,11 +3367,11 @@ RETURNING id, domain_name, is_deleted, created_at, updated_at, user_id
 type UpdateDomainCatByIdParams struct {
 	ID         int64
 	DomainName string
-	UserID     int64
+	ExternalID uuid.UUID
 }
 
 func (q *Queries) UpdateDomainCatById(ctx context.Context, arg UpdateDomainCatByIdParams) (DcDomainCat, error) {
-	row := q.db.QueryRowContext(ctx, updateDomainCatById, arg.ID, arg.DomainName, arg.UserID)
+	row := q.db.QueryRowContext(ctx, updateDomainCatById, arg.ID, arg.DomainName, arg.ExternalID)
 	var i DcDomainCat
 	err := row.Scan(
 		&i.ID,
@@ -3384,8 +3386,8 @@ func (q *Queries) UpdateDomainCatById(ctx context.Context, arg UpdateDomainCatBy
 
 const updateFollowingCalculationById = `-- name: UpdateFollowingCalculationById :one
 UPDATE dc.following_calculation
-SET column_cat_id=$2, calculation_type_id=$3, user_id=$4, updated_at=now()
-WHERE id=$1
+SET column_cat_id=$2, calculation_type_id=$3, user_id=(SELECT u.id FROM dc."user" u WHERE u.external_id = $4), updated_at=now()
+WHERE dc.following_calculation.id=$1
 AND is_deleted = false
 RETURNING id, column_cat_id, calculation_type_id, created_at, updated_at, is_deleted, user_id
 `
@@ -3394,7 +3396,7 @@ type UpdateFollowingCalculationByIdParams struct {
 	ID                int64
 	ColumnCatID       int64
 	CalculationTypeID int64
-	UserID            int64
+	ExternalID        uuid.UUID
 }
 
 func (q *Queries) UpdateFollowingCalculationById(ctx context.Context, arg UpdateFollowingCalculationByIdParams) (DcFollowingCalculation, error) {
@@ -3402,7 +3404,7 @@ func (q *Queries) UpdateFollowingCalculationById(ctx context.Context, arg Update
 		arg.ID,
 		arg.ColumnCatID,
 		arg.CalculationTypeID,
-		arg.UserID,
+		arg.ExternalID,
 	)
 	var i DcFollowingCalculation
 	err := row.Scan(
@@ -3419,8 +3421,8 @@ func (q *Queries) UpdateFollowingCalculationById(ctx context.Context, arg Update
 
 const updateGroupLevelById = `-- name: UpdateGroupLevelById :one
 UPDATE dc.group_levels
-SET column_id=$2, parent_column_id=$3, "level"=$4, description=$5, user_id=$6, updated_at=now()
-WHERE id=$1
+SET column_id=$2, parent_column_id=$3, "level"=$4, description=$5, user_id=(SELECT u.id FROM dc."user" u WHERE u.external_id = $6), updated_at=now()
+WHERE dc.group_levels.id=$1
 AND is_deleted = false
 RETURNING id, column_id, parent_column_id, level, description, created_at, updated_at, is_deleted, user_id
 `
@@ -3431,7 +3433,7 @@ type UpdateGroupLevelByIdParams struct {
 	ParentColumnID int64
 	Level          int16
 	Description    string
-	UserID         int64
+	ExternalID     uuid.UUID
 }
 
 func (q *Queries) UpdateGroupLevelById(ctx context.Context, arg UpdateGroupLevelByIdParams) (DcGroupLevel, error) {
@@ -3441,7 +3443,7 @@ func (q *Queries) UpdateGroupLevelById(ctx context.Context, arg UpdateGroupLevel
 		arg.ParentColumnID,
 		arg.Level,
 		arg.Description,
-		arg.UserID,
+		arg.ExternalID,
 	)
 	var i DcGroupLevel
 	err := row.Scan(
@@ -3460,8 +3462,8 @@ func (q *Queries) UpdateGroupLevelById(ctx context.Context, arg UpdateGroupLevel
 
 const updateHasToGroupById = `-- name: UpdateHasToGroupById :one
 UPDATE dc.has_to_group
-SET column_id_a=$2, column_id_b=$3, description=$4, user_id=$5, updated_at=now()
-WHERE id=$1
+SET column_id_a=$2, column_id_b=$3, description=$4, user_id=(SELECT u.id FROM dc."user" u WHERE u.external_id = $5), updated_at=now()
+WHERE dc.has_to_group.id=$1
 AND is_deleted = false
 RETURNING id, column_id_a, column_id_b, description, is_deleted, created_at, updated_at, user_id
 `
@@ -3471,7 +3473,7 @@ type UpdateHasToGroupByIdParams struct {
 	ColumnIDA   int64
 	ColumnIDB   int64
 	Description string
-	UserID      int64
+	ExternalID  uuid.UUID
 }
 
 func (q *Queries) UpdateHasToGroupById(ctx context.Context, arg UpdateHasToGroupByIdParams) (DcHasToGroup, error) {
@@ -3480,7 +3482,7 @@ func (q *Queries) UpdateHasToGroupById(ctx context.Context, arg UpdateHasToGroup
 		arg.ColumnIDA,
 		arg.ColumnIDB,
 		arg.Description,
-		arg.UserID,
+		arg.ExternalID,
 	)
 	var i DcHasToGroup
 	err := row.Scan(
@@ -3498,8 +3500,8 @@ func (q *Queries) UpdateHasToGroupById(ctx context.Context, arg UpdateHasToGroup
 
 const updateHostById = `-- name: UpdateHostById :one
 UPDATE dc.host
-SET "name"=$2, description=$3, host_env=$4, port_env=$5, username_env=$6, password_env=$7, user_id=$8, updated_at=now()
-WHERE id=$1
+SET "name"=$2, description=$3, host_env=$4, port_env=$5, username_env=$6, password_env=$7, user_id=(SELECT u.id FROM dc."user" u WHERE u.external_id = $8), updated_at=now()
+WHERE dc.host.id=$1
 AND is_deleted = false
 RETURNING id, name, description, host_env, port_env, username_env, password_env, is_deleted, created_at, updated_at, user_id
 `
@@ -3512,7 +3514,7 @@ type UpdateHostByIdParams struct {
 	PortEnv     string
 	UsernameEnv string
 	PasswordEnv string
-	UserID      int64
+	ExternalID  uuid.UUID
 }
 
 func (q *Queries) UpdateHostById(ctx context.Context, arg UpdateHostByIdParams) (DcHost, error) {
@@ -3524,7 +3526,7 @@ func (q *Queries) UpdateHostById(ctx context.Context, arg UpdateHostByIdParams) 
 		arg.PortEnv,
 		arg.UsernameEnv,
 		arg.PasswordEnv,
-		arg.UserID,
+		arg.ExternalID,
 	)
 	var i DcHost
 	err := row.Scan(
@@ -3545,8 +3547,8 @@ func (q *Queries) UpdateHostById(ctx context.Context, arg UpdateHostByIdParams) 
 
 const updateSchemaCatById = `-- name: UpdateSchemaCatById :one
 UPDATE dc.schema_cat
-SET database_id=$2, "name"=$3, user_id=$4, updated_at=now()
-WHERE id=$1
+SET database_id=$2, "name"=$3, user_id=(SELECT u.id FROM dc."user" u WHERE u.external_id = $4), updated_at=now()
+WHERE dc.schema_cat.id=$1
 AND is_deleted = false
 RETURNING id, database_id, name, is_deleted, created_at, updated_at, user_id
 `
@@ -3555,7 +3557,7 @@ type UpdateSchemaCatByIdParams struct {
 	ID         int64
 	DatabaseID int64
 	Name       string
-	UserID     int64
+	ExternalID uuid.UUID
 }
 
 func (q *Queries) UpdateSchemaCatById(ctx context.Context, arg UpdateSchemaCatByIdParams) (DcSchemaCat, error) {
@@ -3563,7 +3565,7 @@ func (q *Queries) UpdateSchemaCatById(ctx context.Context, arg UpdateSchemaCatBy
 		arg.ID,
 		arg.DatabaseID,
 		arg.Name,
-		arg.UserID,
+		arg.ExternalID,
 	)
 	var i DcSchemaCat
 	err := row.Scan(
@@ -3580,8 +3582,8 @@ func (q *Queries) UpdateSchemaCatById(ctx context.Context, arg UpdateSchemaCatBy
 
 const updateTableCatById = `-- name: UpdateTableCatById :one
 UPDATE dc.table_cat
-SET "name"=$2, description=$3, schema_id=$4, table_type_id=$5, domain_id=$6, is_get_dict=$7, user_id=$8, updated_at=now()
-WHERE id=$1
+SET "name"=$2, description=$3, schema_id=$4, table_type_id=$5, domain_id=$6, is_get_dict=$7, user_id=(SELECT u.id FROM dc."user" u WHERE u.external_id = $8), updated_at=now()
+WHERE dc.table_cat.id=$1
 AND is_deleted = false
 RETURNING id, name, description, schema_id, table_type_id, domain_id, is_deleted, created_at, updated_at, is_get_dict, user_id
 `
@@ -3594,7 +3596,7 @@ type UpdateTableCatByIdParams struct {
 	TableTypeID int64
 	DomainID    int64
 	IsGetDict   bool
-	UserID      int64
+	ExternalID  uuid.UUID
 }
 
 func (q *Queries) UpdateTableCatById(ctx context.Context, arg UpdateTableCatByIdParams) (DcTableCat, error) {
@@ -3606,7 +3608,7 @@ func (q *Queries) UpdateTableCatById(ctx context.Context, arg UpdateTableCatById
 		arg.TableTypeID,
 		arg.DomainID,
 		arg.IsGetDict,
-		arg.UserID,
+		arg.ExternalID,
 	)
 	var i DcTableCat
 	err := row.Scan(
@@ -3627,8 +3629,8 @@ func (q *Queries) UpdateTableCatById(ctx context.Context, arg UpdateTableCatById
 
 const updateTableTypeById = `-- name: UpdateTableTypeById :one
 UPDATE dc.table_type
-SET "name"=$2, description=$3, user_id=$4, updated_at=now()
-WHERE id=$1
+SET "name"=$2, description=$3, user_id=(SELECT u.id FROM dc."user" u WHERE u.external_id = $4), updated_at=now()
+WHERE dc.table_type.id=$1
 AND is_deleted = false
 RETURNING id, name, description, is_deleted, created_at, updated_at, user_id
 `
@@ -3637,7 +3639,7 @@ type UpdateTableTypeByIdParams struct {
 	ID          int64
 	Name        string
 	Description string
-	UserID      int64
+	ExternalID  uuid.UUID
 }
 
 func (q *Queries) UpdateTableTypeById(ctx context.Context, arg UpdateTableTypeByIdParams) (DcTableType, error) {
@@ -3645,7 +3647,7 @@ func (q *Queries) UpdateTableTypeById(ctx context.Context, arg UpdateTableTypeBy
 		arg.ID,
 		arg.Name,
 		arg.Description,
-		arg.UserID,
+		arg.ExternalID,
 	)
 	var i DcTableType
 	err := row.Scan(

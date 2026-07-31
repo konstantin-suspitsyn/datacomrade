@@ -23,7 +23,8 @@ create table dc.user_domain_roles (
                           created_at timestamp without time zone not null default now(),
                           updated_at timestamp without time zone not null default now(),
                           is_deleted boolean not null default false,
-                          domain_id bigint not null
+                          domain_id bigint not null,
+                          updated_by_id bigint not null
 );
 create table dc.user_table_roles
 (
@@ -33,6 +34,23 @@ create table dc.user_table_roles
     created_at     timestamp default now() not null,
     updated_at     timestamp default now() not null,
     is_deleted     boolean   default false not null,
-    table_id       bigint                  not null
+    table_id       bigint                  not null,
+    updated_by_id  bigint                  not null
+);
+
+create table dc."user"
+(
+    id          bigserial
+        constraint user_pk
+            primary key,
+    name        varchar(512)            not null
+        constraint user_name_unique
+            unique,
+    created_at  timestamp default now() not null,
+    updated_at  timestamp default now() not null,
+    is_deleted  boolean   default false not null,
+    external_id uuid                    not null
+        constraint user_external_id_unique
+            unique
 );
 

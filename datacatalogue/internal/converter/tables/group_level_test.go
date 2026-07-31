@@ -4,6 +4,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/repository/tables_model"
 	tablesv1 "github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/tables/v1"
 )
@@ -138,7 +139,7 @@ func TestToCreateGroupLevelParams(t *testing.T) {
 		ParentColumnId: 101,
 		Level:          12,
 		Description:    "description-0",
-		UserId:         104,
+		UserExternalId: "00000000-0000-4000-8000-000000000005",
 	}
 
 	want := tables_model.CreateGroupLevelParams{
@@ -146,7 +147,7 @@ func TestToCreateGroupLevelParams(t *testing.T) {
 		ParentColumnID: 101,
 		Level:          12,
 		Description:    "description-0",
-		UserID:         104,
+		ExternalID:     uuid.MustParse("00000000-0000-4000-8000-000000000005"),
 	}
 
 	if got := ToCreateGroupLevelParams(req); got != want {
@@ -168,7 +169,7 @@ func TestToUpdateGroupLevelByIdParams(t *testing.T) {
 		ParentColumnId: 102,
 		Level:          13,
 		Description:    "description-0",
-		UserId:         105,
+		UserExternalId: "00000000-0000-4000-8000-000000000006",
 	}
 
 	want := tables_model.UpdateGroupLevelByIdParams{
@@ -177,7 +178,7 @@ func TestToUpdateGroupLevelByIdParams(t *testing.T) {
 		ParentColumnID: 102,
 		Level:          13,
 		Description:    "description-0",
-		UserID:         105,
+		ExternalID:     uuid.MustParse("00000000-0000-4000-8000-000000000006"),
 	}
 
 	if got := ToUpdateGroupLevelByIdParams(req); got != want {

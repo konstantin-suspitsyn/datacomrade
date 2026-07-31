@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"flag"
 	"fmt"
 	"log"
 	"net/http"
@@ -31,10 +30,6 @@ import (
 const openapiSpecPath = "api/openapi/v1/openapi.yaml"
 
 func main() {
-	var env string
-	flag.StringVar(&env, "env", "development", "Environment (development|staging|production)")
-	flag.Parse()
-
 	if err := godotenv.Load(".env"); err != nil {
 		panic("godotenv file was not found")
 	}
@@ -54,7 +49,7 @@ func main() {
 
 	dcClient, err := datacatalogue.Dial(cfg.DataCatalogueGRPCAddr)
 	if err != nil {
-		log.Fatalf("failed to dial datacatalogue: %v", err)
+		pkglogger.Fatal(context.Background(), "failed to dial datacatalogue", zap.Error(err))
 	}
 	defer func() { _ = dcClient.Close() }()
 
@@ -92,18 +87,23 @@ func main() {
 		ReadHeaderTimeout: 5 * time.Second,
 	}
 
+	serveErr := make(chan error, 1)
 	go func() {
-		pkglogger.Info(context.Background(), "shepherd listening", zap.Int("port", cfg.HTTPPort), zap.String("env", env))
+		pkglogger.Info(context.Background(), "shepherd listening", zap.Int("port", cfg.HTTPPort))
 		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			log.Fatalf("failed to serve: %v", err)
+			serveErr <- err
 		}
 	}()
 
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
-	<-quit
 
-	pkglogger.Info(context.Background(), "shutting down shepherd")
+	select {
+	case err := <-serveErr:
+		pkglogger.Error(context.Background(), "shepherd server failed, shutting down", zap.Error(err))
+	case <-quit:
+		pkglogger.Info(context.Background(), "shutting down shepherd")
+	}
 
 	shutdownCtx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()

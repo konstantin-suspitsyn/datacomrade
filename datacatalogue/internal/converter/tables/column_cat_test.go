@@ -4,6 +4,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/repository/tables_model"
 	tablesv1 "github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/tables/v1"
 )
@@ -156,7 +157,7 @@ func TestToCreateColumnCatParams(t *testing.T) {
 		Description:       "description-0",
 		CalculationTypeId: 105,
 		ShowInUi:          true,
-		UserId:            107,
+		UserExternalId:    "00000000-0000-4000-8000-000000000008",
 	}
 
 	want := tables_model.CreateColumnCatParams{
@@ -167,7 +168,7 @@ func TestToCreateColumnCatParams(t *testing.T) {
 		Description:       "description-0",
 		CalculationTypeID: 105,
 		ShowInUi:          true,
-		UserID:            107,
+		ExternalID:        uuid.MustParse("00000000-0000-4000-8000-000000000008"),
 	}
 
 	if got := ToCreateColumnCatParams(req); got != want {
@@ -192,7 +193,7 @@ func TestToUpdateColumnCatByIdParams(t *testing.T) {
 		Description:       "description-0",
 		CalculationTypeId: 106,
 		ShowInUi:          true,
-		UserId:            108,
+		UserExternalId:    "00000000-0000-4000-8000-000000000009",
 	}
 
 	want := tables_model.UpdateColumnCatByIdParams{
@@ -204,7 +205,7 @@ func TestToUpdateColumnCatByIdParams(t *testing.T) {
 		Description:       "description-0",
 		CalculationTypeID: 106,
 		ShowInUi:          true,
-		UserID:            108,
+		ExternalID:        uuid.MustParse("00000000-0000-4000-8000-000000000009"),
 	}
 
 	if got := ToUpdateColumnCatByIdParams(req); got != want {

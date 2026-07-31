@@ -6,6 +6,8 @@ package user_domain_roles
 
 import (
 	"time"
+
+	"github.com/google/uuid"
 )
 
 type DcDomainRole struct {
@@ -26,6 +28,15 @@ type DcTableRole struct {
 	IsDeleted   bool
 }
 
+type DcUser struct {
+	ID         int64
+	Name       string
+	CreatedAt  time.Time
+	UpdatedAt  time.Time
+	IsDeleted  bool
+	ExternalID uuid.UUID
+}
+
 type DcUserDomainRole struct {
 	ID            int64
 	UserID        int64
@@ -34,6 +45,7 @@ type DcUserDomainRole struct {
 	UpdatedAt     time.Time
 	IsDeleted     bool
 	DomainID      int64
+	UpdatedByID   int64
 }
 
 type DcUserTableRole struct {
@@ -44,4 +56,5 @@ type DcUserTableRole struct {
 	UpdatedAt    time.Time
 	IsDeleted    bool
 	TableID      int64
+	UpdatedByID  int64
 }

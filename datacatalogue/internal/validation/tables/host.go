@@ -14,7 +14,7 @@ func hostWritableFields(
 	portEnv string,
 	usernameEnv string,
 	passwordEnv string,
-	userId int64,
+	userExternalId string,
 ) {
 	v.StringVarchar("name", name, hostNameMaxLen)
 	v.StringVarchar("description", description, hostDescriptionMaxLen)
@@ -22,7 +22,7 @@ func hostWritableFields(
 	v.StringVarchar("port_env", portEnv, hostPortEnvMaxLen)
 	v.StringVarchar("username_env", usernameEnv, hostUsernameEnvMaxLen)
 	v.StringVarchar("password_env", passwordEnv, hostPasswordEnvMaxLen)
-	v.Int64ID("user_id", userId)
+	v.StringUUID("user_id", userExternalId)
 }
 
 // ValidateCreateHost проверяет запрос на вставку строки dc.host.
@@ -42,7 +42,7 @@ func ValidateCreateHost(req *tablesv1.CreateHostRequest) error {
 		req.GetPortEnv(),
 		req.GetUsernameEnv(),
 		req.GetPasswordEnv(),
-		req.GetUserId(),
+		req.GetUserExternalId(),
 	)
 
 	return v.Err()
@@ -68,7 +68,7 @@ func ValidateUpdateHostById(req *tablesv1.UpdateHostByIdRequest) error {
 		req.GetPortEnv(),
 		req.GetUsernameEnv(),
 		req.GetPasswordEnv(),
-		req.GetUserId(),
+		req.GetUserExternalId(),
 	)
 
 	return v.Err()

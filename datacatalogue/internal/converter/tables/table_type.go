@@ -37,7 +37,7 @@ func ToCreateTableTypeParams(req *tablesv1.CreateTableTypeRequest) tables_model.
 	return tables_model.CreateTableTypeParams{
 		Name:        req.GetName(),
 		Description: req.GetDescription(),
-		UserID:      req.GetUserId(),
+		ExternalID:  converter.ProtoToUUID(req.GetUserExternalId()),
 	}
 }
 
@@ -48,6 +48,6 @@ func ToUpdateTableTypeByIdParams(req *tablesv1.UpdateTableTypeByIdRequest) table
 		ID:          req.GetId(),
 		Name:        req.GetName(),
 		Description: req.GetDescription(),
-		UserID:      req.GetUserId(),
+		ExternalID:  converter.ProtoToUUID(req.GetUserExternalId()),
 	}
 }

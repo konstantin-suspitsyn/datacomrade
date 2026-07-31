@@ -45,7 +45,7 @@ func ToCreateHostParams(req *tablesv1.CreateHostRequest) tables_model.CreateHost
 		PortEnv:     req.GetPortEnv(),
 		UsernameEnv: req.GetUsernameEnv(),
 		PasswordEnv: req.GetPasswordEnv(),
-		UserID:      req.GetUserId(),
+		ExternalID:  converter.ProtoToUUID(req.GetUserExternalId()),
 	}
 }
 
@@ -60,6 +60,6 @@ func ToUpdateHostByIdParams(req *tablesv1.UpdateHostByIdRequest) tables_model.Up
 		PortEnv:     req.GetPortEnv(),
 		UsernameEnv: req.GetUsernameEnv(),
 		PasswordEnv: req.GetPasswordEnv(),
-		UserID:      req.GetUserId(),
+		ExternalID:  converter.ProtoToUUID(req.GetUserExternalId()),
 	}
 }

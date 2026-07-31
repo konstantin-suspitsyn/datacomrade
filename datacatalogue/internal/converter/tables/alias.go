@@ -37,7 +37,7 @@ func ToCreateAliasParams(req *tablesv1.CreateAliasRequest) tables_model.CreateAl
 	return tables_model.CreateAliasParams{
 		Name:        req.GetName(),
 		Description: req.GetDescription(),
-		UserID:      req.GetUserId(),
+		ExternalID:  converter.ProtoToUUID(req.GetUserExternalId()),
 	}
 }
 
@@ -48,6 +48,6 @@ func ToUpdateAliasByIdParams(req *tablesv1.UpdateAliasByIdRequest) tables_model.
 		ID:          req.GetId(),
 		Name:        req.GetName(),
 		Description: req.GetDescription(),
-		UserID:      req.GetUserId(),
+		ExternalID:  converter.ProtoToUUID(req.GetUserExternalId()),
 	}
 }

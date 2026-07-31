@@ -11,10 +11,12 @@ func userTableRoleWritableFields(
 	userId int64,
 	tableRolesId int64,
 	tableId int64,
+	updatedByExternalId string,
 ) {
 	v.Int64ID("user_id", userId)
 	v.Int64ID("table_roles_id", tableRolesId)
 	v.Int64ID("table_id", tableId)
+	v.StringUUID("updated_by_id", updatedByExternalId)
 }
 
 // ValidateCreateUserTableRole проверяет запрос на вставку строки dc.user_table_roles.
@@ -31,6 +33,7 @@ func ValidateCreateUserTableRole(req *userdomainrolesv1.CreateUserTableRoleReque
 		req.GetUserId(),
 		req.GetTableRolesId(),
 		req.GetTableId(),
+		req.GetUpdatedByExternalId(),
 	)
 
 	return v.Err()
@@ -53,6 +56,7 @@ func ValidateUpdateUserTableRoleById(req *userdomainrolesv1.UpdateUserTableRoleB
 		req.GetUserId(),
 		req.GetTableRolesId(),
 		req.GetTableId(),
+		req.GetUpdatedByExternalId(),
 	)
 
 	return v.Err()

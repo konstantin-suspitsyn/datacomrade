@@ -4,6 +4,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/repository/tables_model"
 	tablesv1 "github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/tables/v1"
 )
@@ -138,7 +139,7 @@ func TestToCreateDatabaseCatParams(t *testing.T) {
 		HostId:         101,
 		DatabaseTypeId: 102,
 		Description:    "description-0",
-		UserId:         104,
+		UserExternalId: "00000000-0000-4000-8000-000000000005",
 	}
 
 	want := tables_model.CreateDatabaseCatParams{
@@ -146,7 +147,7 @@ func TestToCreateDatabaseCatParams(t *testing.T) {
 		HostID:         101,
 		DatabaseTypeID: 102,
 		Description:    "description-0",
-		UserID:         104,
+		ExternalID:     uuid.MustParse("00000000-0000-4000-8000-000000000005"),
 	}
 
 	if got := ToCreateDatabaseCatParams(req); got != want {
@@ -168,7 +169,7 @@ func TestToUpdateDatabaseCatByIdParams(t *testing.T) {
 		HostId:         102,
 		DatabaseTypeId: 103,
 		Description:    "description-0",
-		UserId:         105,
+		UserExternalId: "00000000-0000-4000-8000-000000000006",
 	}
 
 	want := tables_model.UpdateDatabaseCatByIdParams{
@@ -177,7 +178,7 @@ func TestToUpdateDatabaseCatByIdParams(t *testing.T) {
 		HostID:         102,
 		DatabaseTypeID: 103,
 		Description:    "description-0",
-		UserID:         105,
+		ExternalID:     uuid.MustParse("00000000-0000-4000-8000-000000000006"),
 	}
 
 	if got := ToUpdateDatabaseCatByIdParams(req); got != want {

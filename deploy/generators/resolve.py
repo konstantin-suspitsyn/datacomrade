@@ -25,6 +25,15 @@ class Fail(Exception):
     pass
 
 
+# Соглашение: proto-поле "<col>_external_id" резолвит внешний id через
+# dc.user.external_id в internal id колонки "<col>_id" той же таблицы,
+# вместо прямого bigint-параметра. В query.sql это выглядит как
+# `<col>_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $N)`.
+# sqlc называет такой параметр по колонке сравнения — всегда "ExternalID".
+EXTERNAL_ID_SUFFIX = "_external_id"
+USER_TABLE = "dc.user"
+
+
 def resolve_entity(sqlc, data, block):
     table = block["table"]  # dc.host
     short = table.split(".")[-1]
@@ -117,15 +126,58 @@ def resolve_entity(sqlc, data, block):
     def pair_fields(go_fields, proto_msg, what):
         """Сопоставляет поля Go-структуры с полями proto-сообщения."""
         pfields = {norm(f["field"]): f for f in proto[proto_msg]}
+        used = set()
+
+        def find_proto_field(f):
+            key = norm(f["field"])
+            if key in pfields:
+                return pfields[key]
+            # sqlc называет параметр внешнего id всегда "ExternalID" (по
+            # колонке сравнения u.external_id), а не по имени proto-поля —
+            # ищем среди ещё не занятых "*_external_id" полей proto-сообщения.
+            if f["field"] == "ExternalID" and f["type"] == "uuid.UUID":
+                candidates = [
+                    p
+                    for p in proto[proto_msg]
+                    if (p["proto_name"] or "").endswith(EXTERNAL_ID_SUFFIX)
+                    and norm(p["field"]) not in used
+                ]
+                if len(candidates) == 1:
+                    return candidates[0]
+            return None
+
         paired = []
         for f in go_fields:
-            key = norm(f["field"])
-            if key not in pfields:
+            pf = find_proto_field(f)
+            if pf is None:
                 raise Fail("%s: поле %s.%s не найдено в %s" % (table, what, f["field"], proto_msg))
-            pf = pfields[key]
+            used.add(norm(pf["field"]))
             col = pf["proto_name"]
             if col is None:
                 raise Fail("%s: у поля %s.%s нет имени колонки" % (table, proto_msg, pf["field"]))
+
+            if col.endswith(EXTERNAL_ID_SUFFIX):
+                base_col = col[: -len(EXTERNAL_ID_SUFFIX)] + "_id"
+                if base_col not in schema_cols:
+                    raise Fail(
+                        "%s: %s.%s (%s) подразумевает колонку %s, которой нет в schema.sql"
+                        % (table, proto_msg, pf["field"], col, base_col)
+                    )
+                user_cols = data["schema"].get(USER_TABLE)
+                if not user_cols or "external_id" not in user_cols:
+                    raise Fail("%s: нет %s.external_id для разрешения %s" % (table, USER_TABLE, col))
+                paired.append(
+                    {
+                        "go": f["field"],
+                        "go_type": f["type"],
+                        "proto": pf["field"],
+                        "proto_type": pf["type"],
+                        "col": base_col,
+                        "varchar": schema_cols[base_col]["varchar"],
+                    }
+                )
+                continue
+
             if col not in schema_cols:
                 raise Fail("%s: колонки %s нет в schema.sql" % (table, col))
             paired.append(

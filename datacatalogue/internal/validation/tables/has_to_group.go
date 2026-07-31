@@ -11,12 +11,12 @@ func hasToGroupWritableFields(
 	columnIdA int64,
 	columnIdB int64,
 	description string,
-	userId int64,
+	userExternalId string,
 ) {
 	v.Int64ID("column_id_a", columnIdA)
 	v.Int64ID("column_id_b", columnIdB)
 	v.StringVarchar("description", description, hasToGroupDescriptionMaxLen)
-	v.Int64ID("user_id", userId)
+	v.StringUUID("user_id", userExternalId)
 }
 
 // ValidateCreateHasToGroup проверяет запрос на вставку строки dc.has_to_group.
@@ -33,7 +33,7 @@ func ValidateCreateHasToGroup(req *tablesv1.CreateHasToGroupRequest) error {
 		req.GetColumnIdA(),
 		req.GetColumnIdB(),
 		req.GetDescription(),
-		req.GetUserId(),
+		req.GetUserExternalId(),
 	)
 
 	return v.Err()
@@ -56,7 +56,7 @@ func ValidateUpdateHasToGroupById(req *tablesv1.UpdateHasToGroupByIdRequest) err
 		req.GetColumnIdA(),
 		req.GetColumnIdB(),
 		req.GetDescription(),
-		req.GetUserId(),
+		req.GetUserExternalId(),
 	)
 
 	return v.Err()

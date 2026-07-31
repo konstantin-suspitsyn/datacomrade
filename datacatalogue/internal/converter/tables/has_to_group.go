@@ -39,7 +39,7 @@ func ToCreateHasToGroupParams(req *tablesv1.CreateHasToGroupRequest) tables_mode
 		ColumnIDA:   req.GetColumnIdA(),
 		ColumnIDB:   req.GetColumnIdB(),
 		Description: req.GetDescription(),
-		UserID:      req.GetUserId(),
+		ExternalID:  converter.ProtoToUUID(req.GetUserExternalId()),
 	}
 }
 
@@ -51,6 +51,6 @@ func ToUpdateHasToGroupByIdParams(req *tablesv1.UpdateHasToGroupByIdRequest) tab
 		ColumnIDA:   req.GetColumnIdA(),
 		ColumnIDB:   req.GetColumnIdB(),
 		Description: req.GetDescription(),
-		UserID:      req.GetUserId(),
+		ExternalID:  converter.ProtoToUUID(req.GetUserExternalId()),
 	}
 }

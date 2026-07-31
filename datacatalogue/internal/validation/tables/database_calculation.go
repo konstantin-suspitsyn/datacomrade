@@ -10,11 +10,11 @@ func databaseCalculationWritableFields(
 	v *validator.Validator,
 	databaseCatId int64,
 	calculationTypeId int64,
-	userId int64,
+	userExternalId string,
 ) {
 	v.Int64ID("database_cat_id", databaseCatId)
 	v.Int64ID("calculation_type_id", calculationTypeId)
-	v.Int64ID("user_id", userId)
+	v.StringUUID("user_id", userExternalId)
 }
 
 // ValidateCreateDatabaseCalculation проверяет запрос на вставку строки dc.database_calculation.
@@ -30,7 +30,7 @@ func ValidateCreateDatabaseCalculation(req *tablesv1.CreateDatabaseCalculationRe
 		v,
 		req.GetDatabaseCatId(),
 		req.GetCalculationTypeId(),
-		req.GetUserId(),
+		req.GetUserExternalId(),
 	)
 
 	return v.Err()
@@ -52,7 +52,7 @@ func ValidateUpdateDatabaseCalculationById(req *tablesv1.UpdateDatabaseCalculati
 		v,
 		req.GetDatabaseCatId(),
 		req.GetCalculationTypeId(),
-		req.GetUserId(),
+		req.GetUserExternalId(),
 	)
 
 	return v.Err()

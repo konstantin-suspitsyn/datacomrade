@@ -47,7 +47,7 @@ func ToCreateColumnCatParams(req *tablesv1.CreateColumnCatRequest) tables_model.
 		Description:       req.GetDescription(),
 		CalculationTypeID: req.GetCalculationTypeId(),
 		ShowInUi:          req.GetShowInUi(),
-		UserID:            req.GetUserId(),
+		ExternalID:        converter.ProtoToUUID(req.GetUserExternalId()),
 	}
 }
 
@@ -63,6 +63,6 @@ func ToUpdateColumnCatByIdParams(req *tablesv1.UpdateColumnCatByIdRequest) table
 		Description:       req.GetDescription(),
 		CalculationTypeID: req.GetCalculationTypeId(),
 		ShowInUi:          req.GetShowInUi(),
-		UserID:            req.GetUserId(),
+		ExternalID:        converter.ProtoToUUID(req.GetUserExternalId()),
 	}
 }

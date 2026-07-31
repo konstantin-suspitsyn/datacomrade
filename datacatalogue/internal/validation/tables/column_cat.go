@@ -15,7 +15,7 @@ func columnCatWritableFields(
 	description string,
 	calculationTypeId int64,
 	showInUi bool,
-	userId int64,
+	userExternalId string,
 ) {
 	v.Int64ID("table_id", tableId)
 	v.StringVarchar("name", name, columnCatNameMaxLen)
@@ -23,7 +23,7 @@ func columnCatWritableFields(
 	v.Int64ID("column_type_id", columnTypeId)
 	v.StringVarchar("description", description, columnCatDescriptionMaxLen)
 	v.Int64ID("calculation_type_id", calculationTypeId)
-	v.Int64ID("user_id", userId)
+	v.StringUUID("user_id", userExternalId)
 }
 
 // ValidateCreateColumnCat проверяет запрос на вставку строки dc.column_cat.
@@ -44,7 +44,7 @@ func ValidateCreateColumnCat(req *tablesv1.CreateColumnCatRequest) error {
 		req.GetDescription(),
 		req.GetCalculationTypeId(),
 		req.GetShowInUi(),
-		req.GetUserId(),
+		req.GetUserExternalId(),
 	)
 
 	return v.Err()
@@ -71,7 +71,7 @@ func ValidateUpdateColumnCatById(req *tablesv1.UpdateColumnCatByIdRequest) error
 		req.GetDescription(),
 		req.GetCalculationTypeId(),
 		req.GetShowInUi(),
-		req.GetUserId(),
+		req.GetUserExternalId(),
 	)
 
 	return v.Err()

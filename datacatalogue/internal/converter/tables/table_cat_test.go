@@ -4,6 +4,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/repository/tables_model"
 	tablesv1 "github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/tables/v1"
 )
@@ -144,13 +145,13 @@ func TestTableCatsToProtoKeepsOrder(t *testing.T) {
 
 func TestToCreateTableCatParams(t *testing.T) {
 	req := &tablesv1.CreateTableCatRequest{
-		Name:        "name-0",
-		Description: "description-0",
-		SchemaId:    102,
-		TableTypeId: 103,
-		DomainId:    104,
-		IsGetDict:   true,
-		UserId:      106,
+		Name:           "name-0",
+		Description:    "description-0",
+		SchemaId:       102,
+		TableTypeId:    103,
+		DomainId:       104,
+		IsGetDict:      true,
+		UserExternalId: "00000000-0000-4000-8000-000000000007",
 	}
 
 	want := tables_model.CreateTableCatParams{
@@ -160,7 +161,7 @@ func TestToCreateTableCatParams(t *testing.T) {
 		TableTypeID: 103,
 		DomainID:    104,
 		IsGetDict:   true,
-		UserID:      106,
+		ExternalID:  uuid.MustParse("00000000-0000-4000-8000-000000000007"),
 	}
 
 	if got := ToCreateTableCatParams(req); got != want {
@@ -177,14 +178,14 @@ func TestToCreateTableCatParamsNil(t *testing.T) {
 
 func TestToUpdateTableCatByIdParams(t *testing.T) {
 	req := &tablesv1.UpdateTableCatByIdRequest{
-		Id:          100,
-		Name:        "name-0",
-		Description: "description-0",
-		SchemaId:    103,
-		TableTypeId: 104,
-		DomainId:    105,
-		IsGetDict:   true,
-		UserId:      107,
+		Id:             100,
+		Name:           "name-0",
+		Description:    "description-0",
+		SchemaId:       103,
+		TableTypeId:    104,
+		DomainId:       105,
+		IsGetDict:      true,
+		UserExternalId: "00000000-0000-4000-8000-000000000008",
 	}
 
 	want := tables_model.UpdateTableCatByIdParams{
@@ -195,7 +196,7 @@ func TestToUpdateTableCatByIdParams(t *testing.T) {
 		TableTypeID: 104,
 		DomainID:    105,
 		IsGetDict:   true,
-		UserID:      107,
+		ExternalID:  uuid.MustParse("00000000-0000-4000-8000-000000000008"),
 	}
 
 	if got := ToUpdateTableCatByIdParams(req); got != want {

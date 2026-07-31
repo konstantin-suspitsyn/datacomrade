@@ -37,7 +37,7 @@ func ToCreateColumnTypeParams(req *tablesv1.CreateColumnTypeRequest) tables_mode
 	return tables_model.CreateColumnTypeParams{
 		Name:        req.GetName(),
 		Description: req.GetDescription(),
-		UserID:      req.GetUserId(),
+		ExternalID:  converter.ProtoToUUID(req.GetUserExternalId()),
 	}
 }
 
@@ -48,6 +48,6 @@ func ToUpdateColumnTypeByIdParams(req *tablesv1.UpdateColumnTypeByIdRequest) tab
 		ID:          req.GetId(),
 		Name:        req.GetName(),
 		Description: req.GetDescription(),
-		UserID:      req.GetUserId(),
+		ExternalID:  converter.ProtoToUUID(req.GetUserExternalId()),
 	}
 }

@@ -462,12 +462,12 @@ func (x *GetDeletedAliasesResponse) GetAliases() []*Alias {
 
 // CreateAliasRequest carries the fields needed to insert a dc.alias row (query CreateAlias).
 type CreateAliasRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Description   string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
-	UserId        int64                  `protobuf:"varint,3,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Name           string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Description    string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
+	UserExternalId string                 `protobuf:"bytes,3,opt,name=user_external_id,json=userExternalId,proto3" json:"user_external_id,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *CreateAliasRequest) Reset() {
@@ -514,11 +514,11 @@ func (x *CreateAliasRequest) GetDescription() string {
 	return ""
 }
 
-func (x *CreateAliasRequest) GetUserId() int64 {
+func (x *CreateAliasRequest) GetUserExternalId() string {
 	if x != nil {
-		return x.UserId
+		return x.UserExternalId
 	}
-	return 0
+	return ""
 }
 
 // CreateAliasResponse returns the created dc.alias row (query CreateAlias).
@@ -568,13 +568,13 @@ func (x *CreateAliasResponse) GetAlias() *Alias {
 
 // UpdateAliasByIdRequest carries the fields to update on a dc.alias row (query UpdateAliasById).
 type UpdateAliasByIdRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
-	UserId        int64                  `protobuf:"varint,4,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Id             int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name           string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Description    string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	UserExternalId string                 `protobuf:"bytes,4,opt,name=user_external_id,json=userExternalId,proto3" json:"user_external_id,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *UpdateAliasByIdRequest) Reset() {
@@ -628,11 +628,11 @@ func (x *UpdateAliasByIdRequest) GetDescription() string {
 	return ""
 }
 
-func (x *UpdateAliasByIdRequest) GetUserId() int64 {
+func (x *UpdateAliasByIdRequest) GetUserExternalId() string {
 	if x != nil {
-		return x.UserId
+		return x.UserExternalId
 	}
-	return 0
+	return ""
 }
 
 // UpdateAliasByIdResponse returns the updated dc.alias row (query UpdateAliasById).
@@ -1527,7 +1527,7 @@ type CreateColumnCatRequest struct {
 	Description       string                 `protobuf:"bytes,5,opt,name=description,proto3" json:"description,omitempty"`
 	CalculationTypeId int64                  `protobuf:"varint,6,opt,name=calculation_type_id,json=calculationTypeId,proto3" json:"calculation_type_id,omitempty"`
 	ShowInUi          bool                   `protobuf:"varint,7,opt,name=show_in_ui,json=showInUi,proto3" json:"show_in_ui,omitempty"`
-	UserId            int64                  `protobuf:"varint,8,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	UserExternalId    string                 `protobuf:"bytes,8,opt,name=user_external_id,json=userExternalId,proto3" json:"user_external_id,omitempty"`
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache
 }
@@ -1611,11 +1611,11 @@ func (x *CreateColumnCatRequest) GetShowInUi() bool {
 	return false
 }
 
-func (x *CreateColumnCatRequest) GetUserId() int64 {
+func (x *CreateColumnCatRequest) GetUserExternalId() string {
 	if x != nil {
-		return x.UserId
+		return x.UserExternalId
 	}
-	return 0
+	return ""
 }
 
 // CreateColumnCatResponse returns the created dc.column_cat row (query CreateColumnCat).
@@ -1674,7 +1674,7 @@ type UpdateColumnCatByIdRequest struct {
 	Description       string                 `protobuf:"bytes,6,opt,name=description,proto3" json:"description,omitempty"`
 	CalculationTypeId int64                  `protobuf:"varint,7,opt,name=calculation_type_id,json=calculationTypeId,proto3" json:"calculation_type_id,omitempty"`
 	ShowInUi          bool                   `protobuf:"varint,8,opt,name=show_in_ui,json=showInUi,proto3" json:"show_in_ui,omitempty"`
-	UserId            int64                  `protobuf:"varint,9,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	UserExternalId    string                 `protobuf:"bytes,9,opt,name=user_external_id,json=userExternalId,proto3" json:"user_external_id,omitempty"`
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache
 }
@@ -1765,11 +1765,11 @@ func (x *UpdateColumnCatByIdRequest) GetShowInUi() bool {
 	return false
 }
 
-func (x *UpdateColumnCatByIdRequest) GetUserId() int64 {
+func (x *UpdateColumnCatByIdRequest) GetUserExternalId() string {
 	if x != nil {
-		return x.UserId
+		return x.UserExternalId
 	}
-	return 0
+	return ""
 }
 
 // UpdateColumnCatByIdResponse returns the updated dc.column_cat row (query UpdateColumnCatById).
@@ -2436,12 +2436,12 @@ func (x *GetDeletedColumnTypesResponse) GetColumnTypes() []*ColumnType {
 
 // CreateColumnTypeRequest carries the fields needed to insert a dc.column_type row (query CreateColumnType).
 type CreateColumnTypeRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Description   string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
-	UserId        int64                  `protobuf:"varint,3,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Name           string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Description    string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
+	UserExternalId string                 `protobuf:"bytes,3,opt,name=user_external_id,json=userExternalId,proto3" json:"user_external_id,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *CreateColumnTypeRequest) Reset() {
@@ -2488,11 +2488,11 @@ func (x *CreateColumnTypeRequest) GetDescription() string {
 	return ""
 }
 
-func (x *CreateColumnTypeRequest) GetUserId() int64 {
+func (x *CreateColumnTypeRequest) GetUserExternalId() string {
 	if x != nil {
-		return x.UserId
+		return x.UserExternalId
 	}
-	return 0
+	return ""
 }
 
 // CreateColumnTypeResponse returns the created dc.column_type row (query CreateColumnType).
@@ -2542,13 +2542,13 @@ func (x *CreateColumnTypeResponse) GetColumnType() *ColumnType {
 
 // UpdateColumnTypeByIdRequest carries the fields to update on a dc.column_type row (query UpdateColumnTypeById).
 type UpdateColumnTypeByIdRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
-	UserId        int64                  `protobuf:"varint,4,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Id             int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name           string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Description    string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	UserExternalId string                 `protobuf:"bytes,4,opt,name=user_external_id,json=userExternalId,proto3" json:"user_external_id,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *UpdateColumnTypeByIdRequest) Reset() {
@@ -2602,11 +2602,11 @@ func (x *UpdateColumnTypeByIdRequest) GetDescription() string {
 	return ""
 }
 
-func (x *UpdateColumnTypeByIdRequest) GetUserId() int64 {
+func (x *UpdateColumnTypeByIdRequest) GetUserExternalId() string {
 	if x != nil {
-		return x.UserId
+		return x.UserExternalId
 	}
-	return 0
+	return ""
 }
 
 // UpdateColumnTypeByIdResponse returns the updated dc.column_type row (query UpdateColumnTypeById).
@@ -4089,7 +4089,7 @@ type CreateDatabaseCalculationRequest struct {
 	state             protoimpl.MessageState `protogen:"open.v1"`
 	DatabaseCatId     int64                  `protobuf:"varint,1,opt,name=database_cat_id,json=databaseCatId,proto3" json:"database_cat_id,omitempty"`
 	CalculationTypeId int64                  `protobuf:"varint,2,opt,name=calculation_type_id,json=calculationTypeId,proto3" json:"calculation_type_id,omitempty"`
-	UserId            int64                  `protobuf:"varint,3,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	UserExternalId    string                 `protobuf:"bytes,3,opt,name=user_external_id,json=userExternalId,proto3" json:"user_external_id,omitempty"`
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache
 }
@@ -4138,11 +4138,11 @@ func (x *CreateDatabaseCalculationRequest) GetCalculationTypeId() int64 {
 	return 0
 }
 
-func (x *CreateDatabaseCalculationRequest) GetUserId() int64 {
+func (x *CreateDatabaseCalculationRequest) GetUserExternalId() string {
 	if x != nil {
-		return x.UserId
+		return x.UserExternalId
 	}
-	return 0
+	return ""
 }
 
 // CreateDatabaseCalculationResponse returns the created dc.database_calculation row (query CreateDatabaseCalculation).
@@ -4196,7 +4196,7 @@ type UpdateDatabaseCalculationByIdRequest struct {
 	Id                int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	DatabaseCatId     int64                  `protobuf:"varint,2,opt,name=database_cat_id,json=databaseCatId,proto3" json:"database_cat_id,omitempty"`
 	CalculationTypeId int64                  `protobuf:"varint,3,opt,name=calculation_type_id,json=calculationTypeId,proto3" json:"calculation_type_id,omitempty"`
-	UserId            int64                  `protobuf:"varint,4,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	UserExternalId    string                 `protobuf:"bytes,4,opt,name=user_external_id,json=userExternalId,proto3" json:"user_external_id,omitempty"`
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache
 }
@@ -4252,11 +4252,11 @@ func (x *UpdateDatabaseCalculationByIdRequest) GetCalculationTypeId() int64 {
 	return 0
 }
 
-func (x *UpdateDatabaseCalculationByIdRequest) GetUserId() int64 {
+func (x *UpdateDatabaseCalculationByIdRequest) GetUserExternalId() string {
 	if x != nil {
-		return x.UserId
+		return x.UserExternalId
 	}
-	return 0
+	return ""
 }
 
 // UpdateDatabaseCalculationByIdResponse returns the updated dc.database_calculation row (query UpdateDatabaseCalculationById).
@@ -5124,7 +5124,7 @@ type CreateDatabaseCatRequest struct {
 	HostId         int64                  `protobuf:"varint,2,opt,name=host_id,json=hostId,proto3" json:"host_id,omitempty"`
 	DatabaseTypeId int64                  `protobuf:"varint,3,opt,name=database_type_id,json=databaseTypeId,proto3" json:"database_type_id,omitempty"`
 	Description    string                 `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
-	UserId         int64                  `protobuf:"varint,5,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	UserExternalId string                 `protobuf:"bytes,5,opt,name=user_external_id,json=userExternalId,proto3" json:"user_external_id,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -5187,11 +5187,11 @@ func (x *CreateDatabaseCatRequest) GetDescription() string {
 	return ""
 }
 
-func (x *CreateDatabaseCatRequest) GetUserId() int64 {
+func (x *CreateDatabaseCatRequest) GetUserExternalId() string {
 	if x != nil {
-		return x.UserId
+		return x.UserExternalId
 	}
-	return 0
+	return ""
 }
 
 // CreateDatabaseCatResponse returns the created dc.database_cat row (query CreateDatabaseCat).
@@ -5247,7 +5247,7 @@ type UpdateDatabaseCatByIdRequest struct {
 	HostId         int64                  `protobuf:"varint,3,opt,name=host_id,json=hostId,proto3" json:"host_id,omitempty"`
 	DatabaseTypeId int64                  `protobuf:"varint,4,opt,name=database_type_id,json=databaseTypeId,proto3" json:"database_type_id,omitempty"`
 	Description    string                 `protobuf:"bytes,5,opt,name=description,proto3" json:"description,omitempty"`
-	UserId         int64                  `protobuf:"varint,6,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	UserExternalId string                 `protobuf:"bytes,6,opt,name=user_external_id,json=userExternalId,proto3" json:"user_external_id,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -5317,11 +5317,11 @@ func (x *UpdateDatabaseCatByIdRequest) GetDescription() string {
 	return ""
 }
 
-func (x *UpdateDatabaseCatByIdRequest) GetUserId() int64 {
+func (x *UpdateDatabaseCatByIdRequest) GetUserExternalId() string {
 	if x != nil {
-		return x.UserId
+		return x.UserExternalId
 	}
-	return 0
+	return ""
 }
 
 // UpdateDatabaseCatByIdResponse returns the updated dc.database_cat row (query UpdateDatabaseCatById).
@@ -5988,12 +5988,12 @@ func (x *GetDeletedDatabaseTypesResponse) GetDatabaseTypes() []*DatabaseType {
 
 // CreateDatabaseTypeRequest carries the fields needed to insert a dc.database_type row (query CreateDatabaseType).
 type CreateDatabaseTypeRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	DbVersion     string                 `protobuf:"bytes,2,opt,name=db_version,json=dbVersion,proto3" json:"db_version,omitempty"`
-	UserId        int64                  `protobuf:"varint,3,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Name           string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	DbVersion      string                 `protobuf:"bytes,2,opt,name=db_version,json=dbVersion,proto3" json:"db_version,omitempty"`
+	UserExternalId string                 `protobuf:"bytes,3,opt,name=user_external_id,json=userExternalId,proto3" json:"user_external_id,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *CreateDatabaseTypeRequest) Reset() {
@@ -6040,11 +6040,11 @@ func (x *CreateDatabaseTypeRequest) GetDbVersion() string {
 	return ""
 }
 
-func (x *CreateDatabaseTypeRequest) GetUserId() int64 {
+func (x *CreateDatabaseTypeRequest) GetUserExternalId() string {
 	if x != nil {
-		return x.UserId
+		return x.UserExternalId
 	}
-	return 0
+	return ""
 }
 
 // CreateDatabaseTypeResponse returns the created dc.database_type row (query CreateDatabaseType).
@@ -6094,13 +6094,13 @@ func (x *CreateDatabaseTypeResponse) GetDatabaseType() *DatabaseType {
 
 // UpdateDatabaseTypeByIdRequest carries the fields to update on a dc.database_type row (query UpdateDatabaseTypeById).
 type UpdateDatabaseTypeByIdRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	DbVersion     string                 `protobuf:"bytes,3,opt,name=db_version,json=dbVersion,proto3" json:"db_version,omitempty"`
-	UserId        int64                  `protobuf:"varint,4,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Id             int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name           string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	DbVersion      string                 `protobuf:"bytes,3,opt,name=db_version,json=dbVersion,proto3" json:"db_version,omitempty"`
+	UserExternalId string                 `protobuf:"bytes,4,opt,name=user_external_id,json=userExternalId,proto3" json:"user_external_id,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *UpdateDatabaseTypeByIdRequest) Reset() {
@@ -6154,11 +6154,11 @@ func (x *UpdateDatabaseTypeByIdRequest) GetDbVersion() string {
 	return ""
 }
 
-func (x *UpdateDatabaseTypeByIdRequest) GetUserId() int64 {
+func (x *UpdateDatabaseTypeByIdRequest) GetUserExternalId() string {
 	if x != nil {
-		return x.UserId
+		return x.UserExternalId
 	}
-	return 0
+	return ""
 }
 
 // UpdateDatabaseTypeByIdResponse returns the updated dc.database_type row (query UpdateDatabaseTypeById).
@@ -6817,11 +6817,11 @@ func (x *GetDeletedDomainCatsResponse) GetDomainCats() []*DomainCat {
 
 // CreateDomainCatRequest carries the fields needed to insert a dc.domain_cat row (query CreateDomainCat).
 type CreateDomainCatRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	DomainName    string                 `protobuf:"bytes,1,opt,name=domain_name,json=domainName,proto3" json:"domain_name,omitempty"`
-	UserId        int64                  `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	DomainName     string                 `protobuf:"bytes,1,opt,name=domain_name,json=domainName,proto3" json:"domain_name,omitempty"`
+	UserExternalId string                 `protobuf:"bytes,2,opt,name=user_external_id,json=userExternalId,proto3" json:"user_external_id,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *CreateDomainCatRequest) Reset() {
@@ -6861,11 +6861,11 @@ func (x *CreateDomainCatRequest) GetDomainName() string {
 	return ""
 }
 
-func (x *CreateDomainCatRequest) GetUserId() int64 {
+func (x *CreateDomainCatRequest) GetUserExternalId() string {
 	if x != nil {
-		return x.UserId
+		return x.UserExternalId
 	}
-	return 0
+	return ""
 }
 
 // CreateDomainCatResponse returns the created dc.domain_cat row (query CreateDomainCat).
@@ -6915,12 +6915,12 @@ func (x *CreateDomainCatResponse) GetDomainCat() *DomainCat {
 
 // UpdateDomainCatByIdRequest carries the fields to update on a dc.domain_cat row (query UpdateDomainCatById).
 type UpdateDomainCatByIdRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	DomainName    string                 `protobuf:"bytes,2,opt,name=domain_name,json=domainName,proto3" json:"domain_name,omitempty"`
-	UserId        int64                  `protobuf:"varint,3,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Id             int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	DomainName     string                 `protobuf:"bytes,2,opt,name=domain_name,json=domainName,proto3" json:"domain_name,omitempty"`
+	UserExternalId string                 `protobuf:"bytes,3,opt,name=user_external_id,json=userExternalId,proto3" json:"user_external_id,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *UpdateDomainCatByIdRequest) Reset() {
@@ -6967,11 +6967,11 @@ func (x *UpdateDomainCatByIdRequest) GetDomainName() string {
 	return ""
 }
 
-func (x *UpdateDomainCatByIdRequest) GetUserId() int64 {
+func (x *UpdateDomainCatByIdRequest) GetUserExternalId() string {
 	if x != nil {
-		return x.UserId
+		return x.UserExternalId
 	}
-	return 0
+	return ""
 }
 
 // UpdateDomainCatByIdResponse returns the updated dc.domain_cat row (query UpdateDomainCatById).
@@ -7641,7 +7641,7 @@ type CreateFollowingCalculationRequest struct {
 	state             protoimpl.MessageState `protogen:"open.v1"`
 	ColumnCatId       int64                  `protobuf:"varint,1,opt,name=column_cat_id,json=columnCatId,proto3" json:"column_cat_id,omitempty"`
 	CalculationTypeId int64                  `protobuf:"varint,2,opt,name=calculation_type_id,json=calculationTypeId,proto3" json:"calculation_type_id,omitempty"`
-	UserId            int64                  `protobuf:"varint,3,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	UserExternalId    string                 `protobuf:"bytes,3,opt,name=user_external_id,json=userExternalId,proto3" json:"user_external_id,omitempty"`
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache
 }
@@ -7690,11 +7690,11 @@ func (x *CreateFollowingCalculationRequest) GetCalculationTypeId() int64 {
 	return 0
 }
 
-func (x *CreateFollowingCalculationRequest) GetUserId() int64 {
+func (x *CreateFollowingCalculationRequest) GetUserExternalId() string {
 	if x != nil {
-		return x.UserId
+		return x.UserExternalId
 	}
-	return 0
+	return ""
 }
 
 // CreateFollowingCalculationResponse returns the created dc.following_calculation row (query CreateFollowingCalculation).
@@ -7748,7 +7748,7 @@ type UpdateFollowingCalculationByIdRequest struct {
 	Id                int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	ColumnCatId       int64                  `protobuf:"varint,2,opt,name=column_cat_id,json=columnCatId,proto3" json:"column_cat_id,omitempty"`
 	CalculationTypeId int64                  `protobuf:"varint,3,opt,name=calculation_type_id,json=calculationTypeId,proto3" json:"calculation_type_id,omitempty"`
-	UserId            int64                  `protobuf:"varint,4,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	UserExternalId    string                 `protobuf:"bytes,4,opt,name=user_external_id,json=userExternalId,proto3" json:"user_external_id,omitempty"`
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache
 }
@@ -7804,11 +7804,11 @@ func (x *UpdateFollowingCalculationByIdRequest) GetCalculationTypeId() int64 {
 	return 0
 }
 
-func (x *UpdateFollowingCalculationByIdRequest) GetUserId() int64 {
+func (x *UpdateFollowingCalculationByIdRequest) GetUserExternalId() string {
 	if x != nil {
-		return x.UserId
+		return x.UserExternalId
 	}
-	return 0
+	return ""
 }
 
 // UpdateFollowingCalculationByIdResponse returns the updated dc.following_calculation row (query UpdateFollowingCalculationById).
@@ -8496,7 +8496,7 @@ type CreateGroupLevelRequest struct {
 	ParentColumnId int64                  `protobuf:"varint,2,opt,name=parent_column_id,json=parentColumnId,proto3" json:"parent_column_id,omitempty"`
 	Level          int32                  `protobuf:"varint,3,opt,name=level,proto3" json:"level,omitempty"`
 	Description    string                 `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
-	UserId         int64                  `protobuf:"varint,5,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	UserExternalId string                 `protobuf:"bytes,5,opt,name=user_external_id,json=userExternalId,proto3" json:"user_external_id,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -8559,11 +8559,11 @@ func (x *CreateGroupLevelRequest) GetDescription() string {
 	return ""
 }
 
-func (x *CreateGroupLevelRequest) GetUserId() int64 {
+func (x *CreateGroupLevelRequest) GetUserExternalId() string {
 	if x != nil {
-		return x.UserId
+		return x.UserExternalId
 	}
-	return 0
+	return ""
 }
 
 // CreateGroupLevelResponse returns the created dc.group_levels row (query CreateGroupLevel).
@@ -8619,7 +8619,7 @@ type UpdateGroupLevelByIdRequest struct {
 	ParentColumnId int64                  `protobuf:"varint,3,opt,name=parent_column_id,json=parentColumnId,proto3" json:"parent_column_id,omitempty"`
 	Level          int32                  `protobuf:"varint,4,opt,name=level,proto3" json:"level,omitempty"`
 	Description    string                 `protobuf:"bytes,5,opt,name=description,proto3" json:"description,omitempty"`
-	UserId         int64                  `protobuf:"varint,6,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	UserExternalId string                 `protobuf:"bytes,6,opt,name=user_external_id,json=userExternalId,proto3" json:"user_external_id,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -8689,11 +8689,11 @@ func (x *UpdateGroupLevelByIdRequest) GetDescription() string {
 	return ""
 }
 
-func (x *UpdateGroupLevelByIdRequest) GetUserId() int64 {
+func (x *UpdateGroupLevelByIdRequest) GetUserExternalId() string {
 	if x != nil {
-		return x.UserId
+		return x.UserExternalId
 	}
-	return 0
+	return ""
 }
 
 // UpdateGroupLevelByIdResponse returns the updated dc.group_levels row (query UpdateGroupLevelById).
@@ -9368,13 +9368,13 @@ func (x *GetDeletedHasToGroupsResponse) GetHasToGroups() []*HasToGroup {
 
 // CreateHasToGroupRequest carries the fields needed to insert a dc.has_to_group row (query CreateHasToGroup).
 type CreateHasToGroupRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	ColumnIdA     int64                  `protobuf:"varint,1,opt,name=column_id_a,json=columnIdA,proto3" json:"column_id_a,omitempty"`
-	ColumnIdB     int64                  `protobuf:"varint,2,opt,name=column_id_b,json=columnIdB,proto3" json:"column_id_b,omitempty"`
-	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
-	UserId        int64                  `protobuf:"varint,4,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	ColumnIdA      int64                  `protobuf:"varint,1,opt,name=column_id_a,json=columnIdA,proto3" json:"column_id_a,omitempty"`
+	ColumnIdB      int64                  `protobuf:"varint,2,opt,name=column_id_b,json=columnIdB,proto3" json:"column_id_b,omitempty"`
+	Description    string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	UserExternalId string                 `protobuf:"bytes,4,opt,name=user_external_id,json=userExternalId,proto3" json:"user_external_id,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *CreateHasToGroupRequest) Reset() {
@@ -9428,11 +9428,11 @@ func (x *CreateHasToGroupRequest) GetDescription() string {
 	return ""
 }
 
-func (x *CreateHasToGroupRequest) GetUserId() int64 {
+func (x *CreateHasToGroupRequest) GetUserExternalId() string {
 	if x != nil {
-		return x.UserId
+		return x.UserExternalId
 	}
-	return 0
+	return ""
 }
 
 // CreateHasToGroupResponse returns the created dc.has_to_group row (query CreateHasToGroup).
@@ -9482,14 +9482,14 @@ func (x *CreateHasToGroupResponse) GetHasToGroup() *HasToGroup {
 
 // UpdateHasToGroupByIdRequest carries the fields to update on a dc.has_to_group row (query UpdateHasToGroupById).
 type UpdateHasToGroupByIdRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	ColumnIdA     int64                  `protobuf:"varint,2,opt,name=column_id_a,json=columnIdA,proto3" json:"column_id_a,omitempty"`
-	ColumnIdB     int64                  `protobuf:"varint,3,opt,name=column_id_b,json=columnIdB,proto3" json:"column_id_b,omitempty"`
-	Description   string                 `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
-	UserId        int64                  `protobuf:"varint,5,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Id             int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	ColumnIdA      int64                  `protobuf:"varint,2,opt,name=column_id_a,json=columnIdA,proto3" json:"column_id_a,omitempty"`
+	ColumnIdB      int64                  `protobuf:"varint,3,opt,name=column_id_b,json=columnIdB,proto3" json:"column_id_b,omitempty"`
+	Description    string                 `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
+	UserExternalId string                 `protobuf:"bytes,5,opt,name=user_external_id,json=userExternalId,proto3" json:"user_external_id,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *UpdateHasToGroupByIdRequest) Reset() {
@@ -9550,11 +9550,11 @@ func (x *UpdateHasToGroupByIdRequest) GetDescription() string {
 	return ""
 }
 
-func (x *UpdateHasToGroupByIdRequest) GetUserId() int64 {
+func (x *UpdateHasToGroupByIdRequest) GetUserExternalId() string {
 	if x != nil {
-		return x.UserId
+		return x.UserExternalId
 	}
-	return 0
+	return ""
 }
 
 // UpdateHasToGroupByIdResponse returns the updated dc.has_to_group row (query UpdateHasToGroupById).
@@ -10253,16 +10253,16 @@ func (x *GetDeletedHostsResponse) GetHosts() []*Host {
 
 // CreateHostRequest carries the fields needed to insert a dc.host row (query CreateHost).
 type CreateHostRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Description   string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
-	HostEnv       string                 `protobuf:"bytes,3,opt,name=host_env,json=hostEnv,proto3" json:"host_env,omitempty"`
-	PortEnv       string                 `protobuf:"bytes,4,opt,name=port_env,json=portEnv,proto3" json:"port_env,omitempty"`
-	UsernameEnv   string                 `protobuf:"bytes,5,opt,name=username_env,json=usernameEnv,proto3" json:"username_env,omitempty"`
-	PasswordEnv   string                 `protobuf:"bytes,6,opt,name=password_env,json=passwordEnv,proto3" json:"password_env,omitempty"`
-	UserId        int64                  `protobuf:"varint,7,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Name           string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Description    string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
+	HostEnv        string                 `protobuf:"bytes,3,opt,name=host_env,json=hostEnv,proto3" json:"host_env,omitempty"`
+	PortEnv        string                 `protobuf:"bytes,4,opt,name=port_env,json=portEnv,proto3" json:"port_env,omitempty"`
+	UsernameEnv    string                 `protobuf:"bytes,5,opt,name=username_env,json=usernameEnv,proto3" json:"username_env,omitempty"`
+	PasswordEnv    string                 `protobuf:"bytes,6,opt,name=password_env,json=passwordEnv,proto3" json:"password_env,omitempty"`
+	UserExternalId string                 `protobuf:"bytes,7,opt,name=user_external_id,json=userExternalId,proto3" json:"user_external_id,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *CreateHostRequest) Reset() {
@@ -10337,11 +10337,11 @@ func (x *CreateHostRequest) GetPasswordEnv() string {
 	return ""
 }
 
-func (x *CreateHostRequest) GetUserId() int64 {
+func (x *CreateHostRequest) GetUserExternalId() string {
 	if x != nil {
-		return x.UserId
+		return x.UserExternalId
 	}
-	return 0
+	return ""
 }
 
 // CreateHostResponse returns the created dc.host row (query CreateHost).
@@ -10391,17 +10391,17 @@ func (x *CreateHostResponse) GetHost() *Host {
 
 // UpdateHostByIdRequest carries the fields to update on a dc.host row (query UpdateHostById).
 type UpdateHostByIdRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
-	HostEnv       string                 `protobuf:"bytes,4,opt,name=host_env,json=hostEnv,proto3" json:"host_env,omitempty"`
-	PortEnv       string                 `protobuf:"bytes,5,opt,name=port_env,json=portEnv,proto3" json:"port_env,omitempty"`
-	UsernameEnv   string                 `protobuf:"bytes,6,opt,name=username_env,json=usernameEnv,proto3" json:"username_env,omitempty"`
-	PasswordEnv   string                 `protobuf:"bytes,7,opt,name=password_env,json=passwordEnv,proto3" json:"password_env,omitempty"`
-	UserId        int64                  `protobuf:"varint,8,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Id             int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name           string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Description    string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	HostEnv        string                 `protobuf:"bytes,4,opt,name=host_env,json=hostEnv,proto3" json:"host_env,omitempty"`
+	PortEnv        string                 `protobuf:"bytes,5,opt,name=port_env,json=portEnv,proto3" json:"port_env,omitempty"`
+	UsernameEnv    string                 `protobuf:"bytes,6,opt,name=username_env,json=usernameEnv,proto3" json:"username_env,omitempty"`
+	PasswordEnv    string                 `protobuf:"bytes,7,opt,name=password_env,json=passwordEnv,proto3" json:"password_env,omitempty"`
+	UserExternalId string                 `protobuf:"bytes,8,opt,name=user_external_id,json=userExternalId,proto3" json:"user_external_id,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *UpdateHostByIdRequest) Reset() {
@@ -10483,11 +10483,11 @@ func (x *UpdateHostByIdRequest) GetPasswordEnv() string {
 	return ""
 }
 
-func (x *UpdateHostByIdRequest) GetUserId() int64 {
+func (x *UpdateHostByIdRequest) GetUserExternalId() string {
 	if x != nil {
-		return x.UserId
+		return x.UserExternalId
 	}
-	return 0
+	return ""
 }
 
 // UpdateHostByIdResponse returns the updated dc.host row (query UpdateHostById).
@@ -11244,12 +11244,12 @@ func (x *GetSchemaCatsByDatabaseIdResponse) GetSchemaCats() []*SchemaCat {
 
 // CreateSchemaCatRequest carries the fields needed to insert a dc.schema_cat row (query CreateSchemaCat).
 type CreateSchemaCatRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	DatabaseId    int64                  `protobuf:"varint,1,opt,name=database_id,json=databaseId,proto3" json:"database_id,omitempty"`
-	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	UserId        int64                  `protobuf:"varint,3,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	DatabaseId     int64                  `protobuf:"varint,1,opt,name=database_id,json=databaseId,proto3" json:"database_id,omitempty"`
+	Name           string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	UserExternalId string                 `protobuf:"bytes,3,opt,name=user_external_id,json=userExternalId,proto3" json:"user_external_id,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *CreateSchemaCatRequest) Reset() {
@@ -11296,11 +11296,11 @@ func (x *CreateSchemaCatRequest) GetName() string {
 	return ""
 }
 
-func (x *CreateSchemaCatRequest) GetUserId() int64 {
+func (x *CreateSchemaCatRequest) GetUserExternalId() string {
 	if x != nil {
-		return x.UserId
+		return x.UserExternalId
 	}
-	return 0
+	return ""
 }
 
 // CreateSchemaCatResponse returns the created dc.schema_cat row (query CreateSchemaCat).
@@ -11350,13 +11350,13 @@ func (x *CreateSchemaCatResponse) GetSchemaCat() *SchemaCat {
 
 // UpdateSchemaCatByIdRequest carries the fields to update on a dc.schema_cat row (query UpdateSchemaCatById).
 type UpdateSchemaCatByIdRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	DatabaseId    int64                  `protobuf:"varint,2,opt,name=database_id,json=databaseId,proto3" json:"database_id,omitempty"`
-	Name          string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
-	UserId        int64                  `protobuf:"varint,4,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Id             int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	DatabaseId     int64                  `protobuf:"varint,2,opt,name=database_id,json=databaseId,proto3" json:"database_id,omitempty"`
+	Name           string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
+	UserExternalId string                 `protobuf:"bytes,4,opt,name=user_external_id,json=userExternalId,proto3" json:"user_external_id,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *UpdateSchemaCatByIdRequest) Reset() {
@@ -11410,11 +11410,11 @@ func (x *UpdateSchemaCatByIdRequest) GetName() string {
 	return ""
 }
 
-func (x *UpdateSchemaCatByIdRequest) GetUserId() int64 {
+func (x *UpdateSchemaCatByIdRequest) GetUserExternalId() string {
 	if x != nil {
-		return x.UserId
+		return x.UserExternalId
 	}
-	return 0
+	return ""
 }
 
 // UpdateSchemaCatByIdResponse returns the updated dc.schema_cat row (query UpdateSchemaCatById).
@@ -12383,16 +12383,16 @@ func (x *GetTableCatsByDomainIdResponse) GetTableCats() []*TableCat {
 
 // CreateTableCatRequest carries the fields needed to insert a dc.table_cat row (query CreateTableCat).
 type CreateTableCatRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Description   string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
-	SchemaId      int64                  `protobuf:"varint,3,opt,name=schema_id,json=schemaId,proto3" json:"schema_id,omitempty"`
-	TableTypeId   int64                  `protobuf:"varint,4,opt,name=table_type_id,json=tableTypeId,proto3" json:"table_type_id,omitempty"`
-	DomainId      int64                  `protobuf:"varint,5,opt,name=domain_id,json=domainId,proto3" json:"domain_id,omitempty"`
-	IsGetDict     bool                   `protobuf:"varint,6,opt,name=is_get_dict,json=isGetDict,proto3" json:"is_get_dict,omitempty"`
-	UserId        int64                  `protobuf:"varint,7,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Name           string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Description    string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
+	SchemaId       int64                  `protobuf:"varint,3,opt,name=schema_id,json=schemaId,proto3" json:"schema_id,omitempty"`
+	TableTypeId    int64                  `protobuf:"varint,4,opt,name=table_type_id,json=tableTypeId,proto3" json:"table_type_id,omitempty"`
+	DomainId       int64                  `protobuf:"varint,5,opt,name=domain_id,json=domainId,proto3" json:"domain_id,omitempty"`
+	IsGetDict      bool                   `protobuf:"varint,6,opt,name=is_get_dict,json=isGetDict,proto3" json:"is_get_dict,omitempty"`
+	UserExternalId string                 `protobuf:"bytes,7,opt,name=user_external_id,json=userExternalId,proto3" json:"user_external_id,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *CreateTableCatRequest) Reset() {
@@ -12467,11 +12467,11 @@ func (x *CreateTableCatRequest) GetIsGetDict() bool {
 	return false
 }
 
-func (x *CreateTableCatRequest) GetUserId() int64 {
+func (x *CreateTableCatRequest) GetUserExternalId() string {
 	if x != nil {
-		return x.UserId
+		return x.UserExternalId
 	}
-	return 0
+	return ""
 }
 
 // CreateTableCatResponse returns the created dc.table_cat row (query CreateTableCat).
@@ -12521,17 +12521,17 @@ func (x *CreateTableCatResponse) GetTableCat() *TableCat {
 
 // UpdateTableCatByIdRequest carries the fields to update on a dc.table_cat row (query UpdateTableCatById).
 type UpdateTableCatByIdRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
-	SchemaId      int64                  `protobuf:"varint,4,opt,name=schema_id,json=schemaId,proto3" json:"schema_id,omitempty"`
-	TableTypeId   int64                  `protobuf:"varint,5,opt,name=table_type_id,json=tableTypeId,proto3" json:"table_type_id,omitempty"`
-	DomainId      int64                  `protobuf:"varint,6,opt,name=domain_id,json=domainId,proto3" json:"domain_id,omitempty"`
-	IsGetDict     bool                   `protobuf:"varint,7,opt,name=is_get_dict,json=isGetDict,proto3" json:"is_get_dict,omitempty"`
-	UserId        int64                  `protobuf:"varint,8,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Id             int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name           string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Description    string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	SchemaId       int64                  `protobuf:"varint,4,opt,name=schema_id,json=schemaId,proto3" json:"schema_id,omitempty"`
+	TableTypeId    int64                  `protobuf:"varint,5,opt,name=table_type_id,json=tableTypeId,proto3" json:"table_type_id,omitempty"`
+	DomainId       int64                  `protobuf:"varint,6,opt,name=domain_id,json=domainId,proto3" json:"domain_id,omitempty"`
+	IsGetDict      bool                   `protobuf:"varint,7,opt,name=is_get_dict,json=isGetDict,proto3" json:"is_get_dict,omitempty"`
+	UserExternalId string                 `protobuf:"bytes,8,opt,name=user_external_id,json=userExternalId,proto3" json:"user_external_id,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *UpdateTableCatByIdRequest) Reset() {
@@ -12613,11 +12613,11 @@ func (x *UpdateTableCatByIdRequest) GetIsGetDict() bool {
 	return false
 }
 
-func (x *UpdateTableCatByIdRequest) GetUserId() int64 {
+func (x *UpdateTableCatByIdRequest) GetUserExternalId() string {
 	if x != nil {
-		return x.UserId
+		return x.UserExternalId
 	}
-	return 0
+	return ""
 }
 
 // UpdateTableCatByIdResponse returns the updated dc.table_cat row (query UpdateTableCatById).
@@ -13284,12 +13284,12 @@ func (x *GetDeletedTableTypesResponse) GetTableTypes() []*TableType {
 
 // CreateTableTypeRequest carries the fields needed to insert a dc.table_type row (query CreateTableType).
 type CreateTableTypeRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Description   string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
-	UserId        int64                  `protobuf:"varint,3,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Name           string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Description    string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
+	UserExternalId string                 `protobuf:"bytes,3,opt,name=user_external_id,json=userExternalId,proto3" json:"user_external_id,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *CreateTableTypeRequest) Reset() {
@@ -13336,11 +13336,11 @@ func (x *CreateTableTypeRequest) GetDescription() string {
 	return ""
 }
 
-func (x *CreateTableTypeRequest) GetUserId() int64 {
+func (x *CreateTableTypeRequest) GetUserExternalId() string {
 	if x != nil {
-		return x.UserId
+		return x.UserExternalId
 	}
-	return 0
+	return ""
 }
 
 // CreateTableTypeResponse returns the created dc.table_type row (query CreateTableType).
@@ -13390,13 +13390,13 @@ func (x *CreateTableTypeResponse) GetTableType() *TableType {
 
 // UpdateTableTypeByIdRequest carries the fields to update on a dc.table_type row (query UpdateTableTypeById).
 type UpdateTableTypeByIdRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
-	UserId        int64                  `protobuf:"varint,4,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Id             int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name           string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Description    string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	UserExternalId string                 `protobuf:"bytes,4,opt,name=user_external_id,json=userExternalId,proto3" json:"user_external_id,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *UpdateTableTypeByIdRequest) Reset() {
@@ -13450,11 +13450,11 @@ func (x *UpdateTableTypeByIdRequest) GetDescription() string {
 	return ""
 }
 
-func (x *UpdateTableTypeByIdRequest) GetUserId() int64 {
+func (x *UpdateTableTypeByIdRequest) GetUserExternalId() string {
 	if x != nil {
-		return x.UserId
+		return x.UserExternalId
 	}
-	return 0
+	return ""
 }
 
 // UpdateTableTypeByIdResponse returns the updated dc.table_type row (query UpdateTableTypeById).
@@ -13711,18 +13711,18 @@ const file_tables_v1_tables_proto_rawDesc = "" +
 	"\x05alias\x18\x01 \x01(\v2\x10.tables.v1.AliasR\x05alias\"\x1a\n" +
 	"\x18GetDeletedAliasesRequest\"G\n" +
 	"\x19GetDeletedAliasesResponse\x12*\n" +
-	"\aaliases\x18\x01 \x03(\v2\x10.tables.v1.AliasR\aaliases\"c\n" +
+	"\aaliases\x18\x01 \x03(\v2\x10.tables.v1.AliasR\aaliases\"t\n" +
 	"\x12CreateAliasRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12 \n" +
-	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x17\n" +
-	"\auser_id\x18\x03 \x01(\x03R\x06userId\"=\n" +
+	"\vdescription\x18\x02 \x01(\tR\vdescription\x12(\n" +
+	"\x10user_external_id\x18\x03 \x01(\tR\x0euserExternalId\"=\n" +
 	"\x13CreateAliasResponse\x12&\n" +
-	"\x05alias\x18\x01 \x01(\v2\x10.tables.v1.AliasR\x05alias\"w\n" +
+	"\x05alias\x18\x01 \x01(\v2\x10.tables.v1.AliasR\x05alias\"\x88\x01\n" +
 	"\x16UpdateAliasByIdRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
-	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x17\n" +
-	"\auser_id\x18\x04 \x01(\x03R\x06userId\"A\n" +
+	"\vdescription\x18\x03 \x01(\tR\vdescription\x12(\n" +
+	"\x10user_external_id\x18\x04 \x01(\tR\x0euserExternalId\"A\n" +
 	"\x17UpdateAliasByIdResponse\x12&\n" +
 	"\x05alias\x18\x01 \x01(\v2\x10.tables.v1.AliasR\x05alias\"(\n" +
 	"\x16DeleteAliasByIdRequest\x12\x0e\n" +
@@ -13778,7 +13778,7 @@ const file_tables_v1_tables_proto_rawDesc = "" +
 	"\balias_id\x18\x01 \x01(\x03R\aaliasId\"W\n" +
 	"\x1eGetColumnCatsByAliasIdResponse\x125\n" +
 	"\vcolumn_cats\x18\x01 \x03(\v2\x14.tables.v1.ColumnCatR\n" +
-	"columnCats\"\x91\x02\n" +
+	"columnCats\"\xa2\x02\n" +
 	"\x16CreateColumnCatRequest\x12\x19\n" +
 	"\btable_id\x18\x01 \x01(\x03R\atableId\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x19\n" +
@@ -13787,11 +13787,11 @@ const file_tables_v1_tables_proto_rawDesc = "" +
 	"\vdescription\x18\x05 \x01(\tR\vdescription\x12.\n" +
 	"\x13calculation_type_id\x18\x06 \x01(\x03R\x11calculationTypeId\x12\x1c\n" +
 	"\n" +
-	"show_in_ui\x18\a \x01(\bR\bshowInUi\x12\x17\n" +
-	"\auser_id\x18\b \x01(\x03R\x06userId\"N\n" +
+	"show_in_ui\x18\a \x01(\bR\bshowInUi\x12(\n" +
+	"\x10user_external_id\x18\b \x01(\tR\x0euserExternalId\"N\n" +
 	"\x17CreateColumnCatResponse\x123\n" +
 	"\n" +
-	"column_cat\x18\x01 \x01(\v2\x14.tables.v1.ColumnCatR\tcolumnCat\"\xa5\x02\n" +
+	"column_cat\x18\x01 \x01(\v2\x14.tables.v1.ColumnCatR\tcolumnCat\"\xb6\x02\n" +
 	"\x1aUpdateColumnCatByIdRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x19\n" +
 	"\btable_id\x18\x02 \x01(\x03R\atableId\x12\x12\n" +
@@ -13801,8 +13801,8 @@ const file_tables_v1_tables_proto_rawDesc = "" +
 	"\vdescription\x18\x06 \x01(\tR\vdescription\x12.\n" +
 	"\x13calculation_type_id\x18\a \x01(\x03R\x11calculationTypeId\x12\x1c\n" +
 	"\n" +
-	"show_in_ui\x18\b \x01(\bR\bshowInUi\x12\x17\n" +
-	"\auser_id\x18\t \x01(\x03R\x06userId\"R\n" +
+	"show_in_ui\x18\b \x01(\bR\bshowInUi\x12(\n" +
+	"\x10user_external_id\x18\t \x01(\tR\x0euserExternalId\"R\n" +
 	"\x1bUpdateColumnCatByIdResponse\x123\n" +
 	"\n" +
 	"column_cat\x18\x01 \x01(\v2\x14.tables.v1.ColumnCatR\tcolumnCat\",\n" +
@@ -13841,19 +13841,19 @@ const file_tables_v1_tables_proto_rawDesc = "" +
 	"columnType\"\x1e\n" +
 	"\x1cGetDeletedColumnTypesRequest\"Y\n" +
 	"\x1dGetDeletedColumnTypesResponse\x128\n" +
-	"\fcolumn_types\x18\x01 \x03(\v2\x15.tables.v1.ColumnTypeR\vcolumnTypes\"h\n" +
+	"\fcolumn_types\x18\x01 \x03(\v2\x15.tables.v1.ColumnTypeR\vcolumnTypes\"y\n" +
 	"\x17CreateColumnTypeRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12 \n" +
-	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x17\n" +
-	"\auser_id\x18\x03 \x01(\x03R\x06userId\"R\n" +
+	"\vdescription\x18\x02 \x01(\tR\vdescription\x12(\n" +
+	"\x10user_external_id\x18\x03 \x01(\tR\x0euserExternalId\"R\n" +
 	"\x18CreateColumnTypeResponse\x126\n" +
 	"\vcolumn_type\x18\x01 \x01(\v2\x15.tables.v1.ColumnTypeR\n" +
-	"columnType\"|\n" +
+	"columnType\"\x8d\x01\n" +
 	"\x1bUpdateColumnTypeByIdRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
-	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x17\n" +
-	"\auser_id\x18\x04 \x01(\x03R\x06userId\"V\n" +
+	"\vdescription\x18\x03 \x01(\tR\vdescription\x12(\n" +
+	"\x10user_external_id\x18\x04 \x01(\tR\x0euserExternalId\"V\n" +
 	"\x1cUpdateColumnTypeByIdResponse\x126\n" +
 	"\vcolumn_type\x18\x01 \x01(\v2\x15.tables.v1.ColumnTypeR\n" +
 	"columnType\"-\n" +
@@ -13932,18 +13932,18 @@ const file_tables_v1_tables_proto_rawDesc = "" +
 	"\x14database_calculation\x18\x01 \x01(\v2\x1e.tables.v1.DatabaseCalculationR\x13databaseCalculation\"'\n" +
 	"%GetDeletedDatabaseCalculationsRequest\"}\n" +
 	"&GetDeletedDatabaseCalculationsResponse\x12S\n" +
-	"\x15database_calculations\x18\x01 \x03(\v2\x1e.tables.v1.DatabaseCalculationR\x14databaseCalculations\"\x93\x01\n" +
+	"\x15database_calculations\x18\x01 \x03(\v2\x1e.tables.v1.DatabaseCalculationR\x14databaseCalculations\"\xa4\x01\n" +
 	" CreateDatabaseCalculationRequest\x12&\n" +
 	"\x0fdatabase_cat_id\x18\x01 \x01(\x03R\rdatabaseCatId\x12.\n" +
-	"\x13calculation_type_id\x18\x02 \x01(\x03R\x11calculationTypeId\x12\x17\n" +
-	"\auser_id\x18\x03 \x01(\x03R\x06userId\"v\n" +
+	"\x13calculation_type_id\x18\x02 \x01(\x03R\x11calculationTypeId\x12(\n" +
+	"\x10user_external_id\x18\x03 \x01(\tR\x0euserExternalId\"v\n" +
 	"!CreateDatabaseCalculationResponse\x12Q\n" +
-	"\x14database_calculation\x18\x01 \x01(\v2\x1e.tables.v1.DatabaseCalculationR\x13databaseCalculation\"\xa7\x01\n" +
+	"\x14database_calculation\x18\x01 \x01(\v2\x1e.tables.v1.DatabaseCalculationR\x13databaseCalculation\"\xb8\x01\n" +
 	"$UpdateDatabaseCalculationByIdRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12&\n" +
 	"\x0fdatabase_cat_id\x18\x02 \x01(\x03R\rdatabaseCatId\x12.\n" +
-	"\x13calculation_type_id\x18\x03 \x01(\x03R\x11calculationTypeId\x12\x17\n" +
-	"\auser_id\x18\x04 \x01(\x03R\x06userId\"z\n" +
+	"\x13calculation_type_id\x18\x03 \x01(\x03R\x11calculationTypeId\x12(\n" +
+	"\x10user_external_id\x18\x04 \x01(\tR\x0euserExternalId\"z\n" +
 	"%UpdateDatabaseCalculationByIdResponse\x12Q\n" +
 	"\x14database_calculation\x18\x01 \x01(\v2\x1e.tables.v1.DatabaseCalculationR\x13databaseCalculation\"6\n" +
 	"$DeleteDatabaseCalculationByIdRequest\x12\x0e\n" +
@@ -13988,22 +13988,22 @@ const file_tables_v1_tables_proto_rawDesc = "" +
 	"&GetDatabaseCatsByDatabaseTypeIdRequest\x12(\n" +
 	"\x10database_type_id\x18\x01 \x01(\x03R\x0edatabaseTypeId\"f\n" +
 	"'GetDatabaseCatsByDatabaseTypeIdResponse\x12;\n" +
-	"\rdatabase_cats\x18\x01 \x03(\v2\x16.tables.v1.DatabaseCatR\fdatabaseCats\"\xac\x01\n" +
+	"\rdatabase_cats\x18\x01 \x03(\v2\x16.tables.v1.DatabaseCatR\fdatabaseCats\"\xbd\x01\n" +
 	"\x18CreateDatabaseCatRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x17\n" +
 	"\ahost_id\x18\x02 \x01(\x03R\x06hostId\x12(\n" +
 	"\x10database_type_id\x18\x03 \x01(\x03R\x0edatabaseTypeId\x12 \n" +
-	"\vdescription\x18\x04 \x01(\tR\vdescription\x12\x17\n" +
-	"\auser_id\x18\x05 \x01(\x03R\x06userId\"V\n" +
+	"\vdescription\x18\x04 \x01(\tR\vdescription\x12(\n" +
+	"\x10user_external_id\x18\x05 \x01(\tR\x0euserExternalId\"V\n" +
 	"\x19CreateDatabaseCatResponse\x129\n" +
-	"\fdatabase_cat\x18\x01 \x01(\v2\x16.tables.v1.DatabaseCatR\vdatabaseCat\"\xc0\x01\n" +
+	"\fdatabase_cat\x18\x01 \x01(\v2\x16.tables.v1.DatabaseCatR\vdatabaseCat\"\xd1\x01\n" +
 	"\x1cUpdateDatabaseCatByIdRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x17\n" +
 	"\ahost_id\x18\x03 \x01(\x03R\x06hostId\x12(\n" +
 	"\x10database_type_id\x18\x04 \x01(\x03R\x0edatabaseTypeId\x12 \n" +
-	"\vdescription\x18\x05 \x01(\tR\vdescription\x12\x17\n" +
-	"\auser_id\x18\x06 \x01(\x03R\x06userId\"Z\n" +
+	"\vdescription\x18\x05 \x01(\tR\vdescription\x12(\n" +
+	"\x10user_external_id\x18\x06 \x01(\tR\x0euserExternalId\"Z\n" +
 	"\x1dUpdateDatabaseCatByIdResponse\x129\n" +
 	"\fdatabase_cat\x18\x01 \x01(\v2\x16.tables.v1.DatabaseCatR\vdatabaseCat\".\n" +
 	"\x1cDeleteDatabaseCatByIdRequest\x12\x0e\n" +
@@ -14039,20 +14039,20 @@ const file_tables_v1_tables_proto_rawDesc = "" +
 	"\rdatabase_type\x18\x01 \x01(\v2\x17.tables.v1.DatabaseTypeR\fdatabaseType\" \n" +
 	"\x1eGetDeletedDatabaseTypesRequest\"a\n" +
 	"\x1fGetDeletedDatabaseTypesResponse\x12>\n" +
-	"\x0edatabase_types\x18\x01 \x03(\v2\x17.tables.v1.DatabaseTypeR\rdatabaseTypes\"g\n" +
+	"\x0edatabase_types\x18\x01 \x03(\v2\x17.tables.v1.DatabaseTypeR\rdatabaseTypes\"x\n" +
 	"\x19CreateDatabaseTypeRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x1d\n" +
 	"\n" +
-	"db_version\x18\x02 \x01(\tR\tdbVersion\x12\x17\n" +
-	"\auser_id\x18\x03 \x01(\x03R\x06userId\"Z\n" +
+	"db_version\x18\x02 \x01(\tR\tdbVersion\x12(\n" +
+	"\x10user_external_id\x18\x03 \x01(\tR\x0euserExternalId\"Z\n" +
 	"\x1aCreateDatabaseTypeResponse\x12<\n" +
-	"\rdatabase_type\x18\x01 \x01(\v2\x17.tables.v1.DatabaseTypeR\fdatabaseType\"{\n" +
+	"\rdatabase_type\x18\x01 \x01(\v2\x17.tables.v1.DatabaseTypeR\fdatabaseType\"\x8c\x01\n" +
 	"\x1dUpdateDatabaseTypeByIdRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x1d\n" +
 	"\n" +
-	"db_version\x18\x03 \x01(\tR\tdbVersion\x12\x17\n" +
-	"\auser_id\x18\x04 \x01(\x03R\x06userId\"^\n" +
+	"db_version\x18\x03 \x01(\tR\tdbVersion\x12(\n" +
+	"\x10user_external_id\x18\x04 \x01(\tR\x0euserExternalId\"^\n" +
 	"\x1eUpdateDatabaseTypeByIdResponse\x12<\n" +
 	"\rdatabase_type\x18\x01 \x01(\v2\x17.tables.v1.DatabaseTypeR\fdatabaseType\"/\n" +
 	"\x1dDeleteDatabaseTypeByIdRequest\x12\x0e\n" +
@@ -14091,19 +14091,19 @@ const file_tables_v1_tables_proto_rawDesc = "" +
 	"\x1bGetDeletedDomainCatsRequest\"U\n" +
 	"\x1cGetDeletedDomainCatsResponse\x125\n" +
 	"\vdomain_cats\x18\x01 \x03(\v2\x14.tables.v1.DomainCatR\n" +
-	"domainCats\"R\n" +
+	"domainCats\"c\n" +
 	"\x16CreateDomainCatRequest\x12\x1f\n" +
 	"\vdomain_name\x18\x01 \x01(\tR\n" +
-	"domainName\x12\x17\n" +
-	"\auser_id\x18\x02 \x01(\x03R\x06userId\"N\n" +
+	"domainName\x12(\n" +
+	"\x10user_external_id\x18\x02 \x01(\tR\x0euserExternalId\"N\n" +
 	"\x17CreateDomainCatResponse\x123\n" +
 	"\n" +
-	"domain_cat\x18\x01 \x01(\v2\x14.tables.v1.DomainCatR\tdomainCat\"f\n" +
+	"domain_cat\x18\x01 \x01(\v2\x14.tables.v1.DomainCatR\tdomainCat\"w\n" +
 	"\x1aUpdateDomainCatByIdRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1f\n" +
 	"\vdomain_name\x18\x02 \x01(\tR\n" +
-	"domainName\x12\x17\n" +
-	"\auser_id\x18\x03 \x01(\x03R\x06userId\"R\n" +
+	"domainName\x12(\n" +
+	"\x10user_external_id\x18\x03 \x01(\tR\x0euserExternalId\"R\n" +
 	"\x1bUpdateDomainCatByIdResponse\x123\n" +
 	"\n" +
 	"domain_cat\x18\x01 \x01(\v2\x14.tables.v1.DomainCatR\tdomainCat\",\n" +
@@ -14139,18 +14139,18 @@ const file_tables_v1_tables_proto_rawDesc = "" +
 	"\x15following_calculation\x18\x01 \x01(\v2\x1f.tables.v1.FollowingCalculationR\x14followingCalculation\"(\n" +
 	"&GetDeletedFollowingCalculationsRequest\"\x81\x01\n" +
 	"'GetDeletedFollowingCalculationsResponse\x12V\n" +
-	"\x16following_calculations\x18\x01 \x03(\v2\x1f.tables.v1.FollowingCalculationR\x15followingCalculations\"\x90\x01\n" +
+	"\x16following_calculations\x18\x01 \x03(\v2\x1f.tables.v1.FollowingCalculationR\x15followingCalculations\"\xa1\x01\n" +
 	"!CreateFollowingCalculationRequest\x12\"\n" +
 	"\rcolumn_cat_id\x18\x01 \x01(\x03R\vcolumnCatId\x12.\n" +
-	"\x13calculation_type_id\x18\x02 \x01(\x03R\x11calculationTypeId\x12\x17\n" +
-	"\auser_id\x18\x03 \x01(\x03R\x06userId\"z\n" +
+	"\x13calculation_type_id\x18\x02 \x01(\x03R\x11calculationTypeId\x12(\n" +
+	"\x10user_external_id\x18\x03 \x01(\tR\x0euserExternalId\"z\n" +
 	"\"CreateFollowingCalculationResponse\x12T\n" +
-	"\x15following_calculation\x18\x01 \x01(\v2\x1f.tables.v1.FollowingCalculationR\x14followingCalculation\"\xa4\x01\n" +
+	"\x15following_calculation\x18\x01 \x01(\v2\x1f.tables.v1.FollowingCalculationR\x14followingCalculation\"\xb5\x01\n" +
 	"%UpdateFollowingCalculationByIdRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\"\n" +
 	"\rcolumn_cat_id\x18\x02 \x01(\x03R\vcolumnCatId\x12.\n" +
-	"\x13calculation_type_id\x18\x03 \x01(\x03R\x11calculationTypeId\x12\x17\n" +
-	"\auser_id\x18\x04 \x01(\x03R\x06userId\"~\n" +
+	"\x13calculation_type_id\x18\x03 \x01(\x03R\x11calculationTypeId\x12(\n" +
+	"\x10user_external_id\x18\x04 \x01(\tR\x0euserExternalId\"~\n" +
 	"&UpdateFollowingCalculationByIdResponse\x12T\n" +
 	"\x15following_calculation\x18\x01 \x01(\v2\x1f.tables.v1.FollowingCalculationR\x14followingCalculation\"7\n" +
 	"%DeleteFollowingCalculationByIdRequest\x12\x0e\n" +
@@ -14190,23 +14190,23 @@ const file_tables_v1_tables_proto_rawDesc = "" +
 	"groupLevel\"\x1e\n" +
 	"\x1cGetDeletedGroupLevelsRequest\"Y\n" +
 	"\x1dGetDeletedGroupLevelsResponse\x128\n" +
-	"\fgroup_levels\x18\x01 \x03(\v2\x15.tables.v1.GroupLevelR\vgroupLevels\"\xb1\x01\n" +
+	"\fgroup_levels\x18\x01 \x03(\v2\x15.tables.v1.GroupLevelR\vgroupLevels\"\xc2\x01\n" +
 	"\x17CreateGroupLevelRequest\x12\x1b\n" +
 	"\tcolumn_id\x18\x01 \x01(\x03R\bcolumnId\x12(\n" +
 	"\x10parent_column_id\x18\x02 \x01(\x03R\x0eparentColumnId\x12\x14\n" +
 	"\x05level\x18\x03 \x01(\x05R\x05level\x12 \n" +
-	"\vdescription\x18\x04 \x01(\tR\vdescription\x12\x17\n" +
-	"\auser_id\x18\x05 \x01(\x03R\x06userId\"R\n" +
+	"\vdescription\x18\x04 \x01(\tR\vdescription\x12(\n" +
+	"\x10user_external_id\x18\x05 \x01(\tR\x0euserExternalId\"R\n" +
 	"\x18CreateGroupLevelResponse\x126\n" +
 	"\vgroup_level\x18\x01 \x01(\v2\x15.tables.v1.GroupLevelR\n" +
-	"groupLevel\"\xc5\x01\n" +
+	"groupLevel\"\xd6\x01\n" +
 	"\x1bUpdateGroupLevelByIdRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1b\n" +
 	"\tcolumn_id\x18\x02 \x01(\x03R\bcolumnId\x12(\n" +
 	"\x10parent_column_id\x18\x03 \x01(\x03R\x0eparentColumnId\x12\x14\n" +
 	"\x05level\x18\x04 \x01(\x05R\x05level\x12 \n" +
-	"\vdescription\x18\x05 \x01(\tR\vdescription\x12\x17\n" +
-	"\auser_id\x18\x06 \x01(\x03R\x06userId\"V\n" +
+	"\vdescription\x18\x05 \x01(\tR\vdescription\x12(\n" +
+	"\x10user_external_id\x18\x06 \x01(\tR\x0euserExternalId\"V\n" +
 	"\x1cUpdateGroupLevelByIdResponse\x126\n" +
 	"\vgroup_level\x18\x01 \x01(\v2\x15.tables.v1.GroupLevelR\n" +
 	"groupLevel\"-\n" +
@@ -14246,21 +14246,21 @@ const file_tables_v1_tables_proto_rawDesc = "" +
 	"hasToGroup\"\x1e\n" +
 	"\x1cGetDeletedHasToGroupsRequest\"Z\n" +
 	"\x1dGetDeletedHasToGroupsResponse\x129\n" +
-	"\rhas_to_groups\x18\x01 \x03(\v2\x15.tables.v1.HasToGroupR\vhasToGroups\"\x94\x01\n" +
+	"\rhas_to_groups\x18\x01 \x03(\v2\x15.tables.v1.HasToGroupR\vhasToGroups\"\xa5\x01\n" +
 	"\x17CreateHasToGroupRequest\x12\x1e\n" +
 	"\vcolumn_id_a\x18\x01 \x01(\x03R\tcolumnIdA\x12\x1e\n" +
 	"\vcolumn_id_b\x18\x02 \x01(\x03R\tcolumnIdB\x12 \n" +
-	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x17\n" +
-	"\auser_id\x18\x04 \x01(\x03R\x06userId\"S\n" +
+	"\vdescription\x18\x03 \x01(\tR\vdescription\x12(\n" +
+	"\x10user_external_id\x18\x04 \x01(\tR\x0euserExternalId\"S\n" +
 	"\x18CreateHasToGroupResponse\x127\n" +
 	"\fhas_to_group\x18\x01 \x01(\v2\x15.tables.v1.HasToGroupR\n" +
-	"hasToGroup\"\xa8\x01\n" +
+	"hasToGroup\"\xb9\x01\n" +
 	"\x1bUpdateHasToGroupByIdRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1e\n" +
 	"\vcolumn_id_a\x18\x02 \x01(\x03R\tcolumnIdA\x12\x1e\n" +
 	"\vcolumn_id_b\x18\x03 \x01(\x03R\tcolumnIdB\x12 \n" +
-	"\vdescription\x18\x04 \x01(\tR\vdescription\x12\x17\n" +
-	"\auser_id\x18\x05 \x01(\x03R\x06userId\"W\n" +
+	"\vdescription\x18\x04 \x01(\tR\vdescription\x12(\n" +
+	"\x10user_external_id\x18\x05 \x01(\tR\x0euserExternalId\"W\n" +
 	"\x1cUpdateHasToGroupByIdResponse\x127\n" +
 	"\fhas_to_group\x18\x01 \x01(\v2\x15.tables.v1.HasToGroupR\n" +
 	"hasToGroup\"-\n" +
@@ -14301,17 +14301,17 @@ const file_tables_v1_tables_proto_rawDesc = "" +
 	"\x04host\x18\x01 \x01(\v2\x0f.tables.v1.HostR\x04host\"\x18\n" +
 	"\x16GetDeletedHostsRequest\"@\n" +
 	"\x17GetDeletedHostsResponse\x12%\n" +
-	"\x05hosts\x18\x01 \x03(\v2\x0f.tables.v1.HostR\x05hosts\"\xde\x01\n" +
+	"\x05hosts\x18\x01 \x03(\v2\x0f.tables.v1.HostR\x05hosts\"\xef\x01\n" +
 	"\x11CreateHostRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12 \n" +
 	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x19\n" +
 	"\bhost_env\x18\x03 \x01(\tR\ahostEnv\x12\x19\n" +
 	"\bport_env\x18\x04 \x01(\tR\aportEnv\x12!\n" +
 	"\fusername_env\x18\x05 \x01(\tR\vusernameEnv\x12!\n" +
-	"\fpassword_env\x18\x06 \x01(\tR\vpasswordEnv\x12\x17\n" +
-	"\auser_id\x18\a \x01(\x03R\x06userId\"9\n" +
+	"\fpassword_env\x18\x06 \x01(\tR\vpasswordEnv\x12(\n" +
+	"\x10user_external_id\x18\a \x01(\tR\x0euserExternalId\"9\n" +
 	"\x12CreateHostResponse\x12#\n" +
-	"\x04host\x18\x01 \x01(\v2\x0f.tables.v1.HostR\x04host\"\xf2\x01\n" +
+	"\x04host\x18\x01 \x01(\v2\x0f.tables.v1.HostR\x04host\"\x83\x02\n" +
 	"\x15UpdateHostByIdRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
@@ -14319,8 +14319,8 @@ const file_tables_v1_tables_proto_rawDesc = "" +
 	"\bhost_env\x18\x04 \x01(\tR\ahostEnv\x12\x19\n" +
 	"\bport_env\x18\x05 \x01(\tR\aportEnv\x12!\n" +
 	"\fusername_env\x18\x06 \x01(\tR\vusernameEnv\x12!\n" +
-	"\fpassword_env\x18\a \x01(\tR\vpasswordEnv\x12\x17\n" +
-	"\auser_id\x18\b \x01(\x03R\x06userId\"=\n" +
+	"\fpassword_env\x18\a \x01(\tR\vpasswordEnv\x12(\n" +
+	"\x10user_external_id\x18\b \x01(\tR\x0euserExternalId\"=\n" +
 	"\x16UpdateHostByIdResponse\x12#\n" +
 	"\x04host\x18\x01 \x01(\v2\x0f.tables.v1.HostR\x04host\"'\n" +
 	"\x15DeleteHostByIdRequest\x12\x0e\n" +
@@ -14366,21 +14366,21 @@ const file_tables_v1_tables_proto_rawDesc = "" +
 	"databaseId\"Z\n" +
 	"!GetSchemaCatsByDatabaseIdResponse\x125\n" +
 	"\vschema_cats\x18\x01 \x03(\v2\x14.tables.v1.SchemaCatR\n" +
-	"schemaCats\"f\n" +
+	"schemaCats\"w\n" +
 	"\x16CreateSchemaCatRequest\x12\x1f\n" +
 	"\vdatabase_id\x18\x01 \x01(\x03R\n" +
 	"databaseId\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name\x12\x17\n" +
-	"\auser_id\x18\x03 \x01(\x03R\x06userId\"N\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12(\n" +
+	"\x10user_external_id\x18\x03 \x01(\tR\x0euserExternalId\"N\n" +
 	"\x17CreateSchemaCatResponse\x123\n" +
 	"\n" +
-	"schema_cat\x18\x01 \x01(\v2\x14.tables.v1.SchemaCatR\tschemaCat\"z\n" +
+	"schema_cat\x18\x01 \x01(\v2\x14.tables.v1.SchemaCatR\tschemaCat\"\x8b\x01\n" +
 	"\x1aUpdateSchemaCatByIdRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1f\n" +
 	"\vdatabase_id\x18\x02 \x01(\x03R\n" +
 	"databaseId\x12\x12\n" +
-	"\x04name\x18\x03 \x01(\tR\x04name\x12\x17\n" +
-	"\auser_id\x18\x04 \x01(\x03R\x06userId\"R\n" +
+	"\x04name\x18\x03 \x01(\tR\x04name\x12(\n" +
+	"\x10user_external_id\x18\x04 \x01(\tR\x0euserExternalId\"R\n" +
 	"\x1bUpdateSchemaCatByIdResponse\x123\n" +
 	"\n" +
 	"schema_cat\x18\x01 \x01(\v2\x14.tables.v1.SchemaCatR\tschemaCat\",\n" +
@@ -14438,17 +14438,17 @@ const file_tables_v1_tables_proto_rawDesc = "" +
 	"\tdomain_id\x18\x01 \x01(\x03R\bdomainId\"T\n" +
 	"\x1eGetTableCatsByDomainIdResponse\x122\n" +
 	"\n" +
-	"table_cats\x18\x01 \x03(\v2\x13.tables.v1.TableCatR\ttableCats\"\xe4\x01\n" +
+	"table_cats\x18\x01 \x03(\v2\x13.tables.v1.TableCatR\ttableCats\"\xf5\x01\n" +
 	"\x15CreateTableCatRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12 \n" +
 	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x1b\n" +
 	"\tschema_id\x18\x03 \x01(\x03R\bschemaId\x12\"\n" +
 	"\rtable_type_id\x18\x04 \x01(\x03R\vtableTypeId\x12\x1b\n" +
 	"\tdomain_id\x18\x05 \x01(\x03R\bdomainId\x12\x1e\n" +
-	"\vis_get_dict\x18\x06 \x01(\bR\tisGetDict\x12\x17\n" +
-	"\auser_id\x18\a \x01(\x03R\x06userId\"J\n" +
+	"\vis_get_dict\x18\x06 \x01(\bR\tisGetDict\x12(\n" +
+	"\x10user_external_id\x18\a \x01(\tR\x0euserExternalId\"J\n" +
 	"\x16CreateTableCatResponse\x120\n" +
-	"\ttable_cat\x18\x01 \x01(\v2\x13.tables.v1.TableCatR\btableCat\"\xf8\x01\n" +
+	"\ttable_cat\x18\x01 \x01(\v2\x13.tables.v1.TableCatR\btableCat\"\x89\x02\n" +
 	"\x19UpdateTableCatByIdRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
@@ -14456,8 +14456,8 @@ const file_tables_v1_tables_proto_rawDesc = "" +
 	"\tschema_id\x18\x04 \x01(\x03R\bschemaId\x12\"\n" +
 	"\rtable_type_id\x18\x05 \x01(\x03R\vtableTypeId\x12\x1b\n" +
 	"\tdomain_id\x18\x06 \x01(\x03R\bdomainId\x12\x1e\n" +
-	"\vis_get_dict\x18\a \x01(\bR\tisGetDict\x12\x17\n" +
-	"\auser_id\x18\b \x01(\x03R\x06userId\"N\n" +
+	"\vis_get_dict\x18\a \x01(\bR\tisGetDict\x12(\n" +
+	"\x10user_external_id\x18\b \x01(\tR\x0euserExternalId\"N\n" +
 	"\x1aUpdateTableCatByIdResponse\x120\n" +
 	"\ttable_cat\x18\x01 \x01(\v2\x13.tables.v1.TableCatR\btableCat\"+\n" +
 	"\x19DeleteTableCatByIdRequest\x12\x0e\n" +
@@ -14496,19 +14496,19 @@ const file_tables_v1_tables_proto_rawDesc = "" +
 	"\x1bGetDeletedTableTypesRequest\"U\n" +
 	"\x1cGetDeletedTableTypesResponse\x125\n" +
 	"\vtable_types\x18\x01 \x03(\v2\x14.tables.v1.TableTypeR\n" +
-	"tableTypes\"g\n" +
+	"tableTypes\"x\n" +
 	"\x16CreateTableTypeRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12 \n" +
-	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x17\n" +
-	"\auser_id\x18\x03 \x01(\x03R\x06userId\"N\n" +
+	"\vdescription\x18\x02 \x01(\tR\vdescription\x12(\n" +
+	"\x10user_external_id\x18\x03 \x01(\tR\x0euserExternalId\"N\n" +
 	"\x17CreateTableTypeResponse\x123\n" +
 	"\n" +
-	"table_type\x18\x01 \x01(\v2\x14.tables.v1.TableTypeR\ttableType\"{\n" +
+	"table_type\x18\x01 \x01(\v2\x14.tables.v1.TableTypeR\ttableType\"\x8c\x01\n" +
 	"\x1aUpdateTableTypeByIdRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
-	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x17\n" +
-	"\auser_id\x18\x04 \x01(\x03R\x06userId\"R\n" +
+	"\vdescription\x18\x03 \x01(\tR\vdescription\x12(\n" +
+	"\x10user_external_id\x18\x04 \x01(\tR\x0euserExternalId\"R\n" +
 	"\x1bUpdateTableTypeByIdResponse\x123\n" +
 	"\n" +
 	"table_type\x18\x01 \x01(\v2\x14.tables.v1.TableTypeR\ttableType\",\n" +

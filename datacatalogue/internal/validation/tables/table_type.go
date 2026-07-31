@@ -10,11 +10,11 @@ func tableTypeWritableFields(
 	v *validator.Validator,
 	name string,
 	description string,
-	userId int64,
+	userExternalId string,
 ) {
 	v.StringVarchar("name", name, tableTypeNameMaxLen)
 	v.StringVarchar("description", description, tableTypeDescriptionMaxLen)
-	v.Int64ID("user_id", userId)
+	v.StringUUID("user_id", userExternalId)
 }
 
 // ValidateCreateTableType проверяет запрос на вставку строки dc.table_type.
@@ -30,7 +30,7 @@ func ValidateCreateTableType(req *tablesv1.CreateTableTypeRequest) error {
 		v,
 		req.GetName(),
 		req.GetDescription(),
-		req.GetUserId(),
+		req.GetUserExternalId(),
 	)
 
 	return v.Err()
@@ -52,7 +52,7 @@ func ValidateUpdateTableTypeById(req *tablesv1.UpdateTableTypeByIdRequest) error
 		v,
 		req.GetName(),
 		req.GetDescription(),
-		req.GetUserId(),
+		req.GetUserExternalId(),
 	)
 
 	return v.Err()

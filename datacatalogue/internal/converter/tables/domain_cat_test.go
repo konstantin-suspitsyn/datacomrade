@@ -4,6 +4,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/repository/tables_model"
 	tablesv1 "github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/tables/v1"
 )
@@ -119,13 +120,13 @@ func TestDomainCatsToProtoKeepsOrder(t *testing.T) {
 
 func TestToCreateDomainCatParams(t *testing.T) {
 	req := &tablesv1.CreateDomainCatRequest{
-		DomainName: "domain-name-0",
-		UserId:     101,
+		DomainName:     "domain-name-0",
+		UserExternalId: "00000000-0000-4000-8000-000000000002",
 	}
 
 	want := tables_model.CreateDomainCatParams{
 		DomainName: "domain-name-0",
-		UserID:     101,
+		ExternalID: uuid.MustParse("00000000-0000-4000-8000-000000000002"),
 	}
 
 	if got := ToCreateDomainCatParams(req); got != want {
@@ -142,15 +143,15 @@ func TestToCreateDomainCatParamsNil(t *testing.T) {
 
 func TestToUpdateDomainCatByIdParams(t *testing.T) {
 	req := &tablesv1.UpdateDomainCatByIdRequest{
-		Id:         100,
-		DomainName: "domain-name-0",
-		UserId:     102,
+		Id:             100,
+		DomainName:     "domain-name-0",
+		UserExternalId: "00000000-0000-4000-8000-000000000003",
 	}
 
 	want := tables_model.UpdateDomainCatByIdParams{
 		ID:         100,
 		DomainName: "domain-name-0",
-		UserID:     102,
+		ExternalID: uuid.MustParse("00000000-0000-4000-8000-000000000003"),
 	}
 
 	if got := ToUpdateDomainCatByIdParams(req); got != want {

@@ -17,7 +17,7 @@ func validCreateDatabaseCatRequest() *tablesv1.CreateDatabaseCatRequest {
 		HostId:         101,
 		DatabaseTypeId: 102,
 		Description:    "description-3",
-		UserId:         104,
+		UserExternalId: "00000000-0000-4000-8000-000000000005",
 	}
 }
 
@@ -28,7 +28,7 @@ func validUpdateDatabaseCatByIdRequest() *tablesv1.UpdateDatabaseCatByIdRequest 
 		HostId:         101,
 		DatabaseTypeId: 102,
 		Description:    "description-3",
-		UserId:         104,
+		UserExternalId: "00000000-0000-4000-8000-000000000005",
 	}
 }
 
@@ -63,8 +63,9 @@ func TestValidateCreateDatabaseCat(t *testing.T) {
 		{name: "description too long", mutate: func(r *tablesv1.CreateDatabaseCatRequest) {
 			r.Description = strings.Repeat("a", databaseCatDescriptionMaxLen+1)
 		}, wantField: "description"},
-		{name: "zero user_id", mutate: func(r *tablesv1.CreateDatabaseCatRequest) { r.UserId = 0 }, wantField: "user_id"},
-		{name: "negative user_id", mutate: func(r *tablesv1.CreateDatabaseCatRequest) { r.UserId = -1 }, wantField: "user_id"},
+		{name: "empty user_id", mutate: func(r *tablesv1.CreateDatabaseCatRequest) { r.UserExternalId = "" }, wantField: "user_id"},
+		{name: "malformed user_id", mutate: func(r *tablesv1.CreateDatabaseCatRequest) { r.UserExternalId = "not-a-uuid" }, wantField: "user_id"},
+		{name: "user_id without dashes", mutate: func(r *tablesv1.CreateDatabaseCatRequest) { r.UserExternalId = "00000000000040008000000000000001" }, wantField: "user_id"},
 	}
 
 	for _, tt := range tests {
@@ -120,8 +121,9 @@ func TestValidateUpdateDatabaseCatById(t *testing.T) {
 		{name: "description too long", mutate: func(r *tablesv1.UpdateDatabaseCatByIdRequest) {
 			r.Description = strings.Repeat("a", databaseCatDescriptionMaxLen+1)
 		}, wantField: "description"},
-		{name: "zero user_id", mutate: func(r *tablesv1.UpdateDatabaseCatByIdRequest) { r.UserId = 0 }, wantField: "user_id"},
-		{name: "negative user_id", mutate: func(r *tablesv1.UpdateDatabaseCatByIdRequest) { r.UserId = -1 }, wantField: "user_id"},
+		{name: "empty user_id", mutate: func(r *tablesv1.UpdateDatabaseCatByIdRequest) { r.UserExternalId = "" }, wantField: "user_id"},
+		{name: "malformed user_id", mutate: func(r *tablesv1.UpdateDatabaseCatByIdRequest) { r.UserExternalId = "not-a-uuid" }, wantField: "user_id"},
+		{name: "user_id without dashes", mutate: func(r *tablesv1.UpdateDatabaseCatByIdRequest) { r.UserExternalId = "00000000000040008000000000000001" }, wantField: "user_id"},
 	}
 
 	for _, tt := range tests {

@@ -7,6 +7,8 @@ package tables_model
 import (
 	"database/sql"
 	"time"
+
+	"github.com/google/uuid"
 )
 
 type DcAlias struct {
@@ -173,4 +175,13 @@ type DcTableType struct {
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
 	UserID      int64
+}
+
+type DcUser struct {
+	ID         int64
+	Name       string
+	CreatedAt  time.Time
+	UpdatedAt  time.Time
+	IsDeleted  bool
+	ExternalID uuid.UUID
 }

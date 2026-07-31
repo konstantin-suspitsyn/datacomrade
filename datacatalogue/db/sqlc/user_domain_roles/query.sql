@@ -130,14 +130,14 @@ ORDER BY id;
 
 -- name: CreateUserDomainRole :one
 INSERT INTO dc.user_domain_roles
-(user_id, domain_roles_id, created_at, updated_at, is_deleted, domain_id)
-VALUES($1, $2, now(), now(), false, $3)
+(user_id, domain_roles_id, created_at, updated_at, is_deleted, domain_id, updated_by_id)
+VALUES($1, $2, now(), now(), false, $3, (SELECT u.id FROM dc."user" u WHERE u.external_id = $4))
 RETURNING *;
 
 -- name: UpdateUserDomainRoleById :one
 UPDATE dc.user_domain_roles
-SET user_id=$2, domain_roles_id=$3, domain_id=$4, updated_at=now()
-WHERE id=$1
+SET user_id=$2, domain_roles_id=$3, domain_id=$4, updated_by_id=(SELECT u.id FROM dc."user" u WHERE u.external_id = $5), updated_at=now()
+WHERE dc.user_domain_roles.id=$1
 AND is_deleted = false
 RETURNING *;
 
@@ -181,14 +181,14 @@ ORDER BY id;
 
 -- name: CreateUserTableRole :one
 INSERT INTO dc.user_table_roles
-(user_id, table_roles_id, created_at, updated_at, is_deleted, table_id)
-VALUES($1, $2, now(), now(), false, $3)
+(user_id, table_roles_id, created_at, updated_at, is_deleted, table_id, updated_by_id)
+VALUES($1, $2, now(), now(), false, $3, (SELECT u.id FROM dc."user" u WHERE u.external_id = $4))
 RETURNING *;
 
 -- name: UpdateUserTableRoleById :one
 UPDATE dc.user_table_roles
-SET user_id=$2, table_roles_id=$3, table_id=$4, updated_at=now()
-WHERE id=$1
+SET user_id=$2, table_roles_id=$3, table_id=$4, updated_by_id=(SELECT u.id FROM dc."user" u WHERE u.external_id = $5), updated_at=now()
+WHERE dc.user_table_roles.id=$1
 AND is_deleted = false
 RETURNING *;
 

@@ -10,11 +10,11 @@ func schemaCatWritableFields(
 	v *validator.Validator,
 	databaseId int64,
 	name string,
-	userId int64,
+	userExternalId string,
 ) {
 	v.Int64ID("database_id", databaseId)
 	v.StringVarchar("name", name, schemaCatNameMaxLen)
-	v.Int64ID("user_id", userId)
+	v.StringUUID("user_id", userExternalId)
 }
 
 // ValidateCreateSchemaCat проверяет запрос на вставку строки dc.schema_cat.
@@ -30,7 +30,7 @@ func ValidateCreateSchemaCat(req *tablesv1.CreateSchemaCatRequest) error {
 		v,
 		req.GetDatabaseId(),
 		req.GetName(),
-		req.GetUserId(),
+		req.GetUserExternalId(),
 	)
 
 	return v.Err()
@@ -52,7 +52,7 @@ func ValidateUpdateSchemaCatById(req *tablesv1.UpdateSchemaCatByIdRequest) error
 		v,
 		req.GetDatabaseId(),
 		req.GetName(),
-		req.GetUserId(),
+		req.GetUserExternalId(),
 	)
 
 	return v.Err()

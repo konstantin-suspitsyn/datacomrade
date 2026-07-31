@@ -4,6 +4,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/repository/tables_model"
 	tablesv1 "github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/tables/v1"
 )
@@ -129,17 +130,17 @@ func TestHasToGroupsToProtoKeepsOrder(t *testing.T) {
 
 func TestToCreateHasToGroupParams(t *testing.T) {
 	req := &tablesv1.CreateHasToGroupRequest{
-		ColumnIdA:   100,
-		ColumnIdB:   101,
-		Description: "description-0",
-		UserId:      103,
+		ColumnIdA:      100,
+		ColumnIdB:      101,
+		Description:    "description-0",
+		UserExternalId: "00000000-0000-4000-8000-000000000004",
 	}
 
 	want := tables_model.CreateHasToGroupParams{
 		ColumnIDA:   100,
 		ColumnIDB:   101,
 		Description: "description-0",
-		UserID:      103,
+		ExternalID:  uuid.MustParse("00000000-0000-4000-8000-000000000004"),
 	}
 
 	if got := ToCreateHasToGroupParams(req); got != want {
@@ -156,11 +157,11 @@ func TestToCreateHasToGroupParamsNil(t *testing.T) {
 
 func TestToUpdateHasToGroupByIdParams(t *testing.T) {
 	req := &tablesv1.UpdateHasToGroupByIdRequest{
-		Id:          100,
-		ColumnIdA:   101,
-		ColumnIdB:   102,
-		Description: "description-0",
-		UserId:      104,
+		Id:             100,
+		ColumnIdA:      101,
+		ColumnIdB:      102,
+		Description:    "description-0",
+		UserExternalId: "00000000-0000-4000-8000-000000000005",
 	}
 
 	want := tables_model.UpdateHasToGroupByIdParams{
@@ -168,7 +169,7 @@ func TestToUpdateHasToGroupByIdParams(t *testing.T) {
 		ColumnIDA:   101,
 		ColumnIDB:   102,
 		Description: "description-0",
-		UserID:      104,
+		ExternalID:  uuid.MustParse("00000000-0000-4000-8000-000000000005"),
 	}
 
 	if got := ToUpdateHasToGroupByIdParams(req); got != want {

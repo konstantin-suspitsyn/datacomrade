@@ -1659,6 +1659,7 @@ type UserDomainRole struct {
 	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
 	IsDeleted     bool                   `protobuf:"varint,6,opt,name=is_deleted,json=isDeleted,proto3" json:"is_deleted,omitempty"`
 	DomainId      int64                  `protobuf:"varint,7,opt,name=domain_id,json=domainId,proto3" json:"domain_id,omitempty"`
+	UpdatedById   int64                  `protobuf:"varint,8,opt,name=updated_by_id,json=updatedById,proto3" json:"updated_by_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1738,6 +1739,13 @@ func (x *UserDomainRole) GetIsDeleted() bool {
 func (x *UserDomainRole) GetDomainId() int64 {
 	if x != nil {
 		return x.DomainId
+	}
+	return 0
+}
+
+func (x *UserDomainRole) GetUpdatedById() int64 {
+	if x != nil {
+		return x.UpdatedById
 	}
 	return 0
 }
@@ -2088,12 +2096,13 @@ func (x *GetDeletedUserDomainRolesResponse) GetUserDomainRoles() []*UserDomainRo
 
 // CreateUserDomainRoleRequest carries the fields needed to insert a dc.user_domain_roles row (query CreateUserDomainRole).
 type CreateUserDomainRoleRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	DomainRolesId int64                  `protobuf:"varint,2,opt,name=domain_roles_id,json=domainRolesId,proto3" json:"domain_roles_id,omitempty"`
-	DomainId      int64                  `protobuf:"varint,3,opt,name=domain_id,json=domainId,proto3" json:"domain_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state               protoimpl.MessageState `protogen:"open.v1"`
+	UserId              int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	DomainRolesId       int64                  `protobuf:"varint,2,opt,name=domain_roles_id,json=domainRolesId,proto3" json:"domain_roles_id,omitempty"`
+	DomainId            int64                  `protobuf:"varint,3,opt,name=domain_id,json=domainId,proto3" json:"domain_id,omitempty"`
+	UpdatedByExternalId string                 `protobuf:"bytes,4,opt,name=updated_by_external_id,json=updatedByExternalId,proto3" json:"updated_by_external_id,omitempty"`
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
 }
 
 func (x *CreateUserDomainRoleRequest) Reset() {
@@ -2147,6 +2156,13 @@ func (x *CreateUserDomainRoleRequest) GetDomainId() int64 {
 	return 0
 }
 
+func (x *CreateUserDomainRoleRequest) GetUpdatedByExternalId() string {
+	if x != nil {
+		return x.UpdatedByExternalId
+	}
+	return ""
+}
+
 // CreateUserDomainRoleResponse returns the created dc.user_domain_roles row (query CreateUserDomainRole).
 type CreateUserDomainRoleResponse struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
@@ -2194,13 +2210,14 @@ func (x *CreateUserDomainRoleResponse) GetUserDomainRole() *UserDomainRole {
 
 // UpdateUserDomainRoleByIdRequest carries the fields to update on a dc.user_domain_roles row (query UpdateUserDomainRoleById).
 type UpdateUserDomainRoleByIdRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	UserId        int64                  `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	DomainRolesId int64                  `protobuf:"varint,3,opt,name=domain_roles_id,json=domainRolesId,proto3" json:"domain_roles_id,omitempty"`
-	DomainId      int64                  `protobuf:"varint,4,opt,name=domain_id,json=domainId,proto3" json:"domain_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state               protoimpl.MessageState `protogen:"open.v1"`
+	Id                  int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	UserId              int64                  `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	DomainRolesId       int64                  `protobuf:"varint,3,opt,name=domain_roles_id,json=domainRolesId,proto3" json:"domain_roles_id,omitempty"`
+	DomainId            int64                  `protobuf:"varint,4,opt,name=domain_id,json=domainId,proto3" json:"domain_id,omitempty"`
+	UpdatedByExternalId string                 `protobuf:"bytes,5,opt,name=updated_by_external_id,json=updatedByExternalId,proto3" json:"updated_by_external_id,omitempty"`
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
 }
 
 func (x *UpdateUserDomainRoleByIdRequest) Reset() {
@@ -2259,6 +2276,13 @@ func (x *UpdateUserDomainRoleByIdRequest) GetDomainId() int64 {
 		return x.DomainId
 	}
 	return 0
+}
+
+func (x *UpdateUserDomainRoleByIdRequest) GetUpdatedByExternalId() string {
+	if x != nil {
+		return x.UpdatedByExternalId
+	}
+	return ""
 }
 
 // UpdateUserDomainRoleByIdResponse returns the updated dc.user_domain_roles row (query UpdateUserDomainRoleById).
@@ -2496,6 +2520,7 @@ type UserTableRole struct {
 	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
 	IsDeleted     bool                   `protobuf:"varint,6,opt,name=is_deleted,json=isDeleted,proto3" json:"is_deleted,omitempty"`
 	TableId       int64                  `protobuf:"varint,7,opt,name=table_id,json=tableId,proto3" json:"table_id,omitempty"`
+	UpdatedById   int64                  `protobuf:"varint,8,opt,name=updated_by_id,json=updatedById,proto3" json:"updated_by_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2575,6 +2600,13 @@ func (x *UserTableRole) GetIsDeleted() bool {
 func (x *UserTableRole) GetTableId() int64 {
 	if x != nil {
 		return x.TableId
+	}
+	return 0
+}
+
+func (x *UserTableRole) GetUpdatedById() int64 {
+	if x != nil {
+		return x.UpdatedById
 	}
 	return 0
 }
@@ -2925,12 +2957,13 @@ func (x *GetDeletedUserTableRolesResponse) GetUserTableRoles() []*UserTableRole 
 
 // CreateUserTableRoleRequest carries the fields needed to insert a dc.user_table_roles row (query CreateUserTableRole).
 type CreateUserTableRoleRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	TableRolesId  int64                  `protobuf:"varint,2,opt,name=table_roles_id,json=tableRolesId,proto3" json:"table_roles_id,omitempty"`
-	TableId       int64                  `protobuf:"varint,3,opt,name=table_id,json=tableId,proto3" json:"table_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state               protoimpl.MessageState `protogen:"open.v1"`
+	UserId              int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	TableRolesId        int64                  `protobuf:"varint,2,opt,name=table_roles_id,json=tableRolesId,proto3" json:"table_roles_id,omitempty"`
+	TableId             int64                  `protobuf:"varint,3,opt,name=table_id,json=tableId,proto3" json:"table_id,omitempty"`
+	UpdatedByExternalId string                 `protobuf:"bytes,4,opt,name=updated_by_external_id,json=updatedByExternalId,proto3" json:"updated_by_external_id,omitempty"`
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
 }
 
 func (x *CreateUserTableRoleRequest) Reset() {
@@ -2984,6 +3017,13 @@ func (x *CreateUserTableRoleRequest) GetTableId() int64 {
 	return 0
 }
 
+func (x *CreateUserTableRoleRequest) GetUpdatedByExternalId() string {
+	if x != nil {
+		return x.UpdatedByExternalId
+	}
+	return ""
+}
+
 // CreateUserTableRoleResponse returns the created dc.user_table_roles row (query CreateUserTableRole).
 type CreateUserTableRoleResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -3031,13 +3071,14 @@ func (x *CreateUserTableRoleResponse) GetUserTableRole() *UserTableRole {
 
 // UpdateUserTableRoleByIdRequest carries the fields to update on a dc.user_table_roles row (query UpdateUserTableRoleById).
 type UpdateUserTableRoleByIdRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	UserId        int64                  `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	TableRolesId  int64                  `protobuf:"varint,3,opt,name=table_roles_id,json=tableRolesId,proto3" json:"table_roles_id,omitempty"`
-	TableId       int64                  `protobuf:"varint,4,opt,name=table_id,json=tableId,proto3" json:"table_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state               protoimpl.MessageState `protogen:"open.v1"`
+	Id                  int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	UserId              int64                  `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	TableRolesId        int64                  `protobuf:"varint,3,opt,name=table_roles_id,json=tableRolesId,proto3" json:"table_roles_id,omitempty"`
+	TableId             int64                  `protobuf:"varint,4,opt,name=table_id,json=tableId,proto3" json:"table_id,omitempty"`
+	UpdatedByExternalId string                 `protobuf:"bytes,5,opt,name=updated_by_external_id,json=updatedByExternalId,proto3" json:"updated_by_external_id,omitempty"`
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
 }
 
 func (x *UpdateUserTableRoleByIdRequest) Reset() {
@@ -3096,6 +3137,13 @@ func (x *UpdateUserTableRoleByIdRequest) GetTableId() int64 {
 		return x.TableId
 	}
 	return 0
+}
+
+func (x *UpdateUserTableRoleByIdRequest) GetUpdatedByExternalId() string {
+	if x != nil {
+		return x.UpdatedByExternalId
+	}
+	return ""
 }
 
 // UpdateUserTableRoleByIdResponse returns the updated dc.user_table_roles row (query UpdateUserTableRoleById).
@@ -3424,7 +3472,7 @@ const file_user_domain_roles_v1_user_domain_roles_proto_rawDesc = "" +
 	"\x1cUndeleteTableRoleByIdRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\"M\n" +
 	"\x1dUndeleteTableRoleByIdResponse\x12,\n" +
-	"\x05empty\x18\x01 \x01(\v2\x16.google.protobuf.EmptyR\x05empty\"\x93\x02\n" +
+	"\x05empty\x18\x01 \x01(\v2\x16.google.protobuf.EmptyR\x05empty\"\xb7\x02\n" +
 	"\x0eUserDomainRole\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x17\n" +
 	"\auser_id\x18\x02 \x01(\x03R\x06userId\x12&\n" +
@@ -3435,7 +3483,8 @@ const file_user_domain_roles_v1_user_domain_roles_proto_rawDesc = "" +
 	"updated_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12\x1d\n" +
 	"\n" +
 	"is_deleted\x18\x06 \x01(\bR\tisDeleted\x12\x1b\n" +
-	"\tdomain_id\x18\a \x01(\x03R\bdomainId\".\n" +
+	"\tdomain_id\x18\a \x01(\x03R\bdomainId\x12\"\n" +
+	"\rupdated_by_id\x18\b \x01(\x03R\vupdatedById\".\n" +
 	"\x1cGetUserDomainRoleByIdRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\"o\n" +
 	"\x1dGetUserDomainRoleByIdResponse\x12N\n" +
@@ -3449,18 +3498,20 @@ const file_user_domain_roles_v1_user_domain_roles_proto_rawDesc = "" +
 	"\x10user_domain_role\x18\x01 \x01(\v2$.user_domain_roles.v1.UserDomainRoleR\x0euserDomainRole\"\"\n" +
 	" GetDeletedUserDomainRolesRequest\"u\n" +
 	"!GetDeletedUserDomainRolesResponse\x12P\n" +
-	"\x11user_domain_roles\x18\x01 \x03(\v2$.user_domain_roles.v1.UserDomainRoleR\x0fuserDomainRoles\"{\n" +
+	"\x11user_domain_roles\x18\x01 \x03(\v2$.user_domain_roles.v1.UserDomainRoleR\x0fuserDomainRoles\"\xb0\x01\n" +
 	"\x1bCreateUserDomainRoleRequest\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12&\n" +
 	"\x0fdomain_roles_id\x18\x02 \x01(\x03R\rdomainRolesId\x12\x1b\n" +
-	"\tdomain_id\x18\x03 \x01(\x03R\bdomainId\"n\n" +
+	"\tdomain_id\x18\x03 \x01(\x03R\bdomainId\x123\n" +
+	"\x16updated_by_external_id\x18\x04 \x01(\tR\x13updatedByExternalId\"n\n" +
 	"\x1cCreateUserDomainRoleResponse\x12N\n" +
-	"\x10user_domain_role\x18\x01 \x01(\v2$.user_domain_roles.v1.UserDomainRoleR\x0euserDomainRole\"\x8f\x01\n" +
+	"\x10user_domain_role\x18\x01 \x01(\v2$.user_domain_roles.v1.UserDomainRoleR\x0euserDomainRole\"\xc4\x01\n" +
 	"\x1fUpdateUserDomainRoleByIdRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x17\n" +
 	"\auser_id\x18\x02 \x01(\x03R\x06userId\x12&\n" +
 	"\x0fdomain_roles_id\x18\x03 \x01(\x03R\rdomainRolesId\x12\x1b\n" +
-	"\tdomain_id\x18\x04 \x01(\x03R\bdomainId\"r\n" +
+	"\tdomain_id\x18\x04 \x01(\x03R\bdomainId\x123\n" +
+	"\x16updated_by_external_id\x18\x05 \x01(\tR\x13updatedByExternalId\"r\n" +
 	" UpdateUserDomainRoleByIdResponse\x12N\n" +
 	"\x10user_domain_role\x18\x01 \x01(\v2$.user_domain_roles.v1.UserDomainRoleR\x0euserDomainRole\"1\n" +
 	"\x1fDeleteUserDomainRoleByIdRequest\x12\x0e\n" +
@@ -3470,7 +3521,7 @@ const file_user_domain_roles_v1_user_domain_roles_proto_rawDesc = "" +
 	"!UndeleteUserDomainRoleByIdRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\"R\n" +
 	"\"UndeleteUserDomainRoleByIdResponse\x12,\n" +
-	"\x05empty\x18\x01 \x01(\v2\x16.google.protobuf.EmptyR\x05empty\"\x8e\x02\n" +
+	"\x05empty\x18\x01 \x01(\v2\x16.google.protobuf.EmptyR\x05empty\"\xb2\x02\n" +
 	"\rUserTableRole\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x17\n" +
 	"\auser_id\x18\x02 \x01(\x03R\x06userId\x12$\n" +
@@ -3481,7 +3532,8 @@ const file_user_domain_roles_v1_user_domain_roles_proto_rawDesc = "" +
 	"updated_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12\x1d\n" +
 	"\n" +
 	"is_deleted\x18\x06 \x01(\bR\tisDeleted\x12\x19\n" +
-	"\btable_id\x18\a \x01(\x03R\atableId\"-\n" +
+	"\btable_id\x18\a \x01(\x03R\atableId\x12\"\n" +
+	"\rupdated_by_id\x18\b \x01(\x03R\vupdatedById\"-\n" +
 	"\x1bGetUserTableRoleByIdRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\"k\n" +
 	"\x1cGetUserTableRoleByIdResponse\x12K\n" +
@@ -3495,18 +3547,20 @@ const file_user_domain_roles_v1_user_domain_roles_proto_rawDesc = "" +
 	"\x0fuser_table_role\x18\x01 \x01(\v2#.user_domain_roles.v1.UserTableRoleR\ruserTableRole\"!\n" +
 	"\x1fGetDeletedUserTableRolesRequest\"q\n" +
 	" GetDeletedUserTableRolesResponse\x12M\n" +
-	"\x10user_table_roles\x18\x01 \x03(\v2#.user_domain_roles.v1.UserTableRoleR\x0euserTableRoles\"v\n" +
+	"\x10user_table_roles\x18\x01 \x03(\v2#.user_domain_roles.v1.UserTableRoleR\x0euserTableRoles\"\xab\x01\n" +
 	"\x1aCreateUserTableRoleRequest\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12$\n" +
 	"\x0etable_roles_id\x18\x02 \x01(\x03R\ftableRolesId\x12\x19\n" +
-	"\btable_id\x18\x03 \x01(\x03R\atableId\"j\n" +
+	"\btable_id\x18\x03 \x01(\x03R\atableId\x123\n" +
+	"\x16updated_by_external_id\x18\x04 \x01(\tR\x13updatedByExternalId\"j\n" +
 	"\x1bCreateUserTableRoleResponse\x12K\n" +
-	"\x0fuser_table_role\x18\x01 \x01(\v2#.user_domain_roles.v1.UserTableRoleR\ruserTableRole\"\x8a\x01\n" +
+	"\x0fuser_table_role\x18\x01 \x01(\v2#.user_domain_roles.v1.UserTableRoleR\ruserTableRole\"\xbf\x01\n" +
 	"\x1eUpdateUserTableRoleByIdRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x17\n" +
 	"\auser_id\x18\x02 \x01(\x03R\x06userId\x12$\n" +
 	"\x0etable_roles_id\x18\x03 \x01(\x03R\ftableRolesId\x12\x19\n" +
-	"\btable_id\x18\x04 \x01(\x03R\atableId\"n\n" +
+	"\btable_id\x18\x04 \x01(\x03R\atableId\x123\n" +
+	"\x16updated_by_external_id\x18\x05 \x01(\tR\x13updatedByExternalId\"n\n" +
 	"\x1fUpdateUserTableRoleByIdResponse\x12K\n" +
 	"\x0fuser_table_role\x18\x01 \x01(\v2#.user_domain_roles.v1.UserTableRoleR\ruserTableRole\"0\n" +
 	"\x1eDeleteUserTableRoleByIdRequest\x12\x0e\n" +

@@ -4,6 +4,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/repository/tables_model"
 	tablesv1 "github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/tables/v1"
 )
@@ -124,15 +125,15 @@ func TestSchemaCatsToProtoKeepsOrder(t *testing.T) {
 
 func TestToCreateSchemaCatParams(t *testing.T) {
 	req := &tablesv1.CreateSchemaCatRequest{
-		DatabaseId: 100,
-		Name:       "name-0",
-		UserId:     102,
+		DatabaseId:     100,
+		Name:           "name-0",
+		UserExternalId: "00000000-0000-4000-8000-000000000003",
 	}
 
 	want := tables_model.CreateSchemaCatParams{
 		DatabaseID: 100,
 		Name:       "name-0",
-		UserID:     102,
+		ExternalID: uuid.MustParse("00000000-0000-4000-8000-000000000003"),
 	}
 
 	if got := ToCreateSchemaCatParams(req); got != want {
@@ -149,17 +150,17 @@ func TestToCreateSchemaCatParamsNil(t *testing.T) {
 
 func TestToUpdateSchemaCatByIdParams(t *testing.T) {
 	req := &tablesv1.UpdateSchemaCatByIdRequest{
-		Id:         100,
-		DatabaseId: 101,
-		Name:       "name-0",
-		UserId:     103,
+		Id:             100,
+		DatabaseId:     101,
+		Name:           "name-0",
+		UserExternalId: "00000000-0000-4000-8000-000000000004",
 	}
 
 	want := tables_model.UpdateSchemaCatByIdParams{
 		ID:         100,
 		DatabaseID: 101,
 		Name:       "name-0",
-		UserID:     103,
+		ExternalID: uuid.MustParse("00000000-0000-4000-8000-000000000004"),
 	}
 
 	if got := ToUpdateSchemaCatByIdParams(req); got != want {
