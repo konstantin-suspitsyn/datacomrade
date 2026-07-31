@@ -198,6 +198,15 @@ task proto:gen && python deploy/generators/parse.py && python deploy/generators/
 чистые функции): нераспознанная строка становится `uuid.Nil`, а формат
 проверяется раньше, на валидации.
 
+Отдельный случай — колонка `<col>_id` (`bigint`), которая в `Create`/`Update`
+заполняется через `(SELECT u.id FROM dc."user" u WHERE u.external_id = $N)`
+(см. раздел про колонки `*_id` через внешний id в [standard_crud.md](standard_crud.md)).
+sqlc называет такой параметр не по колонке `<col>_id`, а по колонке сравнения —
+всегда `ExternalID uuid.UUID`. `resolve.py` ищет в proto-сообщении ещё не
+занятое поле с суффиксом `_external_id` (`EXTERNAL_ID_SUFFIX`) и сверяет, что
+`<col>_id` есть в `schema.sql`; сам генератор кода вставляет туда
+`converter.ProtoToUUID`/`converter.UUIDToProto`, как для обычного `uuid.UUID`.
+
 Правила валидации по типу колонки:
 
 | Колонка | Проверка |

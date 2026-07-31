@@ -65,6 +65,27 @@ AND is_deleted = false;
   в `dc.calculation_type`) — просто не включать её в запросы.
 - Nullable-колонки не требуют особой обработки: sqlc сам сгенерирует nullable-тип.
 
+## Колонки `*_id`, ссылающиеся на пользователя по внешнему id
+
+Если у вызывающей стороны есть только внешний id пользователя (`dc."user".external_id`,
+`uuid`), а не внутренний `bigint`-id, то колонка `<col>_id` в `Create`/`Update`
+заполняется не параметром напрямую, а подзапросом:
+
+```sql
+<col>_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $N)
+```
+
+Так сделано для `user_id` в `tables_model` (например
+[query.sql](../../../datacatalogue/db/sqlc/tables_model/query.sql)) и для
+`updated_by_id` в `user_domain_roles`/`user_table_roles`. Применять по задаче,
+не для всех `*_id` подряд — обычные FK на другие таблицы (`table_id`, `alias_id`
+и т.п.) остаются простым `$N`.
+
+Это меняет тип параметра sqlc с `int64` на `uuid.UUID` (называется sqlc всегда
+`ExternalID`, по колонке сравнения, а не по имени `<col>_id`) и требует
+соответствующего поля `<col>_external_id` (`string`) в `.proto` —
+см. раздел про этот спецкейс в [proto_based_on_crud.md](proto_based_on_crud.md).
+
 ## Оформление файла
 
 Запросы группируются по таблицам, порядок таблиц — как в `schema.sql`.

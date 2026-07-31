@@ -129,10 +129,34 @@ message GetHostByIdResponse {
 ## Как генерировать
 
 При 15+ таблицах это ~270 сообщений — руками не набирать, будут опечатки.
-Написать одноразовый Python-скрипт в скратчпаде: список таблиц с полями
-(строка, поля Create, список FK) → генерация текста → запись `.proto`.
-Так правки схемы применяются перегенерацией, а нумерация полей и имена
-сообщений гарантированно согласованы.
+Для доменов `tables_model` и `user_domain_roles` генераторы уже есть —
+[deploy/generators/proto_gen_tables.py](../../../deploy/generators/proto_gen_tables.py) и
+[deploy/generators/proto_gen_user_domain_roles.py](../../../deploy/generators/proto_gen_user_domain_roles.py).
+После правки `query.sql`/`schema.sql` этого домена просто перезапустить
+соответствующий скрипт — он идемпотентен (пустой `git diff`, если источники
+не менялись).
+
+Для домена без скрипта (`auth_logic`, `user_model`) — скопировать ближайший
+существующий `proto_gen_*.py`, поменять `SCHEMA_PATH`/`QUERY_PATH`/`OUT_PATH`,
+`ENTITY_NAMES` и заголовок (`package`, `go_package`, имя сервиса). Общая схема:
+список таблиц с полями (строка, поля Create, список FK) → генерация текста →
+запись `.proto`. Так правки схемы применяются перегенерацией, а нумерация
+полей и имена сообщений гарантированно согласованы.
+
+### Спецкейс: параметр через внешний id пользователя
+
+Если колонка `<col>_id` в `Create`/`Update` заполняется не напрямую параметром,
+а через `(SELECT u.id FROM dc."user" u WHERE u.external_id = $N)` (см.
+[standard_crud.md](standard_crud.md) о том, когда так делают), то в
+`Request`-сообщении это поле называется `<col>_id` без суффикса `_id`, а с
+суффиксом `_external_id`: `<col>_external_id`, тип `string` (uuid). Например,
+колонка `user_id` → поле `user_external_id`, колонка `updated_by_id` → поле
+`updated_by_external_id`. Это не самостоятельное решение — соглашение зашито
+в `EXTERNAL_ID_SUFFIX`/`pair_fields` в
+[deploy/generators/resolve.py](../../../deploy/generators/resolve.py):
+генератор Go-слоёв ищет sqlc-параметр `ExternalID uuid.UUID` и сопоставляет
+его с proto-полем по этому суффиксу, а не по имени. Назвать поле иначе —
+значит сломать шаг 2 конвейера ([generate_gprpc_go.md](generate_gprpc_go.md)).
 
 ## Проверка после генерации
 
