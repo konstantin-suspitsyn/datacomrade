@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "datacomrade_frontend",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev", "--prefix", "C:\\Users\\const\\working\\datacomrade_frontend"],
+      "port": 5173
+    },
+    {
+      "name": "design-mockup",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["serve", "-l", "4300", "C:\\Users\\const\\working\\datacomrade_frontend\\design-mockup"],
+      "port": 4300
+    }
+  ]
+}

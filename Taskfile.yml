@@ -13,13 +13,12 @@ vars:
   SQLC_VERSION: "v1.31.1"
 
   BIN_DIR: "{{.ROOT_DIR}}/bin"
-  ENVDIR: "{{.ROOT_DIR}}/deploy/env"
   GOLANGCI_LINT: "{{.BIN_DIR}}/golangci-lint"
   GCI: "{{.BIN_DIR}}/gci"
   GOFUMPT: "{{.BIN_DIR}}/gofumpt"
   BUF: "{{.BIN_DIR}}/buf"
-  MODULES: datacatalogue shepherd
-  SERVICES: datacatalogue shepherd
+  MODULES: datacatalogue shepherd shared
+  SERVICES: datacatalogue shepherd shared
   PROTOC_GEN_GO: "{{.BIN_DIR}}/protoc-gen-go"
   PROTOC_GEN_GO_GRPC: "{{.BIN_DIR}}/protoc-gen-go-grpc"
   GRPCURL: "{{.BIN_DIR}}/grpcurl"
@@ -107,7 +106,7 @@ tasks:
       Зависимости:
         - install-golangci-lint: автоматически устанавливает линтер
         - format: форматирует код перед проверкой
-    deps: [install-golangci-lint]
+    deps: [install-golangci-lint, format]
     vars:
       MODULES: "{{.MODULES}}"
       GOLANGCI_LINT: "{{.GOLANGCI_LINT}}"
@@ -206,41 +205,17 @@ tasks:
     cmds:
       - "{{.SQLC}} generate"
 
-  env:install-envsubst:
-    desc: "Устанавливает envsubst для замены переменных в конфигурации"
+  env:install-requirements:
+    desc: "Устанавливает Python-зависимости для скриптов в deploy/python-scripts"
+    dir: deploy/python-scripts
     cmds:
-      - |
-        [ -f {{.ENVSUBST}} ] || {
-          echo "📦 Устанавливаем envsubst версии {{.ENVSUBST_VERSION}}..."
-          GOBIN={{.BIN_DIR}} go install github.com/a8m/envsubst/cmd/envsubst@{{.ENVSUBST_VERSION}}
-        }
-        echo "✅ envsubst установлен: {{.ENVSUBST}}"
+      - python -m pip install -r requirements.txt
 
-  env:generate:
-    desc: "Генерирует .env файлы для всех сервисов из шаблонов и единого файла конфигурации"
-    deps: [env:install-envsubst]
+  env:gen:
+    desc: "Генерирует .env файлы для всех сервисов из deploy/env/params.toml"
+    deps: [env:install-requirements]
     cmds:
-      - |
-        ENV_FILE="{{.ENVDIR}}/.env"
-        TEMPLATE_FILE="{{.ENVDIR}}/.env.template"
-        SCRIPT="{{.ENVDIR}}/generate-env.sh"
-
-        if [ ! -f "$ENV_FILE" ]; then
-          if [ -f "$TEMPLATE_FILE" ]; then
-            echo "🔄 Файл $ENV_FILE не найден, создаем из шаблона $TEMPLATE_FILE"
-            cp "$TEMPLATE_FILE" "$ENV_FILE"
-            echo "✅ Создан файл $ENV_FILE. Проверьте и отредактируйте значения переменных при необходимости."
-          else
-            echo "❌ Шаблон $TEMPLATE_FILE не найден!"
-            exit 1
-          fi
-        fi
-
-        chmod +x "$SCRIPT"
-        # Передаем список сервисов в виде строки с разделителями-запятыми
-        export SERVICES="{{.SERVICES}}"
-        export ENV_FILE="$ENV_FILE"
-        ENV_SUBST={{.ENVSUBST}} "$SCRIPT" services
+      - python deploy/python-scripts/generate_env.py deploy/env
 
   up-core:
     desc: Поднять core-контейнер
