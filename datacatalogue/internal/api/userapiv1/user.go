@@ -25,16 +25,6 @@ func (u *UserApiV1) GetUserById(ctx context.Context, req *userv1.GetUserByIdRequ
 	return &userv1.GetUserByIdResponse{User: userconv.UserToProto(row)}, nil
 }
 
-// GetUsers отдаёт все активные строки dc.user.
-func (u *UserApiV1) GetUsers(ctx context.Context, req *userv1.GetUsersRequest) (*userv1.GetUsersResponse, error) {
-	rows, err := u.services.UserService.GetUsers(ctx)
-	if err != nil {
-		return nil, apierror.Wrap(err)
-	}
-
-	return &userv1.GetUsersResponse{Users: userconv.UsersToProto(rows)}, nil
-}
-
 // GetDeletedUserById отдаёт мягко удалённую строку dc.user по id.
 func (u *UserApiV1) GetDeletedUserById(ctx context.Context, req *userv1.GetDeletedUserByIdRequest) (*userv1.GetDeletedUserByIdResponse, error) {
 	if err := validation.ValidateID(req.GetId()); err != nil {
@@ -49,7 +39,17 @@ func (u *UserApiV1) GetDeletedUserById(ctx context.Context, req *userv1.GetDelet
 	return &userv1.GetDeletedUserByIdResponse{User: userconv.UserToProto(row)}, nil
 }
 
-// GetDeletedUsers отдаёт все мягко удалённые строки dc.user.
+// GetUsers отдаёт строки dc.user.
+func (u *UserApiV1) GetUsers(ctx context.Context, req *userv1.GetUsersRequest) (*userv1.GetUsersResponse, error) {
+	rows, err := u.services.UserService.GetUsers(ctx)
+	if err != nil {
+		return nil, apierror.Wrap(err)
+	}
+
+	return &userv1.GetUsersResponse{Users: userconv.UsersToProto(rows)}, nil
+}
+
+// GetDeletedUsers отдаёт строки dc.user.
 func (u *UserApiV1) GetDeletedUsers(ctx context.Context, req *userv1.GetDeletedUsersRequest) (*userv1.GetDeletedUsersResponse, error) {
 	rows, err := u.services.UserService.GetDeletedUsers(ctx)
 	if err != nil {
@@ -87,7 +87,7 @@ func (u *UserApiV1) CreateUser(ctx context.Context, req *userv1.CreateUserReques
 	return &userv1.CreateUserResponse{User: userconv.UserToProto(row)}, nil
 }
 
-// UpdateUserById обновляет активную строку dc.user и отдаёт её целиком.
+// UpdateUserById обновляет строку dc.user.
 func (u *UserApiV1) UpdateUserById(ctx context.Context, req *userv1.UpdateUserByIdRequest) (*userv1.UpdateUserByIdResponse, error) {
 	if err := uservalidation.ValidateUpdateUserById(req); err != nil {
 		return nil, apierror.Wrap(err)

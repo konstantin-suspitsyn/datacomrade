@@ -1,81 +1,60 @@
-# Генерация .proto по query.sql
+# Генерация .proto — SG Buddy
 
-Инструкция для Claude: как построить `.proto` файл, полностью соответствующий
-CRUD-запросам из `query.sql`. Дополняет [standard_crud.md](standard_crud.md) —
-сначала генерируется `query.sql`, потом по нему `.proto`.
+`.proto` не пишется руками и не собирается скриптами репозитория. Его делает
+та же программа, что и `query.sql`, — **SG Buddy**,
+<https://github.com/konstantin-suspitsyn/sg_buddy>, из того же `schema.json`.
 
-## Входные данные
+Второй шаг цепочки:
+[standard_crud.md](standard_crud.md) → **этот файл** → [generate_gprpc_go.md](generate_gprpc_go.md).
 
-- `query.sql` — источник истины по списку операций (имена RPC берутся отсюда).
-- `schema.sql` — источник истины по типам и составу полей.
+Скрипты `deploy/generators/proto_gen_*.py`, которые делали это раньше, удалены.
 
-Больше никуда не смотреть. Если в задании названы конкретные папки — работать
-только в них.
+## Как запускается
 
-## Главное правило
+Отдельного действия нет: программа пишет `query.sql` и `.proto` за одно
+сохранение. Куда класть контракт и что писать в его шапке, спрашивается при
+настройке схемы и хранится в `schema.json`:
 
-**Каждому запросу в `query.sql` соответствует ровно один RPC с тем же именем.**
-Количество RPC = количество запросов. Никаких лишних и никаких пропущенных.
+| Ключ `schema.json` | Что это |
+|---|---|
+| `save_proto_path` | куда положить `.proto` |
+| `proto_package` | `package` контракта |
+| `go_package` | `option go_package` |
 
-## Структура файла
+Пустыми эти ключи оставлять нельзя — контракт с пустым `package` не соберётся.
 
-```
-syntax = "proto3";
-package <domain>.v1;
-import "google/protobuf/empty.proto";
-import "google/protobuf/timestamp.proto";
-option go_package = "...";
+После генерации:
 
-service <Domain>Service { ... }   // все RPC, сгруппированы по таблицам
-// далее блоки сообщений по таблицам, порядок как в schema.sql
-```
-
-Перед блоком каждой таблицы — разделитель:
-
-```proto
-// =========================================================
-// dc.<table_name>
-// =========================================================
+```bash
+task proto:lint && task proto:gen
 ```
 
-Внутри блока RPC идут в порядке: чтение (`Get*`), выборки по FK, затем запись
-(`Create`, `Update`, `Delete`, `Undelete`).
+## Что получается
 
-## Сообщения на таблицу
+Главное правило прежнее: **каждому запросу `query.sql` соответствует ровно один
+RPC с тем же именем**. На нём держится генератор Go-слоёв — он сопоставляет
+запрос, метод репозитория и RPC по имени и падает, если тройка не сходится.
 
-### 1. Сущность — одна message на всю строку таблицы
+Форма контракта:
 
-```proto
-// Host is a full row of dc.host.
-message Host {
-  int64 id = 1;
-  string name = 2;
-  ...
-}
-```
+- на таблицу — сообщение со всеми её колонками: это строка, какой её вернут
+  `SELECT *` и `RETURNING *`;
+- на таблицу — свой сервис `<Таблица>Service`;
+- на запрос — пара `<Имя>Request` / `<Имя>Response`;
+- поля Request — параметры готового SQL в порядке появления: и те, что пришли
+  из настроек, и те, что написаны в значении руками;
+- ответ зависит от аннотации: `:exec` — пустое сообщение, `:one` — одна строка,
+  `:many` — `repeated`; у `DELETE` строки нет никогда;
+- выборка с явным списком колонок получает своё сообщение строки `<Имя>Row` —
+  в ответе видно ровно то, что выгружается, а не вся таблица;
+- постраничность и сортировка описываются целиком — см.
+  [pagination_proto.md](pagination_proto.md);
+- nullable-колонка и необязательный фильтр (`sqlc.narg`) дают `optional`-поле.
 
-Все `Response`, возвращающие данные, ссылаются на неё, а не дублируют поля.
-
-### 2. Request / Response на каждый RPC
-
-| RPC | Request | Response |
-|---|---|---|
-| `Get<E>ById` | `int64 id = 1;` | `<E> <snake_e> = 1;` |
-| `Get<E>s` | пустое тело `{}` | `repeated <E> <snake_plural> = 1;` |
-| `GetDeleted<E>ById` | `int64 id = 1;` | `<E> <snake_e> = 1;` |
-| `GetDeleted<E>s` | пустое тело `{}` | `repeated <E> <snake_plural> = 1;` |
-| `Get<E>sBy<Fk>` | `int64 <fk_field> = 1;` | `repeated <E> <snake_plural> = 1;` |
-| `Get<E>By<Column>` | `<type> <column> = 1;` | `<E> <snake_e> = 1;` |
-| `Create<E>` | параметры `INSERT` | `<E> <snake_e> = 1;` |
-| `Update<E>ById` | `id` + параметры `UPDATE` | `<E> <snake_e> = 1;` |
-| `Delete<E>ById` | `int64 id = 1;` | `google.protobuf.Empty empty = 1;` |
-| `Undelete<E>ById` | `int64 id = 1;` | `google.protobuf.Empty empty = 1;` |
-
-- Имя message = имя RPC + `Request` / `Response` (требование `buf lint`).
-- В `Create`/`Update` request **не входят** `id` (для Create), `created_at`,
-  `updated_at`, `is_deleted` — они выставляются в SQL.
-- Списочные Request делать пустыми `message ...Request {}`, а не через
-  `google.protobuf.Empty` — чтобы потом можно было добавить пагинацию.
+Тип параметра программа ищет по порядку: колонка своей таблицы, приведение из
+SQL (`@id::uuid`), колонка того же имени в других таблицах схемы. Не нашлось
+нигде — поле станет `string`, а сама программа напишет об этом в списке
+проблем. Такое место нужно чинить в настройках, а не в `.proto`.
 
 ## Маппинг типов
 
@@ -90,95 +69,43 @@ message Host {
 | `numeric` | `string` (без потери точности) |
 | `uuid` | `string` (канонический вид 8-4-4-4-12) |
 
-Nullable-колонка → `optional <type>` (для message-типов вроде `Timestamp`
-presence есть по умолчанию, `optional` не нужен).
+**Осторожно с `optional`.** Он обязан соответствовать nullability колонки в
+`schema.sql`. Расхождение уже случалось: `dc.has_to_group.description` объявлен
+`NOT NULL`, а поле в контракте было `optional` — контракт обещал клиенту, что
+поле можно не передавать, хотя база такую строку не приняла бы. Нашёл это
+генератор Go-слоёв, он сверяет типы и падает на несоответствии.
 
-## Комментарии — обязательны
+## Параметр через внешний id пользователя
 
-`buf lint` (правило `COMMENT_MESSAGE`) требует непустой комментарий **у каждой**
-message, включая Response. Комментарий пишется строкой выше `message`, начинается
-с имени сообщения и содержит ссылку на исходный запрос:
+Если колонка `<col>_id` заполняется подзапросом
+`(SELECT u.id FROM dc."user" u WHERE u.external_id = @external_id)` (см.
+[standard_crud.md](standard_crud.md)), то поле в `Request` называется не
+`<col>_id`, а `<col>_external_id`, тип `string` (uuid). Колонка `user_id` даёт
+поле `user_external_id`, `updated_by_id` — `updated_by_external_id`.
 
-```proto
-// GetHostByIdResponse returns a single active dc.host row (query GetHostById).
-message GetHostByIdResponse {
-  Host host = 1;
-}
-```
+Это не косметика: соглашение зашито в `EXTERNAL_ID_SUFFIX`/`pair_fields`
+в [deploy/generators/resolve.py](../../../deploy/generators/resolve.py) —
+генератор Go-слоёв ищет sqlc-параметр `ExternalID uuid.UUID` и сопоставляет его
+с полем proto по этому суффиксу, а не по имени. Назвать иначе — сломать шаг
+[generate_gprpc_go.md](generate_gprpc_go.md).
 
-Шаблоны формулировок:
+## Проверки
 
-- сущность — `<E> is a full row of <table>.`
-- `Get...ByIdRequest` — `asks for a single active <table> row by id`
-- `Get...ByIdResponse` — `returns a single active <table> row`
-- `Get...sRequest` / `Response` — `asks for / returns every active <table> row`
-- `GetDeleted...` — то же, но `soft deleted` вместо `active`
-- `Get...sBy<Fk>...` — `asks for / returns active <table> rows filtered by <fk_field>`
-- `Get...By<Column>...` — `asks for / returns a single active <table> row by <column>`
-- `Create...Request` — `carries the fields needed to insert a <table> row`
-- `Create...Response` — `returns the created <table> row`
-- `Update...ByIdRequest` — `carries the fields to update on a <table> row`
-- `Update...ByIdResponse` — `returns the updated <table> row`
-- `Delete...ByIdRequest` — `asks to soft delete a <table> row by id, setting is_deleted = true`
-- `Undelete...ByIdRequest` — `asks to restore a soft deleted <table> row by id, setting is_deleted = false`
-- `Delete/Undelete...ByIdResponse` — `carries no payload`
-
-Комментарии к каждому `rpc` не добавлять — блок `service` становится
-нечитаемым. Добавить только если включено правило `COMMENT_RPC`.
-
-## Как генерировать
-
-При 15+ таблицах это ~270 сообщений — руками не набирать, будут опечатки.
-Для доменов `tables_model` и `user_domain_roles` генераторы уже есть —
-[deploy/generators/proto_gen_tables.py](../../../deploy/generators/proto_gen_tables.py) и
-[deploy/generators/proto_gen_user_domain_roles.py](../../../deploy/generators/proto_gen_user_domain_roles.py).
-После правки `query.sql`/`schema.sql` этого домена просто перезапустить
-соответствующий скрипт — он идемпотентен (пустой `git diff`, если источники
-не менялись).
-
-Для домена без скрипта (`auth_logic`, `user_model`) — скопировать ближайший
-существующий `proto_gen_*.py`, поменять `SCHEMA_PATH`/`QUERY_PATH`/`OUT_PATH`,
-`ENTITY_NAMES` и заголовок (`package`, `go_package`, имя сервиса). Общая схема:
-список таблиц с полями (строка, поля Create, список FK) → генерация текста →
-запись `.proto`. Так правки схемы применяются перегенерацией, а нумерация
-полей и имена сообщений гарантированно согласованы.
-
-### Спецкейс: параметр через внешний id пользователя
-
-Если колонка `<col>_id` в `Create`/`Update` заполняется не напрямую параметром,
-а через `(SELECT u.id FROM dc."user" u WHERE u.external_id = $N)` (см.
-[standard_crud.md](standard_crud.md) о том, когда так делают), то в
-`Request`-сообщении это поле называется `<col>_id` без суффикса `_id`, а с
-суффиксом `_external_id`: `<col>_external_id`, тип `string` (uuid). Например,
-колонка `user_id` → поле `user_external_id`, колонка `updated_by_id` → поле
-`updated_by_external_id`. Это не самостоятельное решение — соглашение зашито
-в `EXTERNAL_ID_SUFFIX`/`pair_fields` в
-[deploy/generators/resolve.py](../../../deploy/generators/resolve.py):
-генератор Go-слоёв ищет sqlc-параметр `ExternalID uuid.UUID` и сопоставляет
-его с proto-полем по этому суффиксу, а не по имени. Назвать поле иначе —
-значит сломать шаг 2 конвейера ([generate_gprpc_go.md](generate_gprpc_go.md)).
-
-## Проверка после генерации
-
-1. Имена RPC совпадают с именами запросов один в один:
+Имена RPC совпадают с именами запросов один в один:
 
 ```bash
-grep -o "^-- name: [A-Za-z]*" query.sql | sed 's/-- name: //' | sort > /tmp/q.txt; grep -o "^  rpc [A-Za-z]*" tables.proto | sed 's/  rpc //' | sort > /tmp/r.txt; diff /tmp/q.txt /tmp/r.txt && echo MATCH
+grep -o "^-- name: [A-Za-z]*" datacatalogue/db/sqlc/tables_model/query.sql | sed 's/-- name: //' | sort > /tmp/q.txt; grep -o "rpc [A-Za-z]*" shared/proto/tables/v1/tables.proto | sed 's/rpc //' | sort > /tmp/r.txt; diff /tmp/q.txt /tmp/r.txt && echo MATCH
 ```
 
-2. У каждой message есть комментарий:
+Затем `task proto:lint` и `task proto:gen`.
 
-```bash
-python -c "import io;l=io.open('tables.proto',encoding='utf-8').read().split('\n');print(sum(1 for i,x in enumerate(l) if x.startswith('message ') and not l[i-1].strip().startswith('//')))"
-```
+## Осторожно при перегенерации
 
-Должен вывести `0`.
+Перегенерация меняет контракт: имена RPC и форма ответов приезжают из настроек,
+а не из того, что было в файле раньше. Хендлеры, конвертеры и клиентов придётся
+приводить к новому контракту — для слоёв каталога это делается автоматически
+через [generate_gprpc_go.md](generate_gprpc_go.md), для внешних потребителей —
+руками.
 
-3. Прогнать `buf lint` и генерацию кода — в окружении может не быть `protoc`,
-   тогда синтаксис проверяется только на стороне пользователя.
-
-## Внимание
-
-Перегенерация ломает API: имена RPC меняются (`GetHost` → `GetHostById`),
-ответы становятся вложенными (`Host host = 1;` вместо плоских полей).
-Хендлеры, конвертеры и клиентов придётся переписывать под новый контракт.
+Править сам `.proto` бессмысленно: следующее сохранение в программе перезапишет
+файл. Всё, что нужно поменять, меняется в настройках схемы.

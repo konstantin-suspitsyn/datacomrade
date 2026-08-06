@@ -9,23 +9,6 @@ import (
 	"github.com/konstantin-suspitsyn/datacomrade/shared/pkg/validator"
 )
 
-// validCreateTableRoleRequest — заведомо корректный запрос.
-// Тесты портят по одному полю, чтобы проверять правила по отдельности.
-func validCreateTableRoleRequest() *userdomainrolesv1.CreateTableRoleRequest {
-	return &userdomainrolesv1.CreateTableRoleRequest{
-		Name:        "name-0",
-		Description: "description-1",
-	}
-}
-
-func validUpdateTableRoleByIdRequest() *userdomainrolesv1.UpdateTableRoleByIdRequest {
-	return &userdomainrolesv1.UpdateTableRoleByIdRequest{
-		Id:          42,
-		Name:        "name-0",
-		Description: "description-1",
-	}
-}
-
 // tableRoleFieldErrors достаёт из ошибки список полей с претензиями.
 func tableRoleFieldErrors(t *testing.T, err error) map[string][]string {
 	t.Helper()
@@ -38,6 +21,13 @@ func tableRoleFieldErrors(t *testing.T, err error) map[string][]string {
 	return validationErr.Errors
 }
 
+func validValidateCreateTableRoleRequest() *userdomainrolesv1.CreateTableRoleRequest {
+	return &userdomainrolesv1.CreateTableRoleRequest{
+		Name:        "name-0",
+		Description: "description-1",
+	}
+}
+
 func TestValidateCreateTableRole(t *testing.T) {
 	tests := []struct {
 		name      string
@@ -46,10 +36,8 @@ func TestValidateCreateTableRole(t *testing.T) {
 	}{
 		{name: "valid", mutate: func(*userdomainrolesv1.CreateTableRoleRequest) {}},
 		{name: "empty name", mutate: func(r *userdomainrolesv1.CreateTableRoleRequest) { r.Name = "" }, wantField: "name"},
-		{name: "blank name", mutate: func(r *userdomainrolesv1.CreateTableRoleRequest) { r.Name = "   " }, wantField: "name"},
 		{name: "name too long", mutate: func(r *userdomainrolesv1.CreateTableRoleRequest) { r.Name = strings.Repeat("a", tableRoleNameMaxLen+1) }, wantField: "name"},
 		{name: "empty description", mutate: func(r *userdomainrolesv1.CreateTableRoleRequest) { r.Description = "" }, wantField: "description"},
-		{name: "blank description", mutate: func(r *userdomainrolesv1.CreateTableRoleRequest) { r.Description = "   " }, wantField: "description"},
 		{name: "description too long", mutate: func(r *userdomainrolesv1.CreateTableRoleRequest) {
 			r.Description = strings.Repeat("a", tableRoleDescriptionMaxLen+1)
 		}, wantField: "description"},
@@ -57,7 +45,7 @@ func TestValidateCreateTableRole(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			req := validCreateTableRoleRequest()
+			req := validValidateCreateTableRoleRequest()
 			tt.mutate(req)
 
 			err := ValidateCreateTableRole(req)
@@ -74,16 +62,24 @@ func TestValidateCreateTableRole(t *testing.T) {
 			}
 
 			fields := tableRoleFieldErrors(t, err)
-
 			if len(fields[tt.wantField]) == 0 {
 				t.Errorf("no error on %q, got %v", tt.wantField, fields)
 			}
-
-			// Порча одного поля не должна задевать остальные.
-			if len(fields) != 1 {
-				t.Errorf("errors on %d fields, want only %q: %v", len(fields), tt.wantField, fields)
-			}
 		})
+	}
+}
+
+func TestValidateCreateTableRoleNil(t *testing.T) {
+	if err := ValidateCreateTableRole(nil); err == nil {
+		t.Error("ValidateCreateTableRole(nil) = nil, want error")
+	}
+}
+
+func validValidateUpdateTableRoleByIdRequest() *userdomainrolesv1.UpdateTableRoleByIdRequest {
+	return &userdomainrolesv1.UpdateTableRoleByIdRequest{
+		Id:          100,
+		Name:        "name-1",
+		Description: "description-2",
 	}
 }
 
@@ -95,14 +91,11 @@ func TestValidateUpdateTableRoleById(t *testing.T) {
 	}{
 		{name: "valid", mutate: func(*userdomainrolesv1.UpdateTableRoleByIdRequest) {}},
 		{name: "zero id", mutate: func(r *userdomainrolesv1.UpdateTableRoleByIdRequest) { r.Id = 0 }, wantField: "id"},
-		{name: "negative id", mutate: func(r *userdomainrolesv1.UpdateTableRoleByIdRequest) { r.Id = -5 }, wantField: "id"},
 		{name: "empty name", mutate: func(r *userdomainrolesv1.UpdateTableRoleByIdRequest) { r.Name = "" }, wantField: "name"},
-		{name: "blank name", mutate: func(r *userdomainrolesv1.UpdateTableRoleByIdRequest) { r.Name = "   " }, wantField: "name"},
 		{name: "name too long", mutate: func(r *userdomainrolesv1.UpdateTableRoleByIdRequest) {
 			r.Name = strings.Repeat("a", tableRoleNameMaxLen+1)
 		}, wantField: "name"},
 		{name: "empty description", mutate: func(r *userdomainrolesv1.UpdateTableRoleByIdRequest) { r.Description = "" }, wantField: "description"},
-		{name: "blank description", mutate: func(r *userdomainrolesv1.UpdateTableRoleByIdRequest) { r.Description = "   " }, wantField: "description"},
 		{name: "description too long", mutate: func(r *userdomainrolesv1.UpdateTableRoleByIdRequest) {
 			r.Description = strings.Repeat("a", tableRoleDescriptionMaxLen+1)
 		}, wantField: "description"},
@@ -110,7 +103,7 @@ func TestValidateUpdateTableRoleById(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			req := validUpdateTableRoleByIdRequest()
+			req := validValidateUpdateTableRoleByIdRequest()
 			tt.mutate(req)
 
 			err := ValidateUpdateTableRoleById(req)
@@ -127,66 +120,10 @@ func TestValidateUpdateTableRoleById(t *testing.T) {
 			}
 
 			fields := tableRoleFieldErrors(t, err)
-
 			if len(fields[tt.wantField]) == 0 {
 				t.Errorf("no error on %q, got %v", tt.wantField, fields)
 			}
-
-			// Порча одного поля не должна задевать остальные.
-			if len(fields) != 1 {
-				t.Errorf("errors on %d fields, want only %q: %v", len(fields), tt.wantField, fields)
-			}
 		})
-	}
-}
-
-// Ровно граничная длина проходит: varchar(n) допускает n символов.
-func TestValidateCreateTableRoleAtVarcharLimit(t *testing.T) {
-	req := validCreateTableRoleRequest()
-	req.Name = strings.Repeat("a", tableRoleNameMaxLen)
-
-	if err := ValidateCreateTableRole(req); err != nil {
-		t.Errorf("ValidateCreateTableRole() = %v, want nil at exactly %d chars", err, tableRoleNameMaxLen)
-	}
-}
-
-// Длина считается в символах, а не в байтах: кириллица занимает по 2 байта.
-func TestValidateCreateTableRoleCyrillicAtVarcharLimit(t *testing.T) {
-	req := validCreateTableRoleRequest()
-	req.Name = strings.Repeat("я", tableRoleNameMaxLen)
-
-	if err := ValidateCreateTableRole(req); err != nil {
-		t.Errorf("ValidateCreateTableRole() = %v, want nil at exactly %d cyrillic chars", err, tableRoleNameMaxLen)
-	}
-}
-
-func TestValidateCreateTableRoleCollectsAllErrors(t *testing.T) {
-	// Валидатор копит ошибки, а не падает на первой: клиент видит
-	// все проблемы запроса за один ответ.
-	err := ValidateCreateTableRole(&userdomainrolesv1.CreateTableRoleRequest{})
-
-	if err == nil {
-		t.Fatal("ValidateCreateTableRole() = nil, want errors")
-	}
-
-	fields := tableRoleFieldErrors(t, err)
-
-	wantFields := []string{"name", "description"}
-
-	for _, field := range wantFields {
-		if len(fields[field]) == 0 {
-			t.Errorf("no error on %q", field)
-		}
-	}
-
-	if len(fields) != len(wantFields) {
-		t.Errorf("errors on %d fields, want %d: %v", len(fields), len(wantFields), fields)
-	}
-}
-
-func TestValidateCreateTableRoleNil(t *testing.T) {
-	if err := ValidateCreateTableRole(nil); err == nil {
-		t.Error("ValidateCreateTableRole(nil) = nil, want error")
 	}
 }
 

@@ -42,7 +42,6 @@ func ToCreateUserParams(req *userv1.CreateUserRequest) user_model.CreateUserPara
 }
 
 // ToUpdateUserByIdParams собирает параметры обновления dc.user из запроса gRPC.
-// updated_at выставляет SQL, is_deleted через обновление не меняется.
 func ToUpdateUserByIdParams(req *userv1.UpdateUserByIdRequest) user_model.UpdateUserByIdParams {
 	return user_model.UpdateUserByIdParams{
 		ID:         req.GetId(),

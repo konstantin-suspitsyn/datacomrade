@@ -15,6 +15,13 @@ package validation
 
 import "github.com/konstantin-suspitsyn/datacomrade/shared/pkg/validator"
 
+// Границы постраничных выборок. Значения — политика сервиса, а не описание
+// запроса, поэтому живут здесь, а не в schema.sql/schema.json.
+const (
+	DefaultPageSize = 50
+	MaxPageSize     = 200
+)
+
 // ValidateID проверяет идентификатор записи для запросов, у которых
 // в теле только id: Get*ById, GetDeleted*ById, Delete*ById, Undelete*ById.
 // Идентификаторы — bigserial, поэтому допустимы только положительные значения.

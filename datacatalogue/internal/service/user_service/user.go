@@ -26,17 +26,6 @@ func (s *UserService) GetUserById(ctx context.Context, id int64) (user_model.DcU
 	return row, nil
 }
 
-// GetUsers возвращает все активные строки dc.user.
-func (s *UserService) GetUsers(ctx context.Context) ([]user_model.DcUser, error) {
-	rows, err := s.UserRepository.GetUsers(ctx)
-
-	if err != nil {
-		return nil, fmt.Errorf("get dc.user: %w", err)
-	}
-
-	return rows, nil
-}
-
 // GetDeletedUserById возвращает мягко удалённую строку dc.user по id.
 func (s *UserService) GetDeletedUserById(ctx context.Context, id int64) (user_model.DcUser, error) {
 	row, err := s.UserRepository.GetDeletedUserById(ctx, id)
@@ -52,12 +41,23 @@ func (s *UserService) GetDeletedUserById(ctx context.Context, id int64) (user_mo
 	return row, nil
 }
 
-// GetDeletedUsers возвращает все мягко удалённые строки dc.user.
+// GetUsers возвращает строки dc.user.
+func (s *UserService) GetUsers(ctx context.Context) ([]user_model.DcUser, error) {
+	rows, err := s.UserRepository.GetUsers(ctx)
+
+	if err != nil {
+		return nil, fmt.Errorf("GetUsers: %w", err)
+	}
+
+	return rows, nil
+}
+
+// GetDeletedUsers возвращает строки dc.user.
 func (s *UserService) GetDeletedUsers(ctx context.Context) ([]user_model.DcUser, error) {
 	rows, err := s.UserRepository.GetDeletedUsers(ctx)
 
 	if err != nil {
-		return nil, fmt.Errorf("get deleted dc.user: %w", err)
+		return nil, fmt.Errorf("GetDeletedUsers: %w", err)
 	}
 
 	return rows, nil
@@ -126,6 +126,7 @@ func (s *UserService) DeleteUserById(ctx context.Context, id int64) error {
 }
 
 // UndeleteUserById восстанавливает мягко удалённую строку dc.user.
+//
 // Существование удалённой записи проверяется заранее по той же причине,
 // что и в DeleteUserById.
 func (s *UserService) UndeleteUserById(ctx context.Context, id int64) error {

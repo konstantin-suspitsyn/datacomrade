@@ -8,11 +8,14 @@ Tags: [[new_microservice]] [[db]] [[workflow]]
 
 Первый шаг цепочки генерации: из `schema.sql` получаем `query.sql` — по 8 запросов на каждую таблицу.
 
+Пишет его не человек и не Claude, а отдельная GUI-программа **SG Buddy** — https://github.com/konstantin-suspitsyn/sg_buddy. Запуск `uv run sgbuddy`, настройки лежат в `schema.json` рядом со схемой и перезаписываются программой целиком.
+
 - Инструкция: `documentation/dev_instructions/crud/standard_crud.md`
 - Вход: `datacatalogue/db/sqlc/<модель>/schema.sql`
-- Выход: `datacatalogue/db/sqlc/<модель>/query.sql`
+- Настройки: `datacatalogue/db/sqlc/<модель>/schema.json`
+- Выход: `datacatalogue/db/sqlc/<модель>/query.sql` и `.proto`
 
-Схему для sqlc готовит [[sqlc_generation]], после этого шага запускается `sqlc generate`, а дальше идёт [[proto_based_on_crud]].
+Схему для sqlc готовит [[sqlc_generation]], после этого шага запускается `task sqlc:gen`, а дальше идёт [[proto_based_on_crud]]. Восьмёрка запросов ниже — не то, что программа знает сама, а соглашение каталога, которое в ней выставляется.
 
 ## Восемь запросов на таблицу
 

@@ -35,7 +35,9 @@ def parse_schema(path):
             if not cm:
                 continue
             col, coltype = cm.group(1), cm.group(2)
-            vm = re.search(r"character varying\((\d+)\)", coltype)
+            # Некоторые schema.sql пишут "varchar(n)" вместо "character
+            # varying(n)" — в Postgres это один и тот же тип.
+            vm = re.search(r"(?:character varying|varchar)\((\d+)\)", coltype)
             cols[col] = {
                 "type": coltype,
                 "varchar": int(vm.group(1)) if vm else None,

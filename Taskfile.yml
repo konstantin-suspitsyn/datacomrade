@@ -273,17 +273,43 @@ tasks:
       - echo "[task] 🛑 Останавливаем redis контейнер"
       - docker compose down
 
+  up-shepherd:
+    desc: "Поднять shepherd (API Gateway) как обычный Go-процесс в фоне — своего контейнера у него нет, см. Развертывание.md"
+    dir: shepherd
+    cmds:
+      - |
+        echo "[task] 🚀 Собираем и запускаем shepherd"
+        mkdir -p {{.BIN_DIR}}
+        go build -o {{.BIN_DIR}}/shepherd ./cmd
+        nohup {{.BIN_DIR}}/shepherd > {{.BIN_DIR}}/shepherd.log 2>&1 &
+        echo $! > {{.BIN_DIR}}/shepherd.pid
+
+  down-shepherd:
+    desc: "Останавливает фоновый процесс shepherd"
+    cmds:
+      - |
+        echo "[task] 🛑 Останавливаем shepherd"
+        if [ -f {{.BIN_DIR}}/shepherd.pid ]; then
+          PID=$(cat {{.BIN_DIR}}/shepherd.pid)
+          kill $PID 2>/dev/null || echo "процесс $PID уже не запущен"
+          rm -f {{.BIN_DIR}}/shepherd.pid
+        else
+          echo "shepherd.pid не найден — возможно, уже остановлен"
+        fi
+
   up-all:
-    desc: Поднять все контейнеры
+    desc: Поднять все контейнеры и микросервисы
     cmds:
       - task up-core
       - task up-datacatalogue
       - task up-keycloak
       - task up-redis
+      - task up-shepherd
 
   down-all:
-    desc: Поднять все контейнеры
+    desc: Остановить все контейнеры и микросервисы
     cmds:
+      - task down-shepherd
       - task down-redis
       - task down-keycloak
       - task down-datacatalogue

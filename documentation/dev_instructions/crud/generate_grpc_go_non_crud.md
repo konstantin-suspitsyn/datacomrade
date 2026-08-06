@@ -8,7 +8,10 @@
 
 Это отдельная ветка от основного конвейера
 [standard_crud.md](standard_crud.md) → [proto_based_on_crud.md](proto_based_on_crud.md) →
-[generate_gprpc_go.md](generate_gprpc_go.md). Используй ту тройку файлов, если
+[generate_gprpc_go.md](generate_gprpc_go.md). `query.sql` и `.proto` для таких
+доменов тоже пишет SG Buddy (<https://github.com/konstantin-suspitsyn/sg_buddy>) —
+запросы там просто настраиваются вручную, а не восьмёркой на таблицу.
+Используй ту тройку файлов, если
 домен раскладывается на таблицы с `Create<E>`; используй этот файл, если нет.
 Оба конвейера читают один и тот же `crud_config.json`, пишут в один и тот же
 `internal/`, не пересекаются по путям и могут запускаться независимо.

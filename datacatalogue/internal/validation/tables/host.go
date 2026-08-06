@@ -1,29 +1,10 @@
 package tables
 
 import (
+	"github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/validation"
 	tablesv1 "github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/tables/v1"
 	"github.com/konstantin-suspitsyn/datacomrade/shared/pkg/validator"
 )
-
-// hostWritableFields проверяет поля, общие для вставки и обновления dc.host.
-func hostWritableFields(
-	v *validator.Validator,
-	name string,
-	description string,
-	hostEnv string,
-	portEnv string,
-	usernameEnv string,
-	passwordEnv string,
-	userExternalId string,
-) {
-	v.StringVarchar("name", name, hostNameMaxLen)
-	v.StringVarchar("description", description, hostDescriptionMaxLen)
-	v.StringVarchar("host_env", hostEnv, hostHostEnvMaxLen)
-	v.StringVarchar("port_env", portEnv, hostPortEnvMaxLen)
-	v.StringVarchar("username_env", usernameEnv, hostUsernameEnvMaxLen)
-	v.StringVarchar("password_env", passwordEnv, hostPasswordEnvMaxLen)
-	v.StringUUID("user_id", userExternalId)
-}
 
 // ValidateCreateHost проверяет запрос на вставку строки dc.host.
 func ValidateCreateHost(req *tablesv1.CreateHostRequest) error {
@@ -34,22 +15,18 @@ func ValidateCreateHost(req *tablesv1.CreateHostRequest) error {
 		return v.Err()
 	}
 
-	hostWritableFields(
-		v,
-		req.GetName(),
-		req.GetDescription(),
-		req.GetHostEnv(),
-		req.GetPortEnv(),
-		req.GetUsernameEnv(),
-		req.GetPasswordEnv(),
-		req.GetUserExternalId(),
-	)
+	v.StringVarchar("name", req.GetName(), hostNameMaxLen)
+	v.StringVarchar("description", req.GetDescription(), hostDescriptionMaxLen)
+	v.StringVarchar("host_env", req.GetHostEnv(), hostHostEnvMaxLen)
+	v.StringVarchar("port_env", req.GetPortEnv(), hostPortEnvMaxLen)
+	v.StringVarchar("username_env", req.GetUsernameEnv(), hostUsernameEnvMaxLen)
+	v.StringVarchar("password_env", req.GetPasswordEnv(), hostPasswordEnvMaxLen)
+	v.StringUUID("user_id", req.GetExternalId())
 
 	return v.Err()
 }
 
 // ValidateUpdateHostById проверяет запрос на обновление строки dc.host.
-// К изменяемым полям добавляется id обновляемой записи.
 func ValidateUpdateHostById(req *tablesv1.UpdateHostByIdRequest) error {
 	v := validator.New()
 
@@ -59,17 +36,91 @@ func ValidateUpdateHostById(req *tablesv1.UpdateHostByIdRequest) error {
 	}
 
 	v.Int64ID("id", req.GetId())
+	v.StringVarchar("name", req.GetName(), hostNameMaxLen)
+	v.StringVarchar("description", req.GetDescription(), hostDescriptionMaxLen)
+	v.StringVarchar("host_env", req.GetHostEnv(), hostHostEnvMaxLen)
+	v.StringVarchar("port_env", req.GetPortEnv(), hostPortEnvMaxLen)
+	v.StringVarchar("username_env", req.GetUsernameEnv(), hostUsernameEnvMaxLen)
+	v.StringVarchar("password_env", req.GetPasswordEnv(), hostPasswordEnvMaxLen)
+	v.StringUUID("user_id", req.GetExternalId())
 
-	hostWritableFields(
-		v,
-		req.GetName(),
-		req.GetDescription(),
-		req.GetHostEnv(),
-		req.GetPortEnv(),
-		req.GetUsernameEnv(),
-		req.GetPasswordEnv(),
-		req.GetUserExternalId(),
-	)
+	return v.Err()
+}
+
+// ValidateDeleteHostById проверяет запрос на мягкое удаление строки dc.host.
+func ValidateDeleteHostById(req *tablesv1.DeleteHostByIdRequest) error {
+	v := validator.New()
+
+	if req == nil {
+		v.AddError("request", validator.MsgRequired)
+		return v.Err()
+	}
+
+	v.StringUUID("user_id", req.GetExternalId())
+	v.Int64ID("id", req.GetId())
+
+	return v.Err()
+}
+
+// ValidateUndeleteHostById проверяет запрос на обратное удаление строки dc.host.
+func ValidateUndeleteHostById(req *tablesv1.UndeleteHostByIdRequest) error {
+	v := validator.New()
+
+	if req == nil {
+		v.AddError("request", validator.MsgRequired)
+		return v.Err()
+	}
+
+	v.StringUUID("user_id", req.GetExternalId())
+	v.Int64ID("id", req.GetId())
+
+	return v.Err()
+}
+
+// ValidateGetHosts проверяет запрос страницы dc.host.
+func ValidateGetHosts(req *tablesv1.GetHostsRequest) error {
+	v := validator.New()
+
+	if req == nil {
+		v.AddError("request", validator.MsgRequired)
+		return v.Err()
+	}
+
+	v.Int32Between("page_limit", req.GetPageLimit(), 0, validation.MaxPageSize)
+	v.Int32Min("page", req.GetPage(), 0)
+	v.StringIn("order", req.GetOrder(), "", "ASC", "DESC")
+
+	return v.Err()
+}
+
+// ValidateGetHostsSearchName проверяет запрос страницы dc.host.
+func ValidateGetHostsSearchName(req *tablesv1.GetHostsSearchNameRequest) error {
+	v := validator.New()
+
+	if req == nil {
+		v.AddError("request", validator.MsgRequired)
+		return v.Err()
+	}
+
+	v.Int32Between("page_limit", req.GetPageLimit(), 0, validation.MaxPageSize)
+	v.Int32Min("page", req.GetPage(), 0)
+	v.StringIn("order", req.GetOrder(), "", "ASC", "DESC")
+
+	return v.Err()
+}
+
+// ValidateGetHostDeleted проверяет запрос страницы dc.host.
+func ValidateGetHostDeleted(req *tablesv1.GetHostDeletedRequest) error {
+	v := validator.New()
+
+	if req == nil {
+		v.AddError("request", validator.MsgRequired)
+		return v.Err()
+	}
+
+	v.Int32Between("page_limit", req.GetPageLimit(), 0, validation.MaxPageSize)
+	v.Int32Min("page", req.GetPage(), 0)
+	v.StringIn("order", req.GetOrder(), "", "ASC", "DESC")
 
 	return v.Err()
 }

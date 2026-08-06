@@ -25,17 +25,6 @@ func (s *UserDomainRolesService) GetUserTableRoleById(ctx context.Context, id in
 	return row, nil
 }
 
-// GetUserTableRoles возвращает все активные строки dc.user_table_roles.
-func (s *UserDomainRolesService) GetUserTableRoles(ctx context.Context) ([]user_domain_roles.DcUserTableRole, error) {
-	rows, err := s.UserDomainRolesRepository.GetUserTableRoles(ctx)
-
-	if err != nil {
-		return nil, fmt.Errorf("get dc.user_table_roles: %w", err)
-	}
-
-	return rows, nil
-}
-
 // GetDeletedUserTableRoleById возвращает мягко удалённую строку dc.user_table_roles по id.
 func (s *UserDomainRolesService) GetDeletedUserTableRoleById(ctx context.Context, id int64) (user_domain_roles.DcUserTableRole, error) {
 	row, err := s.UserDomainRolesRepository.GetDeletedUserTableRoleById(ctx, id)
@@ -51,12 +40,23 @@ func (s *UserDomainRolesService) GetDeletedUserTableRoleById(ctx context.Context
 	return row, nil
 }
 
-// GetDeletedUserTableRoles возвращает все мягко удалённые строки dc.user_table_roles.
+// GetUserTableRoles возвращает строки dc.user_table_roles.
+func (s *UserDomainRolesService) GetUserTableRoles(ctx context.Context) ([]user_domain_roles.DcUserTableRole, error) {
+	rows, err := s.UserDomainRolesRepository.GetUserTableRoles(ctx)
+
+	if err != nil {
+		return nil, fmt.Errorf("GetUserTableRoles: %w", err)
+	}
+
+	return rows, nil
+}
+
+// GetDeletedUserTableRoles возвращает строки dc.user_table_roles.
 func (s *UserDomainRolesService) GetDeletedUserTableRoles(ctx context.Context) ([]user_domain_roles.DcUserTableRole, error) {
 	rows, err := s.UserDomainRolesRepository.GetDeletedUserTableRoles(ctx)
 
 	if err != nil {
-		return nil, fmt.Errorf("get deleted dc.user_table_roles: %w", err)
+		return nil, fmt.Errorf("GetDeletedUserTableRoles: %w", err)
 	}
 
 	return rows, nil
@@ -110,6 +110,7 @@ func (s *UserDomainRolesService) DeleteUserTableRoleById(ctx context.Context, id
 }
 
 // UndeleteUserTableRoleById восстанавливает мягко удалённую строку dc.user_table_roles.
+//
 // Существование удалённой записи проверяется заранее по той же причине,
 // что и в DeleteUserTableRoleById.
 func (s *UserDomainRolesService) UndeleteUserTableRoleById(ctx context.Context, id int64) error {

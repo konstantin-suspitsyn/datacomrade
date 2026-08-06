@@ -25,16 +25,6 @@ func (u *UserDomainRolesApiV1) GetDomainRoleById(ctx context.Context, req *userd
 	return &userdomainrolesv1.GetDomainRoleByIdResponse{DomainRole: userdomainrolesconv.DomainRoleToProto(row)}, nil
 }
 
-// GetDomainRoles отдаёт все активные строки dc.domain_roles.
-func (u *UserDomainRolesApiV1) GetDomainRoles(ctx context.Context, req *userdomainrolesv1.GetDomainRolesRequest) (*userdomainrolesv1.GetDomainRolesResponse, error) {
-	rows, err := u.services.UserDomainRolesService.GetDomainRoles(ctx)
-	if err != nil {
-		return nil, apierror.Wrap(err)
-	}
-
-	return &userdomainrolesv1.GetDomainRolesResponse{DomainRoles: userdomainrolesconv.DomainRolesToProto(rows)}, nil
-}
-
 // GetDeletedDomainRoleById отдаёт мягко удалённую строку dc.domain_roles по id.
 func (u *UserDomainRolesApiV1) GetDeletedDomainRoleById(ctx context.Context, req *userdomainrolesv1.GetDeletedDomainRoleByIdRequest) (*userdomainrolesv1.GetDeletedDomainRoleByIdResponse, error) {
 	if err := validation.ValidateID(req.GetId()); err != nil {
@@ -49,7 +39,17 @@ func (u *UserDomainRolesApiV1) GetDeletedDomainRoleById(ctx context.Context, req
 	return &userdomainrolesv1.GetDeletedDomainRoleByIdResponse{DomainRole: userdomainrolesconv.DomainRoleToProto(row)}, nil
 }
 
-// GetDeletedDomainRoles отдаёт все мягко удалённые строки dc.domain_roles.
+// GetDomainRoles отдаёт строки dc.domain_roles.
+func (u *UserDomainRolesApiV1) GetDomainRoles(ctx context.Context, req *userdomainrolesv1.GetDomainRolesRequest) (*userdomainrolesv1.GetDomainRolesResponse, error) {
+	rows, err := u.services.UserDomainRolesService.GetDomainRoles(ctx)
+	if err != nil {
+		return nil, apierror.Wrap(err)
+	}
+
+	return &userdomainrolesv1.GetDomainRolesResponse{DomainRoles: userdomainrolesconv.DomainRolesToProto(rows)}, nil
+}
+
+// GetDeletedDomainRoles отдаёт строки dc.domain_roles.
 func (u *UserDomainRolesApiV1) GetDeletedDomainRoles(ctx context.Context, req *userdomainrolesv1.GetDeletedDomainRolesRequest) (*userdomainrolesv1.GetDeletedDomainRolesResponse, error) {
 	rows, err := u.services.UserDomainRolesService.GetDeletedDomainRoles(ctx)
 	if err != nil {
@@ -73,7 +73,7 @@ func (u *UserDomainRolesApiV1) CreateDomainRole(ctx context.Context, req *userdo
 	return &userdomainrolesv1.CreateDomainRoleResponse{DomainRole: userdomainrolesconv.DomainRoleToProto(row)}, nil
 }
 
-// UpdateDomainRoleById обновляет активную строку dc.domain_roles и отдаёт её целиком.
+// UpdateDomainRoleById обновляет строку dc.domain_roles.
 func (u *UserDomainRolesApiV1) UpdateDomainRoleById(ctx context.Context, req *userdomainrolesv1.UpdateDomainRoleByIdRequest) (*userdomainrolesv1.UpdateDomainRoleByIdResponse, error) {
 	if err := userdomainrolesvalidation.ValidateUpdateDomainRoleById(req); err != nil {
 		return nil, apierror.Wrap(err)

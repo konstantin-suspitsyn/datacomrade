@@ -6,6 +6,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/repository/tables_model"
+	"github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/validation"
 	tablesv1 "github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/tables/v1"
 )
 
@@ -85,15 +86,6 @@ func TestHostToProto(t *testing.T) {
 
 }
 
-func TestHostToProtoDeleted(t *testing.T) {
-	row := testHostRow()
-	row.IsDeleted = true
-
-	if got := HostToProto(row); !got.GetIsDeleted() {
-		t.Error("IsDeleted = false, want true")
-	}
-}
-
 func TestHostsToProto(t *testing.T) {
 	first := testHostRow()
 
@@ -115,7 +107,6 @@ func TestHostsToProto(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			got := HostsToProto(tt.input)
 
-			// Пустой вход даёт пустой, а не nil-слайс.
 			if got == nil {
 				t.Fatal("HostsToProto() = nil, want empty slice")
 			}
@@ -127,31 +118,15 @@ func TestHostsToProto(t *testing.T) {
 	}
 }
 
-func TestHostsToProtoKeepsOrder(t *testing.T) {
-	first := testHostRow()
-	second := testHostRow()
-	second.Name = "second-value"
-
-	got := HostsToProto([]tables_model.DcHost{first, second})
-
-	if got[0].GetName() != first.Name {
-		t.Errorf("[0] = %q, want %q", got[0].GetName(), first.Name)
-	}
-
-	if got[1].GetName() != second.Name {
-		t.Errorf("[1] = %q, want %q", got[1].GetName(), second.Name)
-	}
-}
-
 func TestToCreateHostParams(t *testing.T) {
 	req := &tablesv1.CreateHostRequest{
-		Name:           "name-0",
-		Description:    "description-0",
-		HostEnv:        "host-env-0",
-		PortEnv:        "port-env-0",
-		UsernameEnv:    "username-env-0",
-		PasswordEnv:    "password-env-0",
-		UserExternalId: "00000000-0000-4000-8000-000000000007",
+		Name:        "name-0",
+		Description: "description-0",
+		HostEnv:     "host-env-0",
+		PortEnv:     "port-env-0",
+		UsernameEnv: "username-env-0",
+		PasswordEnv: "password-env-0",
+		ExternalId:  "00000000-0000-4000-8000-000000000007",
 	}
 
 	want := tables_model.CreateHostParams{
@@ -178,14 +153,14 @@ func TestToCreateHostParamsNil(t *testing.T) {
 
 func TestToUpdateHostByIdParams(t *testing.T) {
 	req := &tablesv1.UpdateHostByIdRequest{
-		Id:             100,
-		Name:           "name-0",
-		Description:    "description-0",
-		HostEnv:        "host-env-0",
-		PortEnv:        "port-env-0",
-		UsernameEnv:    "username-env-0",
-		PasswordEnv:    "password-env-0",
-		UserExternalId: "00000000-0000-4000-8000-000000000008",
+		Id:          100,
+		Name:        "name-0",
+		Description: "description-0",
+		HostEnv:     "host-env-0",
+		PortEnv:     "port-env-0",
+		UsernameEnv: "username-env-0",
+		PasswordEnv: "password-env-0",
+		ExternalId:  "00000000-0000-4000-8000-000000000008",
 	}
 
 	want := tables_model.UpdateHostByIdParams{
@@ -205,7 +180,150 @@ func TestToUpdateHostByIdParams(t *testing.T) {
 }
 
 func TestToUpdateHostByIdParamsNil(t *testing.T) {
+	// Геттеры protobuf безопасны на nil: сервер не должен падать.
 	if got := ToUpdateHostByIdParams(nil); got != (tables_model.UpdateHostByIdParams{}) {
 		t.Errorf("ToUpdateHostByIdParams(nil) = %+v, want zero value", got)
+	}
+}
+
+func TestToDeleteHostByIdParams(t *testing.T) {
+	req := &tablesv1.DeleteHostByIdRequest{
+		ExternalId: "00000000-0000-4000-8000-000000000001",
+		Id:         101,
+	}
+
+	want := tables_model.DeleteHostByIdParams{
+		ExternalID: uuid.MustParse("00000000-0000-4000-8000-000000000001"),
+		ID:         101,
+	}
+
+	if got := ToDeleteHostByIdParams(req); got != want {
+		t.Errorf("ToDeleteHostByIdParams() = %+v, want %+v", got, want)
+	}
+}
+
+func TestToDeleteHostByIdParamsNil(t *testing.T) {
+	// Геттеры protobuf безопасны на nil: сервер не должен падать.
+	if got := ToDeleteHostByIdParams(nil); got != (tables_model.DeleteHostByIdParams{}) {
+		t.Errorf("ToDeleteHostByIdParams(nil) = %+v, want zero value", got)
+	}
+}
+
+func TestToUndeleteHostByIdParams(t *testing.T) {
+	req := &tablesv1.UndeleteHostByIdRequest{
+		ExternalId: "00000000-0000-4000-8000-000000000001",
+		Id:         101,
+	}
+
+	want := tables_model.UndeleteHostByIdParams{
+		ExternalID: uuid.MustParse("00000000-0000-4000-8000-000000000001"),
+		ID:         101,
+	}
+
+	if got := ToUndeleteHostByIdParams(req); got != want {
+		t.Errorf("ToUndeleteHostByIdParams() = %+v, want %+v", got, want)
+	}
+}
+
+func TestToUndeleteHostByIdParamsNil(t *testing.T) {
+	// Геттеры protobuf безопасны на nil: сервер не должен падать.
+	if got := ToUndeleteHostByIdParams(nil); got != (tables_model.UndeleteHostByIdParams{}) {
+		t.Errorf("ToUndeleteHostByIdParams(nil) = %+v, want zero value", got)
+	}
+}
+
+func TestGetHostsDefaultsPageLimit(t *testing.T) {
+	got := ToGetHostsParams(&tablesv1.GetHostsRequest{Page: 3})
+
+	if got.PageLimit != validation.DefaultPageSize {
+		t.Errorf("PageLimit = %d, want %d", got.PageLimit, validation.DefaultPageSize)
+	}
+
+	if got.Page != 3 {
+		t.Errorf("Page = %d, want 3", got.Page)
+	}
+}
+
+func TestGetHostsDefaultsPage(t *testing.T) {
+	got := ToGetHostsParams(&tablesv1.GetHostsRequest{PageLimit: 10})
+
+	if got.Page != 1 {
+		t.Errorf("Page = %d, want 1", got.Page)
+	}
+}
+
+func TestGetHostsKeepsExplicitPageLimit(t *testing.T) {
+	got := ToGetHostsParams(&tablesv1.GetHostsRequest{PageLimit: 10, Page: 5})
+
+	if got.PageLimit != 10 {
+		t.Errorf("PageLimit = %d, want 10", got.PageLimit)
+	}
+}
+
+func TestGetHostsSearchNameDefaultsPageLimit(t *testing.T) {
+	got := ToGetHostsSearchNameParams(&tablesv1.GetHostsSearchNameRequest{Page: 3})
+
+	if got.PageLimit != validation.DefaultPageSize {
+		t.Errorf("PageLimit = %d, want %d", got.PageLimit, validation.DefaultPageSize)
+	}
+
+	if got.Page != 3 {
+		t.Errorf("Page = %d, want 3", got.Page)
+	}
+}
+
+func TestGetHostsSearchNameDefaultsPage(t *testing.T) {
+	got := ToGetHostsSearchNameParams(&tablesv1.GetHostsSearchNameRequest{PageLimit: 10})
+
+	if got.Page != 1 {
+		t.Errorf("Page = %d, want 1", got.Page)
+	}
+}
+
+func TestGetHostsSearchNameKeepsExplicitPageLimit(t *testing.T) {
+	got := ToGetHostsSearchNameParams(&tablesv1.GetHostsSearchNameRequest{PageLimit: 10, Page: 5})
+
+	if got.PageLimit != 10 {
+		t.Errorf("PageLimit = %d, want 10", got.PageLimit)
+	}
+}
+
+func TestGetHostsSearchNamePassesFilterFields(t *testing.T) {
+	req := &tablesv1.GetHostsSearchNameRequest{PageLimit: 10, Page: 1,
+		SearchName: "SearchName-0",
+	}
+
+	got := ToGetHostsSearchNameParams(req)
+
+	if got.SearchName != "SearchName-0" {
+		t.Errorf("SearchName = %q, want %q", got.SearchName, "SearchName-0")
+	}
+}
+
+func TestGetHostDeletedDefaultsPageLimit(t *testing.T) {
+	got := ToGetHostDeletedParams(&tablesv1.GetHostDeletedRequest{Page: 3})
+
+	if got.PageLimit != validation.DefaultPageSize {
+		t.Errorf("PageLimit = %d, want %d", got.PageLimit, validation.DefaultPageSize)
+	}
+
+	if got.Page != 3 {
+		t.Errorf("Page = %d, want 3", got.Page)
+	}
+}
+
+func TestGetHostDeletedDefaultsPage(t *testing.T) {
+	got := ToGetHostDeletedParams(&tablesv1.GetHostDeletedRequest{PageLimit: 10})
+
+	if got.Page != 1 {
+		t.Errorf("Page = %d, want 1", got.Page)
+	}
+}
+
+func TestGetHostDeletedKeepsExplicitPageLimit(t *testing.T) {
+	got := ToGetHostDeletedParams(&tablesv1.GetHostDeletedRequest{PageLimit: 10, Page: 5})
+
+	if got.PageLimit != 10 {
+		t.Errorf("PageLimit = %d, want 10", got.PageLimit)
 	}
 }

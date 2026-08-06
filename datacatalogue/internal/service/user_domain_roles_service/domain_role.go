@@ -25,17 +25,6 @@ func (s *UserDomainRolesService) GetDomainRoleById(ctx context.Context, id int64
 	return row, nil
 }
 
-// GetDomainRoles возвращает все активные строки dc.domain_roles.
-func (s *UserDomainRolesService) GetDomainRoles(ctx context.Context) ([]user_domain_roles.DcDomainRole, error) {
-	rows, err := s.UserDomainRolesRepository.GetDomainRoles(ctx)
-
-	if err != nil {
-		return nil, fmt.Errorf("get dc.domain_roles: %w", err)
-	}
-
-	return rows, nil
-}
-
 // GetDeletedDomainRoleById возвращает мягко удалённую строку dc.domain_roles по id.
 func (s *UserDomainRolesService) GetDeletedDomainRoleById(ctx context.Context, id int64) (user_domain_roles.DcDomainRole, error) {
 	row, err := s.UserDomainRolesRepository.GetDeletedDomainRoleById(ctx, id)
@@ -51,12 +40,23 @@ func (s *UserDomainRolesService) GetDeletedDomainRoleById(ctx context.Context, i
 	return row, nil
 }
 
-// GetDeletedDomainRoles возвращает все мягко удалённые строки dc.domain_roles.
+// GetDomainRoles возвращает строки dc.domain_roles.
+func (s *UserDomainRolesService) GetDomainRoles(ctx context.Context) ([]user_domain_roles.DcDomainRole, error) {
+	rows, err := s.UserDomainRolesRepository.GetDomainRoles(ctx)
+
+	if err != nil {
+		return nil, fmt.Errorf("GetDomainRoles: %w", err)
+	}
+
+	return rows, nil
+}
+
+// GetDeletedDomainRoles возвращает строки dc.domain_roles.
 func (s *UserDomainRolesService) GetDeletedDomainRoles(ctx context.Context) ([]user_domain_roles.DcDomainRole, error) {
 	rows, err := s.UserDomainRolesRepository.GetDeletedDomainRoles(ctx)
 
 	if err != nil {
-		return nil, fmt.Errorf("get deleted dc.domain_roles: %w", err)
+		return nil, fmt.Errorf("GetDeletedDomainRoles: %w", err)
 	}
 
 	return rows, nil
@@ -110,6 +110,7 @@ func (s *UserDomainRolesService) DeleteDomainRoleById(ctx context.Context, id in
 }
 
 // UndeleteDomainRoleById восстанавливает мягко удалённую строку dc.domain_roles.
+//
 // Существование удалённой записи проверяется заранее по той же причине,
 // что и в DeleteDomainRoleById.
 func (s *UserDomainRolesService) UndeleteDomainRoleById(ctx context.Context, id int64) error {

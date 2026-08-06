@@ -25,16 +25,6 @@ func (u *UserDomainRolesApiV1) GetTableRoleById(ctx context.Context, req *userdo
 	return &userdomainrolesv1.GetTableRoleByIdResponse{TableRole: userdomainrolesconv.TableRoleToProto(row)}, nil
 }
 
-// GetTableRoles отдаёт все активные строки dc.table_roles.
-func (u *UserDomainRolesApiV1) GetTableRoles(ctx context.Context, req *userdomainrolesv1.GetTableRolesRequest) (*userdomainrolesv1.GetTableRolesResponse, error) {
-	rows, err := u.services.UserDomainRolesService.GetTableRoles(ctx)
-	if err != nil {
-		return nil, apierror.Wrap(err)
-	}
-
-	return &userdomainrolesv1.GetTableRolesResponse{TableRoles: userdomainrolesconv.TableRolesToProto(rows)}, nil
-}
-
 // GetDeletedTableRoleById отдаёт мягко удалённую строку dc.table_roles по id.
 func (u *UserDomainRolesApiV1) GetDeletedTableRoleById(ctx context.Context, req *userdomainrolesv1.GetDeletedTableRoleByIdRequest) (*userdomainrolesv1.GetDeletedTableRoleByIdResponse, error) {
 	if err := validation.ValidateID(req.GetId()); err != nil {
@@ -49,7 +39,17 @@ func (u *UserDomainRolesApiV1) GetDeletedTableRoleById(ctx context.Context, req 
 	return &userdomainrolesv1.GetDeletedTableRoleByIdResponse{TableRole: userdomainrolesconv.TableRoleToProto(row)}, nil
 }
 
-// GetDeletedTableRoles отдаёт все мягко удалённые строки dc.table_roles.
+// GetTableRoles отдаёт строки dc.table_roles.
+func (u *UserDomainRolesApiV1) GetTableRoles(ctx context.Context, req *userdomainrolesv1.GetTableRolesRequest) (*userdomainrolesv1.GetTableRolesResponse, error) {
+	rows, err := u.services.UserDomainRolesService.GetTableRoles(ctx)
+	if err != nil {
+		return nil, apierror.Wrap(err)
+	}
+
+	return &userdomainrolesv1.GetTableRolesResponse{TableRoles: userdomainrolesconv.TableRolesToProto(rows)}, nil
+}
+
+// GetDeletedTableRoles отдаёт строки dc.table_roles.
 func (u *UserDomainRolesApiV1) GetDeletedTableRoles(ctx context.Context, req *userdomainrolesv1.GetDeletedTableRolesRequest) (*userdomainrolesv1.GetDeletedTableRolesResponse, error) {
 	rows, err := u.services.UserDomainRolesService.GetDeletedTableRoles(ctx)
 	if err != nil {
@@ -73,7 +73,7 @@ func (u *UserDomainRolesApiV1) CreateTableRole(ctx context.Context, req *userdom
 	return &userdomainrolesv1.CreateTableRoleResponse{TableRole: userdomainrolesconv.TableRoleToProto(row)}, nil
 }
 
-// UpdateTableRoleById обновляет активную строку dc.table_roles и отдаёт её целиком.
+// UpdateTableRoleById обновляет строку dc.table_roles.
 func (u *UserDomainRolesApiV1) UpdateTableRoleById(ctx context.Context, req *userdomainrolesv1.UpdateTableRoleByIdRequest) (*userdomainrolesv1.UpdateTableRoleByIdResponse, error) {
 	if err := userdomainrolesvalidation.ValidateUpdateTableRoleById(req); err != nil {
 		return nil, apierror.Wrap(err)

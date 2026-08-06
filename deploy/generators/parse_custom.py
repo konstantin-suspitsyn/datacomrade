@@ -52,8 +52,25 @@ def parse_schema(path):
 
 # ---------- query.sql: плоский список запросов, порядок как в файле ----------
 def parse_queries_flat(path):
+    """Запросы файла плюс таблица блока, если разделитель её называет.
+
+    SG Buddy разделяет query.sql на блоки по таблицам (`-- dc.alias`), и это
+    единственный способ узнать, к какой таблице относится колонка запроса:
+    одноимённых колонок в схеме много. Разделитель с произвольным текстом
+    (так размечен auth_logic) даёт None — там привязки нет и не будет.
+    """
     text = read(path)
-    return [list(m) for m in re.findall(r"^-- name: (\w+) :(\w+)", text, re.M)]
+    parts = re.split(r"-- =+\n-- (.+?)\n-- =+", text)
+
+    chunks = [(None, parts[0])]
+    for i in range(1, len(parts), 2):
+        chunks.append((parts[i].strip().replace('"', ""), parts[i + 1]))
+
+    out = []
+    for table, body in chunks:
+        for name, kind in re.findall(r"^-- name: (\w+) :(\w+)", body, re.M):
+            out.append([name, kind, table])
+    return out
 
 
 # ---------- Go: структуры и сигнатуры (те же правила, что в parse.py) ----------
@@ -126,11 +143,15 @@ def main():
         schema = parse_schema(repo_path(sqlc_root, sqlc, "schema.sql"))
         queries = parse_queries_flat(repo_path(sqlc_root, sqlc, "query.sql"))
         queries_go = read(repo_path(repo_dir, "query.sql.go"))
+        # models.go нужен для запросов, возвращающих строку таблицы целиком:
+        # sqlc переиспользует под них модель (DcAlias), а не заводит свой Row.
+        models = read(repo_path(repo_dir, "models.go"))
         pb = read(repo_path(proto_go_root, d["proto_pkg"], d["proto_file"]))
 
         out[sqlc] = {
             "schema": schema,
             "queries": queries,
+            "model_structs": parse_go_structs(models),
             "param_structs": parse_go_structs(queries_go),
             "funcs": parse_go_funcs(queries_go),
             "proto_structs": parse_go_structs(pb),

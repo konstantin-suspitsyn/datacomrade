@@ -25,17 +25,6 @@ func (s *UserDomainRolesService) GetUserDomainRoleById(ctx context.Context, id i
 	return row, nil
 }
 
-// GetUserDomainRoles возвращает все активные строки dc.user_domain_roles.
-func (s *UserDomainRolesService) GetUserDomainRoles(ctx context.Context) ([]user_domain_roles.DcUserDomainRole, error) {
-	rows, err := s.UserDomainRolesRepository.GetUserDomainRoles(ctx)
-
-	if err != nil {
-		return nil, fmt.Errorf("get dc.user_domain_roles: %w", err)
-	}
-
-	return rows, nil
-}
-
 // GetDeletedUserDomainRoleById возвращает мягко удалённую строку dc.user_domain_roles по id.
 func (s *UserDomainRolesService) GetDeletedUserDomainRoleById(ctx context.Context, id int64) (user_domain_roles.DcUserDomainRole, error) {
 	row, err := s.UserDomainRolesRepository.GetDeletedUserDomainRoleById(ctx, id)
@@ -51,12 +40,23 @@ func (s *UserDomainRolesService) GetDeletedUserDomainRoleById(ctx context.Contex
 	return row, nil
 }
 
-// GetDeletedUserDomainRoles возвращает все мягко удалённые строки dc.user_domain_roles.
+// GetUserDomainRoles возвращает строки dc.user_domain_roles.
+func (s *UserDomainRolesService) GetUserDomainRoles(ctx context.Context) ([]user_domain_roles.DcUserDomainRole, error) {
+	rows, err := s.UserDomainRolesRepository.GetUserDomainRoles(ctx)
+
+	if err != nil {
+		return nil, fmt.Errorf("GetUserDomainRoles: %w", err)
+	}
+
+	return rows, nil
+}
+
+// GetDeletedUserDomainRoles возвращает строки dc.user_domain_roles.
 func (s *UserDomainRolesService) GetDeletedUserDomainRoles(ctx context.Context) ([]user_domain_roles.DcUserDomainRole, error) {
 	rows, err := s.UserDomainRolesRepository.GetDeletedUserDomainRoles(ctx)
 
 	if err != nil {
-		return nil, fmt.Errorf("get deleted dc.user_domain_roles: %w", err)
+		return nil, fmt.Errorf("GetDeletedUserDomainRoles: %w", err)
 	}
 
 	return rows, nil
@@ -110,6 +110,7 @@ func (s *UserDomainRolesService) DeleteUserDomainRoleById(ctx context.Context, i
 }
 
 // UndeleteUserDomainRoleById восстанавливает мягко удалённую строку dc.user_domain_roles.
+//
 // Существование удалённой записи проверяется заранее по той же причине,
 // что и в DeleteUserDomainRoleById.
 func (s *UserDomainRolesService) UndeleteUserDomainRoleById(ctx context.Context, id int64) error {

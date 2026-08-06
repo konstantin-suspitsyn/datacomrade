@@ -126,7 +126,8 @@ FROM (VALUES ('test_alias_id', 'Идентификатор'),
              ('test_alias_name', 'Наименование'),
              ('test_alias_geo', 'География'),
              ('test_alias_qty', 'Количество (штуки)'),
-             -- +24 алиаса для 36 сгенерированных таблиц (секция 8) и общего минимума в 30 алиасов
+             -- +24 алиаса: ровно 30 штук, по одному на каждую позицию шаблона
+             -- колонок сгенерированных таблиц (секция 9.1)
              ('test_alias_code', 'Код'),
              ('test_alias_status', 'Статус'),
              ('test_alias_flag', 'Признак (флаг)'),
@@ -176,45 +177,36 @@ FROM (VALUES ('test_tbl_orders', 'Тестовые заказы', 'test_schema_m
              ('test_tbl_refunds', 'Тестовые возвраты платежей', 'test_schema_public', 'fact', 'test_domain_finance', false),
              ('test_tbl_employees', 'Тестовые сотрудники', 'test_schema_public', 'dimension', 'test_domain_sales', true),
              ('test_tbl_campaigns', 'Тестовые маркетинговые кампании', 'test_schema_marts', 'dimension', 'test_domain_sales', true),
-             ('test_tbl_regions_ext', 'Тестовый расширенный справочник регионов', 'test_schema_marts', 'dimension', 'test_domain_sales', true),
-             -- +36 сгенерированных таблиц для общего минимума в 50 таблиц
-             ('test_tbl_gen_01', 'Тестовая сгенерированная таблица 1', 'test_schema_public', 'fact', 'test_domain_sales', false),
-             ('test_tbl_gen_02', 'Тестовая сгенерированная таблица 2', 'test_schema_marts', 'dimension', 'test_domain_sales', true),
-             ('test_tbl_gen_03', 'Тестовая сгенерированная таблица 3', 'test_schema_public', 'fact', 'test_domain_finance', false),
-             ('test_tbl_gen_04', 'Тестовая сгенерированная таблица 4', 'test_schema_marts', 'dimension', 'test_domain_sales', true),
-             ('test_tbl_gen_05', 'Тестовая сгенерированная таблица 5', 'test_schema_public', 'fact', 'test_domain_sales', false),
-             ('test_tbl_gen_06', 'Тестовая сгенерированная таблица 6', 'test_schema_marts', 'dimension', 'test_domain_finance', true),
-             ('test_tbl_gen_07', 'Тестовая сгенерированная таблица 7', 'test_schema_public', 'fact', 'test_domain_sales', false),
-             ('test_tbl_gen_08', 'Тестовая сгенерированная таблица 8', 'test_schema_marts', 'dimension', 'test_domain_sales', true),
-             ('test_tbl_gen_09', 'Тестовая сгенерированная таблица 9', 'test_schema_public', 'fact', 'test_domain_finance', false),
-             ('test_tbl_gen_10', 'Тестовая сгенерированная таблица 10', 'test_schema_marts', 'dimension', 'test_domain_sales', true),
-             ('test_tbl_gen_11', 'Тестовая сгенерированная таблица 11', 'test_schema_public', 'fact', 'test_domain_sales', false),
-             ('test_tbl_gen_12', 'Тестовая сгенерированная таблица 12', 'test_schema_marts', 'dimension', 'test_domain_finance', true),
-             ('test_tbl_gen_13', 'Тестовая сгенерированная таблица 13', 'test_schema_public', 'fact', 'test_domain_sales', false),
-             ('test_tbl_gen_14', 'Тестовая сгенерированная таблица 14', 'test_schema_marts', 'dimension', 'test_domain_sales', true),
-             ('test_tbl_gen_15', 'Тестовая сгенерированная таблица 15', 'test_schema_public', 'fact', 'test_domain_finance', false),
-             ('test_tbl_gen_16', 'Тестовая сгенерированная таблица 16', 'test_schema_marts', 'dimension', 'test_domain_sales', true),
-             ('test_tbl_gen_17', 'Тестовая сгенерированная таблица 17', 'test_schema_public', 'fact', 'test_domain_sales', false),
-             ('test_tbl_gen_18', 'Тестовая сгенерированная таблица 18', 'test_schema_marts', 'dimension', 'test_domain_finance', true),
-             ('test_tbl_gen_19', 'Тестовая сгенерированная таблица 19', 'test_schema_public', 'fact', 'test_domain_sales', false),
-             ('test_tbl_gen_20', 'Тестовая сгенерированная таблица 20', 'test_schema_marts', 'dimension', 'test_domain_sales', true),
-             ('test_tbl_gen_21', 'Тестовая сгенерированная таблица 21', 'test_schema_public', 'fact', 'test_domain_finance', false),
-             ('test_tbl_gen_22', 'Тестовая сгенерированная таблица 22', 'test_schema_marts', 'dimension', 'test_domain_sales', true),
-             ('test_tbl_gen_23', 'Тестовая сгенерированная таблица 23', 'test_schema_public', 'fact', 'test_domain_sales', false),
-             ('test_tbl_gen_24', 'Тестовая сгенерированная таблица 24', 'test_schema_marts', 'dimension', 'test_domain_finance', true),
-             ('test_tbl_gen_25', 'Тестовая сгенерированная таблица 25', 'test_schema_public', 'fact', 'test_domain_sales', false),
-             ('test_tbl_gen_26', 'Тестовая сгенерированная таблица 26', 'test_schema_marts', 'dimension', 'test_domain_sales', true),
-             ('test_tbl_gen_27', 'Тестовая сгенерированная таблица 27', 'test_schema_public', 'fact', 'test_domain_finance', false),
-             ('test_tbl_gen_28', 'Тестовая сгенерированная таблица 28', 'test_schema_marts', 'dimension', 'test_domain_sales', true),
-             ('test_tbl_gen_29', 'Тестовая сгенерированная таблица 29', 'test_schema_public', 'fact', 'test_domain_sales', false),
-             ('test_tbl_gen_30', 'Тестовая сгенерированная таблица 30', 'test_schema_marts', 'dimension', 'test_domain_finance', true),
-             ('test_tbl_gen_31', 'Тестовая сгенерированная таблица 31', 'test_schema_public', 'fact', 'test_domain_sales', false),
-             ('test_tbl_gen_32', 'Тестовая сгенерированная таблица 32', 'test_schema_marts', 'dimension', 'test_domain_sales', true),
-             ('test_tbl_gen_33', 'Тестовая сгенерированная таблица 33', 'test_schema_public', 'fact', 'test_domain_finance', false),
-             ('test_tbl_gen_34', 'Тестовая сгенерированная таблица 34', 'test_schema_marts', 'dimension', 'test_domain_sales', true),
-             ('test_tbl_gen_35', 'Тестовая сгенерированная таблица 35', 'test_schema_public', 'fact', 'test_domain_sales', false),
-             ('test_tbl_gen_36', 'Тестовая сгенерированная таблица 36', 'test_schema_marts', 'dimension', 'test_domain_finance', true)
+             ('test_tbl_regions_ext', 'Тестовый расширенный справочник регионов', 'test_schema_marts', 'dimension', 'test_domain_sales', true)
      ) AS v(name, description, schema_name, table_type_name, domain_name, is_get_dict)
+         JOIN dc.schema_cat s ON s."name" = v.schema_name
+         JOIN dc.table_type tt ON tt."name" = v.table_type_name
+         JOIN dc.domain_cat dom ON dom.domain_name = v.domain_name
+         CROSS JOIN (SELECT id FROM dc."user" WHERE "name" = 'test_user_admin') u
+ON CONFLICT DO NOTHING;
+
+-- -------------------------------------------------------------------------
+-- 8.1. Сгенерированные таблицы (test_tbl_gen_001 .. test_tbl_gen_286)
+-- -------------------------------------------------------------------------
+-- 14 именованных таблиц выше + 286 сгенерированных = 300 таблиц.
+-- Раскладка по схемам/типам/доменам детерминирована (зависит только от номера),
+-- поэтому повторный прогон даёт ровно те же строки, а ON CONFLICT DO NOTHING
+-- гасит дубли по (schema_id, name).
+--
+-- ВНИМАНИЕ: в прежней версии скрипта сгенерированные таблицы назывались
+-- test_tbl_gen_01..36 (два разряда). На базе, где отработала та версия,
+-- эти 36 таблиц останутся лишними — перед прогоном имеет смысл выполнить
+-- delete_test_data.sql (он чистит всё по маске 'test\_%').
+INSERT INTO dc.table_cat ("name", description, schema_id, table_type_id, domain_id,
+                          is_deleted, is_get_dict, created_at, updated_at, user_id)
+SELECT v.name, v.description, s.id, tt.id, dom.id, false, v.is_get_dict, now(), now(), u.id
+FROM (SELECT 'test_tbl_gen_' || to_char(g.i, 'FM000')                                     AS name,
+             'Тестовая сгенерированная таблица ' || to_char(g.i, 'FM000')                 AS description,
+             CASE WHEN g.i % 2 = 0 THEN 'test_schema_marts' ELSE 'test_schema_public' END AS schema_name,
+             CASE WHEN g.i % 2 = 0 THEN 'dimension' ELSE 'fact' END                       AS table_type_name,
+             CASE WHEN g.i % 3 = 0 THEN 'test_domain_finance' ELSE 'test_domain_sales' END AS domain_name,
+             (g.i % 2 = 0)                                                                AS is_get_dict
+      FROM generate_series(1, 286) AS g(i)) AS v
          JOIN dc.schema_cat s ON s."name" = v.schema_name
          JOIN dc.table_type tt ON tt."name" = v.table_type_name
          JOIN dc.domain_cat dom ON dom.domain_name = v.domain_name
@@ -272,230 +264,113 @@ FROM (VALUES ('test_tbl_orders', 'order_id', 'Идентификатор зак�
              ('test_tbl_campaigns', 'campaign_name', 'Название кампании', 'test_alias_name', 'string', 'count', true),
              ('test_tbl_regions_ext', 'region_id', 'Идентификатор региона', 'test_alias_id', 'bigint', 'count_distinct', true),
              ('test_tbl_regions_ext', 'region_name', 'Расширенное название региона', 'test_alias_name', 'string', 'count', true),
-             -- +216 колонок (по 6: id, name, code, status, amount, dt) для 36 сгенерированных таблиц,
-             -- чтобы общий итог по колонкам был не меньше 250
-             ('test_tbl_gen_01', 'id', 'Идентификатор (сгенерированная таблица 01)', 'test_alias_id', 'bigint', 'count_distinct', true),
-             ('test_tbl_gen_01', 'name', 'Наименование (сгенерированная таблица 01)', 'test_alias_name', 'string', 'count', true),
-             ('test_tbl_gen_01', 'code', 'Код (сгенерированная таблица 01)', 'test_alias_code', 'string', 'count', true),
-             ('test_tbl_gen_01', 'status', 'Статус (сгенерированная таблица 01)', 'test_alias_status', 'string', 'count', true),
-             ('test_tbl_gen_01', 'amount', 'Сумма (сгенерированная таблица 01)', 'test_alias_amount', 'decimal', 'sum', true),
-             ('test_tbl_gen_01', 'dt', 'Дата (сгенерированная таблица 01)', 'test_alias_dt', 'date', 'max', true),
-             ('test_tbl_gen_02', 'id', 'Идентификатор (сгенерированная таблица 02)', 'test_alias_id', 'bigint', 'count_distinct', true),
-             ('test_tbl_gen_02', 'name', 'Наименование (сгенерированная таблица 02)', 'test_alias_name', 'string', 'count', true),
-             ('test_tbl_gen_02', 'code', 'Код (сгенерированная таблица 02)', 'test_alias_code', 'string', 'count', true),
-             ('test_tbl_gen_02', 'status', 'Статус (сгенерированная таблица 02)', 'test_alias_status', 'string', 'count', true),
-             ('test_tbl_gen_02', 'amount', 'Сумма (сгенерированная таблица 02)', 'test_alias_amount', 'decimal', 'sum', true),
-             ('test_tbl_gen_02', 'dt', 'Дата (сгенерированная таблица 02)', 'test_alias_dt', 'date', 'max', true),
-             ('test_tbl_gen_03', 'id', 'Идентификатор (сгенерированная таблица 03)', 'test_alias_id', 'bigint', 'count_distinct', true),
-             ('test_tbl_gen_03', 'name', 'Наименование (сгенерированная таблица 03)', 'test_alias_name', 'string', 'count', true),
-             ('test_tbl_gen_03', 'code', 'Код (сгенерированная таблица 03)', 'test_alias_code', 'string', 'count', true),
-             ('test_tbl_gen_03', 'status', 'Статус (сгенерированная таблица 03)', 'test_alias_status', 'string', 'count', true),
-             ('test_tbl_gen_03', 'amount', 'Сумма (сгенерированная таблица 03)', 'test_alias_amount', 'decimal', 'sum', true),
-             ('test_tbl_gen_03', 'dt', 'Дата (сгенерированная таблица 03)', 'test_alias_dt', 'date', 'max', true),
-             ('test_tbl_gen_04', 'id', 'Идентификатор (сгенерированная таблица 04)', 'test_alias_id', 'bigint', 'count_distinct', true),
-             ('test_tbl_gen_04', 'name', 'Наименование (сгенерированная таблица 04)', 'test_alias_name', 'string', 'count', true),
-             ('test_tbl_gen_04', 'code', 'Код (сгенерированная таблица 04)', 'test_alias_code', 'string', 'count', true),
-             ('test_tbl_gen_04', 'status', 'Статус (сгенерированная таблица 04)', 'test_alias_status', 'string', 'count', true),
-             ('test_tbl_gen_04', 'amount', 'Сумма (сгенерированная таблица 04)', 'test_alias_amount', 'decimal', 'sum', true),
-             ('test_tbl_gen_04', 'dt', 'Дата (сгенерированная таблица 04)', 'test_alias_dt', 'date', 'max', true),
-             ('test_tbl_gen_05', 'id', 'Идентификатор (сгенерированная таблица 05)', 'test_alias_id', 'bigint', 'count_distinct', true),
-             ('test_tbl_gen_05', 'name', 'Наименование (сгенерированная таблица 05)', 'test_alias_name', 'string', 'count', true),
-             ('test_tbl_gen_05', 'code', 'Код (сгенерированная таблица 05)', 'test_alias_code', 'string', 'count', true),
-             ('test_tbl_gen_05', 'status', 'Статус (сгенерированная таблица 05)', 'test_alias_status', 'string', 'count', true),
-             ('test_tbl_gen_05', 'amount', 'Сумма (сгенерированная таблица 05)', 'test_alias_amount', 'decimal', 'sum', true),
-             ('test_tbl_gen_05', 'dt', 'Дата (сгенерированная таблица 05)', 'test_alias_dt', 'date', 'max', true),
-             ('test_tbl_gen_06', 'id', 'Идентификатор (сгенерированная таблица 06)', 'test_alias_id', 'bigint', 'count_distinct', true),
-             ('test_tbl_gen_06', 'name', 'Наименование (сгенерированная таблица 06)', 'test_alias_name', 'string', 'count', true),
-             ('test_tbl_gen_06', 'code', 'Код (сгенерированная таблица 06)', 'test_alias_code', 'string', 'count', true),
-             ('test_tbl_gen_06', 'status', 'Статус (сгенерированная таблица 06)', 'test_alias_status', 'string', 'count', true),
-             ('test_tbl_gen_06', 'amount', 'Сумма (сгенерированная таблица 06)', 'test_alias_amount', 'decimal', 'sum', true),
-             ('test_tbl_gen_06', 'dt', 'Дата (сгенерированная таблица 06)', 'test_alias_dt', 'date', 'max', true),
-             ('test_tbl_gen_07', 'id', 'Идентификатор (сгенерированная таблица 07)', 'test_alias_id', 'bigint', 'count_distinct', true),
-             ('test_tbl_gen_07', 'name', 'Наименование (сгенерированная таблица 07)', 'test_alias_name', 'string', 'count', true),
-             ('test_tbl_gen_07', 'code', 'Код (сгенерированная таблица 07)', 'test_alias_code', 'string', 'count', true),
-             ('test_tbl_gen_07', 'status', 'Статус (сгенерированная таблица 07)', 'test_alias_status', 'string', 'count', true),
-             ('test_tbl_gen_07', 'amount', 'Сумма (сгенерированная таблица 07)', 'test_alias_amount', 'decimal', 'sum', true),
-             ('test_tbl_gen_07', 'dt', 'Дата (сгенерированная таблица 07)', 'test_alias_dt', 'date', 'max', true),
-             ('test_tbl_gen_08', 'id', 'Идентификатор (сгенерированная таблица 08)', 'test_alias_id', 'bigint', 'count_distinct', true),
-             ('test_tbl_gen_08', 'name', 'Наименование (сгенерированная таблица 08)', 'test_alias_name', 'string', 'count', true),
-             ('test_tbl_gen_08', 'code', 'Код (сгенерированная таблица 08)', 'test_alias_code', 'string', 'count', true),
-             ('test_tbl_gen_08', 'status', 'Статус (сгенерированная таблица 08)', 'test_alias_status', 'string', 'count', true),
-             ('test_tbl_gen_08', 'amount', 'Сумма (сгенерированная таблица 08)', 'test_alias_amount', 'decimal', 'sum', true),
-             ('test_tbl_gen_08', 'dt', 'Дата (сгенерированная таблица 08)', 'test_alias_dt', 'date', 'max', true),
-             ('test_tbl_gen_09', 'id', 'Идентификатор (сгенерированная таблица 09)', 'test_alias_id', 'bigint', 'count_distinct', true),
-             ('test_tbl_gen_09', 'name', 'Наименование (сгенерированная таблица 09)', 'test_alias_name', 'string', 'count', true),
-             ('test_tbl_gen_09', 'code', 'Код (сгенерированная таблица 09)', 'test_alias_code', 'string', 'count', true),
-             ('test_tbl_gen_09', 'status', 'Статус (сгенерированная таблица 09)', 'test_alias_status', 'string', 'count', true),
-             ('test_tbl_gen_09', 'amount', 'Сумма (сгенерированная таблица 09)', 'test_alias_amount', 'decimal', 'sum', true),
-             ('test_tbl_gen_09', 'dt', 'Дата (сгенерированная таблица 09)', 'test_alias_dt', 'date', 'max', true),
-             ('test_tbl_gen_10', 'id', 'Идентификатор (сгенерированная таблица 10)', 'test_alias_id', 'bigint', 'count_distinct', true),
-             ('test_tbl_gen_10', 'name', 'Наименование (сгенерированная таблица 10)', 'test_alias_name', 'string', 'count', true),
-             ('test_tbl_gen_10', 'code', 'Код (сгенерированная таблица 10)', 'test_alias_code', 'string', 'count', true),
-             ('test_tbl_gen_10', 'status', 'Статус (сгенерированная таблица 10)', 'test_alias_status', 'string', 'count', true),
-             ('test_tbl_gen_10', 'amount', 'Сумма (сгенерированная таблица 10)', 'test_alias_amount', 'decimal', 'sum', true),
-             ('test_tbl_gen_10', 'dt', 'Дата (сгенерированная таблица 10)', 'test_alias_dt', 'date', 'max', true),
-             ('test_tbl_gen_11', 'id', 'Идентификатор (сгенерированная таблица 11)', 'test_alias_id', 'bigint', 'count_distinct', true),
-             ('test_tbl_gen_11', 'name', 'Наименование (сгенерированная таблица 11)', 'test_alias_name', 'string', 'count', true),
-             ('test_tbl_gen_11', 'code', 'Код (сгенерированная таблица 11)', 'test_alias_code', 'string', 'count', true),
-             ('test_tbl_gen_11', 'status', 'Статус (сгенерированная таблица 11)', 'test_alias_status', 'string', 'count', true),
-             ('test_tbl_gen_11', 'amount', 'Сумма (сгенерированная таблица 11)', 'test_alias_amount', 'decimal', 'sum', true),
-             ('test_tbl_gen_11', 'dt', 'Дата (сгенерированная таблица 11)', 'test_alias_dt', 'date', 'max', true),
-             ('test_tbl_gen_12', 'id', 'Идентификатор (сгенерированная таблица 12)', 'test_alias_id', 'bigint', 'count_distinct', true),
-             ('test_tbl_gen_12', 'name', 'Наименование (сгенерированная таблица 12)', 'test_alias_name', 'string', 'count', true),
-             ('test_tbl_gen_12', 'code', 'Код (сгенерированная таблица 12)', 'test_alias_code', 'string', 'count', true),
-             ('test_tbl_gen_12', 'status', 'Статус (сгенерированная таблица 12)', 'test_alias_status', 'string', 'count', true),
-             ('test_tbl_gen_12', 'amount', 'Сумма (сгенерированная таблица 12)', 'test_alias_amount', 'decimal', 'sum', true),
-             ('test_tbl_gen_12', 'dt', 'Дата (сгенерированная таблица 12)', 'test_alias_dt', 'date', 'max', true),
-             ('test_tbl_gen_13', 'id', 'Идентификатор (сгенерированная таблица 13)', 'test_alias_id', 'bigint', 'count_distinct', true),
-             ('test_tbl_gen_13', 'name', 'Наименование (сгенерированная таблица 13)', 'test_alias_name', 'string', 'count', true),
-             ('test_tbl_gen_13', 'code', 'Код (сгенерированная таблица 13)', 'test_alias_code', 'string', 'count', true),
-             ('test_tbl_gen_13', 'status', 'Статус (сгенерированная таблица 13)', 'test_alias_status', 'string', 'count', true),
-             ('test_tbl_gen_13', 'amount', 'Сумма (сгенерированная таблица 13)', 'test_alias_amount', 'decimal', 'sum', true),
-             ('test_tbl_gen_13', 'dt', 'Дата (сгенерированная таблица 13)', 'test_alias_dt', 'date', 'max', true),
-             ('test_tbl_gen_14', 'id', 'Идентификатор (сгенерированная таблица 14)', 'test_alias_id', 'bigint', 'count_distinct', true),
-             ('test_tbl_gen_14', 'name', 'Наименование (сгенерированная таблица 14)', 'test_alias_name', 'string', 'count', true),
-             ('test_tbl_gen_14', 'code', 'Код (сгенерированная таблица 14)', 'test_alias_code', 'string', 'count', true),
-             ('test_tbl_gen_14', 'status', 'Статус (сгенерированная таблица 14)', 'test_alias_status', 'string', 'count', true),
-             ('test_tbl_gen_14', 'amount', 'Сумма (сгенерированная таблица 14)', 'test_alias_amount', 'decimal', 'sum', true),
-             ('test_tbl_gen_14', 'dt', 'Дата (сгенерированная таблица 14)', 'test_alias_dt', 'date', 'max', true),
-             ('test_tbl_gen_15', 'id', 'Идентификатор (сгенерированная таблица 15)', 'test_alias_id', 'bigint', 'count_distinct', true),
-             ('test_tbl_gen_15', 'name', 'Наименование (сгенерированная таблица 15)', 'test_alias_name', 'string', 'count', true),
-             ('test_tbl_gen_15', 'code', 'Код (сгенерированная таблица 15)', 'test_alias_code', 'string', 'count', true),
-             ('test_tbl_gen_15', 'status', 'Статус (сгенерированная таблица 15)', 'test_alias_status', 'string', 'count', true),
-             ('test_tbl_gen_15', 'amount', 'Сумма (сгенерированная таблица 15)', 'test_alias_amount', 'decimal', 'sum', true),
-             ('test_tbl_gen_15', 'dt', 'Дата (сгенерированная таблица 15)', 'test_alias_dt', 'date', 'max', true),
-             ('test_tbl_gen_16', 'id', 'Идентификатор (сгенерированная таблица 16)', 'test_alias_id', 'bigint', 'count_distinct', true),
-             ('test_tbl_gen_16', 'name', 'Наименование (сгенерированная таблица 16)', 'test_alias_name', 'string', 'count', true),
-             ('test_tbl_gen_16', 'code', 'Код (сгенерированная таблица 16)', 'test_alias_code', 'string', 'count', true),
-             ('test_tbl_gen_16', 'status', 'Статус (сгенерированная таблица 16)', 'test_alias_status', 'string', 'count', true),
-             ('test_tbl_gen_16', 'amount', 'Сумма (сгенерированная таблица 16)', 'test_alias_amount', 'decimal', 'sum', true),
-             ('test_tbl_gen_16', 'dt', 'Дата (сгенерированная таблица 16)', 'test_alias_dt', 'date', 'max', true),
-             ('test_tbl_gen_17', 'id', 'Идентификатор (сгенерированная таблица 17)', 'test_alias_id', 'bigint', 'count_distinct', true),
-             ('test_tbl_gen_17', 'name', 'Наименование (сгенерированная таблица 17)', 'test_alias_name', 'string', 'count', true),
-             ('test_tbl_gen_17', 'code', 'Код (сгенерированная таблица 17)', 'test_alias_code', 'string', 'count', true),
-             ('test_tbl_gen_17', 'status', 'Статус (сгенерированная таблица 17)', 'test_alias_status', 'string', 'count', true),
-             ('test_tbl_gen_17', 'amount', 'Сумма (сгенерированная таблица 17)', 'test_alias_amount', 'decimal', 'sum', true),
-             ('test_tbl_gen_17', 'dt', 'Дата (сгенерированная таблица 17)', 'test_alias_dt', 'date', 'max', true),
-             ('test_tbl_gen_18', 'id', 'Идентификатор (сгенерированная таблица 18)', 'test_alias_id', 'bigint', 'count_distinct', true),
-             ('test_tbl_gen_18', 'name', 'Наименование (сгенерированная таблица 18)', 'test_alias_name', 'string', 'count', true),
-             ('test_tbl_gen_18', 'code', 'Код (сгенерированная таблица 18)', 'test_alias_code', 'string', 'count', true),
-             ('test_tbl_gen_18', 'status', 'Статус (сгенерированная таблица 18)', 'test_alias_status', 'string', 'count', true),
-             ('test_tbl_gen_18', 'amount', 'Сумма (сгенерированная таблица 18)', 'test_alias_amount', 'decimal', 'sum', true),
-             ('test_tbl_gen_18', 'dt', 'Дата (сгенерированная таблица 18)', 'test_alias_dt', 'date', 'max', true),
-             ('test_tbl_gen_19', 'id', 'Идентификатор (сгенерированная таблица 19)', 'test_alias_id', 'bigint', 'count_distinct', true),
-             ('test_tbl_gen_19', 'name', 'Наименование (сгенерированная таблица 19)', 'test_alias_name', 'string', 'count', true),
-             ('test_tbl_gen_19', 'code', 'Код (сгенерированная таблица 19)', 'test_alias_code', 'string', 'count', true),
-             ('test_tbl_gen_19', 'status', 'Статус (сгенерированная таблица 19)', 'test_alias_status', 'string', 'count', true),
-             ('test_tbl_gen_19', 'amount', 'Сумма (сгенерированная таблица 19)', 'test_alias_amount', 'decimal', 'sum', true),
-             ('test_tbl_gen_19', 'dt', 'Дата (сгенерированная таблица 19)', 'test_alias_dt', 'date', 'max', true),
-             ('test_tbl_gen_20', 'id', 'Идентификатор (сгенерированная таблица 20)', 'test_alias_id', 'bigint', 'count_distinct', true),
-             ('test_tbl_gen_20', 'name', 'Наименование (сгенерированная таблица 20)', 'test_alias_name', 'string', 'count', true),
-             ('test_tbl_gen_20', 'code', 'Код (сгенерированная таблица 20)', 'test_alias_code', 'string', 'count', true),
-             ('test_tbl_gen_20', 'status', 'Статус (сгенерированная таблица 20)', 'test_alias_status', 'string', 'count', true),
-             ('test_tbl_gen_20', 'amount', 'Сумма (сгенерированная таблица 20)', 'test_alias_amount', 'decimal', 'sum', true),
-             ('test_tbl_gen_20', 'dt', 'Дата (сгенерированная таблица 20)', 'test_alias_dt', 'date', 'max', true),
-             ('test_tbl_gen_21', 'id', 'Идентификатор (сгенерированная таблица 21)', 'test_alias_id', 'bigint', 'count_distinct', true),
-             ('test_tbl_gen_21', 'name', 'Наименование (сгенерированная таблица 21)', 'test_alias_name', 'string', 'count', true),
-             ('test_tbl_gen_21', 'code', 'Код (сгенерированная таблица 21)', 'test_alias_code', 'string', 'count', true),
-             ('test_tbl_gen_21', 'status', 'Статус (сгенерированная таблица 21)', 'test_alias_status', 'string', 'count', true),
-             ('test_tbl_gen_21', 'amount', 'Сумма (сгенерированная таблица 21)', 'test_alias_amount', 'decimal', 'sum', true),
-             ('test_tbl_gen_21', 'dt', 'Дата (сгенерированная таблица 21)', 'test_alias_dt', 'date', 'max', true),
-             ('test_tbl_gen_22', 'id', 'Идентификатор (сгенерированная таблица 22)', 'test_alias_id', 'bigint', 'count_distinct', true),
-             ('test_tbl_gen_22', 'name', 'Наименование (сгенерированная таблица 22)', 'test_alias_name', 'string', 'count', true),
-             ('test_tbl_gen_22', 'code', 'Код (сгенерированная таблица 22)', 'test_alias_code', 'string', 'count', true),
-             ('test_tbl_gen_22', 'status', 'Статус (сгенерированная таблица 22)', 'test_alias_status', 'string', 'count', true),
-             ('test_tbl_gen_22', 'amount', 'Сумма (сгенерированная таблица 22)', 'test_alias_amount', 'decimal', 'sum', true),
-             ('test_tbl_gen_22', 'dt', 'Дата (сгенерированная таблица 22)', 'test_alias_dt', 'date', 'max', true),
-             ('test_tbl_gen_23', 'id', 'Идентификатор (сгенерированная таблица 23)', 'test_alias_id', 'bigint', 'count_distinct', true),
-             ('test_tbl_gen_23', 'name', 'Наименование (сгенерированная таблица 23)', 'test_alias_name', 'string', 'count', true),
-             ('test_tbl_gen_23', 'code', 'Код (сгенерированная таблица 23)', 'test_alias_code', 'string', 'count', true),
-             ('test_tbl_gen_23', 'status', 'Статус (сгенерированная таблица 23)', 'test_alias_status', 'string', 'count', true),
-             ('test_tbl_gen_23', 'amount', 'Сумма (сгенерированная таблица 23)', 'test_alias_amount', 'decimal', 'sum', true),
-             ('test_tbl_gen_23', 'dt', 'Дата (сгенерированная таблица 23)', 'test_alias_dt', 'date', 'max', true),
-             ('test_tbl_gen_24', 'id', 'Идентификатор (сгенерированная таблица 24)', 'test_alias_id', 'bigint', 'count_distinct', true),
-             ('test_tbl_gen_24', 'name', 'Наименование (сгенерированная таблица 24)', 'test_alias_name', 'string', 'count', true),
-             ('test_tbl_gen_24', 'code', 'Код (сгенерированная таблица 24)', 'test_alias_code', 'string', 'count', true),
-             ('test_tbl_gen_24', 'status', 'Статус (сгенерированная таблица 24)', 'test_alias_status', 'string', 'count', true),
-             ('test_tbl_gen_24', 'amount', 'Сумма (сгенерированная таблица 24)', 'test_alias_amount', 'decimal', 'sum', true),
-             ('test_tbl_gen_24', 'dt', 'Дата (сгенерированная таблица 24)', 'test_alias_dt', 'date', 'max', true),
-             ('test_tbl_gen_25', 'id', 'Идентификатор (сгенерированная таблица 25)', 'test_alias_id', 'bigint', 'count_distinct', true),
-             ('test_tbl_gen_25', 'name', 'Наименование (сгенерированная таблица 25)', 'test_alias_name', 'string', 'count', true),
-             ('test_tbl_gen_25', 'code', 'Код (сгенерированная таблица 25)', 'test_alias_code', 'string', 'count', true),
-             ('test_tbl_gen_25', 'status', 'Статус (сгенерированная таблица 25)', 'test_alias_status', 'string', 'count', true),
-             ('test_tbl_gen_25', 'amount', 'Сумма (сгенерированная таблица 25)', 'test_alias_amount', 'decimal', 'sum', true),
-             ('test_tbl_gen_25', 'dt', 'Дата (сгенерированная таблица 25)', 'test_alias_dt', 'date', 'max', true),
-             ('test_tbl_gen_26', 'id', 'Идентификатор (сгенерированная таблица 26)', 'test_alias_id', 'bigint', 'count_distinct', true),
-             ('test_tbl_gen_26', 'name', 'Наименование (сгенерированная таблица 26)', 'test_alias_name', 'string', 'count', true),
-             ('test_tbl_gen_26', 'code', 'Код (сгенерированная таблица 26)', 'test_alias_code', 'string', 'count', true),
-             ('test_tbl_gen_26', 'status', 'Статус (сгенерированная таблица 26)', 'test_alias_status', 'string', 'count', true),
-             ('test_tbl_gen_26', 'amount', 'Сумма (сгенерированная таблица 26)', 'test_alias_amount', 'decimal', 'sum', true),
-             ('test_tbl_gen_26', 'dt', 'Дата (сгенерированная таблица 26)', 'test_alias_dt', 'date', 'max', true),
-             ('test_tbl_gen_27', 'id', 'Идентификатор (сгенерированная таблица 27)', 'test_alias_id', 'bigint', 'count_distinct', true),
-             ('test_tbl_gen_27', 'name', 'Наименование (сгенерированная таблица 27)', 'test_alias_name', 'string', 'count', true),
-             ('test_tbl_gen_27', 'code', 'Код (сгенерированная таблица 27)', 'test_alias_code', 'string', 'count', true),
-             ('test_tbl_gen_27', 'status', 'Статус (сгенерированная таблица 27)', 'test_alias_status', 'string', 'count', true),
-             ('test_tbl_gen_27', 'amount', 'Сумма (сгенерированная таблица 27)', 'test_alias_amount', 'decimal', 'sum', true),
-             ('test_tbl_gen_27', 'dt', 'Дата (сгенерированная таблица 27)', 'test_alias_dt', 'date', 'max', true),
-             ('test_tbl_gen_28', 'id', 'Идентификатор (сгенерированная таблица 28)', 'test_alias_id', 'bigint', 'count_distinct', true),
-             ('test_tbl_gen_28', 'name', 'Наименование (сгенерированная таблица 28)', 'test_alias_name', 'string', 'count', true),
-             ('test_tbl_gen_28', 'code', 'Код (сгенерированная таблица 28)', 'test_alias_code', 'string', 'count', true),
-             ('test_tbl_gen_28', 'status', 'Статус (сгенерированная таблица 28)', 'test_alias_status', 'string', 'count', true),
-             ('test_tbl_gen_28', 'amount', 'Сумма (сгенерированная таблица 28)', 'test_alias_amount', 'decimal', 'sum', true),
-             ('test_tbl_gen_28', 'dt', 'Дата (сгенерированная таблица 28)', 'test_alias_dt', 'date', 'max', true),
-             ('test_tbl_gen_29', 'id', 'Идентификатор (сгенерированная таблица 29)', 'test_alias_id', 'bigint', 'count_distinct', true),
-             ('test_tbl_gen_29', 'name', 'Наименование (сгенерированная таблица 29)', 'test_alias_name', 'string', 'count', true),
-             ('test_tbl_gen_29', 'code', 'Код (сгенерированная таблица 29)', 'test_alias_code', 'string', 'count', true),
-             ('test_tbl_gen_29', 'status', 'Статус (сгенерированная таблица 29)', 'test_alias_status', 'string', 'count', true),
-             ('test_tbl_gen_29', 'amount', 'Сумма (сгенерированная таблица 29)', 'test_alias_amount', 'decimal', 'sum', true),
-             ('test_tbl_gen_29', 'dt', 'Дата (сгенерированная таблица 29)', 'test_alias_dt', 'date', 'max', true),
-             ('test_tbl_gen_30', 'id', 'Идентификатор (сгенерированная таблица 30)', 'test_alias_id', 'bigint', 'count_distinct', true),
-             ('test_tbl_gen_30', 'name', 'Наименование (сгенерированная таблица 30)', 'test_alias_name', 'string', 'count', true),
-             ('test_tbl_gen_30', 'code', 'Код (сгенерированная таблица 30)', 'test_alias_code', 'string', 'count', true),
-             ('test_tbl_gen_30', 'status', 'Статус (сгенерированная таблица 30)', 'test_alias_status', 'string', 'count', true),
-             ('test_tbl_gen_30', 'amount', 'Сумма (сгенерированная таблица 30)', 'test_alias_amount', 'decimal', 'sum', true),
-             ('test_tbl_gen_30', 'dt', 'Дата (сгенерированная таблица 30)', 'test_alias_dt', 'date', 'max', true),
-             ('test_tbl_gen_31', 'id', 'Идентификатор (сгенерированная таблица 31)', 'test_alias_id', 'bigint', 'count_distinct', true),
-             ('test_tbl_gen_31', 'name', 'Наименование (сгенерированная таблица 31)', 'test_alias_name', 'string', 'count', true),
-             ('test_tbl_gen_31', 'code', 'Код (сгенерированная таблица 31)', 'test_alias_code', 'string', 'count', true),
-             ('test_tbl_gen_31', 'status', 'Статус (сгенерированная таблица 31)', 'test_alias_status', 'string', 'count', true),
-             ('test_tbl_gen_31', 'amount', 'Сумма (сгенерированная таблица 31)', 'test_alias_amount', 'decimal', 'sum', true),
-             ('test_tbl_gen_31', 'dt', 'Дата (сгенерированная таблица 31)', 'test_alias_dt', 'date', 'max', true),
-             ('test_tbl_gen_32', 'id', 'Идентификатор (сгенерированная таблица 32)', 'test_alias_id', 'bigint', 'count_distinct', true),
-             ('test_tbl_gen_32', 'name', 'Наименование (сгенерированная таблица 32)', 'test_alias_name', 'string', 'count', true),
-             ('test_tbl_gen_32', 'code', 'Код (сгенерированная таблица 32)', 'test_alias_code', 'string', 'count', true),
-             ('test_tbl_gen_32', 'status', 'Статус (сгенерированная таблица 32)', 'test_alias_status', 'string', 'count', true),
-             ('test_tbl_gen_32', 'amount', 'Сумма (сгенерированная таблица 32)', 'test_alias_amount', 'decimal', 'sum', true),
-             ('test_tbl_gen_32', 'dt', 'Дата (сгенерированная таблица 32)', 'test_alias_dt', 'date', 'max', true),
-             ('test_tbl_gen_33', 'id', 'Идентификатор (сгенерированная таблица 33)', 'test_alias_id', 'bigint', 'count_distinct', true),
-             ('test_tbl_gen_33', 'name', 'Наименование (сгенерированная таблица 33)', 'test_alias_name', 'string', 'count', true),
-             ('test_tbl_gen_33', 'code', 'Код (сгенерированная таблица 33)', 'test_alias_code', 'string', 'count', true),
-             ('test_tbl_gen_33', 'status', 'Статус (сгенерированная таблица 33)', 'test_alias_status', 'string', 'count', true),
-             ('test_tbl_gen_33', 'amount', 'Сумма (сгенерированная таблица 33)', 'test_alias_amount', 'decimal', 'sum', true),
-             ('test_tbl_gen_33', 'dt', 'Дата (сгенерированная таблица 33)', 'test_alias_dt', 'date', 'max', true),
-             ('test_tbl_gen_34', 'id', 'Идентификатор (сгенерированная таблица 34)', 'test_alias_id', 'bigint', 'count_distinct', true),
-             ('test_tbl_gen_34', 'name', 'Наименование (сгенерированная таблица 34)', 'test_alias_name', 'string', 'count', true),
-             ('test_tbl_gen_34', 'code', 'Код (сгенерированная таблица 34)', 'test_alias_code', 'string', 'count', true),
-             ('test_tbl_gen_34', 'status', 'Статус (сгенерированная таблица 34)', 'test_alias_status', 'string', 'count', true),
-             ('test_tbl_gen_34', 'amount', 'Сумма (сгенерированная таблица 34)', 'test_alias_amount', 'decimal', 'sum', true),
-             ('test_tbl_gen_34', 'dt', 'Дата (сгенерированная таблица 34)', 'test_alias_dt', 'date', 'max', true),
-             ('test_tbl_gen_35', 'id', 'Идентификатор (сгенерированная таблица 35)', 'test_alias_id', 'bigint', 'count_distinct', true),
-             ('test_tbl_gen_35', 'name', 'Наименование (сгенерированная таблица 35)', 'test_alias_name', 'string', 'count', true),
-             ('test_tbl_gen_35', 'code', 'Код (сгенерированная таблица 35)', 'test_alias_code', 'string', 'count', true),
-             ('test_tbl_gen_35', 'status', 'Статус (сгенерированная таблица 35)', 'test_alias_status', 'string', 'count', true),
-             ('test_tbl_gen_35', 'amount', 'Сумма (сгенерированная таблица 35)', 'test_alias_amount', 'decimal', 'sum', true),
-             ('test_tbl_gen_35', 'dt', 'Дата (сгенерированная таблица 35)', 'test_alias_dt', 'date', 'max', true),
-             ('test_tbl_gen_36', 'id', 'Идентификатор (сгенерированная таблица 36)', 'test_alias_id', 'bigint', 'count_distinct', true),
-             ('test_tbl_gen_36', 'name', 'Наименование (сгенерированная таблица 36)', 'test_alias_name', 'string', 'count', true),
-             ('test_tbl_gen_36', 'code', 'Код (сгенерированная таблица 36)', 'test_alias_code', 'string', 'count', true),
-             ('test_tbl_gen_36', 'status', 'Статус (сгенерированная таблица 36)', 'test_alias_status', 'string', 'count', true),
-             ('test_tbl_gen_36', 'amount', 'Сумма (сгенерированная таблица 36)', 'test_alias_amount', 'decimal', 'sum', true),
-             ('test_tbl_gen_36', 'dt', 'Дата (сгенерированная таблица 36)', 'test_alias_dt', 'date', 'max', true)
+             -- Добор колонок именованных таблиц: в каждой таблице должно быть
+             -- не меньше пяти полей (верхняя граница — 30, см. секцию 9.1)
+             ('test_tbl_orders', 'status', 'Статус заказа', 'test_alias_status', 'string', 'count', true),
+             ('test_tbl_orders', 'channel', 'Канал продаж', 'test_alias_channel', 'string', 'count', true),
+             ('test_tbl_clients', 'email', 'Email клиента', 'test_alias_email', 'string', 'count', true),
+             ('test_tbl_clients', 'phone', 'Телефон клиента', 'test_alias_phone', 'string', 'count', false),
+             ('test_tbl_clients', 'client_type', 'Тип клиента', 'test_alias_type', 'string', 'count', true),
+             ('test_tbl_geo', 'country', 'Страна', 'test_alias_country', 'string', 'count', true),
+             ('test_tbl_geo', 'geo_code', 'Код географии', 'test_alias_code', 'string', 'count', true),
+             ('test_tbl_payments', 'payment_dt', 'Дата платежа', 'test_alias_dt', 'date', 'max', true),
+             ('test_tbl_payments', 'currency', 'Валюта платежа', 'test_alias_currency', 'string', 'count', true),
+             ('test_tbl_payments', 'status', 'Статус платежа', 'test_alias_status', 'string', 'count', true),
+             ('test_tbl_products', 'category', 'Категория товара', 'test_alias_category', 'string', 'count', true),
+             ('test_tbl_products', 'price', 'Цена товара', 'test_alias_price', 'decimal', 'avg', true),
+             ('test_tbl_products', 'weight', 'Вес товара', 'test_alias_weight', 'float', 'sum', false),
+             ('test_tbl_suppliers', 'country', 'Страна поставщика', 'test_alias_country', 'string', 'count', true),
+             ('test_tbl_suppliers', 'city', 'Город поставщика', 'test_alias_city', 'string', 'count', true),
+             ('test_tbl_suppliers', 'rating', 'Рейтинг поставщика', 'test_alias_rating', 'float', 'avg', true),
+             ('test_tbl_inventory', 'volume', 'Занимаемый объём', 'test_alias_volume', 'float', 'sum', false),
+             ('test_tbl_inventory', 'warehouse_code', 'Код склада', 'test_alias_code', 'string', 'count', true),
+             ('test_tbl_shipments', 'status', 'Статус отгрузки', 'test_alias_status', 'string', 'count', true),
+             ('test_tbl_shipments', 'weight', 'Вес отгрузки', 'test_alias_weight', 'float', 'sum', false),
+             ('test_tbl_returns', 'return_dt', 'Дата возврата', 'test_alias_dt', 'date', 'max', true),
+             ('test_tbl_returns', 'reason', 'Причина возврата', 'test_alias_comment', 'text', 'count', true),
+             ('test_tbl_invoices', 'invoice_dt', 'Дата счёта', 'test_alias_dt', 'date', 'max', true),
+             ('test_tbl_invoices', 'currency', 'Валюта счёта', 'test_alias_currency', 'string', 'count', true),
+             ('test_tbl_refunds', 'refund_dt', 'Дата возврата платежа', 'test_alias_dt', 'date', 'max', true),
+             ('test_tbl_refunds', 'status', 'Статус возврата платежа', 'test_alias_status', 'string', 'count', true),
+             ('test_tbl_employees', 'email', 'Email сотрудника', 'test_alias_email', 'string', 'count', true),
+             ('test_tbl_employees', 'phone', 'Телефон сотрудника', 'test_alias_phone', 'string', 'count', false),
+             ('test_tbl_employees', 'city', 'Город сотрудника', 'test_alias_city', 'string', 'count', true),
+             ('test_tbl_campaigns', 'campaign_dt', 'Дата старта кампании', 'test_alias_dt', 'date', 'max', true),
+             ('test_tbl_campaigns', 'channel', 'Канал кампании', 'test_alias_channel', 'string', 'count', true),
+             ('test_tbl_campaigns', 'budget', 'Бюджет кампании', 'test_alias_amount', 'decimal', 'sum', true),
+             ('test_tbl_regions_ext', 'country', 'Страна региона', 'test_alias_country', 'string', 'count', true),
+             ('test_tbl_regions_ext', 'region_code', 'Код региона', 'test_alias_code', 'string', 'count', true),
+             ('test_tbl_regions_ext', 'priority', 'Приоритет региона', 'test_alias_priority', 'int', 'max', true)
      ) AS v(table_name, name, description, alias_name, coltype_name, calc_name, show_in_ui)
          JOIN dc.table_cat t ON t."name" = v.table_name
          JOIN dc.alias a ON a."name" = v.alias_name
          JOIN dc.column_type ct ON ct."name" = v.coltype_name
          JOIN dc.calculation_type calc ON calc."name" = v.calc_name
          CROSS JOIN (SELECT id FROM dc."user" WHERE "name" = 'test_user_admin') u
+ON CONFLICT DO NOTHING;
+
+-- -------------------------------------------------------------------------
+-- 9.1. Колонки сгенерированных таблиц
+-- -------------------------------------------------------------------------
+-- Каждая из 286 таблиц test_tbl_gen_* получает от 5 до 30 колонок:
+-- количество = 5 + (номер таблицы % 26), колонки берутся из шаблона ниже
+-- по порядку j = 1 .. количество. Шаблон детерминирован, поэтому повторный
+-- прогон даёт тот же набор, а column_cat_name_unique (table_id, name) вместе
+-- с ON CONFLICT DO NOTHING гасит дубли.
+--
+-- Алиасы шаблона — те же 30 test_alias_*, что и в секции 7; типы колонок
+-- и типы расчётов берутся из миграций 000000041 и 000000034, новых строк
+-- в эти справочники скрипт по-прежнему не добавляет.
+INSERT INTO dc.column_cat (table_id, "name", alias_id, column_type_id, description,
+                           calculation_type_id, is_deleted, show_in_ui,
+                           created_at, updated_at, user_id)
+SELECT t.id,
+       tpl.col_name,
+       a.id,
+       ct.id,
+       tpl.col_description || ' (сгенерированная таблица ' || to_char(g.i, 'FM000') || ')',
+       calc.id,
+       false,
+       tpl.j <= 20,
+       now(), now(), u.id
+FROM generate_series(1, 286) AS g(i)
+         CROSS JOIN (VALUES (1, 'id', 'Идентификатор', 'test_alias_id', 'bigint', 'count_distinct'),
+                            (2, 'name', 'Наименование', 'test_alias_name', 'string', 'count'),
+                            (3, 'code', 'Код', 'test_alias_code', 'string', 'count'),
+                            (4, 'status', 'Статус', 'test_alias_status', 'string', 'count'),
+                            (5, 'amount', 'Сумма', 'test_alias_amount', 'decimal', 'sum'),
+                            (6, 'dt', 'Дата', 'test_alias_dt', 'date', 'max'),
+                            (7, 'qty', 'Количество', 'test_alias_qty', 'int', 'sum'),
+                            (8, 'price', 'Цена за единицу', 'test_alias_price', 'decimal', 'avg'),
+                            (9, 'is_active', 'Признак активности', 'test_alias_flag', 'bool', 'count'),
+                            (10, 'email', 'Email', 'test_alias_email', 'string', 'count'),
+                            (11, 'phone', 'Телефон', 'test_alias_phone', 'string', 'count'),
+                            (12, 'url', 'Ссылка', 'test_alias_url', 'text', 'count'),
+                            (13, 'percent', 'Процент', 'test_alias_percent', 'float', 'avg'),
+                            (14, 'weight', 'Вес', 'test_alias_weight', 'float', 'sum'),
+                            (15, 'volume', 'Объём', 'test_alias_volume', 'float', 'sum'),
+                            (16, 'currency', 'Валюта', 'test_alias_currency', 'string', 'count'),
+                            (17, 'country', 'Страна', 'test_alias_country', 'string', 'count'),
+                            (18, 'city', 'Город', 'test_alias_city', 'string', 'count'),
+                            (19, 'category', 'Категория', 'test_alias_category', 'string', 'count'),
+                            (20, 'type', 'Тип', 'test_alias_type', 'string', 'count'),
+                            (21, 'score', 'Оценка', 'test_alias_score', 'int', 'avg'),
+                            (22, 'rating', 'Рейтинг', 'test_alias_rating', 'float', 'avg'),
+                            (23, 'duration', 'Длительность', 'test_alias_duration', 'int', 'sum'),
+                            (24, 'version', 'Версия', 'test_alias_version', 'string', 'count'),
+                            (25, 'comment', 'Комментарий', 'test_alias_comment', 'text', 'count'),
+                            (26, 'tag', 'Тег', 'test_alias_tag', 'string', 'count'),
+                            (27, 'priority', 'Приоритет', 'test_alias_priority', 'int', 'max'),
+                            (28, 'channel', 'Канал', 'test_alias_channel', 'string', 'count'),
+                            (29, 'source', 'Источник', 'test_alias_source', 'string', 'count'),
+                            (30, 'geo_id', 'Идентификатор географии', 'test_alias_geo', 'bigint', 'count_distinct')
+                    ) AS tpl(j, col_name, col_description, alias_name, coltype_name, calc_name)
+         JOIN dc.table_cat t ON t."name" = 'test_tbl_gen_' || to_char(g.i, 'FM000')
+         JOIN dc.alias a ON a."name" = tpl.alias_name
+         JOIN dc.column_type ct ON ct."name" = tpl.coltype_name
+         JOIN dc.calculation_type calc ON calc."name" = tpl.calc_name
+         CROSS JOIN (SELECT id FROM dc."user" WHERE "name" = 'test_user_admin') u
+WHERE tpl.j <= 5 + (g.i % 26)
 ON CONFLICT DO NOTHING;
 
 -- -------------------------------------------------------------------------
@@ -688,4 +563,17 @@ COMMIT;
 -- UNION ALL SELECT 'column_cat',    count(*) FROM dc.column_cat c
 --     WHERE EXISTS (SELECT 1 FROM dc.table_cat t WHERE t.id = c.table_id AND t."name" LIKE 'test\_%')
 -- ORDER BY 1;
+--
+-- Ожидаемо: table_cat = 300 (14 именованных + 286 сгенерированных),
+-- column_cat = 5081.
+--
+-- Проверка ограничения «в каждой таблице от 5 до 30 полей»
+-- (ожидаемо: 300 строк, min_cols = 5, max_cols = 30):
+--
+-- SELECT count(*) AS tables, min(cnt) AS min_cols, max(cnt) AS max_cols
+-- FROM (SELECT c.table_id, count(*) AS cnt
+--       FROM dc.column_cat c
+--                JOIN dc.table_cat t ON t.id = c.table_id
+--       WHERE t."name" LIKE 'test\_%'
+--       GROUP BY c.table_id) q;
 -- =========================================================================

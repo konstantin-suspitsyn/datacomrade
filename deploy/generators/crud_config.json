@@ -1,11 +1,9 @@
 {
   "_": "Конфигурация генератора CRUD-слоёв. Все пути — от корня репозитория, через прямой слэш. Описание полей: documentation/dev_instructions/crud/generate_gprpc_go.md",
-
   "module": "github.com/konstantin-suspitsyn/datacomrade",
   "internal": "datacatalogue/internal",
   "sqlc_root": "datacatalogue/db/sqlc",
   "proto_go_root": "shared/pkg/proto",
-
   "shared_imports": {
     "validator": "github.com/konstantin-suspitsyn/datacomrade/shared/pkg/validator",
     "converter": "github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/converter",
@@ -13,7 +11,6 @@
     "custom_errors": "github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/utils/custom_errors",
     "apierror": "github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/api/apierror"
   },
-
   "domains": [
     {
       "sqlc": "tables_model",
@@ -23,17 +20,14 @@
       "proto_import": "tablesv1 \"github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/tables/v1\"",
       "repo_import": "github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/repository/tables_model",
       "repo_alias": "tables_model",
-
       "conv_pkg": "tables",
       "conv_dir": "converter/tables",
       "valid_dir": "validation/tables",
-
       "service_dir": "service/tables_service",
       "service_pkg": "tablesservice",
       "service_type": "TablesService",
       "service_field": "TablesService",
       "repo_field": "TablesRepository",
-
       "api_dir": "api/tablesapiv1",
       "api_pkg": "tablesapiv1",
       "api_type": "TablesApiV1",
@@ -47,17 +41,14 @@
       "proto_import": "userv1 \"github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/user/v1\"",
       "repo_import": "github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/repository/user_model",
       "repo_alias": "user_model",
-
       "conv_pkg": "user",
       "conv_dir": "converter/user",
       "valid_dir": "validation/user",
-
       "service_dir": "service/user_service",
       "service_pkg": "userservice",
       "service_type": "UserService",
       "service_field": "UserService",
       "repo_field": "UserRepository",
-
       "api_dir": "api/userapiv1",
       "api_pkg": "userapiv1",
       "api_type": "UserApiV1",
@@ -71,24 +62,20 @@
       "proto_import": "userdomainrolesv1 \"github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/user_domain_roles/v1\"",
       "repo_import": "github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/repository/user_domain_roles",
       "repo_alias": "user_domain_roles",
-
       "conv_pkg": "userdomainroles",
       "conv_dir": "converter/userdomainroles",
       "valid_dir": "validation/userdomainroles",
-
       "service_dir": "service/user_domain_roles_service",
       "service_pkg": "userdomainrolesservice",
       "service_type": "UserDomainRolesService",
       "service_field": "UserDomainRolesService",
       "repo_field": "UserDomainRolesRepository",
-
       "api_dir": "api/userdomainrolesapiv1",
       "api_pkg": "userdomainrolesapiv1",
       "api_type": "UserDomainRolesApiV1",
       "api_recv": "u"
     }
   ],
-
   "custom_domains": [
     {
       "sqlc": "auth_logic",
@@ -98,25 +85,25 @@
       "proto_import": "authlogicv1 \"github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/auth_logic/v1\"",
       "repo_import": "github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/repository/auth_logic",
       "repo_alias": "auth_logic",
-
       "conv_pkg": "authlogic",
       "conv_dir": "converter/authlogic",
       "valid_dir": "validation/authlogic",
-
       "service_dir": "service/auth_logic_service",
       "service_pkg": "authlogicservice",
       "service_type": "AuthLogicService",
       "service_field": "AuthLogicService",
       "repo_field": "AuthLogicRepository",
-
       "api_dir": "api/authlogicapiv1",
       "api_pkg": "authlogicapiv1",
       "api_type": "AuthLogicApiV1",
       "api_recv": "a",
-
       "column_hints": {
-        "GetTableIdsByExternalUserIdAndRoles": { "name": "dc.domain_roles" },
-        "GetTableIdsByUserIdAndRoles": { "name": "dc.domain_roles" }
+        "GetTableIdsByExternalUserIdAndRoles": {
+          "name": "dc.domain_roles"
+        },
+        "GetTableIdsByUserIdAndRoles": {
+          "name": "dc.domain_roles"
+        }
       }
     }
   ]

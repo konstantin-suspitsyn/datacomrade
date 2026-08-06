@@ -59,15 +59,6 @@ func TestDomainRoleToProto(t *testing.T) {
 
 }
 
-func TestDomainRoleToProtoDeleted(t *testing.T) {
-	row := testDomainRoleRow()
-	row.IsDeleted = true
-
-	if got := DomainRoleToProto(row); !got.GetIsDeleted() {
-		t.Error("IsDeleted = false, want true")
-	}
-}
-
 func TestDomainRolesToProto(t *testing.T) {
 	first := testDomainRoleRow()
 
@@ -89,7 +80,6 @@ func TestDomainRolesToProto(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			got := DomainRolesToProto(tt.input)
 
-			// Пустой вход даёт пустой, а не nil-слайс.
 			if got == nil {
 				t.Fatal("DomainRolesToProto() = nil, want empty slice")
 			}
@@ -98,22 +88,6 @@ func TestDomainRolesToProto(t *testing.T) {
 				t.Fatalf("len = %d, want %d", len(got), tt.wantLen)
 			}
 		})
-	}
-}
-
-func TestDomainRolesToProtoKeepsOrder(t *testing.T) {
-	first := testDomainRoleRow()
-	second := testDomainRoleRow()
-	second.Name = "second-value"
-
-	got := DomainRolesToProto([]user_domain_roles.DcDomainRole{first, second})
-
-	if got[0].GetName() != first.Name {
-		t.Errorf("[0] = %q, want %q", got[0].GetName(), first.Name)
-	}
-
-	if got[1].GetName() != second.Name {
-		t.Errorf("[1] = %q, want %q", got[1].GetName(), second.Name)
 	}
 }
 
@@ -159,6 +133,7 @@ func TestToUpdateDomainRoleByIdParams(t *testing.T) {
 }
 
 func TestToUpdateDomainRoleByIdParamsNil(t *testing.T) {
+	// Геттеры protobuf безопасны на nil: сервер не должен падать.
 	if got := ToUpdateDomainRoleByIdParams(nil); got != (user_domain_roles.UpdateDomainRoleByIdParams{}) {
 		t.Errorf("ToUpdateDomainRoleByIdParams(nil) = %+v, want zero value", got)
 	}

@@ -69,6 +69,12 @@ func ProtoToNullString(s *string) sql.NullString {
 	return sql.NullString{String: *s, Valid: true}
 }
 
+// Int64ToProto переводит колонку id в необязательное поле proto — внутренний
+// идентификатор не гарантирован клиентам API, только external_id.
+func Int64ToProto(id int64) *int64 {
+	return &id
+}
+
 // UUIDToProto переводит колонку uuid в строковое поле proto:
 // в protobuf нет типа для UUID, значение передаётся канонической записью.
 func UUIDToProto(id uuid.UUID) string {

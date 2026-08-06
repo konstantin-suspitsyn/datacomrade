@@ -5,16 +5,6 @@ import (
 	"github.com/konstantin-suspitsyn/datacomrade/shared/pkg/validator"
 )
 
-// userWritableFields проверяет поля, общие для вставки и обновления dc.user.
-func userWritableFields(
-	v *validator.Validator,
-	name string,
-	externalId string,
-) {
-	v.StringVarchar("name", name, userNameMaxLen)
-	v.StringUUID("external_id", externalId)
-}
-
 // ValidateCreateUser проверяет запрос на вставку строки dc.user.
 func ValidateCreateUser(req *userv1.CreateUserRequest) error {
 	v := validator.New()
@@ -24,17 +14,13 @@ func ValidateCreateUser(req *userv1.CreateUserRequest) error {
 		return v.Err()
 	}
 
-	userWritableFields(
-		v,
-		req.GetName(),
-		req.GetExternalId(),
-	)
+	v.StringVarchar("name", req.GetName(), userNameMaxLen)
+	v.StringUUID("external_id", req.GetExternalId())
 
 	return v.Err()
 }
 
 // ValidateUpdateUserById проверяет запрос на обновление строки dc.user.
-// К изменяемым полям добавляется id обновляемой записи.
 func ValidateUpdateUserById(req *userv1.UpdateUserByIdRequest) error {
 	v := validator.New()
 
@@ -44,12 +30,8 @@ func ValidateUpdateUserById(req *userv1.UpdateUserByIdRequest) error {
 	}
 
 	v.Int64ID("id", req.GetId())
-
-	userWritableFields(
-		v,
-		req.GetName(),
-		req.GetExternalId(),
-	)
+	v.StringVarchar("name", req.GetName(), userNameMaxLen)
+	v.StringUUID("external_id", req.GetExternalId())
 
 	return v.Err()
 }

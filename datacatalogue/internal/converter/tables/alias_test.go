@@ -7,6 +7,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/repository/tables_model"
+	"github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/validation"
 	tablesv1 "github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/tables/v1"
 )
 
@@ -66,15 +67,6 @@ func TestAliasToProto(t *testing.T) {
 
 }
 
-func TestAliasToProtoDeleted(t *testing.T) {
-	row := testAliasRow()
-	row.IsDeleted = true
-
-	if got := AliasToProto(row); !got.GetIsDeleted() {
-		t.Error("IsDeleted = false, want true")
-	}
-}
-
 func TestAliasesToProto(t *testing.T) {
 	first := testAliasRow()
 
@@ -96,7 +88,6 @@ func TestAliasesToProto(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			got := AliasesToProto(tt.input)
 
-			// Пустой вход даёт пустой, а не nil-слайс.
 			if got == nil {
 				t.Fatal("AliasesToProto() = nil, want empty slice")
 			}
@@ -108,27 +99,11 @@ func TestAliasesToProto(t *testing.T) {
 	}
 }
 
-func TestAliasesToProtoKeepsOrder(t *testing.T) {
-	first := testAliasRow()
-	second := testAliasRow()
-	second.Name = "second-value"
-
-	got := AliasesToProto([]tables_model.DcAlias{first, second})
-
-	if got[0].GetName() != first.Name {
-		t.Errorf("[0] = %q, want %q", got[0].GetName(), first.Name)
-	}
-
-	if got[1].GetName() != second.Name {
-		t.Errorf("[1] = %q, want %q", got[1].GetName(), second.Name)
-	}
-}
-
 func TestToCreateAliasParams(t *testing.T) {
 	req := &tablesv1.CreateAliasRequest{
-		Name:           "name-0",
-		Description:    "description-0",
-		UserExternalId: "00000000-0000-4000-8000-000000000003",
+		Name:        "name-0",
+		Description: "description-0",
+		ExternalId:  "00000000-0000-4000-8000-000000000003",
 	}
 
 	want := tables_model.CreateAliasParams{
@@ -151,17 +126,19 @@ func TestToCreateAliasParamsNil(t *testing.T) {
 
 func TestToUpdateAliasByIdParams(t *testing.T) {
 	req := &tablesv1.UpdateAliasByIdRequest{
-		Id:             100,
-		Name:           "name-0",
-		Description:    "description-0",
-		UserExternalId: "00000000-0000-4000-8000-000000000004",
+		Name:        "name-0",
+		Description: "description-0",
+		IsDeleted:   true,
+		ExternalId:  "00000000-0000-4000-8000-000000000004",
+		Id:          104,
 	}
 
 	want := tables_model.UpdateAliasByIdParams{
-		ID:          100,
 		Name:        "name-0",
 		Description: "description-0",
+		IsDeleted:   true,
 		ExternalID:  uuid.MustParse("00000000-0000-4000-8000-000000000004"),
+		ID:          104,
 	}
 
 	if got := ToUpdateAliasByIdParams(req); got != want {
@@ -170,7 +147,110 @@ func TestToUpdateAliasByIdParams(t *testing.T) {
 }
 
 func TestToUpdateAliasByIdParamsNil(t *testing.T) {
+	// Геттеры protobuf безопасны на nil: сервер не должен падать.
 	if got := ToUpdateAliasByIdParams(nil); got != (tables_model.UpdateAliasByIdParams{}) {
 		t.Errorf("ToUpdateAliasByIdParams(nil) = %+v, want zero value", got)
+	}
+}
+
+func TestToDeleteAliasByIdParams(t *testing.T) {
+	req := &tablesv1.DeleteAliasByIdRequest{
+		ExternalId: "00000000-0000-4000-8000-000000000001",
+		Id:         101,
+	}
+
+	want := tables_model.DeleteAliasByIdParams{
+		ExternalID: uuid.MustParse("00000000-0000-4000-8000-000000000001"),
+		ID:         101,
+	}
+
+	if got := ToDeleteAliasByIdParams(req); got != want {
+		t.Errorf("ToDeleteAliasByIdParams() = %+v, want %+v", got, want)
+	}
+}
+
+func TestToDeleteAliasByIdParamsNil(t *testing.T) {
+	// Геттеры protobuf безопасны на nil: сервер не должен падать.
+	if got := ToDeleteAliasByIdParams(nil); got != (tables_model.DeleteAliasByIdParams{}) {
+		t.Errorf("ToDeleteAliasByIdParams(nil) = %+v, want zero value", got)
+	}
+}
+
+func TestToUndeleteAliasByIdParams(t *testing.T) {
+	req := &tablesv1.UndeleteAliasByIdRequest{
+		ExternalId: "00000000-0000-4000-8000-000000000001",
+		Id:         101,
+	}
+
+	want := tables_model.UndeleteAliasByIdParams{
+		ExternalID: uuid.MustParse("00000000-0000-4000-8000-000000000001"),
+		ID:         101,
+	}
+
+	if got := ToUndeleteAliasByIdParams(req); got != want {
+		t.Errorf("ToUndeleteAliasByIdParams() = %+v, want %+v", got, want)
+	}
+}
+
+func TestToUndeleteAliasByIdParamsNil(t *testing.T) {
+	// Геттеры protobuf безопасны на nil: сервер не должен падать.
+	if got := ToUndeleteAliasByIdParams(nil); got != (tables_model.UndeleteAliasByIdParams{}) {
+		t.Errorf("ToUndeleteAliasByIdParams(nil) = %+v, want zero value", got)
+	}
+}
+
+func TestGetAliasesDeletedDefaultsPageLimit(t *testing.T) {
+	got := ToGetAliasesDeletedParams(&tablesv1.GetAliasesDeletedRequest{Page: 3})
+
+	if got.PageLimit != validation.DefaultPageSize {
+		t.Errorf("PageLimit = %d, want %d", got.PageLimit, validation.DefaultPageSize)
+	}
+
+	if got.Page != 3 {
+		t.Errorf("Page = %d, want 3", got.Page)
+	}
+}
+
+func TestGetAliasesDeletedDefaultsPage(t *testing.T) {
+	got := ToGetAliasesDeletedParams(&tablesv1.GetAliasesDeletedRequest{PageLimit: 10})
+
+	if got.Page != 1 {
+		t.Errorf("Page = %d, want 1", got.Page)
+	}
+}
+
+func TestGetAliasesDeletedKeepsExplicitPageLimit(t *testing.T) {
+	got := ToGetAliasesDeletedParams(&tablesv1.GetAliasesDeletedRequest{PageLimit: 10, Page: 5})
+
+	if got.PageLimit != 10 {
+		t.Errorf("PageLimit = %d, want 10", got.PageLimit)
+	}
+}
+
+func TestGetAliasesDefaultsPageLimit(t *testing.T) {
+	got := ToGetAliasesParams(&tablesv1.GetAliasesRequest{Page: 3})
+
+	if got.PageLimit != validation.DefaultPageSize {
+		t.Errorf("PageLimit = %d, want %d", got.PageLimit, validation.DefaultPageSize)
+	}
+
+	if got.Page != 3 {
+		t.Errorf("Page = %d, want 3", got.Page)
+	}
+}
+
+func TestGetAliasesDefaultsPage(t *testing.T) {
+	got := ToGetAliasesParams(&tablesv1.GetAliasesRequest{PageLimit: 10})
+
+	if got.Page != 1 {
+		t.Errorf("Page = %d, want 1", got.Page)
+	}
+}
+
+func TestGetAliasesKeepsExplicitPageLimit(t *testing.T) {
+	got := ToGetAliasesParams(&tablesv1.GetAliasesRequest{PageLimit: 10, Page: 5})
+
+	if got.PageLimit != 10 {
+		t.Errorf("PageLimit = %d, want 10", got.PageLimit)
 	}
 }

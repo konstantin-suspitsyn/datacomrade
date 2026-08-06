@@ -25,41 +25,65 @@ func (s *TablesService) GetHostById(ctx context.Context, id int64) (tables_model
 	return row, nil
 }
 
-// GetHosts возвращает все активные строки dc.host.
-func (s *TablesService) GetHosts(ctx context.Context) ([]tables_model.DcHost, error) {
-	rows, err := s.TablesRepository.GetHosts(ctx)
-
+// GetHosts возвращает страницу строк dc.host и её счётчики.
+func (s *TablesService) GetHosts(ctx context.Context, params tables_model.GetHostsParams) ([]tables_model.DcHost, tables_model.CountGetHostsRow, error) {
+	count, err := s.TablesRepository.CountGetHosts(ctx, params.PageLimit)
 	if err != nil {
-		return nil, fmt.Errorf("get dc.host: %w", err)
+		return nil, tables_model.CountGetHostsRow{}, fmt.Errorf("count dc.host: %w", err)
 	}
 
-	return rows, nil
+	if count.TotalItems == 0 {
+		return []tables_model.DcHost{}, count, nil
+	}
+
+	rows, err := s.TablesRepository.GetHosts(ctx, params)
+	if err != nil {
+		return nil, tables_model.CountGetHostsRow{}, fmt.Errorf("get dc.host page: %w", err)
+	}
+
+	return rows, count, nil
 }
 
-// GetDeletedHostById возвращает мягко удалённую строку dc.host по id.
-func (s *TablesService) GetDeletedHostById(ctx context.Context, id int64) (tables_model.DcHost, error) {
-	row, err := s.TablesRepository.GetDeletedHostById(ctx, id)
-
+// GetHostsSearchName возвращает страницу строк dc.host и её счётчики.
+func (s *TablesService) GetHostsSearchName(ctx context.Context, params tables_model.GetHostsSearchNameParams) ([]tables_model.DcHost, tables_model.CountGetHostsSearchNameRow, error) {
+	countParams := tables_model.CountGetHostsSearchNameParams{
+		PageLimit:  params.PageLimit,
+		SearchName: params.SearchName,
+	}
+	count, err := s.TablesRepository.CountGetHostsSearchName(ctx, countParams)
 	if err != nil {
-		if errors.Is(err, sql.ErrNoRows) {
-			return tables_model.DcHost{}, fmt.Errorf("deleted dc.host id = %d: %w", id, customerrors.ErrNotFound)
-		}
-
-		return tables_model.DcHost{}, fmt.Errorf("get deleted dc.host id = %d: %w", id, err)
+		return nil, tables_model.CountGetHostsSearchNameRow{}, fmt.Errorf("count dc.host: %w", err)
 	}
 
-	return row, nil
+	if count.TotalItems == 0 {
+		return []tables_model.DcHost{}, count, nil
+	}
+
+	rows, err := s.TablesRepository.GetHostsSearchName(ctx, params)
+	if err != nil {
+		return nil, tables_model.CountGetHostsSearchNameRow{}, fmt.Errorf("get dc.host page: %w", err)
+	}
+
+	return rows, count, nil
 }
 
-// GetDeletedHosts возвращает все мягко удалённые строки dc.host.
-func (s *TablesService) GetDeletedHosts(ctx context.Context) ([]tables_model.DcHost, error) {
-	rows, err := s.TablesRepository.GetDeletedHosts(ctx)
-
+// GetHostDeleted возвращает страницу строк dc.host и её счётчики.
+func (s *TablesService) GetHostDeleted(ctx context.Context, params tables_model.GetHostDeletedParams) ([]tables_model.DcHost, tables_model.CountGetHostDeletedRow, error) {
+	count, err := s.TablesRepository.CountGetHostDeleted(ctx, params.PageLimit)
 	if err != nil {
-		return nil, fmt.Errorf("get deleted dc.host: %w", err)
+		return nil, tables_model.CountGetHostDeletedRow{}, fmt.Errorf("count dc.host: %w", err)
 	}
 
-	return rows, nil
+	if count.TotalItems == 0 {
+		return []tables_model.DcHost{}, count, nil
+	}
+
+	rows, err := s.TablesRepository.GetHostDeleted(ctx, params)
+	if err != nil {
+		return nil, tables_model.CountGetHostDeletedRow{}, fmt.Errorf("get dc.host page: %w", err)
+	}
+
+	return rows, count, nil
 }
 
 // CreateHost вставляет строку dc.host и возвращает её целиком.
@@ -73,23 +97,20 @@ func (s *TablesService) CreateHost(ctx context.Context, params tables_model.Crea
 	return row, nil
 }
 
-// UpdateHostById обновляет активную строку dc.host и возвращает её целиком.
+// UpdateHostById обновляет строку dc.host.
 //
-// Запрос фильтрует по is_deleted = false, поэтому попытка обновить удалённую
-// или несуществующую запись даёт sql.ErrNoRows — переводим его в ErrNotFound,
-// чтобы api-слой ответил NotFound, а не Internal.
-func (s *TablesService) UpdateHostById(ctx context.Context, params tables_model.UpdateHostByIdParams) (tables_model.DcHost, error) {
-	row, err := s.TablesRepository.UpdateHostById(ctx, params)
-
-	if err != nil {
-		if errors.Is(err, sql.ErrNoRows) {
-			return tables_model.DcHost{}, fmt.Errorf("dc.host id = %d: %w", params.ID, customerrors.ErrNotFound)
-		}
-
-		return tables_model.DcHost{}, fmt.Errorf("%w: dc.host id = %d: %w", customerrors.ErrUpdate, params.ID, err)
+// Запрос — :exec и не сообщает число затронутых строк, поэтому
+// существование активной записи проверяется заранее.
+func (s *TablesService) UpdateHostById(ctx context.Context, params tables_model.UpdateHostByIdParams) error {
+	if _, err := s.GetHostById(ctx, params.ID); err != nil {
+		return fmt.Errorf("%w: dc.host: %w", customerrors.ErrUpdate, err)
 	}
 
-	return row, nil
+	if err := s.TablesRepository.UpdateHostById(ctx, params); err != nil {
+		return fmt.Errorf("%w: dc.host id = %d: %w", customerrors.ErrUpdate, params.ID, err)
+	}
+
+	return nil
 }
 
 // DeleteHostById мягко удаляет строку dc.host.
@@ -97,28 +118,22 @@ func (s *TablesService) UpdateHostById(ctx context.Context, params tables_model.
 // Сам UPDATE не фильтрует по is_deleted и не сообщает, была ли затронута
 // строка, поэтому существование активной записи проверяем заранее —
 // иначе удаление несуществующего id молча возвращало бы успех.
-func (s *TablesService) DeleteHostById(ctx context.Context, id int64) error {
-	if _, err := s.GetHostById(ctx, id); err != nil {
+func (s *TablesService) DeleteHostById(ctx context.Context, params tables_model.DeleteHostByIdParams) error {
+	if _, err := s.GetHostById(ctx, params.ID); err != nil {
 		return errors.Join(customerrors.ErrDelete, err)
 	}
 
-	if err := s.TablesRepository.DeleteHostById(ctx, id); err != nil {
-		return fmt.Errorf("%w: dc.host id = %d: %w", customerrors.ErrDelete, id, err)
+	if err := s.TablesRepository.DeleteHostById(ctx, params); err != nil {
+		return fmt.Errorf("%w: dc.host id = %d: %w", customerrors.ErrDelete, params.ID, err)
 	}
 
 	return nil
 }
 
 // UndeleteHostById восстанавливает мягко удалённую строку dc.host.
-// Существование удалённой записи проверяется заранее по той же причине,
-// что и в DeleteHostById.
-func (s *TablesService) UndeleteHostById(ctx context.Context, id int64) error {
-	if _, err := s.GetDeletedHostById(ctx, id); err != nil {
-		return errors.Join(customerrors.ErrUndelete, err)
-	}
-
-	if err := s.TablesRepository.UndeleteHostById(ctx, id); err != nil {
-		return fmt.Errorf("%w: dc.host id = %d: %w", customerrors.ErrUndelete, id, err)
+func (s *TablesService) UndeleteHostById(ctx context.Context, params tables_model.UndeleteHostByIdParams) error {
+	if err := s.TablesRepository.UndeleteHostById(ctx, params); err != nil {
+		return fmt.Errorf("%w: dc.host id = %d: %w", customerrors.ErrUndelete, params.ID, err)
 	}
 
 	return nil

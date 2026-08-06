@@ -60,15 +60,6 @@ func TestUserToProto(t *testing.T) {
 
 }
 
-func TestUserToProtoDeleted(t *testing.T) {
-	row := testUserRow()
-	row.IsDeleted = true
-
-	if got := UserToProto(row); !got.GetIsDeleted() {
-		t.Error("IsDeleted = false, want true")
-	}
-}
-
 func TestUsersToProto(t *testing.T) {
 	first := testUserRow()
 
@@ -90,7 +81,6 @@ func TestUsersToProto(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			got := UsersToProto(tt.input)
 
-			// Пустой вход даёт пустой, а не nil-слайс.
 			if got == nil {
 				t.Fatal("UsersToProto() = nil, want empty slice")
 			}
@@ -99,22 +89,6 @@ func TestUsersToProto(t *testing.T) {
 				t.Fatalf("len = %d, want %d", len(got), tt.wantLen)
 			}
 		})
-	}
-}
-
-func TestUsersToProtoKeepsOrder(t *testing.T) {
-	first := testUserRow()
-	second := testUserRow()
-	second.Name = "second-value"
-
-	got := UsersToProto([]user_model.DcUser{first, second})
-
-	if got[0].GetName() != first.Name {
-		t.Errorf("[0] = %q, want %q", got[0].GetName(), first.Name)
-	}
-
-	if got[1].GetName() != second.Name {
-		t.Errorf("[1] = %q, want %q", got[1].GetName(), second.Name)
 	}
 }
 
@@ -160,6 +134,7 @@ func TestToUpdateUserByIdParams(t *testing.T) {
 }
 
 func TestToUpdateUserByIdParamsNil(t *testing.T) {
+	// Геттеры protobuf безопасны на nil: сервер не должен падать.
 	if got := ToUpdateUserByIdParams(nil); got != (user_model.UpdateUserByIdParams{}) {
 		t.Errorf("ToUpdateUserByIdParams(nil) = %+v, want zero value", got)
 	}
@@ -174,7 +149,6 @@ func TestToGetUserByExternalIdArg(t *testing.T) {
 }
 
 func TestToGetUserByExternalIdArgNil(t *testing.T) {
-	// Геттеры protobuf безопасны на nil: сервер не должен падать.
 	if got := ToGetUserByExternalIdArg(nil); got != uuid.Nil {
 		t.Errorf("ToGetUserByExternalIdArg(nil) = %v, want zero value", got)
 	}

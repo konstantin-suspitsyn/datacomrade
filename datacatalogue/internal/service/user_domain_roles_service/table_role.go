@@ -25,17 +25,6 @@ func (s *UserDomainRolesService) GetTableRoleById(ctx context.Context, id int64)
 	return row, nil
 }
 
-// GetTableRoles возвращает все активные строки dc.table_roles.
-func (s *UserDomainRolesService) GetTableRoles(ctx context.Context) ([]user_domain_roles.DcTableRole, error) {
-	rows, err := s.UserDomainRolesRepository.GetTableRoles(ctx)
-
-	if err != nil {
-		return nil, fmt.Errorf("get dc.table_roles: %w", err)
-	}
-
-	return rows, nil
-}
-
 // GetDeletedTableRoleById возвращает мягко удалённую строку dc.table_roles по id.
 func (s *UserDomainRolesService) GetDeletedTableRoleById(ctx context.Context, id int64) (user_domain_roles.DcTableRole, error) {
 	row, err := s.UserDomainRolesRepository.GetDeletedTableRoleById(ctx, id)
@@ -51,12 +40,23 @@ func (s *UserDomainRolesService) GetDeletedTableRoleById(ctx context.Context, id
 	return row, nil
 }
 
-// GetDeletedTableRoles возвращает все мягко удалённые строки dc.table_roles.
+// GetTableRoles возвращает строки dc.table_roles.
+func (s *UserDomainRolesService) GetTableRoles(ctx context.Context) ([]user_domain_roles.DcTableRole, error) {
+	rows, err := s.UserDomainRolesRepository.GetTableRoles(ctx)
+
+	if err != nil {
+		return nil, fmt.Errorf("GetTableRoles: %w", err)
+	}
+
+	return rows, nil
+}
+
+// GetDeletedTableRoles возвращает строки dc.table_roles.
 func (s *UserDomainRolesService) GetDeletedTableRoles(ctx context.Context) ([]user_domain_roles.DcTableRole, error) {
 	rows, err := s.UserDomainRolesRepository.GetDeletedTableRoles(ctx)
 
 	if err != nil {
-		return nil, fmt.Errorf("get deleted dc.table_roles: %w", err)
+		return nil, fmt.Errorf("GetDeletedTableRoles: %w", err)
 	}
 
 	return rows, nil
@@ -110,6 +110,7 @@ func (s *UserDomainRolesService) DeleteTableRoleById(ctx context.Context, id int
 }
 
 // UndeleteTableRoleById восстанавливает мягко удалённую строку dc.table_roles.
+//
 // Существование удалённой записи проверяется заранее по той же причине,
 // что и в DeleteTableRoleById.
 func (s *UserDomainRolesService) UndeleteTableRoleById(ctx context.Context, id int64) error {

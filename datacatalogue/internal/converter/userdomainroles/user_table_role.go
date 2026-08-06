@@ -44,7 +44,6 @@ func ToCreateUserTableRoleParams(req *userdomainrolesv1.CreateUserTableRoleReque
 }
 
 // ToUpdateUserTableRoleByIdParams собирает параметры обновления dc.user_table_roles из запроса gRPC.
-// updated_at выставляет SQL, is_deleted через обновление не меняется.
 func ToUpdateUserTableRoleByIdParams(req *userdomainrolesv1.UpdateUserTableRoleByIdRequest) user_domain_roles.UpdateUserTableRoleByIdParams {
 	return user_domain_roles.UpdateUserTableRoleByIdParams{
 		ID:           req.GetId(),

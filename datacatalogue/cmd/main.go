@@ -34,6 +34,10 @@ type APIServerConfiguration struct {
 }
 
 func main() {
+	// Потом надо переделать под разные env файлы для разных окружений
+	if err := godotenv.Load(".env"); err != nil {
+		panic("godotenv file was not found")
+	}
 
 	var serverConfig APIServerConfiguration
 	hostPort := constants.InitHostPort()
@@ -41,11 +45,6 @@ func main() {
 
 	flag.StringVar(&serverConfig.Env, "env", "development", "Environment (development|staging|production)")
 	flag.Parse()
-
-	// Потом надо переделать под разные env файлы для разных окружений
-	if err := godotenv.Load(".env"); err != nil {
-		panic("godotenv file was not found")
-	}
 
 	//Инициализируем БД
 	envConfig := constants.InitDbConfig()
@@ -72,7 +71,9 @@ func main() {
 
 	// Регистрация сервисов
 	userv1.RegisterUserServiceServer(s, userAPI)
-	tablesv1.RegisterTableServiceServer(s, tablesAPI)
+	tablesv1.RegisterAliasServiceServer(s, tablesAPI)
+	tablesv1.RegisterUserServiceServer(s, tablesAPI)
+	tablesv1.RegisterHostServiceServer(s, tablesAPI)
 	userdomainrolesv1.RegisterUserDomainRolesServiceServer(s, userDomainRolesAPI)
 	authlogicv1.RegisterAuthLogicServiceServer(s, authLogicAPI)
 

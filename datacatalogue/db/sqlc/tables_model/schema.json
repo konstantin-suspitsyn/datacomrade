@@ -1,0 +1,1348 @@
+{
+  "description": "Файл создан программой SG Buddy. Здесь лежат настройки генерации query.sql и .proto по DDL-схеме. Программа перезаписывает файл целиком, когда сохраняет настройки.",
+  "schema_folder_path": "C:\\Users\\const\\working\\datacomrade\\datacatalogue\\db\\sqlc\\tables_model",
+  "save_proto_path": "C:\\Users\\const\\working\\datacomrade\\shared\\proto\\tables\\v1\\tables.proto",
+  "proto_package": "tables.v1",
+  "go_package": "github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/tables_model/tables/v1;tablesv1",
+  "CRUD": {
+    "dc.alias": {
+      "CREATE": [
+        {
+          "Name": "CreateAlias",
+          "Query Annotation": "one",
+          "columns": [
+            {
+              "column_name": "name",
+              "column_value": "@name"
+            },
+            {
+              "column_name": "description",
+              "column_value": "@description"
+            },
+            {
+              "column_name": "created_at",
+              "column_value": "now()"
+            },
+            {
+              "column_name": "updated_at",
+              "column_value": "now()"
+            },
+            {
+              "column_name": "is_deleted",
+              "column_value": "false"
+            },
+            {
+              "column_name": "user_id",
+              "column_value": "(SELECT u.id FROM dc.\"user\" u WHERE u.external_id = @external_id)"
+            }
+          ],
+          "custom_query": null
+        }
+      ],
+      "READ": [
+        {
+          "Name": "GetAliasById",
+          "Query Annotation": "one",
+          "Pagination": false,
+          "columns": [
+            {
+              "column_name": "id",
+              "show": true,
+              "where": true,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "column_name": "name",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "column_name": "description",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "column_name": "created_at",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "column_name": "updated_at",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "column_name": "is_deleted",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": "false"
+            },
+            {
+              "column_name": "user_id",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            }
+          ],
+          "custom_where": null,
+          "custom_query": null
+        },
+        {
+          "Name": "GetAliasesDeleted",
+          "Query Annotation": "many",
+          "Pagination": true,
+          "columns": [
+            {
+              "column_name": "id",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": true,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "name",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "description",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "created_at",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "updated_at",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "is_deleted",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": "true",
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "user_id",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            }
+          ],
+          "custom_where": null,
+          "custom_query": null
+        },
+        {
+          "Name": "GetAliases",
+          "Query Annotation": "many",
+          "Pagination": true,
+          "columns": [
+            {
+              "column_name": "id",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": true,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "name",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "description",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "created_at",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "updated_at",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "is_deleted",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": "false",
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "user_id",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            }
+          ],
+          "custom_where": null,
+          "custom_query": null
+        }
+      ],
+      "UPDATE": [
+        {
+          "Name": "UpdateAliasById",
+          "Query Annotation": "exec",
+          "columns": [
+            {
+              "column_name": "id",
+              "set": false,
+              "set_value": "@id",
+              "where": true,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "name",
+              "set": true,
+              "set_value": "@name",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "description",
+              "set": true,
+              "set_value": "@description",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "created_at",
+              "set": false,
+              "set_value": "@created_at",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "updated_at",
+              "set": true,
+              "set_value": "now()",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "is_deleted",
+              "set": true,
+              "set_value": "@is_deleted",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "user_id",
+              "set": true,
+              "set_value": "(SELECT u.id FROM dc.\"user\" u WHERE u.external_id = @external_id)",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            }
+          ],
+          "custom_where": null,
+          "custom_query": null
+        }
+      ],
+      "DELETE": [
+        {
+          "Name": "DeleteAliasById",
+          "Mode": "SOFT DELETE",
+          "columns": [
+            {
+              "column_name": "id",
+              "set": false,
+              "set_value": null,
+              "where": true,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "name",
+              "set": false,
+              "set_value": null,
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "description",
+              "set": false,
+              "set_value": null,
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "created_at",
+              "set": false,
+              "set_value": null,
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "updated_at",
+              "set": true,
+              "set_value": "now()",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "is_deleted",
+              "set": true,
+              "set_value": "true",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "user_id",
+              "set": true,
+              "set_value": "(SELECT u.id FROM dc.\"user\" u WHERE u.external_id = @external_id)",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            }
+          ],
+          "custom_where": null,
+          "custom_query": null
+        },
+        {
+          "Name": "UndeleteAliasById",
+          "Mode": "UNDELETE",
+          "columns": [
+            {
+              "column_name": "id",
+              "set": false,
+              "set_value": null,
+              "where": true,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "name",
+              "set": false,
+              "set_value": null,
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "description",
+              "set": false,
+              "set_value": null,
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "created_at",
+              "set": false,
+              "set_value": null,
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "updated_at",
+              "set": true,
+              "set_value": "now()",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "is_deleted",
+              "set": true,
+              "set_value": "false",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "user_id",
+              "set": true,
+              "set_value": "(SELECT u.id FROM dc.\"user\" u WHERE u.external_id = @external_id)",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            }
+          ],
+          "custom_where": null,
+          "custom_query": null
+        }
+      ]
+    },
+    "dc.user": {
+      "CREATE": [
+        {
+          "Name": "CreateUser",
+          "Query Annotation": "one",
+          "columns": [
+            {
+              "column_name": "name",
+              "column_value": "@name"
+            },
+            {
+              "column_name": "created_at",
+              "column_value": "now()"
+            },
+            {
+              "column_name": "updated_at",
+              "column_value": "now()"
+            },
+            {
+              "column_name": "is_deleted",
+              "column_value": "false"
+            },
+            {
+              "column_name": "external_id",
+              "column_value": "@external_id"
+            }
+          ],
+          "custom_query": null
+        }
+      ],
+      "READ": [
+        {
+          "Name": "GetUserByExternalId",
+          "Query Annotation": "one",
+          "Pagination": false,
+          "columns": [
+            {
+              "column_name": "id",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "column_name": "name",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "column_name": "created_at",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "column_name": "updated_at",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "column_name": "is_deleted",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": "false"
+            },
+            {
+              "column_name": "external_id",
+              "show": true,
+              "where": true,
+              "where_optional": false,
+              "exact_where": null
+            }
+          ],
+          "custom_where": null,
+          "custom_query": null
+        },
+        {
+          "Name": "GetUsers",
+          "Query Annotation": "many",
+          "Pagination": true,
+          "columns": [
+            {
+              "column_name": "id",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": true,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "name",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "created_at",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "updated_at",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "is_deleted",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": "false",
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "external_id",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            }
+          ],
+          "custom_where": null,
+          "custom_query": null
+        }
+      ],
+      "UPDATE": [],
+      "DELETE": []
+    },
+    "dc.host": {
+      "CREATE": [
+        {
+          "Name": "CreateHost",
+          "Query Annotation": "one",
+          "columns": [
+            {
+              "column_name": "name",
+              "column_value": "@name"
+            },
+            {
+              "column_name": "description",
+              "column_value": "@description"
+            },
+            {
+              "column_name": "host_env",
+              "column_value": "@host_env"
+            },
+            {
+              "column_name": "port_env",
+              "column_value": "@port_env"
+            },
+            {
+              "column_name": "username_env",
+              "column_value": "@username_env"
+            },
+            {
+              "column_name": "password_env",
+              "column_value": "@password_env"
+            },
+            {
+              "column_name": "is_deleted",
+              "column_value": "false"
+            },
+            {
+              "column_name": "created_at",
+              "column_value": "now()"
+            },
+            {
+              "column_name": "updated_at",
+              "column_value": "now()"
+            },
+            {
+              "column_name": "user_id",
+              "column_value": "(SELECT u.id FROM dc.\"user\" u WHERE u.external_id = @external_id)"
+            }
+          ],
+          "custom_query": null
+        }
+      ],
+      "READ": [
+        {
+          "Name": "GetHostById",
+          "Query Annotation": "one",
+          "Pagination": false,
+          "columns": [
+            {
+              "column_name": "id",
+              "show": true,
+              "where": true,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "column_name": "name",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "column_name": "description",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "column_name": "host_env",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "column_name": "port_env",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "column_name": "username_env",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "column_name": "password_env",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "column_name": "is_deleted",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "column_name": "created_at",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "column_name": "updated_at",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "column_name": "user_id",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            }
+          ],
+          "custom_where": null,
+          "custom_query": null
+        },
+        {
+          "Name": "GetHosts",
+          "Query Annotation": "many",
+          "Pagination": true,
+          "columns": [
+            {
+              "column_name": "id",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": true,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "name",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "description",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "host_env",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "port_env",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "username_env",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "password_env",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "is_deleted",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": "false",
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "created_at",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "updated_at",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "user_id",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            }
+          ],
+          "custom_where": null,
+          "custom_query": null
+        },
+        {
+          "Name": "GetHostsSearchName",
+          "Query Annotation": "many",
+          "Pagination": true,
+          "columns": [
+            {
+              "column_name": "id",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": true,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "name",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "description",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "host_env",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "port_env",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "username_env",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "password_env",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "is_deleted",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": "false",
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "created_at",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "updated_at",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "user_id",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            }
+          ],
+          "custom_where": "lower(name) LIKE '%' || lower(sqlc.arg(search_name)) || '%'",
+          "custom_query": null
+        },
+        {
+          "Name": "GetHostDeleted",
+          "Query Annotation": "many",
+          "Pagination": true,
+          "columns": [
+            {
+              "column_name": "id",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": true,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "name",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "description",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "host_env",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "port_env",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "username_env",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "password_env",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "is_deleted",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": "true",
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "created_at",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "updated_at",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "user_id",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            }
+          ],
+          "custom_where": null,
+          "custom_query": null
+        }
+      ],
+      "UPDATE": [
+        {
+          "Name": "UpdateHostById",
+          "Query Annotation": "exec",
+          "columns": [
+            {
+              "column_name": "id",
+              "set": true,
+              "set_value": "@id",
+              "where": true,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "name",
+              "set": true,
+              "set_value": "@name",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "description",
+              "set": true,
+              "set_value": "@description",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "host_env",
+              "set": true,
+              "set_value": "@host_env",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "port_env",
+              "set": true,
+              "set_value": "@port_env",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "username_env",
+              "set": true,
+              "set_value": "@username_env",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "password_env",
+              "set": true,
+              "set_value": "@password_env",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "is_deleted",
+              "set": true,
+              "set_value": "false",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "created_at",
+              "set": false,
+              "set_value": "@created_at",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "updated_at",
+              "set": true,
+              "set_value": "now()",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "user_id",
+              "set": true,
+              "set_value": "(SELECT u.id FROM dc.\"user\" u WHERE u.external_id = @external_id)",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            }
+          ],
+          "custom_where": null,
+          "custom_query": null
+        }
+      ],
+      "DELETE": [
+        {
+          "Name": "DeleteHostById",
+          "Mode": "SOFT DELETE",
+          "columns": [
+            {
+              "column_name": "id",
+              "set": false,
+              "set_value": null,
+              "where": true,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "name",
+              "set": false,
+              "set_value": null,
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "description",
+              "set": false,
+              "set_value": null,
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "host_env",
+              "set": false,
+              "set_value": null,
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "port_env",
+              "set": false,
+              "set_value": null,
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "username_env",
+              "set": false,
+              "set_value": null,
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "password_env",
+              "set": false,
+              "set_value": null,
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "is_deleted",
+              "set": true,
+              "set_value": "true",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "created_at",
+              "set": false,
+              "set_value": null,
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "updated_at",
+              "set": true,
+              "set_value": "now()",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "user_id",
+              "set": true,
+              "set_value": "(SELECT u.id FROM dc.\"user\" u WHERE u.external_id = @external_id)",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            }
+          ],
+          "custom_where": null,
+          "custom_query": null
+        },
+        {
+          "Name": "UndeleteHostById",
+          "Mode": "UNDELETE",
+          "columns": [
+            {
+              "column_name": "id",
+              "set": false,
+              "set_value": null,
+              "where": true,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "name",
+              "set": false,
+              "set_value": null,
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "description",
+              "set": false,
+              "set_value": null,
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "host_env",
+              "set": false,
+              "set_value": null,
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "port_env",
+              "set": false,
+              "set_value": null,
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "username_env",
+              "set": false,
+              "set_value": null,
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "password_env",
+              "set": false,
+              "set_value": null,
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "is_deleted",
+              "set": true,
+              "set_value": "false",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "created_at",
+              "set": false,
+              "set_value": null,
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "updated_at",
+              "set": true,
+              "set_value": "now()",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "user_id",
+              "set": true,
+              "set_value": "(SELECT u.id FROM dc.\"user\" u WHERE u.external_id = @external_id)",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            }
+          ],
+          "custom_where": null,
+          "custom_query": null
+        }
+      ]
+    }
+  }
+}

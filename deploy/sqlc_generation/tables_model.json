@@ -1,0 +1,31 @@
+{
+  "file": "query.sql",
+  "folder_path": "C:\\Users\\const\\working\\datacomrade\\datacatalogue\\db\\sqlc\\tables_model",
+  "crud": [
+    {"table_name": "dc.table_cat",
+      "create": [
+        {
+          "name": "CreateTableCat",
+          "replace_fields": [
+            {
+              "field": "is_deleted",
+              "replace": "false"
+            },
+            {
+              "field": "created_at",
+              "replace": "now()"
+            },
+            {
+              "field": "updated_at",
+              "replace": "now()"
+            },
+            {
+              "field": "user_id",
+              "replace": "(SELECT u.id FROM dc.\"user\" u WHERE u.external_id = $7)"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

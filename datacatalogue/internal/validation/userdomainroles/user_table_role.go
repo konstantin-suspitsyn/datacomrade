@@ -5,20 +5,6 @@ import (
 	"github.com/konstantin-suspitsyn/datacomrade/shared/pkg/validator"
 )
 
-// userTableRoleWritableFields проверяет поля, общие для вставки и обновления dc.user_table_roles.
-func userTableRoleWritableFields(
-	v *validator.Validator,
-	userId int64,
-	tableRolesId int64,
-	tableId int64,
-	updatedByExternalId string,
-) {
-	v.Int64ID("user_id", userId)
-	v.Int64ID("table_roles_id", tableRolesId)
-	v.Int64ID("table_id", tableId)
-	v.StringUUID("updated_by_id", updatedByExternalId)
-}
-
 // ValidateCreateUserTableRole проверяет запрос на вставку строки dc.user_table_roles.
 func ValidateCreateUserTableRole(req *userdomainrolesv1.CreateUserTableRoleRequest) error {
 	v := validator.New()
@@ -28,19 +14,15 @@ func ValidateCreateUserTableRole(req *userdomainrolesv1.CreateUserTableRoleReque
 		return v.Err()
 	}
 
-	userTableRoleWritableFields(
-		v,
-		req.GetUserId(),
-		req.GetTableRolesId(),
-		req.GetTableId(),
-		req.GetUpdatedByExternalId(),
-	)
+	v.Int64ID("user_id", req.GetUserId())
+	v.Int64ID("table_roles_id", req.GetTableRolesId())
+	v.Int64ID("table_id", req.GetTableId())
+	v.StringUUID("updated_by_id", req.GetUpdatedByExternalId())
 
 	return v.Err()
 }
 
 // ValidateUpdateUserTableRoleById проверяет запрос на обновление строки dc.user_table_roles.
-// К изменяемым полям добавляется id обновляемой записи.
 func ValidateUpdateUserTableRoleById(req *userdomainrolesv1.UpdateUserTableRoleByIdRequest) error {
 	v := validator.New()
 
@@ -50,14 +32,10 @@ func ValidateUpdateUserTableRoleById(req *userdomainrolesv1.UpdateUserTableRoleB
 	}
 
 	v.Int64ID("id", req.GetId())
-
-	userTableRoleWritableFields(
-		v,
-		req.GetUserId(),
-		req.GetTableRolesId(),
-		req.GetTableId(),
-		req.GetUpdatedByExternalId(),
-	)
+	v.Int64ID("user_id", req.GetUserId())
+	v.Int64ID("table_roles_id", req.GetTableRolesId())
+	v.Int64ID("table_id", req.GetTableId())
+	v.StringUUID("updated_by_id", req.GetUpdatedByExternalId())
 
 	return v.Err()
 }

@@ -5,6 +5,17 @@
 ВНИМАНИЕ: перезаписывает файлы без спроса. Список того, что генерируется,
 а что писано руками, — в documentation/dev_instructions/crud/generate_gprpc_go.md
 
+Таблица не обязана иметь весь стандартный набор из восьми запросов —
+генерируется только то, что реально есть в model.json (см. resolve.py).
+Три операции по id — Update/Delete/Undelete<E>ById — могут как возвращать
+строку (:one, RETURNING), так и быть :exec с пустым ответом; в последнем
+случае аргумент может быть голым id или структурой параметров (когда
+запрос заодно резолвит user_id через external_id). Списочные запросы
+(поле "lists") бывают простыми (без аргументов, один ответ-слайс) или
+постраничными (Params{Order?,Page,PageLimit}, ответ — список плюс общее
+сообщение Pagination, парный Count<имя>) — см.
+documentation/dev_instructions/crud/optional_standard_ops.md
+
 Запуск:  python deploy/generators/gen.py [--config ...] [--work-dir ...]
 """
 import io
@@ -34,7 +45,7 @@ def write(rel, text):
 
 
 def lower_first(s):
-    return s[0].lower() + s[1:]
+    return s[0].lower() + s[1:] if s else s
 
 
 def limit_const(entity, proto_field):
@@ -55,10 +66,11 @@ def row_to_proto_expr(f, var):
     if pair == ("sql.NullTime", "*timestamppb.Timestamp"):
         return "converter.NullTimeToProto(%s)" % src
     if pair == ("string", "*string"):
-        # Колонка NOT NULL, а поле в .proto помечено optional.
         return "converter.StringToProto(%s)" % src
+    if pair == ("int64", "*int64"):
+        # Колонка NOT NULL, а поле в .proto помечено optional.
+        return "converter.Int64ToProto(%s)" % src
     if pair == ("uuid.UUID", "string"):
-        # В protobuf нет типа для UUID — передаём канонической строкой.
         return "converter.UUIDToProto(%s)" % src
     raise Exception("нет правила для %s -> %s" % pair)
 
@@ -72,17 +84,13 @@ def req_to_param_expr(f, var):
     if pair == ("int16", "int32"):
         return "int16(%s)" % getter
     if pair == ("string", "*string"):
-        # Геттер optional-поля отдаёт "" вместо nil — колонка NOT NULL это отсекает
-        # на валидации, до конвертера пустое значение не доходит.
         return getter
     if pair == ("uuid.UUID", "string"):
-        # Формат строки проверен на валидации, разбор здесь уже не может не удаться.
         return "converter.ProtoToUUID(%s)" % getter
     raise Exception("нет правила для %s -> %s" % pair)
 
 
 def lookup_arg_expr(lk, var):
-    """Выражение для аргумента выборки по уникальной колонке из запроса gRPC."""
     getter = "%s.Get%s()" % (var, lk["proto_field"])
     pair = (lk["arg_type"], lk["proto_type"])
     if pair in (("int64", "int64"), ("string", "string")):
@@ -92,26 +100,47 @@ def lookup_arg_expr(lk, var):
     raise Exception("нет правила для аргумента выборки %s -> %s" % pair)
 
 
-def needs_converter_pkg(entity):
-    for group in ("row_fields", "create_fields", "update_fields"):
-        for f in entity[group]:
-            if f["proto_type"] in ("*timestamppb.Timestamp", "*string"):
-                return True
-            if f["go_type"] == "uuid.UUID":
-                return True
-    for lk in entity["lookups"]:
+def op_fields(e, op_key):
+    op = e["ops"].get(op_key)
+    if not op:
+        return []
+    return op.get("fields") or []
+
+
+def all_param_fields(e):
+    """Все поля, приходящие через структуры параметров (для needs_*/limits)."""
+    fields = list(e["create_fields"])
+    for op_key in ("update", "delete", "undelete"):
+        fields += op_fields(e, op_key)
+    return fields
+
+
+def all_filter_fields(e):
+    """Поля фильтра всех постраничных списков сущности (см. gen_converter)."""
+    fields = []
+    for l in e["lists"]:
+        if l["paginated"]:
+            fields += l.get("filter_fields") or []
+    return fields
+
+
+def needs_converter_pkg(e):
+    for f in e["row_fields"] + all_param_fields(e) + all_filter_fields(e):
+        if f["proto_type"] in ("*timestamppb.Timestamp", "*string"):
+            return True
+        if f["go_type"] == "uuid.UUID":
+            return True
+    for lk in e["lookups"]:
         if lk["arg_type"] == "uuid.UUID":
             return True
     return False
 
 
-def needs_uuid_pkg(entity, groups=("row_fields", "create_fields", "update_fields")):
-    """Нужен ли импорт github.com/google/uuid в файле."""
-    for group in groups:
-        for f in entity[group]:
-            if f["go_type"] == "uuid.UUID":
-                return True
-    for lk in entity["lookups"]:
+def needs_uuid_pkg(e, extra_fields=()):
+    for f in list(e["row_fields"]) + list(extra_fields) + all_filter_fields(e):
+        if f["go_type"] == "uuid.UUID":
+            return True
+    for lk in e["lookups"]:
         if lk["arg_type"] == "uuid.UUID":
             return True
     return False
@@ -123,12 +152,16 @@ def gen_converter(meta, e):
     repo = meta["repo_alias"]
     E, P = e["entity"], e["plural"]
 
+    paginated_lists = [l for l in e["lists"] if l["paginated"]]
+
     imports = []
     if any(lk["arg_type"] == "uuid.UUID" for lk in e["lookups"]):
         imports.append('\t"github.com/google/uuid"')
         imports.append("")
     if needs_converter_pkg(e):
         imports.append('\t"%s"' % CONV_IMPORT)
+    if paginated_lists:
+        imports.append('\t"%s"' % VALID_IMPORT)
     imports.append('\t"%s"' % meta["repo_import"])
     imports.append("\t" + meta["proto_import"])
 
@@ -175,18 +208,25 @@ def gen_converter(meta, e):
     lines.append("}")
     lines.append("")
 
-    lines.append("// ToUpdate%sByIdParams собирает параметры обновления %s из запроса gRPC." % (E, e["table"]))
-    lines.append("// updated_at выставляет SQL, is_deleted через обновление не меняется.")
-    lines.append(
-        "func ToUpdate%sByIdParams(req *%s.Update%sByIdRequest) %s.%s {"
-        % (E, proto, E, repo, e["update_params"])
-    )
-    lines.append("\treturn %s.%s{" % (repo, e["update_params"]))
-    for f in e["update_fields"]:
-        lines.append("\t\t%s: %s," % (f["go"], req_to_param_expr(f, "req")))
-    lines.append("\t}")
-    lines.append("}")
-    lines.append("")
+    for op_key, doc in (
+        ("update", "обновления"),
+        ("delete", "мягкого удаления"),
+        ("undelete", "обратного удаления"),
+    ):
+        op = e["ops"].get(op_key)
+        if not op or op["arg_form"] != "params":
+            continue
+        name = op["query"]
+        lines.append("// To%sParams собирает параметры %s %s из запроса gRPC." % (name, doc, e["table"]))
+        lines.append(
+            "func To%sParams(req *%s.%sRequest) %s.%s {" % (name, proto, name, repo, op["params_type"])
+        )
+        lines.append("\treturn %s.%s{" % (repo, op["params_type"]))
+        for f in op["fields"]:
+            lines.append("\t\t%s: %s," % (f["go"], req_to_param_expr(f, "req")))
+        lines.append("\t}")
+        lines.append("}")
+        lines.append("")
 
     for lk in e["lookups"]:
         lines.append(
@@ -200,23 +240,47 @@ def gen_converter(meta, e):
         lines.append("}")
         lines.append("")
 
+    for l in paginated_lists:
+        name = l["query"]
+        lines.append("// To%sParams собирает параметры страницы %s из запроса gRPC." % (name, e["table"]))
+        lines.append(
+            "func To%sParams(req *%s.%sRequest) %s.%s {" % (name, proto, name, repo, l["params_type"])
+        )
+        lines.append("\tlimit := req.GetPageLimit()")
+        lines.append("\tif limit == 0 {")
+        lines.append("\t\tlimit = validation.DefaultPageSize")
+        lines.append("\t}")
+        lines.append("")
+        lines.append("\tpage := req.GetPage()")
+        lines.append("\tif page == 0 {")
+        lines.append("\t\tpage = 1")
+        lines.append("\t}")
+        lines.append("")
+        lines.append("\treturn %s.%s{" % (repo, l["params_type"]))
+        if l["order_field"]:
+            lines.append("\t\tOrder:     req.GetOrder(),")
+        lines.append("\t\tPage:      page,")
+        lines.append("\t\tPageLimit: limit,")
+        for f in l.get("filter_fields") or []:
+            lines.append("\t\t%s: %s," % (f["go"], req_to_param_expr(f, "req")))
+        lines.append("\t}")
+        lines.append("}")
+        lines.append("")
+
     return "\n".join(lines)
 
 
 # ---------- значения для тестов ----------
 def uuid_literal(idx, variant=0):
-    """Валидный UUID канонического вида, различимый по индексу поля."""
     return "00000000-0000-4000-8000-%012d" % (idx + variant * 1000 + 1)
 
 
 def sample_value(f, idx, variant=0):
-    """Различимые значения полей: перепутанные местами поля тест обязан заметить.
-
-    Значение для стороны proto: у колонки uuid это строка.
-    """
     t = f["go_type"]
     if t == "string":
-        return '"%s-%d"' % (f["col"].replace("_", "-"), variant)
+        # Поля фильтра постраничного списка не привязаны к колонке (нет "col").
+        tag = f.get("col") or f["go"]
+        return '"%s-%d"' % (tag.replace("_", "-"), variant)
     if t == "int64":
         return str(100 + idx + variant * 1000)
     if t == "int16":
@@ -228,30 +292,46 @@ def sample_value(f, idx, variant=0):
     return None
 
 
-def lookup_sample_value(lk):
-    """Значение аргумента выборки на стороне proto."""
-    if lk["arg_type"] == "uuid.UUID":
-        return '"%s"' % uuid_literal(0, 7)
-    if lk["arg_type"] == "int64":
-        return "77"
-    return '"%s-lookup"' % lk["col"].replace("_", "-")
-
-
-def lookup_zero_value(lk):
-    """Нулевое значение аргумента выборки — что отдаёт конвертер на nil-запросе."""
-    if lk["arg_type"] == "uuid.UUID":
-        return "uuid.Nil"
-    if lk["arg_type"] == "int64":
-        return "0"
-    return '""'
-
-
 def repo_sample_value(f, idx, variant=0):
-    """То же значение для стороны sqlc: строку uuid надо разобрать в uuid.UUID."""
     value = sample_value(f, idx, variant)
     if f["go_type"] == "uuid.UUID":
         return "uuid.MustParse(%s)" % value
     return value
+
+
+def gen_params_test_block(proto, repo, req_type, params_type, func_name, fields):
+    """TestTo<Func>Params + TestTo<Func>ParamsNil — общий шаблон для Create и
+    для update/delete/undelete в форме параметров."""
+    lines = []
+    lines.append("func Test%s(t *testing.T) {" % func_name)
+    lines.append("\treq := &%s.%s{" % (proto, req_type))
+    for i, f in enumerate(fields):
+        v = sample_value(f, i)
+        lines.append("\t\t%s: %s," % (f["proto"], v))
+    lines.append("\t}")
+    lines.append("")
+    lines.append("\twant := %s.%s{" % (repo, params_type))
+    for i, f in enumerate(fields):
+        v = repo_sample_value(f, i)
+        if f["go_type"] == "int16":
+            v = str(10 + i)
+        lines.append("\t\t%s: %s," % (f["go"], v))
+    lines.append("\t}")
+    lines.append("")
+    lines.append("\tif got := %s(req); got != want {" % func_name)
+    lines.append('\t\tt.Errorf("%s() = %%+v, want %%+v", got, want)' % func_name)
+    lines.append("\t}")
+    lines.append("}")
+    lines.append("")
+
+    lines.append("func Test%sNil(t *testing.T) {" % func_name)
+    lines.append("\t// Геттеры protobuf безопасны на nil: сервер не должен падать.")
+    lines.append("\tif got := %s(nil); got != (%s.%s{}) {" % (func_name, repo, params_type))
+    lines.append('\t\tt.Errorf("%s(nil) = %%+v, want zero value", got)' % func_name)
+    lines.append("\t}")
+    lines.append("}")
+    lines.append("")
+    return lines
 
 
 def gen_converter_test(meta, e):
@@ -259,8 +339,19 @@ def gen_converter_test(meta, e):
     repo = meta["repo_alias"]
     E, P = e["entity"], e["plural"]
 
+    paginated_lists = [l for l in e["lists"] if l["paginated"]]
+    param_ops = [
+        (op_key, e["ops"][op_key])
+        for op_key in ("update", "delete", "undelete")
+        if op_key in e["ops"] and e["ops"][op_key]["arg_form"] == "params"
+    ]
+
     has_time = any(f["go_type"] in ("time.Time", "sql.NullTime") for f in e["row_fields"])
     has_nulltime = any(f["go_type"] == "sql.NullTime" for f in e["row_fields"])
+
+    extra_fields = list(e["create_fields"])
+    for _, op in param_ops:
+        extra_fields += op["fields"]
 
     lines = []
     lines.append("package %s" % meta["conv_pkg"])
@@ -272,10 +363,12 @@ def gen_converter_test(meta, e):
     if has_time:
         lines.append('\t"time"')
     lines.append("")
-    if needs_uuid_pkg(e):
+    if needs_uuid_pkg(e, extra_fields):
         lines.append('\t"github.com/google/uuid"')
     lines.append('\t"%s"' % meta["repo_import"])
     lines.append("\t" + meta["proto_import"])
+    if paginated_lists:
+        lines.append('\t"%s"' % VALID_IMPORT)
     lines.append(")")
     lines.append("")
 
@@ -290,7 +383,6 @@ def gen_converter_test(meta, e):
         lines.append(")")
         lines.append("")
 
-    # Эталонная строка
     lines.append("// test%sRow — строка %s со значениями, различимыми между полями." % (E, e["table"]))
     lines.append("func test%sRow() %s.%s {" % (E, repo, e["row_struct"]))
     lines.append("\treturn %s.%s{" % (repo, e["row_struct"]))
@@ -308,7 +400,6 @@ def gen_converter_test(meta, e):
     lines.append("}")
     lines.append("")
 
-    # Тест сущности -> proto: каждое поле по отдельности
     lines.append("func Test%sToProto(t *testing.T) {" % E)
     lines.append("\trow := test%sRow()" % E)
     lines.append("\tgot := %sToProto(row)" % E)
@@ -347,18 +438,6 @@ def gen_converter_test(meta, e):
     lines.append("}")
     lines.append("")
 
-    # is_deleted переносится, а не берётся из воздуха
-    lines.append("func Test%sToProtoDeleted(t *testing.T) {" % E)
-    lines.append("\trow := test%sRow()" % E)
-    lines.append("\trow.IsDeleted = true")
-    lines.append("")
-    lines.append("\tif got := %sToProto(row); !got.GetIsDeleted() {" % E)
-    lines.append('\t\tt.Error("IsDeleted = false, want true")')
-    lines.append("\t}")
-    lines.append("}")
-    lines.append("")
-
-    # Список
     first_str = next((f for f in e["row_fields"] if f["go_type"] == "string"), None)
     id_field = next((f for f in e["row_fields"] if f["col"] == "id"), None)
     mark = first_str or id_field
@@ -387,7 +466,6 @@ def gen_converter_test(meta, e):
     lines.append("\t\tt.Run(tt.name, func(t *testing.T) {")
     lines.append("\t\t\tgot := %sToProto(tt.input)" % P)
     lines.append("")
-    lines.append("\t\t\t// Пустой вход даёт пустой, а не nil-слайс.")
     lines.append("\t\t\tif got == nil {")
     lines.append('\t\t\t\tt.Fatal("%sToProto() = nil, want empty slice")' % P)
     lines.append("\t\t\t}")
@@ -400,111 +478,26 @@ def gen_converter_test(meta, e):
     lines.append("}")
     lines.append("")
 
-    # Порядок списка сохраняется
-    if mark:
-        lines.append("func Test%sToProtoKeepsOrder(t *testing.T) {" % P)
-        lines.append("\tfirst := test%sRow()" % E)
-        lines.append("\tsecond := test%sRow()" % E)
-        if mark["go_type"] == "string":
-            lines.append('\tsecond.%s = "second-value"' % mark["go"])
-            cmp_first = "first.%s" % mark["go"]
-            cmp_second = "second.%s" % mark["go"]
-            getter = "Get%s()" % mark["proto"]
-            verb = "%q"
-        else:
-            lines.append("\tsecond.%s = 999" % mark["go"])
-            cmp_first = "first.%s" % mark["go"]
-            cmp_second = "second.%s" % mark["go"]
-            getter = "Get%s()" % mark["proto"]
-            verb = "%d"
-        lines.append("")
-        lines.append(
-            "\tgot := %sToProto([]%s.%s{first, second})" % (P, repo, e["row_struct"])
-        )
-        lines.append("")
-        lines.append("\tif got[0].%s != %s {" % (getter, cmp_first))
-        lines.append('\t\tt.Errorf("[0] = %s, want %s", got[0].%s, %s)' % (verb, verb, getter, cmp_first))
-        lines.append("\t}")
-        lines.append("")
-        lines.append("\tif got[1].%s != %s {" % (getter, cmp_second))
-        lines.append('\t\tt.Errorf("[1] = %s, want %s", got[1].%s, %s)' % (verb, verb, getter, cmp_second))
-        lines.append("\t}")
-        lines.append("}")
-        lines.append("")
-
     # Create params
-    lines.append("func TestToCreate%sParams(t *testing.T) {" % E)
-    lines.append("\treq := &%s.Create%sRequest{" % (proto, E))
-    for i, f in enumerate(e["create_fields"]):
-        v = sample_value(f, i)
-        if f["proto_type"] == "*string":
-            lines.append("\t\t%s: %sPtr(%s)," % (f["proto"], lower_first(E), v))
-        else:
-            lines.append("\t\t%s: %s," % (f["proto"], v))
-    lines.append("\t}")
-    lines.append("")
-    lines.append("\twant := %s.%s{" % (repo, e["create_params"]))
-    for i, f in enumerate(e["create_fields"]):
-        v = repo_sample_value(f, i)
-        if f["go_type"] == "int16":
-            v = str(10 + i)
-        lines.append("\t\t%s: %s," % (f["go"], v))
-    lines.append("\t}")
-    lines.append("")
-    lines.append("\tif got := ToCreate%sParams(req); got != want {" % E)
-    lines.append('\t\tt.Errorf("ToCreate%sParams() = %%+v, want %%+v", got, want)' % E)
-    lines.append("\t}")
-    lines.append("}")
-    lines.append("")
-
-    lines.append("func TestToCreate%sParamsNil(t *testing.T) {" % E)
-    lines.append("\t// Геттеры protobuf безопасны на nil: сервер не должен падать.")
-    lines.append(
-        "\tif got := ToCreate%sParams(nil); got != (%s.%s{}) {" % (E, repo, e["create_params"])
+    lines.extend(
+        gen_params_test_block(
+            proto, repo, "Create%sRequest" % E, e["create_params"], "ToCreate%sParams" % E, e["create_fields"]
+        )
     )
-    lines.append('\t\tt.Errorf("ToCreate%sParams(nil) = %%+v, want zero value", got)' % E)
-    lines.append("\t}")
-    lines.append("}")
-    lines.append("")
 
-    # Update params
-    lines.append("func TestToUpdate%sByIdParams(t *testing.T) {" % E)
-    lines.append("\treq := &%s.Update%sByIdRequest{" % (proto, E))
-    for i, f in enumerate(e["update_fields"]):
-        v = sample_value(f, i)
-        if f["proto_type"] == "*string":
-            lines.append("\t\t%s: %sPtr(%s)," % (f["proto"], lower_first(E), v))
-        else:
-            lines.append("\t\t%s: %s," % (f["proto"], v))
-    lines.append("\t}")
-    lines.append("")
-    lines.append("\twant := %s.%s{" % (repo, e["update_params"]))
-    for i, f in enumerate(e["update_fields"]):
-        v = repo_sample_value(f, i)
-        if f["go_type"] == "int16":
-            v = str(10 + i)
-        lines.append("\t\t%s: %s," % (f["go"], v))
-    lines.append("\t}")
-    lines.append("")
-    lines.append("\tif got := ToUpdate%sByIdParams(req); got != want {" % E)
-    lines.append('\t\tt.Errorf("ToUpdate%sByIdParams() = %%+v, want %%+v", got, want)' % E)
-    lines.append("\t}")
-    lines.append("}")
-    lines.append("")
+    # update/delete/undelete в форме параметров
+    for op_key, op in param_ops:
+        name = op["query"]
+        lines.extend(
+            gen_params_test_block(proto, repo, name + "Request", op["params_type"], "To%sParams" % name, op["fields"])
+        )
 
-    lines.append("func TestToUpdate%sByIdParamsNil(t *testing.T) {" % E)
-    lines.append(
-        "\tif got := ToUpdate%sByIdParams(nil); got != (%s.%s{}) {" % (E, repo, e["update_params"])
-    )
-    lines.append('\t\tt.Errorf("ToUpdate%sByIdParams(nil) = %%+v, want zero value", got)' % E)
-    lines.append("\t}")
-    lines.append("}")
-    lines.append("")
-
-    # Выборки по уникальной колонке
     for lk in e["lookups"]:
-        proto_lit = lookup_sample_value(lk)
+        proto_lit = '"%s"' % uuid_literal(0, 7) if lk["arg_type"] == "uuid.UUID" else (
+            "77" if lk["arg_type"] == "int64" else '"%s-lookup"' % lk["col"].replace("_", "-")
+        )
         want = "uuid.MustParse(%s)" % proto_lit if lk["arg_type"] == "uuid.UUID" else proto_lit
+        zero = "uuid.Nil" if lk["arg_type"] == "uuid.UUID" else ("0" if lk["arg_type"] == "int64" else '""')
         lines.append("func TestTo%sArg(t *testing.T) {" % lk["query"])
         lines.append("\treq := &%s.%sRequest{%s: %s}" % (proto, lk["query"], lk["proto_field"], proto_lit))
         lines.append("")
@@ -515,79 +508,119 @@ def gen_converter_test(meta, e):
         lines.append("")
 
         lines.append("func TestTo%sArgNil(t *testing.T) {" % lk["query"])
-        lines.append("\t// Геттеры protobuf безопасны на nil: сервер не должен падать.")
-        lines.append("\tif got := To%sArg(nil); got != %s {" % (lk["query"], lookup_zero_value(lk)))
-        lines.append(
-            '\t\tt.Errorf("To%sArg(nil) = %%v, want zero value", got)' % lk["query"]
-        )
+        lines.append("\tif got := To%sArg(nil); got != %s {" % (lk["query"], zero))
+        lines.append('\t\tt.Errorf("To%sArg(nil) = %%v, want zero value", got)' % lk["query"])
         lines.append("\t}")
         lines.append("}")
         lines.append("")
 
-    # Хелпер для optional-полей
-    if any(f["proto_type"] == "*string" for f in e["create_fields"] + e["update_fields"]):
-        lines.append("// %sPtr — адрес строкового литерала для optional-полей proto." % lower_first(E))
-        lines.append("func %sPtr(s string) *string {" % lower_first(E))
-        lines.append("\treturn &s")
+    for l in paginated_lists:
+        name = l["query"]
+        lines.append("func Test%sDefaultsPageLimit(t *testing.T) {" % name)
+        lines.append("\tgot := To%sParams(&%s.%sRequest{Page: 3})" % (name, proto, name))
+        lines.append("")
+        lines.append("\tif got.PageLimit != validation.DefaultPageSize {")
+        lines.append('\t\tt.Errorf("PageLimit = %d, want %d", got.PageLimit, validation.DefaultPageSize)')
+        lines.append("\t}")
+        lines.append("")
+        lines.append("\tif got.Page != 3 {")
+        lines.append('\t\tt.Errorf("Page = %d, want 3", got.Page)')
+        lines.append("\t}")
         lines.append("}")
         lines.append("")
+
+        lines.append("func Test%sDefaultsPage(t *testing.T) {" % name)
+        lines.append("\tgot := To%sParams(&%s.%sRequest{PageLimit: 10})" % (name, proto, name))
+        lines.append("")
+        lines.append("\tif got.Page != 1 {")
+        lines.append('\t\tt.Errorf("Page = %d, want 1", got.Page)')
+        lines.append("\t}")
+        lines.append("}")
+        lines.append("")
+
+        lines.append("func Test%sKeepsExplicitPageLimit(t *testing.T) {" % name)
+        lines.append("\tgot := To%sParams(&%s.%sRequest{PageLimit: 10, Page: 5})" % (name, proto, name))
+        lines.append("")
+        lines.append("\tif got.PageLimit != 10 {")
+        lines.append('\t\tt.Errorf("PageLimit = %d, want 10", got.PageLimit)')
+        lines.append("\t}")
+        lines.append("}")
+        lines.append("")
+
+        if l.get("filter_fields"):
+            lines.append("func Test%sPassesFilterFields(t *testing.T) {" % name)
+            lines.append("\treq := &%s.%sRequest{PageLimit: 10, Page: 1," % (proto, name))
+            for i, f in enumerate(l["filter_fields"]):
+                lines.append("\t\t%s: %s," % (f["proto"], sample_value(f, i)))
+            lines.append("\t}")
+            lines.append("")
+            lines.append("\tgot := To%sParams(req)" % name)
+            lines.append("")
+            for i, f in enumerate(l["filter_fields"]):
+                v = repo_sample_value(f, i)
+                verb = "%q" if f["go_type"] == "string" else ("%d" if f["go_type"] in ("int64", "int16") else "%v")
+                lines.append("\tif got.%s != %s {" % (f["go"], v))
+                lines.append('\t\tt.Errorf("%s = %s, want %s", got.%s, %s)' % (f["go"], verb, verb, f["go"], v))
+                lines.append("\t}")
+            lines.append("}")
+            lines.append("")
 
     return "\n".join(lines)
 
 
 # ---------- validation ----------
-def validation_calls(entity, fields, indent="\t"):
-    out = []
+def field_validation_line(f, limit_entity):
+    col, getter = f["col"], "req.Get%s()" % f["proto"]
+    if f["go_type"] == "string":
+        if f["varchar"] is None:
+            raise Exception("нет границы varchar для %s" % col)
+        return '\tv.StringVarchar("%s", %s, %s)' % (col, getter, limit_const(limit_entity, f["proto"]))
+    if f["go_type"] == "int64":
+        return '\tv.Int64ID("%s", %s)' % (col, getter)
+    if f["go_type"] == "int16":
+        return '\tv.Int32Between("%s", %s, math.MinInt16, math.MaxInt16)' % (col, getter)
+    if f["go_type"] == "uuid.UUID":
+        return '\tv.StringUUID("%s", %s)' % (col, getter)
+    if f["go_type"] == "bool":
+        return None
+    raise Exception("нет правила валидации для %s (%s)" % (col, f["go_type"]))
+
+
+def gen_validate_func(proto, func_name, req_type, fields, limit_entity):
+    lines = []
+    lines.append("func %s(req *%s.%s) error {" % (func_name, proto, req_type))
+    lines.append("\tv := validator.New()")
+    lines.append("")
+    lines.append("\tif req == nil {")
+    lines.append('\t\tv.AddError("request", validator.MsgRequired)')
+    lines.append("\t\treturn v.Err()")
+    lines.append("\t}")
+    lines.append("")
     for f in fields:
-        col, getter = f["col"], "req.Get%s()" % f["proto"]
-        if f["go_type"] == "string":
-            if f["varchar"] is None:
-                raise Exception("нет границы varchar для %s" % col)
-            out.append(
-                '%sv.StringVarchar("%s", %s, %s)' % (indent, col, getter, limit_const(entity, f["proto"]))
-            )
-        elif f["go_type"] == "int64":
-            out.append('%sv.Int64ID("%s", %s)' % (indent, col, getter))
-        elif f["go_type"] == "int16":
-            out.append(
-                '%sv.Int32Between("%s", %s, math.MinInt16, math.MaxInt16)' % (indent, col, getter)
-            )
-        elif f["go_type"] == "uuid.UUID":
-            out.append('%sv.StringUUID("%s", %s)' % (indent, col, getter))
-        elif f["go_type"] == "bool":
-            pass  # любое булево значение допустимо
-        else:
-            raise Exception("нет правила валидации для %s (%s)" % (col, f["go_type"]))
-    return out
-
-
-def lookup_validation_call(entity, lk):
-    """Проверка аргумента выборки по уникальной колонке."""
-    getter = "req.Get%s()" % lk["proto_field"]
-    if lk["arg_type"] == "uuid.UUID":
-        return 'v.StringUUID("%s", %s)' % (lk["col"], getter)
-    if lk["arg_type"] == "int64":
-        return 'v.Int64ID("%s", %s)' % (lk["col"], getter)
-    if lk["arg_type"] == "string":
-        if lk["varchar"] is None:
-            raise Exception("нет границы varchar для %s" % lk["col"])
-        return 'v.StringVarchar("%s", %s, %s)' % (
-            lk["col"],
-            getter,
-            limit_const(entity, lk["proto_field"]),
-        )
-    raise Exception("нет правила валидации для выборки по %s (%s)" % (lk["col"], lk["arg_type"]))
+        call = field_validation_line(f, limit_entity)
+        if call:
+            lines.append(call)
+    lines.append("")
+    lines.append("\treturn v.Err()")
+    lines.append("}")
+    lines.append("")
+    return lines
 
 
 def gen_validation(meta, e):
     proto = meta["proto_alias"]
     E = e["entity"]
 
-    # Изменяемые поля общие для вставки и обновления — всё, кроме id.
-    common = [f for f in e["update_fields"] if f["col"] != "id"]
-    create_only = [f for f in e["create_fields"] if f["col"] not in {c["col"] for c in common}]
+    param_ops = [
+        (op_key, e["ops"][op_key])
+        for op_key in ("update", "delete", "undelete")
+        if op_key in e["ops"] and e["ops"][op_key]["arg_form"] == "params"
+    ]
+    paginated_lists = [l for l in e["lists"] if l["paginated"]]
 
-    needs_math = any(f["go_type"] == "int16" for f in e["create_fields"] + e["update_fields"])
+    needs_math = any(f["go_type"] == "int16" for f in e["create_fields"]) or any(
+        f["go_type"] == "int16" for _, op in param_ops for f in op["fields"]
+    )
 
     lines = []
     lines.append("package %s" % meta["conv_pkg"])
@@ -597,88 +630,25 @@ def gen_validation(meta, e):
         lines.append('\t"math"')
         lines.append("")
     lines.append("\t" + meta["proto_import"])
+    if paginated_lists:
+        lines.append('\t"%s"' % VALID_IMPORT)
     lines.append('\t"%s"' % VALIDATOR_IMPORT)
     lines.append(")")
     lines.append("")
 
-    helper = "%sWritableFields" % lower_first(E)
-    args = []
-    str_args = [f for f in common if f["go_type"] == "string"]
-    other_args = [f for f in common if f["go_type"] != "string"]
-
-    lines.append("// %s проверяет поля, общие для вставки и обновления %s." % (helper, e["table"]))
-    lines.append("func %s(" % helper)
-    lines.append("\tv *validator.Validator,")
-    for f in common:
-        gotype = {
-            "int16": "int32",
-            "int64": "int64",
-            "string": "string",
-            "bool": "bool",
-            "uuid.UUID": "string",
-        }[f["go_type"]]
-        lines.append("\t%s %s," % (lower_first(f["proto"]), gotype))
-    lines.append(") {")
-    for f in common:
-        col, val = f["col"], lower_first(f["proto"])
-        if f["go_type"] == "string":
-            lines.append('\tv.StringVarchar("%s", %s, %s)' % (col, val, limit_const(E, f["proto"])))
-        elif f["go_type"] == "int64":
-            lines.append('\tv.Int64ID("%s", %s)' % (col, val))
-        elif f["go_type"] == "int16":
-            lines.append('\tv.Int32Between("%s", %s, math.MinInt16, math.MaxInt16)' % (col, val))
-        elif f["go_type"] == "uuid.UUID":
-            lines.append('\tv.StringUUID("%s", %s)' % (col, val))
-    lines.append("}")
-    lines.append("")
-
-    def call_helper(reqvar):
-        out = ["\t%s(" % helper, "\t\tv,"]
-        for f in common:
-            out.append("\t\t%s.Get%s()," % (reqvar, f["proto"]))
-        out.append("\t)")
-        return out
-
-    # Create
     lines.append("// ValidateCreate%s проверяет запрос на вставку строки %s." % (E, e["table"]))
-    lines.append("func ValidateCreate%s(req *%s.Create%sRequest) error {" % (E, proto, E))
-    lines.append("\tv := validator.New()")
-    lines.append("")
-    lines.append("\tif req == nil {")
-    lines.append('\t\tv.AddError("request", validator.MsgRequired)')
-    lines.append("\t\treturn v.Err()")
-    lines.append("\t}")
-    lines.append("")
-    lines.extend(call_helper("req"))
-    if create_only:
-        lines.append("")
-        lines.extend(validation_calls(E, create_only))
-    lines.append("")
-    lines.append("\treturn v.Err()")
-    lines.append("}")
-    lines.append("")
+    lines.extend(
+        gen_validate_func(proto, "ValidateCreate%s" % E, "Create%sRequest" % E, e["create_fields"], E)
+    )
 
-    # Update
-    lines.append("// ValidateUpdate%sById проверяет запрос на обновление строки %s." % (E, e["table"]))
-    lines.append("// К изменяемым полям добавляется id обновляемой записи.")
-    lines.append("func ValidateUpdate%sById(req *%s.Update%sByIdRequest) error {" % (E, proto, E))
-    lines.append("\tv := validator.New()")
-    lines.append("")
-    lines.append("\tif req == nil {")
-    lines.append('\t\tv.AddError("request", validator.MsgRequired)')
-    lines.append("\t\treturn v.Err()")
-    lines.append("\t}")
-    lines.append("")
-    lines.append('\tv.Int64ID("id", req.GetId())')
-    lines.append("")
-    lines.extend(call_helper("req"))
-    lines.append("")
-    lines.append("\treturn v.Err()")
-    lines.append("}")
-    lines.append("")
+    op_doc = {"update": "обновление", "delete": "мягкое удаление", "undelete": "обратное удаление"}
+    for op_key, op in param_ops:
+        name = op["query"]
+        lines.append(
+            "// Validate%s проверяет запрос на %s строки %s." % (name, op_doc[op_key], e["table"])
+        )
+        lines.extend(gen_validate_func(proto, "Validate%s" % name, name + "Request", op["fields"], E))
 
-    # Выборки по уникальной колонке: тип аргумента зависит от колонки,
-    # поэтому общий validation.ValidateID здесь не годится.
     for lk in e["lookups"]:
         lines.append(
             "// Validate%s проверяет запрос на выборку строки %s по %s."
@@ -692,20 +662,54 @@ def gen_validation(meta, e):
         lines.append("\t\treturn v.Err()")
         lines.append("\t}")
         lines.append("")
-        lines.append("\t" + lookup_validation_call(E, lk))
+        getter = "req.Get%s()" % lk["proto_field"]
+        if lk["arg_type"] == "uuid.UUID":
+            call = '\tv.StringUUID("%s", %s)' % (lk["col"], getter)
+        elif lk["arg_type"] == "int64":
+            call = '\tv.Int64ID("%s", %s)' % (lk["col"], getter)
+        else:
+            call = '\tv.StringVarchar("%s", %s, %s)' % (lk["col"], getter, limit_const(E, lk["proto_field"]))
+        lines.append(call)
         lines.append("")
         lines.append("\treturn v.Err()")
         lines.append("}")
         lines.append("")
 
-    return "\n".join(lines), common, create_only
+    for l in paginated_lists:
+        name = l["query"]
+        lines.append("// Validate%s проверяет запрос страницы %s." % (name, e["table"]))
+        lines.append("func Validate%s(req *%s.%sRequest) error {" % (name, proto, name))
+        lines.append("\tv := validator.New()")
+        lines.append("")
+        lines.append("\tif req == nil {")
+        lines.append('\t\tv.AddError("request", validator.MsgRequired)')
+        lines.append("\t\treturn v.Err()")
+        lines.append("\t}")
+        lines.append("")
+        lines.append('\tv.Int32Between("page_limit", req.GetPageLimit(), 0, validation.MaxPageSize)')
+        lines.append('\tv.Int32Min("page", req.GetPage(), 0)')
+        if l["order_field"]:
+            lines.append('\tv.StringIn("order", req.GetOrder(), "", "ASC", "DESC")')
+        lines.append("")
+        lines.append("\treturn v.Err()")
+        lines.append("}")
+        lines.append("")
+
+    return "\n".join(lines)
 
 
-def gen_validation_test(meta, e, common, create_only):
+def gen_validation_test(meta, e):
     proto = meta["proto_alias"]
     E = e["entity"]
 
-    def literal(f, i, bad=None):
+    param_ops = [
+        (op_key, e["ops"][op_key])
+        for op_key in ("update", "delete", "undelete")
+        if op_key in e["ops"] and e["ops"][op_key]["arg_form"] == "params"
+    ]
+    paginated_lists = [l for l in e["lists"] if l["paginated"]]
+
+    def literal(f, i):
         if f["go_type"] == "string":
             return '"%s-%d"' % (f["col"].replace("_", "-"), i)
         if f["go_type"] == "int64":
@@ -718,37 +722,7 @@ def gen_validation_test(meta, e, common, create_only):
             return '"%s"' % uuid_literal(i)
         return "0"
 
-    def build_valid(kind, fields, extra_id):
-        out = ["\treturn &%s.%s{" % (proto, kind)]
-        if extra_id:
-            out.append("\t\tId: 42,")
-        for i, f in enumerate(fields):
-            v = literal(f, i)
-            if f["proto_type"] == "*string":
-                out.append("\t\t%s: %sStrPtr(%s)," % (f["proto"], lower_first(E), v))
-            else:
-                out.append("\t\t%s: %s," % (f["proto"], v))
-        out.append("\t}")
-        return out
-
-    create_fields = e["create_fields"]
-    update_fields = [f for f in e["update_fields"] if f["col"] != "id"]
-
-    # Импорты дописываются в конце: набор зависит от того, какие типы
-    # колонок реально встретились (у таблиц-связок нет строковых полей).
     lines = []
-    lines.append("// validCreate%sRequest — заведомо корректный запрос." % E)
-    lines.append("// Тесты портят по одному полю, чтобы проверять правила по отдельности.")
-    lines.append("func validCreate%sRequest() *%s.Create%sRequest {" % (E, proto, E))
-    lines.extend(build_valid("Create%sRequest" % E, create_fields, False))
-    lines.append("}")
-    lines.append("")
-
-    lines.append("func validUpdate%sByIdRequest() *%s.Update%sByIdRequest {" % (E, proto, E))
-    lines.extend(build_valid("Update%sByIdRequest" % E, update_fields, True))
-    lines.append("}")
-    lines.append("")
-
     lines.append("// %sFieldErrors достаёт из ошибки список полей с претензиями." % lower_first(E))
     lines.append("func %sFieldErrors(t *testing.T, err error) map[string][]string {" % lower_first(E))
     lines.append("\tt.Helper()")
@@ -762,8 +736,16 @@ def gen_validation_test(meta, e, common, create_only):
     lines.append("}")
     lines.append("")
 
-    def gen_cases(kind, fields, reqtype, valid_fn, validate_fn, with_id):
+    def gen_cases(fields, reqtype, validate_fn):
         out = []
+        out.append("func valid%sRequest() *%s.%s {" % (validate_fn, proto, reqtype))
+        out.append("\treturn &%s.%s{" % (proto, reqtype))
+        for i, f in enumerate(fields):
+            out.append("\t\t%s: %s," % (f["proto"], literal(f, i)))
+        out.append("\t}")
+        out.append("}")
+        out.append("")
+
         out.append("func Test%s(t *testing.T) {" % validate_fn)
         out.append("\ttests := []struct {")
         out.append("\t\tname      string")
@@ -771,59 +753,26 @@ def gen_validation_test(meta, e, common, create_only):
         out.append("\t\twantField string")
         out.append("\t}{")
         out.append('\t\t{name: "valid", mutate: func(*%s.%s) {}},' % (proto, reqtype))
-        if with_id:
-            out.append(
-                '\t\t{name: "zero id", mutate: func(r *%s.%s) { r.Id = 0 }, wantField: "id"},'
-                % (proto, reqtype)
-            )
-            out.append(
-                '\t\t{name: "negative id", mutate: func(r *%s.%s) { r.Id = -5 }, wantField: "id"},'
-                % (proto, reqtype)
-            )
         for f in fields:
             col = f["col"]
             if f["go_type"] == "string":
                 const = limit_const(E, f["proto"])
-                if f["proto_type"] == "*string":
-                    empty = 'r.%s = %sStrPtr("")' % (f["proto"], lower_first(E))
-                    blank = 'r.%s = %sStrPtr("   ")' % (f["proto"], lower_first(E))
-                    long = 'r.%s = %sStrPtr(strings.Repeat("a", %s+1))' % (
-                        f["proto"],
-                        lower_first(E),
-                        const,
-                    )
-                else:
-                    empty = 'r.%s = ""' % f["proto"]
-                    blank = 'r.%s = "   "' % f["proto"]
-                    long = 'r.%s = strings.Repeat("a", %s+1)' % (f["proto"], const)
                 out.append(
-                    '\t\t{name: "empty %s", mutate: func(r *%s.%s) { %s }, wantField: "%s"},'
-                    % (col, proto, reqtype, empty, col)
+                    '\t\t{name: "empty %s", mutate: func(r *%s.%s) { r.%s = "" }, wantField: "%s"},'
+                    % (col, proto, reqtype, f["proto"], col)
                 )
                 out.append(
-                    '\t\t{name: "blank %s", mutate: func(r *%s.%s) { %s }, wantField: "%s"},'
-                    % (col, proto, reqtype, blank, col)
-                )
-                out.append(
-                    '\t\t{name: "%s too long", mutate: func(r *%s.%s) { %s }, wantField: "%s"},'
-                    % (col, proto, reqtype, long, col)
+                    '\t\t{name: "%s too long", mutate: func(r *%s.%s) { r.%s = strings.Repeat("a", %s+1) }, wantField: "%s"},'
+                    % (col, proto, reqtype, f["proto"], const, col)
                 )
             elif f["go_type"] == "int64":
                 out.append(
                     '\t\t{name: "zero %s", mutate: func(r *%s.%s) { r.%s = 0 }, wantField: "%s"},'
                     % (col, proto, reqtype, f["proto"], col)
                 )
-                out.append(
-                    '\t\t{name: "negative %s", mutate: func(r *%s.%s) { r.%s = -1 }, wantField: "%s"},'
-                    % (col, proto, reqtype, f["proto"], col)
-                )
             elif f["go_type"] == "int16":
                 out.append(
                     '\t\t{name: "%s over smallint", mutate: func(r *%s.%s) { r.%s = math.MaxInt16 + 1 }, wantField: "%s"},'
-                    % (col, proto, reqtype, f["proto"], col)
-                )
-                out.append(
-                    '\t\t{name: "%s under smallint", mutate: func(r *%s.%s) { r.%s = math.MinInt16 - 1 }, wantField: "%s"},'
                     % (col, proto, reqtype, f["proto"], col)
                 )
             elif f["go_type"] == "uuid.UUID":
@@ -835,16 +784,11 @@ def gen_validation_test(meta, e, common, create_only):
                     '\t\t{name: "malformed %s", mutate: func(r *%s.%s) { r.%s = "not-a-uuid" }, wantField: "%s"},'
                     % (col, proto, reqtype, f["proto"], col)
                 )
-                # Сокращённая запись без дефисов — не канонический вид.
-                out.append(
-                    '\t\t{name: "%s without dashes", mutate: func(r *%s.%s) { r.%s = "00000000000040008000000000000001" }, wantField: "%s"},'
-                    % (col, proto, reqtype, f["proto"], col)
-                )
         out.append("\t}")
         out.append("")
         out.append("\tfor _, tt := range tests {")
         out.append("\t\tt.Run(tt.name, func(t *testing.T) {")
-        out.append("\t\t\treq := %s()" % valid_fn)
+        out.append("\t\t\treq := valid%sRequest()" % validate_fn)
         out.append("\t\t\ttt.mutate(req)")
         out.append("")
         out.append("\t\t\terr := %s(req)" % validate_fn)
@@ -861,136 +805,40 @@ def gen_validation_test(meta, e, common, create_only):
         out.append("\t\t\t}")
         out.append("")
         out.append("\t\t\tfields := %sFieldErrors(t, err)" % lower_first(E))
-        out.append("")
         out.append("\t\t\tif len(fields[tt.wantField]) == 0 {")
         out.append('\t\t\t\tt.Errorf("no error on %q, got %v", tt.wantField, fields)')
-        out.append("\t\t\t}")
-        out.append("")
-        out.append("\t\t\t// Порча одного поля не должна задевать остальные.")
-        out.append("\t\t\tif len(fields) != 1 {")
-        out.append(
-            '\t\t\t\tt.Errorf("errors on %d fields, want only %q: %v", len(fields), tt.wantField, fields)'
-        )
         out.append("\t\t\t}")
         out.append("\t\t})")
         out.append("\t}")
         out.append("}")
         out.append("")
+
+        out.append("func Test%sNil(t *testing.T) {" % validate_fn)
+        out.append("\tif err := %s(nil); err == nil {" % validate_fn)
+        out.append('\t\tt.Error("%s(nil) = nil, want error")' % validate_fn)
+        out.append("\t}")
+        out.append("}")
+        out.append("")
         return out
 
-    lines.extend(
-        gen_cases(
-            "create",
-            create_fields,
-            "Create%sRequest" % E,
-            "validCreate%sRequest" % E,
-            "ValidateCreate%s" % E,
-            False,
-        )
-    )
-    lines.extend(
-        gen_cases(
-            "update",
-            update_fields,
-            "Update%sByIdRequest" % E,
-            "validUpdate%sByIdRequest" % E,
-            "ValidateUpdate%sById" % E,
-            True,
-        )
-    )
+    lines.extend(gen_cases(e["create_fields"], "Create%sRequest" % E, "ValidateCreate%s" % E))
 
-    # Границы varchar
-    str_fields = [f for f in create_fields if f["go_type"] == "string"]
-    if str_fields:
-        f = str_fields[0]
-        const = limit_const(E, f["proto"])
-        setter = (
-            "req.%s = %sStrPtr(strings.Repeat(%%s, %s))" % (f["proto"], lower_first(E), const)
-            if f["proto_type"] == "*string"
-            else "req.%s = strings.Repeat(%%s, %s)" % (f["proto"], const)
-        )
-        lines.append("// Ровно граничная длина проходит: varchar(n) допускает n символов.")
-        lines.append("func TestValidateCreate%sAtVarcharLimit(t *testing.T) {" % E)
-        lines.append("\treq := validCreate%sRequest()" % E)
-        lines.append("\t" + (setter % '"a"'))
-        lines.append("")
-        lines.append("\tif err := ValidateCreate%s(req); err != nil {" % E)
-        lines.append(
-            '\t\tt.Errorf("ValidateCreate%s() = %%v, want nil at exactly %%d chars", err, %s)' % (E, const)
-        )
-        lines.append("\t}")
-        lines.append("}")
-        lines.append("")
-        lines.append("// Длина считается в символах, а не в байтах: кириллица занимает по 2 байта.")
-        lines.append("func TestValidateCreate%sCyrillicAtVarcharLimit(t *testing.T) {" % E)
-        lines.append("\treq := validCreate%sRequest()" % E)
-        lines.append("\t" + (setter % '"я"'))
-        lines.append("")
-        lines.append("\tif err := ValidateCreate%s(req); err != nil {" % E)
-        lines.append(
-            '\t\tt.Errorf("ValidateCreate%s() = %%v, want nil at exactly %%d cyrillic chars", err, %s)'
-            % (E, const)
-        )
-        lines.append("\t}")
-        lines.append("}")
-        lines.append("")
+    for op_key, op in param_ops:
+        name = op["query"]
+        lines.extend(gen_cases(op["fields"], name + "Request", "Validate%s" % name))
 
-    # Пустой запрос: копятся все ошибки
-    checked = [f for f in create_fields if f["go_type"] in ("string", "int64", "uuid.UUID")]
-    if checked:
-        lines.append("func TestValidateCreate%sCollectsAllErrors(t *testing.T) {" % E)
-        lines.append("\t// Валидатор копит ошибки, а не падает на первой: клиент видит")
-        lines.append("\t// все проблемы запроса за один ответ.")
-        lines.append("\terr := ValidateCreate%s(&%s.Create%sRequest{})" % (E, proto, E))
-        lines.append("")
-        lines.append("\tif err == nil {")
-        lines.append('\t\tt.Fatal("ValidateCreate%s() = nil, want errors")' % E)
-        lines.append("\t}")
-        lines.append("")
-        lines.append("\tfields := %sFieldErrors(t, err)" % lower_first(E))
-        lines.append("")
-        lines.append("\twantFields := []string{%s}" % ", ".join('"%s"' % f["col"] for f in checked))
-        lines.append("")
-        lines.append("\tfor _, field := range wantFields {")
-        lines.append("\t\tif len(fields[field]) == 0 {")
-        lines.append('\t\t\tt.Errorf("no error on %q", field)')
-        lines.append("\t\t}")
-        lines.append("\t}")
-        lines.append("")
-        lines.append("\tif len(fields) != len(wantFields) {")
-        lines.append(
-            '\t\tt.Errorf("errors on %d fields, want %d: %v", len(fields), len(wantFields), fields)'
-        )
-        lines.append("\t}")
-        lines.append("}")
-        lines.append("")
-
-    lines.append("func TestValidateCreate%sNil(t *testing.T) {" % E)
-    lines.append("\tif err := ValidateCreate%s(nil); err == nil {" % E)
-    lines.append('\t\tt.Error("ValidateCreate%s(nil) = nil, want error")' % E)
-    lines.append("\t}")
-    lines.append("}")
-    lines.append("")
-    lines.append("func TestValidateUpdate%sByIdNil(t *testing.T) {" % E)
-    lines.append("\tif err := ValidateUpdate%sById(nil); err == nil {" % E)
-    lines.append('\t\tt.Error("ValidateUpdate%sById(nil) = nil, want error")' % E)
-    lines.append("\t}")
-    lines.append("}")
-    lines.append("")
-
-    # Выборки по уникальной колонке
     for lk in e["lookups"]:
-        good = lookup_sample_value(lk)
+        good = (
+            '"%s"' % uuid_literal(0, 7)
+            if lk["arg_type"] == "uuid.UUID"
+            else ("77" if lk["arg_type"] == "int64" else '"%s-lookup"' % lk["col"].replace("_", "-"))
+        )
         if lk["arg_type"] == "uuid.UUID":
-            bad = [
-                ("empty", '""'),
-                ("malformed", '"not-a-uuid"'),
-                ("without dashes", '"00000000000040008000000000000001"'),
-            ]
+            bad = [("empty", '""'), ("malformed", '"not-a-uuid"')]
         elif lk["arg_type"] == "int64":
-            bad = [("zero", "0"), ("negative", "-1")]
+            bad = [("zero", "0")]
         else:
-            bad = [("empty", '""'), ("blank", '"   "')]
+            bad = [("empty", '""')]
 
         lines.append("func TestValidate%s(t *testing.T) {" % lk["query"])
         lines.append("\ttests := []struct {")
@@ -999,8 +847,8 @@ def gen_validation_test(meta, e, common, create_only):
         lines.append("\t\twantErr bool")
         lines.append("\t}{")
         lines.append('\t\t{name: "valid", value: %s},' % good)
-        for name, value in bad:
-            lines.append('\t\t{name: "%s", value: %s, wantErr: true},' % (name, value))
+        for name_, value in bad:
+            lines.append('\t\t{name: "%s", value: %s, wantErr: true},' % (name_, value))
         lines.append("\t}")
         lines.append("")
         lines.append("\tfor _, tt := range tests {")
@@ -1015,16 +863,6 @@ def gen_validation_test(meta, e, common, create_only):
             '\t\t\t\tt.Errorf("Validate%s() error = %%v, wantErr %%v", err, tt.wantErr)' % lk["query"]
         )
         lines.append("\t\t\t}")
-        lines.append("")
-        lines.append("\t\t\tif !tt.wantErr {")
-        lines.append("\t\t\t\treturn")
-        lines.append("\t\t\t}")
-        lines.append("")
-        lines.append("\t\t\tfields := %sFieldErrors(t, err)" % lower_first(E))
-        lines.append("")
-        lines.append('\t\t\tif len(fields["%s"]) == 0 {' % lk["col"])
-        lines.append('\t\t\t\tt.Errorf("no error on %s, got %%v", fields)' % lk["col"])
-        lines.append("\t\t\t}")
         lines.append("\t\t})")
         lines.append("\t}")
         lines.append("}")
@@ -1037,17 +875,54 @@ def gen_validation_test(meta, e, common, create_only):
         lines.append("}")
         lines.append("")
 
+    for l in paginated_lists:
+        name = l["query"]
+        lines.append("func TestValidate%s(t *testing.T) {" % name)
+        lines.append("\ttests := []struct {")
+        lines.append("\t\tname      string")
+        lines.append("\t\treq       *%s.%sRequest" % (proto, name))
+        lines.append("\t\twantErr   bool")
+        lines.append("\t}{")
+        lines.append('\t\t{name: "valid", req: &%s.%sRequest{PageLimit: 50, Page: 1}},' % (proto, name))
+        lines.append(
+            '\t\t{name: "zero page_limit and page ok", req: &%s.%sRequest{PageLimit: 0, Page: 0}},' % (proto, name)
+        )
+        lines.append(
+            '\t\t{name: "negative page_limit", req: &%s.%sRequest{PageLimit: -1}, wantErr: true},' % (proto, name)
+        )
+        lines.append(
+            '\t\t{name: "negative page", req: &%s.%sRequest{Page: -1}, wantErr: true},' % (proto, name)
+        )
+        if l["order_field"]:
+            lines.append(
+                '\t\t{name: "invalid order", req: &%s.%sRequest{Order: "sideways"}, wantErr: true},' % (proto, name)
+            )
+        lines.append("\t}")
+        lines.append("")
+        lines.append("\tfor _, tt := range tests {")
+        lines.append("\t\tt.Run(tt.name, func(t *testing.T) {")
+        lines.append("\t\t\terr := Validate%s(tt.req)" % name)
+        lines.append("\t\t\tif (err != nil) != tt.wantErr {")
+        lines.append(
+            '\t\t\t\tt.Errorf("Validate%s() error = %%v, wantErr %%v", err, tt.wantErr)' % name
+        )
+        lines.append("\t\t\t}")
+        lines.append("\t\t})")
+        lines.append("\t}")
+        lines.append("}")
+        lines.append("")
+
+        lines.append("func TestValidate%sNil(t *testing.T) {" % name)
+        lines.append("\tif err := Validate%s(nil); err == nil {" % name)
+        lines.append('\t\tt.Error("Validate%s(nil) = nil, want error")' % name)
+        lines.append("\t}")
+        lines.append("}")
+        lines.append("")
+
     body = "\n".join(lines)
 
-    if "%sStrPtr(" % lower_first(E) in body:
-        body += (
-            "\n// %sStrPtr — адрес строкового литерала для optional-полей proto.\n"
-            "func %sStrPtr(s string) *string {\n\treturn &s\n}\n"
-            % (lower_first(E), lower_first(E))
-        )
-
     head = ["package %s" % meta["conv_pkg"], "", "import (", '\t"errors"']
-    if "math.MaxInt16" in body or "math.MinInt16" in body:
+    if "math.MaxInt16" in body:
         head.append('\t"math"')
     if "strings.Repeat(" in body:
         head.append('\t"strings"')
@@ -1075,9 +950,12 @@ def gen_limits(meta, entities):
     first = True
     for e in entities:
         seen = {}
-        for f in e["create_fields"] + e["update_fields"]:
+        for f in all_param_fields(e):
             if f["go_type"] == "string" and f["col"] not in seen:
                 seen[f["col"]] = f
+        for lk in e["lookups"]:
+            if lk["arg_type"] == "string" and lk["col"] not in seen:
+                seen[lk["col"]] = {"proto": lk["proto_field"], "varchar": lk["varchar"], "col": lk["col"]}
         if not seen:
             continue
         if not first:
@@ -1103,6 +981,7 @@ def gen_service(meta, e):
     E, P = e["entity"], e["plural"]
     row = "%s.%s" % (repo, e["row_struct"])
     low = e["table"]
+    ops = e["ops"]
 
     lines = []
     lines.append("package %s" % meta["service_pkg"])
@@ -1120,7 +999,7 @@ def gen_service(meta, e):
     lines.append(")")
     lines.append("")
 
-    def one(name, doc, call, notfound_msg):
+    def one(name, doc, notfound_msg):
         out = []
         out.append("// %s %s" % (name, doc))
         out.append("func (%s *%s) %s(ctx context.Context, id int64) (%s, error) {" % (recv, st, name, row))
@@ -1142,45 +1021,72 @@ def gen_service(meta, e):
         out.append("")
         return out
 
-    lines.extend(one("Get%sById" % E, "возвращает активную строку %s по id." % low, None, low))
-    lines.append("// Get%s возвращает все активные строки %s." % (P, low))
-    lines.append("func (%s *%s) Get%s(ctx context.Context) ([]%s, error) {" % (recv, st, P, row))
-    lines.append("\trows, err := %s.%s.Get%s(ctx)" % (recv, field, P))
-    lines.append("")
-    lines.append("\tif err != nil {")
-    lines.append('\t\treturn nil, fmt.Errorf("get %s: %%w", err)' % low)
-    lines.append("\t}")
-    lines.append("")
-    lines.append("\treturn rows, nil")
-    lines.append("}")
-    lines.append("")
+    if "get_by_id" in ops:
+        lines.extend(one("Get%sById" % E, "возвращает активную строку %s по id." % low, low))
+    if "get_deleted_by_id" in ops:
+        lines.extend(
+            one("GetDeleted%sById" % E, "возвращает мягко удалённую строку %s по id." % low, "deleted " + low)
+        )
 
-    lines.extend(
-        one("GetDeleted%sById" % E, "возвращает мягко удалённую строку %s по id." % low, None, "deleted " + low)
-    )
-    lines.append("// GetDeleted%s возвращает все мягко удалённые строки %s." % (P, low))
-    lines.append("func (%s *%s) GetDeleted%s(ctx context.Context) ([]%s, error) {" % (recv, st, P, row))
-    lines.append("\trows, err := %s.%s.GetDeleted%s(ctx)" % (recv, field, P))
-    lines.append("")
-    lines.append("\tif err != nil {")
-    lines.append('\t\treturn nil, fmt.Errorf("get deleted %s: %%w", err)' % low)
-    lines.append("\t}")
-    lines.append("")
-    lines.append("\treturn rows, nil")
-    lines.append("}")
-    lines.append("")
+    for l in e["lists"]:
+        name = l["query"]
+        if not l["paginated"]:
+            lines.append("// %s возвращает строки %s." % (name, low))
+            lines.append("func (%s *%s) %s(ctx context.Context) ([]%s, error) {" % (recv, st, name, row))
+            lines.append("\trows, err := %s.%s.%s(ctx)" % (recv, field, name))
+            lines.append("")
+            lines.append("\tif err != nil {")
+            lines.append('\t\treturn nil, fmt.Errorf("%s: %%w", err)' % name)
+            lines.append("\t}")
+            lines.append("")
+            lines.append("\treturn rows, nil")
+            lines.append("}")
+            lines.append("")
+            continue
+
+        counter_row = "%s.%s" % (repo, "%sRow" % l["counter"])
+        lines.append("// %s возвращает страницу строк %s и её счётчики." % (name, low))
+        lines.append(
+            "func (%s *%s) %s(ctx context.Context, params %s.%s) ([]%s, %s, error) {"
+            % (recv, st, name, repo, l["params_type"], row, counter_row)
+        )
+        if l["counter_arg_form"] == "int32":
+            lines.append("\tcount, err := %s.%s.%s(ctx, params.PageLimit)" % (recv, field, l["counter"]))
+        else:
+            lines.append("\tcountParams := %s.%s{" % (repo, l["counter_params_type"]))
+            lines.append("\t\tPageLimit: params.PageLimit,")
+            for f in l.get("filter_fields") or []:
+                lines.append("\t\t%s: params.%s," % (f["go"], f["go"]))
+            lines.append("\t}")
+            lines.append("\tcount, err := %s.%s.%s(ctx, countParams)" % (recv, field, l["counter"]))
+        lines.append("\tif err != nil {")
+        lines.append('\t\treturn nil, %s{}, fmt.Errorf("count %s: %%w", err)' % (counter_row, low))
+        lines.append("\t}")
+        lines.append("")
+        lines.append("\tif count.%s == 0 {" % l["counter_total_field"])
+        lines.append("\t\treturn []%s{}, count, nil" % row)
+        lines.append("\t}")
+        lines.append("")
+        lines.append("\trows, err := %s.%s.%s(ctx, params)" % (recv, field, name))
+        lines.append("\tif err != nil {")
+        lines.append('\t\treturn nil, %s{}, fmt.Errorf("get %s page: %%w", err)' % (counter_row, low))
+        lines.append("\t}")
+        lines.append("")
+        lines.append("\treturn rows, count, nil")
+        lines.append("}")
+        lines.append("")
 
     for fk in e["fks"]:
         lines.append("// %s возвращает активные строки %s, отобранные по %s." % (fk["query"], low, fk["col"]))
         lines.append(
-            "func (%s *%s) %s(ctx context.Context, %s int64) ([]%s, error) {"
-            % (recv, st, fk["query"], fk["arg_name"], row)
+            "func (%s *%s) %s(ctx context.Context, %s %s) ([]%s, error) {"
+            % (recv, st, fk["query"], fk["arg_name"], fk["arg_type"], row)
         )
         lines.append("\trows, err := %s.%s.%s(ctx, %s)" % (recv, field, fk["query"], fk["arg_name"]))
         lines.append("")
         lines.append("\tif err != nil {")
         lines.append(
-            '\t\treturn nil, fmt.Errorf("get %s by %s = %%d: %%w", %s, err)' % (low, fk["col"], fk["arg_name"])
+            '\t\treturn nil, fmt.Errorf("get %s by %s = %%v: %%w", %s, err)' % (low, fk["col"], fk["arg_name"])
         )
         lines.append("\t}")
         lines.append("")
@@ -1208,8 +1114,7 @@ def gen_service(meta, e):
         lines.append("\t\t}")
         lines.append("")
         lines.append(
-            '\t\treturn %s{}, fmt.Errorf("get %s %s = %s: %%w", %s, err)'
-            % (row, low, lk["col"], verb, lk["arg_name"])
+            '\t\treturn %s{}, fmt.Errorf("get %s %s = %s: %%w", %s, err)' % (row, low, lk["col"], verb, lk["arg_name"])
         )
         lines.append("\t}")
         lines.append("")
@@ -1217,6 +1122,7 @@ def gen_service(meta, e):
         lines.append("}")
         lines.append("")
 
+    # Create — всегда есть
     lines.append("// Create%s вставляет строку %s и возвращает её целиком." % (E, low))
     lines.append(
         "func (%s *%s) Create%s(ctx context.Context, params %s.%s) (%s, error) {"
@@ -1232,71 +1138,116 @@ def gen_service(meta, e):
     lines.append("}")
     lines.append("")
 
-    lines.append("// Update%sById обновляет активную строку %s и возвращает её целиком." % (E, low))
-    lines.append("//")
-    lines.append("// Запрос фильтрует по is_deleted = false, поэтому попытка обновить удалённую")
-    lines.append("// или несуществующую запись даёт sql.ErrNoRows — переводим его в ErrNotFound,")
-    lines.append("// чтобы api-слой ответил NotFound, а не Internal.")
-    lines.append(
-        "func (%s *%s) Update%sById(ctx context.Context, params %s.%s) (%s, error) {"
-        % (recv, st, E, repo, e["update_params"], row)
-    )
-    lines.append("\trow, err := %s.%s.Update%sById(ctx, params)" % (recv, field, E))
-    lines.append("")
-    lines.append("\tif err != nil {")
-    lines.append("\t\tif errors.Is(err, sql.ErrNoRows) {")
-    lines.append(
-        '\t\t\treturn %s{}, fmt.Errorf("%s id = %%d: %%w", params.ID, customerrors.ErrNotFound)' % (row, low)
-    )
-    lines.append("\t\t}")
-    lines.append("")
-    lines.append(
-        '\t\treturn %s{}, fmt.Errorf("%%w: %s id = %%d: %%w", customerrors.ErrUpdate, params.ID, err)'
-        % (row, low)
-    )
-    lines.append("\t}")
-    lines.append("")
-    lines.append("\treturn row, nil")
-    lines.append("}")
-    lines.append("")
+    def id_expr(op):
+        if op["arg_form"] == "id":
+            return "id"
+        return "params.ID"
 
-    lines.append("// Delete%sById мягко удаляет строку %s." % (E, low))
-    lines.append("//")
-    lines.append("// Сам UPDATE не фильтрует по is_deleted и не сообщает, была ли затронута")
-    lines.append("// строка, поэтому существование активной записи проверяем заранее —")
-    lines.append("// иначе удаление несуществующего id молча возвращало бы успех.")
-    lines.append("func (%s *%s) Delete%sById(ctx context.Context, id int64) error {" % (recv, st, E))
-    lines.append("\tif _, err := %s.Get%sById(ctx, id); err != nil {" % (recv, E))
-    lines.append("\t\treturn errors.Join(customerrors.ErrDelete, err)")
-    lines.append("\t}")
-    lines.append("")
-    lines.append("\tif err := %s.%s.Delete%sById(ctx, id); err != nil {" % (recv, field, E))
-    lines.append(
-        '\t\treturn fmt.Errorf("%%w: %s id = %%d: %%w", customerrors.ErrDelete, id, err)' % low
-    )
-    lines.append("\t}")
-    lines.append("")
-    lines.append("\treturn nil")
-    lines.append("}")
-    lines.append("")
+    def arg_decl(op, params_type):
+        if op["arg_form"] == "id":
+            return "id int64"
+        return "params %s.%s" % (repo, params_type)
 
-    lines.append("// Undelete%sById восстанавливает мягко удалённую строку %s." % (E, low))
-    lines.append("// Существование удалённой записи проверяется заранее по той же причине,")
-    lines.append("// что и в Delete%sById." % E)
-    lines.append("func (%s *%s) Undelete%sById(ctx context.Context, id int64) error {" % (recv, st, E))
-    lines.append("\tif _, err := %s.GetDeleted%sById(ctx, id); err != nil {" % (recv, E))
-    lines.append("\t\treturn errors.Join(customerrors.ErrUndelete, err)")
-    lines.append("\t}")
-    lines.append("")
-    lines.append("\tif err := %s.%s.Undelete%sById(ctx, id); err != nil {" % (recv, field, E))
-    lines.append(
-        '\t\treturn fmt.Errorf("%%w: %s id = %%d: %%w", customerrors.ErrUndelete, id, err)' % low
-    )
-    lines.append("\t}")
-    lines.append("")
-    lines.append("\treturn nil")
-    lines.append("}")
-    lines.append("")
+    if "update" in ops:
+        op = ops["update"]
+        name = op["query"]
+        if op["resp_form"] == "row":
+            lines.append("// %s обновляет активную строку %s и возвращает её целиком." % (name, low))
+            lines.append("//")
+            lines.append("// Запрос фильтрует по is_deleted = false, поэтому попытка обновить удалённую")
+            lines.append("// или несуществующую запись даёт sql.ErrNoRows — переводим его в ErrNotFound,")
+            lines.append("// чтобы api-слой ответил NotFound, а не Internal.")
+            lines.append(
+                "func (%s *%s) %s(ctx context.Context, %s) (%s, error) {"
+                % (recv, st, name, arg_decl(op, op["params_type"]), row)
+            )
+            lines.append("\trow, err := %s.%s.%s(ctx, params)" % (recv, field, name))
+            lines.append("")
+            lines.append("\tif err != nil {")
+            lines.append("\t\tif errors.Is(err, sql.ErrNoRows) {")
+            lines.append(
+                '\t\t\treturn %s{}, fmt.Errorf("%s id = %%d: %%w", %s, customerrors.ErrNotFound)'
+                % (row, low, id_expr(op))
+            )
+            lines.append("\t\t}")
+            lines.append("")
+            lines.append(
+                '\t\treturn %s{}, fmt.Errorf("%%w: %s id = %%d: %%w", customerrors.ErrUpdate, %s, err)'
+                % (row, low, id_expr(op))
+            )
+            lines.append("\t}")
+            lines.append("")
+            lines.append("\treturn row, nil")
+            lines.append("}")
+            lines.append("")
+        else:
+            lines.append("// %s обновляет строку %s." % (name, low))
+            lines.append("//")
+            lines.append("// Запрос — :exec и не сообщает число затронутых строк, поэтому")
+            if "get_by_id" in ops:
+                lines.append("// существование активной записи проверяется заранее.")
+            lines.append(
+                "func (%s *%s) %s(ctx context.Context, %s) error {"
+                % (recv, st, name, arg_decl(op, op["params_type"]))
+            )
+            if "get_by_id" in ops:
+                lines.append("\tif _, err := %s.Get%sById(ctx, %s); err != nil {" % (recv, E, id_expr(op)))
+                lines.append("\t\treturn fmt.Errorf(\"%%w: %s: %%w\", customerrors.ErrUpdate, err)" % low)
+                lines.append("\t}")
+                lines.append("")
+            lines.append("\tif err := %s.%s.%s(ctx, params); err != nil {" % (recv, field, name))
+            lines.append(
+                '\t\treturn fmt.Errorf("%%w: %s id = %%d: %%w", customerrors.ErrUpdate, %s, err)'
+                % (low, id_expr(op))
+            )
+            lines.append("\t}")
+            lines.append("")
+            lines.append("\treturn nil")
+            lines.append("}")
+            lines.append("")
+
+    for op_key, prefix, err_name, precheck_slot in (
+        ("delete", "Delete", "ErrDelete", "get_by_id"),
+        ("undelete", "Undelete", "ErrUndelete", "get_deleted_by_id"),
+    ):
+        if op_key not in ops:
+            continue
+        op = ops[op_key]
+        name = op["query"]
+        lines.append("// %s %s строку %s." % (name, "мягко удаляет" if op_key == "delete" else "восстанавливает мягко удалённую", low))
+        if precheck_slot in ops:
+            lines.append("//")
+            lines.append(
+                "// Сам UPDATE не фильтрует по is_deleted и не сообщает, была ли затронута"
+                if op_key == "delete"
+                else "// Существование удалённой записи проверяется заранее по той же причине,"
+            )
+            if op_key == "delete":
+                lines.append("// строка, поэтому существование активной записи проверяем заранее —")
+                lines.append("// иначе удаление несуществующего id молча возвращало бы успех.")
+            else:
+                lines.append("// что и в Delete%sById." % E)
+        lines.append(
+            "func (%s *%s) %s(ctx context.Context, %s) error {"
+            % (recv, st, name, arg_decl(op, op.get("params_type")))
+        )
+        if precheck_slot in ops:
+            precheck_call = "Get%sById" % E if precheck_slot == "get_by_id" else "GetDeleted%sById" % E
+            lines.append("\tif _, err := %s.%s(ctx, %s); err != nil {" % (recv, precheck_call, id_expr(op)))
+            lines.append("\t\treturn errors.Join(customerrors.%s, err)" % err_name)
+            lines.append("\t}")
+            lines.append("")
+        call_arg = "params" if op["arg_form"] == "params" else "id"
+        lines.append("\tif err := %s.%s.%s(ctx, %s); err != nil {" % (recv, field, name, call_arg))
+        lines.append(
+            '\t\treturn fmt.Errorf("%%w: %s id = %%d: %%w", customerrors.%s, %s, err)'
+            % (low, err_name, id_expr(op))
+        )
+        lines.append("\t}")
+        lines.append("")
+        lines.append("\treturn nil")
+        lines.append("}")
+        lines.append("")
 
     return "\n".join(lines)
 
@@ -1310,7 +1261,20 @@ def gen_api(meta, e):
     E, P = e["entity"], e["plural"]
     conv = meta["conv_pkg"] + "conv"
     valid = meta["conv_pkg"] + "validation"
-    rf = e["resp_fields"]
+    repo = meta["repo_alias"]
+    ops = e["ops"]
+
+    # validation.ValidateID(bare пакет) нужен только там, где аргумент — голый id.
+    needs_bare_validation = (
+        "get_by_id" in ops
+        or "get_deleted_by_id" in ops
+        or bool(e["fks"])
+        or any(ops[k]["arg_form"] == "id" for k in ("delete", "undelete") if k in ops)
+    )
+    # emptypb.Empty{} нужен только для ответов-обёрток (не для буквально пустых).
+    needs_emptypb = any(
+        ops[k]["resp_form"] == "field" for k in ("update", "delete", "undelete") if k in ops
+    )
 
     lines = []
     lines.append("package %s" % meta["api_pkg"])
@@ -1320,14 +1284,16 @@ def gen_api(meta, e):
     lines.append("")
     lines.append('\t"%s"' % APIERR_IMPORT)
     lines.append('\t%s "%s/%s"' % (conv, CONV_IMPORT, meta["conv_pkg"]))
-    lines.append('\t"%s"' % VALID_IMPORT)
+    if needs_bare_validation:
+        lines.append('\t"%s"' % VALID_IMPORT)
     lines.append('\t%s "%s/%s"' % (valid, VALID_IMPORT, meta["conv_pkg"]))
     lines.append("\t" + meta["proto_import"])
-    lines.append('\t"google.golang.org/protobuf/types/known/emptypb"')
+    if needs_emptypb:
+        lines.append('\t"google.golang.org/protobuf/types/known/emptypb"')
     lines.append(")")
     lines.append("")
 
-    def by_id(rpc, doc, svc_call, resp_field, deleted=False):
+    def by_id(rpc, doc, svc_call, resp_field):
         out = []
         out.append("// %s %s" % (rpc, doc))
         out.append(
@@ -1350,45 +1316,75 @@ def gen_api(meta, e):
         out.append("")
         return out
 
-    def list_all(rpc, doc, svc_call, resp_field):
-        out = []
-        out.append("// %s %s" % (rpc, doc))
-        out.append(
-            "func (%s *%s) %s(ctx context.Context, req *%s.%sRequest) (*%s.%sResponse, error) {"
-            % (recv, at, rpc, proto, rpc, proto, rpc)
+    if "get_by_id" in ops:
+        lines.extend(
+            by_id(
+                "Get%sById" % E,
+                "отдаёт активную строку %s по id." % e["table"],
+                "Get%sById" % E,
+                ops["get_by_id"]["resp_field"],
+            )
         )
-        out.append("\trows, err := %s.services.%s.%s(ctx)" % (recv, svc, svc_call))
-        out.append("\tif err != nil {")
-        out.append("\t\treturn nil, apierror.Wrap(err)")
-        out.append("\t}")
-        out.append("")
-        out.append(
-            "\treturn &%s.%sResponse{%s: %s.%sToProto(rows)}, nil" % (proto, rpc, resp_field, conv, P)
+    if "get_deleted_by_id" in ops:
+        lines.extend(
+            by_id(
+                "GetDeleted%sById" % E,
+                "отдаёт мягко удалённую строку %s по id." % e["table"],
+                "GetDeleted%sById" % E,
+                ops["get_deleted_by_id"]["resp_field"],
+            )
         )
-        out.append("}")
-        out.append("")
-        return out
 
-    lines.extend(
-        by_id("Get%sById" % E, "отдаёт активную строку %s по id." % e["table"], "Get%sById" % E, rf["Get%sById" % E])
-    )
-    lines.extend(list_all("Get%s" % P, "отдаёт все активные строки %s." % e["table"], "Get%s" % P, rf["Get%s" % P]))
-    lines.extend(
-        by_id(
-            "GetDeleted%sById" % E,
-            "отдаёт мягко удалённую строку %s по id." % e["table"],
-            "GetDeleted%sById" % E,
-            rf["GetDeleted%sById" % E],
+    for l in e["lists"]:
+        name = l["query"]
+        if not l["paginated"]:
+            lines.append("// %s отдаёт строки %s." % (name, e["table"]))
+            lines.append(
+                "func (%s *%s) %s(ctx context.Context, req *%s.%sRequest) (*%s.%sResponse, error) {"
+                % (recv, at, name, proto, name, proto, name)
+            )
+            lines.append("\trows, err := %s.services.%s.%s(ctx)" % (recv, svc, name))
+            lines.append("\tif err != nil {")
+            lines.append("\t\treturn nil, apierror.Wrap(err)")
+            lines.append("\t}")
+            lines.append("")
+            lines.append(
+                "\treturn &%s.%sResponse{%s: %s.%sToProto(rows)}, nil" % (proto, name, l["resp_field"], conv, P)
+            )
+            lines.append("}")
+            lines.append("")
+            continue
+
+        lines.append("// %s отдаёт страницу строк %s." % (name, e["table"]))
+        lines.append(
+            "func (%s *%s) %s(ctx context.Context, req *%s.%sRequest) (*%s.%sResponse, error) {"
+            % (recv, at, name, proto, name, proto, name)
         )
-    )
-    lines.extend(
-        list_all(
-            "GetDeleted%s" % P,
-            "отдаёт все мягко удалённые строки %s." % e["table"],
-            "GetDeleted%s" % P,
-            rf["GetDeleted%s" % P],
+        lines.append("\tif err := %s.Validate%s(req); err != nil {" % (valid, name))
+        lines.append("\t\treturn nil, apierror.Wrap(err)")
+        lines.append("\t}")
+        lines.append("")
+        lines.append("\tparams := %s.To%sParams(req)" % (conv, name))
+        lines.append("")
+        lines.append(
+            "\trows, count, err := %s.services.%s.%s(ctx, params)" % (recv, svc, name)
         )
-    )
+        lines.append("\tif err != nil {")
+        lines.append("\t\treturn nil, apierror.Wrap(err)")
+        lines.append("\t}")
+        lines.append("")
+        pm = l["pagination_msg_fields"]
+        lines.append("\treturn &%s.%sResponse{" % (proto, name))
+        lines.append("\t\t%s: %s.%sToProto(rows)," % (l["resp_field"], conv, P))
+        lines.append("\t\t%s: &%s.Pagination{" % (l["pagination_field"], proto))
+        lines.append("\t\t\t%s: params.Page," % pm["page"])
+        lines.append("\t\t\t%s: params.PageLimit," % pm["per_page"])
+        lines.append("\t\t\t%s: count.%s," % (pm["total_items"], l["counter_total_field"]))
+        lines.append("\t\t\t%s: count.%s," % (pm["total_pages"], l["counter_pages_field"]))
+        lines.append("\t\t},")
+        lines.append("\t}, nil")
+        lines.append("}")
+        lines.append("")
 
     for fk in e["fks"]:
         rpc = fk["query"]
@@ -1442,7 +1438,7 @@ def gen_api(meta, e):
         lines.append("}")
         lines.append("")
 
-    # Create
+    # Create — всегда есть
     lines.append("// Create%s вставляет строку %s и отдаёт её целиком." % (E, e["table"]))
     lines.append(
         "func (%s *%s) Create%s(ctx context.Context, req *%s.Create%sRequest) (*%s.Create%sResponse, error) {"
@@ -1461,55 +1457,84 @@ def gen_api(meta, e):
     lines.append("")
     lines.append(
         "\treturn &%s.Create%sResponse{%s: %s.%sToProto(row)}, nil"
-        % (proto, E, rf["Create%s" % E], conv, E)
+        % (proto, E, e["create_resp_field"], conv, E)
     )
     lines.append("}")
     lines.append("")
 
-    # Update
-    lines.append("// Update%sById обновляет активную строку %s и отдаёт её целиком." % (E, e["table"]))
-    lines.append(
-        "func (%s *%s) Update%sById(ctx context.Context, req *%s.Update%sByIdRequest) (*%s.Update%sByIdResponse, error) {"
-        % (recv, at, E, proto, E, proto, E)
-    )
-    lines.append("\tif err := %s.ValidateUpdate%sById(req); err != nil {" % (valid, E))
-    lines.append("\t\treturn nil, apierror.Wrap(err)")
-    lines.append("\t}")
-    lines.append("")
-    lines.append(
-        "\trow, err := %s.services.%s.Update%sById(ctx, %s.ToUpdate%sByIdParams(req))"
-        % (recv, svc, E, conv, E)
-    )
-    lines.append("\tif err != nil {")
-    lines.append("\t\treturn nil, apierror.Wrap(err)")
-    lines.append("\t}")
-    lines.append("")
-    lines.append(
-        "\treturn &%s.Update%sByIdResponse{%s: %s.%sToProto(row)}, nil"
-        % (proto, E, rf["Update%sById" % E], conv, E)
-    )
-    lines.append("}")
-    lines.append("")
+    def empty_return(resp_type, resp_field, resp_form):
+        if resp_form == "empty":
+            return "&%s.%s{}" % (proto, resp_type)
+        return "&%s.%s{%s: &emptypb.Empty{}}" % (proto, resp_type, resp_field)
 
-    # Delete / Undelete
-    for op, doc in (("Delete", "мягко удаляет строку"), ("Undelete", "восстанавливает мягко удалённую строку")):
-        rpc = "%s%sById" % (op, E)
+    if "update" in ops:
+        op = ops["update"]
+        name = op["query"]
+        lines.append("// %s обновляет строку %s." % (name, e["table"]))
+        lines.append(
+            "func (%s *%s) %s(ctx context.Context, req *%s.%sRequest) (*%s.%sResponse, error) {"
+            % (recv, at, name, proto, name, proto, name)
+        )
+        lines.append("\tif err := %s.Validate%s(req); err != nil {" % (valid, name))
+        lines.append("\t\treturn nil, apierror.Wrap(err)")
+        lines.append("\t}")
+        lines.append("")
+        if op["resp_form"] == "row":
+            lines.append(
+                "\trow, err := %s.services.%s.%s(ctx, %s.To%sParams(req))" % (recv, svc, name, conv, name)
+            )
+            lines.append("\tif err != nil {")
+            lines.append("\t\treturn nil, apierror.Wrap(err)")
+            lines.append("\t}")
+            lines.append("")
+            lines.append(
+                "\treturn &%s.%sResponse{%s: %s.%sToProto(row)}, nil"
+                % (proto, name, op["resp_field"], conv, E)
+            )
+        else:
+            lines.append(
+                "\tif err := %s.services.%s.%s(ctx, %s.To%sParams(req)); err != nil {"
+                % (recv, svc, name, conv, name)
+            )
+            lines.append("\t\treturn nil, apierror.Wrap(err)")
+            lines.append("\t}")
+            lines.append("")
+            lines.append("\treturn %s, nil" % empty_return(name + "Response", op["resp_field"], op["resp_form"]))
+        lines.append("}")
+        lines.append("")
+
+    for op_key, prefix, doc in (
+        ("delete", "Delete", "мягко удаляет строку"),
+        ("undelete", "Undelete", "восстанавливает мягко удалённую строку"),
+    ):
+        if op_key not in ops:
+            continue
+        op = ops[op_key]
+        rpc = op["query"]
         lines.append("// %s %s %s." % (rpc, doc, e["table"]))
         lines.append(
             "func (%s *%s) %s(ctx context.Context, req *%s.%sRequest) (*%s.%sResponse, error) {"
             % (recv, at, rpc, proto, rpc, proto, rpc)
         )
-        lines.append("\tif err := validation.ValidateID(req.GetId()); err != nil {")
+        if op["arg_form"] == "id":
+            lines.append("\tif err := validation.ValidateID(req.GetId()); err != nil {")
+            lines.append("\t\treturn nil, apierror.Wrap(err)")
+            lines.append("\t}")
+            lines.append("")
+            lines.append("\tif err := %s.services.%s.%s(ctx, req.GetId()); err != nil {" % (recv, svc, rpc))
+        else:
+            lines.append("\tif err := %s.Validate%s(req); err != nil {" % (valid, rpc))
+            lines.append("\t\treturn nil, apierror.Wrap(err)")
+            lines.append("\t}")
+            lines.append("")
+            lines.append(
+                "\tif err := %s.services.%s.%s(ctx, %s.To%sParams(req)); err != nil {"
+                % (recv, svc, rpc, conv, rpc)
+            )
         lines.append("\t\treturn nil, apierror.Wrap(err)")
         lines.append("\t}")
         lines.append("")
-        lines.append("\tif err := %s.services.%s.%s(ctx, req.GetId()); err != nil {" % (recv, svc, rpc))
-        lines.append("\t\treturn nil, apierror.Wrap(err)")
-        lines.append("\t}")
-        lines.append("")
-        lines.append(
-            "\treturn &%s.%sResponse{%s: &emptypb.Empty{}}, nil" % (proto, rpc, rf[rpc])
-        )
+        lines.append("\treturn %s, nil" % empty_return(rpc + "Response", op["resp_field"], op["resp_form"]))
         lines.append("}")
         lines.append("")
 
@@ -1540,12 +1565,8 @@ def main():
             write("%s/%s.go" % (meta["conv_dir"], e["file"]), gen_converter(meta, e))
             write("%s/%s_test.go" % (meta["conv_dir"], e["file"]), gen_converter_test(meta, e))
 
-            vtext, common, create_only = gen_validation(meta, e)
-            write("%s/%s.go" % (meta["valid_dir"], e["file"]), vtext)
-            write(
-                "%s/%s_test.go" % (meta["valid_dir"], e["file"]),
-                gen_validation_test(meta, e, common, create_only),
-            )
+            write("%s/%s.go" % (meta["valid_dir"], e["file"]), gen_validation(meta, e))
+            write("%s/%s_test.go" % (meta["valid_dir"], e["file"]), gen_validation_test(meta, e))
 
             write("%s/%s.go" % (meta["service_dir"], e["file"]), gen_service(meta, e))
             write("%s/%s.go" % (meta["api_dir"], e["file"]), gen_api(meta, e))

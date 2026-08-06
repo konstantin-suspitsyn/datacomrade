@@ -1,4 +1,7 @@
-// Package tablesapiv1 реализует gRPC-сервис tables.v1.TableService.
+// Package tablesapiv1 реализует gRPC-сервисы tables.v1.AliasService,
+// tables.v1.UserService и tables.v1.HostService — домен tables_model собран
+// из отдельного сервиса на таблицу, а не одного общего, как в остальных
+// доменах.
 //
 // Каждый метод устроен одинаково:
 //
@@ -6,8 +9,8 @@
 //	    → services.TablesService.<Rpc>(ctx, params)
 //	    → converter.<Entity>ToProto(row) → Response
 //
-// Встроенный UnimplementedTableServiceServer отдаёт Unimplemented по тем
-// RPC, которые ещё не реализованы.
+// Встроенные Unimplemented*ServiceServer отдают Unimplemented по тем RPC,
+// которые ещё не реализованы.
 package tablesapiv1
 
 import (
@@ -15,9 +18,12 @@ import (
 	tablesv1 "github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/tables/v1"
 )
 
-// TablesApiV1 — реализация tables.v1.TableService.
+// TablesApiV1 — реализация tables.v1.AliasService, tables.v1.UserService и
+// tables.v1.HostService.
 type TablesApiV1 struct {
-	tablesv1.UnimplementedTableServiceServer
+	tablesv1.UnimplementedAliasServiceServer
+	tablesv1.UnimplementedUserServiceServer
+	tablesv1.UnimplementedHostServiceServer
 
 	services *services.ServiceLayer
 }

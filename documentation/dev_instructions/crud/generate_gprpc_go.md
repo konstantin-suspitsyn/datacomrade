@@ -6,6 +6,13 @@
 Завершает цепочку:
 [standard_crud.md](standard_crud.md) → [proto_based_on_crud.md](proto_based_on_crud.md) → **этот файл**.
 
+Если у таблицы нет всех восьми стандартных запросов (или есть пагинация) —
+конвейер это допускает, см. [optional_standard_ops.md](optional_standard_ops.md).
+
+`query.sql` и `.proto` на вход приезжают из SG Buddy
+(<https://github.com/konstantin-suspitsyn/sg_buddy>); этот конвейер живёт в
+репозитории и в программу не входит.
+
 ## Что это делает
 
 Конвейер из трёх скриптов в [deploy/generators](../../../deploy/generators):
@@ -149,6 +156,30 @@ for d in "tables:tablesapiv1:TablesApiV1" "user:userapiv1:UserApiV1" "user_domai
 for d in "tables_model:tables_service:TablesService" "user_model:user_service:UserService" "user_domain_roles:user_domain_roles_service:UserDomainRolesService"; do repo=$(echo $d|cut -d: -f1); sd=$(echo $d|cut -d: -f2); typ=$(echo $d|cut -d: -f3); grep -ho "^func (q \*Queries) [A-Za-z]*" datacatalogue/internal/repository/$repo/query.sql.go 2>/dev/null | sed 's/.*) //' | sort > /tmp/r.txt; grep -ho "^func (s \*$typ) [A-Za-z]*" datacatalogue/internal/service/$sd/*.go 2>/dev/null | sed 's/.*) //' | sort > /tmp/s.txt; n=$(wc -l < /tmp/r.txt); printf "%-30s repo=%s service=%s " $sd $n $(wc -l < /tmp/s.txt); if [ "$n" -eq 0 ]; then echo "ПУСТО — не тот каталог?"; elif diff -q /tmp/r.txt /tmp/s.txt > /dev/null; then echo MATCH; else echo РАСХОЖДЕНИЕ; fi; done
 ```
 
+Каждый `service` из `.proto` зарегистрирован на gRPC-сервере в `cmd/main.go`.
+Первая сверка проверяет только то, что у каждого RPC есть Go-метод — она
+ничего не знает про `main.go` (он рукописный, генератор его не трогает, см.
+"Что перезаписывается, а что нет"), поэтому не ловит забытый
+`Register<Service>Server(...)`. Домен `tables_model` собран из трёх
+раздельных proto-сервисов на одну Go-структуру (`AliasService`,
+`UserService`, `HostService` → `TablesApiV1`, см. `optional_standard_ops.md`),
+и добавление новой таблицы в этот домен добавляет новый `service` в
+`.proto`, а не RPC в существующий — регистрацию для него легко забыть, как
+и произошло с `HostService`. Сверка ниже сопоставляет `service <Имя>` в
+`.proto` с `<alias>.Register<Имя>Server(` в `main.go` по алиасу импорта
+пакета (не только по имени сервиса — у `tables/v1.UserService` и
+`user/v1.UserService` имя одинаковое, различает их только алиас):
+
+```bash
+for d in "auth_logic:authlogicv1" "tables:tablesv1" "user:userv1" "user_domain_roles:userdomainrolesv1"; do dir=$(echo $d|cut -d: -f1); als=$(echo $d|cut -d: -f2); grep -ho "^service [A-Za-z]*" shared/proto/$dir/v1/*.proto 2>/dev/null | sed "s/^service /$als.Register/;s/\$/Server/" | sort > /tmp/want.txt; grep -ho "$als\.Register[A-Za-z]*Server(" datacatalogue/cmd/main.go 2>/dev/null | sed 's/(//' | sort > /tmp/have.txt; n=$(wc -l < /tmp/want.txt); printf "%-16s want=%s have=%s " $dir $n $(wc -l < /tmp/have.txt); if [ "$n" -eq 0 ]; then echo "ПУСТО — не тот каталог?"; elif diff -q /tmp/want.txt /tmp/have.txt > /dev/null; then echo MATCH; else echo РАСХОЖДЕНИЕ; fi; done
+```
+
+Если добавился новый `service`, реализующая его Go-структура должна
+встраивать соответствующий `Unimplemented<Имя>ServiceServer` (иначе она не
+удовлетворяет интерфейсу `<Имя>ServiceServer`, и регистрация не
+скомпилируется) — для `tablesapiv1.TablesApiV1` это делается в
+рукописном `init.go`, не в сгенерированных файлах.
+
 На момент написания: 185 RPC — 128 `tables`, 9 `user`, 48 `user_domain_roles`;
 22 таблицы; 861 тест.
 
@@ -156,8 +187,8 @@ for d in "tables_model:tables_service:TablesService" "user_model:user_service:Us
 
 | Что изменилось | Что делать до генерации |
 |---|---|
-| `schema.sql` | пересобрать `query.sql` по [standard_crud.md](standard_crud.md), затем `sqlc generate` |
-| `query.sql` | `sqlc generate`, затем обновить `.proto` по [proto_based_on_crud.md](proto_based_on_crud.md) |
+| `schema.sql` | перегенерировать `query.sql` и `.proto` в SG Buddy ([standard_crud.md](standard_crud.md)), затем `task sqlc:gen` и `task proto:gen` |
+| `query.sql` | он приезжает из SG Buddy вместе с `.proto`; `task sqlc:gen` |
 | `.proto` | `task proto:gen` (buf lint + generate) |
 | только шаблон кода | ничего, достаточно `gen.py` |
 
@@ -229,8 +260,10 @@ sqlc называет такой параметр не по колонке `<col
 - Поля `Create`/`Update` берутся из sqlc-структур параметров, то есть состав
   полей задаётся `query.sql`, а не `.proto`. Если в `.proto` есть поле, которого
   нет в `INSERT`, оно будет проигнорировано молча.
-- Пагинации нет: списочные запросы отдают всё. Списочные `Request` в `.proto`
-  оставлены непустыми сообщениями именно чтобы её потом добавить.
+- Пагинации в этом конвейере нет: списочные запросы отдают всё. Постраничная
+  выдача добавляется отдельной парой запросов на таблицу и требует правок
+  в `parse.py`, `resolve.py` и `gen.py` — см. [pagination_go.md](pagination_go.md)
+  и два предшествующих ему шага.
 - Сервисы и хендлеры тестами не покрыты — тесты генерируются только для
   конвертеров и валидации, то есть для чистых функций без базы.
 - `Delete`/`Undelete` делают лишний `SELECT` перед `UPDATE`, потому что запросы

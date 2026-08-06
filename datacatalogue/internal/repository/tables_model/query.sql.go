@@ -11,10 +11,150 @@ import (
 	"github.com/google/uuid"
 )
 
+const countGetAliases = `-- name: CountGetAliases :one
+SELECT
+    count(*)                                                        AS total_items,
+    ceil(count(*)::numeric / GREATEST($1::int, 1))::bigint AS total_pages
+FROM dc.alias
+WHERE alias.is_deleted = false
+`
+
+type CountGetAliasesRow struct {
+	TotalItems int64
+	TotalPages int64
+}
+
+func (q *Queries) CountGetAliases(ctx context.Context, pageLimit int32) (CountGetAliasesRow, error) {
+	row := q.db.QueryRowContext(ctx, countGetAliases, pageLimit)
+	var i CountGetAliasesRow
+	err := row.Scan(&i.TotalItems, &i.TotalPages)
+	return i, err
+}
+
+const countGetAliasesDeleted = `-- name: CountGetAliasesDeleted :one
+SELECT
+    count(*)                                                        AS total_items,
+    ceil(count(*)::numeric / GREATEST($1::int, 1))::bigint AS total_pages
+FROM dc.alias
+WHERE alias.is_deleted = true
+`
+
+type CountGetAliasesDeletedRow struct {
+	TotalItems int64
+	TotalPages int64
+}
+
+func (q *Queries) CountGetAliasesDeleted(ctx context.Context, pageLimit int32) (CountGetAliasesDeletedRow, error) {
+	row := q.db.QueryRowContext(ctx, countGetAliasesDeleted, pageLimit)
+	var i CountGetAliasesDeletedRow
+	err := row.Scan(&i.TotalItems, &i.TotalPages)
+	return i, err
+}
+
+const countGetHostDeleted = `-- name: CountGetHostDeleted :one
+SELECT
+    count(*)                                                        AS total_items,
+    ceil(count(*)::numeric / GREATEST($1::int, 1))::bigint AS total_pages
+FROM dc.host
+WHERE host.is_deleted = true
+`
+
+type CountGetHostDeletedRow struct {
+	TotalItems int64
+	TotalPages int64
+}
+
+func (q *Queries) CountGetHostDeleted(ctx context.Context, pageLimit int32) (CountGetHostDeletedRow, error) {
+	row := q.db.QueryRowContext(ctx, countGetHostDeleted, pageLimit)
+	var i CountGetHostDeletedRow
+	err := row.Scan(&i.TotalItems, &i.TotalPages)
+	return i, err
+}
+
+const countGetHosts = `-- name: CountGetHosts :one
+SELECT
+    count(*)                                                        AS total_items,
+    ceil(count(*)::numeric / GREATEST($1::int, 1))::bigint AS total_pages
+FROM dc.host
+WHERE host.is_deleted = false
+`
+
+type CountGetHostsRow struct {
+	TotalItems int64
+	TotalPages int64
+}
+
+func (q *Queries) CountGetHosts(ctx context.Context, pageLimit int32) (CountGetHostsRow, error) {
+	row := q.db.QueryRowContext(ctx, countGetHosts, pageLimit)
+	var i CountGetHostsRow
+	err := row.Scan(&i.TotalItems, &i.TotalPages)
+	return i, err
+}
+
+const countGetHostsSearchName = `-- name: CountGetHostsSearchName :one
+SELECT
+    count(*)                                                        AS total_items,
+    ceil(count(*)::numeric / GREATEST($1::int, 1))::bigint AS total_pages
+FROM dc.host
+WHERE host.is_deleted = false
+  AND (lower(name) LIKE '%' || lower($2) || '%')
+`
+
+type CountGetHostsSearchNameParams struct {
+	PageLimit  int32
+	SearchName string
+}
+
+type CountGetHostsSearchNameRow struct {
+	TotalItems int64
+	TotalPages int64
+}
+
+func (q *Queries) CountGetHostsSearchName(ctx context.Context, arg CountGetHostsSearchNameParams) (CountGetHostsSearchNameRow, error) {
+	row := q.db.QueryRowContext(ctx, countGetHostsSearchName, arg.PageLimit, arg.SearchName)
+	var i CountGetHostsSearchNameRow
+	err := row.Scan(&i.TotalItems, &i.TotalPages)
+	return i, err
+}
+
+const countGetUsers = `-- name: CountGetUsers :one
+SELECT
+    count(*)                                                        AS total_items,
+    ceil(count(*)::numeric / GREATEST($1::int, 1))::bigint AS total_pages
+FROM dc."user"
+WHERE "user".is_deleted = false
+`
+
+type CountGetUsersRow struct {
+	TotalItems int64
+	TotalPages int64
+}
+
+func (q *Queries) CountGetUsers(ctx context.Context, pageLimit int32) (CountGetUsersRow, error) {
+	row := q.db.QueryRowContext(ctx, countGetUsers, pageLimit)
+	var i CountGetUsersRow
+	err := row.Scan(&i.TotalItems, &i.TotalPages)
+	return i, err
+}
+
 const createAlias = `-- name: CreateAlias :one
-INSERT INTO dc.alias
-("name", description, created_at, updated_at, is_deleted, user_id)
-VALUES($1, $2, now(), now(), false, (SELECT u.id FROM dc."user" u WHERE u.external_id = $3))
+
+
+INSERT INTO dc.alias (
+    name,
+    description,
+    created_at,
+    updated_at,
+    is_deleted,
+    user_id
+) VALUES (
+    $1,
+    $2,
+    now(),
+    now(),
+    false,
+    (SELECT u.id FROM dc."user" u WHERE u.external_id = $3)
+)
 RETURNING id, name, description, created_at, updated_at, is_deleted, user_id
 `
 
@@ -24,6 +164,11 @@ type CreateAliasParams struct {
 	ExternalID  uuid.UUID
 }
 
+// Файл сгенерирован программой SG Buddy https://github.com/konstantin-suspitsyn/sg_buddy
+// Правки будут затёрты при следующей генерации: правьте настройки, а не этот файл.
+// =========================================================
+// dc.alias
+// =========================================================
 func (q *Queries) CreateAlias(ctx context.Context, arg CreateAliasParams) (DcAlias, error) {
 	row := q.db.QueryRowContext(ctx, createAlias, arg.Name, arg.Description, arg.ExternalID)
 	var i DcAlias
@@ -39,332 +184,31 @@ func (q *Queries) CreateAlias(ctx context.Context, arg CreateAliasParams) (DcAli
 	return i, err
 }
 
-const createCalculationType = `-- name: CreateCalculationType :one
-INSERT INTO dc.calculation_type
-("name", description, created_at, updated_at, is_deleted)
-VALUES($1, $2, now(), now(), false)
-RETURNING id, name, description, created_at, updated_at, is_deleted
-`
-
-type CreateCalculationTypeParams struct {
-	Name        string
-	Description string
-}
-
-func (q *Queries) CreateCalculationType(ctx context.Context, arg CreateCalculationTypeParams) (DcCalculationType, error) {
-	row := q.db.QueryRowContext(ctx, createCalculationType, arg.Name, arg.Description)
-	var i DcCalculationType
-	err := row.Scan(
-		&i.ID,
-		&i.Name,
-		&i.Description,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.IsDeleted,
-	)
-	return i, err
-}
-
-const createColumnCat = `-- name: CreateColumnCat :one
-INSERT INTO dc.column_cat
-(table_id, "name", alias_id, column_type_id, description, calculation_type_id, is_deleted, show_in_ui, created_at, updated_at, user_id)
-VALUES($1, $2, $3, $4, $5, $6, false, $7, now(), now(), (SELECT u.id FROM dc."user" u WHERE u.external_id = $8))
-RETURNING id, table_id, name, alias_id, column_type_id, description, calculation_type_id, is_deleted, show_in_ui, created_at, updated_at, user_id
-`
-
-type CreateColumnCatParams struct {
-	TableID           int64
-	Name              string
-	AliasID           int64
-	ColumnTypeID      int64
-	Description       string
-	CalculationTypeID int64
-	ShowInUi          bool
-	ExternalID        uuid.UUID
-}
-
-func (q *Queries) CreateColumnCat(ctx context.Context, arg CreateColumnCatParams) (DcColumnCat, error) {
-	row := q.db.QueryRowContext(ctx, createColumnCat,
-		arg.TableID,
-		arg.Name,
-		arg.AliasID,
-		arg.ColumnTypeID,
-		arg.Description,
-		arg.CalculationTypeID,
-		arg.ShowInUi,
-		arg.ExternalID,
-	)
-	var i DcColumnCat
-	err := row.Scan(
-		&i.ID,
-		&i.TableID,
-		&i.Name,
-		&i.AliasID,
-		&i.ColumnTypeID,
-		&i.Description,
-		&i.CalculationTypeID,
-		&i.IsDeleted,
-		&i.ShowInUi,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.UserID,
-	)
-	return i, err
-}
-
-const createColumnType = `-- name: CreateColumnType :one
-INSERT INTO dc.column_type
-("name", description, is_deleted, created_at, updated_at, user_id)
-VALUES($1, $2, false, now(), now(), (SELECT u.id FROM dc."user" u WHERE u.external_id = $3))
-RETURNING id, name, description, is_deleted, created_at, updated_at, user_id
-`
-
-type CreateColumnTypeParams struct {
-	Name        string
-	Description string
-	ExternalID  uuid.UUID
-}
-
-func (q *Queries) CreateColumnType(ctx context.Context, arg CreateColumnTypeParams) (DcColumnType, error) {
-	row := q.db.QueryRowContext(ctx, createColumnType, arg.Name, arg.Description, arg.ExternalID)
-	var i DcColumnType
-	err := row.Scan(
-		&i.ID,
-		&i.Name,
-		&i.Description,
-		&i.IsDeleted,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.UserID,
-	)
-	return i, err
-}
-
-const createDatabaseCalculation = `-- name: CreateDatabaseCalculation :one
-INSERT INTO dc.database_calculation
-(database_cat_id, calculation_type_id, created_at, updated_at, is_deleted, user_id)
-VALUES($1, $2, now(), now(), false, (SELECT u.id FROM dc."user" u WHERE u.external_id = $3))
-RETURNING id, database_cat_id, calculation_type_id, created_at, updated_at, is_deleted, user_id
-`
-
-type CreateDatabaseCalculationParams struct {
-	DatabaseCatID     int64
-	CalculationTypeID int64
-	ExternalID        uuid.UUID
-}
-
-func (q *Queries) CreateDatabaseCalculation(ctx context.Context, arg CreateDatabaseCalculationParams) (DcDatabaseCalculation, error) {
-	row := q.db.QueryRowContext(ctx, createDatabaseCalculation, arg.DatabaseCatID, arg.CalculationTypeID, arg.ExternalID)
-	var i DcDatabaseCalculation
-	err := row.Scan(
-		&i.ID,
-		&i.DatabaseCatID,
-		&i.CalculationTypeID,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.IsDeleted,
-		&i.UserID,
-	)
-	return i, err
-}
-
-const createDatabaseCat = `-- name: CreateDatabaseCat :one
-INSERT INTO dc.database_cat
-("name", host_id, database_type_id, description, is_deleted, created_at, updated_at, user_id)
-VALUES($1, $2, $3, $4, false, now(), now(), (SELECT u.id FROM dc."user" u WHERE u.external_id = $5))
-RETURNING id, name, host_id, database_type_id, description, is_deleted, created_at, updated_at, user_id
-`
-
-type CreateDatabaseCatParams struct {
-	Name           string
-	HostID         int64
-	DatabaseTypeID int64
-	Description    string
-	ExternalID     uuid.UUID
-}
-
-func (q *Queries) CreateDatabaseCat(ctx context.Context, arg CreateDatabaseCatParams) (DcDatabaseCat, error) {
-	row := q.db.QueryRowContext(ctx, createDatabaseCat,
-		arg.Name,
-		arg.HostID,
-		arg.DatabaseTypeID,
-		arg.Description,
-		arg.ExternalID,
-	)
-	var i DcDatabaseCat
-	err := row.Scan(
-		&i.ID,
-		&i.Name,
-		&i.HostID,
-		&i.DatabaseTypeID,
-		&i.Description,
-		&i.IsDeleted,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.UserID,
-	)
-	return i, err
-}
-
-const createDatabaseType = `-- name: CreateDatabaseType :one
-INSERT INTO dc.database_type
-("name", db_version, is_deleted, created_at, updated_at, user_id)
-VALUES($1, $2, false, now(), now(), (SELECT u.id FROM dc."user" u WHERE u.external_id = $3))
-RETURNING id, name, db_version, is_deleted, created_at, updated_at, user_id
-`
-
-type CreateDatabaseTypeParams struct {
-	Name       string
-	DbVersion  string
-	ExternalID uuid.UUID
-}
-
-func (q *Queries) CreateDatabaseType(ctx context.Context, arg CreateDatabaseTypeParams) (DcDatabaseType, error) {
-	row := q.db.QueryRowContext(ctx, createDatabaseType, arg.Name, arg.DbVersion, arg.ExternalID)
-	var i DcDatabaseType
-	err := row.Scan(
-		&i.ID,
-		&i.Name,
-		&i.DbVersion,
-		&i.IsDeleted,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.UserID,
-	)
-	return i, err
-}
-
-const createDomainCat = `-- name: CreateDomainCat :one
-INSERT INTO dc.domain_cat
-(domain_name, is_deleted, created_at, updated_at, user_id)
-VALUES($1, false, now(), now(), (SELECT u.id FROM dc."user" u WHERE u.external_id = $2))
-RETURNING id, domain_name, is_deleted, created_at, updated_at, user_id
-`
-
-type CreateDomainCatParams struct {
-	DomainName string
-	ExternalID uuid.UUID
-}
-
-func (q *Queries) CreateDomainCat(ctx context.Context, arg CreateDomainCatParams) (DcDomainCat, error) {
-	row := q.db.QueryRowContext(ctx, createDomainCat, arg.DomainName, arg.ExternalID)
-	var i DcDomainCat
-	err := row.Scan(
-		&i.ID,
-		&i.DomainName,
-		&i.IsDeleted,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.UserID,
-	)
-	return i, err
-}
-
-const createFollowingCalculation = `-- name: CreateFollowingCalculation :one
-INSERT INTO dc.following_calculation
-(column_cat_id, calculation_type_id, created_at, updated_at, is_deleted, user_id)
-VALUES($1, $2, now(), now(), false, (SELECT u.id FROM dc."user" u WHERE u.external_id = $3))
-RETURNING id, column_cat_id, calculation_type_id, created_at, updated_at, is_deleted, user_id
-`
-
-type CreateFollowingCalculationParams struct {
-	ColumnCatID       int64
-	CalculationTypeID int64
-	ExternalID        uuid.UUID
-}
-
-func (q *Queries) CreateFollowingCalculation(ctx context.Context, arg CreateFollowingCalculationParams) (DcFollowingCalculation, error) {
-	row := q.db.QueryRowContext(ctx, createFollowingCalculation, arg.ColumnCatID, arg.CalculationTypeID, arg.ExternalID)
-	var i DcFollowingCalculation
-	err := row.Scan(
-		&i.ID,
-		&i.ColumnCatID,
-		&i.CalculationTypeID,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.IsDeleted,
-		&i.UserID,
-	)
-	return i, err
-}
-
-const createGroupLevel = `-- name: CreateGroupLevel :one
-INSERT INTO dc.group_levels
-(column_id, parent_column_id, "level", description, created_at, updated_at, is_deleted, user_id)
-VALUES($1, $2, $3, $4, now(), now(), false, (SELECT u.id FROM dc."user" u WHERE u.external_id = $5))
-RETURNING id, column_id, parent_column_id, level, description, created_at, updated_at, is_deleted, user_id
-`
-
-type CreateGroupLevelParams struct {
-	ColumnID       int64
-	ParentColumnID int64
-	Level          int16
-	Description    string
-	ExternalID     uuid.UUID
-}
-
-func (q *Queries) CreateGroupLevel(ctx context.Context, arg CreateGroupLevelParams) (DcGroupLevel, error) {
-	row := q.db.QueryRowContext(ctx, createGroupLevel,
-		arg.ColumnID,
-		arg.ParentColumnID,
-		arg.Level,
-		arg.Description,
-		arg.ExternalID,
-	)
-	var i DcGroupLevel
-	err := row.Scan(
-		&i.ID,
-		&i.ColumnID,
-		&i.ParentColumnID,
-		&i.Level,
-		&i.Description,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.IsDeleted,
-		&i.UserID,
-	)
-	return i, err
-}
-
-const createHasToGroup = `-- name: CreateHasToGroup :one
-INSERT INTO dc.has_to_group
-(column_id_a, column_id_b, description, is_deleted, created_at, updated_at, user_id)
-VALUES($1, $2, $3, false, now(), now(), (SELECT u.id FROM dc."user" u WHERE u.external_id = $4))
-RETURNING id, column_id_a, column_id_b, description, is_deleted, created_at, updated_at, user_id
-`
-
-type CreateHasToGroupParams struct {
-	ColumnIDA   int64
-	ColumnIDB   int64
-	Description string
-	ExternalID  uuid.UUID
-}
-
-func (q *Queries) CreateHasToGroup(ctx context.Context, arg CreateHasToGroupParams) (DcHasToGroup, error) {
-	row := q.db.QueryRowContext(ctx, createHasToGroup,
-		arg.ColumnIDA,
-		arg.ColumnIDB,
-		arg.Description,
-		arg.ExternalID,
-	)
-	var i DcHasToGroup
-	err := row.Scan(
-		&i.ID,
-		&i.ColumnIDA,
-		&i.ColumnIDB,
-		&i.Description,
-		&i.IsDeleted,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.UserID,
-	)
-	return i, err
-}
-
 const createHost = `-- name: CreateHost :one
-INSERT INTO dc.host
-("name", description, host_env, port_env, username_env, password_env, is_deleted, created_at, updated_at, user_id)
-VALUES($1, $2, $3, $4, $5, $6, false, now(), now(), (SELECT u.id FROM dc."user" u WHERE u.external_id = $7))
+
+INSERT INTO dc.host (
+    name,
+    description,
+    host_env,
+    port_env,
+    username_env,
+    password_env,
+    is_deleted,
+    created_at,
+    updated_at,
+    user_id
+) VALUES (
+    $1,
+    $2,
+    $3,
+    $4,
+    $5,
+    $6,
+    false,
+    now(),
+    now(),
+    (SELECT u.id FROM dc."user" u WHERE u.external_id = $7)
+)
 RETURNING id, name, description, host_env, port_env, username_env, password_env, is_deleted, created_at, updated_at, user_id
 `
 
@@ -378,6 +222,9 @@ type CreateHostParams struct {
 	ExternalID  uuid.UUID
 }
 
+// =========================================================
+// dc.host
+// =========================================================
 func (q *Queries) CreateHost(ctx context.Context, arg CreateHostParams) (DcHost, error) {
 	row := q.db.QueryRowContext(ctx, createHost,
 		arg.Name,
@@ -405,282 +252,97 @@ func (q *Queries) CreateHost(ctx context.Context, arg CreateHostParams) (DcHost,
 	return i, err
 }
 
-const createSchemaCat = `-- name: CreateSchemaCat :one
-INSERT INTO dc.schema_cat
-(database_id, "name", is_deleted, created_at, updated_at, user_id)
-VALUES($1, $2, false, now(), now(), (SELECT u.id FROM dc."user" u WHERE u.external_id = $3))
-RETURNING id, database_id, name, is_deleted, created_at, updated_at, user_id
+const createUser = `-- name: CreateUser :one
+
+INSERT INTO dc."user" (
+    name,
+    created_at,
+    updated_at,
+    is_deleted,
+    external_id
+) VALUES (
+    $1,
+    now(),
+    now(),
+    false,
+    $2
+)
+RETURNING id, name, created_at, updated_at, is_deleted, external_id
 `
 
-type CreateSchemaCatParams struct {
-	DatabaseID int64
+type CreateUserParams struct {
 	Name       string
 	ExternalID uuid.UUID
 }
 
-func (q *Queries) CreateSchemaCat(ctx context.Context, arg CreateSchemaCatParams) (DcSchemaCat, error) {
-	row := q.db.QueryRowContext(ctx, createSchemaCat, arg.DatabaseID, arg.Name, arg.ExternalID)
-	var i DcSchemaCat
-	err := row.Scan(
-		&i.ID,
-		&i.DatabaseID,
-		&i.Name,
-		&i.IsDeleted,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.UserID,
-	)
-	return i, err
-}
-
-const createTableCat = `-- name: CreateTableCat :one
-INSERT INTO dc.table_cat
-("name", description, schema_id, table_type_id, domain_id, is_deleted, created_at, updated_at, is_get_dict, user_id)
-VALUES($1, $2, $3, $4, $5, false, now(), now(), $6, (SELECT u.id FROM dc."user" u WHERE u.external_id = $7))
-RETURNING id, name, description, schema_id, table_type_id, domain_id, is_deleted, created_at, updated_at, is_get_dict, user_id
-`
-
-type CreateTableCatParams struct {
-	Name        string
-	Description string
-	SchemaID    int64
-	TableTypeID int64
-	DomainID    int64
-	IsGetDict   bool
-	ExternalID  uuid.UUID
-}
-
-func (q *Queries) CreateTableCat(ctx context.Context, arg CreateTableCatParams) (DcTableCat, error) {
-	row := q.db.QueryRowContext(ctx, createTableCat,
-		arg.Name,
-		arg.Description,
-		arg.SchemaID,
-		arg.TableTypeID,
-		arg.DomainID,
-		arg.IsGetDict,
-		arg.ExternalID,
-	)
-	var i DcTableCat
+// =========================================================
+// dc."user"
+// =========================================================
+func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (DcUser, error) {
+	row := q.db.QueryRowContext(ctx, createUser, arg.Name, arg.ExternalID)
+	var i DcUser
 	err := row.Scan(
 		&i.ID,
 		&i.Name,
-		&i.Description,
-		&i.SchemaID,
-		&i.TableTypeID,
-		&i.DomainID,
-		&i.IsDeleted,
 		&i.CreatedAt,
 		&i.UpdatedAt,
-		&i.IsGetDict,
-		&i.UserID,
-	)
-	return i, err
-}
-
-const createTableType = `-- name: CreateTableType :one
-INSERT INTO dc.table_type
-("name", description, is_deleted, created_at, updated_at, user_id)
-VALUES($1, $2, false, now(), now(), (SELECT u.id FROM dc."user" u WHERE u.external_id = $3))
-RETURNING id, name, description, is_deleted, created_at, updated_at, user_id
-`
-
-type CreateTableTypeParams struct {
-	Name        string
-	Description string
-	ExternalID  uuid.UUID
-}
-
-func (q *Queries) CreateTableType(ctx context.Context, arg CreateTableTypeParams) (DcTableType, error) {
-	row := q.db.QueryRowContext(ctx, createTableType, arg.Name, arg.Description, arg.ExternalID)
-	var i DcTableType
-	err := row.Scan(
-		&i.ID,
-		&i.Name,
-		&i.Description,
 		&i.IsDeleted,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.UserID,
+		&i.ExternalID,
 	)
 	return i, err
 }
 
 const deleteAliasById = `-- name: DeleteAliasById :exec
 UPDATE dc.alias
-SET is_deleted=true, updated_at=now()
-WHERE id=$1
+SET updated_at = now(),
+    is_deleted = true,
+    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $1)
+WHERE alias.id = $2
 `
 
-func (q *Queries) DeleteAliasById(ctx context.Context, id int64) error {
-	_, err := q.db.ExecContext(ctx, deleteAliasById, id)
-	return err
+type DeleteAliasByIdParams struct {
+	ExternalID uuid.UUID
+	ID         int64
 }
 
-const deleteCalculationTypeById = `-- name: DeleteCalculationTypeById :exec
-UPDATE dc.calculation_type
-SET is_deleted=true, updated_at=now()
-WHERE id=$1
-`
-
-func (q *Queries) DeleteCalculationTypeById(ctx context.Context, id int64) error {
-	_, err := q.db.ExecContext(ctx, deleteCalculationTypeById, id)
-	return err
-}
-
-const deleteColumnCatById = `-- name: DeleteColumnCatById :exec
-UPDATE dc.column_cat
-SET is_deleted=true, updated_at=now()
-WHERE id=$1
-`
-
-func (q *Queries) DeleteColumnCatById(ctx context.Context, id int64) error {
-	_, err := q.db.ExecContext(ctx, deleteColumnCatById, id)
-	return err
-}
-
-const deleteColumnTypeById = `-- name: DeleteColumnTypeById :exec
-UPDATE dc.column_type
-SET is_deleted=true, updated_at=now()
-WHERE id=$1
-`
-
-func (q *Queries) DeleteColumnTypeById(ctx context.Context, id int64) error {
-	_, err := q.db.ExecContext(ctx, deleteColumnTypeById, id)
-	return err
-}
-
-const deleteDatabaseCalculationById = `-- name: DeleteDatabaseCalculationById :exec
-UPDATE dc.database_calculation
-SET is_deleted=true, updated_at=now()
-WHERE id=$1
-`
-
-func (q *Queries) DeleteDatabaseCalculationById(ctx context.Context, id int64) error {
-	_, err := q.db.ExecContext(ctx, deleteDatabaseCalculationById, id)
-	return err
-}
-
-const deleteDatabaseCatById = `-- name: DeleteDatabaseCatById :exec
-UPDATE dc.database_cat
-SET is_deleted=true, updated_at=now()
-WHERE id=$1
-`
-
-func (q *Queries) DeleteDatabaseCatById(ctx context.Context, id int64) error {
-	_, err := q.db.ExecContext(ctx, deleteDatabaseCatById, id)
-	return err
-}
-
-const deleteDatabaseTypeById = `-- name: DeleteDatabaseTypeById :exec
-UPDATE dc.database_type
-SET is_deleted=true, updated_at=now()
-WHERE id=$1
-`
-
-func (q *Queries) DeleteDatabaseTypeById(ctx context.Context, id int64) error {
-	_, err := q.db.ExecContext(ctx, deleteDatabaseTypeById, id)
-	return err
-}
-
-const deleteDomainCatById = `-- name: DeleteDomainCatById :exec
-UPDATE dc.domain_cat
-SET is_deleted=true, updated_at=now()
-WHERE id=$1
-`
-
-func (q *Queries) DeleteDomainCatById(ctx context.Context, id int64) error {
-	_, err := q.db.ExecContext(ctx, deleteDomainCatById, id)
-	return err
-}
-
-const deleteFollowingCalculationById = `-- name: DeleteFollowingCalculationById :exec
-UPDATE dc.following_calculation
-SET is_deleted=true, updated_at=now()
-WHERE id=$1
-`
-
-func (q *Queries) DeleteFollowingCalculationById(ctx context.Context, id int64) error {
-	_, err := q.db.ExecContext(ctx, deleteFollowingCalculationById, id)
-	return err
-}
-
-const deleteGroupLevelById = `-- name: DeleteGroupLevelById :exec
-UPDATE dc.group_levels
-SET is_deleted=true, updated_at=now()
-WHERE id=$1
-`
-
-func (q *Queries) DeleteGroupLevelById(ctx context.Context, id int64) error {
-	_, err := q.db.ExecContext(ctx, deleteGroupLevelById, id)
-	return err
-}
-
-const deleteHasToGroupById = `-- name: DeleteHasToGroupById :exec
-UPDATE dc.has_to_group
-SET is_deleted=true, updated_at=now()
-WHERE id=$1
-`
-
-func (q *Queries) DeleteHasToGroupById(ctx context.Context, id int64) error {
-	_, err := q.db.ExecContext(ctx, deleteHasToGroupById, id)
+func (q *Queries) DeleteAliasById(ctx context.Context, arg DeleteAliasByIdParams) error {
+	_, err := q.db.ExecContext(ctx, deleteAliasById, arg.ExternalID, arg.ID)
 	return err
 }
 
 const deleteHostById = `-- name: DeleteHostById :exec
 UPDATE dc.host
-SET is_deleted=true, updated_at=now()
-WHERE id=$1
+SET is_deleted = true,
+    updated_at = now(),
+    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $1)
+WHERE host.id = $2
 `
 
-func (q *Queries) DeleteHostById(ctx context.Context, id int64) error {
-	_, err := q.db.ExecContext(ctx, deleteHostById, id)
-	return err
+type DeleteHostByIdParams struct {
+	ExternalID uuid.UUID
+	ID         int64
 }
 
-const deleteSchemaCatById = `-- name: DeleteSchemaCatById :exec
-UPDATE dc.schema_cat
-SET is_deleted=true, updated_at=now()
-WHERE id=$1
-`
-
-func (q *Queries) DeleteSchemaCatById(ctx context.Context, id int64) error {
-	_, err := q.db.ExecContext(ctx, deleteSchemaCatById, id)
-	return err
-}
-
-const deleteTableCatById = `-- name: DeleteTableCatById :exec
-UPDATE dc.table_cat
-SET is_deleted=true, updated_at=now()
-WHERE id=$1
-`
-
-func (q *Queries) DeleteTableCatById(ctx context.Context, id int64) error {
-	_, err := q.db.ExecContext(ctx, deleteTableCatById, id)
-	return err
-}
-
-const deleteTableTypeById = `-- name: DeleteTableTypeById :exec
-UPDATE dc.table_type
-SET is_deleted=true, updated_at=now()
-WHERE id=$1
-`
-
-func (q *Queries) DeleteTableTypeById(ctx context.Context, id int64) error {
-	_, err := q.db.ExecContext(ctx, deleteTableTypeById, id)
+func (q *Queries) DeleteHostById(ctx context.Context, arg DeleteHostByIdParams) error {
+	_, err := q.db.ExecContext(ctx, deleteHostById, arg.ExternalID, arg.ID)
 	return err
 }
 
 const getAliasById = `-- name: GetAliasById :one
-
-SELECT id, name, description, created_at, updated_at, is_deleted, user_id
+SELECT
+    alias.id,
+    alias.name,
+    alias.description,
+    alias.created_at,
+    alias.updated_at,
+    alias.is_deleted,
+    alias.user_id
 FROM dc.alias
-WHERE id = $1
-AND is_deleted = false
+WHERE alias.id = $1
+  AND alias.is_deleted = false
+LIMIT 1
 `
 
-// =========================================================
-// dc.alias
-// =========================================================
 func (q *Queries) GetAliasById(ctx context.Context, id int64) (DcAlias, error) {
 	row := q.db.QueryRowContext(ctx, getAliasById, id)
 	var i DcAlias
@@ -697,14 +359,29 @@ func (q *Queries) GetAliasById(ctx context.Context, id int64) (DcAlias, error) {
 }
 
 const getAliases = `-- name: GetAliases :many
-SELECT id, name, description, created_at, updated_at, is_deleted, user_id
+SELECT
+    alias.id,
+    alias.name,
+    alias.description,
+    alias.created_at,
+    alias.updated_at,
+    alias.is_deleted,
+    alias.user_id
 FROM dc.alias
-WHERE is_deleted = false
-ORDER BY id
+WHERE alias.is_deleted = false
+ORDER BY CASE WHEN $1::text <> 'DESC' THEN alias.id END ASC,
+    CASE WHEN $1::text = 'DESC' THEN alias.id END DESC
+LIMIT $3::int OFFSET ($2::int-1)*$3::int
 `
 
-func (q *Queries) GetAliases(ctx context.Context) ([]DcAlias, error) {
-	rows, err := q.db.QueryContext(ctx, getAliases)
+type GetAliasesParams struct {
+	Order     string
+	Page      int32
+	PageLimit int32
+}
+
+func (q *Queries) GetAliases(ctx context.Context, arg GetAliasesParams) ([]DcAlias, error) {
+	rows, err := q.db.QueryContext(ctx, getAliases, arg.Order, arg.Page, arg.PageLimit)
 	if err != nil {
 		return nil, err
 	}
@@ -734,603 +411,30 @@ func (q *Queries) GetAliases(ctx context.Context) ([]DcAlias, error) {
 	return items, nil
 }
 
-const getCalculationTypeById = `-- name: GetCalculationTypeById :one
-
-SELECT id, name, description, created_at, updated_at, is_deleted
-FROM dc.calculation_type
-WHERE id = $1
-AND is_deleted = false
-`
-
-// =========================================================
-// dc.calculation_type
-// =========================================================
-func (q *Queries) GetCalculationTypeById(ctx context.Context, id int64) (DcCalculationType, error) {
-	row := q.db.QueryRowContext(ctx, getCalculationTypeById, id)
-	var i DcCalculationType
-	err := row.Scan(
-		&i.ID,
-		&i.Name,
-		&i.Description,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.IsDeleted,
-	)
-	return i, err
-}
-
-const getCalculationTypes = `-- name: GetCalculationTypes :many
-SELECT id, name, description, created_at, updated_at, is_deleted
-FROM dc.calculation_type
-WHERE is_deleted = false
-ORDER BY id
-`
-
-func (q *Queries) GetCalculationTypes(ctx context.Context) ([]DcCalculationType, error) {
-	rows, err := q.db.QueryContext(ctx, getCalculationTypes)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []DcCalculationType
-	for rows.Next() {
-		var i DcCalculationType
-		if err := rows.Scan(
-			&i.ID,
-			&i.Name,
-			&i.Description,
-			&i.CreatedAt,
-			&i.UpdatedAt,
-			&i.IsDeleted,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const getColumnCatById = `-- name: GetColumnCatById :one
-
-SELECT id, table_id, name, alias_id, column_type_id, description, calculation_type_id, is_deleted, show_in_ui, created_at, updated_at, user_id
-FROM dc.column_cat
-WHERE id = $1
-AND is_deleted = false
-`
-
-// =========================================================
-// dc.column_cat
-// =========================================================
-func (q *Queries) GetColumnCatById(ctx context.Context, id int64) (DcColumnCat, error) {
-	row := q.db.QueryRowContext(ctx, getColumnCatById, id)
-	var i DcColumnCat
-	err := row.Scan(
-		&i.ID,
-		&i.TableID,
-		&i.Name,
-		&i.AliasID,
-		&i.ColumnTypeID,
-		&i.Description,
-		&i.CalculationTypeID,
-		&i.IsDeleted,
-		&i.ShowInUi,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.UserID,
-	)
-	return i, err
-}
-
-const getColumnCats = `-- name: GetColumnCats :many
-SELECT id, table_id, name, alias_id, column_type_id, description, calculation_type_id, is_deleted, show_in_ui, created_at, updated_at, user_id
-FROM dc.column_cat
-WHERE is_deleted = false
-ORDER BY id
-`
-
-func (q *Queries) GetColumnCats(ctx context.Context) ([]DcColumnCat, error) {
-	rows, err := q.db.QueryContext(ctx, getColumnCats)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []DcColumnCat
-	for rows.Next() {
-		var i DcColumnCat
-		if err := rows.Scan(
-			&i.ID,
-			&i.TableID,
-			&i.Name,
-			&i.AliasID,
-			&i.ColumnTypeID,
-			&i.Description,
-			&i.CalculationTypeID,
-			&i.IsDeleted,
-			&i.ShowInUi,
-			&i.CreatedAt,
-			&i.UpdatedAt,
-			&i.UserID,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const getColumnCatsByAliasId = `-- name: GetColumnCatsByAliasId :many
-SELECT id, table_id, name, alias_id, column_type_id, description, calculation_type_id, is_deleted, show_in_ui, created_at, updated_at, user_id
-FROM dc.column_cat
-WHERE alias_id = $1
-AND is_deleted = false
-ORDER BY id
-`
-
-func (q *Queries) GetColumnCatsByAliasId(ctx context.Context, aliasID int64) ([]DcColumnCat, error) {
-	rows, err := q.db.QueryContext(ctx, getColumnCatsByAliasId, aliasID)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []DcColumnCat
-	for rows.Next() {
-		var i DcColumnCat
-		if err := rows.Scan(
-			&i.ID,
-			&i.TableID,
-			&i.Name,
-			&i.AliasID,
-			&i.ColumnTypeID,
-			&i.Description,
-			&i.CalculationTypeID,
-			&i.IsDeleted,
-			&i.ShowInUi,
-			&i.CreatedAt,
-			&i.UpdatedAt,
-			&i.UserID,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const getColumnCatsByTableId = `-- name: GetColumnCatsByTableId :many
-SELECT id, table_id, name, alias_id, column_type_id, description, calculation_type_id, is_deleted, show_in_ui, created_at, updated_at, user_id
-FROM dc.column_cat
-WHERE table_id = $1
-AND is_deleted = false
-ORDER BY id
-`
-
-func (q *Queries) GetColumnCatsByTableId(ctx context.Context, tableID int64) ([]DcColumnCat, error) {
-	rows, err := q.db.QueryContext(ctx, getColumnCatsByTableId, tableID)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []DcColumnCat
-	for rows.Next() {
-		var i DcColumnCat
-		if err := rows.Scan(
-			&i.ID,
-			&i.TableID,
-			&i.Name,
-			&i.AliasID,
-			&i.ColumnTypeID,
-			&i.Description,
-			&i.CalculationTypeID,
-			&i.IsDeleted,
-			&i.ShowInUi,
-			&i.CreatedAt,
-			&i.UpdatedAt,
-			&i.UserID,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const getColumnTypeById = `-- name: GetColumnTypeById :one
-
-SELECT id, name, description, is_deleted, created_at, updated_at, user_id
-FROM dc.column_type
-WHERE id = $1
-AND is_deleted = false
-`
-
-// =========================================================
-// dc.column_type
-// =========================================================
-func (q *Queries) GetColumnTypeById(ctx context.Context, id int64) (DcColumnType, error) {
-	row := q.db.QueryRowContext(ctx, getColumnTypeById, id)
-	var i DcColumnType
-	err := row.Scan(
-		&i.ID,
-		&i.Name,
-		&i.Description,
-		&i.IsDeleted,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.UserID,
-	)
-	return i, err
-}
-
-const getColumnTypes = `-- name: GetColumnTypes :many
-SELECT id, name, description, is_deleted, created_at, updated_at, user_id
-FROM dc.column_type
-WHERE is_deleted = false
-ORDER BY id
-`
-
-func (q *Queries) GetColumnTypes(ctx context.Context) ([]DcColumnType, error) {
-	rows, err := q.db.QueryContext(ctx, getColumnTypes)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []DcColumnType
-	for rows.Next() {
-		var i DcColumnType
-		if err := rows.Scan(
-			&i.ID,
-			&i.Name,
-			&i.Description,
-			&i.IsDeleted,
-			&i.CreatedAt,
-			&i.UpdatedAt,
-			&i.UserID,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const getDatabaseCalculationById = `-- name: GetDatabaseCalculationById :one
-
-SELECT id, database_cat_id, calculation_type_id, created_at, updated_at, is_deleted, user_id
-FROM dc.database_calculation
-WHERE id = $1
-AND is_deleted = false
-`
-
-// =========================================================
-// dc.database_calculation
-// =========================================================
-func (q *Queries) GetDatabaseCalculationById(ctx context.Context, id int64) (DcDatabaseCalculation, error) {
-	row := q.db.QueryRowContext(ctx, getDatabaseCalculationById, id)
-	var i DcDatabaseCalculation
-	err := row.Scan(
-		&i.ID,
-		&i.DatabaseCatID,
-		&i.CalculationTypeID,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.IsDeleted,
-		&i.UserID,
-	)
-	return i, err
-}
-
-const getDatabaseCalculations = `-- name: GetDatabaseCalculations :many
-SELECT id, database_cat_id, calculation_type_id, created_at, updated_at, is_deleted, user_id
-FROM dc.database_calculation
-WHERE is_deleted = false
-ORDER BY id
-`
-
-func (q *Queries) GetDatabaseCalculations(ctx context.Context) ([]DcDatabaseCalculation, error) {
-	rows, err := q.db.QueryContext(ctx, getDatabaseCalculations)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []DcDatabaseCalculation
-	for rows.Next() {
-		var i DcDatabaseCalculation
-		if err := rows.Scan(
-			&i.ID,
-			&i.DatabaseCatID,
-			&i.CalculationTypeID,
-			&i.CreatedAt,
-			&i.UpdatedAt,
-			&i.IsDeleted,
-			&i.UserID,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const getDatabaseCatById = `-- name: GetDatabaseCatById :one
-
-SELECT id, name, host_id, database_type_id, description, is_deleted, created_at, updated_at, user_id
-FROM dc.database_cat
-WHERE id = $1
-AND is_deleted = false
-`
-
-// =========================================================
-// dc.database_cat
-// =========================================================
-func (q *Queries) GetDatabaseCatById(ctx context.Context, id int64) (DcDatabaseCat, error) {
-	row := q.db.QueryRowContext(ctx, getDatabaseCatById, id)
-	var i DcDatabaseCat
-	err := row.Scan(
-		&i.ID,
-		&i.Name,
-		&i.HostID,
-		&i.DatabaseTypeID,
-		&i.Description,
-		&i.IsDeleted,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.UserID,
-	)
-	return i, err
-}
-
-const getDatabaseCats = `-- name: GetDatabaseCats :many
-SELECT id, name, host_id, database_type_id, description, is_deleted, created_at, updated_at, user_id
-FROM dc.database_cat
-WHERE is_deleted = false
-ORDER BY id
-`
-
-func (q *Queries) GetDatabaseCats(ctx context.Context) ([]DcDatabaseCat, error) {
-	rows, err := q.db.QueryContext(ctx, getDatabaseCats)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []DcDatabaseCat
-	for rows.Next() {
-		var i DcDatabaseCat
-		if err := rows.Scan(
-			&i.ID,
-			&i.Name,
-			&i.HostID,
-			&i.DatabaseTypeID,
-			&i.Description,
-			&i.IsDeleted,
-			&i.CreatedAt,
-			&i.UpdatedAt,
-			&i.UserID,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const getDatabaseCatsByDatabaseTypeId = `-- name: GetDatabaseCatsByDatabaseTypeId :many
-SELECT id, name, host_id, database_type_id, description, is_deleted, created_at, updated_at, user_id
-FROM dc.database_cat
-WHERE database_type_id = $1
-AND is_deleted = false
-ORDER BY id
-`
-
-func (q *Queries) GetDatabaseCatsByDatabaseTypeId(ctx context.Context, databaseTypeID int64) ([]DcDatabaseCat, error) {
-	rows, err := q.db.QueryContext(ctx, getDatabaseCatsByDatabaseTypeId, databaseTypeID)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []DcDatabaseCat
-	for rows.Next() {
-		var i DcDatabaseCat
-		if err := rows.Scan(
-			&i.ID,
-			&i.Name,
-			&i.HostID,
-			&i.DatabaseTypeID,
-			&i.Description,
-			&i.IsDeleted,
-			&i.CreatedAt,
-			&i.UpdatedAt,
-			&i.UserID,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const getDatabaseCatsByHostId = `-- name: GetDatabaseCatsByHostId :many
-SELECT id, name, host_id, database_type_id, description, is_deleted, created_at, updated_at, user_id
-FROM dc.database_cat
-WHERE host_id = $1
-AND is_deleted = false
-ORDER BY id
-`
-
-func (q *Queries) GetDatabaseCatsByHostId(ctx context.Context, hostID int64) ([]DcDatabaseCat, error) {
-	rows, err := q.db.QueryContext(ctx, getDatabaseCatsByHostId, hostID)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []DcDatabaseCat
-	for rows.Next() {
-		var i DcDatabaseCat
-		if err := rows.Scan(
-			&i.ID,
-			&i.Name,
-			&i.HostID,
-			&i.DatabaseTypeID,
-			&i.Description,
-			&i.IsDeleted,
-			&i.CreatedAt,
-			&i.UpdatedAt,
-			&i.UserID,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const getDatabaseTypeById = `-- name: GetDatabaseTypeById :one
-
-SELECT id, name, db_version, is_deleted, created_at, updated_at, user_id
-FROM dc.database_type
-WHERE id = $1
-AND is_deleted = false
-`
-
-// =========================================================
-// dc.database_type
-// =========================================================
-func (q *Queries) GetDatabaseTypeById(ctx context.Context, id int64) (DcDatabaseType, error) {
-	row := q.db.QueryRowContext(ctx, getDatabaseTypeById, id)
-	var i DcDatabaseType
-	err := row.Scan(
-		&i.ID,
-		&i.Name,
-		&i.DbVersion,
-		&i.IsDeleted,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.UserID,
-	)
-	return i, err
-}
-
-const getDatabaseTypes = `-- name: GetDatabaseTypes :many
-SELECT id, name, db_version, is_deleted, created_at, updated_at, user_id
-FROM dc.database_type
-WHERE is_deleted = false
-ORDER BY id
-`
-
-func (q *Queries) GetDatabaseTypes(ctx context.Context) ([]DcDatabaseType, error) {
-	rows, err := q.db.QueryContext(ctx, getDatabaseTypes)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []DcDatabaseType
-	for rows.Next() {
-		var i DcDatabaseType
-		if err := rows.Scan(
-			&i.ID,
-			&i.Name,
-			&i.DbVersion,
-			&i.IsDeleted,
-			&i.CreatedAt,
-			&i.UpdatedAt,
-			&i.UserID,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const getDeletedAliasById = `-- name: GetDeletedAliasById :one
-SELECT id, name, description, created_at, updated_at, is_deleted, user_id
+const getAliasesDeleted = `-- name: GetAliasesDeleted :many
+SELECT
+    alias.id,
+    alias.name,
+    alias.description,
+    alias.created_at,
+    alias.updated_at,
+    alias.is_deleted,
+    alias.user_id
 FROM dc.alias
-WHERE id = $1
-AND is_deleted = true
+WHERE alias.is_deleted = true
+ORDER BY CASE WHEN $1::text <> 'DESC' THEN alias.id END ASC,
+    CASE WHEN $1::text = 'DESC' THEN alias.id END DESC
+LIMIT $3::int OFFSET ($2::int-1)*$3::int
 `
 
-func (q *Queries) GetDeletedAliasById(ctx context.Context, id int64) (DcAlias, error) {
-	row := q.db.QueryRowContext(ctx, getDeletedAliasById, id)
-	var i DcAlias
-	err := row.Scan(
-		&i.ID,
-		&i.Name,
-		&i.Description,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.IsDeleted,
-		&i.UserID,
-	)
-	return i, err
+type GetAliasesDeletedParams struct {
+	Order     string
+	Page      int32
+	PageLimit int32
 }
 
-const getDeletedAliases = `-- name: GetDeletedAliases :many
-SELECT id, name, description, created_at, updated_at, is_deleted, user_id
-FROM dc.alias
-WHERE is_deleted = true
-ORDER BY id
-`
-
-func (q *Queries) GetDeletedAliases(ctx context.Context) ([]DcAlias, error) {
-	rows, err := q.db.QueryContext(ctx, getDeletedAliases)
+func (q *Queries) GetAliasesDeleted(ctx context.Context, arg GetAliasesDeletedParams) ([]DcAlias, error) {
+	rows, err := q.db.QueryContext(ctx, getAliasesDeleted, arg.Order, arg.Page, arg.PageLimit)
 	if err != nil {
 		return nil, err
 	}
@@ -1345,1138 +449,6 @@ func (q *Queries) GetDeletedAliases(ctx context.Context) ([]DcAlias, error) {
 			&i.CreatedAt,
 			&i.UpdatedAt,
 			&i.IsDeleted,
-			&i.UserID,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const getDeletedCalculationTypeById = `-- name: GetDeletedCalculationTypeById :one
-SELECT id, name, description, created_at, updated_at, is_deleted
-FROM dc.calculation_type
-WHERE id = $1
-AND is_deleted = true
-`
-
-func (q *Queries) GetDeletedCalculationTypeById(ctx context.Context, id int64) (DcCalculationType, error) {
-	row := q.db.QueryRowContext(ctx, getDeletedCalculationTypeById, id)
-	var i DcCalculationType
-	err := row.Scan(
-		&i.ID,
-		&i.Name,
-		&i.Description,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.IsDeleted,
-	)
-	return i, err
-}
-
-const getDeletedCalculationTypes = `-- name: GetDeletedCalculationTypes :many
-SELECT id, name, description, created_at, updated_at, is_deleted
-FROM dc.calculation_type
-WHERE is_deleted = true
-ORDER BY id
-`
-
-func (q *Queries) GetDeletedCalculationTypes(ctx context.Context) ([]DcCalculationType, error) {
-	rows, err := q.db.QueryContext(ctx, getDeletedCalculationTypes)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []DcCalculationType
-	for rows.Next() {
-		var i DcCalculationType
-		if err := rows.Scan(
-			&i.ID,
-			&i.Name,
-			&i.Description,
-			&i.CreatedAt,
-			&i.UpdatedAt,
-			&i.IsDeleted,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const getDeletedColumnCatById = `-- name: GetDeletedColumnCatById :one
-SELECT id, table_id, name, alias_id, column_type_id, description, calculation_type_id, is_deleted, show_in_ui, created_at, updated_at, user_id
-FROM dc.column_cat
-WHERE id = $1
-AND is_deleted = true
-`
-
-func (q *Queries) GetDeletedColumnCatById(ctx context.Context, id int64) (DcColumnCat, error) {
-	row := q.db.QueryRowContext(ctx, getDeletedColumnCatById, id)
-	var i DcColumnCat
-	err := row.Scan(
-		&i.ID,
-		&i.TableID,
-		&i.Name,
-		&i.AliasID,
-		&i.ColumnTypeID,
-		&i.Description,
-		&i.CalculationTypeID,
-		&i.IsDeleted,
-		&i.ShowInUi,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.UserID,
-	)
-	return i, err
-}
-
-const getDeletedColumnCats = `-- name: GetDeletedColumnCats :many
-SELECT id, table_id, name, alias_id, column_type_id, description, calculation_type_id, is_deleted, show_in_ui, created_at, updated_at, user_id
-FROM dc.column_cat
-WHERE is_deleted = true
-ORDER BY id
-`
-
-func (q *Queries) GetDeletedColumnCats(ctx context.Context) ([]DcColumnCat, error) {
-	rows, err := q.db.QueryContext(ctx, getDeletedColumnCats)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []DcColumnCat
-	for rows.Next() {
-		var i DcColumnCat
-		if err := rows.Scan(
-			&i.ID,
-			&i.TableID,
-			&i.Name,
-			&i.AliasID,
-			&i.ColumnTypeID,
-			&i.Description,
-			&i.CalculationTypeID,
-			&i.IsDeleted,
-			&i.ShowInUi,
-			&i.CreatedAt,
-			&i.UpdatedAt,
-			&i.UserID,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const getDeletedColumnTypeById = `-- name: GetDeletedColumnTypeById :one
-SELECT id, name, description, is_deleted, created_at, updated_at, user_id
-FROM dc.column_type
-WHERE id = $1
-AND is_deleted = true
-`
-
-func (q *Queries) GetDeletedColumnTypeById(ctx context.Context, id int64) (DcColumnType, error) {
-	row := q.db.QueryRowContext(ctx, getDeletedColumnTypeById, id)
-	var i DcColumnType
-	err := row.Scan(
-		&i.ID,
-		&i.Name,
-		&i.Description,
-		&i.IsDeleted,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.UserID,
-	)
-	return i, err
-}
-
-const getDeletedColumnTypes = `-- name: GetDeletedColumnTypes :many
-SELECT id, name, description, is_deleted, created_at, updated_at, user_id
-FROM dc.column_type
-WHERE is_deleted = true
-ORDER BY id
-`
-
-func (q *Queries) GetDeletedColumnTypes(ctx context.Context) ([]DcColumnType, error) {
-	rows, err := q.db.QueryContext(ctx, getDeletedColumnTypes)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []DcColumnType
-	for rows.Next() {
-		var i DcColumnType
-		if err := rows.Scan(
-			&i.ID,
-			&i.Name,
-			&i.Description,
-			&i.IsDeleted,
-			&i.CreatedAt,
-			&i.UpdatedAt,
-			&i.UserID,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const getDeletedDatabaseCalculationById = `-- name: GetDeletedDatabaseCalculationById :one
-SELECT id, database_cat_id, calculation_type_id, created_at, updated_at, is_deleted, user_id
-FROM dc.database_calculation
-WHERE id = $1
-AND is_deleted = true
-`
-
-func (q *Queries) GetDeletedDatabaseCalculationById(ctx context.Context, id int64) (DcDatabaseCalculation, error) {
-	row := q.db.QueryRowContext(ctx, getDeletedDatabaseCalculationById, id)
-	var i DcDatabaseCalculation
-	err := row.Scan(
-		&i.ID,
-		&i.DatabaseCatID,
-		&i.CalculationTypeID,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.IsDeleted,
-		&i.UserID,
-	)
-	return i, err
-}
-
-const getDeletedDatabaseCalculations = `-- name: GetDeletedDatabaseCalculations :many
-SELECT id, database_cat_id, calculation_type_id, created_at, updated_at, is_deleted, user_id
-FROM dc.database_calculation
-WHERE is_deleted = true
-ORDER BY id
-`
-
-func (q *Queries) GetDeletedDatabaseCalculations(ctx context.Context) ([]DcDatabaseCalculation, error) {
-	rows, err := q.db.QueryContext(ctx, getDeletedDatabaseCalculations)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []DcDatabaseCalculation
-	for rows.Next() {
-		var i DcDatabaseCalculation
-		if err := rows.Scan(
-			&i.ID,
-			&i.DatabaseCatID,
-			&i.CalculationTypeID,
-			&i.CreatedAt,
-			&i.UpdatedAt,
-			&i.IsDeleted,
-			&i.UserID,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const getDeletedDatabaseCatById = `-- name: GetDeletedDatabaseCatById :one
-SELECT id, name, host_id, database_type_id, description, is_deleted, created_at, updated_at, user_id
-FROM dc.database_cat
-WHERE id = $1
-AND is_deleted = true
-`
-
-func (q *Queries) GetDeletedDatabaseCatById(ctx context.Context, id int64) (DcDatabaseCat, error) {
-	row := q.db.QueryRowContext(ctx, getDeletedDatabaseCatById, id)
-	var i DcDatabaseCat
-	err := row.Scan(
-		&i.ID,
-		&i.Name,
-		&i.HostID,
-		&i.DatabaseTypeID,
-		&i.Description,
-		&i.IsDeleted,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.UserID,
-	)
-	return i, err
-}
-
-const getDeletedDatabaseCats = `-- name: GetDeletedDatabaseCats :many
-SELECT id, name, host_id, database_type_id, description, is_deleted, created_at, updated_at, user_id
-FROM dc.database_cat
-WHERE is_deleted = true
-ORDER BY id
-`
-
-func (q *Queries) GetDeletedDatabaseCats(ctx context.Context) ([]DcDatabaseCat, error) {
-	rows, err := q.db.QueryContext(ctx, getDeletedDatabaseCats)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []DcDatabaseCat
-	for rows.Next() {
-		var i DcDatabaseCat
-		if err := rows.Scan(
-			&i.ID,
-			&i.Name,
-			&i.HostID,
-			&i.DatabaseTypeID,
-			&i.Description,
-			&i.IsDeleted,
-			&i.CreatedAt,
-			&i.UpdatedAt,
-			&i.UserID,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const getDeletedDatabaseTypeById = `-- name: GetDeletedDatabaseTypeById :one
-SELECT id, name, db_version, is_deleted, created_at, updated_at, user_id
-FROM dc.database_type
-WHERE id = $1
-AND is_deleted = true
-`
-
-func (q *Queries) GetDeletedDatabaseTypeById(ctx context.Context, id int64) (DcDatabaseType, error) {
-	row := q.db.QueryRowContext(ctx, getDeletedDatabaseTypeById, id)
-	var i DcDatabaseType
-	err := row.Scan(
-		&i.ID,
-		&i.Name,
-		&i.DbVersion,
-		&i.IsDeleted,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.UserID,
-	)
-	return i, err
-}
-
-const getDeletedDatabaseTypes = `-- name: GetDeletedDatabaseTypes :many
-SELECT id, name, db_version, is_deleted, created_at, updated_at, user_id
-FROM dc.database_type
-WHERE is_deleted = true
-ORDER BY id
-`
-
-func (q *Queries) GetDeletedDatabaseTypes(ctx context.Context) ([]DcDatabaseType, error) {
-	rows, err := q.db.QueryContext(ctx, getDeletedDatabaseTypes)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []DcDatabaseType
-	for rows.Next() {
-		var i DcDatabaseType
-		if err := rows.Scan(
-			&i.ID,
-			&i.Name,
-			&i.DbVersion,
-			&i.IsDeleted,
-			&i.CreatedAt,
-			&i.UpdatedAt,
-			&i.UserID,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const getDeletedDomainCatById = `-- name: GetDeletedDomainCatById :one
-SELECT id, domain_name, is_deleted, created_at, updated_at, user_id
-FROM dc.domain_cat
-WHERE id = $1
-AND is_deleted = true
-`
-
-func (q *Queries) GetDeletedDomainCatById(ctx context.Context, id int64) (DcDomainCat, error) {
-	row := q.db.QueryRowContext(ctx, getDeletedDomainCatById, id)
-	var i DcDomainCat
-	err := row.Scan(
-		&i.ID,
-		&i.DomainName,
-		&i.IsDeleted,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.UserID,
-	)
-	return i, err
-}
-
-const getDeletedDomainCats = `-- name: GetDeletedDomainCats :many
-SELECT id, domain_name, is_deleted, created_at, updated_at, user_id
-FROM dc.domain_cat
-WHERE is_deleted = true
-ORDER BY id
-`
-
-func (q *Queries) GetDeletedDomainCats(ctx context.Context) ([]DcDomainCat, error) {
-	rows, err := q.db.QueryContext(ctx, getDeletedDomainCats)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []DcDomainCat
-	for rows.Next() {
-		var i DcDomainCat
-		if err := rows.Scan(
-			&i.ID,
-			&i.DomainName,
-			&i.IsDeleted,
-			&i.CreatedAt,
-			&i.UpdatedAt,
-			&i.UserID,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const getDeletedFollowingCalculationById = `-- name: GetDeletedFollowingCalculationById :one
-SELECT id, column_cat_id, calculation_type_id, created_at, updated_at, is_deleted, user_id
-FROM dc.following_calculation
-WHERE id = $1
-AND is_deleted = true
-`
-
-func (q *Queries) GetDeletedFollowingCalculationById(ctx context.Context, id int64) (DcFollowingCalculation, error) {
-	row := q.db.QueryRowContext(ctx, getDeletedFollowingCalculationById, id)
-	var i DcFollowingCalculation
-	err := row.Scan(
-		&i.ID,
-		&i.ColumnCatID,
-		&i.CalculationTypeID,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.IsDeleted,
-		&i.UserID,
-	)
-	return i, err
-}
-
-const getDeletedFollowingCalculations = `-- name: GetDeletedFollowingCalculations :many
-SELECT id, column_cat_id, calculation_type_id, created_at, updated_at, is_deleted, user_id
-FROM dc.following_calculation
-WHERE is_deleted = true
-ORDER BY id
-`
-
-func (q *Queries) GetDeletedFollowingCalculations(ctx context.Context) ([]DcFollowingCalculation, error) {
-	rows, err := q.db.QueryContext(ctx, getDeletedFollowingCalculations)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []DcFollowingCalculation
-	for rows.Next() {
-		var i DcFollowingCalculation
-		if err := rows.Scan(
-			&i.ID,
-			&i.ColumnCatID,
-			&i.CalculationTypeID,
-			&i.CreatedAt,
-			&i.UpdatedAt,
-			&i.IsDeleted,
-			&i.UserID,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const getDeletedGroupLevelById = `-- name: GetDeletedGroupLevelById :one
-SELECT id, column_id, parent_column_id, level, description, created_at, updated_at, is_deleted, user_id
-FROM dc.group_levels
-WHERE id = $1
-AND is_deleted = true
-`
-
-func (q *Queries) GetDeletedGroupLevelById(ctx context.Context, id int64) (DcGroupLevel, error) {
-	row := q.db.QueryRowContext(ctx, getDeletedGroupLevelById, id)
-	var i DcGroupLevel
-	err := row.Scan(
-		&i.ID,
-		&i.ColumnID,
-		&i.ParentColumnID,
-		&i.Level,
-		&i.Description,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.IsDeleted,
-		&i.UserID,
-	)
-	return i, err
-}
-
-const getDeletedGroupLevels = `-- name: GetDeletedGroupLevels :many
-SELECT id, column_id, parent_column_id, level, description, created_at, updated_at, is_deleted, user_id
-FROM dc.group_levels
-WHERE is_deleted = true
-ORDER BY id
-`
-
-func (q *Queries) GetDeletedGroupLevels(ctx context.Context) ([]DcGroupLevel, error) {
-	rows, err := q.db.QueryContext(ctx, getDeletedGroupLevels)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []DcGroupLevel
-	for rows.Next() {
-		var i DcGroupLevel
-		if err := rows.Scan(
-			&i.ID,
-			&i.ColumnID,
-			&i.ParentColumnID,
-			&i.Level,
-			&i.Description,
-			&i.CreatedAt,
-			&i.UpdatedAt,
-			&i.IsDeleted,
-			&i.UserID,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const getDeletedHasToGroupById = `-- name: GetDeletedHasToGroupById :one
-SELECT id, column_id_a, column_id_b, description, is_deleted, created_at, updated_at, user_id
-FROM dc.has_to_group
-WHERE id = $1
-AND is_deleted = true
-`
-
-func (q *Queries) GetDeletedHasToGroupById(ctx context.Context, id int64) (DcHasToGroup, error) {
-	row := q.db.QueryRowContext(ctx, getDeletedHasToGroupById, id)
-	var i DcHasToGroup
-	err := row.Scan(
-		&i.ID,
-		&i.ColumnIDA,
-		&i.ColumnIDB,
-		&i.Description,
-		&i.IsDeleted,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.UserID,
-	)
-	return i, err
-}
-
-const getDeletedHasToGroups = `-- name: GetDeletedHasToGroups :many
-SELECT id, column_id_a, column_id_b, description, is_deleted, created_at, updated_at, user_id
-FROM dc.has_to_group
-WHERE is_deleted = true
-ORDER BY id
-`
-
-func (q *Queries) GetDeletedHasToGroups(ctx context.Context) ([]DcHasToGroup, error) {
-	rows, err := q.db.QueryContext(ctx, getDeletedHasToGroups)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []DcHasToGroup
-	for rows.Next() {
-		var i DcHasToGroup
-		if err := rows.Scan(
-			&i.ID,
-			&i.ColumnIDA,
-			&i.ColumnIDB,
-			&i.Description,
-			&i.IsDeleted,
-			&i.CreatedAt,
-			&i.UpdatedAt,
-			&i.UserID,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const getDeletedHostById = `-- name: GetDeletedHostById :one
-SELECT id, name, description, host_env, port_env, username_env, password_env, is_deleted, created_at, updated_at, user_id
-FROM dc.host
-WHERE id = $1
-AND is_deleted = true
-`
-
-func (q *Queries) GetDeletedHostById(ctx context.Context, id int64) (DcHost, error) {
-	row := q.db.QueryRowContext(ctx, getDeletedHostById, id)
-	var i DcHost
-	err := row.Scan(
-		&i.ID,
-		&i.Name,
-		&i.Description,
-		&i.HostEnv,
-		&i.PortEnv,
-		&i.UsernameEnv,
-		&i.PasswordEnv,
-		&i.IsDeleted,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.UserID,
-	)
-	return i, err
-}
-
-const getDeletedHosts = `-- name: GetDeletedHosts :many
-SELECT id, name, description, host_env, port_env, username_env, password_env, is_deleted, created_at, updated_at, user_id
-FROM dc.host
-WHERE is_deleted = true
-ORDER BY id
-`
-
-func (q *Queries) GetDeletedHosts(ctx context.Context) ([]DcHost, error) {
-	rows, err := q.db.QueryContext(ctx, getDeletedHosts)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []DcHost
-	for rows.Next() {
-		var i DcHost
-		if err := rows.Scan(
-			&i.ID,
-			&i.Name,
-			&i.Description,
-			&i.HostEnv,
-			&i.PortEnv,
-			&i.UsernameEnv,
-			&i.PasswordEnv,
-			&i.IsDeleted,
-			&i.CreatedAt,
-			&i.UpdatedAt,
-			&i.UserID,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const getDeletedSchemaCatById = `-- name: GetDeletedSchemaCatById :one
-SELECT id, database_id, name, is_deleted, created_at, updated_at, user_id
-FROM dc.schema_cat
-WHERE id = $1
-AND is_deleted = true
-`
-
-func (q *Queries) GetDeletedSchemaCatById(ctx context.Context, id int64) (DcSchemaCat, error) {
-	row := q.db.QueryRowContext(ctx, getDeletedSchemaCatById, id)
-	var i DcSchemaCat
-	err := row.Scan(
-		&i.ID,
-		&i.DatabaseID,
-		&i.Name,
-		&i.IsDeleted,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.UserID,
-	)
-	return i, err
-}
-
-const getDeletedSchemaCats = `-- name: GetDeletedSchemaCats :many
-SELECT id, database_id, name, is_deleted, created_at, updated_at, user_id
-FROM dc.schema_cat
-WHERE is_deleted = true
-ORDER BY id
-`
-
-func (q *Queries) GetDeletedSchemaCats(ctx context.Context) ([]DcSchemaCat, error) {
-	rows, err := q.db.QueryContext(ctx, getDeletedSchemaCats)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []DcSchemaCat
-	for rows.Next() {
-		var i DcSchemaCat
-		if err := rows.Scan(
-			&i.ID,
-			&i.DatabaseID,
-			&i.Name,
-			&i.IsDeleted,
-			&i.CreatedAt,
-			&i.UpdatedAt,
-			&i.UserID,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const getDeletedTableCatById = `-- name: GetDeletedTableCatById :one
-SELECT id, name, description, schema_id, table_type_id, domain_id, is_deleted, created_at, updated_at, is_get_dict, user_id
-FROM dc.table_cat
-WHERE id = $1
-AND is_deleted = true
-`
-
-func (q *Queries) GetDeletedTableCatById(ctx context.Context, id int64) (DcTableCat, error) {
-	row := q.db.QueryRowContext(ctx, getDeletedTableCatById, id)
-	var i DcTableCat
-	err := row.Scan(
-		&i.ID,
-		&i.Name,
-		&i.Description,
-		&i.SchemaID,
-		&i.TableTypeID,
-		&i.DomainID,
-		&i.IsDeleted,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.IsGetDict,
-		&i.UserID,
-	)
-	return i, err
-}
-
-const getDeletedTableCats = `-- name: GetDeletedTableCats :many
-SELECT id, name, description, schema_id, table_type_id, domain_id, is_deleted, created_at, updated_at, is_get_dict, user_id
-FROM dc.table_cat
-WHERE is_deleted = true
-ORDER BY id
-`
-
-func (q *Queries) GetDeletedTableCats(ctx context.Context) ([]DcTableCat, error) {
-	rows, err := q.db.QueryContext(ctx, getDeletedTableCats)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []DcTableCat
-	for rows.Next() {
-		var i DcTableCat
-		if err := rows.Scan(
-			&i.ID,
-			&i.Name,
-			&i.Description,
-			&i.SchemaID,
-			&i.TableTypeID,
-			&i.DomainID,
-			&i.IsDeleted,
-			&i.CreatedAt,
-			&i.UpdatedAt,
-			&i.IsGetDict,
-			&i.UserID,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const getDeletedTableTypeById = `-- name: GetDeletedTableTypeById :one
-SELECT id, name, description, is_deleted, created_at, updated_at, user_id
-FROM dc.table_type
-WHERE id = $1
-AND is_deleted = true
-`
-
-func (q *Queries) GetDeletedTableTypeById(ctx context.Context, id int64) (DcTableType, error) {
-	row := q.db.QueryRowContext(ctx, getDeletedTableTypeById, id)
-	var i DcTableType
-	err := row.Scan(
-		&i.ID,
-		&i.Name,
-		&i.Description,
-		&i.IsDeleted,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.UserID,
-	)
-	return i, err
-}
-
-const getDeletedTableTypes = `-- name: GetDeletedTableTypes :many
-SELECT id, name, description, is_deleted, created_at, updated_at, user_id
-FROM dc.table_type
-WHERE is_deleted = true
-ORDER BY id
-`
-
-func (q *Queries) GetDeletedTableTypes(ctx context.Context) ([]DcTableType, error) {
-	rows, err := q.db.QueryContext(ctx, getDeletedTableTypes)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []DcTableType
-	for rows.Next() {
-		var i DcTableType
-		if err := rows.Scan(
-			&i.ID,
-			&i.Name,
-			&i.Description,
-			&i.IsDeleted,
-			&i.CreatedAt,
-			&i.UpdatedAt,
-			&i.UserID,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const getDomainCatById = `-- name: GetDomainCatById :one
-
-SELECT id, domain_name, is_deleted, created_at, updated_at, user_id
-FROM dc.domain_cat
-WHERE id = $1
-AND is_deleted = false
-`
-
-// =========================================================
-// dc.domain_cat
-// =========================================================
-func (q *Queries) GetDomainCatById(ctx context.Context, id int64) (DcDomainCat, error) {
-	row := q.db.QueryRowContext(ctx, getDomainCatById, id)
-	var i DcDomainCat
-	err := row.Scan(
-		&i.ID,
-		&i.DomainName,
-		&i.IsDeleted,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.UserID,
-	)
-	return i, err
-}
-
-const getDomainCats = `-- name: GetDomainCats :many
-SELECT id, domain_name, is_deleted, created_at, updated_at, user_id
-FROM dc.domain_cat
-WHERE is_deleted = false
-ORDER BY id
-`
-
-func (q *Queries) GetDomainCats(ctx context.Context) ([]DcDomainCat, error) {
-	rows, err := q.db.QueryContext(ctx, getDomainCats)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []DcDomainCat
-	for rows.Next() {
-		var i DcDomainCat
-		if err := rows.Scan(
-			&i.ID,
-			&i.DomainName,
-			&i.IsDeleted,
-			&i.CreatedAt,
-			&i.UpdatedAt,
-			&i.UserID,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const getFollowingCalculationById = `-- name: GetFollowingCalculationById :one
-
-SELECT id, column_cat_id, calculation_type_id, created_at, updated_at, is_deleted, user_id
-FROM dc.following_calculation
-WHERE id = $1
-AND is_deleted = false
-`
-
-// =========================================================
-// dc.following_calculation
-// =========================================================
-func (q *Queries) GetFollowingCalculationById(ctx context.Context, id int64) (DcFollowingCalculation, error) {
-	row := q.db.QueryRowContext(ctx, getFollowingCalculationById, id)
-	var i DcFollowingCalculation
-	err := row.Scan(
-		&i.ID,
-		&i.ColumnCatID,
-		&i.CalculationTypeID,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.IsDeleted,
-		&i.UserID,
-	)
-	return i, err
-}
-
-const getFollowingCalculations = `-- name: GetFollowingCalculations :many
-SELECT id, column_cat_id, calculation_type_id, created_at, updated_at, is_deleted, user_id
-FROM dc.following_calculation
-WHERE is_deleted = false
-ORDER BY id
-`
-
-func (q *Queries) GetFollowingCalculations(ctx context.Context) ([]DcFollowingCalculation, error) {
-	rows, err := q.db.QueryContext(ctx, getFollowingCalculations)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []DcFollowingCalculation
-	for rows.Next() {
-		var i DcFollowingCalculation
-		if err := rows.Scan(
-			&i.ID,
-			&i.ColumnCatID,
-			&i.CalculationTypeID,
-			&i.CreatedAt,
-			&i.UpdatedAt,
-			&i.IsDeleted,
-			&i.UserID,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const getGroupLevelById = `-- name: GetGroupLevelById :one
-
-SELECT id, column_id, parent_column_id, level, description, created_at, updated_at, is_deleted, user_id
-FROM dc.group_levels
-WHERE id = $1
-AND is_deleted = false
-`
-
-// =========================================================
-// dc.group_levels
-// =========================================================
-func (q *Queries) GetGroupLevelById(ctx context.Context, id int64) (DcGroupLevel, error) {
-	row := q.db.QueryRowContext(ctx, getGroupLevelById, id)
-	var i DcGroupLevel
-	err := row.Scan(
-		&i.ID,
-		&i.ColumnID,
-		&i.ParentColumnID,
-		&i.Level,
-		&i.Description,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.IsDeleted,
-		&i.UserID,
-	)
-	return i, err
-}
-
-const getGroupLevels = `-- name: GetGroupLevels :many
-SELECT id, column_id, parent_column_id, level, description, created_at, updated_at, is_deleted, user_id
-FROM dc.group_levels
-WHERE is_deleted = false
-ORDER BY id
-`
-
-func (q *Queries) GetGroupLevels(ctx context.Context) ([]DcGroupLevel, error) {
-	rows, err := q.db.QueryContext(ctx, getGroupLevels)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []DcGroupLevel
-	for rows.Next() {
-		var i DcGroupLevel
-		if err := rows.Scan(
-			&i.ID,
-			&i.ColumnID,
-			&i.ParentColumnID,
-			&i.Level,
-			&i.Description,
-			&i.CreatedAt,
-			&i.UpdatedAt,
-			&i.IsDeleted,
-			&i.UserID,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const getHasToGroupById = `-- name: GetHasToGroupById :one
-
-SELECT id, column_id_a, column_id_b, description, is_deleted, created_at, updated_at, user_id
-FROM dc.has_to_group
-WHERE id = $1
-AND is_deleted = false
-`
-
-// =========================================================
-// dc.has_to_group
-// =========================================================
-func (q *Queries) GetHasToGroupById(ctx context.Context, id int64) (DcHasToGroup, error) {
-	row := q.db.QueryRowContext(ctx, getHasToGroupById, id)
-	var i DcHasToGroup
-	err := row.Scan(
-		&i.ID,
-		&i.ColumnIDA,
-		&i.ColumnIDB,
-		&i.Description,
-		&i.IsDeleted,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.UserID,
-	)
-	return i, err
-}
-
-const getHasToGroups = `-- name: GetHasToGroups :many
-SELECT id, column_id_a, column_id_b, description, is_deleted, created_at, updated_at, user_id
-FROM dc.has_to_group
-WHERE is_deleted = false
-ORDER BY id
-`
-
-func (q *Queries) GetHasToGroups(ctx context.Context) ([]DcHasToGroup, error) {
-	rows, err := q.db.QueryContext(ctx, getHasToGroups)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []DcHasToGroup
-	for rows.Next() {
-		var i DcHasToGroup
-		if err := rows.Scan(
-			&i.ID,
-			&i.ColumnIDA,
-			&i.ColumnIDB,
-			&i.Description,
-			&i.IsDeleted,
-			&i.CreatedAt,
-			&i.UpdatedAt,
 			&i.UserID,
 		); err != nil {
 			return nil, err
@@ -2493,16 +465,23 @@ func (q *Queries) GetHasToGroups(ctx context.Context) ([]DcHasToGroup, error) {
 }
 
 const getHostById = `-- name: GetHostById :one
-
-SELECT id, name, description, host_env, port_env, username_env, password_env, is_deleted, created_at, updated_at, user_id
+SELECT
+    host.id,
+    host.name,
+    host.description,
+    host.host_env,
+    host.port_env,
+    host.username_env,
+    host.password_env,
+    host.is_deleted,
+    host.created_at,
+    host.updated_at,
+    host.user_id
 FROM dc.host
-WHERE id = $1
-AND is_deleted = false
+WHERE host.id = $1
+LIMIT 1
 `
 
-// =========================================================
-// dc.host
-// =========================================================
 func (q *Queries) GetHostById(ctx context.Context, id int64) (DcHost, error) {
 	row := q.db.QueryRowContext(ctx, getHostById, id)
 	var i DcHost
@@ -2522,15 +501,34 @@ func (q *Queries) GetHostById(ctx context.Context, id int64) (DcHost, error) {
 	return i, err
 }
 
-const getHosts = `-- name: GetHosts :many
-SELECT id, name, description, host_env, port_env, username_env, password_env, is_deleted, created_at, updated_at, user_id
+const getHostDeleted = `-- name: GetHostDeleted :many
+SELECT
+    host.id,
+    host.name,
+    host.description,
+    host.host_env,
+    host.port_env,
+    host.username_env,
+    host.password_env,
+    host.is_deleted,
+    host.created_at,
+    host.updated_at,
+    host.user_id
 FROM dc.host
-WHERE is_deleted = false
-ORDER BY id
+WHERE host.is_deleted = true
+ORDER BY CASE WHEN $1::text <> 'DESC' THEN host.id END ASC,
+    CASE WHEN $1::text = 'DESC' THEN host.id END DESC
+LIMIT $3::int OFFSET ($2::int-1)*$3::int
 `
 
-func (q *Queries) GetHosts(ctx context.Context) ([]DcHost, error) {
-	rows, err := q.db.QueryContext(ctx, getHosts)
+type GetHostDeletedParams struct {
+	Order     string
+	Page      int32
+	PageLimit int32
+}
+
+func (q *Queries) GetHostDeleted(ctx context.Context, arg GetHostDeletedParams) ([]DcHost, error) {
+	rows, err := q.db.QueryContext(ctx, getHostDeleted, arg.Order, arg.Page, arg.PageLimit)
 	if err != nil {
 		return nil, err
 	}
@@ -2564,360 +562,200 @@ func (q *Queries) GetHosts(ctx context.Context) ([]DcHost, error) {
 	return items, nil
 }
 
-const getSchemaCatById = `-- name: GetSchemaCatById :one
-
-SELECT id, database_id, name, is_deleted, created_at, updated_at, user_id
-FROM dc.schema_cat
-WHERE id = $1
-AND is_deleted = false
+const getHosts = `-- name: GetHosts :many
+SELECT
+    host.id,
+    host.name,
+    host.description,
+    host.host_env,
+    host.port_env,
+    host.username_env,
+    host.password_env,
+    host.is_deleted,
+    host.created_at,
+    host.updated_at,
+    host.user_id
+FROM dc.host
+WHERE host.is_deleted = false
+ORDER BY CASE WHEN $1::text <> 'DESC' THEN host.id END ASC,
+    CASE WHEN $1::text = 'DESC' THEN host.id END DESC
+LIMIT $3::int OFFSET ($2::int-1)*$3::int
 `
 
-// =========================================================
-// dc.schema_cat
-// =========================================================
-func (q *Queries) GetSchemaCatById(ctx context.Context, id int64) (DcSchemaCat, error) {
-	row := q.db.QueryRowContext(ctx, getSchemaCatById, id)
-	var i DcSchemaCat
+type GetHostsParams struct {
+	Order     string
+	Page      int32
+	PageLimit int32
+}
+
+func (q *Queries) GetHosts(ctx context.Context, arg GetHostsParams) ([]DcHost, error) {
+	rows, err := q.db.QueryContext(ctx, getHosts, arg.Order, arg.Page, arg.PageLimit)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []DcHost
+	for rows.Next() {
+		var i DcHost
+		if err := rows.Scan(
+			&i.ID,
+			&i.Name,
+			&i.Description,
+			&i.HostEnv,
+			&i.PortEnv,
+			&i.UsernameEnv,
+			&i.PasswordEnv,
+			&i.IsDeleted,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.UserID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getHostsSearchName = `-- name: GetHostsSearchName :many
+SELECT
+    host.id,
+    host.name,
+    host.description,
+    host.host_env,
+    host.port_env,
+    host.username_env,
+    host.password_env,
+    host.is_deleted,
+    host.created_at,
+    host.updated_at,
+    host.user_id
+FROM dc.host
+WHERE host.is_deleted = false
+  AND (lower(name) LIKE '%' || lower($1) || '%')
+ORDER BY CASE WHEN $2::text <> 'DESC' THEN host.id END ASC,
+    CASE WHEN $2::text = 'DESC' THEN host.id END DESC
+LIMIT $4::int OFFSET ($3::int-1)*$4::int
+`
+
+type GetHostsSearchNameParams struct {
+	SearchName string
+	Order      string
+	Page       int32
+	PageLimit  int32
+}
+
+func (q *Queries) GetHostsSearchName(ctx context.Context, arg GetHostsSearchNameParams) ([]DcHost, error) {
+	rows, err := q.db.QueryContext(ctx, getHostsSearchName,
+		arg.SearchName,
+		arg.Order,
+		arg.Page,
+		arg.PageLimit,
+	)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []DcHost
+	for rows.Next() {
+		var i DcHost
+		if err := rows.Scan(
+			&i.ID,
+			&i.Name,
+			&i.Description,
+			&i.HostEnv,
+			&i.PortEnv,
+			&i.UsernameEnv,
+			&i.PasswordEnv,
+			&i.IsDeleted,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.UserID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getUserByExternalId = `-- name: GetUserByExternalId :one
+SELECT
+    "user".id,
+    "user".name,
+    "user".created_at,
+    "user".updated_at,
+    "user".is_deleted,
+    "user".external_id
+FROM dc."user"
+WHERE "user".is_deleted = false
+  AND "user".external_id = $1
+LIMIT 1
+`
+
+func (q *Queries) GetUserByExternalId(ctx context.Context, externalID uuid.UUID) (DcUser, error) {
+	row := q.db.QueryRowContext(ctx, getUserByExternalId, externalID)
+	var i DcUser
 	err := row.Scan(
 		&i.ID,
-		&i.DatabaseID,
 		&i.Name,
-		&i.IsDeleted,
 		&i.CreatedAt,
 		&i.UpdatedAt,
-		&i.UserID,
+		&i.IsDeleted,
+		&i.ExternalID,
 	)
 	return i, err
 }
 
-const getSchemaCats = `-- name: GetSchemaCats :many
-SELECT id, database_id, name, is_deleted, created_at, updated_at, user_id
-FROM dc.schema_cat
-WHERE is_deleted = false
-ORDER BY id
+const getUsers = `-- name: GetUsers :many
+SELECT
+    "user".id,
+    "user".name,
+    "user".created_at,
+    "user".updated_at,
+    "user".is_deleted,
+    "user".external_id
+FROM dc."user"
+WHERE "user".is_deleted = false
+ORDER BY CASE WHEN $1::text <> 'DESC' THEN "user".id END ASC,
+    CASE WHEN $1::text = 'DESC' THEN "user".id END DESC
+LIMIT $3::int OFFSET ($2::int-1)*$3::int
 `
 
-func (q *Queries) GetSchemaCats(ctx context.Context) ([]DcSchemaCat, error) {
-	rows, err := q.db.QueryContext(ctx, getSchemaCats)
+type GetUsersParams struct {
+	Order     string
+	Page      int32
+	PageLimit int32
+}
+
+func (q *Queries) GetUsers(ctx context.Context, arg GetUsersParams) ([]DcUser, error) {
+	rows, err := q.db.QueryContext(ctx, getUsers, arg.Order, arg.Page, arg.PageLimit)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []DcSchemaCat
+	var items []DcUser
 	for rows.Next() {
-		var i DcSchemaCat
-		if err := rows.Scan(
-			&i.ID,
-			&i.DatabaseID,
-			&i.Name,
-			&i.IsDeleted,
-			&i.CreatedAt,
-			&i.UpdatedAt,
-			&i.UserID,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const getSchemaCatsByDatabaseId = `-- name: GetSchemaCatsByDatabaseId :many
-SELECT id, database_id, name, is_deleted, created_at, updated_at, user_id
-FROM dc.schema_cat
-WHERE database_id = $1
-AND is_deleted = false
-ORDER BY id
-`
-
-func (q *Queries) GetSchemaCatsByDatabaseId(ctx context.Context, databaseID int64) ([]DcSchemaCat, error) {
-	rows, err := q.db.QueryContext(ctx, getSchemaCatsByDatabaseId, databaseID)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []DcSchemaCat
-	for rows.Next() {
-		var i DcSchemaCat
-		if err := rows.Scan(
-			&i.ID,
-			&i.DatabaseID,
-			&i.Name,
-			&i.IsDeleted,
-			&i.CreatedAt,
-			&i.UpdatedAt,
-			&i.UserID,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const getTableCatById = `-- name: GetTableCatById :one
-
-SELECT id, name, description, schema_id, table_type_id, domain_id, is_deleted, created_at, updated_at, is_get_dict, user_id
-FROM dc.table_cat
-WHERE id = $1
-AND is_deleted = false
-`
-
-// =========================================================
-// dc.table_cat
-// =========================================================
-func (q *Queries) GetTableCatById(ctx context.Context, id int64) (DcTableCat, error) {
-	row := q.db.QueryRowContext(ctx, getTableCatById, id)
-	var i DcTableCat
-	err := row.Scan(
-		&i.ID,
-		&i.Name,
-		&i.Description,
-		&i.SchemaID,
-		&i.TableTypeID,
-		&i.DomainID,
-		&i.IsDeleted,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.IsGetDict,
-		&i.UserID,
-	)
-	return i, err
-}
-
-const getTableCats = `-- name: GetTableCats :many
-SELECT id, name, description, schema_id, table_type_id, domain_id, is_deleted, created_at, updated_at, is_get_dict, user_id
-FROM dc.table_cat
-WHERE is_deleted = false
-ORDER BY id
-`
-
-func (q *Queries) GetTableCats(ctx context.Context) ([]DcTableCat, error) {
-	rows, err := q.db.QueryContext(ctx, getTableCats)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []DcTableCat
-	for rows.Next() {
-		var i DcTableCat
+		var i DcUser
 		if err := rows.Scan(
 			&i.ID,
 			&i.Name,
-			&i.Description,
-			&i.SchemaID,
-			&i.TableTypeID,
-			&i.DomainID,
-			&i.IsDeleted,
 			&i.CreatedAt,
 			&i.UpdatedAt,
-			&i.IsGetDict,
-			&i.UserID,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const getTableCatsByDomainId = `-- name: GetTableCatsByDomainId :many
-SELECT id, name, description, schema_id, table_type_id, domain_id, is_deleted, created_at, updated_at, is_get_dict, user_id
-FROM dc.table_cat
-WHERE domain_id = $1
-AND is_deleted = false
-ORDER BY id
-`
-
-func (q *Queries) GetTableCatsByDomainId(ctx context.Context, domainID int64) ([]DcTableCat, error) {
-	rows, err := q.db.QueryContext(ctx, getTableCatsByDomainId, domainID)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []DcTableCat
-	for rows.Next() {
-		var i DcTableCat
-		if err := rows.Scan(
-			&i.ID,
-			&i.Name,
-			&i.Description,
-			&i.SchemaID,
-			&i.TableTypeID,
-			&i.DomainID,
 			&i.IsDeleted,
-			&i.CreatedAt,
-			&i.UpdatedAt,
-			&i.IsGetDict,
-			&i.UserID,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const getTableCatsBySchemaId = `-- name: GetTableCatsBySchemaId :many
-SELECT id, name, description, schema_id, table_type_id, domain_id, is_deleted, created_at, updated_at, is_get_dict, user_id
-FROM dc.table_cat
-WHERE schema_id = $1
-AND is_deleted = false
-ORDER BY id
-`
-
-func (q *Queries) GetTableCatsBySchemaId(ctx context.Context, schemaID int64) ([]DcTableCat, error) {
-	rows, err := q.db.QueryContext(ctx, getTableCatsBySchemaId, schemaID)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []DcTableCat
-	for rows.Next() {
-		var i DcTableCat
-		if err := rows.Scan(
-			&i.ID,
-			&i.Name,
-			&i.Description,
-			&i.SchemaID,
-			&i.TableTypeID,
-			&i.DomainID,
-			&i.IsDeleted,
-			&i.CreatedAt,
-			&i.UpdatedAt,
-			&i.IsGetDict,
-			&i.UserID,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const getTableCatsByTableTypeId = `-- name: GetTableCatsByTableTypeId :many
-SELECT id, name, description, schema_id, table_type_id, domain_id, is_deleted, created_at, updated_at, is_get_dict, user_id
-FROM dc.table_cat
-WHERE table_type_id = $1
-AND is_deleted = false
-ORDER BY id
-`
-
-func (q *Queries) GetTableCatsByTableTypeId(ctx context.Context, tableTypeID int64) ([]DcTableCat, error) {
-	rows, err := q.db.QueryContext(ctx, getTableCatsByTableTypeId, tableTypeID)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []DcTableCat
-	for rows.Next() {
-		var i DcTableCat
-		if err := rows.Scan(
-			&i.ID,
-			&i.Name,
-			&i.Description,
-			&i.SchemaID,
-			&i.TableTypeID,
-			&i.DomainID,
-			&i.IsDeleted,
-			&i.CreatedAt,
-			&i.UpdatedAt,
-			&i.IsGetDict,
-			&i.UserID,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const getTableTypeById = `-- name: GetTableTypeById :one
-
-SELECT id, name, description, is_deleted, created_at, updated_at, user_id
-FROM dc.table_type
-WHERE id = $1
-AND is_deleted = false
-`
-
-// =========================================================
-// dc.table_type
-// =========================================================
-func (q *Queries) GetTableTypeById(ctx context.Context, id int64) (DcTableType, error) {
-	row := q.db.QueryRowContext(ctx, getTableTypeById, id)
-	var i DcTableType
-	err := row.Scan(
-		&i.ID,
-		&i.Name,
-		&i.Description,
-		&i.IsDeleted,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.UserID,
-	)
-	return i, err
-}
-
-const getTableTypes = `-- name: GetTableTypes :many
-SELECT id, name, description, is_deleted, created_at, updated_at, user_id
-FROM dc.table_type
-WHERE is_deleted = false
-ORDER BY id
-`
-
-func (q *Queries) GetTableTypes(ctx context.Context) ([]DcTableType, error) {
-	rows, err := q.db.QueryContext(ctx, getTableTypes)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []DcTableType
-	for rows.Next() {
-		var i DcTableType
-		if err := rows.Scan(
-			&i.ID,
-			&i.Name,
-			&i.Description,
-			&i.IsDeleted,
-			&i.CreatedAt,
-			&i.UpdatedAt,
-			&i.UserID,
+			&i.ExternalID,
 		); err != nil {
 			return nil, err
 		}
@@ -2934,576 +772,82 @@ func (q *Queries) GetTableTypes(ctx context.Context) ([]DcTableType, error) {
 
 const undeleteAliasById = `-- name: UndeleteAliasById :exec
 UPDATE dc.alias
-SET is_deleted=false, updated_at=now()
-WHERE id=$1
+SET updated_at = now(),
+    is_deleted = false,
+    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $1)
+WHERE alias.id = $2
 `
 
-func (q *Queries) UndeleteAliasById(ctx context.Context, id int64) error {
-	_, err := q.db.ExecContext(ctx, undeleteAliasById, id)
-	return err
+type UndeleteAliasByIdParams struct {
+	ExternalID uuid.UUID
+	ID         int64
 }
 
-const undeleteCalculationTypeById = `-- name: UndeleteCalculationTypeById :exec
-UPDATE dc.calculation_type
-SET is_deleted=false, updated_at=now()
-WHERE id=$1
-`
-
-func (q *Queries) UndeleteCalculationTypeById(ctx context.Context, id int64) error {
-	_, err := q.db.ExecContext(ctx, undeleteCalculationTypeById, id)
-	return err
-}
-
-const undeleteColumnCatById = `-- name: UndeleteColumnCatById :exec
-UPDATE dc.column_cat
-SET is_deleted=false, updated_at=now()
-WHERE id=$1
-`
-
-func (q *Queries) UndeleteColumnCatById(ctx context.Context, id int64) error {
-	_, err := q.db.ExecContext(ctx, undeleteColumnCatById, id)
-	return err
-}
-
-const undeleteColumnTypeById = `-- name: UndeleteColumnTypeById :exec
-UPDATE dc.column_type
-SET is_deleted=false, updated_at=now()
-WHERE id=$1
-`
-
-func (q *Queries) UndeleteColumnTypeById(ctx context.Context, id int64) error {
-	_, err := q.db.ExecContext(ctx, undeleteColumnTypeById, id)
-	return err
-}
-
-const undeleteDatabaseCalculationById = `-- name: UndeleteDatabaseCalculationById :exec
-UPDATE dc.database_calculation
-SET is_deleted=false, updated_at=now()
-WHERE id=$1
-`
-
-func (q *Queries) UndeleteDatabaseCalculationById(ctx context.Context, id int64) error {
-	_, err := q.db.ExecContext(ctx, undeleteDatabaseCalculationById, id)
-	return err
-}
-
-const undeleteDatabaseCatById = `-- name: UndeleteDatabaseCatById :exec
-UPDATE dc.database_cat
-SET is_deleted=false, updated_at=now()
-WHERE id=$1
-`
-
-func (q *Queries) UndeleteDatabaseCatById(ctx context.Context, id int64) error {
-	_, err := q.db.ExecContext(ctx, undeleteDatabaseCatById, id)
-	return err
-}
-
-const undeleteDatabaseTypeById = `-- name: UndeleteDatabaseTypeById :exec
-UPDATE dc.database_type
-SET is_deleted=false, updated_at=now()
-WHERE id=$1
-`
-
-func (q *Queries) UndeleteDatabaseTypeById(ctx context.Context, id int64) error {
-	_, err := q.db.ExecContext(ctx, undeleteDatabaseTypeById, id)
-	return err
-}
-
-const undeleteDomainCatById = `-- name: UndeleteDomainCatById :exec
-UPDATE dc.domain_cat
-SET is_deleted=false, updated_at=now()
-WHERE id=$1
-`
-
-func (q *Queries) UndeleteDomainCatById(ctx context.Context, id int64) error {
-	_, err := q.db.ExecContext(ctx, undeleteDomainCatById, id)
-	return err
-}
-
-const undeleteFollowingCalculationById = `-- name: UndeleteFollowingCalculationById :exec
-UPDATE dc.following_calculation
-SET is_deleted=false, updated_at=now()
-WHERE id=$1
-`
-
-func (q *Queries) UndeleteFollowingCalculationById(ctx context.Context, id int64) error {
-	_, err := q.db.ExecContext(ctx, undeleteFollowingCalculationById, id)
-	return err
-}
-
-const undeleteGroupLevelById = `-- name: UndeleteGroupLevelById :exec
-UPDATE dc.group_levels
-SET is_deleted=false, updated_at=now()
-WHERE id=$1
-`
-
-func (q *Queries) UndeleteGroupLevelById(ctx context.Context, id int64) error {
-	_, err := q.db.ExecContext(ctx, undeleteGroupLevelById, id)
-	return err
-}
-
-const undeleteHasToGroupById = `-- name: UndeleteHasToGroupById :exec
-UPDATE dc.has_to_group
-SET is_deleted=false, updated_at=now()
-WHERE id=$1
-`
-
-func (q *Queries) UndeleteHasToGroupById(ctx context.Context, id int64) error {
-	_, err := q.db.ExecContext(ctx, undeleteHasToGroupById, id)
+func (q *Queries) UndeleteAliasById(ctx context.Context, arg UndeleteAliasByIdParams) error {
+	_, err := q.db.ExecContext(ctx, undeleteAliasById, arg.ExternalID, arg.ID)
 	return err
 }
 
 const undeleteHostById = `-- name: UndeleteHostById :exec
 UPDATE dc.host
-SET is_deleted=false, updated_at=now()
-WHERE id=$1
+SET is_deleted = false,
+    updated_at = now(),
+    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $1)
+WHERE host.id = $2
 `
 
-func (q *Queries) UndeleteHostById(ctx context.Context, id int64) error {
-	_, err := q.db.ExecContext(ctx, undeleteHostById, id)
+type UndeleteHostByIdParams struct {
+	ExternalID uuid.UUID
+	ID         int64
+}
+
+func (q *Queries) UndeleteHostById(ctx context.Context, arg UndeleteHostByIdParams) error {
+	_, err := q.db.ExecContext(ctx, undeleteHostById, arg.ExternalID, arg.ID)
 	return err
 }
 
-const undeleteSchemaCatById = `-- name: UndeleteSchemaCatById :exec
-UPDATE dc.schema_cat
-SET is_deleted=false, updated_at=now()
-WHERE id=$1
-`
-
-func (q *Queries) UndeleteSchemaCatById(ctx context.Context, id int64) error {
-	_, err := q.db.ExecContext(ctx, undeleteSchemaCatById, id)
-	return err
-}
-
-const undeleteTableCatById = `-- name: UndeleteTableCatById :exec
-UPDATE dc.table_cat
-SET is_deleted=false, updated_at=now()
-WHERE id=$1
-`
-
-func (q *Queries) UndeleteTableCatById(ctx context.Context, id int64) error {
-	_, err := q.db.ExecContext(ctx, undeleteTableCatById, id)
-	return err
-}
-
-const undeleteTableTypeById = `-- name: UndeleteTableTypeById :exec
-UPDATE dc.table_type
-SET is_deleted=false, updated_at=now()
-WHERE id=$1
-`
-
-func (q *Queries) UndeleteTableTypeById(ctx context.Context, id int64) error {
-	_, err := q.db.ExecContext(ctx, undeleteTableTypeById, id)
-	return err
-}
-
-const updateAliasById = `-- name: UpdateAliasById :one
+const updateAliasById = `-- name: UpdateAliasById :exec
 UPDATE dc.alias
-SET "name"=$2, description=$3, user_id=(SELECT u.id FROM dc."user" u WHERE u.external_id = $4), updated_at=now()
-WHERE dc.alias.id=$1
-AND is_deleted = false
-RETURNING id, name, description, created_at, updated_at, is_deleted, user_id
+SET name = $1,
+    description = $2,
+    updated_at = now(),
+    is_deleted = $3,
+    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $4)
+WHERE alias.id = $5
 `
 
 type UpdateAliasByIdParams struct {
-	ID          int64
 	Name        string
 	Description string
+	IsDeleted   bool
 	ExternalID  uuid.UUID
-}
-
-func (q *Queries) UpdateAliasById(ctx context.Context, arg UpdateAliasByIdParams) (DcAlias, error) {
-	row := q.db.QueryRowContext(ctx, updateAliasById,
-		arg.ID,
-		arg.Name,
-		arg.Description,
-		arg.ExternalID,
-	)
-	var i DcAlias
-	err := row.Scan(
-		&i.ID,
-		&i.Name,
-		&i.Description,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.IsDeleted,
-		&i.UserID,
-	)
-	return i, err
-}
-
-const updateCalculationTypeById = `-- name: UpdateCalculationTypeById :one
-UPDATE dc.calculation_type
-SET "name"=$2, description=$3, updated_at=now()
-WHERE id=$1
-AND is_deleted = false
-RETURNING id, name, description, created_at, updated_at, is_deleted
-`
-
-type UpdateCalculationTypeByIdParams struct {
 	ID          int64
-	Name        string
-	Description string
 }
 
-func (q *Queries) UpdateCalculationTypeById(ctx context.Context, arg UpdateCalculationTypeByIdParams) (DcCalculationType, error) {
-	row := q.db.QueryRowContext(ctx, updateCalculationTypeById, arg.ID, arg.Name, arg.Description)
-	var i DcCalculationType
-	err := row.Scan(
-		&i.ID,
-		&i.Name,
-		&i.Description,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.IsDeleted,
-	)
-	return i, err
-}
-
-const updateColumnCatById = `-- name: UpdateColumnCatById :one
-UPDATE dc.column_cat
-SET table_id=$2, "name"=$3, alias_id=$4, column_type_id=$5, description=$6, calculation_type_id=$7, show_in_ui=$8, user_id=(SELECT u.id FROM dc."user" u WHERE u.external_id = $9), updated_at=now()
-WHERE dc.column_cat.id=$1
-AND is_deleted = false
-RETURNING id, table_id, name, alias_id, column_type_id, description, calculation_type_id, is_deleted, show_in_ui, created_at, updated_at, user_id
-`
-
-type UpdateColumnCatByIdParams struct {
-	ID                int64
-	TableID           int64
-	Name              string
-	AliasID           int64
-	ColumnTypeID      int64
-	Description       string
-	CalculationTypeID int64
-	ShowInUi          bool
-	ExternalID        uuid.UUID
-}
-
-func (q *Queries) UpdateColumnCatById(ctx context.Context, arg UpdateColumnCatByIdParams) (DcColumnCat, error) {
-	row := q.db.QueryRowContext(ctx, updateColumnCatById,
-		arg.ID,
-		arg.TableID,
-		arg.Name,
-		arg.AliasID,
-		arg.ColumnTypeID,
-		arg.Description,
-		arg.CalculationTypeID,
-		arg.ShowInUi,
-		arg.ExternalID,
-	)
-	var i DcColumnCat
-	err := row.Scan(
-		&i.ID,
-		&i.TableID,
-		&i.Name,
-		&i.AliasID,
-		&i.ColumnTypeID,
-		&i.Description,
-		&i.CalculationTypeID,
-		&i.IsDeleted,
-		&i.ShowInUi,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.UserID,
-	)
-	return i, err
-}
-
-const updateColumnTypeById = `-- name: UpdateColumnTypeById :one
-UPDATE dc.column_type
-SET "name"=$2, description=$3, user_id=(SELECT u.id FROM dc."user" u WHERE u.external_id = $4), updated_at=now()
-WHERE dc.column_type.id=$1
-AND is_deleted = false
-RETURNING id, name, description, is_deleted, created_at, updated_at, user_id
-`
-
-type UpdateColumnTypeByIdParams struct {
-	ID          int64
-	Name        string
-	Description string
-	ExternalID  uuid.UUID
-}
-
-func (q *Queries) UpdateColumnTypeById(ctx context.Context, arg UpdateColumnTypeByIdParams) (DcColumnType, error) {
-	row := q.db.QueryRowContext(ctx, updateColumnTypeById,
-		arg.ID,
+func (q *Queries) UpdateAliasById(ctx context.Context, arg UpdateAliasByIdParams) error {
+	_, err := q.db.ExecContext(ctx, updateAliasById,
 		arg.Name,
 		arg.Description,
+		arg.IsDeleted,
 		arg.ExternalID,
-	)
-	var i DcColumnType
-	err := row.Scan(
-		&i.ID,
-		&i.Name,
-		&i.Description,
-		&i.IsDeleted,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.UserID,
-	)
-	return i, err
-}
-
-const updateDatabaseCalculationById = `-- name: UpdateDatabaseCalculationById :one
-UPDATE dc.database_calculation
-SET database_cat_id=$2, calculation_type_id=$3, user_id=(SELECT u.id FROM dc."user" u WHERE u.external_id = $4), updated_at=now()
-WHERE dc.database_calculation.id=$1
-AND is_deleted = false
-RETURNING id, database_cat_id, calculation_type_id, created_at, updated_at, is_deleted, user_id
-`
-
-type UpdateDatabaseCalculationByIdParams struct {
-	ID                int64
-	DatabaseCatID     int64
-	CalculationTypeID int64
-	ExternalID        uuid.UUID
-}
-
-func (q *Queries) UpdateDatabaseCalculationById(ctx context.Context, arg UpdateDatabaseCalculationByIdParams) (DcDatabaseCalculation, error) {
-	row := q.db.QueryRowContext(ctx, updateDatabaseCalculationById,
 		arg.ID,
-		arg.DatabaseCatID,
-		arg.CalculationTypeID,
-		arg.ExternalID,
 	)
-	var i DcDatabaseCalculation
-	err := row.Scan(
-		&i.ID,
-		&i.DatabaseCatID,
-		&i.CalculationTypeID,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.IsDeleted,
-		&i.UserID,
-	)
-	return i, err
+	return err
 }
 
-const updateDatabaseCatById = `-- name: UpdateDatabaseCatById :one
-UPDATE dc.database_cat
-SET "name"=$2, host_id=$3, database_type_id=$4, description=$5, user_id=(SELECT u.id FROM dc."user" u WHERE u.external_id = $6), updated_at=now()
-WHERE dc.database_cat.id=$1
-AND is_deleted = false
-RETURNING id, name, host_id, database_type_id, description, is_deleted, created_at, updated_at, user_id
-`
-
-type UpdateDatabaseCatByIdParams struct {
-	ID             int64
-	Name           string
-	HostID         int64
-	DatabaseTypeID int64
-	Description    string
-	ExternalID     uuid.UUID
-}
-
-func (q *Queries) UpdateDatabaseCatById(ctx context.Context, arg UpdateDatabaseCatByIdParams) (DcDatabaseCat, error) {
-	row := q.db.QueryRowContext(ctx, updateDatabaseCatById,
-		arg.ID,
-		arg.Name,
-		arg.HostID,
-		arg.DatabaseTypeID,
-		arg.Description,
-		arg.ExternalID,
-	)
-	var i DcDatabaseCat
-	err := row.Scan(
-		&i.ID,
-		&i.Name,
-		&i.HostID,
-		&i.DatabaseTypeID,
-		&i.Description,
-		&i.IsDeleted,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.UserID,
-	)
-	return i, err
-}
-
-const updateDatabaseTypeById = `-- name: UpdateDatabaseTypeById :one
-UPDATE dc.database_type
-SET "name"=$2, db_version=$3, user_id=(SELECT u.id FROM dc."user" u WHERE u.external_id = $4), updated_at=now()
-WHERE dc.database_type.id=$1
-AND is_deleted = false
-RETURNING id, name, db_version, is_deleted, created_at, updated_at, user_id
-`
-
-type UpdateDatabaseTypeByIdParams struct {
-	ID         int64
-	Name       string
-	DbVersion  string
-	ExternalID uuid.UUID
-}
-
-func (q *Queries) UpdateDatabaseTypeById(ctx context.Context, arg UpdateDatabaseTypeByIdParams) (DcDatabaseType, error) {
-	row := q.db.QueryRowContext(ctx, updateDatabaseTypeById,
-		arg.ID,
-		arg.Name,
-		arg.DbVersion,
-		arg.ExternalID,
-	)
-	var i DcDatabaseType
-	err := row.Scan(
-		&i.ID,
-		&i.Name,
-		&i.DbVersion,
-		&i.IsDeleted,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.UserID,
-	)
-	return i, err
-}
-
-const updateDomainCatById = `-- name: UpdateDomainCatById :one
-UPDATE dc.domain_cat
-SET domain_name=$2, user_id=(SELECT u.id FROM dc."user" u WHERE u.external_id = $3), updated_at=now()
-WHERE dc.domain_cat.id=$1
-AND is_deleted = false
-RETURNING id, domain_name, is_deleted, created_at, updated_at, user_id
-`
-
-type UpdateDomainCatByIdParams struct {
-	ID         int64
-	DomainName string
-	ExternalID uuid.UUID
-}
-
-func (q *Queries) UpdateDomainCatById(ctx context.Context, arg UpdateDomainCatByIdParams) (DcDomainCat, error) {
-	row := q.db.QueryRowContext(ctx, updateDomainCatById, arg.ID, arg.DomainName, arg.ExternalID)
-	var i DcDomainCat
-	err := row.Scan(
-		&i.ID,
-		&i.DomainName,
-		&i.IsDeleted,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.UserID,
-	)
-	return i, err
-}
-
-const updateFollowingCalculationById = `-- name: UpdateFollowingCalculationById :one
-UPDATE dc.following_calculation
-SET column_cat_id=$2, calculation_type_id=$3, user_id=(SELECT u.id FROM dc."user" u WHERE u.external_id = $4), updated_at=now()
-WHERE dc.following_calculation.id=$1
-AND is_deleted = false
-RETURNING id, column_cat_id, calculation_type_id, created_at, updated_at, is_deleted, user_id
-`
-
-type UpdateFollowingCalculationByIdParams struct {
-	ID                int64
-	ColumnCatID       int64
-	CalculationTypeID int64
-	ExternalID        uuid.UUID
-}
-
-func (q *Queries) UpdateFollowingCalculationById(ctx context.Context, arg UpdateFollowingCalculationByIdParams) (DcFollowingCalculation, error) {
-	row := q.db.QueryRowContext(ctx, updateFollowingCalculationById,
-		arg.ID,
-		arg.ColumnCatID,
-		arg.CalculationTypeID,
-		arg.ExternalID,
-	)
-	var i DcFollowingCalculation
-	err := row.Scan(
-		&i.ID,
-		&i.ColumnCatID,
-		&i.CalculationTypeID,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.IsDeleted,
-		&i.UserID,
-	)
-	return i, err
-}
-
-const updateGroupLevelById = `-- name: UpdateGroupLevelById :one
-UPDATE dc.group_levels
-SET column_id=$2, parent_column_id=$3, "level"=$4, description=$5, user_id=(SELECT u.id FROM dc."user" u WHERE u.external_id = $6), updated_at=now()
-WHERE dc.group_levels.id=$1
-AND is_deleted = false
-RETURNING id, column_id, parent_column_id, level, description, created_at, updated_at, is_deleted, user_id
-`
-
-type UpdateGroupLevelByIdParams struct {
-	ID             int64
-	ColumnID       int64
-	ParentColumnID int64
-	Level          int16
-	Description    string
-	ExternalID     uuid.UUID
-}
-
-func (q *Queries) UpdateGroupLevelById(ctx context.Context, arg UpdateGroupLevelByIdParams) (DcGroupLevel, error) {
-	row := q.db.QueryRowContext(ctx, updateGroupLevelById,
-		arg.ID,
-		arg.ColumnID,
-		arg.ParentColumnID,
-		arg.Level,
-		arg.Description,
-		arg.ExternalID,
-	)
-	var i DcGroupLevel
-	err := row.Scan(
-		&i.ID,
-		&i.ColumnID,
-		&i.ParentColumnID,
-		&i.Level,
-		&i.Description,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.IsDeleted,
-		&i.UserID,
-	)
-	return i, err
-}
-
-const updateHasToGroupById = `-- name: UpdateHasToGroupById :one
-UPDATE dc.has_to_group
-SET column_id_a=$2, column_id_b=$3, description=$4, user_id=(SELECT u.id FROM dc."user" u WHERE u.external_id = $5), updated_at=now()
-WHERE dc.has_to_group.id=$1
-AND is_deleted = false
-RETURNING id, column_id_a, column_id_b, description, is_deleted, created_at, updated_at, user_id
-`
-
-type UpdateHasToGroupByIdParams struct {
-	ID          int64
-	ColumnIDA   int64
-	ColumnIDB   int64
-	Description string
-	ExternalID  uuid.UUID
-}
-
-func (q *Queries) UpdateHasToGroupById(ctx context.Context, arg UpdateHasToGroupByIdParams) (DcHasToGroup, error) {
-	row := q.db.QueryRowContext(ctx, updateHasToGroupById,
-		arg.ID,
-		arg.ColumnIDA,
-		arg.ColumnIDB,
-		arg.Description,
-		arg.ExternalID,
-	)
-	var i DcHasToGroup
-	err := row.Scan(
-		&i.ID,
-		&i.ColumnIDA,
-		&i.ColumnIDB,
-		&i.Description,
-		&i.IsDeleted,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.UserID,
-	)
-	return i, err
-}
-
-const updateHostById = `-- name: UpdateHostById :one
+const updateHostById = `-- name: UpdateHostById :exec
 UPDATE dc.host
-SET "name"=$2, description=$3, host_env=$4, port_env=$5, username_env=$6, password_env=$7, user_id=(SELECT u.id FROM dc."user" u WHERE u.external_id = $8), updated_at=now()
-WHERE dc.host.id=$1
-AND is_deleted = false
-RETURNING id, name, description, host_env, port_env, username_env, password_env, is_deleted, created_at, updated_at, user_id
+SET id = $1,
+    name = $2,
+    description = $3,
+    host_env = $4,
+    port_env = $5,
+    username_env = $6,
+    password_env = $7,
+    is_deleted = false,
+    updated_at = now(),
+    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $8)
+WHERE host.id = $1
 `
 
 type UpdateHostByIdParams struct {
@@ -3517,8 +861,8 @@ type UpdateHostByIdParams struct {
 	ExternalID  uuid.UUID
 }
 
-func (q *Queries) UpdateHostById(ctx context.Context, arg UpdateHostByIdParams) (DcHost, error) {
-	row := q.db.QueryRowContext(ctx, updateHostById,
+func (q *Queries) UpdateHostById(ctx context.Context, arg UpdateHostByIdParams) error {
+	_, err := q.db.ExecContext(ctx, updateHostById,
 		arg.ID,
 		arg.Name,
 		arg.Description,
@@ -3528,136 +872,5 @@ func (q *Queries) UpdateHostById(ctx context.Context, arg UpdateHostByIdParams) 
 		arg.PasswordEnv,
 		arg.ExternalID,
 	)
-	var i DcHost
-	err := row.Scan(
-		&i.ID,
-		&i.Name,
-		&i.Description,
-		&i.HostEnv,
-		&i.PortEnv,
-		&i.UsernameEnv,
-		&i.PasswordEnv,
-		&i.IsDeleted,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.UserID,
-	)
-	return i, err
-}
-
-const updateSchemaCatById = `-- name: UpdateSchemaCatById :one
-UPDATE dc.schema_cat
-SET database_id=$2, "name"=$3, user_id=(SELECT u.id FROM dc."user" u WHERE u.external_id = $4), updated_at=now()
-WHERE dc.schema_cat.id=$1
-AND is_deleted = false
-RETURNING id, database_id, name, is_deleted, created_at, updated_at, user_id
-`
-
-type UpdateSchemaCatByIdParams struct {
-	ID         int64
-	DatabaseID int64
-	Name       string
-	ExternalID uuid.UUID
-}
-
-func (q *Queries) UpdateSchemaCatById(ctx context.Context, arg UpdateSchemaCatByIdParams) (DcSchemaCat, error) {
-	row := q.db.QueryRowContext(ctx, updateSchemaCatById,
-		arg.ID,
-		arg.DatabaseID,
-		arg.Name,
-		arg.ExternalID,
-	)
-	var i DcSchemaCat
-	err := row.Scan(
-		&i.ID,
-		&i.DatabaseID,
-		&i.Name,
-		&i.IsDeleted,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.UserID,
-	)
-	return i, err
-}
-
-const updateTableCatById = `-- name: UpdateTableCatById :one
-UPDATE dc.table_cat
-SET "name"=$2, description=$3, schema_id=$4, table_type_id=$5, domain_id=$6, is_get_dict=$7, user_id=(SELECT u.id FROM dc."user" u WHERE u.external_id = $8), updated_at=now()
-WHERE dc.table_cat.id=$1
-AND is_deleted = false
-RETURNING id, name, description, schema_id, table_type_id, domain_id, is_deleted, created_at, updated_at, is_get_dict, user_id
-`
-
-type UpdateTableCatByIdParams struct {
-	ID          int64
-	Name        string
-	Description string
-	SchemaID    int64
-	TableTypeID int64
-	DomainID    int64
-	IsGetDict   bool
-	ExternalID  uuid.UUID
-}
-
-func (q *Queries) UpdateTableCatById(ctx context.Context, arg UpdateTableCatByIdParams) (DcTableCat, error) {
-	row := q.db.QueryRowContext(ctx, updateTableCatById,
-		arg.ID,
-		arg.Name,
-		arg.Description,
-		arg.SchemaID,
-		arg.TableTypeID,
-		arg.DomainID,
-		arg.IsGetDict,
-		arg.ExternalID,
-	)
-	var i DcTableCat
-	err := row.Scan(
-		&i.ID,
-		&i.Name,
-		&i.Description,
-		&i.SchemaID,
-		&i.TableTypeID,
-		&i.DomainID,
-		&i.IsDeleted,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.IsGetDict,
-		&i.UserID,
-	)
-	return i, err
-}
-
-const updateTableTypeById = `-- name: UpdateTableTypeById :one
-UPDATE dc.table_type
-SET "name"=$2, description=$3, user_id=(SELECT u.id FROM dc."user" u WHERE u.external_id = $4), updated_at=now()
-WHERE dc.table_type.id=$1
-AND is_deleted = false
-RETURNING id, name, description, is_deleted, created_at, updated_at, user_id
-`
-
-type UpdateTableTypeByIdParams struct {
-	ID          int64
-	Name        string
-	Description string
-	ExternalID  uuid.UUID
-}
-
-func (q *Queries) UpdateTableTypeById(ctx context.Context, arg UpdateTableTypeByIdParams) (DcTableType, error) {
-	row := q.db.QueryRowContext(ctx, updateTableTypeById,
-		arg.ID,
-		arg.Name,
-		arg.Description,
-		arg.ExternalID,
-	)
-	var i DcTableType
-	err := row.Scan(
-		&i.ID,
-		&i.Name,
-		&i.Description,
-		&i.IsDeleted,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.UserID,
-	)
-	return i, err
+	return err
 }
