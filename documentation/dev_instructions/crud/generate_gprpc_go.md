@@ -160,12 +160,12 @@ for d in "tables_model:tables_service:TablesService" "user_model:user_service:Us
 Первая сверка проверяет только то, что у каждого RPC есть Go-метод — она
 ничего не знает про `main.go` (он рукописный, генератор его не трогает, см.
 "Что перезаписывается, а что нет"), поэтому не ловит забытый
-`Register<Service>Server(...)`. Домен `tables_model` собран из трёх
-раздельных proto-сервисов на одну Go-структуру (`AliasService`,
-`UserService`, `HostService` → `TablesApiV1`, см. `optional_standard_ops.md`),
-и добавление новой таблицы в этот домен добавляет новый `service` в
-`.proto`, а не RPC в существующий — регистрацию для него легко забыть, как
-и произошло с `HostService`. Сверка ниже сопоставляет `service <Имя>` в
+`Register<Service>Server(...)`. Домен `tables_model` собран из
+раздельных proto-сервисов на таблицу (`AliasService`, `UserService`,
+`HostService`, `TableCatService` и остальные — все на одну Go-структуру
+`TablesApiV1`, см. `optional_standard_ops.md`), и добавление новой таблицы в
+этот домен добавляет новый `service` в `.proto`, а не RPC в существующий —
+регистрацию для него легко забыть, как и произошло с `HostService`. Сверка ниже сопоставляет `service <Имя>` в
 `.proto` с `<alias>.Register<Имя>Server(` в `main.go` по алиасу импорта
 пакета (не только по имени сервиса — у `tables/v1.UserService` и
 `user/v1.UserService` имя одинаковое, различает их только алиас):
@@ -180,8 +180,8 @@ for d in "auth_logic:authlogicv1" "tables:tablesv1" "user:userv1" "user_domain_r
 скомпилируется) — для `tablesapiv1.TablesApiV1` это делается в
 рукописном `init.go`, не в сгенерированных файлах.
 
-На момент написания: 185 RPC — 128 `tables`, 9 `user`, 48 `user_domain_roles`;
-22 таблицы; 861 тест.
+На момент последнего прогона: 158 RPC — 117 `tables`, 9 `user`,
+32 `user_domain_roles`; 21 таблица (16 из них в `tables_model`); 1292 теста.
 
 ## Когда перезапускать
 
@@ -204,7 +204,7 @@ task proto:gen && python deploy/generators/parse.py && python deploy/generators/
 не додумывает. Это осознанно: молча сгенерированный неверный маппинг найти
 гораздо дороже, чем упавший скрипт. Он проверяет, что
 
-- набор запросов таблицы — ровно 8 стандартных плюс дополнительные выборки, без лишних и пропущенных;
+- каждый запрос таблицы попал в одну из известных форм — стандартную операцию, выборку или список (какие из них обязательны, см. [optional_standard_ops.md](optional_standard_ops.md));
 - каждому запросу соответствует метод репозитория;
 - каждому полю sqlc-структуры находится поле в proto-сообщении;
 - имя колонки из proto-тега есть в `schema.sql`;

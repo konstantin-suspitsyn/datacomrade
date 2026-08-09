@@ -5810,102 +5810,17 @@ func (x *GetColumnTypeByIdRequest) GetId() int64 {
 	return 0
 }
 
-// Выборка GetColumnTypeById: строка ответа — только отмеченные колонки.
-type GetColumnTypeByIdRow struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Description   string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
-	IsDeleted     bool                   `protobuf:"varint,3,opt,name=is_deleted,json=isDeleted,proto3" json:"is_deleted,omitempty"`
-	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
-	UserId        int64                  `protobuf:"varint,6,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *GetColumnTypeByIdRow) Reset() {
-	*x = GetColumnTypeByIdRow{}
-	mi := &file_tables_v1_tables_proto_msgTypes[99]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *GetColumnTypeByIdRow) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetColumnTypeByIdRow) ProtoMessage() {}
-
-func (x *GetColumnTypeByIdRow) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[99]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetColumnTypeByIdRow.ProtoReflect.Descriptor instead.
-func (*GetColumnTypeByIdRow) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{99}
-}
-
-func (x *GetColumnTypeByIdRow) GetName() string {
-	if x != nil {
-		return x.Name
-	}
-	return ""
-}
-
-func (x *GetColumnTypeByIdRow) GetDescription() string {
-	if x != nil {
-		return x.Description
-	}
-	return ""
-}
-
-func (x *GetColumnTypeByIdRow) GetIsDeleted() bool {
-	if x != nil {
-		return x.IsDeleted
-	}
-	return false
-}
-
-func (x *GetColumnTypeByIdRow) GetCreatedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.CreatedAt
-	}
-	return nil
-}
-
-func (x *GetColumnTypeByIdRow) GetUpdatedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.UpdatedAt
-	}
-	return nil
-}
-
-func (x *GetColumnTypeByIdRow) GetUserId() int64 {
-	if x != nil {
-		return x.UserId
-	}
-	return 0
-}
-
 // Выборка GetColumnTypeById: одна строка.
 type GetColumnTypeByIdResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	ColumnType    *GetColumnTypeByIdRow  `protobuf:"bytes,1,opt,name=column_type,json=columnType,proto3" json:"column_type,omitempty"`
+	ColumnType    *ColumnType            `protobuf:"bytes,1,opt,name=column_type,json=columnType,proto3" json:"column_type,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *GetColumnTypeByIdResponse) Reset() {
 	*x = GetColumnTypeByIdResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[100]
+	mi := &file_tables_v1_tables_proto_msgTypes[99]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5917,7 +5832,7 @@ func (x *GetColumnTypeByIdResponse) String() string {
 func (*GetColumnTypeByIdResponse) ProtoMessage() {}
 
 func (x *GetColumnTypeByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[100]
+	mi := &file_tables_v1_tables_proto_msgTypes[99]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5930,10 +5845,10 @@ func (x *GetColumnTypeByIdResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetColumnTypeByIdResponse.ProtoReflect.Descriptor instead.
 func (*GetColumnTypeByIdResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{100}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{99}
 }
 
-func (x *GetColumnTypeByIdResponse) GetColumnType() *GetColumnTypeByIdRow {
+func (x *GetColumnTypeByIdResponse) GetColumnType() *ColumnType {
 	if x != nil {
 		return x.ColumnType
 	}
@@ -5953,7 +5868,7 @@ type GetColumnTypesRequest struct {
 
 func (x *GetColumnTypesRequest) Reset() {
 	*x = GetColumnTypesRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[101]
+	mi := &file_tables_v1_tables_proto_msgTypes[100]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5965,7 +5880,7 @@ func (x *GetColumnTypesRequest) String() string {
 func (*GetColumnTypesRequest) ProtoMessage() {}
 
 func (x *GetColumnTypesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[101]
+	mi := &file_tables_v1_tables_proto_msgTypes[100]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5978,7 +5893,7 @@ func (x *GetColumnTypesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetColumnTypesRequest.ProtoReflect.Descriptor instead.
 func (*GetColumnTypesRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{101}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{100}
 }
 
 func (x *GetColumnTypesRequest) GetOrder() string {
@@ -6013,7 +5928,7 @@ type GetColumnTypesResponse struct {
 
 func (x *GetColumnTypesResponse) Reset() {
 	*x = GetColumnTypesResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[102]
+	mi := &file_tables_v1_tables_proto_msgTypes[101]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -6025,7 +5940,7 @@ func (x *GetColumnTypesResponse) String() string {
 func (*GetColumnTypesResponse) ProtoMessage() {}
 
 func (x *GetColumnTypesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[102]
+	mi := &file_tables_v1_tables_proto_msgTypes[101]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -6038,7 +5953,7 @@ func (x *GetColumnTypesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetColumnTypesResponse.ProtoReflect.Descriptor instead.
 func (*GetColumnTypesResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{102}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{101}
 }
 
 func (x *GetColumnTypesResponse) GetData() []*ColumnType {
@@ -6069,7 +5984,7 @@ type GetColumnTypesSearchNameRequest struct {
 
 func (x *GetColumnTypesSearchNameRequest) Reset() {
 	*x = GetColumnTypesSearchNameRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[103]
+	mi := &file_tables_v1_tables_proto_msgTypes[102]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -6081,7 +5996,7 @@ func (x *GetColumnTypesSearchNameRequest) String() string {
 func (*GetColumnTypesSearchNameRequest) ProtoMessage() {}
 
 func (x *GetColumnTypesSearchNameRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[103]
+	mi := &file_tables_v1_tables_proto_msgTypes[102]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -6094,7 +6009,7 @@ func (x *GetColumnTypesSearchNameRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetColumnTypesSearchNameRequest.ProtoReflect.Descriptor instead.
 func (*GetColumnTypesSearchNameRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{103}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{102}
 }
 
 func (x *GetColumnTypesSearchNameRequest) GetSearchName() string {
@@ -6136,7 +6051,7 @@ type GetColumnTypesSearchNameResponse struct {
 
 func (x *GetColumnTypesSearchNameResponse) Reset() {
 	*x = GetColumnTypesSearchNameResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[104]
+	mi := &file_tables_v1_tables_proto_msgTypes[103]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -6148,7 +6063,7 @@ func (x *GetColumnTypesSearchNameResponse) String() string {
 func (*GetColumnTypesSearchNameResponse) ProtoMessage() {}
 
 func (x *GetColumnTypesSearchNameResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[104]
+	mi := &file_tables_v1_tables_proto_msgTypes[103]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -6161,7 +6076,7 @@ func (x *GetColumnTypesSearchNameResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetColumnTypesSearchNameResponse.ProtoReflect.Descriptor instead.
 func (*GetColumnTypesSearchNameResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{104}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{103}
 }
 
 func (x *GetColumnTypesSearchNameResponse) GetData() []*ColumnType {
@@ -6191,7 +6106,7 @@ type GetColumnTypesDeletedRequest struct {
 
 func (x *GetColumnTypesDeletedRequest) Reset() {
 	*x = GetColumnTypesDeletedRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[105]
+	mi := &file_tables_v1_tables_proto_msgTypes[104]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -6203,7 +6118,7 @@ func (x *GetColumnTypesDeletedRequest) String() string {
 func (*GetColumnTypesDeletedRequest) ProtoMessage() {}
 
 func (x *GetColumnTypesDeletedRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[105]
+	mi := &file_tables_v1_tables_proto_msgTypes[104]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -6216,7 +6131,7 @@ func (x *GetColumnTypesDeletedRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetColumnTypesDeletedRequest.ProtoReflect.Descriptor instead.
 func (*GetColumnTypesDeletedRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{105}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{104}
 }
 
 func (x *GetColumnTypesDeletedRequest) GetOrder() string {
@@ -6251,7 +6166,7 @@ type GetColumnTypesDeletedResponse struct {
 
 func (x *GetColumnTypesDeletedResponse) Reset() {
 	*x = GetColumnTypesDeletedResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[106]
+	mi := &file_tables_v1_tables_proto_msgTypes[105]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -6263,7 +6178,7 @@ func (x *GetColumnTypesDeletedResponse) String() string {
 func (*GetColumnTypesDeletedResponse) ProtoMessage() {}
 
 func (x *GetColumnTypesDeletedResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[106]
+	mi := &file_tables_v1_tables_proto_msgTypes[105]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -6276,7 +6191,7 @@ func (x *GetColumnTypesDeletedResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetColumnTypesDeletedResponse.ProtoReflect.Descriptor instead.
 func (*GetColumnTypesDeletedResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{106}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{105}
 }
 
 func (x *GetColumnTypesDeletedResponse) GetData() []*ColumnType {
@@ -6306,7 +6221,7 @@ type UpdateColumnTypeByIdRequest struct {
 
 func (x *UpdateColumnTypeByIdRequest) Reset() {
 	*x = UpdateColumnTypeByIdRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[107]
+	mi := &file_tables_v1_tables_proto_msgTypes[106]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -6318,7 +6233,7 @@ func (x *UpdateColumnTypeByIdRequest) String() string {
 func (*UpdateColumnTypeByIdRequest) ProtoMessage() {}
 
 func (x *UpdateColumnTypeByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[107]
+	mi := &file_tables_v1_tables_proto_msgTypes[106]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -6331,7 +6246,7 @@ func (x *UpdateColumnTypeByIdRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateColumnTypeByIdRequest.ProtoReflect.Descriptor instead.
 func (*UpdateColumnTypeByIdRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{107}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{106}
 }
 
 func (x *UpdateColumnTypeByIdRequest) GetName() string {
@@ -6371,7 +6286,7 @@ type UpdateColumnTypeByIdResponse struct {
 
 func (x *UpdateColumnTypeByIdResponse) Reset() {
 	*x = UpdateColumnTypeByIdResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[108]
+	mi := &file_tables_v1_tables_proto_msgTypes[107]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -6383,7 +6298,7 @@ func (x *UpdateColumnTypeByIdResponse) String() string {
 func (*UpdateColumnTypeByIdResponse) ProtoMessage() {}
 
 func (x *UpdateColumnTypeByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[108]
+	mi := &file_tables_v1_tables_proto_msgTypes[107]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -6396,7 +6311,7 @@ func (x *UpdateColumnTypeByIdResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateColumnTypeByIdResponse.ProtoReflect.Descriptor instead.
 func (*UpdateColumnTypeByIdResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{108}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{107}
 }
 
 // Мягкое удаление DeleteColumnTypeById: параметры вызова.
@@ -6410,7 +6325,7 @@ type DeleteColumnTypeByIdRequest struct {
 
 func (x *DeleteColumnTypeByIdRequest) Reset() {
 	*x = DeleteColumnTypeByIdRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[109]
+	mi := &file_tables_v1_tables_proto_msgTypes[108]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -6422,7 +6337,7 @@ func (x *DeleteColumnTypeByIdRequest) String() string {
 func (*DeleteColumnTypeByIdRequest) ProtoMessage() {}
 
 func (x *DeleteColumnTypeByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[109]
+	mi := &file_tables_v1_tables_proto_msgTypes[108]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -6435,7 +6350,7 @@ func (x *DeleteColumnTypeByIdRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteColumnTypeByIdRequest.ProtoReflect.Descriptor instead.
 func (*DeleteColumnTypeByIdRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{109}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{108}
 }
 
 func (x *DeleteColumnTypeByIdRequest) GetExternalId() string {
@@ -6461,7 +6376,7 @@ type DeleteColumnTypeByIdResponse struct {
 
 func (x *DeleteColumnTypeByIdResponse) Reset() {
 	*x = DeleteColumnTypeByIdResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[110]
+	mi := &file_tables_v1_tables_proto_msgTypes[109]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -6473,7 +6388,7 @@ func (x *DeleteColumnTypeByIdResponse) String() string {
 func (*DeleteColumnTypeByIdResponse) ProtoMessage() {}
 
 func (x *DeleteColumnTypeByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[110]
+	mi := &file_tables_v1_tables_proto_msgTypes[109]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -6486,7 +6401,7 @@ func (x *DeleteColumnTypeByIdResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteColumnTypeByIdResponse.ProtoReflect.Descriptor instead.
 func (*DeleteColumnTypeByIdResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{110}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{109}
 }
 
 // Обратное удаление UndeleteColumnTypeById: параметры вызова.
@@ -6500,7 +6415,7 @@ type UndeleteColumnTypeByIdRequest struct {
 
 func (x *UndeleteColumnTypeByIdRequest) Reset() {
 	*x = UndeleteColumnTypeByIdRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[111]
+	mi := &file_tables_v1_tables_proto_msgTypes[110]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -6512,7 +6427,7 @@ func (x *UndeleteColumnTypeByIdRequest) String() string {
 func (*UndeleteColumnTypeByIdRequest) ProtoMessage() {}
 
 func (x *UndeleteColumnTypeByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[111]
+	mi := &file_tables_v1_tables_proto_msgTypes[110]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -6525,7 +6440,7 @@ func (x *UndeleteColumnTypeByIdRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UndeleteColumnTypeByIdRequest.ProtoReflect.Descriptor instead.
 func (*UndeleteColumnTypeByIdRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{111}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{110}
 }
 
 func (x *UndeleteColumnTypeByIdRequest) GetExternalId() string {
@@ -6551,7 +6466,7 @@ type UndeleteColumnTypeByIdResponse struct {
 
 func (x *UndeleteColumnTypeByIdResponse) Reset() {
 	*x = UndeleteColumnTypeByIdResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[112]
+	mi := &file_tables_v1_tables_proto_msgTypes[111]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -6563,7 +6478,7 @@ func (x *UndeleteColumnTypeByIdResponse) String() string {
 func (*UndeleteColumnTypeByIdResponse) ProtoMessage() {}
 
 func (x *UndeleteColumnTypeByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[112]
+	mi := &file_tables_v1_tables_proto_msgTypes[111]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -6576,7 +6491,7 @@ func (x *UndeleteColumnTypeByIdResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UndeleteColumnTypeByIdResponse.ProtoReflect.Descriptor instead.
 func (*UndeleteColumnTypeByIdResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{112}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{111}
 }
 
 // Строка таблицы dc.database_calculation: все колонки, как их вернёт SELECT *.
@@ -6595,7 +6510,7 @@ type DatabaseCalculation struct {
 
 func (x *DatabaseCalculation) Reset() {
 	*x = DatabaseCalculation{}
-	mi := &file_tables_v1_tables_proto_msgTypes[113]
+	mi := &file_tables_v1_tables_proto_msgTypes[112]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -6607,7 +6522,7 @@ func (x *DatabaseCalculation) String() string {
 func (*DatabaseCalculation) ProtoMessage() {}
 
 func (x *DatabaseCalculation) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[113]
+	mi := &file_tables_v1_tables_proto_msgTypes[112]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -6620,7 +6535,7 @@ func (x *DatabaseCalculation) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DatabaseCalculation.ProtoReflect.Descriptor instead.
 func (*DatabaseCalculation) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{113}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{112}
 }
 
 func (x *DatabaseCalculation) GetId() int64 {
@@ -6684,7 +6599,7 @@ type CreateDatabaseCalculationRequest struct {
 
 func (x *CreateDatabaseCalculationRequest) Reset() {
 	*x = CreateDatabaseCalculationRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[114]
+	mi := &file_tables_v1_tables_proto_msgTypes[113]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -6696,7 +6611,7 @@ func (x *CreateDatabaseCalculationRequest) String() string {
 func (*CreateDatabaseCalculationRequest) ProtoMessage() {}
 
 func (x *CreateDatabaseCalculationRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[114]
+	mi := &file_tables_v1_tables_proto_msgTypes[113]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -6709,7 +6624,7 @@ func (x *CreateDatabaseCalculationRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateDatabaseCalculationRequest.ProtoReflect.Descriptor instead.
 func (*CreateDatabaseCalculationRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{114}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{113}
 }
 
 func (x *CreateDatabaseCalculationRequest) GetDatabaseCatId() int64 {
@@ -6743,7 +6658,7 @@ type CreateDatabaseCalculationResponse struct {
 
 func (x *CreateDatabaseCalculationResponse) Reset() {
 	*x = CreateDatabaseCalculationResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[115]
+	mi := &file_tables_v1_tables_proto_msgTypes[114]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -6755,7 +6670,7 @@ func (x *CreateDatabaseCalculationResponse) String() string {
 func (*CreateDatabaseCalculationResponse) ProtoMessage() {}
 
 func (x *CreateDatabaseCalculationResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[115]
+	mi := &file_tables_v1_tables_proto_msgTypes[114]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -6768,7 +6683,7 @@ func (x *CreateDatabaseCalculationResponse) ProtoReflect() protoreflect.Message 
 
 // Deprecated: Use CreateDatabaseCalculationResponse.ProtoReflect.Descriptor instead.
 func (*CreateDatabaseCalculationResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{115}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{114}
 }
 
 func (x *CreateDatabaseCalculationResponse) GetDatabaseCalculation() *DatabaseCalculation {
@@ -6792,7 +6707,7 @@ type GetDatabaseCalculationsSearchNameRequest struct {
 
 func (x *GetDatabaseCalculationsSearchNameRequest) Reset() {
 	*x = GetDatabaseCalculationsSearchNameRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[116]
+	mi := &file_tables_v1_tables_proto_msgTypes[115]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -6804,7 +6719,7 @@ func (x *GetDatabaseCalculationsSearchNameRequest) String() string {
 func (*GetDatabaseCalculationsSearchNameRequest) ProtoMessage() {}
 
 func (x *GetDatabaseCalculationsSearchNameRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[116]
+	mi := &file_tables_v1_tables_proto_msgTypes[115]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -6817,7 +6732,7 @@ func (x *GetDatabaseCalculationsSearchNameRequest) ProtoReflect() protoreflect.M
 
 // Deprecated: Use GetDatabaseCalculationsSearchNameRequest.ProtoReflect.Descriptor instead.
 func (*GetDatabaseCalculationsSearchNameRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{116}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{115}
 }
 
 func (x *GetDatabaseCalculationsSearchNameRequest) GetSearchName() string {
@@ -6859,7 +6774,7 @@ type GetDatabaseCalculationsSearchNameResponse struct {
 
 func (x *GetDatabaseCalculationsSearchNameResponse) Reset() {
 	*x = GetDatabaseCalculationsSearchNameResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[117]
+	mi := &file_tables_v1_tables_proto_msgTypes[116]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -6871,7 +6786,7 @@ func (x *GetDatabaseCalculationsSearchNameResponse) String() string {
 func (*GetDatabaseCalculationsSearchNameResponse) ProtoMessage() {}
 
 func (x *GetDatabaseCalculationsSearchNameResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[117]
+	mi := &file_tables_v1_tables_proto_msgTypes[116]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -6884,7 +6799,7 @@ func (x *GetDatabaseCalculationsSearchNameResponse) ProtoReflect() protoreflect.
 
 // Deprecated: Use GetDatabaseCalculationsSearchNameResponse.ProtoReflect.Descriptor instead.
 func (*GetDatabaseCalculationsSearchNameResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{117}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{116}
 }
 
 func (x *GetDatabaseCalculationsSearchNameResponse) GetData() []*DatabaseCalculation {
@@ -6911,7 +6826,7 @@ type GetDatabaseCalculationByIdRequest struct {
 
 func (x *GetDatabaseCalculationByIdRequest) Reset() {
 	*x = GetDatabaseCalculationByIdRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[118]
+	mi := &file_tables_v1_tables_proto_msgTypes[117]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -6923,7 +6838,7 @@ func (x *GetDatabaseCalculationByIdRequest) String() string {
 func (*GetDatabaseCalculationByIdRequest) ProtoMessage() {}
 
 func (x *GetDatabaseCalculationByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[118]
+	mi := &file_tables_v1_tables_proto_msgTypes[117]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -6936,7 +6851,7 @@ func (x *GetDatabaseCalculationByIdRequest) ProtoReflect() protoreflect.Message 
 
 // Deprecated: Use GetDatabaseCalculationByIdRequest.ProtoReflect.Descriptor instead.
 func (*GetDatabaseCalculationByIdRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{118}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{117}
 }
 
 func (x *GetDatabaseCalculationByIdRequest) GetId() int64 {
@@ -6946,102 +6861,17 @@ func (x *GetDatabaseCalculationByIdRequest) GetId() int64 {
 	return 0
 }
 
-// Выборка GetDatabaseCalculationById: строка ответа — только отмеченные колонки.
-type GetDatabaseCalculationByIdRow struct {
-	state             protoimpl.MessageState `protogen:"open.v1"`
-	DatabaseCatId     int64                  `protobuf:"varint,1,opt,name=database_cat_id,json=databaseCatId,proto3" json:"database_cat_id,omitempty"`
-	CalculationTypeId int64                  `protobuf:"varint,2,opt,name=calculation_type_id,json=calculationTypeId,proto3" json:"calculation_type_id,omitempty"`
-	CreatedAt         *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	UpdatedAt         *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
-	IsDeleted         bool                   `protobuf:"varint,5,opt,name=is_deleted,json=isDeleted,proto3" json:"is_deleted,omitempty"`
-	UserId            int64                  `protobuf:"varint,6,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
-}
-
-func (x *GetDatabaseCalculationByIdRow) Reset() {
-	*x = GetDatabaseCalculationByIdRow{}
-	mi := &file_tables_v1_tables_proto_msgTypes[119]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *GetDatabaseCalculationByIdRow) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetDatabaseCalculationByIdRow) ProtoMessage() {}
-
-func (x *GetDatabaseCalculationByIdRow) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[119]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetDatabaseCalculationByIdRow.ProtoReflect.Descriptor instead.
-func (*GetDatabaseCalculationByIdRow) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{119}
-}
-
-func (x *GetDatabaseCalculationByIdRow) GetDatabaseCatId() int64 {
-	if x != nil {
-		return x.DatabaseCatId
-	}
-	return 0
-}
-
-func (x *GetDatabaseCalculationByIdRow) GetCalculationTypeId() int64 {
-	if x != nil {
-		return x.CalculationTypeId
-	}
-	return 0
-}
-
-func (x *GetDatabaseCalculationByIdRow) GetCreatedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.CreatedAt
-	}
-	return nil
-}
-
-func (x *GetDatabaseCalculationByIdRow) GetUpdatedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.UpdatedAt
-	}
-	return nil
-}
-
-func (x *GetDatabaseCalculationByIdRow) GetIsDeleted() bool {
-	if x != nil {
-		return x.IsDeleted
-	}
-	return false
-}
-
-func (x *GetDatabaseCalculationByIdRow) GetUserId() int64 {
-	if x != nil {
-		return x.UserId
-	}
-	return 0
-}
-
 // Выборка GetDatabaseCalculationById: одна строка.
 type GetDatabaseCalculationByIdResponse struct {
-	state               protoimpl.MessageState         `protogen:"open.v1"`
-	DatabaseCalculation *GetDatabaseCalculationByIdRow `protobuf:"bytes,1,opt,name=database_calculation,json=databaseCalculation,proto3" json:"database_calculation,omitempty"`
+	state               protoimpl.MessageState `protogen:"open.v1"`
+	DatabaseCalculation *DatabaseCalculation   `protobuf:"bytes,1,opt,name=database_calculation,json=databaseCalculation,proto3" json:"database_calculation,omitempty"`
 	unknownFields       protoimpl.UnknownFields
 	sizeCache           protoimpl.SizeCache
 }
 
 func (x *GetDatabaseCalculationByIdResponse) Reset() {
 	*x = GetDatabaseCalculationByIdResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[120]
+	mi := &file_tables_v1_tables_proto_msgTypes[118]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -7053,7 +6883,7 @@ func (x *GetDatabaseCalculationByIdResponse) String() string {
 func (*GetDatabaseCalculationByIdResponse) ProtoMessage() {}
 
 func (x *GetDatabaseCalculationByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[120]
+	mi := &file_tables_v1_tables_proto_msgTypes[118]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -7066,10 +6896,10 @@ func (x *GetDatabaseCalculationByIdResponse) ProtoReflect() protoreflect.Message
 
 // Deprecated: Use GetDatabaseCalculationByIdResponse.ProtoReflect.Descriptor instead.
 func (*GetDatabaseCalculationByIdResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{120}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{118}
 }
 
-func (x *GetDatabaseCalculationByIdResponse) GetDatabaseCalculation() *GetDatabaseCalculationByIdRow {
+func (x *GetDatabaseCalculationByIdResponse) GetDatabaseCalculation() *DatabaseCalculation {
 	if x != nil {
 		return x.DatabaseCalculation
 	}
@@ -7091,7 +6921,7 @@ type GetDatabaseCalculationsFilteredRequest struct {
 
 func (x *GetDatabaseCalculationsFilteredRequest) Reset() {
 	*x = GetDatabaseCalculationsFilteredRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[121]
+	mi := &file_tables_v1_tables_proto_msgTypes[119]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -7103,7 +6933,7 @@ func (x *GetDatabaseCalculationsFilteredRequest) String() string {
 func (*GetDatabaseCalculationsFilteredRequest) ProtoMessage() {}
 
 func (x *GetDatabaseCalculationsFilteredRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[121]
+	mi := &file_tables_v1_tables_proto_msgTypes[119]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -7116,7 +6946,7 @@ func (x *GetDatabaseCalculationsFilteredRequest) ProtoReflect() protoreflect.Mes
 
 // Deprecated: Use GetDatabaseCalculationsFilteredRequest.ProtoReflect.Descriptor instead.
 func (*GetDatabaseCalculationsFilteredRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{121}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{119}
 }
 
 func (x *GetDatabaseCalculationsFilteredRequest) GetDatabaseCatId() int64 {
@@ -7165,7 +6995,7 @@ type GetDatabaseCalculationsFilteredResponse struct {
 
 func (x *GetDatabaseCalculationsFilteredResponse) Reset() {
 	*x = GetDatabaseCalculationsFilteredResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[122]
+	mi := &file_tables_v1_tables_proto_msgTypes[120]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -7177,7 +7007,7 @@ func (x *GetDatabaseCalculationsFilteredResponse) String() string {
 func (*GetDatabaseCalculationsFilteredResponse) ProtoMessage() {}
 
 func (x *GetDatabaseCalculationsFilteredResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[122]
+	mi := &file_tables_v1_tables_proto_msgTypes[120]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -7190,7 +7020,7 @@ func (x *GetDatabaseCalculationsFilteredResponse) ProtoReflect() protoreflect.Me
 
 // Deprecated: Use GetDatabaseCalculationsFilteredResponse.ProtoReflect.Descriptor instead.
 func (*GetDatabaseCalculationsFilteredResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{122}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{120}
 }
 
 func (x *GetDatabaseCalculationsFilteredResponse) GetData() []*DatabaseCalculation {
@@ -7220,7 +7050,7 @@ type GetDatabaseCalculationsDeletedRequest struct {
 
 func (x *GetDatabaseCalculationsDeletedRequest) Reset() {
 	*x = GetDatabaseCalculationsDeletedRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[123]
+	mi := &file_tables_v1_tables_proto_msgTypes[121]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -7232,7 +7062,7 @@ func (x *GetDatabaseCalculationsDeletedRequest) String() string {
 func (*GetDatabaseCalculationsDeletedRequest) ProtoMessage() {}
 
 func (x *GetDatabaseCalculationsDeletedRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[123]
+	mi := &file_tables_v1_tables_proto_msgTypes[121]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -7245,7 +7075,7 @@ func (x *GetDatabaseCalculationsDeletedRequest) ProtoReflect() protoreflect.Mess
 
 // Deprecated: Use GetDatabaseCalculationsDeletedRequest.ProtoReflect.Descriptor instead.
 func (*GetDatabaseCalculationsDeletedRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{123}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{121}
 }
 
 func (x *GetDatabaseCalculationsDeletedRequest) GetOrder() string {
@@ -7280,7 +7110,7 @@ type GetDatabaseCalculationsDeletedResponse struct {
 
 func (x *GetDatabaseCalculationsDeletedResponse) Reset() {
 	*x = GetDatabaseCalculationsDeletedResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[124]
+	mi := &file_tables_v1_tables_proto_msgTypes[122]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -7292,7 +7122,7 @@ func (x *GetDatabaseCalculationsDeletedResponse) String() string {
 func (*GetDatabaseCalculationsDeletedResponse) ProtoMessage() {}
 
 func (x *GetDatabaseCalculationsDeletedResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[124]
+	mi := &file_tables_v1_tables_proto_msgTypes[122]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -7305,7 +7135,7 @@ func (x *GetDatabaseCalculationsDeletedResponse) ProtoReflect() protoreflect.Mes
 
 // Deprecated: Use GetDatabaseCalculationsDeletedResponse.ProtoReflect.Descriptor instead.
 func (*GetDatabaseCalculationsDeletedResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{124}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{122}
 }
 
 func (x *GetDatabaseCalculationsDeletedResponse) GetData() []*DatabaseCalculation {
@@ -7335,7 +7165,7 @@ type GetDatabaseCalculationsRequest struct {
 
 func (x *GetDatabaseCalculationsRequest) Reset() {
 	*x = GetDatabaseCalculationsRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[125]
+	mi := &file_tables_v1_tables_proto_msgTypes[123]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -7347,7 +7177,7 @@ func (x *GetDatabaseCalculationsRequest) String() string {
 func (*GetDatabaseCalculationsRequest) ProtoMessage() {}
 
 func (x *GetDatabaseCalculationsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[125]
+	mi := &file_tables_v1_tables_proto_msgTypes[123]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -7360,7 +7190,7 @@ func (x *GetDatabaseCalculationsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetDatabaseCalculationsRequest.ProtoReflect.Descriptor instead.
 func (*GetDatabaseCalculationsRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{125}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{123}
 }
 
 func (x *GetDatabaseCalculationsRequest) GetOrder() string {
@@ -7395,7 +7225,7 @@ type GetDatabaseCalculationsResponse struct {
 
 func (x *GetDatabaseCalculationsResponse) Reset() {
 	*x = GetDatabaseCalculationsResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[126]
+	mi := &file_tables_v1_tables_proto_msgTypes[124]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -7407,7 +7237,7 @@ func (x *GetDatabaseCalculationsResponse) String() string {
 func (*GetDatabaseCalculationsResponse) ProtoMessage() {}
 
 func (x *GetDatabaseCalculationsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[126]
+	mi := &file_tables_v1_tables_proto_msgTypes[124]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -7420,7 +7250,7 @@ func (x *GetDatabaseCalculationsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetDatabaseCalculationsResponse.ProtoReflect.Descriptor instead.
 func (*GetDatabaseCalculationsResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{126}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{124}
 }
 
 func (x *GetDatabaseCalculationsResponse) GetData() []*DatabaseCalculation {
@@ -7450,7 +7280,7 @@ type UpdateDatabaseCalculationByIdRequest struct {
 
 func (x *UpdateDatabaseCalculationByIdRequest) Reset() {
 	*x = UpdateDatabaseCalculationByIdRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[127]
+	mi := &file_tables_v1_tables_proto_msgTypes[125]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -7462,7 +7292,7 @@ func (x *UpdateDatabaseCalculationByIdRequest) String() string {
 func (*UpdateDatabaseCalculationByIdRequest) ProtoMessage() {}
 
 func (x *UpdateDatabaseCalculationByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[127]
+	mi := &file_tables_v1_tables_proto_msgTypes[125]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -7475,7 +7305,7 @@ func (x *UpdateDatabaseCalculationByIdRequest) ProtoReflect() protoreflect.Messa
 
 // Deprecated: Use UpdateDatabaseCalculationByIdRequest.ProtoReflect.Descriptor instead.
 func (*UpdateDatabaseCalculationByIdRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{127}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{125}
 }
 
 func (x *UpdateDatabaseCalculationByIdRequest) GetDatabaseCatId() int64 {
@@ -7515,7 +7345,7 @@ type UpdateDatabaseCalculationByIdResponse struct {
 
 func (x *UpdateDatabaseCalculationByIdResponse) Reset() {
 	*x = UpdateDatabaseCalculationByIdResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[128]
+	mi := &file_tables_v1_tables_proto_msgTypes[126]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -7527,7 +7357,7 @@ func (x *UpdateDatabaseCalculationByIdResponse) String() string {
 func (*UpdateDatabaseCalculationByIdResponse) ProtoMessage() {}
 
 func (x *UpdateDatabaseCalculationByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[128]
+	mi := &file_tables_v1_tables_proto_msgTypes[126]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -7540,7 +7370,7 @@ func (x *UpdateDatabaseCalculationByIdResponse) ProtoReflect() protoreflect.Mess
 
 // Deprecated: Use UpdateDatabaseCalculationByIdResponse.ProtoReflect.Descriptor instead.
 func (*UpdateDatabaseCalculationByIdResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{128}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{126}
 }
 
 // Мягкое удаление DeleteDatabaseCalculationById: параметры вызова.
@@ -7554,7 +7384,7 @@ type DeleteDatabaseCalculationByIdRequest struct {
 
 func (x *DeleteDatabaseCalculationByIdRequest) Reset() {
 	*x = DeleteDatabaseCalculationByIdRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[129]
+	mi := &file_tables_v1_tables_proto_msgTypes[127]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -7566,7 +7396,7 @@ func (x *DeleteDatabaseCalculationByIdRequest) String() string {
 func (*DeleteDatabaseCalculationByIdRequest) ProtoMessage() {}
 
 func (x *DeleteDatabaseCalculationByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[129]
+	mi := &file_tables_v1_tables_proto_msgTypes[127]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -7579,7 +7409,7 @@ func (x *DeleteDatabaseCalculationByIdRequest) ProtoReflect() protoreflect.Messa
 
 // Deprecated: Use DeleteDatabaseCalculationByIdRequest.ProtoReflect.Descriptor instead.
 func (*DeleteDatabaseCalculationByIdRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{129}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{127}
 }
 
 func (x *DeleteDatabaseCalculationByIdRequest) GetExternalId() string {
@@ -7605,7 +7435,7 @@ type DeleteDatabaseCalculationByIdResponse struct {
 
 func (x *DeleteDatabaseCalculationByIdResponse) Reset() {
 	*x = DeleteDatabaseCalculationByIdResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[130]
+	mi := &file_tables_v1_tables_proto_msgTypes[128]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -7617,7 +7447,7 @@ func (x *DeleteDatabaseCalculationByIdResponse) String() string {
 func (*DeleteDatabaseCalculationByIdResponse) ProtoMessage() {}
 
 func (x *DeleteDatabaseCalculationByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[130]
+	mi := &file_tables_v1_tables_proto_msgTypes[128]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -7630,7 +7460,7 @@ func (x *DeleteDatabaseCalculationByIdResponse) ProtoReflect() protoreflect.Mess
 
 // Deprecated: Use DeleteDatabaseCalculationByIdResponse.ProtoReflect.Descriptor instead.
 func (*DeleteDatabaseCalculationByIdResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{130}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{128}
 }
 
 // Обратное удаление UndeleteDatabaseCalculationById: параметры вызова.
@@ -7644,7 +7474,7 @@ type UndeleteDatabaseCalculationByIdRequest struct {
 
 func (x *UndeleteDatabaseCalculationByIdRequest) Reset() {
 	*x = UndeleteDatabaseCalculationByIdRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[131]
+	mi := &file_tables_v1_tables_proto_msgTypes[129]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -7656,7 +7486,7 @@ func (x *UndeleteDatabaseCalculationByIdRequest) String() string {
 func (*UndeleteDatabaseCalculationByIdRequest) ProtoMessage() {}
 
 func (x *UndeleteDatabaseCalculationByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[131]
+	mi := &file_tables_v1_tables_proto_msgTypes[129]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -7669,7 +7499,7 @@ func (x *UndeleteDatabaseCalculationByIdRequest) ProtoReflect() protoreflect.Mes
 
 // Deprecated: Use UndeleteDatabaseCalculationByIdRequest.ProtoReflect.Descriptor instead.
 func (*UndeleteDatabaseCalculationByIdRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{131}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{129}
 }
 
 func (x *UndeleteDatabaseCalculationByIdRequest) GetExternalId() string {
@@ -7695,7 +7525,7 @@ type UndeleteDatabaseCalculationByIdResponse struct {
 
 func (x *UndeleteDatabaseCalculationByIdResponse) Reset() {
 	*x = UndeleteDatabaseCalculationByIdResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[132]
+	mi := &file_tables_v1_tables_proto_msgTypes[130]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -7707,7 +7537,7 @@ func (x *UndeleteDatabaseCalculationByIdResponse) String() string {
 func (*UndeleteDatabaseCalculationByIdResponse) ProtoMessage() {}
 
 func (x *UndeleteDatabaseCalculationByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[132]
+	mi := &file_tables_v1_tables_proto_msgTypes[130]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -7720,7 +7550,7 @@ func (x *UndeleteDatabaseCalculationByIdResponse) ProtoReflect() protoreflect.Me
 
 // Deprecated: Use UndeleteDatabaseCalculationByIdResponse.ProtoReflect.Descriptor instead.
 func (*UndeleteDatabaseCalculationByIdResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{132}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{130}
 }
 
 // Строка таблицы dc.domain_cat: все колонки, как их вернёт SELECT *.
@@ -7738,7 +7568,7 @@ type DomainCat struct {
 
 func (x *DomainCat) Reset() {
 	*x = DomainCat{}
-	mi := &file_tables_v1_tables_proto_msgTypes[133]
+	mi := &file_tables_v1_tables_proto_msgTypes[131]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -7750,7 +7580,7 @@ func (x *DomainCat) String() string {
 func (*DomainCat) ProtoMessage() {}
 
 func (x *DomainCat) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[133]
+	mi := &file_tables_v1_tables_proto_msgTypes[131]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -7763,7 +7593,7 @@ func (x *DomainCat) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DomainCat.ProtoReflect.Descriptor instead.
 func (*DomainCat) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{133}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{131}
 }
 
 func (x *DomainCat) GetId() int64 {
@@ -7819,7 +7649,7 @@ type CreateDomainCatRequest struct {
 
 func (x *CreateDomainCatRequest) Reset() {
 	*x = CreateDomainCatRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[134]
+	mi := &file_tables_v1_tables_proto_msgTypes[132]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -7831,7 +7661,7 @@ func (x *CreateDomainCatRequest) String() string {
 func (*CreateDomainCatRequest) ProtoMessage() {}
 
 func (x *CreateDomainCatRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[134]
+	mi := &file_tables_v1_tables_proto_msgTypes[132]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -7844,7 +7674,7 @@ func (x *CreateDomainCatRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateDomainCatRequest.ProtoReflect.Descriptor instead.
 func (*CreateDomainCatRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{134}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{132}
 }
 
 func (x *CreateDomainCatRequest) GetDomainName() string {
@@ -7871,7 +7701,7 @@ type CreateDomainCatResponse struct {
 
 func (x *CreateDomainCatResponse) Reset() {
 	*x = CreateDomainCatResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[135]
+	mi := &file_tables_v1_tables_proto_msgTypes[133]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -7883,7 +7713,7 @@ func (x *CreateDomainCatResponse) String() string {
 func (*CreateDomainCatResponse) ProtoMessage() {}
 
 func (x *CreateDomainCatResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[135]
+	mi := &file_tables_v1_tables_proto_msgTypes[133]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -7896,7 +7726,7 @@ func (x *CreateDomainCatResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateDomainCatResponse.ProtoReflect.Descriptor instead.
 func (*CreateDomainCatResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{135}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{133}
 }
 
 func (x *CreateDomainCatResponse) GetDomainCat() *DomainCat {
@@ -7920,7 +7750,7 @@ type GetDomainCatsSearchNameRequest struct {
 
 func (x *GetDomainCatsSearchNameRequest) Reset() {
 	*x = GetDomainCatsSearchNameRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[136]
+	mi := &file_tables_v1_tables_proto_msgTypes[134]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -7932,7 +7762,7 @@ func (x *GetDomainCatsSearchNameRequest) String() string {
 func (*GetDomainCatsSearchNameRequest) ProtoMessage() {}
 
 func (x *GetDomainCatsSearchNameRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[136]
+	mi := &file_tables_v1_tables_proto_msgTypes[134]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -7945,7 +7775,7 @@ func (x *GetDomainCatsSearchNameRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetDomainCatsSearchNameRequest.ProtoReflect.Descriptor instead.
 func (*GetDomainCatsSearchNameRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{136}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{134}
 }
 
 func (x *GetDomainCatsSearchNameRequest) GetSearchName() string {
@@ -7987,7 +7817,7 @@ type GetDomainCatsSearchNameResponse struct {
 
 func (x *GetDomainCatsSearchNameResponse) Reset() {
 	*x = GetDomainCatsSearchNameResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[137]
+	mi := &file_tables_v1_tables_proto_msgTypes[135]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -7999,7 +7829,7 @@ func (x *GetDomainCatsSearchNameResponse) String() string {
 func (*GetDomainCatsSearchNameResponse) ProtoMessage() {}
 
 func (x *GetDomainCatsSearchNameResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[137]
+	mi := &file_tables_v1_tables_proto_msgTypes[135]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -8012,7 +7842,7 @@ func (x *GetDomainCatsSearchNameResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetDomainCatsSearchNameResponse.ProtoReflect.Descriptor instead.
 func (*GetDomainCatsSearchNameResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{137}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{135}
 }
 
 func (x *GetDomainCatsSearchNameResponse) GetData() []*DomainCat {
@@ -8039,7 +7869,7 @@ type GetDomainCatByIdRequest struct {
 
 func (x *GetDomainCatByIdRequest) Reset() {
 	*x = GetDomainCatByIdRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[138]
+	mi := &file_tables_v1_tables_proto_msgTypes[136]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -8051,7 +7881,7 @@ func (x *GetDomainCatByIdRequest) String() string {
 func (*GetDomainCatByIdRequest) ProtoMessage() {}
 
 func (x *GetDomainCatByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[138]
+	mi := &file_tables_v1_tables_proto_msgTypes[136]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -8064,7 +7894,7 @@ func (x *GetDomainCatByIdRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetDomainCatByIdRequest.ProtoReflect.Descriptor instead.
 func (*GetDomainCatByIdRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{138}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{136}
 }
 
 func (x *GetDomainCatByIdRequest) GetId() int64 {
@@ -8084,7 +7914,7 @@ type GetDomainCatByIdResponse struct {
 
 func (x *GetDomainCatByIdResponse) Reset() {
 	*x = GetDomainCatByIdResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[139]
+	mi := &file_tables_v1_tables_proto_msgTypes[137]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -8096,7 +7926,7 @@ func (x *GetDomainCatByIdResponse) String() string {
 func (*GetDomainCatByIdResponse) ProtoMessage() {}
 
 func (x *GetDomainCatByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[139]
+	mi := &file_tables_v1_tables_proto_msgTypes[137]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -8109,7 +7939,7 @@ func (x *GetDomainCatByIdResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetDomainCatByIdResponse.ProtoReflect.Descriptor instead.
 func (*GetDomainCatByIdResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{139}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{137}
 }
 
 func (x *GetDomainCatByIdResponse) GetDomainCat() *DomainCat {
@@ -8132,7 +7962,7 @@ type GetDomainCatsRequest struct {
 
 func (x *GetDomainCatsRequest) Reset() {
 	*x = GetDomainCatsRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[140]
+	mi := &file_tables_v1_tables_proto_msgTypes[138]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -8144,7 +7974,7 @@ func (x *GetDomainCatsRequest) String() string {
 func (*GetDomainCatsRequest) ProtoMessage() {}
 
 func (x *GetDomainCatsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[140]
+	mi := &file_tables_v1_tables_proto_msgTypes[138]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -8157,7 +7987,7 @@ func (x *GetDomainCatsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetDomainCatsRequest.ProtoReflect.Descriptor instead.
 func (*GetDomainCatsRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{140}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{138}
 }
 
 func (x *GetDomainCatsRequest) GetOrder() string {
@@ -8192,7 +8022,7 @@ type GetDomainCatsResponse struct {
 
 func (x *GetDomainCatsResponse) Reset() {
 	*x = GetDomainCatsResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[141]
+	mi := &file_tables_v1_tables_proto_msgTypes[139]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -8204,7 +8034,7 @@ func (x *GetDomainCatsResponse) String() string {
 func (*GetDomainCatsResponse) ProtoMessage() {}
 
 func (x *GetDomainCatsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[141]
+	mi := &file_tables_v1_tables_proto_msgTypes[139]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -8217,7 +8047,7 @@ func (x *GetDomainCatsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetDomainCatsResponse.ProtoReflect.Descriptor instead.
 func (*GetDomainCatsResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{141}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{139}
 }
 
 func (x *GetDomainCatsResponse) GetData() []*DomainCat {
@@ -8247,7 +8077,7 @@ type GetDomainCatsDeletedRequest struct {
 
 func (x *GetDomainCatsDeletedRequest) Reset() {
 	*x = GetDomainCatsDeletedRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[142]
+	mi := &file_tables_v1_tables_proto_msgTypes[140]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -8259,7 +8089,7 @@ func (x *GetDomainCatsDeletedRequest) String() string {
 func (*GetDomainCatsDeletedRequest) ProtoMessage() {}
 
 func (x *GetDomainCatsDeletedRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[142]
+	mi := &file_tables_v1_tables_proto_msgTypes[140]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -8272,7 +8102,7 @@ func (x *GetDomainCatsDeletedRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetDomainCatsDeletedRequest.ProtoReflect.Descriptor instead.
 func (*GetDomainCatsDeletedRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{142}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{140}
 }
 
 func (x *GetDomainCatsDeletedRequest) GetOrder() string {
@@ -8307,7 +8137,7 @@ type GetDomainCatsDeletedResponse struct {
 
 func (x *GetDomainCatsDeletedResponse) Reset() {
 	*x = GetDomainCatsDeletedResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[143]
+	mi := &file_tables_v1_tables_proto_msgTypes[141]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -8319,7 +8149,7 @@ func (x *GetDomainCatsDeletedResponse) String() string {
 func (*GetDomainCatsDeletedResponse) ProtoMessage() {}
 
 func (x *GetDomainCatsDeletedResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[143]
+	mi := &file_tables_v1_tables_proto_msgTypes[141]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -8332,7 +8162,7 @@ func (x *GetDomainCatsDeletedResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetDomainCatsDeletedResponse.ProtoReflect.Descriptor instead.
 func (*GetDomainCatsDeletedResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{143}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{141}
 }
 
 func (x *GetDomainCatsDeletedResponse) GetData() []*DomainCat {
@@ -8361,7 +8191,7 @@ type UpdateDomainCatByIdRequest struct {
 
 func (x *UpdateDomainCatByIdRequest) Reset() {
 	*x = UpdateDomainCatByIdRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[144]
+	mi := &file_tables_v1_tables_proto_msgTypes[142]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -8373,7 +8203,7 @@ func (x *UpdateDomainCatByIdRequest) String() string {
 func (*UpdateDomainCatByIdRequest) ProtoMessage() {}
 
 func (x *UpdateDomainCatByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[144]
+	mi := &file_tables_v1_tables_proto_msgTypes[142]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -8386,7 +8216,7 @@ func (x *UpdateDomainCatByIdRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateDomainCatByIdRequest.ProtoReflect.Descriptor instead.
 func (*UpdateDomainCatByIdRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{144}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{142}
 }
 
 func (x *UpdateDomainCatByIdRequest) GetDomainName() string {
@@ -8419,7 +8249,7 @@ type UpdateDomainCatByIdResponse struct {
 
 func (x *UpdateDomainCatByIdResponse) Reset() {
 	*x = UpdateDomainCatByIdResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[145]
+	mi := &file_tables_v1_tables_proto_msgTypes[143]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -8431,7 +8261,7 @@ func (x *UpdateDomainCatByIdResponse) String() string {
 func (*UpdateDomainCatByIdResponse) ProtoMessage() {}
 
 func (x *UpdateDomainCatByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[145]
+	mi := &file_tables_v1_tables_proto_msgTypes[143]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -8444,7 +8274,7 @@ func (x *UpdateDomainCatByIdResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateDomainCatByIdResponse.ProtoReflect.Descriptor instead.
 func (*UpdateDomainCatByIdResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{145}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{143}
 }
 
 // Мягкое удаление DeleteDomainCatById: параметры вызова.
@@ -8458,7 +8288,7 @@ type DeleteDomainCatByIdRequest struct {
 
 func (x *DeleteDomainCatByIdRequest) Reset() {
 	*x = DeleteDomainCatByIdRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[146]
+	mi := &file_tables_v1_tables_proto_msgTypes[144]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -8470,7 +8300,7 @@ func (x *DeleteDomainCatByIdRequest) String() string {
 func (*DeleteDomainCatByIdRequest) ProtoMessage() {}
 
 func (x *DeleteDomainCatByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[146]
+	mi := &file_tables_v1_tables_proto_msgTypes[144]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -8483,7 +8313,7 @@ func (x *DeleteDomainCatByIdRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteDomainCatByIdRequest.ProtoReflect.Descriptor instead.
 func (*DeleteDomainCatByIdRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{146}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{144}
 }
 
 func (x *DeleteDomainCatByIdRequest) GetExternalId() string {
@@ -8509,7 +8339,7 @@ type DeleteDomainCatByIdResponse struct {
 
 func (x *DeleteDomainCatByIdResponse) Reset() {
 	*x = DeleteDomainCatByIdResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[147]
+	mi := &file_tables_v1_tables_proto_msgTypes[145]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -8521,7 +8351,7 @@ func (x *DeleteDomainCatByIdResponse) String() string {
 func (*DeleteDomainCatByIdResponse) ProtoMessage() {}
 
 func (x *DeleteDomainCatByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[147]
+	mi := &file_tables_v1_tables_proto_msgTypes[145]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -8534,7 +8364,7 @@ func (x *DeleteDomainCatByIdResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteDomainCatByIdResponse.ProtoReflect.Descriptor instead.
 func (*DeleteDomainCatByIdResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{147}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{145}
 }
 
 // Обратное удаление UndeleteDomainCatById: параметры вызова.
@@ -8548,7 +8378,7 @@ type UndeleteDomainCatByIdRequest struct {
 
 func (x *UndeleteDomainCatByIdRequest) Reset() {
 	*x = UndeleteDomainCatByIdRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[148]
+	mi := &file_tables_v1_tables_proto_msgTypes[146]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -8560,7 +8390,7 @@ func (x *UndeleteDomainCatByIdRequest) String() string {
 func (*UndeleteDomainCatByIdRequest) ProtoMessage() {}
 
 func (x *UndeleteDomainCatByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[148]
+	mi := &file_tables_v1_tables_proto_msgTypes[146]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -8573,7 +8403,7 @@ func (x *UndeleteDomainCatByIdRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UndeleteDomainCatByIdRequest.ProtoReflect.Descriptor instead.
 func (*UndeleteDomainCatByIdRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{148}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{146}
 }
 
 func (x *UndeleteDomainCatByIdRequest) GetExternalId() string {
@@ -8599,7 +8429,7 @@ type UndeleteDomainCatByIdResponse struct {
 
 func (x *UndeleteDomainCatByIdResponse) Reset() {
 	*x = UndeleteDomainCatByIdResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[149]
+	mi := &file_tables_v1_tables_proto_msgTypes[147]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -8611,7 +8441,7 @@ func (x *UndeleteDomainCatByIdResponse) String() string {
 func (*UndeleteDomainCatByIdResponse) ProtoMessage() {}
 
 func (x *UndeleteDomainCatByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[149]
+	mi := &file_tables_v1_tables_proto_msgTypes[147]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -8624,7 +8454,7 @@ func (x *UndeleteDomainCatByIdResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UndeleteDomainCatByIdResponse.ProtoReflect.Descriptor instead.
 func (*UndeleteDomainCatByIdResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{149}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{147}
 }
 
 // Строка таблицы dc.following_calculation: все колонки, как их вернёт SELECT *.
@@ -8643,7 +8473,7 @@ type FollowingCalculation struct {
 
 func (x *FollowingCalculation) Reset() {
 	*x = FollowingCalculation{}
-	mi := &file_tables_v1_tables_proto_msgTypes[150]
+	mi := &file_tables_v1_tables_proto_msgTypes[148]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -8655,7 +8485,7 @@ func (x *FollowingCalculation) String() string {
 func (*FollowingCalculation) ProtoMessage() {}
 
 func (x *FollowingCalculation) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[150]
+	mi := &file_tables_v1_tables_proto_msgTypes[148]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -8668,7 +8498,7 @@ func (x *FollowingCalculation) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FollowingCalculation.ProtoReflect.Descriptor instead.
 func (*FollowingCalculation) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{150}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{148}
 }
 
 func (x *FollowingCalculation) GetId() int64 {
@@ -8732,7 +8562,7 @@ type CreateFollowingCalculationRequest struct {
 
 func (x *CreateFollowingCalculationRequest) Reset() {
 	*x = CreateFollowingCalculationRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[151]
+	mi := &file_tables_v1_tables_proto_msgTypes[149]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -8744,7 +8574,7 @@ func (x *CreateFollowingCalculationRequest) String() string {
 func (*CreateFollowingCalculationRequest) ProtoMessage() {}
 
 func (x *CreateFollowingCalculationRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[151]
+	mi := &file_tables_v1_tables_proto_msgTypes[149]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -8757,7 +8587,7 @@ func (x *CreateFollowingCalculationRequest) ProtoReflect() protoreflect.Message 
 
 // Deprecated: Use CreateFollowingCalculationRequest.ProtoReflect.Descriptor instead.
 func (*CreateFollowingCalculationRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{151}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{149}
 }
 
 func (x *CreateFollowingCalculationRequest) GetColumnCatId() int64 {
@@ -8791,7 +8621,7 @@ type CreateFollowingCalculationResponse struct {
 
 func (x *CreateFollowingCalculationResponse) Reset() {
 	*x = CreateFollowingCalculationResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[152]
+	mi := &file_tables_v1_tables_proto_msgTypes[150]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -8803,7 +8633,7 @@ func (x *CreateFollowingCalculationResponse) String() string {
 func (*CreateFollowingCalculationResponse) ProtoMessage() {}
 
 func (x *CreateFollowingCalculationResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[152]
+	mi := &file_tables_v1_tables_proto_msgTypes[150]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -8816,7 +8646,7 @@ func (x *CreateFollowingCalculationResponse) ProtoReflect() protoreflect.Message
 
 // Deprecated: Use CreateFollowingCalculationResponse.ProtoReflect.Descriptor instead.
 func (*CreateFollowingCalculationResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{152}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{150}
 }
 
 func (x *CreateFollowingCalculationResponse) GetFollowingCalculation() *FollowingCalculation {
@@ -8836,7 +8666,7 @@ type GetFollowingCalculationByIdRequest struct {
 
 func (x *GetFollowingCalculationByIdRequest) Reset() {
 	*x = GetFollowingCalculationByIdRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[153]
+	mi := &file_tables_v1_tables_proto_msgTypes[151]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -8848,7 +8678,7 @@ func (x *GetFollowingCalculationByIdRequest) String() string {
 func (*GetFollowingCalculationByIdRequest) ProtoMessage() {}
 
 func (x *GetFollowingCalculationByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[153]
+	mi := &file_tables_v1_tables_proto_msgTypes[151]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -8861,7 +8691,7 @@ func (x *GetFollowingCalculationByIdRequest) ProtoReflect() protoreflect.Message
 
 // Deprecated: Use GetFollowingCalculationByIdRequest.ProtoReflect.Descriptor instead.
 func (*GetFollowingCalculationByIdRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{153}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{151}
 }
 
 func (x *GetFollowingCalculationByIdRequest) GetId() int64 {
@@ -8881,7 +8711,7 @@ type GetFollowingCalculationByIdResponse struct {
 
 func (x *GetFollowingCalculationByIdResponse) Reset() {
 	*x = GetFollowingCalculationByIdResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[154]
+	mi := &file_tables_v1_tables_proto_msgTypes[152]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -8893,7 +8723,7 @@ func (x *GetFollowingCalculationByIdResponse) String() string {
 func (*GetFollowingCalculationByIdResponse) ProtoMessage() {}
 
 func (x *GetFollowingCalculationByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[154]
+	mi := &file_tables_v1_tables_proto_msgTypes[152]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -8906,7 +8736,7 @@ func (x *GetFollowingCalculationByIdResponse) ProtoReflect() protoreflect.Messag
 
 // Deprecated: Use GetFollowingCalculationByIdResponse.ProtoReflect.Descriptor instead.
 func (*GetFollowingCalculationByIdResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{154}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{152}
 }
 
 func (x *GetFollowingCalculationByIdResponse) GetFollowingCalculation() *FollowingCalculation {
@@ -8929,7 +8759,7 @@ type GetFollowingCalculationsRequest struct {
 
 func (x *GetFollowingCalculationsRequest) Reset() {
 	*x = GetFollowingCalculationsRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[155]
+	mi := &file_tables_v1_tables_proto_msgTypes[153]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -8941,7 +8771,7 @@ func (x *GetFollowingCalculationsRequest) String() string {
 func (*GetFollowingCalculationsRequest) ProtoMessage() {}
 
 func (x *GetFollowingCalculationsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[155]
+	mi := &file_tables_v1_tables_proto_msgTypes[153]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -8954,7 +8784,7 @@ func (x *GetFollowingCalculationsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetFollowingCalculationsRequest.ProtoReflect.Descriptor instead.
 func (*GetFollowingCalculationsRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{155}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{153}
 }
 
 func (x *GetFollowingCalculationsRequest) GetOrder() string {
@@ -8989,7 +8819,7 @@ type GetFollowingCalculationsResponse struct {
 
 func (x *GetFollowingCalculationsResponse) Reset() {
 	*x = GetFollowingCalculationsResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[156]
+	mi := &file_tables_v1_tables_proto_msgTypes[154]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -9001,7 +8831,7 @@ func (x *GetFollowingCalculationsResponse) String() string {
 func (*GetFollowingCalculationsResponse) ProtoMessage() {}
 
 func (x *GetFollowingCalculationsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[156]
+	mi := &file_tables_v1_tables_proto_msgTypes[154]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -9014,7 +8844,7 @@ func (x *GetFollowingCalculationsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetFollowingCalculationsResponse.ProtoReflect.Descriptor instead.
 func (*GetFollowingCalculationsResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{156}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{154}
 }
 
 func (x *GetFollowingCalculationsResponse) GetData() []*FollowingCalculation {
@@ -9044,7 +8874,7 @@ type GetFollowingCalculationsDeletedRequest struct {
 
 func (x *GetFollowingCalculationsDeletedRequest) Reset() {
 	*x = GetFollowingCalculationsDeletedRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[157]
+	mi := &file_tables_v1_tables_proto_msgTypes[155]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -9056,7 +8886,7 @@ func (x *GetFollowingCalculationsDeletedRequest) String() string {
 func (*GetFollowingCalculationsDeletedRequest) ProtoMessage() {}
 
 func (x *GetFollowingCalculationsDeletedRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[157]
+	mi := &file_tables_v1_tables_proto_msgTypes[155]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -9069,7 +8899,7 @@ func (x *GetFollowingCalculationsDeletedRequest) ProtoReflect() protoreflect.Mes
 
 // Deprecated: Use GetFollowingCalculationsDeletedRequest.ProtoReflect.Descriptor instead.
 func (*GetFollowingCalculationsDeletedRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{157}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{155}
 }
 
 func (x *GetFollowingCalculationsDeletedRequest) GetOrder() string {
@@ -9104,7 +8934,7 @@ type GetFollowingCalculationsDeletedResponse struct {
 
 func (x *GetFollowingCalculationsDeletedResponse) Reset() {
 	*x = GetFollowingCalculationsDeletedResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[158]
+	mi := &file_tables_v1_tables_proto_msgTypes[156]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -9116,7 +8946,7 @@ func (x *GetFollowingCalculationsDeletedResponse) String() string {
 func (*GetFollowingCalculationsDeletedResponse) ProtoMessage() {}
 
 func (x *GetFollowingCalculationsDeletedResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[158]
+	mi := &file_tables_v1_tables_proto_msgTypes[156]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -9129,7 +8959,7 @@ func (x *GetFollowingCalculationsDeletedResponse) ProtoReflect() protoreflect.Me
 
 // Deprecated: Use GetFollowingCalculationsDeletedResponse.ProtoReflect.Descriptor instead.
 func (*GetFollowingCalculationsDeletedResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{158}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{156}
 }
 
 func (x *GetFollowingCalculationsDeletedResponse) GetData() []*FollowingCalculation {
@@ -9161,7 +8991,7 @@ type GetFollowingCalculationsFiltersRequest struct {
 
 func (x *GetFollowingCalculationsFiltersRequest) Reset() {
 	*x = GetFollowingCalculationsFiltersRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[159]
+	mi := &file_tables_v1_tables_proto_msgTypes[157]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -9173,7 +9003,7 @@ func (x *GetFollowingCalculationsFiltersRequest) String() string {
 func (*GetFollowingCalculationsFiltersRequest) ProtoMessage() {}
 
 func (x *GetFollowingCalculationsFiltersRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[159]
+	mi := &file_tables_v1_tables_proto_msgTypes[157]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -9186,7 +9016,7 @@ func (x *GetFollowingCalculationsFiltersRequest) ProtoReflect() protoreflect.Mes
 
 // Deprecated: Use GetFollowingCalculationsFiltersRequest.ProtoReflect.Descriptor instead.
 func (*GetFollowingCalculationsFiltersRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{159}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{157}
 }
 
 func (x *GetFollowingCalculationsFiltersRequest) GetColumnCatId() int64 {
@@ -9235,7 +9065,7 @@ type GetFollowingCalculationsFiltersResponse struct {
 
 func (x *GetFollowingCalculationsFiltersResponse) Reset() {
 	*x = GetFollowingCalculationsFiltersResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[160]
+	mi := &file_tables_v1_tables_proto_msgTypes[158]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -9247,7 +9077,7 @@ func (x *GetFollowingCalculationsFiltersResponse) String() string {
 func (*GetFollowingCalculationsFiltersResponse) ProtoMessage() {}
 
 func (x *GetFollowingCalculationsFiltersResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[160]
+	mi := &file_tables_v1_tables_proto_msgTypes[158]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -9260,7 +9090,7 @@ func (x *GetFollowingCalculationsFiltersResponse) ProtoReflect() protoreflect.Me
 
 // Deprecated: Use GetFollowingCalculationsFiltersResponse.ProtoReflect.Descriptor instead.
 func (*GetFollowingCalculationsFiltersResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{160}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{158}
 }
 
 func (x *GetFollowingCalculationsFiltersResponse) GetData() []*FollowingCalculation {
@@ -9290,7 +9120,7 @@ type UpdateFollowingCalculationByIdRequest struct {
 
 func (x *UpdateFollowingCalculationByIdRequest) Reset() {
 	*x = UpdateFollowingCalculationByIdRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[161]
+	mi := &file_tables_v1_tables_proto_msgTypes[159]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -9302,7 +9132,7 @@ func (x *UpdateFollowingCalculationByIdRequest) String() string {
 func (*UpdateFollowingCalculationByIdRequest) ProtoMessage() {}
 
 func (x *UpdateFollowingCalculationByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[161]
+	mi := &file_tables_v1_tables_proto_msgTypes[159]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -9315,7 +9145,7 @@ func (x *UpdateFollowingCalculationByIdRequest) ProtoReflect() protoreflect.Mess
 
 // Deprecated: Use UpdateFollowingCalculationByIdRequest.ProtoReflect.Descriptor instead.
 func (*UpdateFollowingCalculationByIdRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{161}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{159}
 }
 
 func (x *UpdateFollowingCalculationByIdRequest) GetColumnCatId() int64 {
@@ -9355,7 +9185,7 @@ type UpdateFollowingCalculationByIdResponse struct {
 
 func (x *UpdateFollowingCalculationByIdResponse) Reset() {
 	*x = UpdateFollowingCalculationByIdResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[162]
+	mi := &file_tables_v1_tables_proto_msgTypes[160]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -9367,7 +9197,7 @@ func (x *UpdateFollowingCalculationByIdResponse) String() string {
 func (*UpdateFollowingCalculationByIdResponse) ProtoMessage() {}
 
 func (x *UpdateFollowingCalculationByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[162]
+	mi := &file_tables_v1_tables_proto_msgTypes[160]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -9380,7 +9210,7 @@ func (x *UpdateFollowingCalculationByIdResponse) ProtoReflect() protoreflect.Mes
 
 // Deprecated: Use UpdateFollowingCalculationByIdResponse.ProtoReflect.Descriptor instead.
 func (*UpdateFollowingCalculationByIdResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{162}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{160}
 }
 
 // Мягкое удаление DeleteFollowingCalculationById: параметры вызова.
@@ -9394,7 +9224,7 @@ type DeleteFollowingCalculationByIdRequest struct {
 
 func (x *DeleteFollowingCalculationByIdRequest) Reset() {
 	*x = DeleteFollowingCalculationByIdRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[163]
+	mi := &file_tables_v1_tables_proto_msgTypes[161]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -9406,7 +9236,7 @@ func (x *DeleteFollowingCalculationByIdRequest) String() string {
 func (*DeleteFollowingCalculationByIdRequest) ProtoMessage() {}
 
 func (x *DeleteFollowingCalculationByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[163]
+	mi := &file_tables_v1_tables_proto_msgTypes[161]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -9419,7 +9249,7 @@ func (x *DeleteFollowingCalculationByIdRequest) ProtoReflect() protoreflect.Mess
 
 // Deprecated: Use DeleteFollowingCalculationByIdRequest.ProtoReflect.Descriptor instead.
 func (*DeleteFollowingCalculationByIdRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{163}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{161}
 }
 
 func (x *DeleteFollowingCalculationByIdRequest) GetExternalId() string {
@@ -9445,7 +9275,7 @@ type DeleteFollowingCalculationByIdResponse struct {
 
 func (x *DeleteFollowingCalculationByIdResponse) Reset() {
 	*x = DeleteFollowingCalculationByIdResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[164]
+	mi := &file_tables_v1_tables_proto_msgTypes[162]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -9457,7 +9287,7 @@ func (x *DeleteFollowingCalculationByIdResponse) String() string {
 func (*DeleteFollowingCalculationByIdResponse) ProtoMessage() {}
 
 func (x *DeleteFollowingCalculationByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[164]
+	mi := &file_tables_v1_tables_proto_msgTypes[162]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -9470,7 +9300,7 @@ func (x *DeleteFollowingCalculationByIdResponse) ProtoReflect() protoreflect.Mes
 
 // Deprecated: Use DeleteFollowingCalculationByIdResponse.ProtoReflect.Descriptor instead.
 func (*DeleteFollowingCalculationByIdResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{164}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{162}
 }
 
 // Обратное удаление UndeleteFollowingCalculationById: параметры вызова.
@@ -9484,7 +9314,7 @@ type UndeleteFollowingCalculationByIdRequest struct {
 
 func (x *UndeleteFollowingCalculationByIdRequest) Reset() {
 	*x = UndeleteFollowingCalculationByIdRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[165]
+	mi := &file_tables_v1_tables_proto_msgTypes[163]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -9496,7 +9326,7 @@ func (x *UndeleteFollowingCalculationByIdRequest) String() string {
 func (*UndeleteFollowingCalculationByIdRequest) ProtoMessage() {}
 
 func (x *UndeleteFollowingCalculationByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[165]
+	mi := &file_tables_v1_tables_proto_msgTypes[163]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -9509,7 +9339,7 @@ func (x *UndeleteFollowingCalculationByIdRequest) ProtoReflect() protoreflect.Me
 
 // Deprecated: Use UndeleteFollowingCalculationByIdRequest.ProtoReflect.Descriptor instead.
 func (*UndeleteFollowingCalculationByIdRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{165}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{163}
 }
 
 func (x *UndeleteFollowingCalculationByIdRequest) GetExternalId() string {
@@ -9535,7 +9365,7 @@ type UndeleteFollowingCalculationByIdResponse struct {
 
 func (x *UndeleteFollowingCalculationByIdResponse) Reset() {
 	*x = UndeleteFollowingCalculationByIdResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[166]
+	mi := &file_tables_v1_tables_proto_msgTypes[164]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -9547,7 +9377,7 @@ func (x *UndeleteFollowingCalculationByIdResponse) String() string {
 func (*UndeleteFollowingCalculationByIdResponse) ProtoMessage() {}
 
 func (x *UndeleteFollowingCalculationByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[166]
+	mi := &file_tables_v1_tables_proto_msgTypes[164]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -9560,7 +9390,7 @@ func (x *UndeleteFollowingCalculationByIdResponse) ProtoReflect() protoreflect.M
 
 // Deprecated: Use UndeleteFollowingCalculationByIdResponse.ProtoReflect.Descriptor instead.
 func (*UndeleteFollowingCalculationByIdResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{166}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{164}
 }
 
 // Строка таблицы dc.group_levels: все колонки, как их вернёт SELECT *.
@@ -9581,7 +9411,7 @@ type GroupLevels struct {
 
 func (x *GroupLevels) Reset() {
 	*x = GroupLevels{}
-	mi := &file_tables_v1_tables_proto_msgTypes[167]
+	mi := &file_tables_v1_tables_proto_msgTypes[165]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -9593,7 +9423,7 @@ func (x *GroupLevels) String() string {
 func (*GroupLevels) ProtoMessage() {}
 
 func (x *GroupLevels) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[167]
+	mi := &file_tables_v1_tables_proto_msgTypes[165]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -9606,7 +9436,7 @@ func (x *GroupLevels) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GroupLevels.ProtoReflect.Descriptor instead.
 func (*GroupLevels) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{167}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{165}
 }
 
 func (x *GroupLevels) GetId() int64 {
@@ -9686,7 +9516,7 @@ type CreateGroupLevelsRequest struct {
 
 func (x *CreateGroupLevelsRequest) Reset() {
 	*x = CreateGroupLevelsRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[168]
+	mi := &file_tables_v1_tables_proto_msgTypes[166]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -9698,7 +9528,7 @@ func (x *CreateGroupLevelsRequest) String() string {
 func (*CreateGroupLevelsRequest) ProtoMessage() {}
 
 func (x *CreateGroupLevelsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[168]
+	mi := &file_tables_v1_tables_proto_msgTypes[166]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -9711,7 +9541,7 @@ func (x *CreateGroupLevelsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateGroupLevelsRequest.ProtoReflect.Descriptor instead.
 func (*CreateGroupLevelsRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{168}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{166}
 }
 
 func (x *CreateGroupLevelsRequest) GetColumnId() int64 {
@@ -9759,7 +9589,7 @@ type CreateGroupLevelsResponse struct {
 
 func (x *CreateGroupLevelsResponse) Reset() {
 	*x = CreateGroupLevelsResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[169]
+	mi := &file_tables_v1_tables_proto_msgTypes[167]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -9771,7 +9601,7 @@ func (x *CreateGroupLevelsResponse) String() string {
 func (*CreateGroupLevelsResponse) ProtoMessage() {}
 
 func (x *CreateGroupLevelsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[169]
+	mi := &file_tables_v1_tables_proto_msgTypes[167]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -9784,7 +9614,7 @@ func (x *CreateGroupLevelsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateGroupLevelsResponse.ProtoReflect.Descriptor instead.
 func (*CreateGroupLevelsResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{169}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{167}
 }
 
 func (x *CreateGroupLevelsResponse) GetGroupLevels() *GroupLevels {
@@ -9808,7 +9638,7 @@ type GetGroupLevelsSearchNameRequest struct {
 
 func (x *GetGroupLevelsSearchNameRequest) Reset() {
 	*x = GetGroupLevelsSearchNameRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[170]
+	mi := &file_tables_v1_tables_proto_msgTypes[168]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -9820,7 +9650,7 @@ func (x *GetGroupLevelsSearchNameRequest) String() string {
 func (*GetGroupLevelsSearchNameRequest) ProtoMessage() {}
 
 func (x *GetGroupLevelsSearchNameRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[170]
+	mi := &file_tables_v1_tables_proto_msgTypes[168]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -9833,7 +9663,7 @@ func (x *GetGroupLevelsSearchNameRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetGroupLevelsSearchNameRequest.ProtoReflect.Descriptor instead.
 func (*GetGroupLevelsSearchNameRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{170}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{168}
 }
 
 func (x *GetGroupLevelsSearchNameRequest) GetSearchName() string {
@@ -9875,7 +9705,7 @@ type GetGroupLevelsSearchNameResponse struct {
 
 func (x *GetGroupLevelsSearchNameResponse) Reset() {
 	*x = GetGroupLevelsSearchNameResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[171]
+	mi := &file_tables_v1_tables_proto_msgTypes[169]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -9887,7 +9717,7 @@ func (x *GetGroupLevelsSearchNameResponse) String() string {
 func (*GetGroupLevelsSearchNameResponse) ProtoMessage() {}
 
 func (x *GetGroupLevelsSearchNameResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[171]
+	mi := &file_tables_v1_tables_proto_msgTypes[169]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -9900,7 +9730,7 @@ func (x *GetGroupLevelsSearchNameResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetGroupLevelsSearchNameResponse.ProtoReflect.Descriptor instead.
 func (*GetGroupLevelsSearchNameResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{171}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{169}
 }
 
 func (x *GetGroupLevelsSearchNameResponse) GetData() []*GroupLevels {
@@ -9930,7 +9760,7 @@ type GetGroupLevelsRequest struct {
 
 func (x *GetGroupLevelsRequest) Reset() {
 	*x = GetGroupLevelsRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[172]
+	mi := &file_tables_v1_tables_proto_msgTypes[170]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -9942,7 +9772,7 @@ func (x *GetGroupLevelsRequest) String() string {
 func (*GetGroupLevelsRequest) ProtoMessage() {}
 
 func (x *GetGroupLevelsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[172]
+	mi := &file_tables_v1_tables_proto_msgTypes[170]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -9955,7 +9785,7 @@ func (x *GetGroupLevelsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetGroupLevelsRequest.ProtoReflect.Descriptor instead.
 func (*GetGroupLevelsRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{172}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{170}
 }
 
 func (x *GetGroupLevelsRequest) GetOrder() string {
@@ -9990,7 +9820,7 @@ type GetGroupLevelsResponse struct {
 
 func (x *GetGroupLevelsResponse) Reset() {
 	*x = GetGroupLevelsResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[173]
+	mi := &file_tables_v1_tables_proto_msgTypes[171]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -10002,7 +9832,7 @@ func (x *GetGroupLevelsResponse) String() string {
 func (*GetGroupLevelsResponse) ProtoMessage() {}
 
 func (x *GetGroupLevelsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[173]
+	mi := &file_tables_v1_tables_proto_msgTypes[171]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -10015,7 +9845,7 @@ func (x *GetGroupLevelsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetGroupLevelsResponse.ProtoReflect.Descriptor instead.
 func (*GetGroupLevelsResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{173}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{171}
 }
 
 func (x *GetGroupLevelsResponse) GetData() []*GroupLevels {
@@ -10042,7 +9872,7 @@ type GetGroupLevelsByIdRequest struct {
 
 func (x *GetGroupLevelsByIdRequest) Reset() {
 	*x = GetGroupLevelsByIdRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[174]
+	mi := &file_tables_v1_tables_proto_msgTypes[172]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -10054,7 +9884,7 @@ func (x *GetGroupLevelsByIdRequest) String() string {
 func (*GetGroupLevelsByIdRequest) ProtoMessage() {}
 
 func (x *GetGroupLevelsByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[174]
+	mi := &file_tables_v1_tables_proto_msgTypes[172]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -10067,7 +9897,7 @@ func (x *GetGroupLevelsByIdRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetGroupLevelsByIdRequest.ProtoReflect.Descriptor instead.
 func (*GetGroupLevelsByIdRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{174}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{172}
 }
 
 func (x *GetGroupLevelsByIdRequest) GetId() int64 {
@@ -10087,7 +9917,7 @@ type GetGroupLevelsByIdResponse struct {
 
 func (x *GetGroupLevelsByIdResponse) Reset() {
 	*x = GetGroupLevelsByIdResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[175]
+	mi := &file_tables_v1_tables_proto_msgTypes[173]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -10099,7 +9929,7 @@ func (x *GetGroupLevelsByIdResponse) String() string {
 func (*GetGroupLevelsByIdResponse) ProtoMessage() {}
 
 func (x *GetGroupLevelsByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[175]
+	mi := &file_tables_v1_tables_proto_msgTypes[173]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -10112,7 +9942,7 @@ func (x *GetGroupLevelsByIdResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetGroupLevelsByIdResponse.ProtoReflect.Descriptor instead.
 func (*GetGroupLevelsByIdResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{175}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{173}
 }
 
 func (x *GetGroupLevelsByIdResponse) GetGroupLevels() *GroupLevels {
@@ -10137,7 +9967,7 @@ type GetGroupLevelsFilteredRequest struct {
 
 func (x *GetGroupLevelsFilteredRequest) Reset() {
 	*x = GetGroupLevelsFilteredRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[176]
+	mi := &file_tables_v1_tables_proto_msgTypes[174]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -10149,7 +9979,7 @@ func (x *GetGroupLevelsFilteredRequest) String() string {
 func (*GetGroupLevelsFilteredRequest) ProtoMessage() {}
 
 func (x *GetGroupLevelsFilteredRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[176]
+	mi := &file_tables_v1_tables_proto_msgTypes[174]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -10162,7 +9992,7 @@ func (x *GetGroupLevelsFilteredRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetGroupLevelsFilteredRequest.ProtoReflect.Descriptor instead.
 func (*GetGroupLevelsFilteredRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{176}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{174}
 }
 
 func (x *GetGroupLevelsFilteredRequest) GetColumnId() int64 {
@@ -10211,7 +10041,7 @@ type GetGroupLevelsFilteredResponse struct {
 
 func (x *GetGroupLevelsFilteredResponse) Reset() {
 	*x = GetGroupLevelsFilteredResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[177]
+	mi := &file_tables_v1_tables_proto_msgTypes[175]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -10223,7 +10053,7 @@ func (x *GetGroupLevelsFilteredResponse) String() string {
 func (*GetGroupLevelsFilteredResponse) ProtoMessage() {}
 
 func (x *GetGroupLevelsFilteredResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[177]
+	mi := &file_tables_v1_tables_proto_msgTypes[175]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -10236,7 +10066,7 @@ func (x *GetGroupLevelsFilteredResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetGroupLevelsFilteredResponse.ProtoReflect.Descriptor instead.
 func (*GetGroupLevelsFilteredResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{177}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{175}
 }
 
 func (x *GetGroupLevelsFilteredResponse) GetData() []*GroupLevels {
@@ -10264,7 +10094,7 @@ type GetGroupLevelsDeletedRequest struct {
 
 func (x *GetGroupLevelsDeletedRequest) Reset() {
 	*x = GetGroupLevelsDeletedRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[178]
+	mi := &file_tables_v1_tables_proto_msgTypes[176]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -10276,7 +10106,7 @@ func (x *GetGroupLevelsDeletedRequest) String() string {
 func (*GetGroupLevelsDeletedRequest) ProtoMessage() {}
 
 func (x *GetGroupLevelsDeletedRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[178]
+	mi := &file_tables_v1_tables_proto_msgTypes[176]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -10289,7 +10119,7 @@ func (x *GetGroupLevelsDeletedRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetGroupLevelsDeletedRequest.ProtoReflect.Descriptor instead.
 func (*GetGroupLevelsDeletedRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{178}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{176}
 }
 
 func (x *GetGroupLevelsDeletedRequest) GetOrder() string {
@@ -10309,7 +10139,7 @@ type GetGroupLevelsDeletedResponse struct {
 
 func (x *GetGroupLevelsDeletedResponse) Reset() {
 	*x = GetGroupLevelsDeletedResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[179]
+	mi := &file_tables_v1_tables_proto_msgTypes[177]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -10321,7 +10151,7 @@ func (x *GetGroupLevelsDeletedResponse) String() string {
 func (*GetGroupLevelsDeletedResponse) ProtoMessage() {}
 
 func (x *GetGroupLevelsDeletedResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[179]
+	mi := &file_tables_v1_tables_proto_msgTypes[177]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -10334,7 +10164,7 @@ func (x *GetGroupLevelsDeletedResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetGroupLevelsDeletedResponse.ProtoReflect.Descriptor instead.
 func (*GetGroupLevelsDeletedResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{179}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{177}
 }
 
 func (x *GetGroupLevelsDeletedResponse) GetRows() []*GroupLevels {
@@ -10359,7 +10189,7 @@ type UpdateGroupLevelsByIdRequest struct {
 
 func (x *UpdateGroupLevelsByIdRequest) Reset() {
 	*x = UpdateGroupLevelsByIdRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[180]
+	mi := &file_tables_v1_tables_proto_msgTypes[178]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -10371,7 +10201,7 @@ func (x *UpdateGroupLevelsByIdRequest) String() string {
 func (*UpdateGroupLevelsByIdRequest) ProtoMessage() {}
 
 func (x *UpdateGroupLevelsByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[180]
+	mi := &file_tables_v1_tables_proto_msgTypes[178]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -10384,7 +10214,7 @@ func (x *UpdateGroupLevelsByIdRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateGroupLevelsByIdRequest.ProtoReflect.Descriptor instead.
 func (*UpdateGroupLevelsByIdRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{180}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{178}
 }
 
 func (x *UpdateGroupLevelsByIdRequest) GetColumnId() int64 {
@@ -10438,7 +10268,7 @@ type UpdateGroupLevelsByIdResponse struct {
 
 func (x *UpdateGroupLevelsByIdResponse) Reset() {
 	*x = UpdateGroupLevelsByIdResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[181]
+	mi := &file_tables_v1_tables_proto_msgTypes[179]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -10450,7 +10280,7 @@ func (x *UpdateGroupLevelsByIdResponse) String() string {
 func (*UpdateGroupLevelsByIdResponse) ProtoMessage() {}
 
 func (x *UpdateGroupLevelsByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[181]
+	mi := &file_tables_v1_tables_proto_msgTypes[179]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -10463,7 +10293,7 @@ func (x *UpdateGroupLevelsByIdResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateGroupLevelsByIdResponse.ProtoReflect.Descriptor instead.
 func (*UpdateGroupLevelsByIdResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{181}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{179}
 }
 
 // Мягкое удаление DeleteGroupLevelsById: параметры вызова.
@@ -10477,7 +10307,7 @@ type DeleteGroupLevelsByIdRequest struct {
 
 func (x *DeleteGroupLevelsByIdRequest) Reset() {
 	*x = DeleteGroupLevelsByIdRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[182]
+	mi := &file_tables_v1_tables_proto_msgTypes[180]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -10489,7 +10319,7 @@ func (x *DeleteGroupLevelsByIdRequest) String() string {
 func (*DeleteGroupLevelsByIdRequest) ProtoMessage() {}
 
 func (x *DeleteGroupLevelsByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[182]
+	mi := &file_tables_v1_tables_proto_msgTypes[180]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -10502,7 +10332,7 @@ func (x *DeleteGroupLevelsByIdRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteGroupLevelsByIdRequest.ProtoReflect.Descriptor instead.
 func (*DeleteGroupLevelsByIdRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{182}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{180}
 }
 
 func (x *DeleteGroupLevelsByIdRequest) GetExternalId() string {
@@ -10528,7 +10358,7 @@ type DeleteGroupLevelsByIdResponse struct {
 
 func (x *DeleteGroupLevelsByIdResponse) Reset() {
 	*x = DeleteGroupLevelsByIdResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[183]
+	mi := &file_tables_v1_tables_proto_msgTypes[181]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -10540,7 +10370,7 @@ func (x *DeleteGroupLevelsByIdResponse) String() string {
 func (*DeleteGroupLevelsByIdResponse) ProtoMessage() {}
 
 func (x *DeleteGroupLevelsByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[183]
+	mi := &file_tables_v1_tables_proto_msgTypes[181]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -10553,11 +10383,11 @@ func (x *DeleteGroupLevelsByIdResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteGroupLevelsByIdResponse.ProtoReflect.Descriptor instead.
 func (*DeleteGroupLevelsByIdResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{183}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{181}
 }
 
-// Обратное удаление UndeleteGroupLevels: параметры вызова.
-type UndeleteGroupLevelsRequest struct {
+// Обратное удаление UndeleteGroupLevelsById: параметры вызова.
+type UndeleteGroupLevelsByIdRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ExternalId    string                 `protobuf:"bytes,1,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
 	Id            int64                  `protobuf:"varint,2,opt,name=id,proto3" json:"id,omitempty"`
@@ -10565,21 +10395,21 @@ type UndeleteGroupLevelsRequest struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *UndeleteGroupLevelsRequest) Reset() {
-	*x = UndeleteGroupLevelsRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[184]
+func (x *UndeleteGroupLevelsByIdRequest) Reset() {
+	*x = UndeleteGroupLevelsByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[182]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *UndeleteGroupLevelsRequest) String() string {
+func (x *UndeleteGroupLevelsByIdRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*UndeleteGroupLevelsRequest) ProtoMessage() {}
+func (*UndeleteGroupLevelsByIdRequest) ProtoMessage() {}
 
-func (x *UndeleteGroupLevelsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[184]
+func (x *UndeleteGroupLevelsByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[182]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -10590,47 +10420,47 @@ func (x *UndeleteGroupLevelsRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UndeleteGroupLevelsRequest.ProtoReflect.Descriptor instead.
-func (*UndeleteGroupLevelsRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{184}
+// Deprecated: Use UndeleteGroupLevelsByIdRequest.ProtoReflect.Descriptor instead.
+func (*UndeleteGroupLevelsByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{182}
 }
 
-func (x *UndeleteGroupLevelsRequest) GetExternalId() string {
+func (x *UndeleteGroupLevelsByIdRequest) GetExternalId() string {
 	if x != nil {
 		return x.ExternalId
 	}
 	return ""
 }
 
-func (x *UndeleteGroupLevelsRequest) GetId() int64 {
+func (x *UndeleteGroupLevelsByIdRequest) GetId() int64 {
 	if x != nil {
 		return x.Id
 	}
 	return 0
 }
 
-// Обратное удаление UndeleteGroupLevels: ответ пустой — запрос ничего не возвращает.
-type UndeleteGroupLevelsResponse struct {
+// Обратное удаление UndeleteGroupLevelsById: ответ пустой — запрос ничего не возвращает.
+type UndeleteGroupLevelsByIdResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *UndeleteGroupLevelsResponse) Reset() {
-	*x = UndeleteGroupLevelsResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[185]
+func (x *UndeleteGroupLevelsByIdResponse) Reset() {
+	*x = UndeleteGroupLevelsByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[183]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *UndeleteGroupLevelsResponse) String() string {
+func (x *UndeleteGroupLevelsByIdResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*UndeleteGroupLevelsResponse) ProtoMessage() {}
+func (*UndeleteGroupLevelsByIdResponse) ProtoMessage() {}
 
-func (x *UndeleteGroupLevelsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[185]
+func (x *UndeleteGroupLevelsByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[183]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -10641,9 +10471,9 @@ func (x *UndeleteGroupLevelsResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UndeleteGroupLevelsResponse.ProtoReflect.Descriptor instead.
-func (*UndeleteGroupLevelsResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{185}
+// Deprecated: Use UndeleteGroupLevelsByIdResponse.ProtoReflect.Descriptor instead.
+func (*UndeleteGroupLevelsByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{183}
 }
 
 // Строка таблицы dc.has_to_group: все колонки, как их вернёт SELECT *.
@@ -10663,7 +10493,7 @@ type HasToGroup struct {
 
 func (x *HasToGroup) Reset() {
 	*x = HasToGroup{}
-	mi := &file_tables_v1_tables_proto_msgTypes[186]
+	mi := &file_tables_v1_tables_proto_msgTypes[184]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -10675,7 +10505,7 @@ func (x *HasToGroup) String() string {
 func (*HasToGroup) ProtoMessage() {}
 
 func (x *HasToGroup) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[186]
+	mi := &file_tables_v1_tables_proto_msgTypes[184]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -10688,7 +10518,7 @@ func (x *HasToGroup) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use HasToGroup.ProtoReflect.Descriptor instead.
 func (*HasToGroup) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{186}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{184}
 }
 
 func (x *HasToGroup) GetId() int64 {
@@ -10760,7 +10590,7 @@ type CreateHasToGroupRequest struct {
 
 func (x *CreateHasToGroupRequest) Reset() {
 	*x = CreateHasToGroupRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[187]
+	mi := &file_tables_v1_tables_proto_msgTypes[185]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -10772,7 +10602,7 @@ func (x *CreateHasToGroupRequest) String() string {
 func (*CreateHasToGroupRequest) ProtoMessage() {}
 
 func (x *CreateHasToGroupRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[187]
+	mi := &file_tables_v1_tables_proto_msgTypes[185]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -10785,7 +10615,7 @@ func (x *CreateHasToGroupRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateHasToGroupRequest.ProtoReflect.Descriptor instead.
 func (*CreateHasToGroupRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{187}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{185}
 }
 
 func (x *CreateHasToGroupRequest) GetColumnIdA() int64 {
@@ -10826,7 +10656,7 @@ type CreateHasToGroupResponse struct {
 
 func (x *CreateHasToGroupResponse) Reset() {
 	*x = CreateHasToGroupResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[188]
+	mi := &file_tables_v1_tables_proto_msgTypes[186]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -10838,7 +10668,7 @@ func (x *CreateHasToGroupResponse) String() string {
 func (*CreateHasToGroupResponse) ProtoMessage() {}
 
 func (x *CreateHasToGroupResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[188]
+	mi := &file_tables_v1_tables_proto_msgTypes[186]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -10851,7 +10681,7 @@ func (x *CreateHasToGroupResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateHasToGroupResponse.ProtoReflect.Descriptor instead.
 func (*CreateHasToGroupResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{188}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{186}
 }
 
 func (x *CreateHasToGroupResponse) GetHasToGroup() *HasToGroup {
@@ -10871,7 +10701,7 @@ type GetHasToGroupByIdRequest struct {
 
 func (x *GetHasToGroupByIdRequest) Reset() {
 	*x = GetHasToGroupByIdRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[189]
+	mi := &file_tables_v1_tables_proto_msgTypes[187]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -10883,7 +10713,7 @@ func (x *GetHasToGroupByIdRequest) String() string {
 func (*GetHasToGroupByIdRequest) ProtoMessage() {}
 
 func (x *GetHasToGroupByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[189]
+	mi := &file_tables_v1_tables_proto_msgTypes[187]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -10896,7 +10726,7 @@ func (x *GetHasToGroupByIdRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetHasToGroupByIdRequest.ProtoReflect.Descriptor instead.
 func (*GetHasToGroupByIdRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{189}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{187}
 }
 
 func (x *GetHasToGroupByIdRequest) GetId() int64 {
@@ -10916,7 +10746,7 @@ type GetHasToGroupByIdResponse struct {
 
 func (x *GetHasToGroupByIdResponse) Reset() {
 	*x = GetHasToGroupByIdResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[190]
+	mi := &file_tables_v1_tables_proto_msgTypes[188]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -10928,7 +10758,7 @@ func (x *GetHasToGroupByIdResponse) String() string {
 func (*GetHasToGroupByIdResponse) ProtoMessage() {}
 
 func (x *GetHasToGroupByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[190]
+	mi := &file_tables_v1_tables_proto_msgTypes[188]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -10941,7 +10771,7 @@ func (x *GetHasToGroupByIdResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetHasToGroupByIdResponse.ProtoReflect.Descriptor instead.
 func (*GetHasToGroupByIdResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{190}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{188}
 }
 
 func (x *GetHasToGroupByIdResponse) GetHasToGroup() *HasToGroup {
@@ -10965,7 +10795,7 @@ type GetHasToGroupsSearchNameRequest struct {
 
 func (x *GetHasToGroupsSearchNameRequest) Reset() {
 	*x = GetHasToGroupsSearchNameRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[191]
+	mi := &file_tables_v1_tables_proto_msgTypes[189]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -10977,7 +10807,7 @@ func (x *GetHasToGroupsSearchNameRequest) String() string {
 func (*GetHasToGroupsSearchNameRequest) ProtoMessage() {}
 
 func (x *GetHasToGroupsSearchNameRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[191]
+	mi := &file_tables_v1_tables_proto_msgTypes[189]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -10990,7 +10820,7 @@ func (x *GetHasToGroupsSearchNameRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetHasToGroupsSearchNameRequest.ProtoReflect.Descriptor instead.
 func (*GetHasToGroupsSearchNameRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{191}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{189}
 }
 
 func (x *GetHasToGroupsSearchNameRequest) GetSearchName() string {
@@ -11032,7 +10862,7 @@ type GetHasToGroupsSearchNameResponse struct {
 
 func (x *GetHasToGroupsSearchNameResponse) Reset() {
 	*x = GetHasToGroupsSearchNameResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[192]
+	mi := &file_tables_v1_tables_proto_msgTypes[190]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -11044,7 +10874,7 @@ func (x *GetHasToGroupsSearchNameResponse) String() string {
 func (*GetHasToGroupsSearchNameResponse) ProtoMessage() {}
 
 func (x *GetHasToGroupsSearchNameResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[192]
+	mi := &file_tables_v1_tables_proto_msgTypes[190]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -11057,7 +10887,7 @@ func (x *GetHasToGroupsSearchNameResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetHasToGroupsSearchNameResponse.ProtoReflect.Descriptor instead.
 func (*GetHasToGroupsSearchNameResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{192}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{190}
 }
 
 func (x *GetHasToGroupsSearchNameResponse) GetData() []*HasToGroup {
@@ -11087,7 +10917,7 @@ type GetHasToGroupsRequest struct {
 
 func (x *GetHasToGroupsRequest) Reset() {
 	*x = GetHasToGroupsRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[193]
+	mi := &file_tables_v1_tables_proto_msgTypes[191]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -11099,7 +10929,7 @@ func (x *GetHasToGroupsRequest) String() string {
 func (*GetHasToGroupsRequest) ProtoMessage() {}
 
 func (x *GetHasToGroupsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[193]
+	mi := &file_tables_v1_tables_proto_msgTypes[191]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -11112,7 +10942,7 @@ func (x *GetHasToGroupsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetHasToGroupsRequest.ProtoReflect.Descriptor instead.
 func (*GetHasToGroupsRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{193}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{191}
 }
 
 func (x *GetHasToGroupsRequest) GetOrder() string {
@@ -11147,7 +10977,7 @@ type GetHasToGroupsResponse struct {
 
 func (x *GetHasToGroupsResponse) Reset() {
 	*x = GetHasToGroupsResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[194]
+	mi := &file_tables_v1_tables_proto_msgTypes[192]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -11159,7 +10989,7 @@ func (x *GetHasToGroupsResponse) String() string {
 func (*GetHasToGroupsResponse) ProtoMessage() {}
 
 func (x *GetHasToGroupsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[194]
+	mi := &file_tables_v1_tables_proto_msgTypes[192]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -11172,7 +11002,7 @@ func (x *GetHasToGroupsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetHasToGroupsResponse.ProtoReflect.Descriptor instead.
 func (*GetHasToGroupsResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{194}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{192}
 }
 
 func (x *GetHasToGroupsResponse) GetData() []*HasToGroup {
@@ -11202,7 +11032,7 @@ type GetHasToGroupsDeletedRequest struct {
 
 func (x *GetHasToGroupsDeletedRequest) Reset() {
 	*x = GetHasToGroupsDeletedRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[195]
+	mi := &file_tables_v1_tables_proto_msgTypes[193]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -11214,7 +11044,7 @@ func (x *GetHasToGroupsDeletedRequest) String() string {
 func (*GetHasToGroupsDeletedRequest) ProtoMessage() {}
 
 func (x *GetHasToGroupsDeletedRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[195]
+	mi := &file_tables_v1_tables_proto_msgTypes[193]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -11227,7 +11057,7 @@ func (x *GetHasToGroupsDeletedRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetHasToGroupsDeletedRequest.ProtoReflect.Descriptor instead.
 func (*GetHasToGroupsDeletedRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{195}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{193}
 }
 
 func (x *GetHasToGroupsDeletedRequest) GetOrder() string {
@@ -11262,7 +11092,7 @@ type GetHasToGroupsDeletedResponse struct {
 
 func (x *GetHasToGroupsDeletedResponse) Reset() {
 	*x = GetHasToGroupsDeletedResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[196]
+	mi := &file_tables_v1_tables_proto_msgTypes[194]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -11274,7 +11104,7 @@ func (x *GetHasToGroupsDeletedResponse) String() string {
 func (*GetHasToGroupsDeletedResponse) ProtoMessage() {}
 
 func (x *GetHasToGroupsDeletedResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[196]
+	mi := &file_tables_v1_tables_proto_msgTypes[194]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -11287,7 +11117,7 @@ func (x *GetHasToGroupsDeletedResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetHasToGroupsDeletedResponse.ProtoReflect.Descriptor instead.
 func (*GetHasToGroupsDeletedResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{196}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{194}
 }
 
 func (x *GetHasToGroupsDeletedResponse) GetData() []*HasToGroup {
@@ -11318,7 +11148,7 @@ type UpdateHasToGroupByIdRequest struct {
 
 func (x *UpdateHasToGroupByIdRequest) Reset() {
 	*x = UpdateHasToGroupByIdRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[197]
+	mi := &file_tables_v1_tables_proto_msgTypes[195]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -11330,7 +11160,7 @@ func (x *UpdateHasToGroupByIdRequest) String() string {
 func (*UpdateHasToGroupByIdRequest) ProtoMessage() {}
 
 func (x *UpdateHasToGroupByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[197]
+	mi := &file_tables_v1_tables_proto_msgTypes[195]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -11343,7 +11173,7 @@ func (x *UpdateHasToGroupByIdRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateHasToGroupByIdRequest.ProtoReflect.Descriptor instead.
 func (*UpdateHasToGroupByIdRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{197}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{195}
 }
 
 func (x *UpdateHasToGroupByIdRequest) GetColumnIdA() int64 {
@@ -11390,7 +11220,7 @@ type UpdateHasToGroupByIdResponse struct {
 
 func (x *UpdateHasToGroupByIdResponse) Reset() {
 	*x = UpdateHasToGroupByIdResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[198]
+	mi := &file_tables_v1_tables_proto_msgTypes[196]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -11402,7 +11232,7 @@ func (x *UpdateHasToGroupByIdResponse) String() string {
 func (*UpdateHasToGroupByIdResponse) ProtoMessage() {}
 
 func (x *UpdateHasToGroupByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[198]
+	mi := &file_tables_v1_tables_proto_msgTypes[196]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -11415,7 +11245,7 @@ func (x *UpdateHasToGroupByIdResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateHasToGroupByIdResponse.ProtoReflect.Descriptor instead.
 func (*UpdateHasToGroupByIdResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{198}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{196}
 }
 
 // Мягкое удаление DeleteHasToGroupById: параметры вызова.
@@ -11429,7 +11259,7 @@ type DeleteHasToGroupByIdRequest struct {
 
 func (x *DeleteHasToGroupByIdRequest) Reset() {
 	*x = DeleteHasToGroupByIdRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[199]
+	mi := &file_tables_v1_tables_proto_msgTypes[197]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -11441,7 +11271,7 @@ func (x *DeleteHasToGroupByIdRequest) String() string {
 func (*DeleteHasToGroupByIdRequest) ProtoMessage() {}
 
 func (x *DeleteHasToGroupByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[199]
+	mi := &file_tables_v1_tables_proto_msgTypes[197]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -11454,7 +11284,7 @@ func (x *DeleteHasToGroupByIdRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteHasToGroupByIdRequest.ProtoReflect.Descriptor instead.
 func (*DeleteHasToGroupByIdRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{199}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{197}
 }
 
 func (x *DeleteHasToGroupByIdRequest) GetExternalId() string {
@@ -11480,7 +11310,7 @@ type DeleteHasToGroupByIdResponse struct {
 
 func (x *DeleteHasToGroupByIdResponse) Reset() {
 	*x = DeleteHasToGroupByIdResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[200]
+	mi := &file_tables_v1_tables_proto_msgTypes[198]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -11492,7 +11322,7 @@ func (x *DeleteHasToGroupByIdResponse) String() string {
 func (*DeleteHasToGroupByIdResponse) ProtoMessage() {}
 
 func (x *DeleteHasToGroupByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[200]
+	mi := &file_tables_v1_tables_proto_msgTypes[198]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -11505,7 +11335,7 @@ func (x *DeleteHasToGroupByIdResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteHasToGroupByIdResponse.ProtoReflect.Descriptor instead.
 func (*DeleteHasToGroupByIdResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{200}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{198}
 }
 
 // Обратное удаление UndeleteHasToGroupById: параметры вызова.
@@ -11519,7 +11349,7 @@ type UndeleteHasToGroupByIdRequest struct {
 
 func (x *UndeleteHasToGroupByIdRequest) Reset() {
 	*x = UndeleteHasToGroupByIdRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[201]
+	mi := &file_tables_v1_tables_proto_msgTypes[199]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -11531,7 +11361,7 @@ func (x *UndeleteHasToGroupByIdRequest) String() string {
 func (*UndeleteHasToGroupByIdRequest) ProtoMessage() {}
 
 func (x *UndeleteHasToGroupByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[201]
+	mi := &file_tables_v1_tables_proto_msgTypes[199]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -11544,7 +11374,7 @@ func (x *UndeleteHasToGroupByIdRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UndeleteHasToGroupByIdRequest.ProtoReflect.Descriptor instead.
 func (*UndeleteHasToGroupByIdRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{201}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{199}
 }
 
 func (x *UndeleteHasToGroupByIdRequest) GetExternalId() string {
@@ -11570,7 +11400,7 @@ type UndeleteHasToGroupByIdResponse struct {
 
 func (x *UndeleteHasToGroupByIdResponse) Reset() {
 	*x = UndeleteHasToGroupByIdResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[202]
+	mi := &file_tables_v1_tables_proto_msgTypes[200]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -11582,7 +11412,7 @@ func (x *UndeleteHasToGroupByIdResponse) String() string {
 func (*UndeleteHasToGroupByIdResponse) ProtoMessage() {}
 
 func (x *UndeleteHasToGroupByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[202]
+	mi := &file_tables_v1_tables_proto_msgTypes[200]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -11595,7 +11425,7 @@ func (x *UndeleteHasToGroupByIdResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UndeleteHasToGroupByIdResponse.ProtoReflect.Descriptor instead.
 func (*UndeleteHasToGroupByIdResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{202}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{200}
 }
 
 // Строка таблицы dc.schema_cat: все колонки, как их вернёт SELECT *.
@@ -11614,7 +11444,7 @@ type SchemaCat struct {
 
 func (x *SchemaCat) Reset() {
 	*x = SchemaCat{}
-	mi := &file_tables_v1_tables_proto_msgTypes[203]
+	mi := &file_tables_v1_tables_proto_msgTypes[201]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -11626,7 +11456,7 @@ func (x *SchemaCat) String() string {
 func (*SchemaCat) ProtoMessage() {}
 
 func (x *SchemaCat) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[203]
+	mi := &file_tables_v1_tables_proto_msgTypes[201]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -11639,7 +11469,7 @@ func (x *SchemaCat) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SchemaCat.ProtoReflect.Descriptor instead.
 func (*SchemaCat) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{203}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{201}
 }
 
 func (x *SchemaCat) GetId() int64 {
@@ -11703,7 +11533,7 @@ type CreateSchemaCatRequest struct {
 
 func (x *CreateSchemaCatRequest) Reset() {
 	*x = CreateSchemaCatRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[204]
+	mi := &file_tables_v1_tables_proto_msgTypes[202]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -11715,7 +11545,7 @@ func (x *CreateSchemaCatRequest) String() string {
 func (*CreateSchemaCatRequest) ProtoMessage() {}
 
 func (x *CreateSchemaCatRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[204]
+	mi := &file_tables_v1_tables_proto_msgTypes[202]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -11728,7 +11558,7 @@ func (x *CreateSchemaCatRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateSchemaCatRequest.ProtoReflect.Descriptor instead.
 func (*CreateSchemaCatRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{204}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{202}
 }
 
 func (x *CreateSchemaCatRequest) GetDatabaseId() int64 {
@@ -11762,7 +11592,7 @@ type CreateSchemaCatResponse struct {
 
 func (x *CreateSchemaCatResponse) Reset() {
 	*x = CreateSchemaCatResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[205]
+	mi := &file_tables_v1_tables_proto_msgTypes[203]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -11774,7 +11604,7 @@ func (x *CreateSchemaCatResponse) String() string {
 func (*CreateSchemaCatResponse) ProtoMessage() {}
 
 func (x *CreateSchemaCatResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[205]
+	mi := &file_tables_v1_tables_proto_msgTypes[203]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -11787,7 +11617,7 @@ func (x *CreateSchemaCatResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateSchemaCatResponse.ProtoReflect.Descriptor instead.
 func (*CreateSchemaCatResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{205}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{203}
 }
 
 func (x *CreateSchemaCatResponse) GetSchemaCat() *SchemaCat {
@@ -11807,7 +11637,7 @@ type GetSchemaCatByIdRequest struct {
 
 func (x *GetSchemaCatByIdRequest) Reset() {
 	*x = GetSchemaCatByIdRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[206]
+	mi := &file_tables_v1_tables_proto_msgTypes[204]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -11819,7 +11649,7 @@ func (x *GetSchemaCatByIdRequest) String() string {
 func (*GetSchemaCatByIdRequest) ProtoMessage() {}
 
 func (x *GetSchemaCatByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[206]
+	mi := &file_tables_v1_tables_proto_msgTypes[204]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -11832,7 +11662,7 @@ func (x *GetSchemaCatByIdRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetSchemaCatByIdRequest.ProtoReflect.Descriptor instead.
 func (*GetSchemaCatByIdRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{206}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{204}
 }
 
 func (x *GetSchemaCatByIdRequest) GetId() int64 {
@@ -11852,7 +11682,7 @@ type GetSchemaCatByIdResponse struct {
 
 func (x *GetSchemaCatByIdResponse) Reset() {
 	*x = GetSchemaCatByIdResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[207]
+	mi := &file_tables_v1_tables_proto_msgTypes[205]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -11864,7 +11694,7 @@ func (x *GetSchemaCatByIdResponse) String() string {
 func (*GetSchemaCatByIdResponse) ProtoMessage() {}
 
 func (x *GetSchemaCatByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[207]
+	mi := &file_tables_v1_tables_proto_msgTypes[205]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -11877,7 +11707,7 @@ func (x *GetSchemaCatByIdResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetSchemaCatByIdResponse.ProtoReflect.Descriptor instead.
 func (*GetSchemaCatByIdResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{207}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{205}
 }
 
 func (x *GetSchemaCatByIdResponse) GetSchemaCat() *SchemaCat {
@@ -11900,7 +11730,7 @@ type GetSchemaCatsRequest struct {
 
 func (x *GetSchemaCatsRequest) Reset() {
 	*x = GetSchemaCatsRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[208]
+	mi := &file_tables_v1_tables_proto_msgTypes[206]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -11912,7 +11742,7 @@ func (x *GetSchemaCatsRequest) String() string {
 func (*GetSchemaCatsRequest) ProtoMessage() {}
 
 func (x *GetSchemaCatsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[208]
+	mi := &file_tables_v1_tables_proto_msgTypes[206]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -11925,7 +11755,7 @@ func (x *GetSchemaCatsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetSchemaCatsRequest.ProtoReflect.Descriptor instead.
 func (*GetSchemaCatsRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{208}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{206}
 }
 
 func (x *GetSchemaCatsRequest) GetOrder() string {
@@ -11960,7 +11790,7 @@ type GetSchemaCatsResponse struct {
 
 func (x *GetSchemaCatsResponse) Reset() {
 	*x = GetSchemaCatsResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[209]
+	mi := &file_tables_v1_tables_proto_msgTypes[207]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -11972,7 +11802,7 @@ func (x *GetSchemaCatsResponse) String() string {
 func (*GetSchemaCatsResponse) ProtoMessage() {}
 
 func (x *GetSchemaCatsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[209]
+	mi := &file_tables_v1_tables_proto_msgTypes[207]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -11985,7 +11815,7 @@ func (x *GetSchemaCatsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetSchemaCatsResponse.ProtoReflect.Descriptor instead.
 func (*GetSchemaCatsResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{209}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{207}
 }
 
 func (x *GetSchemaCatsResponse) GetData() []*SchemaCat {
@@ -12015,7 +11845,7 @@ type GetSchemaCatsDeletedRequest struct {
 
 func (x *GetSchemaCatsDeletedRequest) Reset() {
 	*x = GetSchemaCatsDeletedRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[210]
+	mi := &file_tables_v1_tables_proto_msgTypes[208]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -12027,7 +11857,7 @@ func (x *GetSchemaCatsDeletedRequest) String() string {
 func (*GetSchemaCatsDeletedRequest) ProtoMessage() {}
 
 func (x *GetSchemaCatsDeletedRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[210]
+	mi := &file_tables_v1_tables_proto_msgTypes[208]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -12040,7 +11870,7 @@ func (x *GetSchemaCatsDeletedRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetSchemaCatsDeletedRequest.ProtoReflect.Descriptor instead.
 func (*GetSchemaCatsDeletedRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{210}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{208}
 }
 
 func (x *GetSchemaCatsDeletedRequest) GetOrder() string {
@@ -12075,7 +11905,7 @@ type GetSchemaCatsDeletedResponse struct {
 
 func (x *GetSchemaCatsDeletedResponse) Reset() {
 	*x = GetSchemaCatsDeletedResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[211]
+	mi := &file_tables_v1_tables_proto_msgTypes[209]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -12087,7 +11917,7 @@ func (x *GetSchemaCatsDeletedResponse) String() string {
 func (*GetSchemaCatsDeletedResponse) ProtoMessage() {}
 
 func (x *GetSchemaCatsDeletedResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[211]
+	mi := &file_tables_v1_tables_proto_msgTypes[209]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -12100,7 +11930,7 @@ func (x *GetSchemaCatsDeletedResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetSchemaCatsDeletedResponse.ProtoReflect.Descriptor instead.
 func (*GetSchemaCatsDeletedResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{211}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{209}
 }
 
 func (x *GetSchemaCatsDeletedResponse) GetData() []*SchemaCat {
@@ -12122,16 +11952,15 @@ type UpdateSchemaCatByIdRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	DatabaseId    int64                  `protobuf:"varint,1,opt,name=database_id,json=databaseId,proto3" json:"database_id,omitempty"`
 	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	ExternalId    string                 `protobuf:"bytes,4,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
-	Id            int64                  `protobuf:"varint,5,opt,name=id,proto3" json:"id,omitempty"`
+	ExternalId    string                 `protobuf:"bytes,3,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	Id            int64                  `protobuf:"varint,4,opt,name=id,proto3" json:"id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *UpdateSchemaCatByIdRequest) Reset() {
 	*x = UpdateSchemaCatByIdRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[212]
+	mi := &file_tables_v1_tables_proto_msgTypes[210]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -12143,7 +11972,7 @@ func (x *UpdateSchemaCatByIdRequest) String() string {
 func (*UpdateSchemaCatByIdRequest) ProtoMessage() {}
 
 func (x *UpdateSchemaCatByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[212]
+	mi := &file_tables_v1_tables_proto_msgTypes[210]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -12156,7 +11985,7 @@ func (x *UpdateSchemaCatByIdRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateSchemaCatByIdRequest.ProtoReflect.Descriptor instead.
 func (*UpdateSchemaCatByIdRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{212}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{210}
 }
 
 func (x *UpdateSchemaCatByIdRequest) GetDatabaseId() int64 {
@@ -12171,13 +12000,6 @@ func (x *UpdateSchemaCatByIdRequest) GetName() string {
 		return x.Name
 	}
 	return ""
-}
-
-func (x *UpdateSchemaCatByIdRequest) GetCreatedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.CreatedAt
-	}
-	return nil
 }
 
 func (x *UpdateSchemaCatByIdRequest) GetExternalId() string {
@@ -12203,7 +12025,7 @@ type UpdateSchemaCatByIdResponse struct {
 
 func (x *UpdateSchemaCatByIdResponse) Reset() {
 	*x = UpdateSchemaCatByIdResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[213]
+	mi := &file_tables_v1_tables_proto_msgTypes[211]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -12215,7 +12037,7 @@ func (x *UpdateSchemaCatByIdResponse) String() string {
 func (*UpdateSchemaCatByIdResponse) ProtoMessage() {}
 
 func (x *UpdateSchemaCatByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[213]
+	mi := &file_tables_v1_tables_proto_msgTypes[211]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -12228,22 +12050,21 @@ func (x *UpdateSchemaCatByIdResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateSchemaCatByIdResponse.ProtoReflect.Descriptor instead.
 func (*UpdateSchemaCatByIdResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{213}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{211}
 }
 
 // Мягкое удаление DeleteSchemaCatById: параметры вызова.
 type DeleteSchemaCatByIdRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
-	ExternalId    string                 `protobuf:"bytes,2,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
-	Id            int64                  `protobuf:"varint,3,opt,name=id,proto3" json:"id,omitempty"`
+	ExternalId    string                 `protobuf:"bytes,1,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	Id            int64                  `protobuf:"varint,2,opt,name=id,proto3" json:"id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *DeleteSchemaCatByIdRequest) Reset() {
 	*x = DeleteSchemaCatByIdRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[214]
+	mi := &file_tables_v1_tables_proto_msgTypes[212]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -12255,7 +12076,7 @@ func (x *DeleteSchemaCatByIdRequest) String() string {
 func (*DeleteSchemaCatByIdRequest) ProtoMessage() {}
 
 func (x *DeleteSchemaCatByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[214]
+	mi := &file_tables_v1_tables_proto_msgTypes[212]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -12268,14 +12089,7 @@ func (x *DeleteSchemaCatByIdRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteSchemaCatByIdRequest.ProtoReflect.Descriptor instead.
 func (*DeleteSchemaCatByIdRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{214}
-}
-
-func (x *DeleteSchemaCatByIdRequest) GetUpdatedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.UpdatedAt
-	}
-	return nil
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{212}
 }
 
 func (x *DeleteSchemaCatByIdRequest) GetExternalId() string {
@@ -12301,7 +12115,7 @@ type DeleteSchemaCatByIdResponse struct {
 
 func (x *DeleteSchemaCatByIdResponse) Reset() {
 	*x = DeleteSchemaCatByIdResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[215]
+	mi := &file_tables_v1_tables_proto_msgTypes[213]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -12313,7 +12127,7 @@ func (x *DeleteSchemaCatByIdResponse) String() string {
 func (*DeleteSchemaCatByIdResponse) ProtoMessage() {}
 
 func (x *DeleteSchemaCatByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[215]
+	mi := &file_tables_v1_tables_proto_msgTypes[213]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -12326,7 +12140,7 @@ func (x *DeleteSchemaCatByIdResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteSchemaCatByIdResponse.ProtoReflect.Descriptor instead.
 func (*DeleteSchemaCatByIdResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{215}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{213}
 }
 
 // Обратное удаление UndeleteSchemaCatById: параметры вызова.
@@ -12340,7 +12154,7 @@ type UndeleteSchemaCatByIdRequest struct {
 
 func (x *UndeleteSchemaCatByIdRequest) Reset() {
 	*x = UndeleteSchemaCatByIdRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[216]
+	mi := &file_tables_v1_tables_proto_msgTypes[214]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -12352,7 +12166,7 @@ func (x *UndeleteSchemaCatByIdRequest) String() string {
 func (*UndeleteSchemaCatByIdRequest) ProtoMessage() {}
 
 func (x *UndeleteSchemaCatByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[216]
+	mi := &file_tables_v1_tables_proto_msgTypes[214]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -12365,7 +12179,7 @@ func (x *UndeleteSchemaCatByIdRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UndeleteSchemaCatByIdRequest.ProtoReflect.Descriptor instead.
 func (*UndeleteSchemaCatByIdRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{216}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{214}
 }
 
 func (x *UndeleteSchemaCatByIdRequest) GetExternalId() string {
@@ -12391,7 +12205,7 @@ type UndeleteSchemaCatByIdResponse struct {
 
 func (x *UndeleteSchemaCatByIdResponse) Reset() {
 	*x = UndeleteSchemaCatByIdResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[217]
+	mi := &file_tables_v1_tables_proto_msgTypes[215]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -12403,7 +12217,7 @@ func (x *UndeleteSchemaCatByIdResponse) String() string {
 func (*UndeleteSchemaCatByIdResponse) ProtoMessage() {}
 
 func (x *UndeleteSchemaCatByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[217]
+	mi := &file_tables_v1_tables_proto_msgTypes[215]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -12416,7 +12230,7 @@ func (x *UndeleteSchemaCatByIdResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UndeleteSchemaCatByIdResponse.ProtoReflect.Descriptor instead.
 func (*UndeleteSchemaCatByIdResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{217}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{215}
 }
 
 // Строка таблицы dc.table_cat: все колонки, как их вернёт SELECT *.
@@ -12439,7 +12253,7 @@ type TableCat struct {
 
 func (x *TableCat) Reset() {
 	*x = TableCat{}
-	mi := &file_tables_v1_tables_proto_msgTypes[218]
+	mi := &file_tables_v1_tables_proto_msgTypes[216]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -12451,7 +12265,7 @@ func (x *TableCat) String() string {
 func (*TableCat) ProtoMessage() {}
 
 func (x *TableCat) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[218]
+	mi := &file_tables_v1_tables_proto_msgTypes[216]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -12464,7 +12278,7 @@ func (x *TableCat) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TableCat.ProtoReflect.Descriptor instead.
 func (*TableCat) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{218}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{216}
 }
 
 func (x *TableCat) GetId() int64 {
@@ -12559,7 +12373,7 @@ type CreateTableCatRequest struct {
 
 func (x *CreateTableCatRequest) Reset() {
 	*x = CreateTableCatRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[219]
+	mi := &file_tables_v1_tables_proto_msgTypes[217]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -12571,7 +12385,7 @@ func (x *CreateTableCatRequest) String() string {
 func (*CreateTableCatRequest) ProtoMessage() {}
 
 func (x *CreateTableCatRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[219]
+	mi := &file_tables_v1_tables_proto_msgTypes[217]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -12584,7 +12398,7 @@ func (x *CreateTableCatRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateTableCatRequest.ProtoReflect.Descriptor instead.
 func (*CreateTableCatRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{219}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{217}
 }
 
 func (x *CreateTableCatRequest) GetName() string {
@@ -12639,7 +12453,7 @@ type CreateTableCatResponse struct {
 
 func (x *CreateTableCatResponse) Reset() {
 	*x = CreateTableCatResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[220]
+	mi := &file_tables_v1_tables_proto_msgTypes[218]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -12651,7 +12465,7 @@ func (x *CreateTableCatResponse) String() string {
 func (*CreateTableCatResponse) ProtoMessage() {}
 
 func (x *CreateTableCatResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[220]
+	mi := &file_tables_v1_tables_proto_msgTypes[218]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -12664,7 +12478,7 @@ func (x *CreateTableCatResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateTableCatResponse.ProtoReflect.Descriptor instead.
 func (*CreateTableCatResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{220}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{218}
 }
 
 func (x *CreateTableCatResponse) GetTableCat() *TableCat {
@@ -12684,7 +12498,7 @@ type GetTableCatByIdRequest struct {
 
 func (x *GetTableCatByIdRequest) Reset() {
 	*x = GetTableCatByIdRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[221]
+	mi := &file_tables_v1_tables_proto_msgTypes[219]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -12696,7 +12510,7 @@ func (x *GetTableCatByIdRequest) String() string {
 func (*GetTableCatByIdRequest) ProtoMessage() {}
 
 func (x *GetTableCatByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[221]
+	mi := &file_tables_v1_tables_proto_msgTypes[219]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -12709,7 +12523,7 @@ func (x *GetTableCatByIdRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetTableCatByIdRequest.ProtoReflect.Descriptor instead.
 func (*GetTableCatByIdRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{221}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{219}
 }
 
 func (x *GetTableCatByIdRequest) GetId() int64 {
@@ -12729,7 +12543,7 @@ type GetTableCatByIdResponse struct {
 
 func (x *GetTableCatByIdResponse) Reset() {
 	*x = GetTableCatByIdResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[222]
+	mi := &file_tables_v1_tables_proto_msgTypes[220]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -12741,7 +12555,7 @@ func (x *GetTableCatByIdResponse) String() string {
 func (*GetTableCatByIdResponse) ProtoMessage() {}
 
 func (x *GetTableCatByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[222]
+	mi := &file_tables_v1_tables_proto_msgTypes[220]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -12754,7 +12568,7 @@ func (x *GetTableCatByIdResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetTableCatByIdResponse.ProtoReflect.Descriptor instead.
 func (*GetTableCatByIdResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{222}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{220}
 }
 
 func (x *GetTableCatByIdResponse) GetTableCat() *TableCat {
@@ -12777,7 +12591,7 @@ type GetTableCatsRequest struct {
 
 func (x *GetTableCatsRequest) Reset() {
 	*x = GetTableCatsRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[223]
+	mi := &file_tables_v1_tables_proto_msgTypes[221]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -12789,7 +12603,7 @@ func (x *GetTableCatsRequest) String() string {
 func (*GetTableCatsRequest) ProtoMessage() {}
 
 func (x *GetTableCatsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[223]
+	mi := &file_tables_v1_tables_proto_msgTypes[221]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -12802,7 +12616,7 @@ func (x *GetTableCatsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetTableCatsRequest.ProtoReflect.Descriptor instead.
 func (*GetTableCatsRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{223}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{221}
 }
 
 func (x *GetTableCatsRequest) GetOrder() string {
@@ -12837,7 +12651,7 @@ type GetTableCatsResponse struct {
 
 func (x *GetTableCatsResponse) Reset() {
 	*x = GetTableCatsResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[224]
+	mi := &file_tables_v1_tables_proto_msgTypes[222]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -12849,7 +12663,7 @@ func (x *GetTableCatsResponse) String() string {
 func (*GetTableCatsResponse) ProtoMessage() {}
 
 func (x *GetTableCatsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[224]
+	mi := &file_tables_v1_tables_proto_msgTypes[222]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -12862,7 +12676,7 @@ func (x *GetTableCatsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetTableCatsResponse.ProtoReflect.Descriptor instead.
 func (*GetTableCatsResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{224}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{222}
 }
 
 func (x *GetTableCatsResponse) GetData() []*TableCat {
@@ -12892,7 +12706,7 @@ type GetTableCatsDeletedRequest struct {
 
 func (x *GetTableCatsDeletedRequest) Reset() {
 	*x = GetTableCatsDeletedRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[225]
+	mi := &file_tables_v1_tables_proto_msgTypes[223]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -12904,7 +12718,7 @@ func (x *GetTableCatsDeletedRequest) String() string {
 func (*GetTableCatsDeletedRequest) ProtoMessage() {}
 
 func (x *GetTableCatsDeletedRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[225]
+	mi := &file_tables_v1_tables_proto_msgTypes[223]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -12917,7 +12731,7 @@ func (x *GetTableCatsDeletedRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetTableCatsDeletedRequest.ProtoReflect.Descriptor instead.
 func (*GetTableCatsDeletedRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{225}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{223}
 }
 
 func (x *GetTableCatsDeletedRequest) GetOrder() string {
@@ -12952,7 +12766,7 @@ type GetTableCatsDeletedResponse struct {
 
 func (x *GetTableCatsDeletedResponse) Reset() {
 	*x = GetTableCatsDeletedResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[226]
+	mi := &file_tables_v1_tables_proto_msgTypes[224]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -12964,7 +12778,7 @@ func (x *GetTableCatsDeletedResponse) String() string {
 func (*GetTableCatsDeletedResponse) ProtoMessage() {}
 
 func (x *GetTableCatsDeletedResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[226]
+	mi := &file_tables_v1_tables_proto_msgTypes[224]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -12977,7 +12791,7 @@ func (x *GetTableCatsDeletedResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetTableCatsDeletedResponse.ProtoReflect.Descriptor instead.
 func (*GetTableCatsDeletedResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{226}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{224}
 }
 
 func (x *GetTableCatsDeletedResponse) GetData() []*TableCat {
@@ -13011,7 +12825,7 @@ type UpdateTableCatByIdRequest struct {
 
 func (x *UpdateTableCatByIdRequest) Reset() {
 	*x = UpdateTableCatByIdRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[227]
+	mi := &file_tables_v1_tables_proto_msgTypes[225]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -13023,7 +12837,7 @@ func (x *UpdateTableCatByIdRequest) String() string {
 func (*UpdateTableCatByIdRequest) ProtoMessage() {}
 
 func (x *UpdateTableCatByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[227]
+	mi := &file_tables_v1_tables_proto_msgTypes[225]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -13036,7 +12850,7 @@ func (x *UpdateTableCatByIdRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateTableCatByIdRequest.ProtoReflect.Descriptor instead.
 func (*UpdateTableCatByIdRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{227}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{225}
 }
 
 func (x *UpdateTableCatByIdRequest) GetName() string {
@@ -13104,7 +12918,7 @@ type UpdateTableCatByIdResponse struct {
 
 func (x *UpdateTableCatByIdResponse) Reset() {
 	*x = UpdateTableCatByIdResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[228]
+	mi := &file_tables_v1_tables_proto_msgTypes[226]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -13116,7 +12930,7 @@ func (x *UpdateTableCatByIdResponse) String() string {
 func (*UpdateTableCatByIdResponse) ProtoMessage() {}
 
 func (x *UpdateTableCatByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[228]
+	mi := &file_tables_v1_tables_proto_msgTypes[226]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -13129,7 +12943,7 @@ func (x *UpdateTableCatByIdResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateTableCatByIdResponse.ProtoReflect.Descriptor instead.
 func (*UpdateTableCatByIdResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{228}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{226}
 }
 
 // Мягкое удаление DeleteTableCatById: параметры вызова.
@@ -13143,7 +12957,7 @@ type DeleteTableCatByIdRequest struct {
 
 func (x *DeleteTableCatByIdRequest) Reset() {
 	*x = DeleteTableCatByIdRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[229]
+	mi := &file_tables_v1_tables_proto_msgTypes[227]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -13155,7 +12969,7 @@ func (x *DeleteTableCatByIdRequest) String() string {
 func (*DeleteTableCatByIdRequest) ProtoMessage() {}
 
 func (x *DeleteTableCatByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[229]
+	mi := &file_tables_v1_tables_proto_msgTypes[227]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -13168,7 +12982,7 @@ func (x *DeleteTableCatByIdRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteTableCatByIdRequest.ProtoReflect.Descriptor instead.
 func (*DeleteTableCatByIdRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{229}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{227}
 }
 
 func (x *DeleteTableCatByIdRequest) GetExternalId() string {
@@ -13194,7 +13008,7 @@ type DeleteTableCatByIdResponse struct {
 
 func (x *DeleteTableCatByIdResponse) Reset() {
 	*x = DeleteTableCatByIdResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[230]
+	mi := &file_tables_v1_tables_proto_msgTypes[228]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -13206,7 +13020,7 @@ func (x *DeleteTableCatByIdResponse) String() string {
 func (*DeleteTableCatByIdResponse) ProtoMessage() {}
 
 func (x *DeleteTableCatByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[230]
+	mi := &file_tables_v1_tables_proto_msgTypes[228]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -13219,7 +13033,7 @@ func (x *DeleteTableCatByIdResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteTableCatByIdResponse.ProtoReflect.Descriptor instead.
 func (*DeleteTableCatByIdResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{230}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{228}
 }
 
 // Обратное удаление UndeleteTableCatById: параметры вызова.
@@ -13233,7 +13047,7 @@ type UndeleteTableCatByIdRequest struct {
 
 func (x *UndeleteTableCatByIdRequest) Reset() {
 	*x = UndeleteTableCatByIdRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[231]
+	mi := &file_tables_v1_tables_proto_msgTypes[229]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -13245,7 +13059,7 @@ func (x *UndeleteTableCatByIdRequest) String() string {
 func (*UndeleteTableCatByIdRequest) ProtoMessage() {}
 
 func (x *UndeleteTableCatByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[231]
+	mi := &file_tables_v1_tables_proto_msgTypes[229]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -13258,7 +13072,7 @@ func (x *UndeleteTableCatByIdRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UndeleteTableCatByIdRequest.ProtoReflect.Descriptor instead.
 func (*UndeleteTableCatByIdRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{231}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{229}
 }
 
 func (x *UndeleteTableCatByIdRequest) GetExternalId() string {
@@ -13284,7 +13098,7 @@ type UndeleteTableCatByIdResponse struct {
 
 func (x *UndeleteTableCatByIdResponse) Reset() {
 	*x = UndeleteTableCatByIdResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[232]
+	mi := &file_tables_v1_tables_proto_msgTypes[230]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -13296,7 +13110,7 @@ func (x *UndeleteTableCatByIdResponse) String() string {
 func (*UndeleteTableCatByIdResponse) ProtoMessage() {}
 
 func (x *UndeleteTableCatByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[232]
+	mi := &file_tables_v1_tables_proto_msgTypes[230]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -13309,7 +13123,7 @@ func (x *UndeleteTableCatByIdResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UndeleteTableCatByIdResponse.ProtoReflect.Descriptor instead.
 func (*UndeleteTableCatByIdResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{232}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{230}
 }
 
 // Строка таблицы dc.table_type: все колонки, как их вернёт SELECT *.
@@ -13328,7 +13142,7 @@ type TableType struct {
 
 func (x *TableType) Reset() {
 	*x = TableType{}
-	mi := &file_tables_v1_tables_proto_msgTypes[233]
+	mi := &file_tables_v1_tables_proto_msgTypes[231]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -13340,7 +13154,7 @@ func (x *TableType) String() string {
 func (*TableType) ProtoMessage() {}
 
 func (x *TableType) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[233]
+	mi := &file_tables_v1_tables_proto_msgTypes[231]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -13353,7 +13167,7 @@ func (x *TableType) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TableType.ProtoReflect.Descriptor instead.
 func (*TableType) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{233}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{231}
 }
 
 func (x *TableType) GetId() int64 {
@@ -13417,7 +13231,7 @@ type CreateTableTypeRequest struct {
 
 func (x *CreateTableTypeRequest) Reset() {
 	*x = CreateTableTypeRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[234]
+	mi := &file_tables_v1_tables_proto_msgTypes[232]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -13429,7 +13243,7 @@ func (x *CreateTableTypeRequest) String() string {
 func (*CreateTableTypeRequest) ProtoMessage() {}
 
 func (x *CreateTableTypeRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[234]
+	mi := &file_tables_v1_tables_proto_msgTypes[232]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -13442,7 +13256,7 @@ func (x *CreateTableTypeRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateTableTypeRequest.ProtoReflect.Descriptor instead.
 func (*CreateTableTypeRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{234}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{232}
 }
 
 func (x *CreateTableTypeRequest) GetName() string {
@@ -13476,7 +13290,7 @@ type CreateTableTypeResponse struct {
 
 func (x *CreateTableTypeResponse) Reset() {
 	*x = CreateTableTypeResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[235]
+	mi := &file_tables_v1_tables_proto_msgTypes[233]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -13488,7 +13302,7 @@ func (x *CreateTableTypeResponse) String() string {
 func (*CreateTableTypeResponse) ProtoMessage() {}
 
 func (x *CreateTableTypeResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[235]
+	mi := &file_tables_v1_tables_proto_msgTypes[233]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -13501,7 +13315,7 @@ func (x *CreateTableTypeResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateTableTypeResponse.ProtoReflect.Descriptor instead.
 func (*CreateTableTypeResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{235}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{233}
 }
 
 func (x *CreateTableTypeResponse) GetTableType() *TableType {
@@ -13521,7 +13335,7 @@ type GetTableTypeByIdRequest struct {
 
 func (x *GetTableTypeByIdRequest) Reset() {
 	*x = GetTableTypeByIdRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[236]
+	mi := &file_tables_v1_tables_proto_msgTypes[234]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -13533,7 +13347,7 @@ func (x *GetTableTypeByIdRequest) String() string {
 func (*GetTableTypeByIdRequest) ProtoMessage() {}
 
 func (x *GetTableTypeByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[236]
+	mi := &file_tables_v1_tables_proto_msgTypes[234]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -13546,7 +13360,7 @@ func (x *GetTableTypeByIdRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetTableTypeByIdRequest.ProtoReflect.Descriptor instead.
 func (*GetTableTypeByIdRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{236}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{234}
 }
 
 func (x *GetTableTypeByIdRequest) GetId() int64 {
@@ -13566,7 +13380,7 @@ type GetTableTypeByIdResponse struct {
 
 func (x *GetTableTypeByIdResponse) Reset() {
 	*x = GetTableTypeByIdResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[237]
+	mi := &file_tables_v1_tables_proto_msgTypes[235]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -13578,7 +13392,7 @@ func (x *GetTableTypeByIdResponse) String() string {
 func (*GetTableTypeByIdResponse) ProtoMessage() {}
 
 func (x *GetTableTypeByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[237]
+	mi := &file_tables_v1_tables_proto_msgTypes[235]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -13591,7 +13405,7 @@ func (x *GetTableTypeByIdResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetTableTypeByIdResponse.ProtoReflect.Descriptor instead.
 func (*GetTableTypeByIdResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{237}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{235}
 }
 
 func (x *GetTableTypeByIdResponse) GetTableType() *TableType {
@@ -13614,7 +13428,7 @@ type GetTableTypesRequest struct {
 
 func (x *GetTableTypesRequest) Reset() {
 	*x = GetTableTypesRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[238]
+	mi := &file_tables_v1_tables_proto_msgTypes[236]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -13626,7 +13440,7 @@ func (x *GetTableTypesRequest) String() string {
 func (*GetTableTypesRequest) ProtoMessage() {}
 
 func (x *GetTableTypesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[238]
+	mi := &file_tables_v1_tables_proto_msgTypes[236]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -13639,7 +13453,7 @@ func (x *GetTableTypesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetTableTypesRequest.ProtoReflect.Descriptor instead.
 func (*GetTableTypesRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{238}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{236}
 }
 
 func (x *GetTableTypesRequest) GetOrder() string {
@@ -13674,7 +13488,7 @@ type GetTableTypesResponse struct {
 
 func (x *GetTableTypesResponse) Reset() {
 	*x = GetTableTypesResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[239]
+	mi := &file_tables_v1_tables_proto_msgTypes[237]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -13686,7 +13500,7 @@ func (x *GetTableTypesResponse) String() string {
 func (*GetTableTypesResponse) ProtoMessage() {}
 
 func (x *GetTableTypesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[239]
+	mi := &file_tables_v1_tables_proto_msgTypes[237]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -13699,7 +13513,7 @@ func (x *GetTableTypesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetTableTypesResponse.ProtoReflect.Descriptor instead.
 func (*GetTableTypesResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{239}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{237}
 }
 
 func (x *GetTableTypesResponse) GetData() []*TableType {
@@ -13729,7 +13543,7 @@ type GetTableTypesDeletedRequest struct {
 
 func (x *GetTableTypesDeletedRequest) Reset() {
 	*x = GetTableTypesDeletedRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[240]
+	mi := &file_tables_v1_tables_proto_msgTypes[238]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -13741,7 +13555,7 @@ func (x *GetTableTypesDeletedRequest) String() string {
 func (*GetTableTypesDeletedRequest) ProtoMessage() {}
 
 func (x *GetTableTypesDeletedRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[240]
+	mi := &file_tables_v1_tables_proto_msgTypes[238]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -13754,7 +13568,7 @@ func (x *GetTableTypesDeletedRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetTableTypesDeletedRequest.ProtoReflect.Descriptor instead.
 func (*GetTableTypesDeletedRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{240}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{238}
 }
 
 func (x *GetTableTypesDeletedRequest) GetOrder() string {
@@ -13789,7 +13603,7 @@ type GetTableTypesDeletedResponse struct {
 
 func (x *GetTableTypesDeletedResponse) Reset() {
 	*x = GetTableTypesDeletedResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[241]
+	mi := &file_tables_v1_tables_proto_msgTypes[239]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -13801,7 +13615,7 @@ func (x *GetTableTypesDeletedResponse) String() string {
 func (*GetTableTypesDeletedResponse) ProtoMessage() {}
 
 func (x *GetTableTypesDeletedResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[241]
+	mi := &file_tables_v1_tables_proto_msgTypes[239]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -13814,7 +13628,7 @@ func (x *GetTableTypesDeletedResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetTableTypesDeletedResponse.ProtoReflect.Descriptor instead.
 func (*GetTableTypesDeletedResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{241}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{239}
 }
 
 func (x *GetTableTypesDeletedResponse) GetData() []*TableType {
@@ -13844,7 +13658,7 @@ type UpdateTableTypeByIdRequest struct {
 
 func (x *UpdateTableTypeByIdRequest) Reset() {
 	*x = UpdateTableTypeByIdRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[242]
+	mi := &file_tables_v1_tables_proto_msgTypes[240]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -13856,7 +13670,7 @@ func (x *UpdateTableTypeByIdRequest) String() string {
 func (*UpdateTableTypeByIdRequest) ProtoMessage() {}
 
 func (x *UpdateTableTypeByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[242]
+	mi := &file_tables_v1_tables_proto_msgTypes[240]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -13869,7 +13683,7 @@ func (x *UpdateTableTypeByIdRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateTableTypeByIdRequest.ProtoReflect.Descriptor instead.
 func (*UpdateTableTypeByIdRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{242}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{240}
 }
 
 func (x *UpdateTableTypeByIdRequest) GetName() string {
@@ -13909,7 +13723,7 @@ type UpdateTableTypeByIdResponse struct {
 
 func (x *UpdateTableTypeByIdResponse) Reset() {
 	*x = UpdateTableTypeByIdResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[243]
+	mi := &file_tables_v1_tables_proto_msgTypes[241]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -13921,7 +13735,7 @@ func (x *UpdateTableTypeByIdResponse) String() string {
 func (*UpdateTableTypeByIdResponse) ProtoMessage() {}
 
 func (x *UpdateTableTypeByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[243]
+	mi := &file_tables_v1_tables_proto_msgTypes[241]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -13934,7 +13748,7 @@ func (x *UpdateTableTypeByIdResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateTableTypeByIdResponse.ProtoReflect.Descriptor instead.
 func (*UpdateTableTypeByIdResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{243}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{241}
 }
 
 // Мягкое удаление DeleteTableTypeById: параметры вызова.
@@ -13948,7 +13762,7 @@ type DeleteTableTypeByIdRequest struct {
 
 func (x *DeleteTableTypeByIdRequest) Reset() {
 	*x = DeleteTableTypeByIdRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[244]
+	mi := &file_tables_v1_tables_proto_msgTypes[242]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -13960,7 +13774,7 @@ func (x *DeleteTableTypeByIdRequest) String() string {
 func (*DeleteTableTypeByIdRequest) ProtoMessage() {}
 
 func (x *DeleteTableTypeByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[244]
+	mi := &file_tables_v1_tables_proto_msgTypes[242]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -13973,7 +13787,7 @@ func (x *DeleteTableTypeByIdRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteTableTypeByIdRequest.ProtoReflect.Descriptor instead.
 func (*DeleteTableTypeByIdRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{244}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{242}
 }
 
 func (x *DeleteTableTypeByIdRequest) GetExternalId() string {
@@ -13999,7 +13813,7 @@ type DeleteTableTypeByIdResponse struct {
 
 func (x *DeleteTableTypeByIdResponse) Reset() {
 	*x = DeleteTableTypeByIdResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[245]
+	mi := &file_tables_v1_tables_proto_msgTypes[243]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -14011,7 +13825,7 @@ func (x *DeleteTableTypeByIdResponse) String() string {
 func (*DeleteTableTypeByIdResponse) ProtoMessage() {}
 
 func (x *DeleteTableTypeByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[245]
+	mi := &file_tables_v1_tables_proto_msgTypes[243]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -14024,7 +13838,7 @@ func (x *DeleteTableTypeByIdResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteTableTypeByIdResponse.ProtoReflect.Descriptor instead.
 func (*DeleteTableTypeByIdResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{245}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{243}
 }
 
 // Обратное удаление UndeleteTableTypeById: параметры вызова.
@@ -14038,7 +13852,7 @@ type UndeleteTableTypeByIdRequest struct {
 
 func (x *UndeleteTableTypeByIdRequest) Reset() {
 	*x = UndeleteTableTypeByIdRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[246]
+	mi := &file_tables_v1_tables_proto_msgTypes[244]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -14050,7 +13864,7 @@ func (x *UndeleteTableTypeByIdRequest) String() string {
 func (*UndeleteTableTypeByIdRequest) ProtoMessage() {}
 
 func (x *UndeleteTableTypeByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[246]
+	mi := &file_tables_v1_tables_proto_msgTypes[244]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -14063,7 +13877,7 @@ func (x *UndeleteTableTypeByIdRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UndeleteTableTypeByIdRequest.ProtoReflect.Descriptor instead.
 func (*UndeleteTableTypeByIdRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{246}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{244}
 }
 
 func (x *UndeleteTableTypeByIdRequest) GetExternalId() string {
@@ -14089,7 +13903,7 @@ type UndeleteTableTypeByIdResponse struct {
 
 func (x *UndeleteTableTypeByIdResponse) Reset() {
 	*x = UndeleteTableTypeByIdResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[247]
+	mi := &file_tables_v1_tables_proto_msgTypes[245]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -14101,7 +13915,7 @@ func (x *UndeleteTableTypeByIdResponse) String() string {
 func (*UndeleteTableTypeByIdResponse) ProtoMessage() {}
 
 func (x *UndeleteTableTypeByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[247]
+	mi := &file_tables_v1_tables_proto_msgTypes[245]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -14114,7 +13928,7 @@ func (x *UndeleteTableTypeByIdResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UndeleteTableTypeByIdResponse.ProtoReflect.Descriptor instead.
 func (*UndeleteTableTypeByIdResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{247}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{245}
 }
 
 // Строка таблицы dc.calculation_type: все колонки, как их вернёт SELECT *.
@@ -14132,7 +13946,7 @@ type CalculationType struct {
 
 func (x *CalculationType) Reset() {
 	*x = CalculationType{}
-	mi := &file_tables_v1_tables_proto_msgTypes[248]
+	mi := &file_tables_v1_tables_proto_msgTypes[246]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -14144,7 +13958,7 @@ func (x *CalculationType) String() string {
 func (*CalculationType) ProtoMessage() {}
 
 func (x *CalculationType) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[248]
+	mi := &file_tables_v1_tables_proto_msgTypes[246]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -14157,7 +13971,7 @@ func (x *CalculationType) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CalculationType.ProtoReflect.Descriptor instead.
 func (*CalculationType) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{248}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{246}
 }
 
 func (x *CalculationType) GetId() int64 {
@@ -14212,7 +14026,7 @@ type GetCalculationTypeByIdRequest struct {
 
 func (x *GetCalculationTypeByIdRequest) Reset() {
 	*x = GetCalculationTypeByIdRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[249]
+	mi := &file_tables_v1_tables_proto_msgTypes[247]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -14224,7 +14038,7 @@ func (x *GetCalculationTypeByIdRequest) String() string {
 func (*GetCalculationTypeByIdRequest) ProtoMessage() {}
 
 func (x *GetCalculationTypeByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[249]
+	mi := &file_tables_v1_tables_proto_msgTypes[247]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -14237,7 +14051,7 @@ func (x *GetCalculationTypeByIdRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetCalculationTypeByIdRequest.ProtoReflect.Descriptor instead.
 func (*GetCalculationTypeByIdRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{249}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{247}
 }
 
 func (x *GetCalculationTypeByIdRequest) GetId() int64 {
@@ -14257,7 +14071,7 @@ type GetCalculationTypeByIdResponse struct {
 
 func (x *GetCalculationTypeByIdResponse) Reset() {
 	*x = GetCalculationTypeByIdResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[250]
+	mi := &file_tables_v1_tables_proto_msgTypes[248]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -14269,7 +14083,7 @@ func (x *GetCalculationTypeByIdResponse) String() string {
 func (*GetCalculationTypeByIdResponse) ProtoMessage() {}
 
 func (x *GetCalculationTypeByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[250]
+	mi := &file_tables_v1_tables_proto_msgTypes[248]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -14282,7 +14096,7 @@ func (x *GetCalculationTypeByIdResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetCalculationTypeByIdResponse.ProtoReflect.Descriptor instead.
 func (*GetCalculationTypeByIdResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{250}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{248}
 }
 
 func (x *GetCalculationTypeByIdResponse) GetCalculationType() *CalculationType {
@@ -14303,7 +14117,7 @@ type GetCalculationTypesRequest struct {
 
 func (x *GetCalculationTypesRequest) Reset() {
 	*x = GetCalculationTypesRequest{}
-	mi := &file_tables_v1_tables_proto_msgTypes[251]
+	mi := &file_tables_v1_tables_proto_msgTypes[249]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -14315,7 +14129,7 @@ func (x *GetCalculationTypesRequest) String() string {
 func (*GetCalculationTypesRequest) ProtoMessage() {}
 
 func (x *GetCalculationTypesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[251]
+	mi := &file_tables_v1_tables_proto_msgTypes[249]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -14328,7 +14142,7 @@ func (x *GetCalculationTypesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetCalculationTypesRequest.ProtoReflect.Descriptor instead.
 func (*GetCalculationTypesRequest) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{251}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{249}
 }
 
 func (x *GetCalculationTypesRequest) GetOrder() string {
@@ -14348,7 +14162,7 @@ type GetCalculationTypesResponse struct {
 
 func (x *GetCalculationTypesResponse) Reset() {
 	*x = GetCalculationTypesResponse{}
-	mi := &file_tables_v1_tables_proto_msgTypes[252]
+	mi := &file_tables_v1_tables_proto_msgTypes[250]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -14360,7 +14174,7 @@ func (x *GetCalculationTypesResponse) String() string {
 func (*GetCalculationTypesResponse) ProtoMessage() {}
 
 func (x *GetCalculationTypesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_tables_v1_tables_proto_msgTypes[252]
+	mi := &file_tables_v1_tables_proto_msgTypes[250]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -14373,7 +14187,7 @@ func (x *GetCalculationTypesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetCalculationTypesResponse.ProtoReflect.Descriptor instead.
 func (*GetCalculationTypesResponse) Descriptor() ([]byte, []int) {
-	return file_tables_v1_tables_proto_rawDescGZIP(), []int{252}
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{250}
 }
 
 func (x *GetCalculationTypesResponse) GetRows() []*CalculationType {
@@ -14875,19 +14689,9 @@ const file_tables_v1_tables_proto_rawDesc = "" +
 	"\vcolumn_type\x18\x01 \x01(\v2\x15.tables.v1.ColumnTypeR\n" +
 	"columnType\"*\n" +
 	"\x18GetColumnTypeByIdRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\"\xfa\x01\n" +
-	"\x14GetColumnTypeByIdRow\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\x12 \n" +
-	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x1d\n" +
-	"\n" +
-	"is_deleted\x18\x03 \x01(\bR\tisDeleted\x129\n" +
-	"\n" +
-	"created_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
-	"\n" +
-	"updated_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12\x17\n" +
-	"\auser_id\x18\x06 \x01(\x03R\x06userId\"]\n" +
-	"\x19GetColumnTypeByIdResponse\x12@\n" +
-	"\vcolumn_type\x18\x01 \x01(\v2\x1f.tables.v1.GetColumnTypeByIdRowR\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\"S\n" +
+	"\x19GetColumnTypeByIdResponse\x126\n" +
+	"\vcolumn_type\x18\x01 \x01(\v2\x15.tables.v1.ColumnTypeR\n" +
 	"columnType\"`\n" +
 	"\x15GetColumnTypesRequest\x12\x14\n" +
 	"\x05order\x18\x01 \x01(\tR\x05order\x12\x1d\n" +
@@ -14969,19 +14773,9 @@ const file_tables_v1_tables_proto_rawDesc = "" +
 	"pagination\x18\x02 \x01(\v2\x15.tables.v1.PaginationR\n" +
 	"pagination\"3\n" +
 	"!GetDatabaseCalculationByIdRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\"\xa5\x02\n" +
-	"\x1dGetDatabaseCalculationByIdRow\x12&\n" +
-	"\x0fdatabase_cat_id\x18\x01 \x01(\x03R\rdatabaseCatId\x12.\n" +
-	"\x13calculation_type_id\x18\x02 \x01(\x03R\x11calculationTypeId\x129\n" +
-	"\n" +
-	"created_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
-	"\n" +
-	"updated_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12\x1d\n" +
-	"\n" +
-	"is_deleted\x18\x05 \x01(\bR\tisDeleted\x12\x17\n" +
-	"\auser_id\x18\x06 \x01(\x03R\x06userId\"\x81\x01\n" +
-	"\"GetDatabaseCalculationByIdResponse\x12[\n" +
-	"\x14database_calculation\x18\x01 \x01(\v2(.tables.v1.GetDatabaseCalculationByIdRowR\x13databaseCalculation\"\xff\x01\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\"w\n" +
+	"\"GetDatabaseCalculationByIdResponse\x12Q\n" +
+	"\x14database_calculation\x18\x01 \x01(\v2\x1e.tables.v1.DatabaseCalculationR\x13databaseCalculation\"\xff\x01\n" +
 	"&GetDatabaseCalculationsFilteredRequest\x12+\n" +
 	"\x0fdatabase_cat_id\x18\x01 \x01(\x03H\x00R\rdatabaseCatId\x88\x01\x01\x123\n" +
 	"\x13calculation_type_id\x18\x02 \x01(\x03H\x01R\x11calculationTypeId\x88\x01\x01\x12\x14\n" +
@@ -15259,12 +15053,12 @@ const file_tables_v1_tables_proto_rawDesc = "" +
 	"\vexternal_id\x18\x01 \x01(\tR\n" +
 	"externalId\x12\x0e\n" +
 	"\x02id\x18\x02 \x01(\x03R\x02id\"\x1f\n" +
-	"\x1dDeleteGroupLevelsByIdResponse\"M\n" +
-	"\x1aUndeleteGroupLevelsRequest\x12\x1f\n" +
+	"\x1dDeleteGroupLevelsByIdResponse\"Q\n" +
+	"\x1eUndeleteGroupLevelsByIdRequest\x12\x1f\n" +
 	"\vexternal_id\x18\x01 \x01(\tR\n" +
 	"externalId\x12\x0e\n" +
-	"\x02id\x18\x02 \x01(\x03R\x02id\"\x1d\n" +
-	"\x1bUndeleteGroupLevelsResponse\"\xac\x02\n" +
+	"\x02id\x18\x02 \x01(\x03R\x02id\"!\n" +
+	"\x1fUndeleteGroupLevelsByIdResponse\"\xac\x02\n" +
 	"\n" +
 	"HasToGroup\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1e\n" +
@@ -15387,23 +15181,19 @@ const file_tables_v1_tables_proto_rawDesc = "" +
 	"\x04data\x18\x01 \x03(\v2\x14.tables.v1.SchemaCatR\x04data\x125\n" +
 	"\n" +
 	"pagination\x18\x02 \x01(\v2\x15.tables.v1.PaginationR\n" +
-	"pagination\"\xbd\x01\n" +
+	"pagination\"\x82\x01\n" +
 	"\x1aUpdateSchemaCatByIdRequest\x12\x1f\n" +
 	"\vdatabase_id\x18\x01 \x01(\x03R\n" +
 	"databaseId\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name\x129\n" +
-	"\n" +
-	"created_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x12\x1f\n" +
-	"\vexternal_id\x18\x04 \x01(\tR\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12\x1f\n" +
+	"\vexternal_id\x18\x03 \x01(\tR\n" +
 	"externalId\x12\x0e\n" +
-	"\x02id\x18\x05 \x01(\x03R\x02id\"\x1d\n" +
-	"\x1bUpdateSchemaCatByIdResponse\"\x88\x01\n" +
-	"\x1aDeleteSchemaCatByIdRequest\x129\n" +
-	"\n" +
-	"updated_at\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12\x1f\n" +
-	"\vexternal_id\x18\x02 \x01(\tR\n" +
+	"\x02id\x18\x04 \x01(\x03R\x02id\"\x1d\n" +
+	"\x1bUpdateSchemaCatByIdResponse\"M\n" +
+	"\x1aDeleteSchemaCatByIdRequest\x12\x1f\n" +
+	"\vexternal_id\x18\x01 \x01(\tR\n" +
 	"externalId\x12\x0e\n" +
-	"\x02id\x18\x03 \x01(\x03R\x02id\"\x1d\n" +
+	"\x02id\x18\x02 \x01(\x03R\x02id\"\x1d\n" +
 	"\x1bDeleteSchemaCatByIdResponse\"O\n" +
 	"\x1cUndeleteSchemaCatByIdRequest\x12\x1f\n" +
 	"\vexternal_id\x18\x01 \x01(\tR\n" +
@@ -15649,7 +15439,7 @@ const file_tables_v1_tables_proto_rawDesc = "" +
 	"\x1fGetFollowingCalculationsFilters\x121.tables.v1.GetFollowingCalculationsFiltersRequest\x1a2.tables.v1.GetFollowingCalculationsFiltersResponse\x12\x85\x01\n" +
 	"\x1eUpdateFollowingCalculationById\x120.tables.v1.UpdateFollowingCalculationByIdRequest\x1a1.tables.v1.UpdateFollowingCalculationByIdResponse\x12\x85\x01\n" +
 	"\x1eDeleteFollowingCalculationById\x120.tables.v1.DeleteFollowingCalculationByIdRequest\x1a1.tables.v1.DeleteFollowingCalculationByIdResponse\x12\x8b\x01\n" +
-	" UndeleteFollowingCalculationById\x122.tables.v1.UndeleteFollowingCalculationByIdRequest\x1a3.tables.v1.UndeleteFollowingCalculationByIdResponse2\xbc\a\n" +
+	" UndeleteFollowingCalculationById\x122.tables.v1.UndeleteFollowingCalculationByIdRequest\x1a3.tables.v1.UndeleteFollowingCalculationByIdResponse2\xc8\a\n" +
 	"\x12GroupLevelsService\x12^\n" +
 	"\x11CreateGroupLevels\x12#.tables.v1.CreateGroupLevelsRequest\x1a$.tables.v1.CreateGroupLevelsResponse\x12s\n" +
 	"\x18GetGroupLevelsSearchName\x12*.tables.v1.GetGroupLevelsSearchNameRequest\x1a+.tables.v1.GetGroupLevelsSearchNameResponse\x12U\n" +
@@ -15658,8 +15448,8 @@ const file_tables_v1_tables_proto_rawDesc = "" +
 	"\x16GetGroupLevelsFiltered\x12(.tables.v1.GetGroupLevelsFilteredRequest\x1a).tables.v1.GetGroupLevelsFilteredResponse\x12j\n" +
 	"\x15GetGroupLevelsDeleted\x12'.tables.v1.GetGroupLevelsDeletedRequest\x1a(.tables.v1.GetGroupLevelsDeletedResponse\x12j\n" +
 	"\x15UpdateGroupLevelsById\x12'.tables.v1.UpdateGroupLevelsByIdRequest\x1a(.tables.v1.UpdateGroupLevelsByIdResponse\x12j\n" +
-	"\x15DeleteGroupLevelsById\x12'.tables.v1.DeleteGroupLevelsByIdRequest\x1a(.tables.v1.DeleteGroupLevelsByIdResponse\x12d\n" +
-	"\x13UndeleteGroupLevels\x12%.tables.v1.UndeleteGroupLevelsRequest\x1a&.tables.v1.UndeleteGroupLevelsResponse2\xc9\x06\n" +
+	"\x15DeleteGroupLevelsById\x12'.tables.v1.DeleteGroupLevelsByIdRequest\x1a(.tables.v1.DeleteGroupLevelsByIdResponse\x12p\n" +
+	"\x17UndeleteGroupLevelsById\x12).tables.v1.UndeleteGroupLevelsByIdRequest\x1a*.tables.v1.UndeleteGroupLevelsByIdResponse2\xc9\x06\n" +
 	"\x11HasToGroupService\x12[\n" +
 	"\x10CreateHasToGroup\x12\".tables.v1.CreateHasToGroupRequest\x1a#.tables.v1.CreateHasToGroupResponse\x12^\n" +
 	"\x11GetHasToGroupById\x12#.tables.v1.GetHasToGroupByIdRequest\x1a$.tables.v1.GetHasToGroupByIdResponse\x12s\n" +
@@ -15709,7 +15499,7 @@ func file_tables_v1_tables_proto_rawDescGZIP() []byte {
 	return file_tables_v1_tables_proto_rawDescData
 }
 
-var file_tables_v1_tables_proto_msgTypes = make([]protoimpl.MessageInfo, 253)
+var file_tables_v1_tables_proto_msgTypes = make([]protoimpl.MessageInfo, 251)
 var file_tables_v1_tables_proto_goTypes = []any{
 	(*Pagination)(nil),                                    // 0: tables.v1.Pagination
 	(*Alias)(nil),                                         // 1: tables.v1.Alias
@@ -15810,179 +15600,177 @@ var file_tables_v1_tables_proto_goTypes = []any{
 	(*CreateColumnTypeRequest)(nil),                       // 96: tables.v1.CreateColumnTypeRequest
 	(*CreateColumnTypeResponse)(nil),                      // 97: tables.v1.CreateColumnTypeResponse
 	(*GetColumnTypeByIdRequest)(nil),                      // 98: tables.v1.GetColumnTypeByIdRequest
-	(*GetColumnTypeByIdRow)(nil),                          // 99: tables.v1.GetColumnTypeByIdRow
-	(*GetColumnTypeByIdResponse)(nil),                     // 100: tables.v1.GetColumnTypeByIdResponse
-	(*GetColumnTypesRequest)(nil),                         // 101: tables.v1.GetColumnTypesRequest
-	(*GetColumnTypesResponse)(nil),                        // 102: tables.v1.GetColumnTypesResponse
-	(*GetColumnTypesSearchNameRequest)(nil),               // 103: tables.v1.GetColumnTypesSearchNameRequest
-	(*GetColumnTypesSearchNameResponse)(nil),              // 104: tables.v1.GetColumnTypesSearchNameResponse
-	(*GetColumnTypesDeletedRequest)(nil),                  // 105: tables.v1.GetColumnTypesDeletedRequest
-	(*GetColumnTypesDeletedResponse)(nil),                 // 106: tables.v1.GetColumnTypesDeletedResponse
-	(*UpdateColumnTypeByIdRequest)(nil),                   // 107: tables.v1.UpdateColumnTypeByIdRequest
-	(*UpdateColumnTypeByIdResponse)(nil),                  // 108: tables.v1.UpdateColumnTypeByIdResponse
-	(*DeleteColumnTypeByIdRequest)(nil),                   // 109: tables.v1.DeleteColumnTypeByIdRequest
-	(*DeleteColumnTypeByIdResponse)(nil),                  // 110: tables.v1.DeleteColumnTypeByIdResponse
-	(*UndeleteColumnTypeByIdRequest)(nil),                 // 111: tables.v1.UndeleteColumnTypeByIdRequest
-	(*UndeleteColumnTypeByIdResponse)(nil),                // 112: tables.v1.UndeleteColumnTypeByIdResponse
-	(*DatabaseCalculation)(nil),                           // 113: tables.v1.DatabaseCalculation
-	(*CreateDatabaseCalculationRequest)(nil),              // 114: tables.v1.CreateDatabaseCalculationRequest
-	(*CreateDatabaseCalculationResponse)(nil),             // 115: tables.v1.CreateDatabaseCalculationResponse
-	(*GetDatabaseCalculationsSearchNameRequest)(nil),      // 116: tables.v1.GetDatabaseCalculationsSearchNameRequest
-	(*GetDatabaseCalculationsSearchNameResponse)(nil),     // 117: tables.v1.GetDatabaseCalculationsSearchNameResponse
-	(*GetDatabaseCalculationByIdRequest)(nil),             // 118: tables.v1.GetDatabaseCalculationByIdRequest
-	(*GetDatabaseCalculationByIdRow)(nil),                 // 119: tables.v1.GetDatabaseCalculationByIdRow
-	(*GetDatabaseCalculationByIdResponse)(nil),            // 120: tables.v1.GetDatabaseCalculationByIdResponse
-	(*GetDatabaseCalculationsFilteredRequest)(nil),        // 121: tables.v1.GetDatabaseCalculationsFilteredRequest
-	(*GetDatabaseCalculationsFilteredResponse)(nil),       // 122: tables.v1.GetDatabaseCalculationsFilteredResponse
-	(*GetDatabaseCalculationsDeletedRequest)(nil),         // 123: tables.v1.GetDatabaseCalculationsDeletedRequest
-	(*GetDatabaseCalculationsDeletedResponse)(nil),        // 124: tables.v1.GetDatabaseCalculationsDeletedResponse
-	(*GetDatabaseCalculationsRequest)(nil),                // 125: tables.v1.GetDatabaseCalculationsRequest
-	(*GetDatabaseCalculationsResponse)(nil),               // 126: tables.v1.GetDatabaseCalculationsResponse
-	(*UpdateDatabaseCalculationByIdRequest)(nil),          // 127: tables.v1.UpdateDatabaseCalculationByIdRequest
-	(*UpdateDatabaseCalculationByIdResponse)(nil),         // 128: tables.v1.UpdateDatabaseCalculationByIdResponse
-	(*DeleteDatabaseCalculationByIdRequest)(nil),          // 129: tables.v1.DeleteDatabaseCalculationByIdRequest
-	(*DeleteDatabaseCalculationByIdResponse)(nil),         // 130: tables.v1.DeleteDatabaseCalculationByIdResponse
-	(*UndeleteDatabaseCalculationByIdRequest)(nil),        // 131: tables.v1.UndeleteDatabaseCalculationByIdRequest
-	(*UndeleteDatabaseCalculationByIdResponse)(nil),       // 132: tables.v1.UndeleteDatabaseCalculationByIdResponse
-	(*DomainCat)(nil),                                     // 133: tables.v1.DomainCat
-	(*CreateDomainCatRequest)(nil),                        // 134: tables.v1.CreateDomainCatRequest
-	(*CreateDomainCatResponse)(nil),                       // 135: tables.v1.CreateDomainCatResponse
-	(*GetDomainCatsSearchNameRequest)(nil),                // 136: tables.v1.GetDomainCatsSearchNameRequest
-	(*GetDomainCatsSearchNameResponse)(nil),               // 137: tables.v1.GetDomainCatsSearchNameResponse
-	(*GetDomainCatByIdRequest)(nil),                       // 138: tables.v1.GetDomainCatByIdRequest
-	(*GetDomainCatByIdResponse)(nil),                      // 139: tables.v1.GetDomainCatByIdResponse
-	(*GetDomainCatsRequest)(nil),                          // 140: tables.v1.GetDomainCatsRequest
-	(*GetDomainCatsResponse)(nil),                         // 141: tables.v1.GetDomainCatsResponse
-	(*GetDomainCatsDeletedRequest)(nil),                   // 142: tables.v1.GetDomainCatsDeletedRequest
-	(*GetDomainCatsDeletedResponse)(nil),                  // 143: tables.v1.GetDomainCatsDeletedResponse
-	(*UpdateDomainCatByIdRequest)(nil),                    // 144: tables.v1.UpdateDomainCatByIdRequest
-	(*UpdateDomainCatByIdResponse)(nil),                   // 145: tables.v1.UpdateDomainCatByIdResponse
-	(*DeleteDomainCatByIdRequest)(nil),                    // 146: tables.v1.DeleteDomainCatByIdRequest
-	(*DeleteDomainCatByIdResponse)(nil),                   // 147: tables.v1.DeleteDomainCatByIdResponse
-	(*UndeleteDomainCatByIdRequest)(nil),                  // 148: tables.v1.UndeleteDomainCatByIdRequest
-	(*UndeleteDomainCatByIdResponse)(nil),                 // 149: tables.v1.UndeleteDomainCatByIdResponse
-	(*FollowingCalculation)(nil),                          // 150: tables.v1.FollowingCalculation
-	(*CreateFollowingCalculationRequest)(nil),             // 151: tables.v1.CreateFollowingCalculationRequest
-	(*CreateFollowingCalculationResponse)(nil),            // 152: tables.v1.CreateFollowingCalculationResponse
-	(*GetFollowingCalculationByIdRequest)(nil),            // 153: tables.v1.GetFollowingCalculationByIdRequest
-	(*GetFollowingCalculationByIdResponse)(nil),           // 154: tables.v1.GetFollowingCalculationByIdResponse
-	(*GetFollowingCalculationsRequest)(nil),               // 155: tables.v1.GetFollowingCalculationsRequest
-	(*GetFollowingCalculationsResponse)(nil),              // 156: tables.v1.GetFollowingCalculationsResponse
-	(*GetFollowingCalculationsDeletedRequest)(nil),        // 157: tables.v1.GetFollowingCalculationsDeletedRequest
-	(*GetFollowingCalculationsDeletedResponse)(nil),       // 158: tables.v1.GetFollowingCalculationsDeletedResponse
-	(*GetFollowingCalculationsFiltersRequest)(nil),        // 159: tables.v1.GetFollowingCalculationsFiltersRequest
-	(*GetFollowingCalculationsFiltersResponse)(nil),       // 160: tables.v1.GetFollowingCalculationsFiltersResponse
-	(*UpdateFollowingCalculationByIdRequest)(nil),         // 161: tables.v1.UpdateFollowingCalculationByIdRequest
-	(*UpdateFollowingCalculationByIdResponse)(nil),        // 162: tables.v1.UpdateFollowingCalculationByIdResponse
-	(*DeleteFollowingCalculationByIdRequest)(nil),         // 163: tables.v1.DeleteFollowingCalculationByIdRequest
-	(*DeleteFollowingCalculationByIdResponse)(nil),        // 164: tables.v1.DeleteFollowingCalculationByIdResponse
-	(*UndeleteFollowingCalculationByIdRequest)(nil),       // 165: tables.v1.UndeleteFollowingCalculationByIdRequest
-	(*UndeleteFollowingCalculationByIdResponse)(nil),      // 166: tables.v1.UndeleteFollowingCalculationByIdResponse
-	(*GroupLevels)(nil),                                   // 167: tables.v1.GroupLevels
-	(*CreateGroupLevelsRequest)(nil),                      // 168: tables.v1.CreateGroupLevelsRequest
-	(*CreateGroupLevelsResponse)(nil),                     // 169: tables.v1.CreateGroupLevelsResponse
-	(*GetGroupLevelsSearchNameRequest)(nil),               // 170: tables.v1.GetGroupLevelsSearchNameRequest
-	(*GetGroupLevelsSearchNameResponse)(nil),              // 171: tables.v1.GetGroupLevelsSearchNameResponse
-	(*GetGroupLevelsRequest)(nil),                         // 172: tables.v1.GetGroupLevelsRequest
-	(*GetGroupLevelsResponse)(nil),                        // 173: tables.v1.GetGroupLevelsResponse
-	(*GetGroupLevelsByIdRequest)(nil),                     // 174: tables.v1.GetGroupLevelsByIdRequest
-	(*GetGroupLevelsByIdResponse)(nil),                    // 175: tables.v1.GetGroupLevelsByIdResponse
-	(*GetGroupLevelsFilteredRequest)(nil),                 // 176: tables.v1.GetGroupLevelsFilteredRequest
-	(*GetGroupLevelsFilteredResponse)(nil),                // 177: tables.v1.GetGroupLevelsFilteredResponse
-	(*GetGroupLevelsDeletedRequest)(nil),                  // 178: tables.v1.GetGroupLevelsDeletedRequest
-	(*GetGroupLevelsDeletedResponse)(nil),                 // 179: tables.v1.GetGroupLevelsDeletedResponse
-	(*UpdateGroupLevelsByIdRequest)(nil),                  // 180: tables.v1.UpdateGroupLevelsByIdRequest
-	(*UpdateGroupLevelsByIdResponse)(nil),                 // 181: tables.v1.UpdateGroupLevelsByIdResponse
-	(*DeleteGroupLevelsByIdRequest)(nil),                  // 182: tables.v1.DeleteGroupLevelsByIdRequest
-	(*DeleteGroupLevelsByIdResponse)(nil),                 // 183: tables.v1.DeleteGroupLevelsByIdResponse
-	(*UndeleteGroupLevelsRequest)(nil),                    // 184: tables.v1.UndeleteGroupLevelsRequest
-	(*UndeleteGroupLevelsResponse)(nil),                   // 185: tables.v1.UndeleteGroupLevelsResponse
-	(*HasToGroup)(nil),                                    // 186: tables.v1.HasToGroup
-	(*CreateHasToGroupRequest)(nil),                       // 187: tables.v1.CreateHasToGroupRequest
-	(*CreateHasToGroupResponse)(nil),                      // 188: tables.v1.CreateHasToGroupResponse
-	(*GetHasToGroupByIdRequest)(nil),                      // 189: tables.v1.GetHasToGroupByIdRequest
-	(*GetHasToGroupByIdResponse)(nil),                     // 190: tables.v1.GetHasToGroupByIdResponse
-	(*GetHasToGroupsSearchNameRequest)(nil),               // 191: tables.v1.GetHasToGroupsSearchNameRequest
-	(*GetHasToGroupsSearchNameResponse)(nil),              // 192: tables.v1.GetHasToGroupsSearchNameResponse
-	(*GetHasToGroupsRequest)(nil),                         // 193: tables.v1.GetHasToGroupsRequest
-	(*GetHasToGroupsResponse)(nil),                        // 194: tables.v1.GetHasToGroupsResponse
-	(*GetHasToGroupsDeletedRequest)(nil),                  // 195: tables.v1.GetHasToGroupsDeletedRequest
-	(*GetHasToGroupsDeletedResponse)(nil),                 // 196: tables.v1.GetHasToGroupsDeletedResponse
-	(*UpdateHasToGroupByIdRequest)(nil),                   // 197: tables.v1.UpdateHasToGroupByIdRequest
-	(*UpdateHasToGroupByIdResponse)(nil),                  // 198: tables.v1.UpdateHasToGroupByIdResponse
-	(*DeleteHasToGroupByIdRequest)(nil),                   // 199: tables.v1.DeleteHasToGroupByIdRequest
-	(*DeleteHasToGroupByIdResponse)(nil),                  // 200: tables.v1.DeleteHasToGroupByIdResponse
-	(*UndeleteHasToGroupByIdRequest)(nil),                 // 201: tables.v1.UndeleteHasToGroupByIdRequest
-	(*UndeleteHasToGroupByIdResponse)(nil),                // 202: tables.v1.UndeleteHasToGroupByIdResponse
-	(*SchemaCat)(nil),                                     // 203: tables.v1.SchemaCat
-	(*CreateSchemaCatRequest)(nil),                        // 204: tables.v1.CreateSchemaCatRequest
-	(*CreateSchemaCatResponse)(nil),                       // 205: tables.v1.CreateSchemaCatResponse
-	(*GetSchemaCatByIdRequest)(nil),                       // 206: tables.v1.GetSchemaCatByIdRequest
-	(*GetSchemaCatByIdResponse)(nil),                      // 207: tables.v1.GetSchemaCatByIdResponse
-	(*GetSchemaCatsRequest)(nil),                          // 208: tables.v1.GetSchemaCatsRequest
-	(*GetSchemaCatsResponse)(nil),                         // 209: tables.v1.GetSchemaCatsResponse
-	(*GetSchemaCatsDeletedRequest)(nil),                   // 210: tables.v1.GetSchemaCatsDeletedRequest
-	(*GetSchemaCatsDeletedResponse)(nil),                  // 211: tables.v1.GetSchemaCatsDeletedResponse
-	(*UpdateSchemaCatByIdRequest)(nil),                    // 212: tables.v1.UpdateSchemaCatByIdRequest
-	(*UpdateSchemaCatByIdResponse)(nil),                   // 213: tables.v1.UpdateSchemaCatByIdResponse
-	(*DeleteSchemaCatByIdRequest)(nil),                    // 214: tables.v1.DeleteSchemaCatByIdRequest
-	(*DeleteSchemaCatByIdResponse)(nil),                   // 215: tables.v1.DeleteSchemaCatByIdResponse
-	(*UndeleteSchemaCatByIdRequest)(nil),                  // 216: tables.v1.UndeleteSchemaCatByIdRequest
-	(*UndeleteSchemaCatByIdResponse)(nil),                 // 217: tables.v1.UndeleteSchemaCatByIdResponse
-	(*TableCat)(nil),                                      // 218: tables.v1.TableCat
-	(*CreateTableCatRequest)(nil),                         // 219: tables.v1.CreateTableCatRequest
-	(*CreateTableCatResponse)(nil),                        // 220: tables.v1.CreateTableCatResponse
-	(*GetTableCatByIdRequest)(nil),                        // 221: tables.v1.GetTableCatByIdRequest
-	(*GetTableCatByIdResponse)(nil),                       // 222: tables.v1.GetTableCatByIdResponse
-	(*GetTableCatsRequest)(nil),                           // 223: tables.v1.GetTableCatsRequest
-	(*GetTableCatsResponse)(nil),                          // 224: tables.v1.GetTableCatsResponse
-	(*GetTableCatsDeletedRequest)(nil),                    // 225: tables.v1.GetTableCatsDeletedRequest
-	(*GetTableCatsDeletedResponse)(nil),                   // 226: tables.v1.GetTableCatsDeletedResponse
-	(*UpdateTableCatByIdRequest)(nil),                     // 227: tables.v1.UpdateTableCatByIdRequest
-	(*UpdateTableCatByIdResponse)(nil),                    // 228: tables.v1.UpdateTableCatByIdResponse
-	(*DeleteTableCatByIdRequest)(nil),                     // 229: tables.v1.DeleteTableCatByIdRequest
-	(*DeleteTableCatByIdResponse)(nil),                    // 230: tables.v1.DeleteTableCatByIdResponse
-	(*UndeleteTableCatByIdRequest)(nil),                   // 231: tables.v1.UndeleteTableCatByIdRequest
-	(*UndeleteTableCatByIdResponse)(nil),                  // 232: tables.v1.UndeleteTableCatByIdResponse
-	(*TableType)(nil),                                     // 233: tables.v1.TableType
-	(*CreateTableTypeRequest)(nil),                        // 234: tables.v1.CreateTableTypeRequest
-	(*CreateTableTypeResponse)(nil),                       // 235: tables.v1.CreateTableTypeResponse
-	(*GetTableTypeByIdRequest)(nil),                       // 236: tables.v1.GetTableTypeByIdRequest
-	(*GetTableTypeByIdResponse)(nil),                      // 237: tables.v1.GetTableTypeByIdResponse
-	(*GetTableTypesRequest)(nil),                          // 238: tables.v1.GetTableTypesRequest
-	(*GetTableTypesResponse)(nil),                         // 239: tables.v1.GetTableTypesResponse
-	(*GetTableTypesDeletedRequest)(nil),                   // 240: tables.v1.GetTableTypesDeletedRequest
-	(*GetTableTypesDeletedResponse)(nil),                  // 241: tables.v1.GetTableTypesDeletedResponse
-	(*UpdateTableTypeByIdRequest)(nil),                    // 242: tables.v1.UpdateTableTypeByIdRequest
-	(*UpdateTableTypeByIdResponse)(nil),                   // 243: tables.v1.UpdateTableTypeByIdResponse
-	(*DeleteTableTypeByIdRequest)(nil),                    // 244: tables.v1.DeleteTableTypeByIdRequest
-	(*DeleteTableTypeByIdResponse)(nil),                   // 245: tables.v1.DeleteTableTypeByIdResponse
-	(*UndeleteTableTypeByIdRequest)(nil),                  // 246: tables.v1.UndeleteTableTypeByIdRequest
-	(*UndeleteTableTypeByIdResponse)(nil),                 // 247: tables.v1.UndeleteTableTypeByIdResponse
-	(*CalculationType)(nil),                               // 248: tables.v1.CalculationType
-	(*GetCalculationTypeByIdRequest)(nil),                 // 249: tables.v1.GetCalculationTypeByIdRequest
-	(*GetCalculationTypeByIdResponse)(nil),                // 250: tables.v1.GetCalculationTypeByIdResponse
-	(*GetCalculationTypesRequest)(nil),                    // 251: tables.v1.GetCalculationTypesRequest
-	(*GetCalculationTypesResponse)(nil),                   // 252: tables.v1.GetCalculationTypesResponse
-	(*timestamppb.Timestamp)(nil),                         // 253: google.protobuf.Timestamp
+	(*GetColumnTypeByIdResponse)(nil),                     // 99: tables.v1.GetColumnTypeByIdResponse
+	(*GetColumnTypesRequest)(nil),                         // 100: tables.v1.GetColumnTypesRequest
+	(*GetColumnTypesResponse)(nil),                        // 101: tables.v1.GetColumnTypesResponse
+	(*GetColumnTypesSearchNameRequest)(nil),               // 102: tables.v1.GetColumnTypesSearchNameRequest
+	(*GetColumnTypesSearchNameResponse)(nil),              // 103: tables.v1.GetColumnTypesSearchNameResponse
+	(*GetColumnTypesDeletedRequest)(nil),                  // 104: tables.v1.GetColumnTypesDeletedRequest
+	(*GetColumnTypesDeletedResponse)(nil),                 // 105: tables.v1.GetColumnTypesDeletedResponse
+	(*UpdateColumnTypeByIdRequest)(nil),                   // 106: tables.v1.UpdateColumnTypeByIdRequest
+	(*UpdateColumnTypeByIdResponse)(nil),                  // 107: tables.v1.UpdateColumnTypeByIdResponse
+	(*DeleteColumnTypeByIdRequest)(nil),                   // 108: tables.v1.DeleteColumnTypeByIdRequest
+	(*DeleteColumnTypeByIdResponse)(nil),                  // 109: tables.v1.DeleteColumnTypeByIdResponse
+	(*UndeleteColumnTypeByIdRequest)(nil),                 // 110: tables.v1.UndeleteColumnTypeByIdRequest
+	(*UndeleteColumnTypeByIdResponse)(nil),                // 111: tables.v1.UndeleteColumnTypeByIdResponse
+	(*DatabaseCalculation)(nil),                           // 112: tables.v1.DatabaseCalculation
+	(*CreateDatabaseCalculationRequest)(nil),              // 113: tables.v1.CreateDatabaseCalculationRequest
+	(*CreateDatabaseCalculationResponse)(nil),             // 114: tables.v1.CreateDatabaseCalculationResponse
+	(*GetDatabaseCalculationsSearchNameRequest)(nil),      // 115: tables.v1.GetDatabaseCalculationsSearchNameRequest
+	(*GetDatabaseCalculationsSearchNameResponse)(nil),     // 116: tables.v1.GetDatabaseCalculationsSearchNameResponse
+	(*GetDatabaseCalculationByIdRequest)(nil),             // 117: tables.v1.GetDatabaseCalculationByIdRequest
+	(*GetDatabaseCalculationByIdResponse)(nil),            // 118: tables.v1.GetDatabaseCalculationByIdResponse
+	(*GetDatabaseCalculationsFilteredRequest)(nil),        // 119: tables.v1.GetDatabaseCalculationsFilteredRequest
+	(*GetDatabaseCalculationsFilteredResponse)(nil),       // 120: tables.v1.GetDatabaseCalculationsFilteredResponse
+	(*GetDatabaseCalculationsDeletedRequest)(nil),         // 121: tables.v1.GetDatabaseCalculationsDeletedRequest
+	(*GetDatabaseCalculationsDeletedResponse)(nil),        // 122: tables.v1.GetDatabaseCalculationsDeletedResponse
+	(*GetDatabaseCalculationsRequest)(nil),                // 123: tables.v1.GetDatabaseCalculationsRequest
+	(*GetDatabaseCalculationsResponse)(nil),               // 124: tables.v1.GetDatabaseCalculationsResponse
+	(*UpdateDatabaseCalculationByIdRequest)(nil),          // 125: tables.v1.UpdateDatabaseCalculationByIdRequest
+	(*UpdateDatabaseCalculationByIdResponse)(nil),         // 126: tables.v1.UpdateDatabaseCalculationByIdResponse
+	(*DeleteDatabaseCalculationByIdRequest)(nil),          // 127: tables.v1.DeleteDatabaseCalculationByIdRequest
+	(*DeleteDatabaseCalculationByIdResponse)(nil),         // 128: tables.v1.DeleteDatabaseCalculationByIdResponse
+	(*UndeleteDatabaseCalculationByIdRequest)(nil),        // 129: tables.v1.UndeleteDatabaseCalculationByIdRequest
+	(*UndeleteDatabaseCalculationByIdResponse)(nil),       // 130: tables.v1.UndeleteDatabaseCalculationByIdResponse
+	(*DomainCat)(nil),                                     // 131: tables.v1.DomainCat
+	(*CreateDomainCatRequest)(nil),                        // 132: tables.v1.CreateDomainCatRequest
+	(*CreateDomainCatResponse)(nil),                       // 133: tables.v1.CreateDomainCatResponse
+	(*GetDomainCatsSearchNameRequest)(nil),                // 134: tables.v1.GetDomainCatsSearchNameRequest
+	(*GetDomainCatsSearchNameResponse)(nil),               // 135: tables.v1.GetDomainCatsSearchNameResponse
+	(*GetDomainCatByIdRequest)(nil),                       // 136: tables.v1.GetDomainCatByIdRequest
+	(*GetDomainCatByIdResponse)(nil),                      // 137: tables.v1.GetDomainCatByIdResponse
+	(*GetDomainCatsRequest)(nil),                          // 138: tables.v1.GetDomainCatsRequest
+	(*GetDomainCatsResponse)(nil),                         // 139: tables.v1.GetDomainCatsResponse
+	(*GetDomainCatsDeletedRequest)(nil),                   // 140: tables.v1.GetDomainCatsDeletedRequest
+	(*GetDomainCatsDeletedResponse)(nil),                  // 141: tables.v1.GetDomainCatsDeletedResponse
+	(*UpdateDomainCatByIdRequest)(nil),                    // 142: tables.v1.UpdateDomainCatByIdRequest
+	(*UpdateDomainCatByIdResponse)(nil),                   // 143: tables.v1.UpdateDomainCatByIdResponse
+	(*DeleteDomainCatByIdRequest)(nil),                    // 144: tables.v1.DeleteDomainCatByIdRequest
+	(*DeleteDomainCatByIdResponse)(nil),                   // 145: tables.v1.DeleteDomainCatByIdResponse
+	(*UndeleteDomainCatByIdRequest)(nil),                  // 146: tables.v1.UndeleteDomainCatByIdRequest
+	(*UndeleteDomainCatByIdResponse)(nil),                 // 147: tables.v1.UndeleteDomainCatByIdResponse
+	(*FollowingCalculation)(nil),                          // 148: tables.v1.FollowingCalculation
+	(*CreateFollowingCalculationRequest)(nil),             // 149: tables.v1.CreateFollowingCalculationRequest
+	(*CreateFollowingCalculationResponse)(nil),            // 150: tables.v1.CreateFollowingCalculationResponse
+	(*GetFollowingCalculationByIdRequest)(nil),            // 151: tables.v1.GetFollowingCalculationByIdRequest
+	(*GetFollowingCalculationByIdResponse)(nil),           // 152: tables.v1.GetFollowingCalculationByIdResponse
+	(*GetFollowingCalculationsRequest)(nil),               // 153: tables.v1.GetFollowingCalculationsRequest
+	(*GetFollowingCalculationsResponse)(nil),              // 154: tables.v1.GetFollowingCalculationsResponse
+	(*GetFollowingCalculationsDeletedRequest)(nil),        // 155: tables.v1.GetFollowingCalculationsDeletedRequest
+	(*GetFollowingCalculationsDeletedResponse)(nil),       // 156: tables.v1.GetFollowingCalculationsDeletedResponse
+	(*GetFollowingCalculationsFiltersRequest)(nil),        // 157: tables.v1.GetFollowingCalculationsFiltersRequest
+	(*GetFollowingCalculationsFiltersResponse)(nil),       // 158: tables.v1.GetFollowingCalculationsFiltersResponse
+	(*UpdateFollowingCalculationByIdRequest)(nil),         // 159: tables.v1.UpdateFollowingCalculationByIdRequest
+	(*UpdateFollowingCalculationByIdResponse)(nil),        // 160: tables.v1.UpdateFollowingCalculationByIdResponse
+	(*DeleteFollowingCalculationByIdRequest)(nil),         // 161: tables.v1.DeleteFollowingCalculationByIdRequest
+	(*DeleteFollowingCalculationByIdResponse)(nil),        // 162: tables.v1.DeleteFollowingCalculationByIdResponse
+	(*UndeleteFollowingCalculationByIdRequest)(nil),       // 163: tables.v1.UndeleteFollowingCalculationByIdRequest
+	(*UndeleteFollowingCalculationByIdResponse)(nil),      // 164: tables.v1.UndeleteFollowingCalculationByIdResponse
+	(*GroupLevels)(nil),                                   // 165: tables.v1.GroupLevels
+	(*CreateGroupLevelsRequest)(nil),                      // 166: tables.v1.CreateGroupLevelsRequest
+	(*CreateGroupLevelsResponse)(nil),                     // 167: tables.v1.CreateGroupLevelsResponse
+	(*GetGroupLevelsSearchNameRequest)(nil),               // 168: tables.v1.GetGroupLevelsSearchNameRequest
+	(*GetGroupLevelsSearchNameResponse)(nil),              // 169: tables.v1.GetGroupLevelsSearchNameResponse
+	(*GetGroupLevelsRequest)(nil),                         // 170: tables.v1.GetGroupLevelsRequest
+	(*GetGroupLevelsResponse)(nil),                        // 171: tables.v1.GetGroupLevelsResponse
+	(*GetGroupLevelsByIdRequest)(nil),                     // 172: tables.v1.GetGroupLevelsByIdRequest
+	(*GetGroupLevelsByIdResponse)(nil),                    // 173: tables.v1.GetGroupLevelsByIdResponse
+	(*GetGroupLevelsFilteredRequest)(nil),                 // 174: tables.v1.GetGroupLevelsFilteredRequest
+	(*GetGroupLevelsFilteredResponse)(nil),                // 175: tables.v1.GetGroupLevelsFilteredResponse
+	(*GetGroupLevelsDeletedRequest)(nil),                  // 176: tables.v1.GetGroupLevelsDeletedRequest
+	(*GetGroupLevelsDeletedResponse)(nil),                 // 177: tables.v1.GetGroupLevelsDeletedResponse
+	(*UpdateGroupLevelsByIdRequest)(nil),                  // 178: tables.v1.UpdateGroupLevelsByIdRequest
+	(*UpdateGroupLevelsByIdResponse)(nil),                 // 179: tables.v1.UpdateGroupLevelsByIdResponse
+	(*DeleteGroupLevelsByIdRequest)(nil),                  // 180: tables.v1.DeleteGroupLevelsByIdRequest
+	(*DeleteGroupLevelsByIdResponse)(nil),                 // 181: tables.v1.DeleteGroupLevelsByIdResponse
+	(*UndeleteGroupLevelsByIdRequest)(nil),                // 182: tables.v1.UndeleteGroupLevelsByIdRequest
+	(*UndeleteGroupLevelsByIdResponse)(nil),               // 183: tables.v1.UndeleteGroupLevelsByIdResponse
+	(*HasToGroup)(nil),                                    // 184: tables.v1.HasToGroup
+	(*CreateHasToGroupRequest)(nil),                       // 185: tables.v1.CreateHasToGroupRequest
+	(*CreateHasToGroupResponse)(nil),                      // 186: tables.v1.CreateHasToGroupResponse
+	(*GetHasToGroupByIdRequest)(nil),                      // 187: tables.v1.GetHasToGroupByIdRequest
+	(*GetHasToGroupByIdResponse)(nil),                     // 188: tables.v1.GetHasToGroupByIdResponse
+	(*GetHasToGroupsSearchNameRequest)(nil),               // 189: tables.v1.GetHasToGroupsSearchNameRequest
+	(*GetHasToGroupsSearchNameResponse)(nil),              // 190: tables.v1.GetHasToGroupsSearchNameResponse
+	(*GetHasToGroupsRequest)(nil),                         // 191: tables.v1.GetHasToGroupsRequest
+	(*GetHasToGroupsResponse)(nil),                        // 192: tables.v1.GetHasToGroupsResponse
+	(*GetHasToGroupsDeletedRequest)(nil),                  // 193: tables.v1.GetHasToGroupsDeletedRequest
+	(*GetHasToGroupsDeletedResponse)(nil),                 // 194: tables.v1.GetHasToGroupsDeletedResponse
+	(*UpdateHasToGroupByIdRequest)(nil),                   // 195: tables.v1.UpdateHasToGroupByIdRequest
+	(*UpdateHasToGroupByIdResponse)(nil),                  // 196: tables.v1.UpdateHasToGroupByIdResponse
+	(*DeleteHasToGroupByIdRequest)(nil),                   // 197: tables.v1.DeleteHasToGroupByIdRequest
+	(*DeleteHasToGroupByIdResponse)(nil),                  // 198: tables.v1.DeleteHasToGroupByIdResponse
+	(*UndeleteHasToGroupByIdRequest)(nil),                 // 199: tables.v1.UndeleteHasToGroupByIdRequest
+	(*UndeleteHasToGroupByIdResponse)(nil),                // 200: tables.v1.UndeleteHasToGroupByIdResponse
+	(*SchemaCat)(nil),                                     // 201: tables.v1.SchemaCat
+	(*CreateSchemaCatRequest)(nil),                        // 202: tables.v1.CreateSchemaCatRequest
+	(*CreateSchemaCatResponse)(nil),                       // 203: tables.v1.CreateSchemaCatResponse
+	(*GetSchemaCatByIdRequest)(nil),                       // 204: tables.v1.GetSchemaCatByIdRequest
+	(*GetSchemaCatByIdResponse)(nil),                      // 205: tables.v1.GetSchemaCatByIdResponse
+	(*GetSchemaCatsRequest)(nil),                          // 206: tables.v1.GetSchemaCatsRequest
+	(*GetSchemaCatsResponse)(nil),                         // 207: tables.v1.GetSchemaCatsResponse
+	(*GetSchemaCatsDeletedRequest)(nil),                   // 208: tables.v1.GetSchemaCatsDeletedRequest
+	(*GetSchemaCatsDeletedResponse)(nil),                  // 209: tables.v1.GetSchemaCatsDeletedResponse
+	(*UpdateSchemaCatByIdRequest)(nil),                    // 210: tables.v1.UpdateSchemaCatByIdRequest
+	(*UpdateSchemaCatByIdResponse)(nil),                   // 211: tables.v1.UpdateSchemaCatByIdResponse
+	(*DeleteSchemaCatByIdRequest)(nil),                    // 212: tables.v1.DeleteSchemaCatByIdRequest
+	(*DeleteSchemaCatByIdResponse)(nil),                   // 213: tables.v1.DeleteSchemaCatByIdResponse
+	(*UndeleteSchemaCatByIdRequest)(nil),                  // 214: tables.v1.UndeleteSchemaCatByIdRequest
+	(*UndeleteSchemaCatByIdResponse)(nil),                 // 215: tables.v1.UndeleteSchemaCatByIdResponse
+	(*TableCat)(nil),                                      // 216: tables.v1.TableCat
+	(*CreateTableCatRequest)(nil),                         // 217: tables.v1.CreateTableCatRequest
+	(*CreateTableCatResponse)(nil),                        // 218: tables.v1.CreateTableCatResponse
+	(*GetTableCatByIdRequest)(nil),                        // 219: tables.v1.GetTableCatByIdRequest
+	(*GetTableCatByIdResponse)(nil),                       // 220: tables.v1.GetTableCatByIdResponse
+	(*GetTableCatsRequest)(nil),                           // 221: tables.v1.GetTableCatsRequest
+	(*GetTableCatsResponse)(nil),                          // 222: tables.v1.GetTableCatsResponse
+	(*GetTableCatsDeletedRequest)(nil),                    // 223: tables.v1.GetTableCatsDeletedRequest
+	(*GetTableCatsDeletedResponse)(nil),                   // 224: tables.v1.GetTableCatsDeletedResponse
+	(*UpdateTableCatByIdRequest)(nil),                     // 225: tables.v1.UpdateTableCatByIdRequest
+	(*UpdateTableCatByIdResponse)(nil),                    // 226: tables.v1.UpdateTableCatByIdResponse
+	(*DeleteTableCatByIdRequest)(nil),                     // 227: tables.v1.DeleteTableCatByIdRequest
+	(*DeleteTableCatByIdResponse)(nil),                    // 228: tables.v1.DeleteTableCatByIdResponse
+	(*UndeleteTableCatByIdRequest)(nil),                   // 229: tables.v1.UndeleteTableCatByIdRequest
+	(*UndeleteTableCatByIdResponse)(nil),                  // 230: tables.v1.UndeleteTableCatByIdResponse
+	(*TableType)(nil),                                     // 231: tables.v1.TableType
+	(*CreateTableTypeRequest)(nil),                        // 232: tables.v1.CreateTableTypeRequest
+	(*CreateTableTypeResponse)(nil),                       // 233: tables.v1.CreateTableTypeResponse
+	(*GetTableTypeByIdRequest)(nil),                       // 234: tables.v1.GetTableTypeByIdRequest
+	(*GetTableTypeByIdResponse)(nil),                      // 235: tables.v1.GetTableTypeByIdResponse
+	(*GetTableTypesRequest)(nil),                          // 236: tables.v1.GetTableTypesRequest
+	(*GetTableTypesResponse)(nil),                         // 237: tables.v1.GetTableTypesResponse
+	(*GetTableTypesDeletedRequest)(nil),                   // 238: tables.v1.GetTableTypesDeletedRequest
+	(*GetTableTypesDeletedResponse)(nil),                  // 239: tables.v1.GetTableTypesDeletedResponse
+	(*UpdateTableTypeByIdRequest)(nil),                    // 240: tables.v1.UpdateTableTypeByIdRequest
+	(*UpdateTableTypeByIdResponse)(nil),                   // 241: tables.v1.UpdateTableTypeByIdResponse
+	(*DeleteTableTypeByIdRequest)(nil),                    // 242: tables.v1.DeleteTableTypeByIdRequest
+	(*DeleteTableTypeByIdResponse)(nil),                   // 243: tables.v1.DeleteTableTypeByIdResponse
+	(*UndeleteTableTypeByIdRequest)(nil),                  // 244: tables.v1.UndeleteTableTypeByIdRequest
+	(*UndeleteTableTypeByIdResponse)(nil),                 // 245: tables.v1.UndeleteTableTypeByIdResponse
+	(*CalculationType)(nil),                               // 246: tables.v1.CalculationType
+	(*GetCalculationTypeByIdRequest)(nil),                 // 247: tables.v1.GetCalculationTypeByIdRequest
+	(*GetCalculationTypeByIdResponse)(nil),                // 248: tables.v1.GetCalculationTypeByIdResponse
+	(*GetCalculationTypesRequest)(nil),                    // 249: tables.v1.GetCalculationTypesRequest
+	(*GetCalculationTypesResponse)(nil),                   // 250: tables.v1.GetCalculationTypesResponse
+	(*timestamppb.Timestamp)(nil),                         // 251: google.protobuf.Timestamp
 }
 var file_tables_v1_tables_proto_depIdxs = []int32{
-	253, // 0: tables.v1.Alias.created_at:type_name -> google.protobuf.Timestamp
-	253, // 1: tables.v1.Alias.updated_at:type_name -> google.protobuf.Timestamp
+	251, // 0: tables.v1.Alias.created_at:type_name -> google.protobuf.Timestamp
+	251, // 1: tables.v1.Alias.updated_at:type_name -> google.protobuf.Timestamp
 	1,   // 2: tables.v1.CreateAliasResponse.alias:type_name -> tables.v1.Alias
 	1,   // 3: tables.v1.GetAliasByIdResponse.alias:type_name -> tables.v1.Alias
 	1,   // 4: tables.v1.GetAliasesDeletedResponse.data:type_name -> tables.v1.Alias
 	0,   // 5: tables.v1.GetAliasesDeletedResponse.pagination:type_name -> tables.v1.Pagination
 	1,   // 6: tables.v1.GetAliasesResponse.data:type_name -> tables.v1.Alias
 	0,   // 7: tables.v1.GetAliasesResponse.pagination:type_name -> tables.v1.Pagination
-	253, // 8: tables.v1.User.created_at:type_name -> google.protobuf.Timestamp
-	253, // 9: tables.v1.User.updated_at:type_name -> google.protobuf.Timestamp
+	251, // 8: tables.v1.User.created_at:type_name -> google.protobuf.Timestamp
+	251, // 9: tables.v1.User.updated_at:type_name -> google.protobuf.Timestamp
 	16,  // 10: tables.v1.CreateUserResponse.user:type_name -> tables.v1.User
 	16,  // 11: tables.v1.GetUserByExternalIdResponse.user:type_name -> tables.v1.User
 	16,  // 12: tables.v1.GetUsersResponse.data:type_name -> tables.v1.User
 	0,   // 13: tables.v1.GetUsersResponse.pagination:type_name -> tables.v1.Pagination
-	253, // 14: tables.v1.Host.created_at:type_name -> google.protobuf.Timestamp
-	253, // 15: tables.v1.Host.updated_at:type_name -> google.protobuf.Timestamp
+	251, // 14: tables.v1.Host.created_at:type_name -> google.protobuf.Timestamp
+	251, // 15: tables.v1.Host.updated_at:type_name -> google.protobuf.Timestamp
 	23,  // 16: tables.v1.CreateHostResponse.host:type_name -> tables.v1.Host
 	23,  // 17: tables.v1.GetHostByIdResponse.host:type_name -> tables.v1.Host
 	23,  // 18: tables.v1.GetHostsResponse.data:type_name -> tables.v1.Host
@@ -15991,8 +15779,8 @@ var file_tables_v1_tables_proto_depIdxs = []int32{
 	0,   // 21: tables.v1.GetHostsSearchNameResponse.pagination:type_name -> tables.v1.Pagination
 	23,  // 22: tables.v1.GetHostDeletedResponse.data:type_name -> tables.v1.Host
 	0,   // 23: tables.v1.GetHostDeletedResponse.pagination:type_name -> tables.v1.Pagination
-	253, // 24: tables.v1.DatabaseType.created_at:type_name -> google.protobuf.Timestamp
-	253, // 25: tables.v1.DatabaseType.updated_at:type_name -> google.protobuf.Timestamp
+	251, // 24: tables.v1.DatabaseType.created_at:type_name -> google.protobuf.Timestamp
+	251, // 25: tables.v1.DatabaseType.updated_at:type_name -> google.protobuf.Timestamp
 	40,  // 26: tables.v1.CreateDatabaseTypeResponse.database_type:type_name -> tables.v1.DatabaseType
 	40,  // 27: tables.v1.GetDatabaseTypeByIdResponse.database_type:type_name -> tables.v1.DatabaseType
 	40,  // 28: tables.v1.GetDatabaseTypesSearchNameResponse.data:type_name -> tables.v1.DatabaseType
@@ -16001,8 +15789,8 @@ var file_tables_v1_tables_proto_depIdxs = []int32{
 	0,   // 31: tables.v1.GetDatabaseTypesResponse.pagination:type_name -> tables.v1.Pagination
 	40,  // 32: tables.v1.GetDatabaseTypesDeletedResponse.data:type_name -> tables.v1.DatabaseType
 	0,   // 33: tables.v1.GetDatabaseTypesDeletedResponse.pagination:type_name -> tables.v1.Pagination
-	253, // 34: tables.v1.DatabaseCat.created_at:type_name -> google.protobuf.Timestamp
-	253, // 35: tables.v1.DatabaseCat.updated_at:type_name -> google.protobuf.Timestamp
+	251, // 34: tables.v1.DatabaseCat.created_at:type_name -> google.protobuf.Timestamp
+	251, // 35: tables.v1.DatabaseCat.updated_at:type_name -> google.protobuf.Timestamp
 	57,  // 36: tables.v1.CreateDatabaseCatResponse.database_cat:type_name -> tables.v1.DatabaseCat
 	57,  // 37: tables.v1.GetDatabaseCatByIdResponse.database_cat:type_name -> tables.v1.DatabaseCat
 	57,  // 38: tables.v1.GetDatabaseCatsResponse.data:type_name -> tables.v1.DatabaseCat
@@ -16013,8 +15801,8 @@ var file_tables_v1_tables_proto_depIdxs = []int32{
 	0,   // 43: tables.v1.GetDatabaseCatsByHostIdDatabaseTypeIdResponse.pagination:type_name -> tables.v1.Pagination
 	57,  // 44: tables.v1.GetDatabaseCatsSearchNameResponse.data:type_name -> tables.v1.DatabaseCat
 	0,   // 45: tables.v1.GetDatabaseCatsSearchNameResponse.pagination:type_name -> tables.v1.Pagination
-	253, // 46: tables.v1.ColumnCat.created_at:type_name -> google.protobuf.Timestamp
-	253, // 47: tables.v1.ColumnCat.updated_at:type_name -> google.protobuf.Timestamp
+	251, // 46: tables.v1.ColumnCat.created_at:type_name -> google.protobuf.Timestamp
+	251, // 47: tables.v1.ColumnCat.updated_at:type_name -> google.protobuf.Timestamp
 	76,  // 48: tables.v1.CreateColumnCatResponse.column_cat:type_name -> tables.v1.ColumnCat
 	76,  // 49: tables.v1.GetColumnCatByIdResponse.column_cat:type_name -> tables.v1.ColumnCat
 	76,  // 50: tables.v1.GetColumnCatsResponse.data:type_name -> tables.v1.ColumnCat
@@ -16025,342 +15813,336 @@ var file_tables_v1_tables_proto_depIdxs = []int32{
 	0,   // 55: tables.v1.GetColumnCatsOptionalFiltersResponse.pagination:type_name -> tables.v1.Pagination
 	76,  // 56: tables.v1.GetColumnCatsSearchNameResponse.data:type_name -> tables.v1.ColumnCat
 	0,   // 57: tables.v1.GetColumnCatsSearchNameResponse.pagination:type_name -> tables.v1.Pagination
-	253, // 58: tables.v1.ColumnType.created_at:type_name -> google.protobuf.Timestamp
-	253, // 59: tables.v1.ColumnType.updated_at:type_name -> google.protobuf.Timestamp
+	251, // 58: tables.v1.ColumnType.created_at:type_name -> google.protobuf.Timestamp
+	251, // 59: tables.v1.ColumnType.updated_at:type_name -> google.protobuf.Timestamp
 	95,  // 60: tables.v1.CreateColumnTypeResponse.column_type:type_name -> tables.v1.ColumnType
-	253, // 61: tables.v1.GetColumnTypeByIdRow.created_at:type_name -> google.protobuf.Timestamp
-	253, // 62: tables.v1.GetColumnTypeByIdRow.updated_at:type_name -> google.protobuf.Timestamp
-	99,  // 63: tables.v1.GetColumnTypeByIdResponse.column_type:type_name -> tables.v1.GetColumnTypeByIdRow
-	95,  // 64: tables.v1.GetColumnTypesResponse.data:type_name -> tables.v1.ColumnType
-	0,   // 65: tables.v1.GetColumnTypesResponse.pagination:type_name -> tables.v1.Pagination
-	95,  // 66: tables.v1.GetColumnTypesSearchNameResponse.data:type_name -> tables.v1.ColumnType
-	0,   // 67: tables.v1.GetColumnTypesSearchNameResponse.pagination:type_name -> tables.v1.Pagination
-	95,  // 68: tables.v1.GetColumnTypesDeletedResponse.data:type_name -> tables.v1.ColumnType
-	0,   // 69: tables.v1.GetColumnTypesDeletedResponse.pagination:type_name -> tables.v1.Pagination
-	253, // 70: tables.v1.DatabaseCalculation.created_at:type_name -> google.protobuf.Timestamp
-	253, // 71: tables.v1.DatabaseCalculation.updated_at:type_name -> google.protobuf.Timestamp
-	113, // 72: tables.v1.CreateDatabaseCalculationResponse.database_calculation:type_name -> tables.v1.DatabaseCalculation
-	113, // 73: tables.v1.GetDatabaseCalculationsSearchNameResponse.data:type_name -> tables.v1.DatabaseCalculation
-	0,   // 74: tables.v1.GetDatabaseCalculationsSearchNameResponse.pagination:type_name -> tables.v1.Pagination
-	253, // 75: tables.v1.GetDatabaseCalculationByIdRow.created_at:type_name -> google.protobuf.Timestamp
-	253, // 76: tables.v1.GetDatabaseCalculationByIdRow.updated_at:type_name -> google.protobuf.Timestamp
-	119, // 77: tables.v1.GetDatabaseCalculationByIdResponse.database_calculation:type_name -> tables.v1.GetDatabaseCalculationByIdRow
-	113, // 78: tables.v1.GetDatabaseCalculationsFilteredResponse.data:type_name -> tables.v1.DatabaseCalculation
-	0,   // 79: tables.v1.GetDatabaseCalculationsFilteredResponse.pagination:type_name -> tables.v1.Pagination
-	113, // 80: tables.v1.GetDatabaseCalculationsDeletedResponse.data:type_name -> tables.v1.DatabaseCalculation
-	0,   // 81: tables.v1.GetDatabaseCalculationsDeletedResponse.pagination:type_name -> tables.v1.Pagination
-	113, // 82: tables.v1.GetDatabaseCalculationsResponse.data:type_name -> tables.v1.DatabaseCalculation
-	0,   // 83: tables.v1.GetDatabaseCalculationsResponse.pagination:type_name -> tables.v1.Pagination
-	253, // 84: tables.v1.DomainCat.created_at:type_name -> google.protobuf.Timestamp
-	253, // 85: tables.v1.DomainCat.updated_at:type_name -> google.protobuf.Timestamp
-	133, // 86: tables.v1.CreateDomainCatResponse.domain_cat:type_name -> tables.v1.DomainCat
-	133, // 87: tables.v1.GetDomainCatsSearchNameResponse.data:type_name -> tables.v1.DomainCat
-	0,   // 88: tables.v1.GetDomainCatsSearchNameResponse.pagination:type_name -> tables.v1.Pagination
-	133, // 89: tables.v1.GetDomainCatByIdResponse.domain_cat:type_name -> tables.v1.DomainCat
-	133, // 90: tables.v1.GetDomainCatsResponse.data:type_name -> tables.v1.DomainCat
-	0,   // 91: tables.v1.GetDomainCatsResponse.pagination:type_name -> tables.v1.Pagination
-	133, // 92: tables.v1.GetDomainCatsDeletedResponse.data:type_name -> tables.v1.DomainCat
-	0,   // 93: tables.v1.GetDomainCatsDeletedResponse.pagination:type_name -> tables.v1.Pagination
-	253, // 94: tables.v1.FollowingCalculation.created_at:type_name -> google.protobuf.Timestamp
-	253, // 95: tables.v1.FollowingCalculation.updated_at:type_name -> google.protobuf.Timestamp
-	150, // 96: tables.v1.CreateFollowingCalculationResponse.following_calculation:type_name -> tables.v1.FollowingCalculation
-	150, // 97: tables.v1.GetFollowingCalculationByIdResponse.following_calculation:type_name -> tables.v1.FollowingCalculation
-	150, // 98: tables.v1.GetFollowingCalculationsResponse.data:type_name -> tables.v1.FollowingCalculation
-	0,   // 99: tables.v1.GetFollowingCalculationsResponse.pagination:type_name -> tables.v1.Pagination
-	150, // 100: tables.v1.GetFollowingCalculationsDeletedResponse.data:type_name -> tables.v1.FollowingCalculation
-	0,   // 101: tables.v1.GetFollowingCalculationsDeletedResponse.pagination:type_name -> tables.v1.Pagination
-	150, // 102: tables.v1.GetFollowingCalculationsFiltersResponse.data:type_name -> tables.v1.FollowingCalculation
-	0,   // 103: tables.v1.GetFollowingCalculationsFiltersResponse.pagination:type_name -> tables.v1.Pagination
-	253, // 104: tables.v1.GroupLevels.created_at:type_name -> google.protobuf.Timestamp
-	253, // 105: tables.v1.GroupLevels.updated_at:type_name -> google.protobuf.Timestamp
-	167, // 106: tables.v1.CreateGroupLevelsResponse.group_levels:type_name -> tables.v1.GroupLevels
-	167, // 107: tables.v1.GetGroupLevelsSearchNameResponse.data:type_name -> tables.v1.GroupLevels
-	0,   // 108: tables.v1.GetGroupLevelsSearchNameResponse.pagination:type_name -> tables.v1.Pagination
-	167, // 109: tables.v1.GetGroupLevelsResponse.data:type_name -> tables.v1.GroupLevels
-	0,   // 110: tables.v1.GetGroupLevelsResponse.pagination:type_name -> tables.v1.Pagination
-	167, // 111: tables.v1.GetGroupLevelsByIdResponse.group_levels:type_name -> tables.v1.GroupLevels
-	167, // 112: tables.v1.GetGroupLevelsFilteredResponse.data:type_name -> tables.v1.GroupLevels
-	0,   // 113: tables.v1.GetGroupLevelsFilteredResponse.pagination:type_name -> tables.v1.Pagination
-	167, // 114: tables.v1.GetGroupLevelsDeletedResponse.rows:type_name -> tables.v1.GroupLevels
-	253, // 115: tables.v1.HasToGroup.created_at:type_name -> google.protobuf.Timestamp
-	253, // 116: tables.v1.HasToGroup.updated_at:type_name -> google.protobuf.Timestamp
-	186, // 117: tables.v1.CreateHasToGroupResponse.has_to_group:type_name -> tables.v1.HasToGroup
-	186, // 118: tables.v1.GetHasToGroupByIdResponse.has_to_group:type_name -> tables.v1.HasToGroup
-	186, // 119: tables.v1.GetHasToGroupsSearchNameResponse.data:type_name -> tables.v1.HasToGroup
-	0,   // 120: tables.v1.GetHasToGroupsSearchNameResponse.pagination:type_name -> tables.v1.Pagination
-	186, // 121: tables.v1.GetHasToGroupsResponse.data:type_name -> tables.v1.HasToGroup
-	0,   // 122: tables.v1.GetHasToGroupsResponse.pagination:type_name -> tables.v1.Pagination
-	186, // 123: tables.v1.GetHasToGroupsDeletedResponse.data:type_name -> tables.v1.HasToGroup
-	0,   // 124: tables.v1.GetHasToGroupsDeletedResponse.pagination:type_name -> tables.v1.Pagination
-	253, // 125: tables.v1.SchemaCat.created_at:type_name -> google.protobuf.Timestamp
-	253, // 126: tables.v1.SchemaCat.updated_at:type_name -> google.protobuf.Timestamp
-	203, // 127: tables.v1.CreateSchemaCatResponse.schema_cat:type_name -> tables.v1.SchemaCat
-	203, // 128: tables.v1.GetSchemaCatByIdResponse.schema_cat:type_name -> tables.v1.SchemaCat
-	203, // 129: tables.v1.GetSchemaCatsResponse.data:type_name -> tables.v1.SchemaCat
-	0,   // 130: tables.v1.GetSchemaCatsResponse.pagination:type_name -> tables.v1.Pagination
-	203, // 131: tables.v1.GetSchemaCatsDeletedResponse.data:type_name -> tables.v1.SchemaCat
-	0,   // 132: tables.v1.GetSchemaCatsDeletedResponse.pagination:type_name -> tables.v1.Pagination
-	253, // 133: tables.v1.UpdateSchemaCatByIdRequest.created_at:type_name -> google.protobuf.Timestamp
-	253, // 134: tables.v1.DeleteSchemaCatByIdRequest.updated_at:type_name -> google.protobuf.Timestamp
-	253, // 135: tables.v1.TableCat.created_at:type_name -> google.protobuf.Timestamp
-	253, // 136: tables.v1.TableCat.updated_at:type_name -> google.protobuf.Timestamp
-	218, // 137: tables.v1.CreateTableCatResponse.table_cat:type_name -> tables.v1.TableCat
-	218, // 138: tables.v1.GetTableCatByIdResponse.table_cat:type_name -> tables.v1.TableCat
-	218, // 139: tables.v1.GetTableCatsResponse.data:type_name -> tables.v1.TableCat
-	0,   // 140: tables.v1.GetTableCatsResponse.pagination:type_name -> tables.v1.Pagination
-	218, // 141: tables.v1.GetTableCatsDeletedResponse.data:type_name -> tables.v1.TableCat
-	0,   // 142: tables.v1.GetTableCatsDeletedResponse.pagination:type_name -> tables.v1.Pagination
-	253, // 143: tables.v1.TableType.created_at:type_name -> google.protobuf.Timestamp
-	253, // 144: tables.v1.TableType.updated_at:type_name -> google.protobuf.Timestamp
-	233, // 145: tables.v1.CreateTableTypeResponse.table_type:type_name -> tables.v1.TableType
-	233, // 146: tables.v1.GetTableTypeByIdResponse.table_type:type_name -> tables.v1.TableType
-	233, // 147: tables.v1.GetTableTypesResponse.data:type_name -> tables.v1.TableType
-	0,   // 148: tables.v1.GetTableTypesResponse.pagination:type_name -> tables.v1.Pagination
-	233, // 149: tables.v1.GetTableTypesDeletedResponse.data:type_name -> tables.v1.TableType
-	0,   // 150: tables.v1.GetTableTypesDeletedResponse.pagination:type_name -> tables.v1.Pagination
-	253, // 151: tables.v1.CalculationType.created_at:type_name -> google.protobuf.Timestamp
-	253, // 152: tables.v1.CalculationType.updated_at:type_name -> google.protobuf.Timestamp
-	248, // 153: tables.v1.GetCalculationTypeByIdResponse.calculation_type:type_name -> tables.v1.CalculationType
-	248, // 154: tables.v1.GetCalculationTypesResponse.rows:type_name -> tables.v1.CalculationType
-	2,   // 155: tables.v1.AliasService.CreateAlias:input_type -> tables.v1.CreateAliasRequest
-	4,   // 156: tables.v1.AliasService.GetAliasById:input_type -> tables.v1.GetAliasByIdRequest
-	6,   // 157: tables.v1.AliasService.GetAliasesDeleted:input_type -> tables.v1.GetAliasesDeletedRequest
-	8,   // 158: tables.v1.AliasService.GetAliases:input_type -> tables.v1.GetAliasesRequest
-	10,  // 159: tables.v1.AliasService.UpdateAliasById:input_type -> tables.v1.UpdateAliasByIdRequest
-	12,  // 160: tables.v1.AliasService.DeleteAliasById:input_type -> tables.v1.DeleteAliasByIdRequest
-	14,  // 161: tables.v1.AliasService.UndeleteAliasById:input_type -> tables.v1.UndeleteAliasByIdRequest
-	17,  // 162: tables.v1.UserService.CreateUser:input_type -> tables.v1.CreateUserRequest
-	19,  // 163: tables.v1.UserService.GetUserByExternalId:input_type -> tables.v1.GetUserByExternalIdRequest
-	21,  // 164: tables.v1.UserService.GetUsers:input_type -> tables.v1.GetUsersRequest
-	24,  // 165: tables.v1.HostService.CreateHost:input_type -> tables.v1.CreateHostRequest
-	26,  // 166: tables.v1.HostService.GetHostById:input_type -> tables.v1.GetHostByIdRequest
-	28,  // 167: tables.v1.HostService.GetHosts:input_type -> tables.v1.GetHostsRequest
-	30,  // 168: tables.v1.HostService.GetHostsSearchName:input_type -> tables.v1.GetHostsSearchNameRequest
-	32,  // 169: tables.v1.HostService.GetHostDeleted:input_type -> tables.v1.GetHostDeletedRequest
-	34,  // 170: tables.v1.HostService.UpdateHostById:input_type -> tables.v1.UpdateHostByIdRequest
-	36,  // 171: tables.v1.HostService.DeleteHostById:input_type -> tables.v1.DeleteHostByIdRequest
-	38,  // 172: tables.v1.HostService.UndeleteHostById:input_type -> tables.v1.UndeleteHostByIdRequest
-	41,  // 173: tables.v1.DatabaseTypeService.CreateDatabaseType:input_type -> tables.v1.CreateDatabaseTypeRequest
-	43,  // 174: tables.v1.DatabaseTypeService.GetDatabaseTypeById:input_type -> tables.v1.GetDatabaseTypeByIdRequest
-	45,  // 175: tables.v1.DatabaseTypeService.GetDatabaseTypesSearchName:input_type -> tables.v1.GetDatabaseTypesSearchNameRequest
-	47,  // 176: tables.v1.DatabaseTypeService.GetDatabaseTypes:input_type -> tables.v1.GetDatabaseTypesRequest
-	49,  // 177: tables.v1.DatabaseTypeService.GetDatabaseTypesDeleted:input_type -> tables.v1.GetDatabaseTypesDeletedRequest
-	51,  // 178: tables.v1.DatabaseTypeService.UpdateDatabaseTypeById:input_type -> tables.v1.UpdateDatabaseTypeByIdRequest
-	53,  // 179: tables.v1.DatabaseTypeService.DeleteDatabaseTypeById:input_type -> tables.v1.DeleteDatabaseTypeByIdRequest
-	55,  // 180: tables.v1.DatabaseTypeService.UndeleteDatabaseTypeById:input_type -> tables.v1.UndeleteDatabaseTypeByIdRequest
-	58,  // 181: tables.v1.DatabaseCatService.CreateDatabaseCat:input_type -> tables.v1.CreateDatabaseCatRequest
-	60,  // 182: tables.v1.DatabaseCatService.GetDatabaseCatById:input_type -> tables.v1.GetDatabaseCatByIdRequest
-	62,  // 183: tables.v1.DatabaseCatService.GetDatabaseCats:input_type -> tables.v1.GetDatabaseCatsRequest
-	64,  // 184: tables.v1.DatabaseCatService.GetDatabaseCatsDeleted:input_type -> tables.v1.GetDatabaseCatsDeletedRequest
-	66,  // 185: tables.v1.DatabaseCatService.GetDatabaseCatsByHostIdDatabaseTypeId:input_type -> tables.v1.GetDatabaseCatsByHostIdDatabaseTypeIdRequest
-	68,  // 186: tables.v1.DatabaseCatService.GetDatabaseCatsSearchName:input_type -> tables.v1.GetDatabaseCatsSearchNameRequest
-	70,  // 187: tables.v1.DatabaseCatService.UpdateDatabaseCatById:input_type -> tables.v1.UpdateDatabaseCatByIdRequest
-	72,  // 188: tables.v1.DatabaseCatService.DeleteDatabaseCatById:input_type -> tables.v1.DeleteDatabaseCatByIdRequest
-	74,  // 189: tables.v1.DatabaseCatService.UndeleteDatabaseCatById:input_type -> tables.v1.UndeleteDatabaseCatByIdRequest
-	77,  // 190: tables.v1.ColumnCatService.CreateColumnCat:input_type -> tables.v1.CreateColumnCatRequest
-	79,  // 191: tables.v1.ColumnCatService.GetColumnCatById:input_type -> tables.v1.GetColumnCatByIdRequest
-	81,  // 192: tables.v1.ColumnCatService.GetColumnCats:input_type -> tables.v1.GetColumnCatsRequest
-	83,  // 193: tables.v1.ColumnCatService.GetColumnCatsDeleted:input_type -> tables.v1.GetColumnCatsDeletedRequest
-	85,  // 194: tables.v1.ColumnCatService.GetColumnCatsOptionalFilters:input_type -> tables.v1.GetColumnCatsOptionalFiltersRequest
-	87,  // 195: tables.v1.ColumnCatService.GetColumnCatsSearchName:input_type -> tables.v1.GetColumnCatsSearchNameRequest
-	89,  // 196: tables.v1.ColumnCatService.UpdateColumnCatById:input_type -> tables.v1.UpdateColumnCatByIdRequest
-	91,  // 197: tables.v1.ColumnCatService.DeleteColumnCatById:input_type -> tables.v1.DeleteColumnCatByIdRequest
-	93,  // 198: tables.v1.ColumnCatService.UndeleteColumnCatById:input_type -> tables.v1.UndeleteColumnCatByIdRequest
-	96,  // 199: tables.v1.ColumnTypeService.CreateColumnType:input_type -> tables.v1.CreateColumnTypeRequest
-	98,  // 200: tables.v1.ColumnTypeService.GetColumnTypeById:input_type -> tables.v1.GetColumnTypeByIdRequest
-	101, // 201: tables.v1.ColumnTypeService.GetColumnTypes:input_type -> tables.v1.GetColumnTypesRequest
-	103, // 202: tables.v1.ColumnTypeService.GetColumnTypesSearchName:input_type -> tables.v1.GetColumnTypesSearchNameRequest
-	105, // 203: tables.v1.ColumnTypeService.GetColumnTypesDeleted:input_type -> tables.v1.GetColumnTypesDeletedRequest
-	107, // 204: tables.v1.ColumnTypeService.UpdateColumnTypeById:input_type -> tables.v1.UpdateColumnTypeByIdRequest
-	109, // 205: tables.v1.ColumnTypeService.DeleteColumnTypeById:input_type -> tables.v1.DeleteColumnTypeByIdRequest
-	111, // 206: tables.v1.ColumnTypeService.UndeleteColumnTypeById:input_type -> tables.v1.UndeleteColumnTypeByIdRequest
-	114, // 207: tables.v1.DatabaseCalculationService.CreateDatabaseCalculation:input_type -> tables.v1.CreateDatabaseCalculationRequest
-	116, // 208: tables.v1.DatabaseCalculationService.GetDatabaseCalculationsSearchName:input_type -> tables.v1.GetDatabaseCalculationsSearchNameRequest
-	118, // 209: tables.v1.DatabaseCalculationService.GetDatabaseCalculationById:input_type -> tables.v1.GetDatabaseCalculationByIdRequest
-	121, // 210: tables.v1.DatabaseCalculationService.GetDatabaseCalculationsFiltered:input_type -> tables.v1.GetDatabaseCalculationsFilteredRequest
-	123, // 211: tables.v1.DatabaseCalculationService.GetDatabaseCalculationsDeleted:input_type -> tables.v1.GetDatabaseCalculationsDeletedRequest
-	125, // 212: tables.v1.DatabaseCalculationService.GetDatabaseCalculations:input_type -> tables.v1.GetDatabaseCalculationsRequest
-	127, // 213: tables.v1.DatabaseCalculationService.UpdateDatabaseCalculationById:input_type -> tables.v1.UpdateDatabaseCalculationByIdRequest
-	129, // 214: tables.v1.DatabaseCalculationService.DeleteDatabaseCalculationById:input_type -> tables.v1.DeleteDatabaseCalculationByIdRequest
-	131, // 215: tables.v1.DatabaseCalculationService.UndeleteDatabaseCalculationById:input_type -> tables.v1.UndeleteDatabaseCalculationByIdRequest
-	134, // 216: tables.v1.DomainCatService.CreateDomainCat:input_type -> tables.v1.CreateDomainCatRequest
-	136, // 217: tables.v1.DomainCatService.GetDomainCatsSearchName:input_type -> tables.v1.GetDomainCatsSearchNameRequest
-	138, // 218: tables.v1.DomainCatService.GetDomainCatById:input_type -> tables.v1.GetDomainCatByIdRequest
-	140, // 219: tables.v1.DomainCatService.GetDomainCats:input_type -> tables.v1.GetDomainCatsRequest
-	142, // 220: tables.v1.DomainCatService.GetDomainCatsDeleted:input_type -> tables.v1.GetDomainCatsDeletedRequest
-	144, // 221: tables.v1.DomainCatService.UpdateDomainCatById:input_type -> tables.v1.UpdateDomainCatByIdRequest
-	146, // 222: tables.v1.DomainCatService.DeleteDomainCatById:input_type -> tables.v1.DeleteDomainCatByIdRequest
-	148, // 223: tables.v1.DomainCatService.UndeleteDomainCatById:input_type -> tables.v1.UndeleteDomainCatByIdRequest
-	151, // 224: tables.v1.FollowingCalculationService.CreateFollowingCalculation:input_type -> tables.v1.CreateFollowingCalculationRequest
-	153, // 225: tables.v1.FollowingCalculationService.GetFollowingCalculationById:input_type -> tables.v1.GetFollowingCalculationByIdRequest
-	155, // 226: tables.v1.FollowingCalculationService.GetFollowingCalculations:input_type -> tables.v1.GetFollowingCalculationsRequest
-	157, // 227: tables.v1.FollowingCalculationService.GetFollowingCalculationsDeleted:input_type -> tables.v1.GetFollowingCalculationsDeletedRequest
-	159, // 228: tables.v1.FollowingCalculationService.GetFollowingCalculationsFilters:input_type -> tables.v1.GetFollowingCalculationsFiltersRequest
-	161, // 229: tables.v1.FollowingCalculationService.UpdateFollowingCalculationById:input_type -> tables.v1.UpdateFollowingCalculationByIdRequest
-	163, // 230: tables.v1.FollowingCalculationService.DeleteFollowingCalculationById:input_type -> tables.v1.DeleteFollowingCalculationByIdRequest
-	165, // 231: tables.v1.FollowingCalculationService.UndeleteFollowingCalculationById:input_type -> tables.v1.UndeleteFollowingCalculationByIdRequest
-	168, // 232: tables.v1.GroupLevelsService.CreateGroupLevels:input_type -> tables.v1.CreateGroupLevelsRequest
-	170, // 233: tables.v1.GroupLevelsService.GetGroupLevelsSearchName:input_type -> tables.v1.GetGroupLevelsSearchNameRequest
-	172, // 234: tables.v1.GroupLevelsService.GetGroupLevels:input_type -> tables.v1.GetGroupLevelsRequest
-	174, // 235: tables.v1.GroupLevelsService.GetGroupLevelsById:input_type -> tables.v1.GetGroupLevelsByIdRequest
-	176, // 236: tables.v1.GroupLevelsService.GetGroupLevelsFiltered:input_type -> tables.v1.GetGroupLevelsFilteredRequest
-	178, // 237: tables.v1.GroupLevelsService.GetGroupLevelsDeleted:input_type -> tables.v1.GetGroupLevelsDeletedRequest
-	180, // 238: tables.v1.GroupLevelsService.UpdateGroupLevelsById:input_type -> tables.v1.UpdateGroupLevelsByIdRequest
-	182, // 239: tables.v1.GroupLevelsService.DeleteGroupLevelsById:input_type -> tables.v1.DeleteGroupLevelsByIdRequest
-	184, // 240: tables.v1.GroupLevelsService.UndeleteGroupLevels:input_type -> tables.v1.UndeleteGroupLevelsRequest
-	187, // 241: tables.v1.HasToGroupService.CreateHasToGroup:input_type -> tables.v1.CreateHasToGroupRequest
-	189, // 242: tables.v1.HasToGroupService.GetHasToGroupById:input_type -> tables.v1.GetHasToGroupByIdRequest
-	191, // 243: tables.v1.HasToGroupService.GetHasToGroupsSearchName:input_type -> tables.v1.GetHasToGroupsSearchNameRequest
-	193, // 244: tables.v1.HasToGroupService.GetHasToGroups:input_type -> tables.v1.GetHasToGroupsRequest
-	195, // 245: tables.v1.HasToGroupService.GetHasToGroupsDeleted:input_type -> tables.v1.GetHasToGroupsDeletedRequest
-	197, // 246: tables.v1.HasToGroupService.UpdateHasToGroupById:input_type -> tables.v1.UpdateHasToGroupByIdRequest
-	199, // 247: tables.v1.HasToGroupService.DeleteHasToGroupById:input_type -> tables.v1.DeleteHasToGroupByIdRequest
-	201, // 248: tables.v1.HasToGroupService.UndeleteHasToGroupById:input_type -> tables.v1.UndeleteHasToGroupByIdRequest
-	204, // 249: tables.v1.SchemaCatService.CreateSchemaCat:input_type -> tables.v1.CreateSchemaCatRequest
-	206, // 250: tables.v1.SchemaCatService.GetSchemaCatById:input_type -> tables.v1.GetSchemaCatByIdRequest
-	208, // 251: tables.v1.SchemaCatService.GetSchemaCats:input_type -> tables.v1.GetSchemaCatsRequest
-	210, // 252: tables.v1.SchemaCatService.GetSchemaCatsDeleted:input_type -> tables.v1.GetSchemaCatsDeletedRequest
-	212, // 253: tables.v1.SchemaCatService.UpdateSchemaCatById:input_type -> tables.v1.UpdateSchemaCatByIdRequest
-	214, // 254: tables.v1.SchemaCatService.DeleteSchemaCatById:input_type -> tables.v1.DeleteSchemaCatByIdRequest
-	216, // 255: tables.v1.SchemaCatService.UndeleteSchemaCatById:input_type -> tables.v1.UndeleteSchemaCatByIdRequest
-	219, // 256: tables.v1.TableCatService.CreateTableCat:input_type -> tables.v1.CreateTableCatRequest
-	221, // 257: tables.v1.TableCatService.GetTableCatById:input_type -> tables.v1.GetTableCatByIdRequest
-	223, // 258: tables.v1.TableCatService.GetTableCats:input_type -> tables.v1.GetTableCatsRequest
-	225, // 259: tables.v1.TableCatService.GetTableCatsDeleted:input_type -> tables.v1.GetTableCatsDeletedRequest
-	227, // 260: tables.v1.TableCatService.UpdateTableCatById:input_type -> tables.v1.UpdateTableCatByIdRequest
-	229, // 261: tables.v1.TableCatService.DeleteTableCatById:input_type -> tables.v1.DeleteTableCatByIdRequest
-	231, // 262: tables.v1.TableCatService.UndeleteTableCatById:input_type -> tables.v1.UndeleteTableCatByIdRequest
-	234, // 263: tables.v1.TableTypeService.CreateTableType:input_type -> tables.v1.CreateTableTypeRequest
-	236, // 264: tables.v1.TableTypeService.GetTableTypeById:input_type -> tables.v1.GetTableTypeByIdRequest
-	238, // 265: tables.v1.TableTypeService.GetTableTypes:input_type -> tables.v1.GetTableTypesRequest
-	240, // 266: tables.v1.TableTypeService.GetTableTypesDeleted:input_type -> tables.v1.GetTableTypesDeletedRequest
-	242, // 267: tables.v1.TableTypeService.UpdateTableTypeById:input_type -> tables.v1.UpdateTableTypeByIdRequest
-	244, // 268: tables.v1.TableTypeService.DeleteTableTypeById:input_type -> tables.v1.DeleteTableTypeByIdRequest
-	246, // 269: tables.v1.TableTypeService.UndeleteTableTypeById:input_type -> tables.v1.UndeleteTableTypeByIdRequest
-	249, // 270: tables.v1.CalculationTypeService.GetCalculationTypeById:input_type -> tables.v1.GetCalculationTypeByIdRequest
-	251, // 271: tables.v1.CalculationTypeService.GetCalculationTypes:input_type -> tables.v1.GetCalculationTypesRequest
-	3,   // 272: tables.v1.AliasService.CreateAlias:output_type -> tables.v1.CreateAliasResponse
-	5,   // 273: tables.v1.AliasService.GetAliasById:output_type -> tables.v1.GetAliasByIdResponse
-	7,   // 274: tables.v1.AliasService.GetAliasesDeleted:output_type -> tables.v1.GetAliasesDeletedResponse
-	9,   // 275: tables.v1.AliasService.GetAliases:output_type -> tables.v1.GetAliasesResponse
-	11,  // 276: tables.v1.AliasService.UpdateAliasById:output_type -> tables.v1.UpdateAliasByIdResponse
-	13,  // 277: tables.v1.AliasService.DeleteAliasById:output_type -> tables.v1.DeleteAliasByIdResponse
-	15,  // 278: tables.v1.AliasService.UndeleteAliasById:output_type -> tables.v1.UndeleteAliasByIdResponse
-	18,  // 279: tables.v1.UserService.CreateUser:output_type -> tables.v1.CreateUserResponse
-	20,  // 280: tables.v1.UserService.GetUserByExternalId:output_type -> tables.v1.GetUserByExternalIdResponse
-	22,  // 281: tables.v1.UserService.GetUsers:output_type -> tables.v1.GetUsersResponse
-	25,  // 282: tables.v1.HostService.CreateHost:output_type -> tables.v1.CreateHostResponse
-	27,  // 283: tables.v1.HostService.GetHostById:output_type -> tables.v1.GetHostByIdResponse
-	29,  // 284: tables.v1.HostService.GetHosts:output_type -> tables.v1.GetHostsResponse
-	31,  // 285: tables.v1.HostService.GetHostsSearchName:output_type -> tables.v1.GetHostsSearchNameResponse
-	33,  // 286: tables.v1.HostService.GetHostDeleted:output_type -> tables.v1.GetHostDeletedResponse
-	35,  // 287: tables.v1.HostService.UpdateHostById:output_type -> tables.v1.UpdateHostByIdResponse
-	37,  // 288: tables.v1.HostService.DeleteHostById:output_type -> tables.v1.DeleteHostByIdResponse
-	39,  // 289: tables.v1.HostService.UndeleteHostById:output_type -> tables.v1.UndeleteHostByIdResponse
-	42,  // 290: tables.v1.DatabaseTypeService.CreateDatabaseType:output_type -> tables.v1.CreateDatabaseTypeResponse
-	44,  // 291: tables.v1.DatabaseTypeService.GetDatabaseTypeById:output_type -> tables.v1.GetDatabaseTypeByIdResponse
-	46,  // 292: tables.v1.DatabaseTypeService.GetDatabaseTypesSearchName:output_type -> tables.v1.GetDatabaseTypesSearchNameResponse
-	48,  // 293: tables.v1.DatabaseTypeService.GetDatabaseTypes:output_type -> tables.v1.GetDatabaseTypesResponse
-	50,  // 294: tables.v1.DatabaseTypeService.GetDatabaseTypesDeleted:output_type -> tables.v1.GetDatabaseTypesDeletedResponse
-	52,  // 295: tables.v1.DatabaseTypeService.UpdateDatabaseTypeById:output_type -> tables.v1.UpdateDatabaseTypeByIdResponse
-	54,  // 296: tables.v1.DatabaseTypeService.DeleteDatabaseTypeById:output_type -> tables.v1.DeleteDatabaseTypeByIdResponse
-	56,  // 297: tables.v1.DatabaseTypeService.UndeleteDatabaseTypeById:output_type -> tables.v1.UndeleteDatabaseTypeByIdResponse
-	59,  // 298: tables.v1.DatabaseCatService.CreateDatabaseCat:output_type -> tables.v1.CreateDatabaseCatResponse
-	61,  // 299: tables.v1.DatabaseCatService.GetDatabaseCatById:output_type -> tables.v1.GetDatabaseCatByIdResponse
-	63,  // 300: tables.v1.DatabaseCatService.GetDatabaseCats:output_type -> tables.v1.GetDatabaseCatsResponse
-	65,  // 301: tables.v1.DatabaseCatService.GetDatabaseCatsDeleted:output_type -> tables.v1.GetDatabaseCatsDeletedResponse
-	67,  // 302: tables.v1.DatabaseCatService.GetDatabaseCatsByHostIdDatabaseTypeId:output_type -> tables.v1.GetDatabaseCatsByHostIdDatabaseTypeIdResponse
-	69,  // 303: tables.v1.DatabaseCatService.GetDatabaseCatsSearchName:output_type -> tables.v1.GetDatabaseCatsSearchNameResponse
-	71,  // 304: tables.v1.DatabaseCatService.UpdateDatabaseCatById:output_type -> tables.v1.UpdateDatabaseCatByIdResponse
-	73,  // 305: tables.v1.DatabaseCatService.DeleteDatabaseCatById:output_type -> tables.v1.DeleteDatabaseCatByIdResponse
-	75,  // 306: tables.v1.DatabaseCatService.UndeleteDatabaseCatById:output_type -> tables.v1.UndeleteDatabaseCatByIdResponse
-	78,  // 307: tables.v1.ColumnCatService.CreateColumnCat:output_type -> tables.v1.CreateColumnCatResponse
-	80,  // 308: tables.v1.ColumnCatService.GetColumnCatById:output_type -> tables.v1.GetColumnCatByIdResponse
-	82,  // 309: tables.v1.ColumnCatService.GetColumnCats:output_type -> tables.v1.GetColumnCatsResponse
-	84,  // 310: tables.v1.ColumnCatService.GetColumnCatsDeleted:output_type -> tables.v1.GetColumnCatsDeletedResponse
-	86,  // 311: tables.v1.ColumnCatService.GetColumnCatsOptionalFilters:output_type -> tables.v1.GetColumnCatsOptionalFiltersResponse
-	88,  // 312: tables.v1.ColumnCatService.GetColumnCatsSearchName:output_type -> tables.v1.GetColumnCatsSearchNameResponse
-	90,  // 313: tables.v1.ColumnCatService.UpdateColumnCatById:output_type -> tables.v1.UpdateColumnCatByIdResponse
-	92,  // 314: tables.v1.ColumnCatService.DeleteColumnCatById:output_type -> tables.v1.DeleteColumnCatByIdResponse
-	94,  // 315: tables.v1.ColumnCatService.UndeleteColumnCatById:output_type -> tables.v1.UndeleteColumnCatByIdResponse
-	97,  // 316: tables.v1.ColumnTypeService.CreateColumnType:output_type -> tables.v1.CreateColumnTypeResponse
-	100, // 317: tables.v1.ColumnTypeService.GetColumnTypeById:output_type -> tables.v1.GetColumnTypeByIdResponse
-	102, // 318: tables.v1.ColumnTypeService.GetColumnTypes:output_type -> tables.v1.GetColumnTypesResponse
-	104, // 319: tables.v1.ColumnTypeService.GetColumnTypesSearchName:output_type -> tables.v1.GetColumnTypesSearchNameResponse
-	106, // 320: tables.v1.ColumnTypeService.GetColumnTypesDeleted:output_type -> tables.v1.GetColumnTypesDeletedResponse
-	108, // 321: tables.v1.ColumnTypeService.UpdateColumnTypeById:output_type -> tables.v1.UpdateColumnTypeByIdResponse
-	110, // 322: tables.v1.ColumnTypeService.DeleteColumnTypeById:output_type -> tables.v1.DeleteColumnTypeByIdResponse
-	112, // 323: tables.v1.ColumnTypeService.UndeleteColumnTypeById:output_type -> tables.v1.UndeleteColumnTypeByIdResponse
-	115, // 324: tables.v1.DatabaseCalculationService.CreateDatabaseCalculation:output_type -> tables.v1.CreateDatabaseCalculationResponse
-	117, // 325: tables.v1.DatabaseCalculationService.GetDatabaseCalculationsSearchName:output_type -> tables.v1.GetDatabaseCalculationsSearchNameResponse
-	120, // 326: tables.v1.DatabaseCalculationService.GetDatabaseCalculationById:output_type -> tables.v1.GetDatabaseCalculationByIdResponse
-	122, // 327: tables.v1.DatabaseCalculationService.GetDatabaseCalculationsFiltered:output_type -> tables.v1.GetDatabaseCalculationsFilteredResponse
-	124, // 328: tables.v1.DatabaseCalculationService.GetDatabaseCalculationsDeleted:output_type -> tables.v1.GetDatabaseCalculationsDeletedResponse
-	126, // 329: tables.v1.DatabaseCalculationService.GetDatabaseCalculations:output_type -> tables.v1.GetDatabaseCalculationsResponse
-	128, // 330: tables.v1.DatabaseCalculationService.UpdateDatabaseCalculationById:output_type -> tables.v1.UpdateDatabaseCalculationByIdResponse
-	130, // 331: tables.v1.DatabaseCalculationService.DeleteDatabaseCalculationById:output_type -> tables.v1.DeleteDatabaseCalculationByIdResponse
-	132, // 332: tables.v1.DatabaseCalculationService.UndeleteDatabaseCalculationById:output_type -> tables.v1.UndeleteDatabaseCalculationByIdResponse
-	135, // 333: tables.v1.DomainCatService.CreateDomainCat:output_type -> tables.v1.CreateDomainCatResponse
-	137, // 334: tables.v1.DomainCatService.GetDomainCatsSearchName:output_type -> tables.v1.GetDomainCatsSearchNameResponse
-	139, // 335: tables.v1.DomainCatService.GetDomainCatById:output_type -> tables.v1.GetDomainCatByIdResponse
-	141, // 336: tables.v1.DomainCatService.GetDomainCats:output_type -> tables.v1.GetDomainCatsResponse
-	143, // 337: tables.v1.DomainCatService.GetDomainCatsDeleted:output_type -> tables.v1.GetDomainCatsDeletedResponse
-	145, // 338: tables.v1.DomainCatService.UpdateDomainCatById:output_type -> tables.v1.UpdateDomainCatByIdResponse
-	147, // 339: tables.v1.DomainCatService.DeleteDomainCatById:output_type -> tables.v1.DeleteDomainCatByIdResponse
-	149, // 340: tables.v1.DomainCatService.UndeleteDomainCatById:output_type -> tables.v1.UndeleteDomainCatByIdResponse
-	152, // 341: tables.v1.FollowingCalculationService.CreateFollowingCalculation:output_type -> tables.v1.CreateFollowingCalculationResponse
-	154, // 342: tables.v1.FollowingCalculationService.GetFollowingCalculationById:output_type -> tables.v1.GetFollowingCalculationByIdResponse
-	156, // 343: tables.v1.FollowingCalculationService.GetFollowingCalculations:output_type -> tables.v1.GetFollowingCalculationsResponse
-	158, // 344: tables.v1.FollowingCalculationService.GetFollowingCalculationsDeleted:output_type -> tables.v1.GetFollowingCalculationsDeletedResponse
-	160, // 345: tables.v1.FollowingCalculationService.GetFollowingCalculationsFilters:output_type -> tables.v1.GetFollowingCalculationsFiltersResponse
-	162, // 346: tables.v1.FollowingCalculationService.UpdateFollowingCalculationById:output_type -> tables.v1.UpdateFollowingCalculationByIdResponse
-	164, // 347: tables.v1.FollowingCalculationService.DeleteFollowingCalculationById:output_type -> tables.v1.DeleteFollowingCalculationByIdResponse
-	166, // 348: tables.v1.FollowingCalculationService.UndeleteFollowingCalculationById:output_type -> tables.v1.UndeleteFollowingCalculationByIdResponse
-	169, // 349: tables.v1.GroupLevelsService.CreateGroupLevels:output_type -> tables.v1.CreateGroupLevelsResponse
-	171, // 350: tables.v1.GroupLevelsService.GetGroupLevelsSearchName:output_type -> tables.v1.GetGroupLevelsSearchNameResponse
-	173, // 351: tables.v1.GroupLevelsService.GetGroupLevels:output_type -> tables.v1.GetGroupLevelsResponse
-	175, // 352: tables.v1.GroupLevelsService.GetGroupLevelsById:output_type -> tables.v1.GetGroupLevelsByIdResponse
-	177, // 353: tables.v1.GroupLevelsService.GetGroupLevelsFiltered:output_type -> tables.v1.GetGroupLevelsFilteredResponse
-	179, // 354: tables.v1.GroupLevelsService.GetGroupLevelsDeleted:output_type -> tables.v1.GetGroupLevelsDeletedResponse
-	181, // 355: tables.v1.GroupLevelsService.UpdateGroupLevelsById:output_type -> tables.v1.UpdateGroupLevelsByIdResponse
-	183, // 356: tables.v1.GroupLevelsService.DeleteGroupLevelsById:output_type -> tables.v1.DeleteGroupLevelsByIdResponse
-	185, // 357: tables.v1.GroupLevelsService.UndeleteGroupLevels:output_type -> tables.v1.UndeleteGroupLevelsResponse
-	188, // 358: tables.v1.HasToGroupService.CreateHasToGroup:output_type -> tables.v1.CreateHasToGroupResponse
-	190, // 359: tables.v1.HasToGroupService.GetHasToGroupById:output_type -> tables.v1.GetHasToGroupByIdResponse
-	192, // 360: tables.v1.HasToGroupService.GetHasToGroupsSearchName:output_type -> tables.v1.GetHasToGroupsSearchNameResponse
-	194, // 361: tables.v1.HasToGroupService.GetHasToGroups:output_type -> tables.v1.GetHasToGroupsResponse
-	196, // 362: tables.v1.HasToGroupService.GetHasToGroupsDeleted:output_type -> tables.v1.GetHasToGroupsDeletedResponse
-	198, // 363: tables.v1.HasToGroupService.UpdateHasToGroupById:output_type -> tables.v1.UpdateHasToGroupByIdResponse
-	200, // 364: tables.v1.HasToGroupService.DeleteHasToGroupById:output_type -> tables.v1.DeleteHasToGroupByIdResponse
-	202, // 365: tables.v1.HasToGroupService.UndeleteHasToGroupById:output_type -> tables.v1.UndeleteHasToGroupByIdResponse
-	205, // 366: tables.v1.SchemaCatService.CreateSchemaCat:output_type -> tables.v1.CreateSchemaCatResponse
-	207, // 367: tables.v1.SchemaCatService.GetSchemaCatById:output_type -> tables.v1.GetSchemaCatByIdResponse
-	209, // 368: tables.v1.SchemaCatService.GetSchemaCats:output_type -> tables.v1.GetSchemaCatsResponse
-	211, // 369: tables.v1.SchemaCatService.GetSchemaCatsDeleted:output_type -> tables.v1.GetSchemaCatsDeletedResponse
-	213, // 370: tables.v1.SchemaCatService.UpdateSchemaCatById:output_type -> tables.v1.UpdateSchemaCatByIdResponse
-	215, // 371: tables.v1.SchemaCatService.DeleteSchemaCatById:output_type -> tables.v1.DeleteSchemaCatByIdResponse
-	217, // 372: tables.v1.SchemaCatService.UndeleteSchemaCatById:output_type -> tables.v1.UndeleteSchemaCatByIdResponse
-	220, // 373: tables.v1.TableCatService.CreateTableCat:output_type -> tables.v1.CreateTableCatResponse
-	222, // 374: tables.v1.TableCatService.GetTableCatById:output_type -> tables.v1.GetTableCatByIdResponse
-	224, // 375: tables.v1.TableCatService.GetTableCats:output_type -> tables.v1.GetTableCatsResponse
-	226, // 376: tables.v1.TableCatService.GetTableCatsDeleted:output_type -> tables.v1.GetTableCatsDeletedResponse
-	228, // 377: tables.v1.TableCatService.UpdateTableCatById:output_type -> tables.v1.UpdateTableCatByIdResponse
-	230, // 378: tables.v1.TableCatService.DeleteTableCatById:output_type -> tables.v1.DeleteTableCatByIdResponse
-	232, // 379: tables.v1.TableCatService.UndeleteTableCatById:output_type -> tables.v1.UndeleteTableCatByIdResponse
-	235, // 380: tables.v1.TableTypeService.CreateTableType:output_type -> tables.v1.CreateTableTypeResponse
-	237, // 381: tables.v1.TableTypeService.GetTableTypeById:output_type -> tables.v1.GetTableTypeByIdResponse
-	239, // 382: tables.v1.TableTypeService.GetTableTypes:output_type -> tables.v1.GetTableTypesResponse
-	241, // 383: tables.v1.TableTypeService.GetTableTypesDeleted:output_type -> tables.v1.GetTableTypesDeletedResponse
-	243, // 384: tables.v1.TableTypeService.UpdateTableTypeById:output_type -> tables.v1.UpdateTableTypeByIdResponse
-	245, // 385: tables.v1.TableTypeService.DeleteTableTypeById:output_type -> tables.v1.DeleteTableTypeByIdResponse
-	247, // 386: tables.v1.TableTypeService.UndeleteTableTypeById:output_type -> tables.v1.UndeleteTableTypeByIdResponse
-	250, // 387: tables.v1.CalculationTypeService.GetCalculationTypeById:output_type -> tables.v1.GetCalculationTypeByIdResponse
-	252, // 388: tables.v1.CalculationTypeService.GetCalculationTypes:output_type -> tables.v1.GetCalculationTypesResponse
-	272, // [272:389] is the sub-list for method output_type
-	155, // [155:272] is the sub-list for method input_type
-	155, // [155:155] is the sub-list for extension type_name
-	155, // [155:155] is the sub-list for extension extendee
-	0,   // [0:155] is the sub-list for field type_name
+	95,  // 61: tables.v1.GetColumnTypeByIdResponse.column_type:type_name -> tables.v1.ColumnType
+	95,  // 62: tables.v1.GetColumnTypesResponse.data:type_name -> tables.v1.ColumnType
+	0,   // 63: tables.v1.GetColumnTypesResponse.pagination:type_name -> tables.v1.Pagination
+	95,  // 64: tables.v1.GetColumnTypesSearchNameResponse.data:type_name -> tables.v1.ColumnType
+	0,   // 65: tables.v1.GetColumnTypesSearchNameResponse.pagination:type_name -> tables.v1.Pagination
+	95,  // 66: tables.v1.GetColumnTypesDeletedResponse.data:type_name -> tables.v1.ColumnType
+	0,   // 67: tables.v1.GetColumnTypesDeletedResponse.pagination:type_name -> tables.v1.Pagination
+	251, // 68: tables.v1.DatabaseCalculation.created_at:type_name -> google.protobuf.Timestamp
+	251, // 69: tables.v1.DatabaseCalculation.updated_at:type_name -> google.protobuf.Timestamp
+	112, // 70: tables.v1.CreateDatabaseCalculationResponse.database_calculation:type_name -> tables.v1.DatabaseCalculation
+	112, // 71: tables.v1.GetDatabaseCalculationsSearchNameResponse.data:type_name -> tables.v1.DatabaseCalculation
+	0,   // 72: tables.v1.GetDatabaseCalculationsSearchNameResponse.pagination:type_name -> tables.v1.Pagination
+	112, // 73: tables.v1.GetDatabaseCalculationByIdResponse.database_calculation:type_name -> tables.v1.DatabaseCalculation
+	112, // 74: tables.v1.GetDatabaseCalculationsFilteredResponse.data:type_name -> tables.v1.DatabaseCalculation
+	0,   // 75: tables.v1.GetDatabaseCalculationsFilteredResponse.pagination:type_name -> tables.v1.Pagination
+	112, // 76: tables.v1.GetDatabaseCalculationsDeletedResponse.data:type_name -> tables.v1.DatabaseCalculation
+	0,   // 77: tables.v1.GetDatabaseCalculationsDeletedResponse.pagination:type_name -> tables.v1.Pagination
+	112, // 78: tables.v1.GetDatabaseCalculationsResponse.data:type_name -> tables.v1.DatabaseCalculation
+	0,   // 79: tables.v1.GetDatabaseCalculationsResponse.pagination:type_name -> tables.v1.Pagination
+	251, // 80: tables.v1.DomainCat.created_at:type_name -> google.protobuf.Timestamp
+	251, // 81: tables.v1.DomainCat.updated_at:type_name -> google.protobuf.Timestamp
+	131, // 82: tables.v1.CreateDomainCatResponse.domain_cat:type_name -> tables.v1.DomainCat
+	131, // 83: tables.v1.GetDomainCatsSearchNameResponse.data:type_name -> tables.v1.DomainCat
+	0,   // 84: tables.v1.GetDomainCatsSearchNameResponse.pagination:type_name -> tables.v1.Pagination
+	131, // 85: tables.v1.GetDomainCatByIdResponse.domain_cat:type_name -> tables.v1.DomainCat
+	131, // 86: tables.v1.GetDomainCatsResponse.data:type_name -> tables.v1.DomainCat
+	0,   // 87: tables.v1.GetDomainCatsResponse.pagination:type_name -> tables.v1.Pagination
+	131, // 88: tables.v1.GetDomainCatsDeletedResponse.data:type_name -> tables.v1.DomainCat
+	0,   // 89: tables.v1.GetDomainCatsDeletedResponse.pagination:type_name -> tables.v1.Pagination
+	251, // 90: tables.v1.FollowingCalculation.created_at:type_name -> google.protobuf.Timestamp
+	251, // 91: tables.v1.FollowingCalculation.updated_at:type_name -> google.protobuf.Timestamp
+	148, // 92: tables.v1.CreateFollowingCalculationResponse.following_calculation:type_name -> tables.v1.FollowingCalculation
+	148, // 93: tables.v1.GetFollowingCalculationByIdResponse.following_calculation:type_name -> tables.v1.FollowingCalculation
+	148, // 94: tables.v1.GetFollowingCalculationsResponse.data:type_name -> tables.v1.FollowingCalculation
+	0,   // 95: tables.v1.GetFollowingCalculationsResponse.pagination:type_name -> tables.v1.Pagination
+	148, // 96: tables.v1.GetFollowingCalculationsDeletedResponse.data:type_name -> tables.v1.FollowingCalculation
+	0,   // 97: tables.v1.GetFollowingCalculationsDeletedResponse.pagination:type_name -> tables.v1.Pagination
+	148, // 98: tables.v1.GetFollowingCalculationsFiltersResponse.data:type_name -> tables.v1.FollowingCalculation
+	0,   // 99: tables.v1.GetFollowingCalculationsFiltersResponse.pagination:type_name -> tables.v1.Pagination
+	251, // 100: tables.v1.GroupLevels.created_at:type_name -> google.protobuf.Timestamp
+	251, // 101: tables.v1.GroupLevels.updated_at:type_name -> google.protobuf.Timestamp
+	165, // 102: tables.v1.CreateGroupLevelsResponse.group_levels:type_name -> tables.v1.GroupLevels
+	165, // 103: tables.v1.GetGroupLevelsSearchNameResponse.data:type_name -> tables.v1.GroupLevels
+	0,   // 104: tables.v1.GetGroupLevelsSearchNameResponse.pagination:type_name -> tables.v1.Pagination
+	165, // 105: tables.v1.GetGroupLevelsResponse.data:type_name -> tables.v1.GroupLevels
+	0,   // 106: tables.v1.GetGroupLevelsResponse.pagination:type_name -> tables.v1.Pagination
+	165, // 107: tables.v1.GetGroupLevelsByIdResponse.group_levels:type_name -> tables.v1.GroupLevels
+	165, // 108: tables.v1.GetGroupLevelsFilteredResponse.data:type_name -> tables.v1.GroupLevels
+	0,   // 109: tables.v1.GetGroupLevelsFilteredResponse.pagination:type_name -> tables.v1.Pagination
+	165, // 110: tables.v1.GetGroupLevelsDeletedResponse.rows:type_name -> tables.v1.GroupLevels
+	251, // 111: tables.v1.HasToGroup.created_at:type_name -> google.protobuf.Timestamp
+	251, // 112: tables.v1.HasToGroup.updated_at:type_name -> google.protobuf.Timestamp
+	184, // 113: tables.v1.CreateHasToGroupResponse.has_to_group:type_name -> tables.v1.HasToGroup
+	184, // 114: tables.v1.GetHasToGroupByIdResponse.has_to_group:type_name -> tables.v1.HasToGroup
+	184, // 115: tables.v1.GetHasToGroupsSearchNameResponse.data:type_name -> tables.v1.HasToGroup
+	0,   // 116: tables.v1.GetHasToGroupsSearchNameResponse.pagination:type_name -> tables.v1.Pagination
+	184, // 117: tables.v1.GetHasToGroupsResponse.data:type_name -> tables.v1.HasToGroup
+	0,   // 118: tables.v1.GetHasToGroupsResponse.pagination:type_name -> tables.v1.Pagination
+	184, // 119: tables.v1.GetHasToGroupsDeletedResponse.data:type_name -> tables.v1.HasToGroup
+	0,   // 120: tables.v1.GetHasToGroupsDeletedResponse.pagination:type_name -> tables.v1.Pagination
+	251, // 121: tables.v1.SchemaCat.created_at:type_name -> google.protobuf.Timestamp
+	251, // 122: tables.v1.SchemaCat.updated_at:type_name -> google.protobuf.Timestamp
+	201, // 123: tables.v1.CreateSchemaCatResponse.schema_cat:type_name -> tables.v1.SchemaCat
+	201, // 124: tables.v1.GetSchemaCatByIdResponse.schema_cat:type_name -> tables.v1.SchemaCat
+	201, // 125: tables.v1.GetSchemaCatsResponse.data:type_name -> tables.v1.SchemaCat
+	0,   // 126: tables.v1.GetSchemaCatsResponse.pagination:type_name -> tables.v1.Pagination
+	201, // 127: tables.v1.GetSchemaCatsDeletedResponse.data:type_name -> tables.v1.SchemaCat
+	0,   // 128: tables.v1.GetSchemaCatsDeletedResponse.pagination:type_name -> tables.v1.Pagination
+	251, // 129: tables.v1.TableCat.created_at:type_name -> google.protobuf.Timestamp
+	251, // 130: tables.v1.TableCat.updated_at:type_name -> google.protobuf.Timestamp
+	216, // 131: tables.v1.CreateTableCatResponse.table_cat:type_name -> tables.v1.TableCat
+	216, // 132: tables.v1.GetTableCatByIdResponse.table_cat:type_name -> tables.v1.TableCat
+	216, // 133: tables.v1.GetTableCatsResponse.data:type_name -> tables.v1.TableCat
+	0,   // 134: tables.v1.GetTableCatsResponse.pagination:type_name -> tables.v1.Pagination
+	216, // 135: tables.v1.GetTableCatsDeletedResponse.data:type_name -> tables.v1.TableCat
+	0,   // 136: tables.v1.GetTableCatsDeletedResponse.pagination:type_name -> tables.v1.Pagination
+	251, // 137: tables.v1.TableType.created_at:type_name -> google.protobuf.Timestamp
+	251, // 138: tables.v1.TableType.updated_at:type_name -> google.protobuf.Timestamp
+	231, // 139: tables.v1.CreateTableTypeResponse.table_type:type_name -> tables.v1.TableType
+	231, // 140: tables.v1.GetTableTypeByIdResponse.table_type:type_name -> tables.v1.TableType
+	231, // 141: tables.v1.GetTableTypesResponse.data:type_name -> tables.v1.TableType
+	0,   // 142: tables.v1.GetTableTypesResponse.pagination:type_name -> tables.v1.Pagination
+	231, // 143: tables.v1.GetTableTypesDeletedResponse.data:type_name -> tables.v1.TableType
+	0,   // 144: tables.v1.GetTableTypesDeletedResponse.pagination:type_name -> tables.v1.Pagination
+	251, // 145: tables.v1.CalculationType.created_at:type_name -> google.protobuf.Timestamp
+	251, // 146: tables.v1.CalculationType.updated_at:type_name -> google.protobuf.Timestamp
+	246, // 147: tables.v1.GetCalculationTypeByIdResponse.calculation_type:type_name -> tables.v1.CalculationType
+	246, // 148: tables.v1.GetCalculationTypesResponse.rows:type_name -> tables.v1.CalculationType
+	2,   // 149: tables.v1.AliasService.CreateAlias:input_type -> tables.v1.CreateAliasRequest
+	4,   // 150: tables.v1.AliasService.GetAliasById:input_type -> tables.v1.GetAliasByIdRequest
+	6,   // 151: tables.v1.AliasService.GetAliasesDeleted:input_type -> tables.v1.GetAliasesDeletedRequest
+	8,   // 152: tables.v1.AliasService.GetAliases:input_type -> tables.v1.GetAliasesRequest
+	10,  // 153: tables.v1.AliasService.UpdateAliasById:input_type -> tables.v1.UpdateAliasByIdRequest
+	12,  // 154: tables.v1.AliasService.DeleteAliasById:input_type -> tables.v1.DeleteAliasByIdRequest
+	14,  // 155: tables.v1.AliasService.UndeleteAliasById:input_type -> tables.v1.UndeleteAliasByIdRequest
+	17,  // 156: tables.v1.UserService.CreateUser:input_type -> tables.v1.CreateUserRequest
+	19,  // 157: tables.v1.UserService.GetUserByExternalId:input_type -> tables.v1.GetUserByExternalIdRequest
+	21,  // 158: tables.v1.UserService.GetUsers:input_type -> tables.v1.GetUsersRequest
+	24,  // 159: tables.v1.HostService.CreateHost:input_type -> tables.v1.CreateHostRequest
+	26,  // 160: tables.v1.HostService.GetHostById:input_type -> tables.v1.GetHostByIdRequest
+	28,  // 161: tables.v1.HostService.GetHosts:input_type -> tables.v1.GetHostsRequest
+	30,  // 162: tables.v1.HostService.GetHostsSearchName:input_type -> tables.v1.GetHostsSearchNameRequest
+	32,  // 163: tables.v1.HostService.GetHostDeleted:input_type -> tables.v1.GetHostDeletedRequest
+	34,  // 164: tables.v1.HostService.UpdateHostById:input_type -> tables.v1.UpdateHostByIdRequest
+	36,  // 165: tables.v1.HostService.DeleteHostById:input_type -> tables.v1.DeleteHostByIdRequest
+	38,  // 166: tables.v1.HostService.UndeleteHostById:input_type -> tables.v1.UndeleteHostByIdRequest
+	41,  // 167: tables.v1.DatabaseTypeService.CreateDatabaseType:input_type -> tables.v1.CreateDatabaseTypeRequest
+	43,  // 168: tables.v1.DatabaseTypeService.GetDatabaseTypeById:input_type -> tables.v1.GetDatabaseTypeByIdRequest
+	45,  // 169: tables.v1.DatabaseTypeService.GetDatabaseTypesSearchName:input_type -> tables.v1.GetDatabaseTypesSearchNameRequest
+	47,  // 170: tables.v1.DatabaseTypeService.GetDatabaseTypes:input_type -> tables.v1.GetDatabaseTypesRequest
+	49,  // 171: tables.v1.DatabaseTypeService.GetDatabaseTypesDeleted:input_type -> tables.v1.GetDatabaseTypesDeletedRequest
+	51,  // 172: tables.v1.DatabaseTypeService.UpdateDatabaseTypeById:input_type -> tables.v1.UpdateDatabaseTypeByIdRequest
+	53,  // 173: tables.v1.DatabaseTypeService.DeleteDatabaseTypeById:input_type -> tables.v1.DeleteDatabaseTypeByIdRequest
+	55,  // 174: tables.v1.DatabaseTypeService.UndeleteDatabaseTypeById:input_type -> tables.v1.UndeleteDatabaseTypeByIdRequest
+	58,  // 175: tables.v1.DatabaseCatService.CreateDatabaseCat:input_type -> tables.v1.CreateDatabaseCatRequest
+	60,  // 176: tables.v1.DatabaseCatService.GetDatabaseCatById:input_type -> tables.v1.GetDatabaseCatByIdRequest
+	62,  // 177: tables.v1.DatabaseCatService.GetDatabaseCats:input_type -> tables.v1.GetDatabaseCatsRequest
+	64,  // 178: tables.v1.DatabaseCatService.GetDatabaseCatsDeleted:input_type -> tables.v1.GetDatabaseCatsDeletedRequest
+	66,  // 179: tables.v1.DatabaseCatService.GetDatabaseCatsByHostIdDatabaseTypeId:input_type -> tables.v1.GetDatabaseCatsByHostIdDatabaseTypeIdRequest
+	68,  // 180: tables.v1.DatabaseCatService.GetDatabaseCatsSearchName:input_type -> tables.v1.GetDatabaseCatsSearchNameRequest
+	70,  // 181: tables.v1.DatabaseCatService.UpdateDatabaseCatById:input_type -> tables.v1.UpdateDatabaseCatByIdRequest
+	72,  // 182: tables.v1.DatabaseCatService.DeleteDatabaseCatById:input_type -> tables.v1.DeleteDatabaseCatByIdRequest
+	74,  // 183: tables.v1.DatabaseCatService.UndeleteDatabaseCatById:input_type -> tables.v1.UndeleteDatabaseCatByIdRequest
+	77,  // 184: tables.v1.ColumnCatService.CreateColumnCat:input_type -> tables.v1.CreateColumnCatRequest
+	79,  // 185: tables.v1.ColumnCatService.GetColumnCatById:input_type -> tables.v1.GetColumnCatByIdRequest
+	81,  // 186: tables.v1.ColumnCatService.GetColumnCats:input_type -> tables.v1.GetColumnCatsRequest
+	83,  // 187: tables.v1.ColumnCatService.GetColumnCatsDeleted:input_type -> tables.v1.GetColumnCatsDeletedRequest
+	85,  // 188: tables.v1.ColumnCatService.GetColumnCatsOptionalFilters:input_type -> tables.v1.GetColumnCatsOptionalFiltersRequest
+	87,  // 189: tables.v1.ColumnCatService.GetColumnCatsSearchName:input_type -> tables.v1.GetColumnCatsSearchNameRequest
+	89,  // 190: tables.v1.ColumnCatService.UpdateColumnCatById:input_type -> tables.v1.UpdateColumnCatByIdRequest
+	91,  // 191: tables.v1.ColumnCatService.DeleteColumnCatById:input_type -> tables.v1.DeleteColumnCatByIdRequest
+	93,  // 192: tables.v1.ColumnCatService.UndeleteColumnCatById:input_type -> tables.v1.UndeleteColumnCatByIdRequest
+	96,  // 193: tables.v1.ColumnTypeService.CreateColumnType:input_type -> tables.v1.CreateColumnTypeRequest
+	98,  // 194: tables.v1.ColumnTypeService.GetColumnTypeById:input_type -> tables.v1.GetColumnTypeByIdRequest
+	100, // 195: tables.v1.ColumnTypeService.GetColumnTypes:input_type -> tables.v1.GetColumnTypesRequest
+	102, // 196: tables.v1.ColumnTypeService.GetColumnTypesSearchName:input_type -> tables.v1.GetColumnTypesSearchNameRequest
+	104, // 197: tables.v1.ColumnTypeService.GetColumnTypesDeleted:input_type -> tables.v1.GetColumnTypesDeletedRequest
+	106, // 198: tables.v1.ColumnTypeService.UpdateColumnTypeById:input_type -> tables.v1.UpdateColumnTypeByIdRequest
+	108, // 199: tables.v1.ColumnTypeService.DeleteColumnTypeById:input_type -> tables.v1.DeleteColumnTypeByIdRequest
+	110, // 200: tables.v1.ColumnTypeService.UndeleteColumnTypeById:input_type -> tables.v1.UndeleteColumnTypeByIdRequest
+	113, // 201: tables.v1.DatabaseCalculationService.CreateDatabaseCalculation:input_type -> tables.v1.CreateDatabaseCalculationRequest
+	115, // 202: tables.v1.DatabaseCalculationService.GetDatabaseCalculationsSearchName:input_type -> tables.v1.GetDatabaseCalculationsSearchNameRequest
+	117, // 203: tables.v1.DatabaseCalculationService.GetDatabaseCalculationById:input_type -> tables.v1.GetDatabaseCalculationByIdRequest
+	119, // 204: tables.v1.DatabaseCalculationService.GetDatabaseCalculationsFiltered:input_type -> tables.v1.GetDatabaseCalculationsFilteredRequest
+	121, // 205: tables.v1.DatabaseCalculationService.GetDatabaseCalculationsDeleted:input_type -> tables.v1.GetDatabaseCalculationsDeletedRequest
+	123, // 206: tables.v1.DatabaseCalculationService.GetDatabaseCalculations:input_type -> tables.v1.GetDatabaseCalculationsRequest
+	125, // 207: tables.v1.DatabaseCalculationService.UpdateDatabaseCalculationById:input_type -> tables.v1.UpdateDatabaseCalculationByIdRequest
+	127, // 208: tables.v1.DatabaseCalculationService.DeleteDatabaseCalculationById:input_type -> tables.v1.DeleteDatabaseCalculationByIdRequest
+	129, // 209: tables.v1.DatabaseCalculationService.UndeleteDatabaseCalculationById:input_type -> tables.v1.UndeleteDatabaseCalculationByIdRequest
+	132, // 210: tables.v1.DomainCatService.CreateDomainCat:input_type -> tables.v1.CreateDomainCatRequest
+	134, // 211: tables.v1.DomainCatService.GetDomainCatsSearchName:input_type -> tables.v1.GetDomainCatsSearchNameRequest
+	136, // 212: tables.v1.DomainCatService.GetDomainCatById:input_type -> tables.v1.GetDomainCatByIdRequest
+	138, // 213: tables.v1.DomainCatService.GetDomainCats:input_type -> tables.v1.GetDomainCatsRequest
+	140, // 214: tables.v1.DomainCatService.GetDomainCatsDeleted:input_type -> tables.v1.GetDomainCatsDeletedRequest
+	142, // 215: tables.v1.DomainCatService.UpdateDomainCatById:input_type -> tables.v1.UpdateDomainCatByIdRequest
+	144, // 216: tables.v1.DomainCatService.DeleteDomainCatById:input_type -> tables.v1.DeleteDomainCatByIdRequest
+	146, // 217: tables.v1.DomainCatService.UndeleteDomainCatById:input_type -> tables.v1.UndeleteDomainCatByIdRequest
+	149, // 218: tables.v1.FollowingCalculationService.CreateFollowingCalculation:input_type -> tables.v1.CreateFollowingCalculationRequest
+	151, // 219: tables.v1.FollowingCalculationService.GetFollowingCalculationById:input_type -> tables.v1.GetFollowingCalculationByIdRequest
+	153, // 220: tables.v1.FollowingCalculationService.GetFollowingCalculations:input_type -> tables.v1.GetFollowingCalculationsRequest
+	155, // 221: tables.v1.FollowingCalculationService.GetFollowingCalculationsDeleted:input_type -> tables.v1.GetFollowingCalculationsDeletedRequest
+	157, // 222: tables.v1.FollowingCalculationService.GetFollowingCalculationsFilters:input_type -> tables.v1.GetFollowingCalculationsFiltersRequest
+	159, // 223: tables.v1.FollowingCalculationService.UpdateFollowingCalculationById:input_type -> tables.v1.UpdateFollowingCalculationByIdRequest
+	161, // 224: tables.v1.FollowingCalculationService.DeleteFollowingCalculationById:input_type -> tables.v1.DeleteFollowingCalculationByIdRequest
+	163, // 225: tables.v1.FollowingCalculationService.UndeleteFollowingCalculationById:input_type -> tables.v1.UndeleteFollowingCalculationByIdRequest
+	166, // 226: tables.v1.GroupLevelsService.CreateGroupLevels:input_type -> tables.v1.CreateGroupLevelsRequest
+	168, // 227: tables.v1.GroupLevelsService.GetGroupLevelsSearchName:input_type -> tables.v1.GetGroupLevelsSearchNameRequest
+	170, // 228: tables.v1.GroupLevelsService.GetGroupLevels:input_type -> tables.v1.GetGroupLevelsRequest
+	172, // 229: tables.v1.GroupLevelsService.GetGroupLevelsById:input_type -> tables.v1.GetGroupLevelsByIdRequest
+	174, // 230: tables.v1.GroupLevelsService.GetGroupLevelsFiltered:input_type -> tables.v1.GetGroupLevelsFilteredRequest
+	176, // 231: tables.v1.GroupLevelsService.GetGroupLevelsDeleted:input_type -> tables.v1.GetGroupLevelsDeletedRequest
+	178, // 232: tables.v1.GroupLevelsService.UpdateGroupLevelsById:input_type -> tables.v1.UpdateGroupLevelsByIdRequest
+	180, // 233: tables.v1.GroupLevelsService.DeleteGroupLevelsById:input_type -> tables.v1.DeleteGroupLevelsByIdRequest
+	182, // 234: tables.v1.GroupLevelsService.UndeleteGroupLevelsById:input_type -> tables.v1.UndeleteGroupLevelsByIdRequest
+	185, // 235: tables.v1.HasToGroupService.CreateHasToGroup:input_type -> tables.v1.CreateHasToGroupRequest
+	187, // 236: tables.v1.HasToGroupService.GetHasToGroupById:input_type -> tables.v1.GetHasToGroupByIdRequest
+	189, // 237: tables.v1.HasToGroupService.GetHasToGroupsSearchName:input_type -> tables.v1.GetHasToGroupsSearchNameRequest
+	191, // 238: tables.v1.HasToGroupService.GetHasToGroups:input_type -> tables.v1.GetHasToGroupsRequest
+	193, // 239: tables.v1.HasToGroupService.GetHasToGroupsDeleted:input_type -> tables.v1.GetHasToGroupsDeletedRequest
+	195, // 240: tables.v1.HasToGroupService.UpdateHasToGroupById:input_type -> tables.v1.UpdateHasToGroupByIdRequest
+	197, // 241: tables.v1.HasToGroupService.DeleteHasToGroupById:input_type -> tables.v1.DeleteHasToGroupByIdRequest
+	199, // 242: tables.v1.HasToGroupService.UndeleteHasToGroupById:input_type -> tables.v1.UndeleteHasToGroupByIdRequest
+	202, // 243: tables.v1.SchemaCatService.CreateSchemaCat:input_type -> tables.v1.CreateSchemaCatRequest
+	204, // 244: tables.v1.SchemaCatService.GetSchemaCatById:input_type -> tables.v1.GetSchemaCatByIdRequest
+	206, // 245: tables.v1.SchemaCatService.GetSchemaCats:input_type -> tables.v1.GetSchemaCatsRequest
+	208, // 246: tables.v1.SchemaCatService.GetSchemaCatsDeleted:input_type -> tables.v1.GetSchemaCatsDeletedRequest
+	210, // 247: tables.v1.SchemaCatService.UpdateSchemaCatById:input_type -> tables.v1.UpdateSchemaCatByIdRequest
+	212, // 248: tables.v1.SchemaCatService.DeleteSchemaCatById:input_type -> tables.v1.DeleteSchemaCatByIdRequest
+	214, // 249: tables.v1.SchemaCatService.UndeleteSchemaCatById:input_type -> tables.v1.UndeleteSchemaCatByIdRequest
+	217, // 250: tables.v1.TableCatService.CreateTableCat:input_type -> tables.v1.CreateTableCatRequest
+	219, // 251: tables.v1.TableCatService.GetTableCatById:input_type -> tables.v1.GetTableCatByIdRequest
+	221, // 252: tables.v1.TableCatService.GetTableCats:input_type -> tables.v1.GetTableCatsRequest
+	223, // 253: tables.v1.TableCatService.GetTableCatsDeleted:input_type -> tables.v1.GetTableCatsDeletedRequest
+	225, // 254: tables.v1.TableCatService.UpdateTableCatById:input_type -> tables.v1.UpdateTableCatByIdRequest
+	227, // 255: tables.v1.TableCatService.DeleteTableCatById:input_type -> tables.v1.DeleteTableCatByIdRequest
+	229, // 256: tables.v1.TableCatService.UndeleteTableCatById:input_type -> tables.v1.UndeleteTableCatByIdRequest
+	232, // 257: tables.v1.TableTypeService.CreateTableType:input_type -> tables.v1.CreateTableTypeRequest
+	234, // 258: tables.v1.TableTypeService.GetTableTypeById:input_type -> tables.v1.GetTableTypeByIdRequest
+	236, // 259: tables.v1.TableTypeService.GetTableTypes:input_type -> tables.v1.GetTableTypesRequest
+	238, // 260: tables.v1.TableTypeService.GetTableTypesDeleted:input_type -> tables.v1.GetTableTypesDeletedRequest
+	240, // 261: tables.v1.TableTypeService.UpdateTableTypeById:input_type -> tables.v1.UpdateTableTypeByIdRequest
+	242, // 262: tables.v1.TableTypeService.DeleteTableTypeById:input_type -> tables.v1.DeleteTableTypeByIdRequest
+	244, // 263: tables.v1.TableTypeService.UndeleteTableTypeById:input_type -> tables.v1.UndeleteTableTypeByIdRequest
+	247, // 264: tables.v1.CalculationTypeService.GetCalculationTypeById:input_type -> tables.v1.GetCalculationTypeByIdRequest
+	249, // 265: tables.v1.CalculationTypeService.GetCalculationTypes:input_type -> tables.v1.GetCalculationTypesRequest
+	3,   // 266: tables.v1.AliasService.CreateAlias:output_type -> tables.v1.CreateAliasResponse
+	5,   // 267: tables.v1.AliasService.GetAliasById:output_type -> tables.v1.GetAliasByIdResponse
+	7,   // 268: tables.v1.AliasService.GetAliasesDeleted:output_type -> tables.v1.GetAliasesDeletedResponse
+	9,   // 269: tables.v1.AliasService.GetAliases:output_type -> tables.v1.GetAliasesResponse
+	11,  // 270: tables.v1.AliasService.UpdateAliasById:output_type -> tables.v1.UpdateAliasByIdResponse
+	13,  // 271: tables.v1.AliasService.DeleteAliasById:output_type -> tables.v1.DeleteAliasByIdResponse
+	15,  // 272: tables.v1.AliasService.UndeleteAliasById:output_type -> tables.v1.UndeleteAliasByIdResponse
+	18,  // 273: tables.v1.UserService.CreateUser:output_type -> tables.v1.CreateUserResponse
+	20,  // 274: tables.v1.UserService.GetUserByExternalId:output_type -> tables.v1.GetUserByExternalIdResponse
+	22,  // 275: tables.v1.UserService.GetUsers:output_type -> tables.v1.GetUsersResponse
+	25,  // 276: tables.v1.HostService.CreateHost:output_type -> tables.v1.CreateHostResponse
+	27,  // 277: tables.v1.HostService.GetHostById:output_type -> tables.v1.GetHostByIdResponse
+	29,  // 278: tables.v1.HostService.GetHosts:output_type -> tables.v1.GetHostsResponse
+	31,  // 279: tables.v1.HostService.GetHostsSearchName:output_type -> tables.v1.GetHostsSearchNameResponse
+	33,  // 280: tables.v1.HostService.GetHostDeleted:output_type -> tables.v1.GetHostDeletedResponse
+	35,  // 281: tables.v1.HostService.UpdateHostById:output_type -> tables.v1.UpdateHostByIdResponse
+	37,  // 282: tables.v1.HostService.DeleteHostById:output_type -> tables.v1.DeleteHostByIdResponse
+	39,  // 283: tables.v1.HostService.UndeleteHostById:output_type -> tables.v1.UndeleteHostByIdResponse
+	42,  // 284: tables.v1.DatabaseTypeService.CreateDatabaseType:output_type -> tables.v1.CreateDatabaseTypeResponse
+	44,  // 285: tables.v1.DatabaseTypeService.GetDatabaseTypeById:output_type -> tables.v1.GetDatabaseTypeByIdResponse
+	46,  // 286: tables.v1.DatabaseTypeService.GetDatabaseTypesSearchName:output_type -> tables.v1.GetDatabaseTypesSearchNameResponse
+	48,  // 287: tables.v1.DatabaseTypeService.GetDatabaseTypes:output_type -> tables.v1.GetDatabaseTypesResponse
+	50,  // 288: tables.v1.DatabaseTypeService.GetDatabaseTypesDeleted:output_type -> tables.v1.GetDatabaseTypesDeletedResponse
+	52,  // 289: tables.v1.DatabaseTypeService.UpdateDatabaseTypeById:output_type -> tables.v1.UpdateDatabaseTypeByIdResponse
+	54,  // 290: tables.v1.DatabaseTypeService.DeleteDatabaseTypeById:output_type -> tables.v1.DeleteDatabaseTypeByIdResponse
+	56,  // 291: tables.v1.DatabaseTypeService.UndeleteDatabaseTypeById:output_type -> tables.v1.UndeleteDatabaseTypeByIdResponse
+	59,  // 292: tables.v1.DatabaseCatService.CreateDatabaseCat:output_type -> tables.v1.CreateDatabaseCatResponse
+	61,  // 293: tables.v1.DatabaseCatService.GetDatabaseCatById:output_type -> tables.v1.GetDatabaseCatByIdResponse
+	63,  // 294: tables.v1.DatabaseCatService.GetDatabaseCats:output_type -> tables.v1.GetDatabaseCatsResponse
+	65,  // 295: tables.v1.DatabaseCatService.GetDatabaseCatsDeleted:output_type -> tables.v1.GetDatabaseCatsDeletedResponse
+	67,  // 296: tables.v1.DatabaseCatService.GetDatabaseCatsByHostIdDatabaseTypeId:output_type -> tables.v1.GetDatabaseCatsByHostIdDatabaseTypeIdResponse
+	69,  // 297: tables.v1.DatabaseCatService.GetDatabaseCatsSearchName:output_type -> tables.v1.GetDatabaseCatsSearchNameResponse
+	71,  // 298: tables.v1.DatabaseCatService.UpdateDatabaseCatById:output_type -> tables.v1.UpdateDatabaseCatByIdResponse
+	73,  // 299: tables.v1.DatabaseCatService.DeleteDatabaseCatById:output_type -> tables.v1.DeleteDatabaseCatByIdResponse
+	75,  // 300: tables.v1.DatabaseCatService.UndeleteDatabaseCatById:output_type -> tables.v1.UndeleteDatabaseCatByIdResponse
+	78,  // 301: tables.v1.ColumnCatService.CreateColumnCat:output_type -> tables.v1.CreateColumnCatResponse
+	80,  // 302: tables.v1.ColumnCatService.GetColumnCatById:output_type -> tables.v1.GetColumnCatByIdResponse
+	82,  // 303: tables.v1.ColumnCatService.GetColumnCats:output_type -> tables.v1.GetColumnCatsResponse
+	84,  // 304: tables.v1.ColumnCatService.GetColumnCatsDeleted:output_type -> tables.v1.GetColumnCatsDeletedResponse
+	86,  // 305: tables.v1.ColumnCatService.GetColumnCatsOptionalFilters:output_type -> tables.v1.GetColumnCatsOptionalFiltersResponse
+	88,  // 306: tables.v1.ColumnCatService.GetColumnCatsSearchName:output_type -> tables.v1.GetColumnCatsSearchNameResponse
+	90,  // 307: tables.v1.ColumnCatService.UpdateColumnCatById:output_type -> tables.v1.UpdateColumnCatByIdResponse
+	92,  // 308: tables.v1.ColumnCatService.DeleteColumnCatById:output_type -> tables.v1.DeleteColumnCatByIdResponse
+	94,  // 309: tables.v1.ColumnCatService.UndeleteColumnCatById:output_type -> tables.v1.UndeleteColumnCatByIdResponse
+	97,  // 310: tables.v1.ColumnTypeService.CreateColumnType:output_type -> tables.v1.CreateColumnTypeResponse
+	99,  // 311: tables.v1.ColumnTypeService.GetColumnTypeById:output_type -> tables.v1.GetColumnTypeByIdResponse
+	101, // 312: tables.v1.ColumnTypeService.GetColumnTypes:output_type -> tables.v1.GetColumnTypesResponse
+	103, // 313: tables.v1.ColumnTypeService.GetColumnTypesSearchName:output_type -> tables.v1.GetColumnTypesSearchNameResponse
+	105, // 314: tables.v1.ColumnTypeService.GetColumnTypesDeleted:output_type -> tables.v1.GetColumnTypesDeletedResponse
+	107, // 315: tables.v1.ColumnTypeService.UpdateColumnTypeById:output_type -> tables.v1.UpdateColumnTypeByIdResponse
+	109, // 316: tables.v1.ColumnTypeService.DeleteColumnTypeById:output_type -> tables.v1.DeleteColumnTypeByIdResponse
+	111, // 317: tables.v1.ColumnTypeService.UndeleteColumnTypeById:output_type -> tables.v1.UndeleteColumnTypeByIdResponse
+	114, // 318: tables.v1.DatabaseCalculationService.CreateDatabaseCalculation:output_type -> tables.v1.CreateDatabaseCalculationResponse
+	116, // 319: tables.v1.DatabaseCalculationService.GetDatabaseCalculationsSearchName:output_type -> tables.v1.GetDatabaseCalculationsSearchNameResponse
+	118, // 320: tables.v1.DatabaseCalculationService.GetDatabaseCalculationById:output_type -> tables.v1.GetDatabaseCalculationByIdResponse
+	120, // 321: tables.v1.DatabaseCalculationService.GetDatabaseCalculationsFiltered:output_type -> tables.v1.GetDatabaseCalculationsFilteredResponse
+	122, // 322: tables.v1.DatabaseCalculationService.GetDatabaseCalculationsDeleted:output_type -> tables.v1.GetDatabaseCalculationsDeletedResponse
+	124, // 323: tables.v1.DatabaseCalculationService.GetDatabaseCalculations:output_type -> tables.v1.GetDatabaseCalculationsResponse
+	126, // 324: tables.v1.DatabaseCalculationService.UpdateDatabaseCalculationById:output_type -> tables.v1.UpdateDatabaseCalculationByIdResponse
+	128, // 325: tables.v1.DatabaseCalculationService.DeleteDatabaseCalculationById:output_type -> tables.v1.DeleteDatabaseCalculationByIdResponse
+	130, // 326: tables.v1.DatabaseCalculationService.UndeleteDatabaseCalculationById:output_type -> tables.v1.UndeleteDatabaseCalculationByIdResponse
+	133, // 327: tables.v1.DomainCatService.CreateDomainCat:output_type -> tables.v1.CreateDomainCatResponse
+	135, // 328: tables.v1.DomainCatService.GetDomainCatsSearchName:output_type -> tables.v1.GetDomainCatsSearchNameResponse
+	137, // 329: tables.v1.DomainCatService.GetDomainCatById:output_type -> tables.v1.GetDomainCatByIdResponse
+	139, // 330: tables.v1.DomainCatService.GetDomainCats:output_type -> tables.v1.GetDomainCatsResponse
+	141, // 331: tables.v1.DomainCatService.GetDomainCatsDeleted:output_type -> tables.v1.GetDomainCatsDeletedResponse
+	143, // 332: tables.v1.DomainCatService.UpdateDomainCatById:output_type -> tables.v1.UpdateDomainCatByIdResponse
+	145, // 333: tables.v1.DomainCatService.DeleteDomainCatById:output_type -> tables.v1.DeleteDomainCatByIdResponse
+	147, // 334: tables.v1.DomainCatService.UndeleteDomainCatById:output_type -> tables.v1.UndeleteDomainCatByIdResponse
+	150, // 335: tables.v1.FollowingCalculationService.CreateFollowingCalculation:output_type -> tables.v1.CreateFollowingCalculationResponse
+	152, // 336: tables.v1.FollowingCalculationService.GetFollowingCalculationById:output_type -> tables.v1.GetFollowingCalculationByIdResponse
+	154, // 337: tables.v1.FollowingCalculationService.GetFollowingCalculations:output_type -> tables.v1.GetFollowingCalculationsResponse
+	156, // 338: tables.v1.FollowingCalculationService.GetFollowingCalculationsDeleted:output_type -> tables.v1.GetFollowingCalculationsDeletedResponse
+	158, // 339: tables.v1.FollowingCalculationService.GetFollowingCalculationsFilters:output_type -> tables.v1.GetFollowingCalculationsFiltersResponse
+	160, // 340: tables.v1.FollowingCalculationService.UpdateFollowingCalculationById:output_type -> tables.v1.UpdateFollowingCalculationByIdResponse
+	162, // 341: tables.v1.FollowingCalculationService.DeleteFollowingCalculationById:output_type -> tables.v1.DeleteFollowingCalculationByIdResponse
+	164, // 342: tables.v1.FollowingCalculationService.UndeleteFollowingCalculationById:output_type -> tables.v1.UndeleteFollowingCalculationByIdResponse
+	167, // 343: tables.v1.GroupLevelsService.CreateGroupLevels:output_type -> tables.v1.CreateGroupLevelsResponse
+	169, // 344: tables.v1.GroupLevelsService.GetGroupLevelsSearchName:output_type -> tables.v1.GetGroupLevelsSearchNameResponse
+	171, // 345: tables.v1.GroupLevelsService.GetGroupLevels:output_type -> tables.v1.GetGroupLevelsResponse
+	173, // 346: tables.v1.GroupLevelsService.GetGroupLevelsById:output_type -> tables.v1.GetGroupLevelsByIdResponse
+	175, // 347: tables.v1.GroupLevelsService.GetGroupLevelsFiltered:output_type -> tables.v1.GetGroupLevelsFilteredResponse
+	177, // 348: tables.v1.GroupLevelsService.GetGroupLevelsDeleted:output_type -> tables.v1.GetGroupLevelsDeletedResponse
+	179, // 349: tables.v1.GroupLevelsService.UpdateGroupLevelsById:output_type -> tables.v1.UpdateGroupLevelsByIdResponse
+	181, // 350: tables.v1.GroupLevelsService.DeleteGroupLevelsById:output_type -> tables.v1.DeleteGroupLevelsByIdResponse
+	183, // 351: tables.v1.GroupLevelsService.UndeleteGroupLevelsById:output_type -> tables.v1.UndeleteGroupLevelsByIdResponse
+	186, // 352: tables.v1.HasToGroupService.CreateHasToGroup:output_type -> tables.v1.CreateHasToGroupResponse
+	188, // 353: tables.v1.HasToGroupService.GetHasToGroupById:output_type -> tables.v1.GetHasToGroupByIdResponse
+	190, // 354: tables.v1.HasToGroupService.GetHasToGroupsSearchName:output_type -> tables.v1.GetHasToGroupsSearchNameResponse
+	192, // 355: tables.v1.HasToGroupService.GetHasToGroups:output_type -> tables.v1.GetHasToGroupsResponse
+	194, // 356: tables.v1.HasToGroupService.GetHasToGroupsDeleted:output_type -> tables.v1.GetHasToGroupsDeletedResponse
+	196, // 357: tables.v1.HasToGroupService.UpdateHasToGroupById:output_type -> tables.v1.UpdateHasToGroupByIdResponse
+	198, // 358: tables.v1.HasToGroupService.DeleteHasToGroupById:output_type -> tables.v1.DeleteHasToGroupByIdResponse
+	200, // 359: tables.v1.HasToGroupService.UndeleteHasToGroupById:output_type -> tables.v1.UndeleteHasToGroupByIdResponse
+	203, // 360: tables.v1.SchemaCatService.CreateSchemaCat:output_type -> tables.v1.CreateSchemaCatResponse
+	205, // 361: tables.v1.SchemaCatService.GetSchemaCatById:output_type -> tables.v1.GetSchemaCatByIdResponse
+	207, // 362: tables.v1.SchemaCatService.GetSchemaCats:output_type -> tables.v1.GetSchemaCatsResponse
+	209, // 363: tables.v1.SchemaCatService.GetSchemaCatsDeleted:output_type -> tables.v1.GetSchemaCatsDeletedResponse
+	211, // 364: tables.v1.SchemaCatService.UpdateSchemaCatById:output_type -> tables.v1.UpdateSchemaCatByIdResponse
+	213, // 365: tables.v1.SchemaCatService.DeleteSchemaCatById:output_type -> tables.v1.DeleteSchemaCatByIdResponse
+	215, // 366: tables.v1.SchemaCatService.UndeleteSchemaCatById:output_type -> tables.v1.UndeleteSchemaCatByIdResponse
+	218, // 367: tables.v1.TableCatService.CreateTableCat:output_type -> tables.v1.CreateTableCatResponse
+	220, // 368: tables.v1.TableCatService.GetTableCatById:output_type -> tables.v1.GetTableCatByIdResponse
+	222, // 369: tables.v1.TableCatService.GetTableCats:output_type -> tables.v1.GetTableCatsResponse
+	224, // 370: tables.v1.TableCatService.GetTableCatsDeleted:output_type -> tables.v1.GetTableCatsDeletedResponse
+	226, // 371: tables.v1.TableCatService.UpdateTableCatById:output_type -> tables.v1.UpdateTableCatByIdResponse
+	228, // 372: tables.v1.TableCatService.DeleteTableCatById:output_type -> tables.v1.DeleteTableCatByIdResponse
+	230, // 373: tables.v1.TableCatService.UndeleteTableCatById:output_type -> tables.v1.UndeleteTableCatByIdResponse
+	233, // 374: tables.v1.TableTypeService.CreateTableType:output_type -> tables.v1.CreateTableTypeResponse
+	235, // 375: tables.v1.TableTypeService.GetTableTypeById:output_type -> tables.v1.GetTableTypeByIdResponse
+	237, // 376: tables.v1.TableTypeService.GetTableTypes:output_type -> tables.v1.GetTableTypesResponse
+	239, // 377: tables.v1.TableTypeService.GetTableTypesDeleted:output_type -> tables.v1.GetTableTypesDeletedResponse
+	241, // 378: tables.v1.TableTypeService.UpdateTableTypeById:output_type -> tables.v1.UpdateTableTypeByIdResponse
+	243, // 379: tables.v1.TableTypeService.DeleteTableTypeById:output_type -> tables.v1.DeleteTableTypeByIdResponse
+	245, // 380: tables.v1.TableTypeService.UndeleteTableTypeById:output_type -> tables.v1.UndeleteTableTypeByIdResponse
+	248, // 381: tables.v1.CalculationTypeService.GetCalculationTypeById:output_type -> tables.v1.GetCalculationTypeByIdResponse
+	250, // 382: tables.v1.CalculationTypeService.GetCalculationTypes:output_type -> tables.v1.GetCalculationTypesResponse
+	266, // [266:383] is the sub-list for method output_type
+	149, // [149:266] is the sub-list for method input_type
+	149, // [149:149] is the sub-list for extension type_name
+	149, // [149:149] is the sub-list for extension extendee
+	0,   // [0:149] is the sub-list for field type_name
 }
 
 func init() { file_tables_v1_tables_proto_init() }
@@ -16371,16 +16153,16 @@ func file_tables_v1_tables_proto_init() {
 	file_tables_v1_tables_proto_msgTypes[16].OneofWrappers = []any{}
 	file_tables_v1_tables_proto_msgTypes[66].OneofWrappers = []any{}
 	file_tables_v1_tables_proto_msgTypes[85].OneofWrappers = []any{}
-	file_tables_v1_tables_proto_msgTypes[121].OneofWrappers = []any{}
-	file_tables_v1_tables_proto_msgTypes[159].OneofWrappers = []any{}
-	file_tables_v1_tables_proto_msgTypes[176].OneofWrappers = []any{}
+	file_tables_v1_tables_proto_msgTypes[119].OneofWrappers = []any{}
+	file_tables_v1_tables_proto_msgTypes[157].OneofWrappers = []any{}
+	file_tables_v1_tables_proto_msgTypes[174].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_tables_v1_tables_proto_rawDesc), len(file_tables_v1_tables_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   253,
+			NumMessages:   251,
 			NumExtensions: 0,
 			NumServices:   16,
 		},

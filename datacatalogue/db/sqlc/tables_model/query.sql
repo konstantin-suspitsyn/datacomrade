@@ -830,6 +830,7 @@ RETURNING *;
 
 -- name: GetColumnTypeById :one
 SELECT
+    column_type.id,
     column_type.name,
     column_type.description,
     column_type.is_deleted,
@@ -979,6 +980,7 @@ WHERE database_calculation.is_deleted = false
 
 -- name: GetDatabaseCalculationById :one
 SELECT
+    database_calculation.id,
     database_calculation.database_cat_id,
     database_calculation.calculation_type_id,
     database_calculation.created_at,
@@ -1482,7 +1484,7 @@ SET updated_at = now(),
     user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = @external_id)
 WHERE group_levels.id = @id;
 
--- name: UndeleteGroupLevels :exec
+-- name: UndeleteGroupLevelsById :exec
 UPDATE dc.group_levels
 SET updated_at = now(),
     is_deleted = false,
@@ -1706,7 +1708,6 @@ UPDATE dc.schema_cat
 SET database_id = @database_id,
     name = @name,
     is_deleted = false,
-    created_at = @created_at,
     updated_at = now(),
     user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = @external_id)
 WHERE schema_cat.id = @id;
@@ -1714,7 +1715,7 @@ WHERE schema_cat.id = @id;
 -- name: DeleteSchemaCatById :exec
 UPDATE dc.schema_cat
 SET is_deleted = true,
-    updated_at = @updated_at,
+    updated_at = now(),
     user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = @external_id)
 WHERE schema_cat.id = @id;
 

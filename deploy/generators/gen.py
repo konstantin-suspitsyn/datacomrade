@@ -75,6 +75,17 @@ def row_to_proto_expr(f, var):
     raise Exception("нет правила для %s -> %s" % pair)
 
 
+# Необязательный параметр (sqlc.narg) ↔ optional-поле proto: "не передан" и
+# "передан" различаются, поэтому значение берётся прямо из поля-указателя, а
+# не из геттера — тот отдаёт 0/false и на nil, и на явно переданный ноль.
+# Из-за прямого доступа к полю такие функции нуждаются в защите от nil-req
+# (см. req_guard), которую геттеры дают бесплатно.
+NULLABLE_PAIRS = {
+    ("sql.NullInt64", "*int64"): "converter.ProtoToNullInt64",
+    ("sql.NullBool", "*bool"): "converter.ProtoToNullBool",
+}
+
+
 def req_to_param_expr(f, var):
     """Выражение для поля sqlc-параметров из поля запроса gRPC."""
     getter = "%s.Get%s()" % (var, f["proto"])
@@ -87,7 +98,25 @@ def req_to_param_expr(f, var):
         return getter
     if pair == ("uuid.UUID", "string"):
         return "converter.ProtoToUUID(%s)" % getter
+    if pair in NULLABLE_PAIRS:
+        return "%s(%s.%s)" % (NULLABLE_PAIRS[pair], var, f["proto"])
     raise Exception("нет правила для %s -> %s" % pair)
+
+
+def needs_req_guard(fields):
+    """Есть ли среди полей такие, что читаются напрямую, а не через геттер."""
+    return any((f["go_type"], f["proto_type"]) in NULLABLE_PAIRS for f in fields)
+
+
+def req_guard(proto, req_type):
+    """Замена nil-запроса пустым: дальше поля читаются напрямую (см. NULLABLE_PAIRS),
+    а геттеры protobuf безопасны на nil — сервер не должен падать ни там, ни там."""
+    return [
+        "\tif req == nil {",
+        "\t\treq = &%s.%s{}" % (proto, req_type),
+        "\t}",
+        "",
+    ]
 
 
 def lookup_arg_expr(lk, var):
@@ -129,6 +158,8 @@ def needs_converter_pkg(e):
         if f["proto_type"] in ("*timestamppb.Timestamp", "*string"):
             return True
         if f["go_type"] == "uuid.UUID":
+            return True
+        if (f["go_type"], f["proto_type"]) in NULLABLE_PAIRS:
             return True
     for lk in e["lookups"]:
         if lk["arg_type"] == "uuid.UUID":
@@ -196,17 +227,20 @@ def gen_converter(meta, e):
     lines.append("}")
     lines.append("")
 
-    lines.append("// ToCreate%sParams собирает параметры вставки %s из запроса gRPC." % (E, e["table"]))
-    lines.append("// id, is_deleted, created_at и updated_at не переносятся — их выставляет SQL.")
-    lines.append(
-        "func ToCreate%sParams(req *%s.Create%sRequest) %s.%s {" % (E, proto, E, repo, e["create_params"])
-    )
-    lines.append("\treturn %s.%s{" % (repo, e["create_params"]))
-    for f in e["create_fields"]:
-        lines.append("\t\t%s: %s," % (f["go"], req_to_param_expr(f, "req")))
-    lines.append("\t}")
-    lines.append("}")
-    lines.append("")
+    if e["has_create"]:
+        lines.append("// ToCreate%sParams собирает параметры вставки %s из запроса gRPC." % (E, e["table"]))
+        lines.append("// id, is_deleted, created_at и updated_at не переносятся — их выставляет SQL.")
+        lines.append(
+            "func ToCreate%sParams(req *%s.Create%sRequest) %s.%s {" % (E, proto, E, repo, e["create_params"])
+        )
+        if needs_req_guard(e["create_fields"]):
+            lines.extend(req_guard(proto, "Create%sRequest" % E))
+        lines.append("\treturn %s.%s{" % (repo, e["create_params"]))
+        for f in e["create_fields"]:
+            lines.append("\t\t%s: %s," % (f["go"], req_to_param_expr(f, "req")))
+        lines.append("\t}")
+        lines.append("}")
+        lines.append("")
 
     for op_key, doc in (
         ("update", "обновления"),
@@ -221,6 +255,8 @@ def gen_converter(meta, e):
         lines.append(
             "func To%sParams(req *%s.%sRequest) %s.%s {" % (name, proto, name, repo, op["params_type"])
         )
+        if needs_req_guard(op["fields"]):
+            lines.extend(req_guard(proto, name + "Request"))
         lines.append("\treturn %s.%s{" % (repo, op["params_type"]))
         for f in op["fields"]:
             lines.append("\t\t%s: %s," % (f["go"], req_to_param_expr(f, "req")))
@@ -246,6 +282,8 @@ def gen_converter(meta, e):
         lines.append(
             "func To%sParams(req *%s.%sRequest) %s.%s {" % (name, proto, name, repo, l["params_type"])
         )
+        if needs_req_guard(l.get("filter_fields") or []):
+            lines.extend(req_guard(proto, name + "Request"))
         lines.append("\tlimit := req.GetPageLimit()")
         lines.append("\tif limit == 0 {")
         lines.append("\t\tlimit = validation.DefaultPageSize")
@@ -259,6 +297,8 @@ def gen_converter(meta, e):
         lines.append("\treturn %s.%s{" % (repo, l["params_type"]))
         if l["order_field"]:
             lines.append("\t\tOrder:     req.GetOrder(),")
+        if l.get("order_by_field"):
+            lines.append("\t\tOrderBy:   req.GetOrderBy(),")
         lines.append("\t\tPage:      page,")
         lines.append("\t\tPageLimit: limit,")
         for f in l.get("filter_fields") or []:
@@ -297,6 +337,30 @@ def repo_sample_value(f, idx, variant=0):
     if f["go_type"] == "uuid.UUID":
         return "uuid.MustParse(%s)" % value
     return value
+
+
+def filter_proto_literal(f, idx, ptr_helper):
+    """Значение поля фильтра в proto-запросе теста. Необязательный фильтр —
+    указатель, поэтому значение заворачивается локальным хелпером."""
+    pair = (f["go_type"], f["proto_type"])
+    if pair == ("sql.NullInt64", "*int64"):
+        return "%s(int64(%d))" % (ptr_helper, 100 + idx)
+    if pair == ("sql.NullBool", "*bool"):
+        return "%s(true)" % ptr_helper
+    return sample_value(f, idx)
+
+
+def filter_repo_literal(f, idx):
+    """То же значение на стороне sqlc-параметров: у необязательного фильтра
+    переданное значение всегда Valid — отсутствие проверяется отдельно."""
+    # Составной литерал в условии `if` обязан быть в скобках — иначе `{`
+    # разбирается как начало тела блока.
+    pair = (f["go_type"], f["proto_type"])
+    if pair == ("sql.NullInt64", "*int64"):
+        return "(sql.NullInt64{Int64: %d, Valid: true})" % (100 + idx)
+    if pair == ("sql.NullBool", "*bool"):
+        return "(sql.NullBool{Bool: true, Valid: true})"
+    return repo_sample_value(f, idx)
 
 
 def gen_params_test_block(proto, repo, req_type, params_type, func_name, fields):
@@ -348,29 +412,26 @@ def gen_converter_test(meta, e):
 
     has_time = any(f["go_type"] in ("time.Time", "sql.NullTime") for f in e["row_fields"])
     has_nulltime = any(f["go_type"] == "sql.NullTime" for f in e["row_fields"])
+    # Необязательные фильтры сравниваются с sql.Null*-литералами и требуют
+    # адреса значения для optional-полей proto — отсюда импорт и хелпер.
+    optional_filters = [f for f in all_filter_fields(e) if (f["go_type"], f["proto_type"]) in NULLABLE_PAIRS]
+    ptr_helper = "%sPtr" % lower_first(E)
 
     extra_fields = list(e["create_fields"])
     for _, op in param_ops:
         extra_fields += op["fields"]
 
+    # Шапка собирается в конце: у таблицы-справочника (без Create и без
+    # запросов с параметрами) proto-пакет в тестах не упоминается вовсе,
+    # и неиспользованный импорт не дал бы собрать пакет.
     lines = []
-    lines.append("package %s" % meta["conv_pkg"])
-    lines.append("")
-    lines.append("import (")
-    if has_nulltime:
-        lines.append('\t"database/sql"')
-    lines.append('\t"testing"')
-    if has_time:
-        lines.append('\t"time"')
-    lines.append("")
-    if needs_uuid_pkg(e, extra_fields):
-        lines.append('\t"github.com/google/uuid"')
-    lines.append('\t"%s"' % meta["repo_import"])
-    lines.append("\t" + meta["proto_import"])
-    if paginated_lists:
-        lines.append('\t"%s"' % VALID_IMPORT)
-    lines.append(")")
-    lines.append("")
+
+    if optional_filters:
+        lines.append("// %s — адрес значения для optional-полей proto." % ptr_helper)
+        lines.append("func %s[T any](v T) *T {" % ptr_helper)
+        lines.append("\treturn &v")
+        lines.append("}")
+        lines.append("")
 
     if has_time:
         lines.append("var (")
@@ -479,11 +540,12 @@ def gen_converter_test(meta, e):
     lines.append("")
 
     # Create params
-    lines.extend(
-        gen_params_test_block(
-            proto, repo, "Create%sRequest" % E, e["create_params"], "ToCreate%sParams" % E, e["create_fields"]
+    if e["has_create"]:
+        lines.extend(
+            gen_params_test_block(
+                proto, repo, "Create%sRequest" % E, e["create_params"], "ToCreate%sParams" % E, e["create_fields"]
+            )
         )
-    )
 
     # update/delete/undelete в форме параметров
     for op_key, op in param_ops:
@@ -551,13 +613,13 @@ def gen_converter_test(meta, e):
             lines.append("func Test%sPassesFilterFields(t *testing.T) {" % name)
             lines.append("\treq := &%s.%sRequest{PageLimit: 10, Page: 1," % (proto, name))
             for i, f in enumerate(l["filter_fields"]):
-                lines.append("\t\t%s: %s," % (f["proto"], sample_value(f, i)))
+                lines.append("\t\t%s: %s," % (f["proto"], filter_proto_literal(f, i, ptr_helper)))
             lines.append("\t}")
             lines.append("")
             lines.append("\tgot := To%sParams(req)" % name)
             lines.append("")
             for i, f in enumerate(l["filter_fields"]):
-                v = repo_sample_value(f, i)
+                v = filter_repo_literal(f, i)
                 verb = "%q" if f["go_type"] == "string" else ("%d" if f["go_type"] in ("int64", "int16") else "%v")
                 lines.append("\tif got.%s != %s {" % (f["go"], v))
                 lines.append('\t\tt.Errorf("%s = %s, want %s", got.%s, %s)' % (f["go"], verb, verb, f["go"], v))
@@ -565,7 +627,43 @@ def gen_converter_test(meta, e):
             lines.append("}")
             lines.append("")
 
-    return "\n".join(lines)
+        list_optional_filters = [
+            f for f in (l.get("filter_fields") or []) if (f["go_type"], f["proto_type"]) in NULLABLE_PAIRS
+        ]
+        if list_optional_filters:
+            lines.append("// Непереданный необязательный фильтр обязан остаться SQL NULL, а не")
+            lines.append("// превратиться в 0/false: иначе выборка молча сузилась бы.")
+            lines.append("func Test%sOmitsAbsentFilters(t *testing.T) {" % name)
+            lines.append("\tgot := To%sParams(&%s.%sRequest{PageLimit: 10, Page: 1})" % (name, proto, name))
+            lines.append("")
+            for f in list_optional_filters:
+                lines.append("\tif got.%s.Valid {" % f["go"])
+                lines.append('\t\tt.Errorf("%s = %%+v, want invalid", got.%s)' % (f["go"], f["go"]))
+                lines.append("\t}")
+            lines.append("}")
+            lines.append("")
+
+    body = "\n".join(lines)
+
+    head = ["package %s" % meta["conv_pkg"], "", "import ("]
+    if has_nulltime or optional_filters:
+        head.append('\t"database/sql"')
+    head.append('\t"testing"')
+    if has_time:
+        head.append('\t"time"')
+    head.append("")
+    if needs_uuid_pkg(e, extra_fields):
+        head.append('\t"github.com/google/uuid"')
+    head.append('\t"%s"' % meta["repo_import"])
+    if "%s." % proto in body:
+        head.append("\t" + meta["proto_import"])
+    if paginated_lists:
+        head.append('\t"%s"' % VALID_IMPORT)
+    head.append(")")
+    head.append("")
+    head.append("")
+
+    return "\n".join(head) + body
 
 
 # ---------- validation ----------
@@ -636,10 +734,11 @@ def gen_validation(meta, e):
     lines.append(")")
     lines.append("")
 
-    lines.append("// ValidateCreate%s проверяет запрос на вставку строки %s." % (E, e["table"]))
-    lines.extend(
-        gen_validate_func(proto, "ValidateCreate%s" % E, "Create%sRequest" % E, e["create_fields"], E)
-    )
+    if e["has_create"]:
+        lines.append("// ValidateCreate%s проверяет запрос на вставку строки %s." % (E, e["table"]))
+        lines.extend(
+            gen_validate_func(proto, "ValidateCreate%s" % E, "Create%sRequest" % E, e["create_fields"], E)
+        )
 
     op_doc = {"update": "обновление", "delete": "мягкое удаление", "undelete": "обратное удаление"}
     for op_key, op in param_ops:
@@ -675,6 +774,27 @@ def gen_validation(meta, e):
         lines.append("}")
         lines.append("")
 
+    for l in e["lists"]:
+        if l["paginated"] or l["arg_form"] != "order":
+            continue
+        # Список целиком, но с выбором направления сортировки: проверять
+        # нечего, кроме самого order — страницы у такого запроса нет.
+        name = l["query"]
+        lines.append("// Validate%s проверяет запрос списка %s." % (name, e["table"]))
+        lines.append("func Validate%s(req *%s.%sRequest) error {" % (name, proto, name))
+        lines.append("\tv := validator.New()")
+        lines.append("")
+        lines.append("\tif req == nil {")
+        lines.append('\t\tv.AddError("request", validator.MsgRequired)')
+        lines.append("\t\treturn v.Err()")
+        lines.append("\t}")
+        lines.append("")
+        lines.append('\tv.StringIn("order", req.GetOrder(), "", "ASC", "DESC")')
+        lines.append("")
+        lines.append("\treturn v.Err()")
+        lines.append("}")
+        lines.append("")
+
     for l in paginated_lists:
         name = l["query"]
         lines.append("// Validate%s проверяет запрос страницы %s." % (name, e["table"]))
@@ -690,6 +810,12 @@ def gen_validation(meta, e):
         lines.append('\tv.Int32Min("page", req.GetPage(), 0)')
         if l["order_field"]:
             lines.append('\tv.StringIn("order", req.GetOrder(), "", "ASC", "DESC")')
+        if l.get("order_by_field"):
+            # Допустимые значения вычитаны из самого ORDER BY (см. parse.py):
+            # неизвестное имя колонки в SQL молча даёт сортировку по умолчанию,
+            # поэтому опечатку обязан поймать api-слой.
+            allowed = ", ".join('"%s"' % v for v in l["order_by_values"])
+            lines.append('\tv.StringIn("order_by", req.GetOrderBy(), "", %s)' % allowed)
         lines.append("")
         lines.append("\treturn v.Err()")
         lines.append("}")
@@ -821,7 +947,8 @@ def gen_validation_test(meta, e):
         out.append("")
         return out
 
-    lines.extend(gen_cases(e["create_fields"], "Create%sRequest" % E, "ValidateCreate%s" % E))
+    if e["has_create"]:
+        lines.extend(gen_cases(e["create_fields"], "Create%sRequest" % E, "ValidateCreate%s" % E))
 
     for op_key, op in param_ops:
         name = op["query"]
@@ -875,6 +1002,44 @@ def gen_validation_test(meta, e):
         lines.append("}")
         lines.append("")
 
+    for l in e["lists"]:
+        if l["paginated"] or l["arg_form"] != "order":
+            continue
+        name = l["query"]
+        lines.append("func TestValidate%s(t *testing.T) {" % name)
+        lines.append("\ttests := []struct {")
+        lines.append("\t\tname    string")
+        lines.append("\t\torder   string")
+        lines.append("\t\twantErr bool")
+        lines.append("\t}{")
+        lines.append('\t\t{name: "empty order", order: ""},')
+        lines.append('\t\t{name: "ASC", order: "ASC"},')
+        lines.append('\t\t{name: "DESC", order: "DESC"},')
+        lines.append('\t\t{name: "invalid order", order: "sideways", wantErr: true},')
+        lines.append("\t}")
+        lines.append("")
+        lines.append("\tfor _, tt := range tests {")
+        lines.append("\t\tt.Run(tt.name, func(t *testing.T) {")
+        lines.append(
+            "\t\t\terr := Validate%s(&%s.%sRequest{Order: tt.order})" % (name, proto, name)
+        )
+        lines.append("\t\t\tif (err != nil) != tt.wantErr {")
+        lines.append(
+            '\t\t\t\tt.Errorf("Validate%s() error = %%v, wantErr %%v", err, tt.wantErr)' % name
+        )
+        lines.append("\t\t\t}")
+        lines.append("\t\t})")
+        lines.append("\t}")
+        lines.append("}")
+        lines.append("")
+
+        lines.append("func TestValidate%sNil(t *testing.T) {" % name)
+        lines.append("\tif err := Validate%s(nil); err == nil {" % name)
+        lines.append('\t\tt.Error("Validate%s(nil) = nil, want error")' % name)
+        lines.append("\t}")
+        lines.append("}")
+        lines.append("")
+
     for l in paginated_lists:
         name = l["query"]
         lines.append("func TestValidate%s(t *testing.T) {" % name)
@@ -896,6 +1061,15 @@ def gen_validation_test(meta, e):
         if l["order_field"]:
             lines.append(
                 '\t\t{name: "invalid order", req: &%s.%sRequest{Order: "sideways"}, wantErr: true},' % (proto, name)
+            )
+        if l.get("order_by_field"):
+            lines.append(
+                '\t\t{name: "valid order_by", req: &%s.%sRequest{OrderBy: "%s"}},'
+                % (proto, name, l["order_by_values"][0])
+            )
+            lines.append(
+                '\t\t{name: "unknown order_by", req: &%s.%sRequest{OrderBy: "nonexistent"}, wantErr: true},'
+                % (proto, name)
             )
         lines.append("\t}")
         lines.append("")
@@ -1031,9 +1205,13 @@ def gen_service(meta, e):
     for l in e["lists"]:
         name = l["query"]
         if not l["paginated"]:
+            ordered = l["arg_form"] == "order"
             lines.append("// %s возвращает строки %s." % (name, low))
-            lines.append("func (%s *%s) %s(ctx context.Context) ([]%s, error) {" % (recv, st, name, row))
-            lines.append("\trows, err := %s.%s.%s(ctx)" % (recv, field, name))
+            lines.append(
+                "func (%s *%s) %s(ctx context.Context%s) ([]%s, error) {"
+                % (recv, st, name, ", order string" if ordered else "", row)
+            )
+            lines.append("\trows, err := %s.%s.%s(ctx%s)" % (recv, field, name, ", order" if ordered else ""))
             lines.append("")
             lines.append("\tif err != nil {")
             lines.append('\t\treturn nil, fmt.Errorf("%s: %%w", err)' % name)
@@ -1122,21 +1300,22 @@ def gen_service(meta, e):
         lines.append("}")
         lines.append("")
 
-    # Create — всегда есть
-    lines.append("// Create%s вставляет строку %s и возвращает её целиком." % (E, low))
-    lines.append(
-        "func (%s *%s) Create%s(ctx context.Context, params %s.%s) (%s, error) {"
-        % (recv, st, E, repo, e["create_params"], row)
-    )
-    lines.append("\trow, err := %s.%s.Create%s(ctx, params)" % (recv, field, E))
-    lines.append("")
-    lines.append("\tif err != nil {")
-    lines.append('\t\treturn %s{}, fmt.Errorf("%%w: %s: %%w", customerrors.ErrCreate, err)' % (row, low))
-    lines.append("\t}")
-    lines.append("")
-    lines.append("\treturn row, nil")
-    lines.append("}")
-    lines.append("")
+    # Create — у таблицы-справочника его нет
+    if e["has_create"]:
+        lines.append("// Create%s вставляет строку %s и возвращает её целиком." % (E, low))
+        lines.append(
+            "func (%s *%s) Create%s(ctx context.Context, params %s.%s) (%s, error) {"
+            % (recv, st, E, repo, e["create_params"], row)
+        )
+        lines.append("\trow, err := %s.%s.Create%s(ctx, params)" % (recv, field, E))
+        lines.append("")
+        lines.append("\tif err != nil {")
+        lines.append('\t\treturn %s{}, fmt.Errorf("%%w: %s: %%w", customerrors.ErrCreate, err)' % (row, low))
+        lines.append("\t}")
+        lines.append("")
+        lines.append("\treturn row, nil")
+        lines.append("}")
+        lines.append("")
 
     def id_expr(op):
         if op["arg_form"] == "id":
@@ -1338,12 +1517,21 @@ def gen_api(meta, e):
     for l in e["lists"]:
         name = l["query"]
         if not l["paginated"]:
+            ordered = l["arg_form"] == "order"
             lines.append("// %s отдаёт строки %s." % (name, e["table"]))
             lines.append(
                 "func (%s *%s) %s(ctx context.Context, req *%s.%sRequest) (*%s.%sResponse, error) {"
                 % (recv, at, name, proto, name, proto, name)
             )
-            lines.append("\trows, err := %s.services.%s.%s(ctx)" % (recv, svc, name))
+            if ordered:
+                lines.append("\tif err := %s.Validate%s(req); err != nil {" % (valid, name))
+                lines.append("\t\treturn nil, apierror.Wrap(err)")
+                lines.append("\t}")
+                lines.append("")
+            lines.append(
+                "\trows, err := %s.services.%s.%s(ctx%s)"
+                % (recv, svc, name, ", req.GetOrder()" if ordered else "")
+            )
             lines.append("\tif err != nil {")
             lines.append("\t\treturn nil, apierror.Wrap(err)")
             lines.append("\t}")
@@ -1438,29 +1626,30 @@ def gen_api(meta, e):
         lines.append("}")
         lines.append("")
 
-    # Create — всегда есть
-    lines.append("// Create%s вставляет строку %s и отдаёт её целиком." % (E, e["table"]))
-    lines.append(
-        "func (%s *%s) Create%s(ctx context.Context, req *%s.Create%sRequest) (*%s.Create%sResponse, error) {"
-        % (recv, at, E, proto, E, proto, E)
-    )
-    lines.append("\tif err := %s.ValidateCreate%s(req); err != nil {" % (valid, E))
-    lines.append("\t\treturn nil, apierror.Wrap(err)")
-    lines.append("\t}")
-    lines.append("")
-    lines.append(
-        "\trow, err := %s.services.%s.Create%s(ctx, %s.ToCreate%sParams(req))" % (recv, svc, E, conv, E)
-    )
-    lines.append("\tif err != nil {")
-    lines.append("\t\treturn nil, apierror.Wrap(err)")
-    lines.append("\t}")
-    lines.append("")
-    lines.append(
-        "\treturn &%s.Create%sResponse{%s: %s.%sToProto(row)}, nil"
-        % (proto, E, e["create_resp_field"], conv, E)
-    )
-    lines.append("}")
-    lines.append("")
+    # Create — у таблицы-справочника его нет
+    if e["has_create"]:
+        lines.append("// Create%s вставляет строку %s и отдаёт её целиком." % (E, e["table"]))
+        lines.append(
+            "func (%s *%s) Create%s(ctx context.Context, req *%s.Create%sRequest) (*%s.Create%sResponse, error) {"
+            % (recv, at, E, proto, E, proto, E)
+        )
+        lines.append("\tif err := %s.ValidateCreate%s(req); err != nil {" % (valid, E))
+        lines.append("\t\treturn nil, apierror.Wrap(err)")
+        lines.append("\t}")
+        lines.append("")
+        lines.append(
+            "\trow, err := %s.services.%s.Create%s(ctx, %s.ToCreate%sParams(req))" % (recv, svc, E, conv, E)
+        )
+        lines.append("\tif err != nil {")
+        lines.append("\t\treturn nil, apierror.Wrap(err)")
+        lines.append("\t}")
+        lines.append("")
+        lines.append(
+            "\treturn &%s.Create%sResponse{%s: %s.%sToProto(row)}, nil"
+            % (proto, E, e["create_resp_field"], conv, E)
+        )
+        lines.append("}")
+        lines.append("")
 
     def empty_return(resp_type, resp_field, resp_form):
         if resp_form == "empty":

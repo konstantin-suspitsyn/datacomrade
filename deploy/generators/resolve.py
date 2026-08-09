@@ -65,16 +65,28 @@ PAGINATION_MSG = "Pagination"
 COUNT_PREFIX = "Count"
 
 # Поля структуры параметров, из которых конвейер строит страницу. Тип и
-# необходимость присутствия — фиксированы, состав запроса — нет: Order можно
-# не запрашивать (тогда сортировки на выбор нет), Page и PageLimit нужны
-# всегда — без них не собрать LIMIT/OFFSET и не заполнить Pagination.
-PAGE_FIELD_TYPES = {"PageLimit": "int32", "Page": "int32", "Order": "string"}
+# необходимость присутствия — фиксированы, состав запроса — нет: Order и
+# OrderBy можно не запрашивать (тогда сортировки на выбор нет), Page и
+# PageLimit нужны всегда — без них не собрать LIMIT/OFFSET и не заполнить
+# Pagination. OrderBy — не фильтр: он не сужает выборку и потому не входит
+# в параметры счётчика (см. проверку набора полей Count<Query> ниже).
+PAGE_FIELD_TYPES = {"PageLimit": "int32", "Page": "int32", "Order": "string", "OrderBy": "string"}
 REQUIRED_PAGE_FIELDS = {"PageLimit", "Page"}
 
 # Типы полей фильтра постраничного списка (см. "Списочные запросы с фильтром"
 # в optional_standard_ops.md) — те же, для которых у req_to_param_expr в
 # gen.py есть правило прямого переноса значения из запроса в параметры.
-FILTER_FIELD_TYPES = {"bool", "int64", "int16", "string", "uuid.UUID"}
+# sql.Null* — необязательный фильтр (sqlc.narg): "не передан" и "передан"
+# различаются, поэтому в proto ему соответствует optional-поле.
+FILTER_FIELD_TYPES = {
+    "bool",
+    "int64",
+    "int16",
+    "string",
+    "uuid.UUID",
+    "sql.NullInt64",
+    "sql.NullBool",
+}
 
 
 def pair_fields(data, table, go_fields, proto_msg, what):
@@ -307,10 +319,8 @@ def resolve_entity(sqlc, data, block):
     proto = data["proto_structs"]
 
     creates = [n for n in names if n.startswith("Create")]
-    if len(creates) != 1:
-        raise Fail("%s: ожидался ровно один Create, найдено %s" % (table, creates))
-    entity = creates[0][len("Create"):]
-    E = entity
+    if len(creates) > 1:
+        raise Fail("%s: ожидался не больше одного Create, найдено %s" % (table, creates))
 
     claimed = set()
 
@@ -320,28 +330,51 @@ def resolve_entity(sqlc, data, block):
             return True
         return False
 
-    # ---------- Create<E>: обязателен, отсюда берётся сущность и строка ----------
-    create_name = "Create%s" % E
-    if not take(create_name):
-        raise Fail("%s: нет запроса %s" % (table, create_name))
-    if create_name not in funcs:
-        raise Fail("%s: нет метода репозитория %s" % (table, create_name))
-    create_params = "Create%sParams" % E
-    if create_params not in data["param_structs"]:
-        raise Fail("%s: нет структуры %s" % (table, create_params))
+    # ---------- Create<E>: если есть, отсюда берутся сущность и строка ----------
+    if creates:
+        entity = creates[0][len("Create"):]
+    else:
+        # Таблица-справочник (dc.calculation_type): содержимое фиксировано,
+        # клиенты его только читают. Имя сущности берётся из Get<E>ById —
+        # так и было до того, как источником стал Create.
+        by_id = [n for n in names if n.startswith("Get") and n.endswith("ById")]
+        if len(by_id) != 1:
+            raise Fail(
+                "%s: нет Create и не ровно один Get<E>ById (%s) — неоткуда взять имя сущности"
+                % (table, by_id)
+            )
+        entity = by_id[0][len("Get"): -len("ById")]
+    E = entity
 
-    row_struct = funcs[create_name]["ret"].split(",")[0].strip()
+    if creates:
+        create_name = "Create%s" % E
+        if not take(create_name):
+            raise Fail("%s: нет запроса %s" % (table, create_name))
+        if create_name not in funcs:
+            raise Fail("%s: нет метода репозитория %s" % (table, create_name))
+        create_params = "Create%sParams" % E
+        if create_params not in data["param_structs"]:
+            raise Fail("%s: нет структуры %s" % (table, create_params))
+        row_struct = funcs[create_name]["ret"].split(",")[0].strip()
+    else:
+        create_name = None
+        create_params = None
+        row_struct = funcs["Get%sById" % E]["ret"].split(",")[0].strip()
+
     if row_struct not in data["model_structs"]:
         raise Fail("%s: нет модели %s" % (table, row_struct))
     if entity not in proto:
         raise Fail("%s: нет proto-сообщения %s" % (table, entity))
 
-    create_fields = pair_fields(
-        data, table, data["param_structs"][create_params], "Create%sRequest" % E, create_params
-    )
-    create_resp = row_or_empty_response(data, "Create%sResponse" % E, entity)
-    if create_resp["form"] != "row":
-        raise Fail("%s: %s обязан возвращать строку %s" % (table, create_name, entity))
+    create_fields = []
+    create_resp = {"field": None}
+    if creates:
+        create_fields = pair_fields(
+            data, table, data["param_structs"][create_params], "Create%sRequest" % E, create_params
+        )
+        create_resp = row_or_empty_response(data, "Create%sResponse" % E, entity)
+        if create_resp["form"] != "row":
+            raise Fail("%s: %s обязан возвращать строку %s" % (table, create_name, entity))
 
     row_fields = pair_fields(data, table, data["model_structs"][row_struct], entity, row_struct)
 
@@ -420,6 +453,28 @@ def resolve_entity(sqlc, data, block):
         if kind != "many":
             raise Fail("%s: нераспознанный запрос %s (:%s)" % (table, name, kind))
 
+        if len(args) == 1 and args[0]["name"] == "order" and args[0]["type"] == "string":
+            # Список целиком, но с выбором направления сортировки: страницы нет,
+            # поэтому и структуры параметров sqlc не делает — только голый order.
+            req_msg = name + "Request"
+            pf = proto.get(req_msg)
+            if not pf or len(pf) != 1 or pf[0]["proto_name"] != "order":
+                raise Fail("%s: в %s ожидалось одно поле order" % (table, req_msg))
+            resp = list_response(data, name + "Response")
+            if resp["form"] != "plain":
+                raise Fail("%s: %s принимает только order, но ответ постраничный" % (table, name))
+            lists.append(
+                {
+                    "query": name,
+                    "arg_form": "order",
+                    "params_type": None,
+                    "paginated": False,
+                    "resp_field": resp["resp_field"],
+                    "order_field": "Order",
+                }
+            )
+            continue
+
         if len(args) == 1 and args[0]["type"] not in data["param_structs"]:
             # Выборка по неуникальной колонке (FK): один голый скалярный аргумент.
             arg = args[0]
@@ -447,7 +502,16 @@ def resolve_entity(sqlc, data, block):
             resp = list_response(data, name + "Response")
             if resp["form"] != "plain":
                 raise Fail("%s: %s без аргументов не может отдавать страницу" % (table, name))
-            lists.append({"query": name, "arg_form": "none", "params_type": None, "paginated": False, "resp_field": resp["resp_field"]})
+            lists.append(
+                {
+                    "query": name,
+                    "arg_form": "none",
+                    "params_type": None,
+                    "paginated": False,
+                    "resp_field": resp["resp_field"],
+                    "order_field": None,
+                }
+            )
             continue
 
         if len(args) == 1 and args[0]["type"] in data["param_structs"]:
@@ -526,6 +590,17 @@ def resolve_entity(sqlc, data, block):
                 )
             consumed_counters.add(counter)
 
+            # OrderBy — выбор колонки сортировки. Допустимые значения знает
+            # только сам SQL (parse.py вычитывает их из ORDER BY), и без них
+            # валидацию не собрать: молча пропустить поле нельзя, иначе
+            # опечатка в имени колонки тихо вернула бы сортировку по умолчанию.
+            order_by_values = data.get("order_by_values", {}).get(name)
+            if "OrderBy" in pnames and not order_by_values:
+                raise Fail(
+                    "%s: %s принимает order_by, но в query.sql нет ни одного "
+                    "сравнения order_by::text = '<колонка>'" % (table, name)
+                )
+
             pagination = resolve_pagination_fields(data)
             lists.append(
                 {
@@ -536,6 +611,8 @@ def resolve_entity(sqlc, data, block):
                     "resp_field": resp["resp_field"],
                     "pagination_field": resp["pagination_field"],
                     "order_field": "Order" if "Order" in pnames else None,
+                    "order_by_field": "OrderBy" if "OrderBy" in pnames else None,
+                    "order_by_values": order_by_values if "OrderBy" in pnames else None,
                     "filter_fields": filter_fields,
                     "counter": counter,
                     "counter_arg_form": counter_arg_form,
@@ -562,6 +639,7 @@ def resolve_entity(sqlc, data, block):
         "entity": entity,
         "plural": pluralize(entity),
         "row_struct": row_struct,
+        "has_create": bool(creates),
         "create_params": create_params,
         "create_fields": create_fields,
         "create_resp_field": create_resp["field"],
@@ -592,7 +670,13 @@ def main():
 
         model[sqlc] = {"meta": meta_by_sqlc[sqlc], "entities": entities}
         for e in entities:
-            total_rpc += 1 + len(e["ops"]) + len(e["fks"]) + len(e["lookups"]) + len(e["lists"])
+            total_rpc += (
+                (1 if e["has_create"] else 0)
+                + len(e["ops"])
+                + len(e["fks"])
+                + len(e["lookups"])
+                + len(e["lists"])
+            )
 
     write_json(args.work_dir, "model.json", model)
 

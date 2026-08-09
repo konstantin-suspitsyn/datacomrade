@@ -772,19 +772,9 @@ message GetColumnTypeByIdRequest {
   int64 id = 1;
 }
 
-// Выборка GetColumnTypeById: строка ответа — только отмеченные колонки.
-message GetColumnTypeByIdRow {
-  string name = 1;
-  string description = 2;
-  bool is_deleted = 3;
-  google.protobuf.Timestamp created_at = 4;
-  google.protobuf.Timestamp updated_at = 5;
-  int64 user_id = 6;
-}
-
 // Выборка GetColumnTypeById: одна строка.
 message GetColumnTypeByIdResponse {
-  GetColumnTypeByIdRow column_type = 1;
+  ColumnType column_type = 1;
 }
 
 // Выборка GetColumnTypes: параметры вызова. Порядок по умолчанию — id.
@@ -918,19 +908,9 @@ message GetDatabaseCalculationByIdRequest {
   int64 id = 1;
 }
 
-// Выборка GetDatabaseCalculationById: строка ответа — только отмеченные колонки.
-message GetDatabaseCalculationByIdRow {
-  int64 database_cat_id = 1;
-  int64 calculation_type_id = 2;
-  google.protobuf.Timestamp created_at = 3;
-  google.protobuf.Timestamp updated_at = 4;
-  bool is_deleted = 5;
-  int64 user_id = 6;
-}
-
 // Выборка GetDatabaseCalculationById: одна строка.
 message GetDatabaseCalculationByIdResponse {
-  GetDatabaseCalculationByIdRow database_calculation = 1;
+  DatabaseCalculation database_calculation = 1;
 }
 
 // Выборка GetDatabaseCalculationsFiltered: параметры вызова. Порядок по умолчанию — id.
@@ -1257,7 +1237,7 @@ service GroupLevelsService {
   rpc GetGroupLevelsDeleted(GetGroupLevelsDeletedRequest) returns (GetGroupLevelsDeletedResponse);
   rpc UpdateGroupLevelsById(UpdateGroupLevelsByIdRequest) returns (UpdateGroupLevelsByIdResponse);
   rpc DeleteGroupLevelsById(DeleteGroupLevelsByIdRequest) returns (DeleteGroupLevelsByIdResponse);
-  rpc UndeleteGroupLevels(UndeleteGroupLevelsRequest) returns (UndeleteGroupLevelsResponse);
+  rpc UndeleteGroupLevelsById(UndeleteGroupLevelsByIdRequest) returns (UndeleteGroupLevelsByIdResponse);
 }
 
 // Строка таблицы dc.group_levels: все колонки, как их вернёт SELECT *.
@@ -1375,14 +1355,14 @@ message DeleteGroupLevelsByIdRequest {
 // Мягкое удаление DeleteGroupLevelsById: ответ пустой — запрос ничего не возвращает.
 message DeleteGroupLevelsByIdResponse {}
 
-// Обратное удаление UndeleteGroupLevels: параметры вызова.
-message UndeleteGroupLevelsRequest {
+// Обратное удаление UndeleteGroupLevelsById: параметры вызова.
+message UndeleteGroupLevelsByIdRequest {
   string external_id = 1;
   int64 id = 2;
 }
 
-// Обратное удаление UndeleteGroupLevels: ответ пустой — запрос ничего не возвращает.
-message UndeleteGroupLevelsResponse {}
+// Обратное удаление UndeleteGroupLevelsById: ответ пустой — запрос ничего не возвращает.
+message UndeleteGroupLevelsByIdResponse {}
 
 // =========================================================
 // dc.has_to_group
@@ -1586,9 +1566,8 @@ message GetSchemaCatsDeletedResponse {
 message UpdateSchemaCatByIdRequest {
   int64 database_id = 1;
   string name = 2;
-  google.protobuf.Timestamp created_at = 3;
-  string external_id = 4;
-  int64 id = 5;
+  string external_id = 3;
+  int64 id = 4;
 }
 
 // Изменение UpdateSchemaCatById: ответ пустой — запрос ничего не возвращает.
@@ -1596,9 +1575,8 @@ message UpdateSchemaCatByIdResponse {}
 
 // Мягкое удаление DeleteSchemaCatById: параметры вызова.
 message DeleteSchemaCatByIdRequest {
-  google.protobuf.Timestamp updated_at = 1;
-  string external_id = 2;
-  int64 id = 3;
+  string external_id = 1;
+  int64 id = 2;
 }
 
 // Мягкое удаление DeleteSchemaCatById: ответ пустой — запрос ничего не возвращает.

@@ -48,9 +48,18 @@ def parse_schema(path):
 
 
 # ---------- query.sql: блоки по таблицам, имена запросов ----------
+# Значения, которые запрос принимает в order_by, перечислены только в самом
+# ORDER BY: `CASE WHEN @order_by::text = '<колонка>' THEN ...`. Другого
+# источника истины у них нет — sqlc знает лишь тип параметра (text), а .proto
+# перечисляет допустимые значения в комментарии, который в pb.go не попадает.
+# Ловим обе записи параметра: `@order_by::text` и `sqlc.arg('order_by')::text`.
+ORDER_BY_VALUE_RE = re.compile(r"order_by'?\)?::text\s*=\s*'([^']+)'")
+
+
 def parse_queries(path):
     text = read(path)
     blocks = []
+    order_by_values = {}
     # Разделитель вида: -- ====\n-- dc.host\n-- ====
     parts = re.split(r"-- =+\n-- (\S+)\n-- =+", text)
     for i in range(1, len(parts), 2):
@@ -58,7 +67,11 @@ def parse_queries(path):
         body = parts[i + 1]
         names = re.findall(r"^-- name: (\w+) :(\w+)", body, re.M)
         blocks.append({"table": table, "queries": names})
-    return blocks
+        for qm in re.finditer(r"^-- name: (\w+) :\w+\n(.*?)(?=^-- name: |\Z)", body, re.S | re.M):
+            values = sorted(set(ORDER_BY_VALUE_RE.findall(qm.group(2))))
+            if values:
+                order_by_values[qm.group(1)] = values
+    return blocks, order_by_values
 
 
 # ---------- Go: структуры и сигнатуры ----------
@@ -123,7 +136,7 @@ def main():
         repo_dir = "%s/repository/%s" % (internal, sqlc)
 
         schema = parse_schema(repo_path(sqlc_root, sqlc, "schema.sql"))
-        blocks = parse_queries(repo_path(sqlc_root, sqlc, "query.sql"))
+        blocks, order_by_values = parse_queries(repo_path(sqlc_root, sqlc, "query.sql"))
         models = read(repo_path(repo_dir, "models.go"))
         queries_go = read(repo_path(repo_dir, "query.sql.go"))
         pb = read(repo_path(proto_go_root, d["proto_pkg"], d["proto_file"]))
@@ -131,6 +144,7 @@ def main():
         out[sqlc] = {
             "schema": schema,
             "blocks": blocks,
+            "order_by_values": order_by_values,
             "model_structs": parse_go_structs(models),
             "param_structs": parse_go_structs(queries_go),
             "funcs": parse_go_funcs(queries_go),

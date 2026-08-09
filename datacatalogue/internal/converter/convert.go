@@ -69,6 +69,28 @@ func ProtoToNullString(s *string) sql.NullString {
 	return sql.NullString{String: *s, Valid: true}
 }
 
+// ProtoToNullInt64 переводит необязательное поле proto в необязательный
+// параметр запроса (sqlc.narg). nil — "фильтр не задан", то есть SQL NULL:
+// запрос трактует его как «не сужать выборку», а не как значение 0.
+func ProtoToNullInt64(v *int64) sql.NullInt64 {
+	if v == nil {
+		return sql.NullInt64{}
+	}
+
+	return sql.NullInt64{Int64: *v, Valid: true}
+}
+
+// ProtoToNullBool переводит необязательное поле proto в необязательный
+// параметр запроса (sqlc.narg). Отличать nil от false обязательно: false —
+// это фильтр, nil — его отсутствие.
+func ProtoToNullBool(v *bool) sql.NullBool {
+	if v == nil {
+		return sql.NullBool{}
+	}
+
+	return sql.NullBool{Bool: *v, Valid: true}
+}
+
 // Int64ToProto переводит колонку id в необязательное поле proto — внутренний
 // идентификатор не гарантирован клиентам API, только external_id.
 func Int64ToProto(id int64) *int64 {

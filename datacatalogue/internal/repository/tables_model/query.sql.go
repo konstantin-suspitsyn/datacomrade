@@ -8,7 +8,6 @@ package tables_model
 import (
 	"context"
 	"database/sql"
-	"time"
 
 	"github.com/google/uuid"
 )
@@ -1927,19 +1926,18 @@ func (q *Queries) DeleteHostById(ctx context.Context, arg DeleteHostByIdParams) 
 const deleteSchemaCatById = `-- name: DeleteSchemaCatById :exec
 UPDATE dc.schema_cat
 SET is_deleted = true,
-    updated_at = $1,
-    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $2)
-WHERE schema_cat.id = $3
+    updated_at = now(),
+    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $1)
+WHERE schema_cat.id = $2
 `
 
 type DeleteSchemaCatByIdParams struct {
-	UpdatedAt  time.Time
 	ExternalID uuid.UUID
 	ID         int64
 }
 
 func (q *Queries) DeleteSchemaCatById(ctx context.Context, arg DeleteSchemaCatByIdParams) error {
-	_, err := q.db.ExecContext(ctx, deleteSchemaCatById, arg.UpdatedAt, arg.ExternalID, arg.ID)
+	_, err := q.db.ExecContext(ctx, deleteSchemaCatById, arg.ExternalID, arg.ID)
 	return err
 }
 
@@ -2508,6 +2506,7 @@ func (q *Queries) GetColumnCatsSearchName(ctx context.Context, arg GetColumnCats
 
 const getColumnTypeById = `-- name: GetColumnTypeById :one
 SELECT
+    column_type.id,
     column_type.name,
     column_type.description,
     column_type.is_deleted,
@@ -2519,19 +2518,11 @@ WHERE column_type.id = $1
 LIMIT 1
 `
 
-type GetColumnTypeByIdRow struct {
-	Name        string
-	Description string
-	IsDeleted   bool
-	CreatedAt   time.Time
-	UpdatedAt   time.Time
-	UserID      int64
-}
-
-func (q *Queries) GetColumnTypeById(ctx context.Context, id int64) (GetColumnTypeByIdRow, error) {
+func (q *Queries) GetColumnTypeById(ctx context.Context, id int64) (DcColumnType, error) {
 	row := q.db.QueryRowContext(ctx, getColumnTypeById, id)
-	var i GetColumnTypeByIdRow
+	var i DcColumnType
 	err := row.Scan(
+		&i.ID,
 		&i.Name,
 		&i.Description,
 		&i.IsDeleted,
@@ -2710,6 +2701,7 @@ func (q *Queries) GetColumnTypesSearchName(ctx context.Context, arg GetColumnTyp
 
 const getDatabaseCalculationById = `-- name: GetDatabaseCalculationById :one
 SELECT
+    database_calculation.id,
     database_calculation.database_cat_id,
     database_calculation.calculation_type_id,
     database_calculation.created_at,
@@ -2721,19 +2713,11 @@ WHERE database_calculation.id = $1
 LIMIT 1
 `
 
-type GetDatabaseCalculationByIdRow struct {
-	DatabaseCatID     int64
-	CalculationTypeID int64
-	CreatedAt         time.Time
-	UpdatedAt         time.Time
-	IsDeleted         bool
-	UserID            int64
-}
-
-func (q *Queries) GetDatabaseCalculationById(ctx context.Context, id int64) (GetDatabaseCalculationByIdRow, error) {
+func (q *Queries) GetDatabaseCalculationById(ctx context.Context, id int64) (DcDatabaseCalculation, error) {
 	row := q.db.QueryRowContext(ctx, getDatabaseCalculationById, id)
-	var i GetDatabaseCalculationByIdRow
+	var i DcDatabaseCalculation
 	err := row.Scan(
+		&i.ID,
 		&i.DatabaseCatID,
 		&i.CalculationTypeID,
 		&i.CreatedAt,
@@ -5189,7 +5173,7 @@ func (q *Queries) UndeleteFollowingCalculationById(ctx context.Context, arg Unde
 	return err
 }
 
-const undeleteGroupLevels = `-- name: UndeleteGroupLevels :exec
+const undeleteGroupLevelsById = `-- name: UndeleteGroupLevelsById :exec
 UPDATE dc.group_levels
 SET updated_at = now(),
     is_deleted = false,
@@ -5197,13 +5181,13 @@ SET updated_at = now(),
 WHERE group_levels.id = $2
 `
 
-type UndeleteGroupLevelsParams struct {
+type UndeleteGroupLevelsByIdParams struct {
 	ExternalID uuid.UUID
 	ID         int64
 }
 
-func (q *Queries) UndeleteGroupLevels(ctx context.Context, arg UndeleteGroupLevelsParams) error {
-	_, err := q.db.ExecContext(ctx, undeleteGroupLevels, arg.ExternalID, arg.ID)
+func (q *Queries) UndeleteGroupLevelsById(ctx context.Context, arg UndeleteGroupLevelsByIdParams) error {
+	_, err := q.db.ExecContext(ctx, undeleteGroupLevelsById, arg.ExternalID, arg.ID)
 	return err
 }
 
@@ -5637,16 +5621,14 @@ UPDATE dc.schema_cat
 SET database_id = $1,
     name = $2,
     is_deleted = false,
-    created_at = $3,
     updated_at = now(),
-    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $4)
-WHERE schema_cat.id = $5
+    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $3)
+WHERE schema_cat.id = $4
 `
 
 type UpdateSchemaCatByIdParams struct {
 	DatabaseID int64
 	Name       string
-	CreatedAt  time.Time
 	ExternalID uuid.UUID
 	ID         int64
 }
@@ -5655,7 +5637,6 @@ func (q *Queries) UpdateSchemaCatById(ctx context.Context, arg UpdateSchemaCatBy
 	_, err := q.db.ExecContext(ctx, updateSchemaCatById,
 		arg.DatabaseID,
 		arg.Name,
-		arg.CreatedAt,
 		arg.ExternalID,
 		arg.ID,
 	)

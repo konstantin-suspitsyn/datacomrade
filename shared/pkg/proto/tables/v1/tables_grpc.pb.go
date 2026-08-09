@@ -3598,7 +3598,7 @@ const (
 	GroupLevelsService_GetGroupLevelsDeleted_FullMethodName    = "/tables.v1.GroupLevelsService/GetGroupLevelsDeleted"
 	GroupLevelsService_UpdateGroupLevelsById_FullMethodName    = "/tables.v1.GroupLevelsService/UpdateGroupLevelsById"
 	GroupLevelsService_DeleteGroupLevelsById_FullMethodName    = "/tables.v1.GroupLevelsService/DeleteGroupLevelsById"
-	GroupLevelsService_UndeleteGroupLevels_FullMethodName      = "/tables.v1.GroupLevelsService/UndeleteGroupLevels"
+	GroupLevelsService_UndeleteGroupLevelsById_FullMethodName  = "/tables.v1.GroupLevelsService/UndeleteGroupLevelsById"
 )
 
 // GroupLevelsServiceClient is the client API for GroupLevelsService service.
@@ -3613,7 +3613,7 @@ type GroupLevelsServiceClient interface {
 	GetGroupLevelsDeleted(ctx context.Context, in *GetGroupLevelsDeletedRequest, opts ...grpc.CallOption) (*GetGroupLevelsDeletedResponse, error)
 	UpdateGroupLevelsById(ctx context.Context, in *UpdateGroupLevelsByIdRequest, opts ...grpc.CallOption) (*UpdateGroupLevelsByIdResponse, error)
 	DeleteGroupLevelsById(ctx context.Context, in *DeleteGroupLevelsByIdRequest, opts ...grpc.CallOption) (*DeleteGroupLevelsByIdResponse, error)
-	UndeleteGroupLevels(ctx context.Context, in *UndeleteGroupLevelsRequest, opts ...grpc.CallOption) (*UndeleteGroupLevelsResponse, error)
+	UndeleteGroupLevelsById(ctx context.Context, in *UndeleteGroupLevelsByIdRequest, opts ...grpc.CallOption) (*UndeleteGroupLevelsByIdResponse, error)
 }
 
 type groupLevelsServiceClient struct {
@@ -3704,10 +3704,10 @@ func (c *groupLevelsServiceClient) DeleteGroupLevelsById(ctx context.Context, in
 	return out, nil
 }
 
-func (c *groupLevelsServiceClient) UndeleteGroupLevels(ctx context.Context, in *UndeleteGroupLevelsRequest, opts ...grpc.CallOption) (*UndeleteGroupLevelsResponse, error) {
+func (c *groupLevelsServiceClient) UndeleteGroupLevelsById(ctx context.Context, in *UndeleteGroupLevelsByIdRequest, opts ...grpc.CallOption) (*UndeleteGroupLevelsByIdResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(UndeleteGroupLevelsResponse)
-	err := c.cc.Invoke(ctx, GroupLevelsService_UndeleteGroupLevels_FullMethodName, in, out, cOpts...)
+	out := new(UndeleteGroupLevelsByIdResponse)
+	err := c.cc.Invoke(ctx, GroupLevelsService_UndeleteGroupLevelsById_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -3726,7 +3726,7 @@ type GroupLevelsServiceServer interface {
 	GetGroupLevelsDeleted(context.Context, *GetGroupLevelsDeletedRequest) (*GetGroupLevelsDeletedResponse, error)
 	UpdateGroupLevelsById(context.Context, *UpdateGroupLevelsByIdRequest) (*UpdateGroupLevelsByIdResponse, error)
 	DeleteGroupLevelsById(context.Context, *DeleteGroupLevelsByIdRequest) (*DeleteGroupLevelsByIdResponse, error)
-	UndeleteGroupLevels(context.Context, *UndeleteGroupLevelsRequest) (*UndeleteGroupLevelsResponse, error)
+	UndeleteGroupLevelsById(context.Context, *UndeleteGroupLevelsByIdRequest) (*UndeleteGroupLevelsByIdResponse, error)
 	mustEmbedUnimplementedGroupLevelsServiceServer()
 }
 
@@ -3761,8 +3761,8 @@ func (UnimplementedGroupLevelsServiceServer) UpdateGroupLevelsById(context.Conte
 func (UnimplementedGroupLevelsServiceServer) DeleteGroupLevelsById(context.Context, *DeleteGroupLevelsByIdRequest) (*DeleteGroupLevelsByIdResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteGroupLevelsById not implemented")
 }
-func (UnimplementedGroupLevelsServiceServer) UndeleteGroupLevels(context.Context, *UndeleteGroupLevelsRequest) (*UndeleteGroupLevelsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UndeleteGroupLevels not implemented")
+func (UnimplementedGroupLevelsServiceServer) UndeleteGroupLevelsById(context.Context, *UndeleteGroupLevelsByIdRequest) (*UndeleteGroupLevelsByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UndeleteGroupLevelsById not implemented")
 }
 func (UnimplementedGroupLevelsServiceServer) mustEmbedUnimplementedGroupLevelsServiceServer() {}
 func (UnimplementedGroupLevelsServiceServer) testEmbeddedByValue()                            {}
@@ -3929,20 +3929,20 @@ func _GroupLevelsService_DeleteGroupLevelsById_Handler(srv interface{}, ctx cont
 	return interceptor(ctx, in, info, handler)
 }
 
-func _GroupLevelsService_UndeleteGroupLevels_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UndeleteGroupLevelsRequest)
+func _GroupLevelsService_UndeleteGroupLevelsById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UndeleteGroupLevelsByIdRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(GroupLevelsServiceServer).UndeleteGroupLevels(ctx, in)
+		return srv.(GroupLevelsServiceServer).UndeleteGroupLevelsById(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: GroupLevelsService_UndeleteGroupLevels_FullMethodName,
+		FullMethod: GroupLevelsService_UndeleteGroupLevelsById_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GroupLevelsServiceServer).UndeleteGroupLevels(ctx, req.(*UndeleteGroupLevelsRequest))
+		return srv.(GroupLevelsServiceServer).UndeleteGroupLevelsById(ctx, req.(*UndeleteGroupLevelsByIdRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -3987,8 +3987,8 @@ var GroupLevelsService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _GroupLevelsService_DeleteGroupLevelsById_Handler,
 		},
 		{
-			MethodName: "UndeleteGroupLevels",
-			Handler:    _GroupLevelsService_UndeleteGroupLevels_Handler,
+			MethodName: "UndeleteGroupLevelsById",
+			Handler:    _GroupLevelsService_UndeleteGroupLevelsById_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
