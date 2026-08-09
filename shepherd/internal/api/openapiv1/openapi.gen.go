@@ -4,10 +4,13 @@
 package openapiv1
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/oapi-codegen/runtime"
 	openapi_types "github.com/oapi-codegen/runtime/types"
 )
 
@@ -15,6 +18,37 @@ import (
 type Error struct {
 	Code    string `json:"code"`
 	Message string `json:"message"`
+}
+
+// Host defines model for Host.
+type Host struct {
+	CreatedAt   time.Time `json:"created_at"`
+	Description string    `json:"description"`
+	HostEnv     string    `json:"host_env"`
+	Id          int64     `json:"id"`
+	IsDeleted   bool      `json:"is_deleted"`
+	Name        string    `json:"name"`
+	PasswordEnv string    `json:"password_env"`
+	PortEnv     string    `json:"port_env"`
+	UpdatedAt   time.Time `json:"updated_at"`
+	UserId      int64     `json:"user_id"`
+	UsernameEnv string    `json:"username_env"`
+}
+
+// HostPage defines model for HostPage.
+type HostPage struct {
+	Data       []Host     `json:"data"`
+	Pagination Pagination `json:"pagination"`
+}
+
+// HostWrite defines model for HostWrite.
+type HostWrite struct {
+	Description string `json:"description"`
+	HostEnv     string `json:"host_env"`
+	Name        string `json:"name"`
+	PasswordEnv string `json:"password_env"`
+	PortEnv     string `json:"port_env"`
+	UsernameEnv string `json:"username_env"`
 }
 
 // Me defines model for Me.
@@ -32,8 +66,108 @@ type Me struct {
 	UserId int64 `json:"user_id"`
 }
 
+// Pagination defines model for Pagination.
+type Pagination struct {
+	Page       int32 `json:"page"`
+	PerPage    int32 `json:"per_page"`
+	TotalItems int64 `json:"total_items"`
+	TotalPages int64 `json:"total_pages"`
+}
+
+// HostIdParam defines model for HostIdParam.
+type HostIdParam = int64
+
+// OrderParam defines model for OrderParam.
+type OrderParam = string
+
+// PageLimitParam defines model for PageLimitParam.
+type PageLimitParam = int32
+
+// PageParam defines model for PageParam.
+type PageParam = int32
+
+// BadRequest defines model for BadRequest.
+type BadRequest = Error
+
+// Forbidden defines model for Forbidden.
+type Forbidden = Error
+
+// NotFound defines model for NotFound.
+type NotFound = Error
+
+// Unauthorized defines model for Unauthorized.
+type Unauthorized = Error
+
+// ListHostsParams defines parameters for ListHosts.
+type ListHostsParams struct {
+	// Order Направление сортировки — ASC или DESC. Если не передано, применяется значение по умолчанию (pagination.DefaultOrder в shepherd).
+	Order *OrderParam `form:"order,omitempty" json:"order,omitempty"`
+
+	// Page Номер страницы, с 1. Если не передано — используется 1.
+	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
+
+	// PageLimit Размер страницы. Если не передано, применяется значение по умолчанию (pagination.DefaultPageLimit в shepherd).
+	PageLimit *PageLimitParam `form:"page_limit,omitempty" json:"page_limit,omitempty"`
+}
+
+// ListDeletedHostsParams defines parameters for ListDeletedHosts.
+type ListDeletedHostsParams struct {
+	// Order Направление сортировки — ASC или DESC. Если не передано, применяется значение по умолчанию (pagination.DefaultOrder в shepherd).
+	Order *OrderParam `form:"order,omitempty" json:"order,omitempty"`
+
+	// Page Номер страницы, с 1. Если не передано — используется 1.
+	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
+
+	// PageLimit Размер страницы. Если не передано, применяется значение по умолчанию (pagination.DefaultPageLimit в shepherd).
+	PageLimit *PageLimitParam `form:"page_limit,omitempty" json:"page_limit,omitempty"`
+}
+
+// SearchHostsParams defines parameters for SearchHosts.
+type SearchHostsParams struct {
+	SearchName string `form:"search_name" json:"search_name"`
+
+	// Order Направление сортировки — ASC или DESC. Если не передано, применяется значение по умолчанию (pagination.DefaultOrder в shepherd).
+	Order *OrderParam `form:"order,omitempty" json:"order,omitempty"`
+
+	// Page Номер страницы, с 1. Если не передано — используется 1.
+	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
+
+	// PageLimit Размер страницы. Если не передано, применяется значение по умолчанию (pagination.DefaultPageLimit в shepherd).
+	PageLimit *PageLimitParam `form:"page_limit,omitempty" json:"page_limit,omitempty"`
+}
+
+// CreateHostJSONRequestBody defines body for CreateHost for application/json ContentType.
+type CreateHostJSONRequestBody = HostWrite
+
+// UpdateHostByIdJSONRequestBody defines body for UpdateHostById for application/json ContentType.
+type UpdateHostByIdJSONRequestBody = HostWrite
+
 // ServerInterface represents all server handlers.
 type ServerInterface interface {
+	// ListHosts Страница строк dc.host
+	// (GET /hosts)
+	ListHosts(w http.ResponseWriter, r *http.Request, params ListHostsParams)
+	// CreateHost Создать строку dc.host
+	// (POST /hosts)
+	CreateHost(w http.ResponseWriter, r *http.Request)
+	// ListDeletedHosts Страница мягко удалённых строк dc.host
+	// (GET /hosts/deleted)
+	ListDeletedHosts(w http.ResponseWriter, r *http.Request, params ListDeletedHostsParams)
+	// SearchHosts Страница строк dc.host по подстроке имени
+	// (GET /hosts/search)
+	SearchHosts(w http.ResponseWriter, r *http.Request, params SearchHostsParams)
+	// DeleteHostById Мягко удалить строку dc.host
+	// (DELETE /hosts/{id})
+	DeleteHostById(w http.ResponseWriter, r *http.Request, id HostIdParam)
+	// GetHostById Активная строка dc.host по id
+	// (GET /hosts/{id})
+	GetHostById(w http.ResponseWriter, r *http.Request, id HostIdParam)
+	// UpdateHostById Обновить строку dc.host
+	// (PUT /hosts/{id})
+	UpdateHostById(w http.ResponseWriter, r *http.Request, id HostIdParam)
+	// UndeleteHostById Восстановить мягко удалённую строку dc.host
+	// (POST /hosts/{id}/undelete)
+	UndeleteHostById(w http.ResponseWriter, r *http.Request, id HostIdParam)
 	// Login Получить или создать пользователя dc.user
 	// (POST /login)
 	Login(w http.ResponseWriter, r *http.Request)
@@ -45,6 +179,54 @@ type ServerInterface interface {
 // Unimplemented server implementation that returns http.StatusNotImplemented for each endpoint.
 
 type Unimplemented struct{}
+
+// ListHosts Страница строк dc.host
+// (GET /hosts)
+func (_ Unimplemented) ListHosts(w http.ResponseWriter, r *http.Request, params ListHostsParams) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// CreateHost Создать строку dc.host
+// (POST /hosts)
+func (_ Unimplemented) CreateHost(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// ListDeletedHosts Страница мягко удалённых строк dc.host
+// (GET /hosts/deleted)
+func (_ Unimplemented) ListDeletedHosts(w http.ResponseWriter, r *http.Request, params ListDeletedHostsParams) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// SearchHosts Страница строк dc.host по подстроке имени
+// (GET /hosts/search)
+func (_ Unimplemented) SearchHosts(w http.ResponseWriter, r *http.Request, params SearchHostsParams) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// DeleteHostById Мягко удалить строку dc.host
+// (DELETE /hosts/{id})
+func (_ Unimplemented) DeleteHostById(w http.ResponseWriter, r *http.Request, id HostIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// GetHostById Активная строка dc.host по id
+// (GET /hosts/{id})
+func (_ Unimplemented) GetHostById(w http.ResponseWriter, r *http.Request, id HostIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// UpdateHostById Обновить строку dc.host
+// (PUT /hosts/{id})
+func (_ Unimplemented) UpdateHostById(w http.ResponseWriter, r *http.Request, id HostIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// UndeleteHostById Восстановить мягко удалённую строку dc.host
+// (POST /hosts/{id}/undelete)
+func (_ Unimplemented) UndeleteHostById(w http.ResponseWriter, r *http.Request, id HostIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
 
 // Login Получить или создать пользователя dc.user
 // (POST /login)
@@ -66,6 +248,314 @@ type ServerInterfaceWrapper struct {
 }
 
 type MiddlewareFunc func(http.Handler) http.Handler
+
+// ListHosts operation middleware
+func (siw *ServerInterfaceWrapper) ListHosts(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params ListHostsParams
+
+	// ------------- Optional query parameter "order" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "order", r.URL.Query(), &params.Order, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "order"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "order", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page", r.URL.Query(), &params.Page, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page_limit" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page_limit", r.URL.Query(), &params.PageLimit, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page_limit"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page_limit", Err: err})
+		}
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.ListHosts(w, r, params)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// CreateHost operation middleware
+func (siw *ServerInterfaceWrapper) CreateHost(w http.ResponseWriter, r *http.Request) {
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.CreateHost(w, r)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// ListDeletedHosts operation middleware
+func (siw *ServerInterfaceWrapper) ListDeletedHosts(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params ListDeletedHostsParams
+
+	// ------------- Optional query parameter "order" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "order", r.URL.Query(), &params.Order, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "order"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "order", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page", r.URL.Query(), &params.Page, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page_limit" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page_limit", r.URL.Query(), &params.PageLimit, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page_limit"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page_limit", Err: err})
+		}
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.ListDeletedHosts(w, r, params)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// SearchHosts operation middleware
+func (siw *ServerInterfaceWrapper) SearchHosts(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params SearchHostsParams
+
+	// ------------- Required query parameter "search_name" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, true, "search_name", r.URL.Query(), &params.SearchName, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "search_name"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "search_name", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "order" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "order", r.URL.Query(), &params.Order, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "order"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "order", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page", r.URL.Query(), &params.Page, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page_limit" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page_limit", r.URL.Query(), &params.PageLimit, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page_limit"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page_limit", Err: err})
+		}
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.SearchHosts(w, r, params)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// DeleteHostById operation middleware
+func (siw *ServerInterfaceWrapper) DeleteHostById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id HostIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.DeleteHostById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// GetHostById operation middleware
+func (siw *ServerInterfaceWrapper) GetHostById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id HostIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.GetHostById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// UpdateHostById operation middleware
+func (siw *ServerInterfaceWrapper) UpdateHostById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id HostIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.UpdateHostById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// UndeleteHostById operation middleware
+func (siw *ServerInterfaceWrapper) UndeleteHostById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id HostIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.UndeleteHostById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
 
 // Login operation middleware
 func (siw *ServerInterfaceWrapper) Login(w http.ResponseWriter, r *http.Request) {
@@ -213,6 +703,30 @@ func HandlerWithOptions(si ServerInterface, options ChiServerOptions) http.Handl
 	})
 	r.Group(func(r chi.Router) {
 		r.Post(options.BaseURL+"/login", wrapper.Login)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/hosts", wrapper.ListHosts)
+	})
+	r.Group(func(r chi.Router) {
+		r.Post(options.BaseURL+"/hosts", wrapper.CreateHost)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/hosts/search", wrapper.SearchHosts)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/hosts/deleted", wrapper.ListDeletedHosts)
+	})
+	r.Group(func(r chi.Router) {
+		r.Delete(options.BaseURL+"/hosts/{id}", wrapper.DeleteHostById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/hosts/{id}", wrapper.GetHostById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Put(options.BaseURL+"/hosts/{id}", wrapper.UpdateHostById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Post(options.BaseURL+"/hosts/{id}/undelete", wrapper.UndeleteHostById)
 	})
 
 	return r

@@ -15,6 +15,8 @@ import (
 	"github.com/go-chi/cors"
 	"github.com/joho/godotenv"
 	pkglogger "github.com/konstantin-suspitsyn/datacomrade/platform/pkg/logger"
+	tablesv1 "github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/tables/v1"
+	"github.com/konstantin-suspitsyn/datacomrade/shepherd/internal/api/hostapiv1"
 	"github.com/konstantin-suspitsyn/datacomrade/shepherd/internal/api/loginapiv1"
 	"github.com/konstantin-suspitsyn/datacomrade/shepherd/internal/api/meapiv1"
 	"github.com/konstantin-suspitsyn/datacomrade/shepherd/internal/api/openapiv1"
@@ -23,6 +25,7 @@ import (
 	"github.com/konstantin-suspitsyn/datacomrade/shepherd/internal/config/constants"
 	"github.com/konstantin-suspitsyn/datacomrade/shepherd/internal/ensureuser"
 	"github.com/konstantin-suspitsyn/datacomrade/shepherd/internal/middleware/auth"
+	"github.com/konstantin-suspitsyn/datacomrade/shepherd/internal/middleware/rbac"
 	"github.com/konstantin-suspitsyn/datacomrade/shepherd/internal/middleware/requestlog"
 	"github.com/redis/go-redis/v9"
 	"go.uber.org/zap"
@@ -78,7 +81,7 @@ func main() {
 	router.Route("/v1", func(r chi.Router) {
 		r.Use(authMiddleware.Authenticate)
 
-		openapiv1.HandlerFromMux(newAPI(userResolver), r)
+		openapiv1.HandlerFromMux(newAPI(userResolver, dcClient.Host), r)
 	})
 
 	srv := &http.Server{
@@ -115,25 +118,67 @@ func main() {
 	pkglogger.Info(context.Background(), "shepherd stopped")
 }
 
-// api собирает независимые под-хендлеры (/me, /login — каждый в своём
-// пакете) в единственную реализацию openapiv1.ServerInterface. Оба пакета
+// api собирает независимые под-хендлеры (/me, /login, /hosts — каждый в
+// своём пакете) в единственную реализацию openapiv1.ServerInterface. Пакеты
 // экспортируют тип с одним и тем же именем Handler, поэтому анонимное
 // встраивание невозможно (коллизия имени поля) — здесь явные именованные
 // поля и тривиальные методы-делегаты.
 type api struct {
 	me    *meapiv1.Handler
 	login *loginapiv1.Handler
+	host  *hostapiv1.Handler
 }
 
-func newAPI(resolver *ensureuser.Resolver) api {
+func newAPI(resolver *ensureuser.Resolver, hostClient tablesv1.HostServiceClient) api {
 	return api{
 		me:    meapiv1.New(resolver),
 		login: loginapiv1.New(resolver),
+		host:  hostapiv1.New(hostClient),
 	}
 }
 
 func (a api) GetMe(w http.ResponseWriter, r *http.Request) { a.me.GetMe(w, r) }
 func (a api) Login(w http.ResponseWriter, r *http.Request) { a.login.Login(w, r) }
+
+// requireCatalogRole гейтит методы каталога (dc.host и далее) ролью
+// admin/maintainer — см. mapping роль → группа методов в rbac.go.
+func requireCatalogRole(next http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		rbac.RequireRole(rbac.RoleAdmin, rbac.RoleMaintainer)(next).ServeHTTP(w, r)
+	}
+}
+
+func (a api) ListHosts(w http.ResponseWriter, r *http.Request, params openapiv1.ListHostsParams) {
+	requireCatalogRole(func(w http.ResponseWriter, r *http.Request) { a.host.ListHosts(w, r, params) })(w, r)
+}
+
+func (a api) CreateHost(w http.ResponseWriter, r *http.Request) {
+	requireCatalogRole(a.host.CreateHost)(w, r)
+}
+
+func (a api) SearchHosts(w http.ResponseWriter, r *http.Request, params openapiv1.SearchHostsParams) {
+	requireCatalogRole(func(w http.ResponseWriter, r *http.Request) { a.host.SearchHosts(w, r, params) })(w, r)
+}
+
+func (a api) ListDeletedHosts(w http.ResponseWriter, r *http.Request, params openapiv1.ListDeletedHostsParams) {
+	requireCatalogRole(func(w http.ResponseWriter, r *http.Request) { a.host.ListDeletedHosts(w, r, params) })(w, r)
+}
+
+func (a api) GetHostById(w http.ResponseWriter, r *http.Request, id openapiv1.HostIdParam) {
+	requireCatalogRole(func(w http.ResponseWriter, r *http.Request) { a.host.GetHostById(w, r, id) })(w, r)
+}
+
+func (a api) UpdateHostById(w http.ResponseWriter, r *http.Request, id openapiv1.HostIdParam) {
+	requireCatalogRole(func(w http.ResponseWriter, r *http.Request) { a.host.UpdateHostById(w, r, id) })(w, r)
+}
+
+func (a api) DeleteHostById(w http.ResponseWriter, r *http.Request, id openapiv1.HostIdParam) {
+	requireCatalogRole(func(w http.ResponseWriter, r *http.Request) { a.host.DeleteHostById(w, r, id) })(w, r)
+}
+
+func (a api) UndeleteHostById(w http.ResponseWriter, r *http.Request, id openapiv1.HostIdParam) {
+	requireCatalogRole(func(w http.ResponseWriter, r *http.Request) { a.host.UndeleteHostById(w, r, id) })(w, r)
+}
 
 func handleHealthz(w http.ResponseWriter, _ *http.Request) {
 	w.WriteHeader(http.StatusOK)

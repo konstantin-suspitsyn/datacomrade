@@ -5,6 +5,7 @@ package datacatalogue
 import (
 	"fmt"
 
+	tablesv1 "github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/tables/v1"
 	userv1 "github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/user/v1"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -16,6 +17,7 @@ type Client struct {
 	conn *grpc.ClientConn
 
 	User userv1.UserServiceClient
+	Host tablesv1.HostServiceClient
 }
 
 // Dial открывает gRPC-соединение с datacatalogue по addr (host:port).
@@ -29,6 +31,7 @@ func Dial(addr string) (*Client, error) {
 	return &Client{
 		conn: conn,
 		User: userv1.NewUserServiceClient(conn),
+		Host: tablesv1.NewHostServiceClient(conn),
 	}, nil
 }
 

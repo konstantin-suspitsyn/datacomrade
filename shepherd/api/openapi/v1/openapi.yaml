@@ -60,13 +60,342 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+  /hosts:
+    get:
+      operationId: listHosts
+      summary: Страница строк dc.host
+      description: >
+        Требуется роль admin или maintainer. order/page_limit по умолчанию —
+        см. pagination.DefaultOrder/DefaultPageLimit в shepherd.
+      parameters:
+        - $ref: "#/components/parameters/OrderParam"
+        - $ref: "#/components/parameters/PageParam"
+        - $ref: "#/components/parameters/PageLimitParam"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HostPage"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+    post:
+      operationId: createHost
+      summary: Создать строку dc.host
+      description: Требуется роль admin или maintainer.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/HostWrite"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Host"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "409":
+          description: Строка с такими уникальными полями уже существует
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /hosts/search:
+    get:
+      operationId: searchHosts
+      summary: Страница строк dc.host по подстроке имени
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - name: search_name
+          in: query
+          required: true
+          schema:
+            type: string
+        - $ref: "#/components/parameters/OrderParam"
+        - $ref: "#/components/parameters/PageParam"
+        - $ref: "#/components/parameters/PageLimitParam"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HostPage"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+  /hosts/deleted:
+    get:
+      operationId: listDeletedHosts
+      summary: Страница мягко удалённых строк dc.host
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: "#/components/parameters/OrderParam"
+        - $ref: "#/components/parameters/PageParam"
+        - $ref: "#/components/parameters/PageLimitParam"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HostPage"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+  /hosts/{id}:
+    get:
+      operationId: getHostById
+      summary: Активная строка dc.host по id
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: "#/components/parameters/HostIdParam"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Host"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    put:
+      operationId: updateHostById
+      summary: Обновить строку dc.host
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: "#/components/parameters/HostIdParam"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/HostWrite"
+      responses:
+        "204":
+          description: Обновлено
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    delete:
+      operationId: deleteHostById
+      summary: Мягко удалить строку dc.host
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: "#/components/parameters/HostIdParam"
+      responses:
+        "204":
+          description: Удалено
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+  /hosts/{id}/undelete:
+    post:
+      operationId: undeleteHostById
+      summary: Восстановить мягко удалённую строку dc.host
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: "#/components/parameters/HostIdParam"
+      responses:
+        "204":
+          description: Восстановлено
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
 components:
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
+  parameters:
+    HostIdParam:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+    OrderParam:
+      name: order
+      in: query
+      required: false
+      schema:
+        type: string
+      description: >
+        Направление сортировки — ASC или DESC. Если не передано, применяется
+        значение по умолчанию (pagination.DefaultOrder в shepherd).
+    PageParam:
+      name: page
+      in: query
+      required: false
+      schema:
+        type: integer
+        format: int32
+      description: Номер страницы, с 1. Если не передано — используется 1.
+    PageLimitParam:
+      name: page_limit
+      in: query
+      required: false
+      schema:
+        type: integer
+        format: int32
+      description: >
+        Размер страницы. Если не передано, применяется значение по
+        умолчанию (pagination.DefaultPageLimit в shepherd).
+  responses:
+    BadRequest:
+      description: Некорректные параметры запроса
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    Unauthorized:
+      description: Не аутентифицирован — отсутствует или недействителен токен
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    Forbidden:
+      description: Недостаточно прав — требуется роль admin или maintainer
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    NotFound:
+      description: Строка не найдена
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
   schemas:
+    Pagination:
+      type: object
+      required: [page, per_page, total_items, total_pages]
+      properties:
+        page:
+          type: integer
+          format: int32
+        per_page:
+          type: integer
+          format: int32
+        total_items:
+          type: integer
+          format: int64
+        total_pages:
+          type: integer
+          format: int64
+    Host:
+      type: object
+      required:
+        - id
+        - name
+        - description
+        - host_env
+        - port_env
+        - username_env
+        - password_env
+        - is_deleted
+        - created_at
+        - updated_at
+        - user_id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        description:
+          type: string
+        host_env:
+          type: string
+        port_env:
+          type: string
+        username_env:
+          type: string
+        password_env:
+          type: string
+        is_deleted:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        user_id:
+          type: integer
+          format: int64
+    HostPage:
+      type: object
+      required: [data, pagination]
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Host"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+    HostWrite:
+      type: object
+      required:
+        - name
+        - description
+        - host_env
+        - port_env
+        - username_env
+        - password_env
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        host_env:
+          type: string
+        port_env:
+          type: string
+        username_env:
+          type: string
+        password_env:
+          type: string
     Me:
       type: object
       required: [external_id, user_id, name, roles]

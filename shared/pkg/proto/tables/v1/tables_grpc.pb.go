@@ -896,3 +896,4600 @@ var HostService_ServiceDesc = grpc.ServiceDesc{
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "tables/v1/tables.proto",
 }
+
+const (
+	DatabaseTypeService_CreateDatabaseType_FullMethodName         = "/tables.v1.DatabaseTypeService/CreateDatabaseType"
+	DatabaseTypeService_GetDatabaseTypeById_FullMethodName        = "/tables.v1.DatabaseTypeService/GetDatabaseTypeById"
+	DatabaseTypeService_GetDatabaseTypesSearchName_FullMethodName = "/tables.v1.DatabaseTypeService/GetDatabaseTypesSearchName"
+	DatabaseTypeService_GetDatabaseTypes_FullMethodName           = "/tables.v1.DatabaseTypeService/GetDatabaseTypes"
+	DatabaseTypeService_GetDatabaseTypesDeleted_FullMethodName    = "/tables.v1.DatabaseTypeService/GetDatabaseTypesDeleted"
+	DatabaseTypeService_UpdateDatabaseTypeById_FullMethodName     = "/tables.v1.DatabaseTypeService/UpdateDatabaseTypeById"
+	DatabaseTypeService_DeleteDatabaseTypeById_FullMethodName     = "/tables.v1.DatabaseTypeService/DeleteDatabaseTypeById"
+	DatabaseTypeService_UndeleteDatabaseTypeById_FullMethodName   = "/tables.v1.DatabaseTypeService/UndeleteDatabaseTypeById"
+)
+
+// DatabaseTypeServiceClient is the client API for DatabaseTypeService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type DatabaseTypeServiceClient interface {
+	CreateDatabaseType(ctx context.Context, in *CreateDatabaseTypeRequest, opts ...grpc.CallOption) (*CreateDatabaseTypeResponse, error)
+	GetDatabaseTypeById(ctx context.Context, in *GetDatabaseTypeByIdRequest, opts ...grpc.CallOption) (*GetDatabaseTypeByIdResponse, error)
+	GetDatabaseTypesSearchName(ctx context.Context, in *GetDatabaseTypesSearchNameRequest, opts ...grpc.CallOption) (*GetDatabaseTypesSearchNameResponse, error)
+	GetDatabaseTypes(ctx context.Context, in *GetDatabaseTypesRequest, opts ...grpc.CallOption) (*GetDatabaseTypesResponse, error)
+	GetDatabaseTypesDeleted(ctx context.Context, in *GetDatabaseTypesDeletedRequest, opts ...grpc.CallOption) (*GetDatabaseTypesDeletedResponse, error)
+	UpdateDatabaseTypeById(ctx context.Context, in *UpdateDatabaseTypeByIdRequest, opts ...grpc.CallOption) (*UpdateDatabaseTypeByIdResponse, error)
+	DeleteDatabaseTypeById(ctx context.Context, in *DeleteDatabaseTypeByIdRequest, opts ...grpc.CallOption) (*DeleteDatabaseTypeByIdResponse, error)
+	UndeleteDatabaseTypeById(ctx context.Context, in *UndeleteDatabaseTypeByIdRequest, opts ...grpc.CallOption) (*UndeleteDatabaseTypeByIdResponse, error)
+}
+
+type databaseTypeServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewDatabaseTypeServiceClient(cc grpc.ClientConnInterface) DatabaseTypeServiceClient {
+	return &databaseTypeServiceClient{cc}
+}
+
+func (c *databaseTypeServiceClient) CreateDatabaseType(ctx context.Context, in *CreateDatabaseTypeRequest, opts ...grpc.CallOption) (*CreateDatabaseTypeResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateDatabaseTypeResponse)
+	err := c.cc.Invoke(ctx, DatabaseTypeService_CreateDatabaseType_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *databaseTypeServiceClient) GetDatabaseTypeById(ctx context.Context, in *GetDatabaseTypeByIdRequest, opts ...grpc.CallOption) (*GetDatabaseTypeByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetDatabaseTypeByIdResponse)
+	err := c.cc.Invoke(ctx, DatabaseTypeService_GetDatabaseTypeById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *databaseTypeServiceClient) GetDatabaseTypesSearchName(ctx context.Context, in *GetDatabaseTypesSearchNameRequest, opts ...grpc.CallOption) (*GetDatabaseTypesSearchNameResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetDatabaseTypesSearchNameResponse)
+	err := c.cc.Invoke(ctx, DatabaseTypeService_GetDatabaseTypesSearchName_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *databaseTypeServiceClient) GetDatabaseTypes(ctx context.Context, in *GetDatabaseTypesRequest, opts ...grpc.CallOption) (*GetDatabaseTypesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetDatabaseTypesResponse)
+	err := c.cc.Invoke(ctx, DatabaseTypeService_GetDatabaseTypes_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *databaseTypeServiceClient) GetDatabaseTypesDeleted(ctx context.Context, in *GetDatabaseTypesDeletedRequest, opts ...grpc.CallOption) (*GetDatabaseTypesDeletedResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetDatabaseTypesDeletedResponse)
+	err := c.cc.Invoke(ctx, DatabaseTypeService_GetDatabaseTypesDeleted_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *databaseTypeServiceClient) UpdateDatabaseTypeById(ctx context.Context, in *UpdateDatabaseTypeByIdRequest, opts ...grpc.CallOption) (*UpdateDatabaseTypeByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateDatabaseTypeByIdResponse)
+	err := c.cc.Invoke(ctx, DatabaseTypeService_UpdateDatabaseTypeById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *databaseTypeServiceClient) DeleteDatabaseTypeById(ctx context.Context, in *DeleteDatabaseTypeByIdRequest, opts ...grpc.CallOption) (*DeleteDatabaseTypeByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteDatabaseTypeByIdResponse)
+	err := c.cc.Invoke(ctx, DatabaseTypeService_DeleteDatabaseTypeById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *databaseTypeServiceClient) UndeleteDatabaseTypeById(ctx context.Context, in *UndeleteDatabaseTypeByIdRequest, opts ...grpc.CallOption) (*UndeleteDatabaseTypeByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UndeleteDatabaseTypeByIdResponse)
+	err := c.cc.Invoke(ctx, DatabaseTypeService_UndeleteDatabaseTypeById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// DatabaseTypeServiceServer is the server API for DatabaseTypeService service.
+// All implementations must embed UnimplementedDatabaseTypeServiceServer
+// for forward compatibility.
+type DatabaseTypeServiceServer interface {
+	CreateDatabaseType(context.Context, *CreateDatabaseTypeRequest) (*CreateDatabaseTypeResponse, error)
+	GetDatabaseTypeById(context.Context, *GetDatabaseTypeByIdRequest) (*GetDatabaseTypeByIdResponse, error)
+	GetDatabaseTypesSearchName(context.Context, *GetDatabaseTypesSearchNameRequest) (*GetDatabaseTypesSearchNameResponse, error)
+	GetDatabaseTypes(context.Context, *GetDatabaseTypesRequest) (*GetDatabaseTypesResponse, error)
+	GetDatabaseTypesDeleted(context.Context, *GetDatabaseTypesDeletedRequest) (*GetDatabaseTypesDeletedResponse, error)
+	UpdateDatabaseTypeById(context.Context, *UpdateDatabaseTypeByIdRequest) (*UpdateDatabaseTypeByIdResponse, error)
+	DeleteDatabaseTypeById(context.Context, *DeleteDatabaseTypeByIdRequest) (*DeleteDatabaseTypeByIdResponse, error)
+	UndeleteDatabaseTypeById(context.Context, *UndeleteDatabaseTypeByIdRequest) (*UndeleteDatabaseTypeByIdResponse, error)
+	mustEmbedUnimplementedDatabaseTypeServiceServer()
+}
+
+// UnimplementedDatabaseTypeServiceServer must be embedded to have
+// forward compatible implementations.
+//
+// NOTE: this should be embedded by value instead of pointer to avoid a nil
+// pointer dereference when methods are called.
+type UnimplementedDatabaseTypeServiceServer struct{}
+
+func (UnimplementedDatabaseTypeServiceServer) CreateDatabaseType(context.Context, *CreateDatabaseTypeRequest) (*CreateDatabaseTypeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateDatabaseType not implemented")
+}
+func (UnimplementedDatabaseTypeServiceServer) GetDatabaseTypeById(context.Context, *GetDatabaseTypeByIdRequest) (*GetDatabaseTypeByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDatabaseTypeById not implemented")
+}
+func (UnimplementedDatabaseTypeServiceServer) GetDatabaseTypesSearchName(context.Context, *GetDatabaseTypesSearchNameRequest) (*GetDatabaseTypesSearchNameResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDatabaseTypesSearchName not implemented")
+}
+func (UnimplementedDatabaseTypeServiceServer) GetDatabaseTypes(context.Context, *GetDatabaseTypesRequest) (*GetDatabaseTypesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDatabaseTypes not implemented")
+}
+func (UnimplementedDatabaseTypeServiceServer) GetDatabaseTypesDeleted(context.Context, *GetDatabaseTypesDeletedRequest) (*GetDatabaseTypesDeletedResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDatabaseTypesDeleted not implemented")
+}
+func (UnimplementedDatabaseTypeServiceServer) UpdateDatabaseTypeById(context.Context, *UpdateDatabaseTypeByIdRequest) (*UpdateDatabaseTypeByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateDatabaseTypeById not implemented")
+}
+func (UnimplementedDatabaseTypeServiceServer) DeleteDatabaseTypeById(context.Context, *DeleteDatabaseTypeByIdRequest) (*DeleteDatabaseTypeByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteDatabaseTypeById not implemented")
+}
+func (UnimplementedDatabaseTypeServiceServer) UndeleteDatabaseTypeById(context.Context, *UndeleteDatabaseTypeByIdRequest) (*UndeleteDatabaseTypeByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UndeleteDatabaseTypeById not implemented")
+}
+func (UnimplementedDatabaseTypeServiceServer) mustEmbedUnimplementedDatabaseTypeServiceServer() {}
+func (UnimplementedDatabaseTypeServiceServer) testEmbeddedByValue()                             {}
+
+// UnsafeDatabaseTypeServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to DatabaseTypeServiceServer will
+// result in compilation errors.
+type UnsafeDatabaseTypeServiceServer interface {
+	mustEmbedUnimplementedDatabaseTypeServiceServer()
+}
+
+func RegisterDatabaseTypeServiceServer(s grpc.ServiceRegistrar, srv DatabaseTypeServiceServer) {
+	// If the following call pancis, it indicates UnimplementedDatabaseTypeServiceServer was
+	// embedded by pointer and is nil.  This will cause panics if an
+	// unimplemented method is ever invoked, so we test this at initialization
+	// time to prevent it from happening at runtime later due to I/O.
+	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
+		t.testEmbeddedByValue()
+	}
+	s.RegisterService(&DatabaseTypeService_ServiceDesc, srv)
+}
+
+func _DatabaseTypeService_CreateDatabaseType_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateDatabaseTypeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DatabaseTypeServiceServer).CreateDatabaseType(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DatabaseTypeService_CreateDatabaseType_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DatabaseTypeServiceServer).CreateDatabaseType(ctx, req.(*CreateDatabaseTypeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DatabaseTypeService_GetDatabaseTypeById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetDatabaseTypeByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DatabaseTypeServiceServer).GetDatabaseTypeById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DatabaseTypeService_GetDatabaseTypeById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DatabaseTypeServiceServer).GetDatabaseTypeById(ctx, req.(*GetDatabaseTypeByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DatabaseTypeService_GetDatabaseTypesSearchName_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetDatabaseTypesSearchNameRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DatabaseTypeServiceServer).GetDatabaseTypesSearchName(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DatabaseTypeService_GetDatabaseTypesSearchName_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DatabaseTypeServiceServer).GetDatabaseTypesSearchName(ctx, req.(*GetDatabaseTypesSearchNameRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DatabaseTypeService_GetDatabaseTypes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetDatabaseTypesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DatabaseTypeServiceServer).GetDatabaseTypes(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DatabaseTypeService_GetDatabaseTypes_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DatabaseTypeServiceServer).GetDatabaseTypes(ctx, req.(*GetDatabaseTypesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DatabaseTypeService_GetDatabaseTypesDeleted_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetDatabaseTypesDeletedRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DatabaseTypeServiceServer).GetDatabaseTypesDeleted(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DatabaseTypeService_GetDatabaseTypesDeleted_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DatabaseTypeServiceServer).GetDatabaseTypesDeleted(ctx, req.(*GetDatabaseTypesDeletedRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DatabaseTypeService_UpdateDatabaseTypeById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateDatabaseTypeByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DatabaseTypeServiceServer).UpdateDatabaseTypeById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DatabaseTypeService_UpdateDatabaseTypeById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DatabaseTypeServiceServer).UpdateDatabaseTypeById(ctx, req.(*UpdateDatabaseTypeByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DatabaseTypeService_DeleteDatabaseTypeById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteDatabaseTypeByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DatabaseTypeServiceServer).DeleteDatabaseTypeById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DatabaseTypeService_DeleteDatabaseTypeById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DatabaseTypeServiceServer).DeleteDatabaseTypeById(ctx, req.(*DeleteDatabaseTypeByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DatabaseTypeService_UndeleteDatabaseTypeById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UndeleteDatabaseTypeByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DatabaseTypeServiceServer).UndeleteDatabaseTypeById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DatabaseTypeService_UndeleteDatabaseTypeById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DatabaseTypeServiceServer).UndeleteDatabaseTypeById(ctx, req.(*UndeleteDatabaseTypeByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// DatabaseTypeService_ServiceDesc is the grpc.ServiceDesc for DatabaseTypeService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var DatabaseTypeService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "tables.v1.DatabaseTypeService",
+	HandlerType: (*DatabaseTypeServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "CreateDatabaseType",
+			Handler:    _DatabaseTypeService_CreateDatabaseType_Handler,
+		},
+		{
+			MethodName: "GetDatabaseTypeById",
+			Handler:    _DatabaseTypeService_GetDatabaseTypeById_Handler,
+		},
+		{
+			MethodName: "GetDatabaseTypesSearchName",
+			Handler:    _DatabaseTypeService_GetDatabaseTypesSearchName_Handler,
+		},
+		{
+			MethodName: "GetDatabaseTypes",
+			Handler:    _DatabaseTypeService_GetDatabaseTypes_Handler,
+		},
+		{
+			MethodName: "GetDatabaseTypesDeleted",
+			Handler:    _DatabaseTypeService_GetDatabaseTypesDeleted_Handler,
+		},
+		{
+			MethodName: "UpdateDatabaseTypeById",
+			Handler:    _DatabaseTypeService_UpdateDatabaseTypeById_Handler,
+		},
+		{
+			MethodName: "DeleteDatabaseTypeById",
+			Handler:    _DatabaseTypeService_DeleteDatabaseTypeById_Handler,
+		},
+		{
+			MethodName: "UndeleteDatabaseTypeById",
+			Handler:    _DatabaseTypeService_UndeleteDatabaseTypeById_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "tables/v1/tables.proto",
+}
+
+const (
+	DatabaseCatService_CreateDatabaseCat_FullMethodName                     = "/tables.v1.DatabaseCatService/CreateDatabaseCat"
+	DatabaseCatService_GetDatabaseCatById_FullMethodName                    = "/tables.v1.DatabaseCatService/GetDatabaseCatById"
+	DatabaseCatService_GetDatabaseCats_FullMethodName                       = "/tables.v1.DatabaseCatService/GetDatabaseCats"
+	DatabaseCatService_GetDatabaseCatsDeleted_FullMethodName                = "/tables.v1.DatabaseCatService/GetDatabaseCatsDeleted"
+	DatabaseCatService_GetDatabaseCatsByHostIdDatabaseTypeId_FullMethodName = "/tables.v1.DatabaseCatService/GetDatabaseCatsByHostIdDatabaseTypeId"
+	DatabaseCatService_GetDatabaseCatsSearchName_FullMethodName             = "/tables.v1.DatabaseCatService/GetDatabaseCatsSearchName"
+	DatabaseCatService_UpdateDatabaseCatById_FullMethodName                 = "/tables.v1.DatabaseCatService/UpdateDatabaseCatById"
+	DatabaseCatService_DeleteDatabaseCatById_FullMethodName                 = "/tables.v1.DatabaseCatService/DeleteDatabaseCatById"
+	DatabaseCatService_UndeleteDatabaseCatById_FullMethodName               = "/tables.v1.DatabaseCatService/UndeleteDatabaseCatById"
+)
+
+// DatabaseCatServiceClient is the client API for DatabaseCatService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type DatabaseCatServiceClient interface {
+	CreateDatabaseCat(ctx context.Context, in *CreateDatabaseCatRequest, opts ...grpc.CallOption) (*CreateDatabaseCatResponse, error)
+	GetDatabaseCatById(ctx context.Context, in *GetDatabaseCatByIdRequest, opts ...grpc.CallOption) (*GetDatabaseCatByIdResponse, error)
+	GetDatabaseCats(ctx context.Context, in *GetDatabaseCatsRequest, opts ...grpc.CallOption) (*GetDatabaseCatsResponse, error)
+	GetDatabaseCatsDeleted(ctx context.Context, in *GetDatabaseCatsDeletedRequest, opts ...grpc.CallOption) (*GetDatabaseCatsDeletedResponse, error)
+	GetDatabaseCatsByHostIdDatabaseTypeId(ctx context.Context, in *GetDatabaseCatsByHostIdDatabaseTypeIdRequest, opts ...grpc.CallOption) (*GetDatabaseCatsByHostIdDatabaseTypeIdResponse, error)
+	GetDatabaseCatsSearchName(ctx context.Context, in *GetDatabaseCatsSearchNameRequest, opts ...grpc.CallOption) (*GetDatabaseCatsSearchNameResponse, error)
+	UpdateDatabaseCatById(ctx context.Context, in *UpdateDatabaseCatByIdRequest, opts ...grpc.CallOption) (*UpdateDatabaseCatByIdResponse, error)
+	DeleteDatabaseCatById(ctx context.Context, in *DeleteDatabaseCatByIdRequest, opts ...grpc.CallOption) (*DeleteDatabaseCatByIdResponse, error)
+	UndeleteDatabaseCatById(ctx context.Context, in *UndeleteDatabaseCatByIdRequest, opts ...grpc.CallOption) (*UndeleteDatabaseCatByIdResponse, error)
+}
+
+type databaseCatServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewDatabaseCatServiceClient(cc grpc.ClientConnInterface) DatabaseCatServiceClient {
+	return &databaseCatServiceClient{cc}
+}
+
+func (c *databaseCatServiceClient) CreateDatabaseCat(ctx context.Context, in *CreateDatabaseCatRequest, opts ...grpc.CallOption) (*CreateDatabaseCatResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateDatabaseCatResponse)
+	err := c.cc.Invoke(ctx, DatabaseCatService_CreateDatabaseCat_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *databaseCatServiceClient) GetDatabaseCatById(ctx context.Context, in *GetDatabaseCatByIdRequest, opts ...grpc.CallOption) (*GetDatabaseCatByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetDatabaseCatByIdResponse)
+	err := c.cc.Invoke(ctx, DatabaseCatService_GetDatabaseCatById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *databaseCatServiceClient) GetDatabaseCats(ctx context.Context, in *GetDatabaseCatsRequest, opts ...grpc.CallOption) (*GetDatabaseCatsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetDatabaseCatsResponse)
+	err := c.cc.Invoke(ctx, DatabaseCatService_GetDatabaseCats_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *databaseCatServiceClient) GetDatabaseCatsDeleted(ctx context.Context, in *GetDatabaseCatsDeletedRequest, opts ...grpc.CallOption) (*GetDatabaseCatsDeletedResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetDatabaseCatsDeletedResponse)
+	err := c.cc.Invoke(ctx, DatabaseCatService_GetDatabaseCatsDeleted_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *databaseCatServiceClient) GetDatabaseCatsByHostIdDatabaseTypeId(ctx context.Context, in *GetDatabaseCatsByHostIdDatabaseTypeIdRequest, opts ...grpc.CallOption) (*GetDatabaseCatsByHostIdDatabaseTypeIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetDatabaseCatsByHostIdDatabaseTypeIdResponse)
+	err := c.cc.Invoke(ctx, DatabaseCatService_GetDatabaseCatsByHostIdDatabaseTypeId_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *databaseCatServiceClient) GetDatabaseCatsSearchName(ctx context.Context, in *GetDatabaseCatsSearchNameRequest, opts ...grpc.CallOption) (*GetDatabaseCatsSearchNameResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetDatabaseCatsSearchNameResponse)
+	err := c.cc.Invoke(ctx, DatabaseCatService_GetDatabaseCatsSearchName_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *databaseCatServiceClient) UpdateDatabaseCatById(ctx context.Context, in *UpdateDatabaseCatByIdRequest, opts ...grpc.CallOption) (*UpdateDatabaseCatByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateDatabaseCatByIdResponse)
+	err := c.cc.Invoke(ctx, DatabaseCatService_UpdateDatabaseCatById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *databaseCatServiceClient) DeleteDatabaseCatById(ctx context.Context, in *DeleteDatabaseCatByIdRequest, opts ...grpc.CallOption) (*DeleteDatabaseCatByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteDatabaseCatByIdResponse)
+	err := c.cc.Invoke(ctx, DatabaseCatService_DeleteDatabaseCatById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *databaseCatServiceClient) UndeleteDatabaseCatById(ctx context.Context, in *UndeleteDatabaseCatByIdRequest, opts ...grpc.CallOption) (*UndeleteDatabaseCatByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UndeleteDatabaseCatByIdResponse)
+	err := c.cc.Invoke(ctx, DatabaseCatService_UndeleteDatabaseCatById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// DatabaseCatServiceServer is the server API for DatabaseCatService service.
+// All implementations must embed UnimplementedDatabaseCatServiceServer
+// for forward compatibility.
+type DatabaseCatServiceServer interface {
+	CreateDatabaseCat(context.Context, *CreateDatabaseCatRequest) (*CreateDatabaseCatResponse, error)
+	GetDatabaseCatById(context.Context, *GetDatabaseCatByIdRequest) (*GetDatabaseCatByIdResponse, error)
+	GetDatabaseCats(context.Context, *GetDatabaseCatsRequest) (*GetDatabaseCatsResponse, error)
+	GetDatabaseCatsDeleted(context.Context, *GetDatabaseCatsDeletedRequest) (*GetDatabaseCatsDeletedResponse, error)
+	GetDatabaseCatsByHostIdDatabaseTypeId(context.Context, *GetDatabaseCatsByHostIdDatabaseTypeIdRequest) (*GetDatabaseCatsByHostIdDatabaseTypeIdResponse, error)
+	GetDatabaseCatsSearchName(context.Context, *GetDatabaseCatsSearchNameRequest) (*GetDatabaseCatsSearchNameResponse, error)
+	UpdateDatabaseCatById(context.Context, *UpdateDatabaseCatByIdRequest) (*UpdateDatabaseCatByIdResponse, error)
+	DeleteDatabaseCatById(context.Context, *DeleteDatabaseCatByIdRequest) (*DeleteDatabaseCatByIdResponse, error)
+	UndeleteDatabaseCatById(context.Context, *UndeleteDatabaseCatByIdRequest) (*UndeleteDatabaseCatByIdResponse, error)
+	mustEmbedUnimplementedDatabaseCatServiceServer()
+}
+
+// UnimplementedDatabaseCatServiceServer must be embedded to have
+// forward compatible implementations.
+//
+// NOTE: this should be embedded by value instead of pointer to avoid a nil
+// pointer dereference when methods are called.
+type UnimplementedDatabaseCatServiceServer struct{}
+
+func (UnimplementedDatabaseCatServiceServer) CreateDatabaseCat(context.Context, *CreateDatabaseCatRequest) (*CreateDatabaseCatResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateDatabaseCat not implemented")
+}
+func (UnimplementedDatabaseCatServiceServer) GetDatabaseCatById(context.Context, *GetDatabaseCatByIdRequest) (*GetDatabaseCatByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDatabaseCatById not implemented")
+}
+func (UnimplementedDatabaseCatServiceServer) GetDatabaseCats(context.Context, *GetDatabaseCatsRequest) (*GetDatabaseCatsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDatabaseCats not implemented")
+}
+func (UnimplementedDatabaseCatServiceServer) GetDatabaseCatsDeleted(context.Context, *GetDatabaseCatsDeletedRequest) (*GetDatabaseCatsDeletedResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDatabaseCatsDeleted not implemented")
+}
+func (UnimplementedDatabaseCatServiceServer) GetDatabaseCatsByHostIdDatabaseTypeId(context.Context, *GetDatabaseCatsByHostIdDatabaseTypeIdRequest) (*GetDatabaseCatsByHostIdDatabaseTypeIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDatabaseCatsByHostIdDatabaseTypeId not implemented")
+}
+func (UnimplementedDatabaseCatServiceServer) GetDatabaseCatsSearchName(context.Context, *GetDatabaseCatsSearchNameRequest) (*GetDatabaseCatsSearchNameResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDatabaseCatsSearchName not implemented")
+}
+func (UnimplementedDatabaseCatServiceServer) UpdateDatabaseCatById(context.Context, *UpdateDatabaseCatByIdRequest) (*UpdateDatabaseCatByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateDatabaseCatById not implemented")
+}
+func (UnimplementedDatabaseCatServiceServer) DeleteDatabaseCatById(context.Context, *DeleteDatabaseCatByIdRequest) (*DeleteDatabaseCatByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteDatabaseCatById not implemented")
+}
+func (UnimplementedDatabaseCatServiceServer) UndeleteDatabaseCatById(context.Context, *UndeleteDatabaseCatByIdRequest) (*UndeleteDatabaseCatByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UndeleteDatabaseCatById not implemented")
+}
+func (UnimplementedDatabaseCatServiceServer) mustEmbedUnimplementedDatabaseCatServiceServer() {}
+func (UnimplementedDatabaseCatServiceServer) testEmbeddedByValue()                            {}
+
+// UnsafeDatabaseCatServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to DatabaseCatServiceServer will
+// result in compilation errors.
+type UnsafeDatabaseCatServiceServer interface {
+	mustEmbedUnimplementedDatabaseCatServiceServer()
+}
+
+func RegisterDatabaseCatServiceServer(s grpc.ServiceRegistrar, srv DatabaseCatServiceServer) {
+	// If the following call pancis, it indicates UnimplementedDatabaseCatServiceServer was
+	// embedded by pointer and is nil.  This will cause panics if an
+	// unimplemented method is ever invoked, so we test this at initialization
+	// time to prevent it from happening at runtime later due to I/O.
+	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
+		t.testEmbeddedByValue()
+	}
+	s.RegisterService(&DatabaseCatService_ServiceDesc, srv)
+}
+
+func _DatabaseCatService_CreateDatabaseCat_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateDatabaseCatRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DatabaseCatServiceServer).CreateDatabaseCat(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DatabaseCatService_CreateDatabaseCat_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DatabaseCatServiceServer).CreateDatabaseCat(ctx, req.(*CreateDatabaseCatRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DatabaseCatService_GetDatabaseCatById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetDatabaseCatByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DatabaseCatServiceServer).GetDatabaseCatById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DatabaseCatService_GetDatabaseCatById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DatabaseCatServiceServer).GetDatabaseCatById(ctx, req.(*GetDatabaseCatByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DatabaseCatService_GetDatabaseCats_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetDatabaseCatsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DatabaseCatServiceServer).GetDatabaseCats(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DatabaseCatService_GetDatabaseCats_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DatabaseCatServiceServer).GetDatabaseCats(ctx, req.(*GetDatabaseCatsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DatabaseCatService_GetDatabaseCatsDeleted_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetDatabaseCatsDeletedRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DatabaseCatServiceServer).GetDatabaseCatsDeleted(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DatabaseCatService_GetDatabaseCatsDeleted_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DatabaseCatServiceServer).GetDatabaseCatsDeleted(ctx, req.(*GetDatabaseCatsDeletedRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DatabaseCatService_GetDatabaseCatsByHostIdDatabaseTypeId_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetDatabaseCatsByHostIdDatabaseTypeIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DatabaseCatServiceServer).GetDatabaseCatsByHostIdDatabaseTypeId(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DatabaseCatService_GetDatabaseCatsByHostIdDatabaseTypeId_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DatabaseCatServiceServer).GetDatabaseCatsByHostIdDatabaseTypeId(ctx, req.(*GetDatabaseCatsByHostIdDatabaseTypeIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DatabaseCatService_GetDatabaseCatsSearchName_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetDatabaseCatsSearchNameRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DatabaseCatServiceServer).GetDatabaseCatsSearchName(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DatabaseCatService_GetDatabaseCatsSearchName_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DatabaseCatServiceServer).GetDatabaseCatsSearchName(ctx, req.(*GetDatabaseCatsSearchNameRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DatabaseCatService_UpdateDatabaseCatById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateDatabaseCatByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DatabaseCatServiceServer).UpdateDatabaseCatById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DatabaseCatService_UpdateDatabaseCatById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DatabaseCatServiceServer).UpdateDatabaseCatById(ctx, req.(*UpdateDatabaseCatByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DatabaseCatService_DeleteDatabaseCatById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteDatabaseCatByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DatabaseCatServiceServer).DeleteDatabaseCatById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DatabaseCatService_DeleteDatabaseCatById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DatabaseCatServiceServer).DeleteDatabaseCatById(ctx, req.(*DeleteDatabaseCatByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DatabaseCatService_UndeleteDatabaseCatById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UndeleteDatabaseCatByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DatabaseCatServiceServer).UndeleteDatabaseCatById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DatabaseCatService_UndeleteDatabaseCatById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DatabaseCatServiceServer).UndeleteDatabaseCatById(ctx, req.(*UndeleteDatabaseCatByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// DatabaseCatService_ServiceDesc is the grpc.ServiceDesc for DatabaseCatService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var DatabaseCatService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "tables.v1.DatabaseCatService",
+	HandlerType: (*DatabaseCatServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "CreateDatabaseCat",
+			Handler:    _DatabaseCatService_CreateDatabaseCat_Handler,
+		},
+		{
+			MethodName: "GetDatabaseCatById",
+			Handler:    _DatabaseCatService_GetDatabaseCatById_Handler,
+		},
+		{
+			MethodName: "GetDatabaseCats",
+			Handler:    _DatabaseCatService_GetDatabaseCats_Handler,
+		},
+		{
+			MethodName: "GetDatabaseCatsDeleted",
+			Handler:    _DatabaseCatService_GetDatabaseCatsDeleted_Handler,
+		},
+		{
+			MethodName: "GetDatabaseCatsByHostIdDatabaseTypeId",
+			Handler:    _DatabaseCatService_GetDatabaseCatsByHostIdDatabaseTypeId_Handler,
+		},
+		{
+			MethodName: "GetDatabaseCatsSearchName",
+			Handler:    _DatabaseCatService_GetDatabaseCatsSearchName_Handler,
+		},
+		{
+			MethodName: "UpdateDatabaseCatById",
+			Handler:    _DatabaseCatService_UpdateDatabaseCatById_Handler,
+		},
+		{
+			MethodName: "DeleteDatabaseCatById",
+			Handler:    _DatabaseCatService_DeleteDatabaseCatById_Handler,
+		},
+		{
+			MethodName: "UndeleteDatabaseCatById",
+			Handler:    _DatabaseCatService_UndeleteDatabaseCatById_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "tables/v1/tables.proto",
+}
+
+const (
+	ColumnCatService_CreateColumnCat_FullMethodName              = "/tables.v1.ColumnCatService/CreateColumnCat"
+	ColumnCatService_GetColumnCatById_FullMethodName             = "/tables.v1.ColumnCatService/GetColumnCatById"
+	ColumnCatService_GetColumnCats_FullMethodName                = "/tables.v1.ColumnCatService/GetColumnCats"
+	ColumnCatService_GetColumnCatsDeleted_FullMethodName         = "/tables.v1.ColumnCatService/GetColumnCatsDeleted"
+	ColumnCatService_GetColumnCatsOptionalFilters_FullMethodName = "/tables.v1.ColumnCatService/GetColumnCatsOptionalFilters"
+	ColumnCatService_GetColumnCatsSearchName_FullMethodName      = "/tables.v1.ColumnCatService/GetColumnCatsSearchName"
+	ColumnCatService_UpdateColumnCatById_FullMethodName          = "/tables.v1.ColumnCatService/UpdateColumnCatById"
+	ColumnCatService_DeleteColumnCatById_FullMethodName          = "/tables.v1.ColumnCatService/DeleteColumnCatById"
+	ColumnCatService_UndeleteColumnCatById_FullMethodName        = "/tables.v1.ColumnCatService/UndeleteColumnCatById"
+)
+
+// ColumnCatServiceClient is the client API for ColumnCatService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type ColumnCatServiceClient interface {
+	CreateColumnCat(ctx context.Context, in *CreateColumnCatRequest, opts ...grpc.CallOption) (*CreateColumnCatResponse, error)
+	GetColumnCatById(ctx context.Context, in *GetColumnCatByIdRequest, opts ...grpc.CallOption) (*GetColumnCatByIdResponse, error)
+	GetColumnCats(ctx context.Context, in *GetColumnCatsRequest, opts ...grpc.CallOption) (*GetColumnCatsResponse, error)
+	GetColumnCatsDeleted(ctx context.Context, in *GetColumnCatsDeletedRequest, opts ...grpc.CallOption) (*GetColumnCatsDeletedResponse, error)
+	GetColumnCatsOptionalFilters(ctx context.Context, in *GetColumnCatsOptionalFiltersRequest, opts ...grpc.CallOption) (*GetColumnCatsOptionalFiltersResponse, error)
+	GetColumnCatsSearchName(ctx context.Context, in *GetColumnCatsSearchNameRequest, opts ...grpc.CallOption) (*GetColumnCatsSearchNameResponse, error)
+	UpdateColumnCatById(ctx context.Context, in *UpdateColumnCatByIdRequest, opts ...grpc.CallOption) (*UpdateColumnCatByIdResponse, error)
+	DeleteColumnCatById(ctx context.Context, in *DeleteColumnCatByIdRequest, opts ...grpc.CallOption) (*DeleteColumnCatByIdResponse, error)
+	UndeleteColumnCatById(ctx context.Context, in *UndeleteColumnCatByIdRequest, opts ...grpc.CallOption) (*UndeleteColumnCatByIdResponse, error)
+}
+
+type columnCatServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewColumnCatServiceClient(cc grpc.ClientConnInterface) ColumnCatServiceClient {
+	return &columnCatServiceClient{cc}
+}
+
+func (c *columnCatServiceClient) CreateColumnCat(ctx context.Context, in *CreateColumnCatRequest, opts ...grpc.CallOption) (*CreateColumnCatResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateColumnCatResponse)
+	err := c.cc.Invoke(ctx, ColumnCatService_CreateColumnCat_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *columnCatServiceClient) GetColumnCatById(ctx context.Context, in *GetColumnCatByIdRequest, opts ...grpc.CallOption) (*GetColumnCatByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetColumnCatByIdResponse)
+	err := c.cc.Invoke(ctx, ColumnCatService_GetColumnCatById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *columnCatServiceClient) GetColumnCats(ctx context.Context, in *GetColumnCatsRequest, opts ...grpc.CallOption) (*GetColumnCatsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetColumnCatsResponse)
+	err := c.cc.Invoke(ctx, ColumnCatService_GetColumnCats_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *columnCatServiceClient) GetColumnCatsDeleted(ctx context.Context, in *GetColumnCatsDeletedRequest, opts ...grpc.CallOption) (*GetColumnCatsDeletedResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetColumnCatsDeletedResponse)
+	err := c.cc.Invoke(ctx, ColumnCatService_GetColumnCatsDeleted_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *columnCatServiceClient) GetColumnCatsOptionalFilters(ctx context.Context, in *GetColumnCatsOptionalFiltersRequest, opts ...grpc.CallOption) (*GetColumnCatsOptionalFiltersResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetColumnCatsOptionalFiltersResponse)
+	err := c.cc.Invoke(ctx, ColumnCatService_GetColumnCatsOptionalFilters_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *columnCatServiceClient) GetColumnCatsSearchName(ctx context.Context, in *GetColumnCatsSearchNameRequest, opts ...grpc.CallOption) (*GetColumnCatsSearchNameResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetColumnCatsSearchNameResponse)
+	err := c.cc.Invoke(ctx, ColumnCatService_GetColumnCatsSearchName_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *columnCatServiceClient) UpdateColumnCatById(ctx context.Context, in *UpdateColumnCatByIdRequest, opts ...grpc.CallOption) (*UpdateColumnCatByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateColumnCatByIdResponse)
+	err := c.cc.Invoke(ctx, ColumnCatService_UpdateColumnCatById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *columnCatServiceClient) DeleteColumnCatById(ctx context.Context, in *DeleteColumnCatByIdRequest, opts ...grpc.CallOption) (*DeleteColumnCatByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteColumnCatByIdResponse)
+	err := c.cc.Invoke(ctx, ColumnCatService_DeleteColumnCatById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *columnCatServiceClient) UndeleteColumnCatById(ctx context.Context, in *UndeleteColumnCatByIdRequest, opts ...grpc.CallOption) (*UndeleteColumnCatByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UndeleteColumnCatByIdResponse)
+	err := c.cc.Invoke(ctx, ColumnCatService_UndeleteColumnCatById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// ColumnCatServiceServer is the server API for ColumnCatService service.
+// All implementations must embed UnimplementedColumnCatServiceServer
+// for forward compatibility.
+type ColumnCatServiceServer interface {
+	CreateColumnCat(context.Context, *CreateColumnCatRequest) (*CreateColumnCatResponse, error)
+	GetColumnCatById(context.Context, *GetColumnCatByIdRequest) (*GetColumnCatByIdResponse, error)
+	GetColumnCats(context.Context, *GetColumnCatsRequest) (*GetColumnCatsResponse, error)
+	GetColumnCatsDeleted(context.Context, *GetColumnCatsDeletedRequest) (*GetColumnCatsDeletedResponse, error)
+	GetColumnCatsOptionalFilters(context.Context, *GetColumnCatsOptionalFiltersRequest) (*GetColumnCatsOptionalFiltersResponse, error)
+	GetColumnCatsSearchName(context.Context, *GetColumnCatsSearchNameRequest) (*GetColumnCatsSearchNameResponse, error)
+	UpdateColumnCatById(context.Context, *UpdateColumnCatByIdRequest) (*UpdateColumnCatByIdResponse, error)
+	DeleteColumnCatById(context.Context, *DeleteColumnCatByIdRequest) (*DeleteColumnCatByIdResponse, error)
+	UndeleteColumnCatById(context.Context, *UndeleteColumnCatByIdRequest) (*UndeleteColumnCatByIdResponse, error)
+	mustEmbedUnimplementedColumnCatServiceServer()
+}
+
+// UnimplementedColumnCatServiceServer must be embedded to have
+// forward compatible implementations.
+//
+// NOTE: this should be embedded by value instead of pointer to avoid a nil
+// pointer dereference when methods are called.
+type UnimplementedColumnCatServiceServer struct{}
+
+func (UnimplementedColumnCatServiceServer) CreateColumnCat(context.Context, *CreateColumnCatRequest) (*CreateColumnCatResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateColumnCat not implemented")
+}
+func (UnimplementedColumnCatServiceServer) GetColumnCatById(context.Context, *GetColumnCatByIdRequest) (*GetColumnCatByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetColumnCatById not implemented")
+}
+func (UnimplementedColumnCatServiceServer) GetColumnCats(context.Context, *GetColumnCatsRequest) (*GetColumnCatsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetColumnCats not implemented")
+}
+func (UnimplementedColumnCatServiceServer) GetColumnCatsDeleted(context.Context, *GetColumnCatsDeletedRequest) (*GetColumnCatsDeletedResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetColumnCatsDeleted not implemented")
+}
+func (UnimplementedColumnCatServiceServer) GetColumnCatsOptionalFilters(context.Context, *GetColumnCatsOptionalFiltersRequest) (*GetColumnCatsOptionalFiltersResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetColumnCatsOptionalFilters not implemented")
+}
+func (UnimplementedColumnCatServiceServer) GetColumnCatsSearchName(context.Context, *GetColumnCatsSearchNameRequest) (*GetColumnCatsSearchNameResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetColumnCatsSearchName not implemented")
+}
+func (UnimplementedColumnCatServiceServer) UpdateColumnCatById(context.Context, *UpdateColumnCatByIdRequest) (*UpdateColumnCatByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateColumnCatById not implemented")
+}
+func (UnimplementedColumnCatServiceServer) DeleteColumnCatById(context.Context, *DeleteColumnCatByIdRequest) (*DeleteColumnCatByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteColumnCatById not implemented")
+}
+func (UnimplementedColumnCatServiceServer) UndeleteColumnCatById(context.Context, *UndeleteColumnCatByIdRequest) (*UndeleteColumnCatByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UndeleteColumnCatById not implemented")
+}
+func (UnimplementedColumnCatServiceServer) mustEmbedUnimplementedColumnCatServiceServer() {}
+func (UnimplementedColumnCatServiceServer) testEmbeddedByValue()                          {}
+
+// UnsafeColumnCatServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to ColumnCatServiceServer will
+// result in compilation errors.
+type UnsafeColumnCatServiceServer interface {
+	mustEmbedUnimplementedColumnCatServiceServer()
+}
+
+func RegisterColumnCatServiceServer(s grpc.ServiceRegistrar, srv ColumnCatServiceServer) {
+	// If the following call pancis, it indicates UnimplementedColumnCatServiceServer was
+	// embedded by pointer and is nil.  This will cause panics if an
+	// unimplemented method is ever invoked, so we test this at initialization
+	// time to prevent it from happening at runtime later due to I/O.
+	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
+		t.testEmbeddedByValue()
+	}
+	s.RegisterService(&ColumnCatService_ServiceDesc, srv)
+}
+
+func _ColumnCatService_CreateColumnCat_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateColumnCatRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ColumnCatServiceServer).CreateColumnCat(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ColumnCatService_CreateColumnCat_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ColumnCatServiceServer).CreateColumnCat(ctx, req.(*CreateColumnCatRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ColumnCatService_GetColumnCatById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetColumnCatByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ColumnCatServiceServer).GetColumnCatById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ColumnCatService_GetColumnCatById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ColumnCatServiceServer).GetColumnCatById(ctx, req.(*GetColumnCatByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ColumnCatService_GetColumnCats_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetColumnCatsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ColumnCatServiceServer).GetColumnCats(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ColumnCatService_GetColumnCats_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ColumnCatServiceServer).GetColumnCats(ctx, req.(*GetColumnCatsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ColumnCatService_GetColumnCatsDeleted_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetColumnCatsDeletedRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ColumnCatServiceServer).GetColumnCatsDeleted(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ColumnCatService_GetColumnCatsDeleted_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ColumnCatServiceServer).GetColumnCatsDeleted(ctx, req.(*GetColumnCatsDeletedRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ColumnCatService_GetColumnCatsOptionalFilters_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetColumnCatsOptionalFiltersRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ColumnCatServiceServer).GetColumnCatsOptionalFilters(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ColumnCatService_GetColumnCatsOptionalFilters_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ColumnCatServiceServer).GetColumnCatsOptionalFilters(ctx, req.(*GetColumnCatsOptionalFiltersRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ColumnCatService_GetColumnCatsSearchName_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetColumnCatsSearchNameRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ColumnCatServiceServer).GetColumnCatsSearchName(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ColumnCatService_GetColumnCatsSearchName_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ColumnCatServiceServer).GetColumnCatsSearchName(ctx, req.(*GetColumnCatsSearchNameRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ColumnCatService_UpdateColumnCatById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateColumnCatByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ColumnCatServiceServer).UpdateColumnCatById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ColumnCatService_UpdateColumnCatById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ColumnCatServiceServer).UpdateColumnCatById(ctx, req.(*UpdateColumnCatByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ColumnCatService_DeleteColumnCatById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteColumnCatByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ColumnCatServiceServer).DeleteColumnCatById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ColumnCatService_DeleteColumnCatById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ColumnCatServiceServer).DeleteColumnCatById(ctx, req.(*DeleteColumnCatByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ColumnCatService_UndeleteColumnCatById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UndeleteColumnCatByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ColumnCatServiceServer).UndeleteColumnCatById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ColumnCatService_UndeleteColumnCatById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ColumnCatServiceServer).UndeleteColumnCatById(ctx, req.(*UndeleteColumnCatByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// ColumnCatService_ServiceDesc is the grpc.ServiceDesc for ColumnCatService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var ColumnCatService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "tables.v1.ColumnCatService",
+	HandlerType: (*ColumnCatServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "CreateColumnCat",
+			Handler:    _ColumnCatService_CreateColumnCat_Handler,
+		},
+		{
+			MethodName: "GetColumnCatById",
+			Handler:    _ColumnCatService_GetColumnCatById_Handler,
+		},
+		{
+			MethodName: "GetColumnCats",
+			Handler:    _ColumnCatService_GetColumnCats_Handler,
+		},
+		{
+			MethodName: "GetColumnCatsDeleted",
+			Handler:    _ColumnCatService_GetColumnCatsDeleted_Handler,
+		},
+		{
+			MethodName: "GetColumnCatsOptionalFilters",
+			Handler:    _ColumnCatService_GetColumnCatsOptionalFilters_Handler,
+		},
+		{
+			MethodName: "GetColumnCatsSearchName",
+			Handler:    _ColumnCatService_GetColumnCatsSearchName_Handler,
+		},
+		{
+			MethodName: "UpdateColumnCatById",
+			Handler:    _ColumnCatService_UpdateColumnCatById_Handler,
+		},
+		{
+			MethodName: "DeleteColumnCatById",
+			Handler:    _ColumnCatService_DeleteColumnCatById_Handler,
+		},
+		{
+			MethodName: "UndeleteColumnCatById",
+			Handler:    _ColumnCatService_UndeleteColumnCatById_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "tables/v1/tables.proto",
+}
+
+const (
+	ColumnTypeService_CreateColumnType_FullMethodName         = "/tables.v1.ColumnTypeService/CreateColumnType"
+	ColumnTypeService_GetColumnTypeById_FullMethodName        = "/tables.v1.ColumnTypeService/GetColumnTypeById"
+	ColumnTypeService_GetColumnTypes_FullMethodName           = "/tables.v1.ColumnTypeService/GetColumnTypes"
+	ColumnTypeService_GetColumnTypesSearchName_FullMethodName = "/tables.v1.ColumnTypeService/GetColumnTypesSearchName"
+	ColumnTypeService_GetColumnTypesDeleted_FullMethodName    = "/tables.v1.ColumnTypeService/GetColumnTypesDeleted"
+	ColumnTypeService_UpdateColumnTypeById_FullMethodName     = "/tables.v1.ColumnTypeService/UpdateColumnTypeById"
+	ColumnTypeService_DeleteColumnTypeById_FullMethodName     = "/tables.v1.ColumnTypeService/DeleteColumnTypeById"
+	ColumnTypeService_UndeleteColumnTypeById_FullMethodName   = "/tables.v1.ColumnTypeService/UndeleteColumnTypeById"
+)
+
+// ColumnTypeServiceClient is the client API for ColumnTypeService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type ColumnTypeServiceClient interface {
+	CreateColumnType(ctx context.Context, in *CreateColumnTypeRequest, opts ...grpc.CallOption) (*CreateColumnTypeResponse, error)
+	GetColumnTypeById(ctx context.Context, in *GetColumnTypeByIdRequest, opts ...grpc.CallOption) (*GetColumnTypeByIdResponse, error)
+	GetColumnTypes(ctx context.Context, in *GetColumnTypesRequest, opts ...grpc.CallOption) (*GetColumnTypesResponse, error)
+	GetColumnTypesSearchName(ctx context.Context, in *GetColumnTypesSearchNameRequest, opts ...grpc.CallOption) (*GetColumnTypesSearchNameResponse, error)
+	GetColumnTypesDeleted(ctx context.Context, in *GetColumnTypesDeletedRequest, opts ...grpc.CallOption) (*GetColumnTypesDeletedResponse, error)
+	UpdateColumnTypeById(ctx context.Context, in *UpdateColumnTypeByIdRequest, opts ...grpc.CallOption) (*UpdateColumnTypeByIdResponse, error)
+	DeleteColumnTypeById(ctx context.Context, in *DeleteColumnTypeByIdRequest, opts ...grpc.CallOption) (*DeleteColumnTypeByIdResponse, error)
+	UndeleteColumnTypeById(ctx context.Context, in *UndeleteColumnTypeByIdRequest, opts ...grpc.CallOption) (*UndeleteColumnTypeByIdResponse, error)
+}
+
+type columnTypeServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewColumnTypeServiceClient(cc grpc.ClientConnInterface) ColumnTypeServiceClient {
+	return &columnTypeServiceClient{cc}
+}
+
+func (c *columnTypeServiceClient) CreateColumnType(ctx context.Context, in *CreateColumnTypeRequest, opts ...grpc.CallOption) (*CreateColumnTypeResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateColumnTypeResponse)
+	err := c.cc.Invoke(ctx, ColumnTypeService_CreateColumnType_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *columnTypeServiceClient) GetColumnTypeById(ctx context.Context, in *GetColumnTypeByIdRequest, opts ...grpc.CallOption) (*GetColumnTypeByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetColumnTypeByIdResponse)
+	err := c.cc.Invoke(ctx, ColumnTypeService_GetColumnTypeById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *columnTypeServiceClient) GetColumnTypes(ctx context.Context, in *GetColumnTypesRequest, opts ...grpc.CallOption) (*GetColumnTypesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetColumnTypesResponse)
+	err := c.cc.Invoke(ctx, ColumnTypeService_GetColumnTypes_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *columnTypeServiceClient) GetColumnTypesSearchName(ctx context.Context, in *GetColumnTypesSearchNameRequest, opts ...grpc.CallOption) (*GetColumnTypesSearchNameResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetColumnTypesSearchNameResponse)
+	err := c.cc.Invoke(ctx, ColumnTypeService_GetColumnTypesSearchName_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *columnTypeServiceClient) GetColumnTypesDeleted(ctx context.Context, in *GetColumnTypesDeletedRequest, opts ...grpc.CallOption) (*GetColumnTypesDeletedResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetColumnTypesDeletedResponse)
+	err := c.cc.Invoke(ctx, ColumnTypeService_GetColumnTypesDeleted_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *columnTypeServiceClient) UpdateColumnTypeById(ctx context.Context, in *UpdateColumnTypeByIdRequest, opts ...grpc.CallOption) (*UpdateColumnTypeByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateColumnTypeByIdResponse)
+	err := c.cc.Invoke(ctx, ColumnTypeService_UpdateColumnTypeById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *columnTypeServiceClient) DeleteColumnTypeById(ctx context.Context, in *DeleteColumnTypeByIdRequest, opts ...grpc.CallOption) (*DeleteColumnTypeByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteColumnTypeByIdResponse)
+	err := c.cc.Invoke(ctx, ColumnTypeService_DeleteColumnTypeById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *columnTypeServiceClient) UndeleteColumnTypeById(ctx context.Context, in *UndeleteColumnTypeByIdRequest, opts ...grpc.CallOption) (*UndeleteColumnTypeByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UndeleteColumnTypeByIdResponse)
+	err := c.cc.Invoke(ctx, ColumnTypeService_UndeleteColumnTypeById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// ColumnTypeServiceServer is the server API for ColumnTypeService service.
+// All implementations must embed UnimplementedColumnTypeServiceServer
+// for forward compatibility.
+type ColumnTypeServiceServer interface {
+	CreateColumnType(context.Context, *CreateColumnTypeRequest) (*CreateColumnTypeResponse, error)
+	GetColumnTypeById(context.Context, *GetColumnTypeByIdRequest) (*GetColumnTypeByIdResponse, error)
+	GetColumnTypes(context.Context, *GetColumnTypesRequest) (*GetColumnTypesResponse, error)
+	GetColumnTypesSearchName(context.Context, *GetColumnTypesSearchNameRequest) (*GetColumnTypesSearchNameResponse, error)
+	GetColumnTypesDeleted(context.Context, *GetColumnTypesDeletedRequest) (*GetColumnTypesDeletedResponse, error)
+	UpdateColumnTypeById(context.Context, *UpdateColumnTypeByIdRequest) (*UpdateColumnTypeByIdResponse, error)
+	DeleteColumnTypeById(context.Context, *DeleteColumnTypeByIdRequest) (*DeleteColumnTypeByIdResponse, error)
+	UndeleteColumnTypeById(context.Context, *UndeleteColumnTypeByIdRequest) (*UndeleteColumnTypeByIdResponse, error)
+	mustEmbedUnimplementedColumnTypeServiceServer()
+}
+
+// UnimplementedColumnTypeServiceServer must be embedded to have
+// forward compatible implementations.
+//
+// NOTE: this should be embedded by value instead of pointer to avoid a nil
+// pointer dereference when methods are called.
+type UnimplementedColumnTypeServiceServer struct{}
+
+func (UnimplementedColumnTypeServiceServer) CreateColumnType(context.Context, *CreateColumnTypeRequest) (*CreateColumnTypeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateColumnType not implemented")
+}
+func (UnimplementedColumnTypeServiceServer) GetColumnTypeById(context.Context, *GetColumnTypeByIdRequest) (*GetColumnTypeByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetColumnTypeById not implemented")
+}
+func (UnimplementedColumnTypeServiceServer) GetColumnTypes(context.Context, *GetColumnTypesRequest) (*GetColumnTypesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetColumnTypes not implemented")
+}
+func (UnimplementedColumnTypeServiceServer) GetColumnTypesSearchName(context.Context, *GetColumnTypesSearchNameRequest) (*GetColumnTypesSearchNameResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetColumnTypesSearchName not implemented")
+}
+func (UnimplementedColumnTypeServiceServer) GetColumnTypesDeleted(context.Context, *GetColumnTypesDeletedRequest) (*GetColumnTypesDeletedResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetColumnTypesDeleted not implemented")
+}
+func (UnimplementedColumnTypeServiceServer) UpdateColumnTypeById(context.Context, *UpdateColumnTypeByIdRequest) (*UpdateColumnTypeByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateColumnTypeById not implemented")
+}
+func (UnimplementedColumnTypeServiceServer) DeleteColumnTypeById(context.Context, *DeleteColumnTypeByIdRequest) (*DeleteColumnTypeByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteColumnTypeById not implemented")
+}
+func (UnimplementedColumnTypeServiceServer) UndeleteColumnTypeById(context.Context, *UndeleteColumnTypeByIdRequest) (*UndeleteColumnTypeByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UndeleteColumnTypeById not implemented")
+}
+func (UnimplementedColumnTypeServiceServer) mustEmbedUnimplementedColumnTypeServiceServer() {}
+func (UnimplementedColumnTypeServiceServer) testEmbeddedByValue()                           {}
+
+// UnsafeColumnTypeServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to ColumnTypeServiceServer will
+// result in compilation errors.
+type UnsafeColumnTypeServiceServer interface {
+	mustEmbedUnimplementedColumnTypeServiceServer()
+}
+
+func RegisterColumnTypeServiceServer(s grpc.ServiceRegistrar, srv ColumnTypeServiceServer) {
+	// If the following call pancis, it indicates UnimplementedColumnTypeServiceServer was
+	// embedded by pointer and is nil.  This will cause panics if an
+	// unimplemented method is ever invoked, so we test this at initialization
+	// time to prevent it from happening at runtime later due to I/O.
+	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
+		t.testEmbeddedByValue()
+	}
+	s.RegisterService(&ColumnTypeService_ServiceDesc, srv)
+}
+
+func _ColumnTypeService_CreateColumnType_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateColumnTypeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ColumnTypeServiceServer).CreateColumnType(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ColumnTypeService_CreateColumnType_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ColumnTypeServiceServer).CreateColumnType(ctx, req.(*CreateColumnTypeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ColumnTypeService_GetColumnTypeById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetColumnTypeByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ColumnTypeServiceServer).GetColumnTypeById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ColumnTypeService_GetColumnTypeById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ColumnTypeServiceServer).GetColumnTypeById(ctx, req.(*GetColumnTypeByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ColumnTypeService_GetColumnTypes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetColumnTypesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ColumnTypeServiceServer).GetColumnTypes(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ColumnTypeService_GetColumnTypes_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ColumnTypeServiceServer).GetColumnTypes(ctx, req.(*GetColumnTypesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ColumnTypeService_GetColumnTypesSearchName_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetColumnTypesSearchNameRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ColumnTypeServiceServer).GetColumnTypesSearchName(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ColumnTypeService_GetColumnTypesSearchName_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ColumnTypeServiceServer).GetColumnTypesSearchName(ctx, req.(*GetColumnTypesSearchNameRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ColumnTypeService_GetColumnTypesDeleted_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetColumnTypesDeletedRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ColumnTypeServiceServer).GetColumnTypesDeleted(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ColumnTypeService_GetColumnTypesDeleted_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ColumnTypeServiceServer).GetColumnTypesDeleted(ctx, req.(*GetColumnTypesDeletedRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ColumnTypeService_UpdateColumnTypeById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateColumnTypeByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ColumnTypeServiceServer).UpdateColumnTypeById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ColumnTypeService_UpdateColumnTypeById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ColumnTypeServiceServer).UpdateColumnTypeById(ctx, req.(*UpdateColumnTypeByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ColumnTypeService_DeleteColumnTypeById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteColumnTypeByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ColumnTypeServiceServer).DeleteColumnTypeById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ColumnTypeService_DeleteColumnTypeById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ColumnTypeServiceServer).DeleteColumnTypeById(ctx, req.(*DeleteColumnTypeByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ColumnTypeService_UndeleteColumnTypeById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UndeleteColumnTypeByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ColumnTypeServiceServer).UndeleteColumnTypeById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ColumnTypeService_UndeleteColumnTypeById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ColumnTypeServiceServer).UndeleteColumnTypeById(ctx, req.(*UndeleteColumnTypeByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// ColumnTypeService_ServiceDesc is the grpc.ServiceDesc for ColumnTypeService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var ColumnTypeService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "tables.v1.ColumnTypeService",
+	HandlerType: (*ColumnTypeServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "CreateColumnType",
+			Handler:    _ColumnTypeService_CreateColumnType_Handler,
+		},
+		{
+			MethodName: "GetColumnTypeById",
+			Handler:    _ColumnTypeService_GetColumnTypeById_Handler,
+		},
+		{
+			MethodName: "GetColumnTypes",
+			Handler:    _ColumnTypeService_GetColumnTypes_Handler,
+		},
+		{
+			MethodName: "GetColumnTypesSearchName",
+			Handler:    _ColumnTypeService_GetColumnTypesSearchName_Handler,
+		},
+		{
+			MethodName: "GetColumnTypesDeleted",
+			Handler:    _ColumnTypeService_GetColumnTypesDeleted_Handler,
+		},
+		{
+			MethodName: "UpdateColumnTypeById",
+			Handler:    _ColumnTypeService_UpdateColumnTypeById_Handler,
+		},
+		{
+			MethodName: "DeleteColumnTypeById",
+			Handler:    _ColumnTypeService_DeleteColumnTypeById_Handler,
+		},
+		{
+			MethodName: "UndeleteColumnTypeById",
+			Handler:    _ColumnTypeService_UndeleteColumnTypeById_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "tables/v1/tables.proto",
+}
+
+const (
+	DatabaseCalculationService_CreateDatabaseCalculation_FullMethodName         = "/tables.v1.DatabaseCalculationService/CreateDatabaseCalculation"
+	DatabaseCalculationService_GetDatabaseCalculationsSearchName_FullMethodName = "/tables.v1.DatabaseCalculationService/GetDatabaseCalculationsSearchName"
+	DatabaseCalculationService_GetDatabaseCalculationById_FullMethodName        = "/tables.v1.DatabaseCalculationService/GetDatabaseCalculationById"
+	DatabaseCalculationService_GetDatabaseCalculationsFiltered_FullMethodName   = "/tables.v1.DatabaseCalculationService/GetDatabaseCalculationsFiltered"
+	DatabaseCalculationService_GetDatabaseCalculationsDeleted_FullMethodName    = "/tables.v1.DatabaseCalculationService/GetDatabaseCalculationsDeleted"
+	DatabaseCalculationService_GetDatabaseCalculations_FullMethodName           = "/tables.v1.DatabaseCalculationService/GetDatabaseCalculations"
+	DatabaseCalculationService_UpdateDatabaseCalculationById_FullMethodName     = "/tables.v1.DatabaseCalculationService/UpdateDatabaseCalculationById"
+	DatabaseCalculationService_DeleteDatabaseCalculationById_FullMethodName     = "/tables.v1.DatabaseCalculationService/DeleteDatabaseCalculationById"
+	DatabaseCalculationService_UndeleteDatabaseCalculationById_FullMethodName   = "/tables.v1.DatabaseCalculationService/UndeleteDatabaseCalculationById"
+)
+
+// DatabaseCalculationServiceClient is the client API for DatabaseCalculationService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type DatabaseCalculationServiceClient interface {
+	CreateDatabaseCalculation(ctx context.Context, in *CreateDatabaseCalculationRequest, opts ...grpc.CallOption) (*CreateDatabaseCalculationResponse, error)
+	GetDatabaseCalculationsSearchName(ctx context.Context, in *GetDatabaseCalculationsSearchNameRequest, opts ...grpc.CallOption) (*GetDatabaseCalculationsSearchNameResponse, error)
+	GetDatabaseCalculationById(ctx context.Context, in *GetDatabaseCalculationByIdRequest, opts ...grpc.CallOption) (*GetDatabaseCalculationByIdResponse, error)
+	GetDatabaseCalculationsFiltered(ctx context.Context, in *GetDatabaseCalculationsFilteredRequest, opts ...grpc.CallOption) (*GetDatabaseCalculationsFilteredResponse, error)
+	GetDatabaseCalculationsDeleted(ctx context.Context, in *GetDatabaseCalculationsDeletedRequest, opts ...grpc.CallOption) (*GetDatabaseCalculationsDeletedResponse, error)
+	GetDatabaseCalculations(ctx context.Context, in *GetDatabaseCalculationsRequest, opts ...grpc.CallOption) (*GetDatabaseCalculationsResponse, error)
+	UpdateDatabaseCalculationById(ctx context.Context, in *UpdateDatabaseCalculationByIdRequest, opts ...grpc.CallOption) (*UpdateDatabaseCalculationByIdResponse, error)
+	DeleteDatabaseCalculationById(ctx context.Context, in *DeleteDatabaseCalculationByIdRequest, opts ...grpc.CallOption) (*DeleteDatabaseCalculationByIdResponse, error)
+	UndeleteDatabaseCalculationById(ctx context.Context, in *UndeleteDatabaseCalculationByIdRequest, opts ...grpc.CallOption) (*UndeleteDatabaseCalculationByIdResponse, error)
+}
+
+type databaseCalculationServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewDatabaseCalculationServiceClient(cc grpc.ClientConnInterface) DatabaseCalculationServiceClient {
+	return &databaseCalculationServiceClient{cc}
+}
+
+func (c *databaseCalculationServiceClient) CreateDatabaseCalculation(ctx context.Context, in *CreateDatabaseCalculationRequest, opts ...grpc.CallOption) (*CreateDatabaseCalculationResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateDatabaseCalculationResponse)
+	err := c.cc.Invoke(ctx, DatabaseCalculationService_CreateDatabaseCalculation_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *databaseCalculationServiceClient) GetDatabaseCalculationsSearchName(ctx context.Context, in *GetDatabaseCalculationsSearchNameRequest, opts ...grpc.CallOption) (*GetDatabaseCalculationsSearchNameResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetDatabaseCalculationsSearchNameResponse)
+	err := c.cc.Invoke(ctx, DatabaseCalculationService_GetDatabaseCalculationsSearchName_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *databaseCalculationServiceClient) GetDatabaseCalculationById(ctx context.Context, in *GetDatabaseCalculationByIdRequest, opts ...grpc.CallOption) (*GetDatabaseCalculationByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetDatabaseCalculationByIdResponse)
+	err := c.cc.Invoke(ctx, DatabaseCalculationService_GetDatabaseCalculationById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *databaseCalculationServiceClient) GetDatabaseCalculationsFiltered(ctx context.Context, in *GetDatabaseCalculationsFilteredRequest, opts ...grpc.CallOption) (*GetDatabaseCalculationsFilteredResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetDatabaseCalculationsFilteredResponse)
+	err := c.cc.Invoke(ctx, DatabaseCalculationService_GetDatabaseCalculationsFiltered_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *databaseCalculationServiceClient) GetDatabaseCalculationsDeleted(ctx context.Context, in *GetDatabaseCalculationsDeletedRequest, opts ...grpc.CallOption) (*GetDatabaseCalculationsDeletedResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetDatabaseCalculationsDeletedResponse)
+	err := c.cc.Invoke(ctx, DatabaseCalculationService_GetDatabaseCalculationsDeleted_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *databaseCalculationServiceClient) GetDatabaseCalculations(ctx context.Context, in *GetDatabaseCalculationsRequest, opts ...grpc.CallOption) (*GetDatabaseCalculationsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetDatabaseCalculationsResponse)
+	err := c.cc.Invoke(ctx, DatabaseCalculationService_GetDatabaseCalculations_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *databaseCalculationServiceClient) UpdateDatabaseCalculationById(ctx context.Context, in *UpdateDatabaseCalculationByIdRequest, opts ...grpc.CallOption) (*UpdateDatabaseCalculationByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateDatabaseCalculationByIdResponse)
+	err := c.cc.Invoke(ctx, DatabaseCalculationService_UpdateDatabaseCalculationById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *databaseCalculationServiceClient) DeleteDatabaseCalculationById(ctx context.Context, in *DeleteDatabaseCalculationByIdRequest, opts ...grpc.CallOption) (*DeleteDatabaseCalculationByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteDatabaseCalculationByIdResponse)
+	err := c.cc.Invoke(ctx, DatabaseCalculationService_DeleteDatabaseCalculationById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *databaseCalculationServiceClient) UndeleteDatabaseCalculationById(ctx context.Context, in *UndeleteDatabaseCalculationByIdRequest, opts ...grpc.CallOption) (*UndeleteDatabaseCalculationByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UndeleteDatabaseCalculationByIdResponse)
+	err := c.cc.Invoke(ctx, DatabaseCalculationService_UndeleteDatabaseCalculationById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// DatabaseCalculationServiceServer is the server API for DatabaseCalculationService service.
+// All implementations must embed UnimplementedDatabaseCalculationServiceServer
+// for forward compatibility.
+type DatabaseCalculationServiceServer interface {
+	CreateDatabaseCalculation(context.Context, *CreateDatabaseCalculationRequest) (*CreateDatabaseCalculationResponse, error)
+	GetDatabaseCalculationsSearchName(context.Context, *GetDatabaseCalculationsSearchNameRequest) (*GetDatabaseCalculationsSearchNameResponse, error)
+	GetDatabaseCalculationById(context.Context, *GetDatabaseCalculationByIdRequest) (*GetDatabaseCalculationByIdResponse, error)
+	GetDatabaseCalculationsFiltered(context.Context, *GetDatabaseCalculationsFilteredRequest) (*GetDatabaseCalculationsFilteredResponse, error)
+	GetDatabaseCalculationsDeleted(context.Context, *GetDatabaseCalculationsDeletedRequest) (*GetDatabaseCalculationsDeletedResponse, error)
+	GetDatabaseCalculations(context.Context, *GetDatabaseCalculationsRequest) (*GetDatabaseCalculationsResponse, error)
+	UpdateDatabaseCalculationById(context.Context, *UpdateDatabaseCalculationByIdRequest) (*UpdateDatabaseCalculationByIdResponse, error)
+	DeleteDatabaseCalculationById(context.Context, *DeleteDatabaseCalculationByIdRequest) (*DeleteDatabaseCalculationByIdResponse, error)
+	UndeleteDatabaseCalculationById(context.Context, *UndeleteDatabaseCalculationByIdRequest) (*UndeleteDatabaseCalculationByIdResponse, error)
+	mustEmbedUnimplementedDatabaseCalculationServiceServer()
+}
+
+// UnimplementedDatabaseCalculationServiceServer must be embedded to have
+// forward compatible implementations.
+//
+// NOTE: this should be embedded by value instead of pointer to avoid a nil
+// pointer dereference when methods are called.
+type UnimplementedDatabaseCalculationServiceServer struct{}
+
+func (UnimplementedDatabaseCalculationServiceServer) CreateDatabaseCalculation(context.Context, *CreateDatabaseCalculationRequest) (*CreateDatabaseCalculationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateDatabaseCalculation not implemented")
+}
+func (UnimplementedDatabaseCalculationServiceServer) GetDatabaseCalculationsSearchName(context.Context, *GetDatabaseCalculationsSearchNameRequest) (*GetDatabaseCalculationsSearchNameResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDatabaseCalculationsSearchName not implemented")
+}
+func (UnimplementedDatabaseCalculationServiceServer) GetDatabaseCalculationById(context.Context, *GetDatabaseCalculationByIdRequest) (*GetDatabaseCalculationByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDatabaseCalculationById not implemented")
+}
+func (UnimplementedDatabaseCalculationServiceServer) GetDatabaseCalculationsFiltered(context.Context, *GetDatabaseCalculationsFilteredRequest) (*GetDatabaseCalculationsFilteredResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDatabaseCalculationsFiltered not implemented")
+}
+func (UnimplementedDatabaseCalculationServiceServer) GetDatabaseCalculationsDeleted(context.Context, *GetDatabaseCalculationsDeletedRequest) (*GetDatabaseCalculationsDeletedResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDatabaseCalculationsDeleted not implemented")
+}
+func (UnimplementedDatabaseCalculationServiceServer) GetDatabaseCalculations(context.Context, *GetDatabaseCalculationsRequest) (*GetDatabaseCalculationsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDatabaseCalculations not implemented")
+}
+func (UnimplementedDatabaseCalculationServiceServer) UpdateDatabaseCalculationById(context.Context, *UpdateDatabaseCalculationByIdRequest) (*UpdateDatabaseCalculationByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateDatabaseCalculationById not implemented")
+}
+func (UnimplementedDatabaseCalculationServiceServer) DeleteDatabaseCalculationById(context.Context, *DeleteDatabaseCalculationByIdRequest) (*DeleteDatabaseCalculationByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteDatabaseCalculationById not implemented")
+}
+func (UnimplementedDatabaseCalculationServiceServer) UndeleteDatabaseCalculationById(context.Context, *UndeleteDatabaseCalculationByIdRequest) (*UndeleteDatabaseCalculationByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UndeleteDatabaseCalculationById not implemented")
+}
+func (UnimplementedDatabaseCalculationServiceServer) mustEmbedUnimplementedDatabaseCalculationServiceServer() {
+}
+func (UnimplementedDatabaseCalculationServiceServer) testEmbeddedByValue() {}
+
+// UnsafeDatabaseCalculationServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to DatabaseCalculationServiceServer will
+// result in compilation errors.
+type UnsafeDatabaseCalculationServiceServer interface {
+	mustEmbedUnimplementedDatabaseCalculationServiceServer()
+}
+
+func RegisterDatabaseCalculationServiceServer(s grpc.ServiceRegistrar, srv DatabaseCalculationServiceServer) {
+	// If the following call pancis, it indicates UnimplementedDatabaseCalculationServiceServer was
+	// embedded by pointer and is nil.  This will cause panics if an
+	// unimplemented method is ever invoked, so we test this at initialization
+	// time to prevent it from happening at runtime later due to I/O.
+	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
+		t.testEmbeddedByValue()
+	}
+	s.RegisterService(&DatabaseCalculationService_ServiceDesc, srv)
+}
+
+func _DatabaseCalculationService_CreateDatabaseCalculation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateDatabaseCalculationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DatabaseCalculationServiceServer).CreateDatabaseCalculation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DatabaseCalculationService_CreateDatabaseCalculation_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DatabaseCalculationServiceServer).CreateDatabaseCalculation(ctx, req.(*CreateDatabaseCalculationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DatabaseCalculationService_GetDatabaseCalculationsSearchName_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetDatabaseCalculationsSearchNameRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DatabaseCalculationServiceServer).GetDatabaseCalculationsSearchName(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DatabaseCalculationService_GetDatabaseCalculationsSearchName_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DatabaseCalculationServiceServer).GetDatabaseCalculationsSearchName(ctx, req.(*GetDatabaseCalculationsSearchNameRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DatabaseCalculationService_GetDatabaseCalculationById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetDatabaseCalculationByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DatabaseCalculationServiceServer).GetDatabaseCalculationById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DatabaseCalculationService_GetDatabaseCalculationById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DatabaseCalculationServiceServer).GetDatabaseCalculationById(ctx, req.(*GetDatabaseCalculationByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DatabaseCalculationService_GetDatabaseCalculationsFiltered_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetDatabaseCalculationsFilteredRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DatabaseCalculationServiceServer).GetDatabaseCalculationsFiltered(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DatabaseCalculationService_GetDatabaseCalculationsFiltered_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DatabaseCalculationServiceServer).GetDatabaseCalculationsFiltered(ctx, req.(*GetDatabaseCalculationsFilteredRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DatabaseCalculationService_GetDatabaseCalculationsDeleted_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetDatabaseCalculationsDeletedRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DatabaseCalculationServiceServer).GetDatabaseCalculationsDeleted(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DatabaseCalculationService_GetDatabaseCalculationsDeleted_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DatabaseCalculationServiceServer).GetDatabaseCalculationsDeleted(ctx, req.(*GetDatabaseCalculationsDeletedRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DatabaseCalculationService_GetDatabaseCalculations_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetDatabaseCalculationsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DatabaseCalculationServiceServer).GetDatabaseCalculations(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DatabaseCalculationService_GetDatabaseCalculations_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DatabaseCalculationServiceServer).GetDatabaseCalculations(ctx, req.(*GetDatabaseCalculationsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DatabaseCalculationService_UpdateDatabaseCalculationById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateDatabaseCalculationByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DatabaseCalculationServiceServer).UpdateDatabaseCalculationById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DatabaseCalculationService_UpdateDatabaseCalculationById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DatabaseCalculationServiceServer).UpdateDatabaseCalculationById(ctx, req.(*UpdateDatabaseCalculationByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DatabaseCalculationService_DeleteDatabaseCalculationById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteDatabaseCalculationByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DatabaseCalculationServiceServer).DeleteDatabaseCalculationById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DatabaseCalculationService_DeleteDatabaseCalculationById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DatabaseCalculationServiceServer).DeleteDatabaseCalculationById(ctx, req.(*DeleteDatabaseCalculationByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DatabaseCalculationService_UndeleteDatabaseCalculationById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UndeleteDatabaseCalculationByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DatabaseCalculationServiceServer).UndeleteDatabaseCalculationById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DatabaseCalculationService_UndeleteDatabaseCalculationById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DatabaseCalculationServiceServer).UndeleteDatabaseCalculationById(ctx, req.(*UndeleteDatabaseCalculationByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// DatabaseCalculationService_ServiceDesc is the grpc.ServiceDesc for DatabaseCalculationService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var DatabaseCalculationService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "tables.v1.DatabaseCalculationService",
+	HandlerType: (*DatabaseCalculationServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "CreateDatabaseCalculation",
+			Handler:    _DatabaseCalculationService_CreateDatabaseCalculation_Handler,
+		},
+		{
+			MethodName: "GetDatabaseCalculationsSearchName",
+			Handler:    _DatabaseCalculationService_GetDatabaseCalculationsSearchName_Handler,
+		},
+		{
+			MethodName: "GetDatabaseCalculationById",
+			Handler:    _DatabaseCalculationService_GetDatabaseCalculationById_Handler,
+		},
+		{
+			MethodName: "GetDatabaseCalculationsFiltered",
+			Handler:    _DatabaseCalculationService_GetDatabaseCalculationsFiltered_Handler,
+		},
+		{
+			MethodName: "GetDatabaseCalculationsDeleted",
+			Handler:    _DatabaseCalculationService_GetDatabaseCalculationsDeleted_Handler,
+		},
+		{
+			MethodName: "GetDatabaseCalculations",
+			Handler:    _DatabaseCalculationService_GetDatabaseCalculations_Handler,
+		},
+		{
+			MethodName: "UpdateDatabaseCalculationById",
+			Handler:    _DatabaseCalculationService_UpdateDatabaseCalculationById_Handler,
+		},
+		{
+			MethodName: "DeleteDatabaseCalculationById",
+			Handler:    _DatabaseCalculationService_DeleteDatabaseCalculationById_Handler,
+		},
+		{
+			MethodName: "UndeleteDatabaseCalculationById",
+			Handler:    _DatabaseCalculationService_UndeleteDatabaseCalculationById_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "tables/v1/tables.proto",
+}
+
+const (
+	DomainCatService_CreateDomainCat_FullMethodName         = "/tables.v1.DomainCatService/CreateDomainCat"
+	DomainCatService_GetDomainCatsSearchName_FullMethodName = "/tables.v1.DomainCatService/GetDomainCatsSearchName"
+	DomainCatService_GetDomainCatById_FullMethodName        = "/tables.v1.DomainCatService/GetDomainCatById"
+	DomainCatService_GetDomainCats_FullMethodName           = "/tables.v1.DomainCatService/GetDomainCats"
+	DomainCatService_GetDomainCatsDeleted_FullMethodName    = "/tables.v1.DomainCatService/GetDomainCatsDeleted"
+	DomainCatService_UpdateDomainCatById_FullMethodName     = "/tables.v1.DomainCatService/UpdateDomainCatById"
+	DomainCatService_DeleteDomainCatById_FullMethodName     = "/tables.v1.DomainCatService/DeleteDomainCatById"
+	DomainCatService_UndeleteDomainCatById_FullMethodName   = "/tables.v1.DomainCatService/UndeleteDomainCatById"
+)
+
+// DomainCatServiceClient is the client API for DomainCatService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type DomainCatServiceClient interface {
+	CreateDomainCat(ctx context.Context, in *CreateDomainCatRequest, opts ...grpc.CallOption) (*CreateDomainCatResponse, error)
+	GetDomainCatsSearchName(ctx context.Context, in *GetDomainCatsSearchNameRequest, opts ...grpc.CallOption) (*GetDomainCatsSearchNameResponse, error)
+	GetDomainCatById(ctx context.Context, in *GetDomainCatByIdRequest, opts ...grpc.CallOption) (*GetDomainCatByIdResponse, error)
+	GetDomainCats(ctx context.Context, in *GetDomainCatsRequest, opts ...grpc.CallOption) (*GetDomainCatsResponse, error)
+	GetDomainCatsDeleted(ctx context.Context, in *GetDomainCatsDeletedRequest, opts ...grpc.CallOption) (*GetDomainCatsDeletedResponse, error)
+	UpdateDomainCatById(ctx context.Context, in *UpdateDomainCatByIdRequest, opts ...grpc.CallOption) (*UpdateDomainCatByIdResponse, error)
+	DeleteDomainCatById(ctx context.Context, in *DeleteDomainCatByIdRequest, opts ...grpc.CallOption) (*DeleteDomainCatByIdResponse, error)
+	UndeleteDomainCatById(ctx context.Context, in *UndeleteDomainCatByIdRequest, opts ...grpc.CallOption) (*UndeleteDomainCatByIdResponse, error)
+}
+
+type domainCatServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewDomainCatServiceClient(cc grpc.ClientConnInterface) DomainCatServiceClient {
+	return &domainCatServiceClient{cc}
+}
+
+func (c *domainCatServiceClient) CreateDomainCat(ctx context.Context, in *CreateDomainCatRequest, opts ...grpc.CallOption) (*CreateDomainCatResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateDomainCatResponse)
+	err := c.cc.Invoke(ctx, DomainCatService_CreateDomainCat_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *domainCatServiceClient) GetDomainCatsSearchName(ctx context.Context, in *GetDomainCatsSearchNameRequest, opts ...grpc.CallOption) (*GetDomainCatsSearchNameResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetDomainCatsSearchNameResponse)
+	err := c.cc.Invoke(ctx, DomainCatService_GetDomainCatsSearchName_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *domainCatServiceClient) GetDomainCatById(ctx context.Context, in *GetDomainCatByIdRequest, opts ...grpc.CallOption) (*GetDomainCatByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetDomainCatByIdResponse)
+	err := c.cc.Invoke(ctx, DomainCatService_GetDomainCatById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *domainCatServiceClient) GetDomainCats(ctx context.Context, in *GetDomainCatsRequest, opts ...grpc.CallOption) (*GetDomainCatsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetDomainCatsResponse)
+	err := c.cc.Invoke(ctx, DomainCatService_GetDomainCats_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *domainCatServiceClient) GetDomainCatsDeleted(ctx context.Context, in *GetDomainCatsDeletedRequest, opts ...grpc.CallOption) (*GetDomainCatsDeletedResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetDomainCatsDeletedResponse)
+	err := c.cc.Invoke(ctx, DomainCatService_GetDomainCatsDeleted_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *domainCatServiceClient) UpdateDomainCatById(ctx context.Context, in *UpdateDomainCatByIdRequest, opts ...grpc.CallOption) (*UpdateDomainCatByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateDomainCatByIdResponse)
+	err := c.cc.Invoke(ctx, DomainCatService_UpdateDomainCatById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *domainCatServiceClient) DeleteDomainCatById(ctx context.Context, in *DeleteDomainCatByIdRequest, opts ...grpc.CallOption) (*DeleteDomainCatByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteDomainCatByIdResponse)
+	err := c.cc.Invoke(ctx, DomainCatService_DeleteDomainCatById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *domainCatServiceClient) UndeleteDomainCatById(ctx context.Context, in *UndeleteDomainCatByIdRequest, opts ...grpc.CallOption) (*UndeleteDomainCatByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UndeleteDomainCatByIdResponse)
+	err := c.cc.Invoke(ctx, DomainCatService_UndeleteDomainCatById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// DomainCatServiceServer is the server API for DomainCatService service.
+// All implementations must embed UnimplementedDomainCatServiceServer
+// for forward compatibility.
+type DomainCatServiceServer interface {
+	CreateDomainCat(context.Context, *CreateDomainCatRequest) (*CreateDomainCatResponse, error)
+	GetDomainCatsSearchName(context.Context, *GetDomainCatsSearchNameRequest) (*GetDomainCatsSearchNameResponse, error)
+	GetDomainCatById(context.Context, *GetDomainCatByIdRequest) (*GetDomainCatByIdResponse, error)
+	GetDomainCats(context.Context, *GetDomainCatsRequest) (*GetDomainCatsResponse, error)
+	GetDomainCatsDeleted(context.Context, *GetDomainCatsDeletedRequest) (*GetDomainCatsDeletedResponse, error)
+	UpdateDomainCatById(context.Context, *UpdateDomainCatByIdRequest) (*UpdateDomainCatByIdResponse, error)
+	DeleteDomainCatById(context.Context, *DeleteDomainCatByIdRequest) (*DeleteDomainCatByIdResponse, error)
+	UndeleteDomainCatById(context.Context, *UndeleteDomainCatByIdRequest) (*UndeleteDomainCatByIdResponse, error)
+	mustEmbedUnimplementedDomainCatServiceServer()
+}
+
+// UnimplementedDomainCatServiceServer must be embedded to have
+// forward compatible implementations.
+//
+// NOTE: this should be embedded by value instead of pointer to avoid a nil
+// pointer dereference when methods are called.
+type UnimplementedDomainCatServiceServer struct{}
+
+func (UnimplementedDomainCatServiceServer) CreateDomainCat(context.Context, *CreateDomainCatRequest) (*CreateDomainCatResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateDomainCat not implemented")
+}
+func (UnimplementedDomainCatServiceServer) GetDomainCatsSearchName(context.Context, *GetDomainCatsSearchNameRequest) (*GetDomainCatsSearchNameResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDomainCatsSearchName not implemented")
+}
+func (UnimplementedDomainCatServiceServer) GetDomainCatById(context.Context, *GetDomainCatByIdRequest) (*GetDomainCatByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDomainCatById not implemented")
+}
+func (UnimplementedDomainCatServiceServer) GetDomainCats(context.Context, *GetDomainCatsRequest) (*GetDomainCatsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDomainCats not implemented")
+}
+func (UnimplementedDomainCatServiceServer) GetDomainCatsDeleted(context.Context, *GetDomainCatsDeletedRequest) (*GetDomainCatsDeletedResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDomainCatsDeleted not implemented")
+}
+func (UnimplementedDomainCatServiceServer) UpdateDomainCatById(context.Context, *UpdateDomainCatByIdRequest) (*UpdateDomainCatByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateDomainCatById not implemented")
+}
+func (UnimplementedDomainCatServiceServer) DeleteDomainCatById(context.Context, *DeleteDomainCatByIdRequest) (*DeleteDomainCatByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteDomainCatById not implemented")
+}
+func (UnimplementedDomainCatServiceServer) UndeleteDomainCatById(context.Context, *UndeleteDomainCatByIdRequest) (*UndeleteDomainCatByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UndeleteDomainCatById not implemented")
+}
+func (UnimplementedDomainCatServiceServer) mustEmbedUnimplementedDomainCatServiceServer() {}
+func (UnimplementedDomainCatServiceServer) testEmbeddedByValue()                          {}
+
+// UnsafeDomainCatServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to DomainCatServiceServer will
+// result in compilation errors.
+type UnsafeDomainCatServiceServer interface {
+	mustEmbedUnimplementedDomainCatServiceServer()
+}
+
+func RegisterDomainCatServiceServer(s grpc.ServiceRegistrar, srv DomainCatServiceServer) {
+	// If the following call pancis, it indicates UnimplementedDomainCatServiceServer was
+	// embedded by pointer and is nil.  This will cause panics if an
+	// unimplemented method is ever invoked, so we test this at initialization
+	// time to prevent it from happening at runtime later due to I/O.
+	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
+		t.testEmbeddedByValue()
+	}
+	s.RegisterService(&DomainCatService_ServiceDesc, srv)
+}
+
+func _DomainCatService_CreateDomainCat_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateDomainCatRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DomainCatServiceServer).CreateDomainCat(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DomainCatService_CreateDomainCat_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DomainCatServiceServer).CreateDomainCat(ctx, req.(*CreateDomainCatRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DomainCatService_GetDomainCatsSearchName_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetDomainCatsSearchNameRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DomainCatServiceServer).GetDomainCatsSearchName(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DomainCatService_GetDomainCatsSearchName_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DomainCatServiceServer).GetDomainCatsSearchName(ctx, req.(*GetDomainCatsSearchNameRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DomainCatService_GetDomainCatById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetDomainCatByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DomainCatServiceServer).GetDomainCatById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DomainCatService_GetDomainCatById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DomainCatServiceServer).GetDomainCatById(ctx, req.(*GetDomainCatByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DomainCatService_GetDomainCats_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetDomainCatsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DomainCatServiceServer).GetDomainCats(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DomainCatService_GetDomainCats_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DomainCatServiceServer).GetDomainCats(ctx, req.(*GetDomainCatsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DomainCatService_GetDomainCatsDeleted_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetDomainCatsDeletedRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DomainCatServiceServer).GetDomainCatsDeleted(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DomainCatService_GetDomainCatsDeleted_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DomainCatServiceServer).GetDomainCatsDeleted(ctx, req.(*GetDomainCatsDeletedRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DomainCatService_UpdateDomainCatById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateDomainCatByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DomainCatServiceServer).UpdateDomainCatById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DomainCatService_UpdateDomainCatById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DomainCatServiceServer).UpdateDomainCatById(ctx, req.(*UpdateDomainCatByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DomainCatService_DeleteDomainCatById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteDomainCatByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DomainCatServiceServer).DeleteDomainCatById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DomainCatService_DeleteDomainCatById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DomainCatServiceServer).DeleteDomainCatById(ctx, req.(*DeleteDomainCatByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DomainCatService_UndeleteDomainCatById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UndeleteDomainCatByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DomainCatServiceServer).UndeleteDomainCatById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DomainCatService_UndeleteDomainCatById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DomainCatServiceServer).UndeleteDomainCatById(ctx, req.(*UndeleteDomainCatByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// DomainCatService_ServiceDesc is the grpc.ServiceDesc for DomainCatService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var DomainCatService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "tables.v1.DomainCatService",
+	HandlerType: (*DomainCatServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "CreateDomainCat",
+			Handler:    _DomainCatService_CreateDomainCat_Handler,
+		},
+		{
+			MethodName: "GetDomainCatsSearchName",
+			Handler:    _DomainCatService_GetDomainCatsSearchName_Handler,
+		},
+		{
+			MethodName: "GetDomainCatById",
+			Handler:    _DomainCatService_GetDomainCatById_Handler,
+		},
+		{
+			MethodName: "GetDomainCats",
+			Handler:    _DomainCatService_GetDomainCats_Handler,
+		},
+		{
+			MethodName: "GetDomainCatsDeleted",
+			Handler:    _DomainCatService_GetDomainCatsDeleted_Handler,
+		},
+		{
+			MethodName: "UpdateDomainCatById",
+			Handler:    _DomainCatService_UpdateDomainCatById_Handler,
+		},
+		{
+			MethodName: "DeleteDomainCatById",
+			Handler:    _DomainCatService_DeleteDomainCatById_Handler,
+		},
+		{
+			MethodName: "UndeleteDomainCatById",
+			Handler:    _DomainCatService_UndeleteDomainCatById_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "tables/v1/tables.proto",
+}
+
+const (
+	FollowingCalculationService_CreateFollowingCalculation_FullMethodName       = "/tables.v1.FollowingCalculationService/CreateFollowingCalculation"
+	FollowingCalculationService_GetFollowingCalculationById_FullMethodName      = "/tables.v1.FollowingCalculationService/GetFollowingCalculationById"
+	FollowingCalculationService_GetFollowingCalculations_FullMethodName         = "/tables.v1.FollowingCalculationService/GetFollowingCalculations"
+	FollowingCalculationService_GetFollowingCalculationsDeleted_FullMethodName  = "/tables.v1.FollowingCalculationService/GetFollowingCalculationsDeleted"
+	FollowingCalculationService_GetFollowingCalculationsFilters_FullMethodName  = "/tables.v1.FollowingCalculationService/GetFollowingCalculationsFilters"
+	FollowingCalculationService_UpdateFollowingCalculationById_FullMethodName   = "/tables.v1.FollowingCalculationService/UpdateFollowingCalculationById"
+	FollowingCalculationService_DeleteFollowingCalculationById_FullMethodName   = "/tables.v1.FollowingCalculationService/DeleteFollowingCalculationById"
+	FollowingCalculationService_UndeleteFollowingCalculationById_FullMethodName = "/tables.v1.FollowingCalculationService/UndeleteFollowingCalculationById"
+)
+
+// FollowingCalculationServiceClient is the client API for FollowingCalculationService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type FollowingCalculationServiceClient interface {
+	CreateFollowingCalculation(ctx context.Context, in *CreateFollowingCalculationRequest, opts ...grpc.CallOption) (*CreateFollowingCalculationResponse, error)
+	GetFollowingCalculationById(ctx context.Context, in *GetFollowingCalculationByIdRequest, opts ...grpc.CallOption) (*GetFollowingCalculationByIdResponse, error)
+	GetFollowingCalculations(ctx context.Context, in *GetFollowingCalculationsRequest, opts ...grpc.CallOption) (*GetFollowingCalculationsResponse, error)
+	GetFollowingCalculationsDeleted(ctx context.Context, in *GetFollowingCalculationsDeletedRequest, opts ...grpc.CallOption) (*GetFollowingCalculationsDeletedResponse, error)
+	GetFollowingCalculationsFilters(ctx context.Context, in *GetFollowingCalculationsFiltersRequest, opts ...grpc.CallOption) (*GetFollowingCalculationsFiltersResponse, error)
+	UpdateFollowingCalculationById(ctx context.Context, in *UpdateFollowingCalculationByIdRequest, opts ...grpc.CallOption) (*UpdateFollowingCalculationByIdResponse, error)
+	DeleteFollowingCalculationById(ctx context.Context, in *DeleteFollowingCalculationByIdRequest, opts ...grpc.CallOption) (*DeleteFollowingCalculationByIdResponse, error)
+	UndeleteFollowingCalculationById(ctx context.Context, in *UndeleteFollowingCalculationByIdRequest, opts ...grpc.CallOption) (*UndeleteFollowingCalculationByIdResponse, error)
+}
+
+type followingCalculationServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewFollowingCalculationServiceClient(cc grpc.ClientConnInterface) FollowingCalculationServiceClient {
+	return &followingCalculationServiceClient{cc}
+}
+
+func (c *followingCalculationServiceClient) CreateFollowingCalculation(ctx context.Context, in *CreateFollowingCalculationRequest, opts ...grpc.CallOption) (*CreateFollowingCalculationResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateFollowingCalculationResponse)
+	err := c.cc.Invoke(ctx, FollowingCalculationService_CreateFollowingCalculation_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *followingCalculationServiceClient) GetFollowingCalculationById(ctx context.Context, in *GetFollowingCalculationByIdRequest, opts ...grpc.CallOption) (*GetFollowingCalculationByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetFollowingCalculationByIdResponse)
+	err := c.cc.Invoke(ctx, FollowingCalculationService_GetFollowingCalculationById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *followingCalculationServiceClient) GetFollowingCalculations(ctx context.Context, in *GetFollowingCalculationsRequest, opts ...grpc.CallOption) (*GetFollowingCalculationsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetFollowingCalculationsResponse)
+	err := c.cc.Invoke(ctx, FollowingCalculationService_GetFollowingCalculations_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *followingCalculationServiceClient) GetFollowingCalculationsDeleted(ctx context.Context, in *GetFollowingCalculationsDeletedRequest, opts ...grpc.CallOption) (*GetFollowingCalculationsDeletedResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetFollowingCalculationsDeletedResponse)
+	err := c.cc.Invoke(ctx, FollowingCalculationService_GetFollowingCalculationsDeleted_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *followingCalculationServiceClient) GetFollowingCalculationsFilters(ctx context.Context, in *GetFollowingCalculationsFiltersRequest, opts ...grpc.CallOption) (*GetFollowingCalculationsFiltersResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetFollowingCalculationsFiltersResponse)
+	err := c.cc.Invoke(ctx, FollowingCalculationService_GetFollowingCalculationsFilters_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *followingCalculationServiceClient) UpdateFollowingCalculationById(ctx context.Context, in *UpdateFollowingCalculationByIdRequest, opts ...grpc.CallOption) (*UpdateFollowingCalculationByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateFollowingCalculationByIdResponse)
+	err := c.cc.Invoke(ctx, FollowingCalculationService_UpdateFollowingCalculationById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *followingCalculationServiceClient) DeleteFollowingCalculationById(ctx context.Context, in *DeleteFollowingCalculationByIdRequest, opts ...grpc.CallOption) (*DeleteFollowingCalculationByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteFollowingCalculationByIdResponse)
+	err := c.cc.Invoke(ctx, FollowingCalculationService_DeleteFollowingCalculationById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *followingCalculationServiceClient) UndeleteFollowingCalculationById(ctx context.Context, in *UndeleteFollowingCalculationByIdRequest, opts ...grpc.CallOption) (*UndeleteFollowingCalculationByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UndeleteFollowingCalculationByIdResponse)
+	err := c.cc.Invoke(ctx, FollowingCalculationService_UndeleteFollowingCalculationById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// FollowingCalculationServiceServer is the server API for FollowingCalculationService service.
+// All implementations must embed UnimplementedFollowingCalculationServiceServer
+// for forward compatibility.
+type FollowingCalculationServiceServer interface {
+	CreateFollowingCalculation(context.Context, *CreateFollowingCalculationRequest) (*CreateFollowingCalculationResponse, error)
+	GetFollowingCalculationById(context.Context, *GetFollowingCalculationByIdRequest) (*GetFollowingCalculationByIdResponse, error)
+	GetFollowingCalculations(context.Context, *GetFollowingCalculationsRequest) (*GetFollowingCalculationsResponse, error)
+	GetFollowingCalculationsDeleted(context.Context, *GetFollowingCalculationsDeletedRequest) (*GetFollowingCalculationsDeletedResponse, error)
+	GetFollowingCalculationsFilters(context.Context, *GetFollowingCalculationsFiltersRequest) (*GetFollowingCalculationsFiltersResponse, error)
+	UpdateFollowingCalculationById(context.Context, *UpdateFollowingCalculationByIdRequest) (*UpdateFollowingCalculationByIdResponse, error)
+	DeleteFollowingCalculationById(context.Context, *DeleteFollowingCalculationByIdRequest) (*DeleteFollowingCalculationByIdResponse, error)
+	UndeleteFollowingCalculationById(context.Context, *UndeleteFollowingCalculationByIdRequest) (*UndeleteFollowingCalculationByIdResponse, error)
+	mustEmbedUnimplementedFollowingCalculationServiceServer()
+}
+
+// UnimplementedFollowingCalculationServiceServer must be embedded to have
+// forward compatible implementations.
+//
+// NOTE: this should be embedded by value instead of pointer to avoid a nil
+// pointer dereference when methods are called.
+type UnimplementedFollowingCalculationServiceServer struct{}
+
+func (UnimplementedFollowingCalculationServiceServer) CreateFollowingCalculation(context.Context, *CreateFollowingCalculationRequest) (*CreateFollowingCalculationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateFollowingCalculation not implemented")
+}
+func (UnimplementedFollowingCalculationServiceServer) GetFollowingCalculationById(context.Context, *GetFollowingCalculationByIdRequest) (*GetFollowingCalculationByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetFollowingCalculationById not implemented")
+}
+func (UnimplementedFollowingCalculationServiceServer) GetFollowingCalculations(context.Context, *GetFollowingCalculationsRequest) (*GetFollowingCalculationsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetFollowingCalculations not implemented")
+}
+func (UnimplementedFollowingCalculationServiceServer) GetFollowingCalculationsDeleted(context.Context, *GetFollowingCalculationsDeletedRequest) (*GetFollowingCalculationsDeletedResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetFollowingCalculationsDeleted not implemented")
+}
+func (UnimplementedFollowingCalculationServiceServer) GetFollowingCalculationsFilters(context.Context, *GetFollowingCalculationsFiltersRequest) (*GetFollowingCalculationsFiltersResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetFollowingCalculationsFilters not implemented")
+}
+func (UnimplementedFollowingCalculationServiceServer) UpdateFollowingCalculationById(context.Context, *UpdateFollowingCalculationByIdRequest) (*UpdateFollowingCalculationByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateFollowingCalculationById not implemented")
+}
+func (UnimplementedFollowingCalculationServiceServer) DeleteFollowingCalculationById(context.Context, *DeleteFollowingCalculationByIdRequest) (*DeleteFollowingCalculationByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteFollowingCalculationById not implemented")
+}
+func (UnimplementedFollowingCalculationServiceServer) UndeleteFollowingCalculationById(context.Context, *UndeleteFollowingCalculationByIdRequest) (*UndeleteFollowingCalculationByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UndeleteFollowingCalculationById not implemented")
+}
+func (UnimplementedFollowingCalculationServiceServer) mustEmbedUnimplementedFollowingCalculationServiceServer() {
+}
+func (UnimplementedFollowingCalculationServiceServer) testEmbeddedByValue() {}
+
+// UnsafeFollowingCalculationServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to FollowingCalculationServiceServer will
+// result in compilation errors.
+type UnsafeFollowingCalculationServiceServer interface {
+	mustEmbedUnimplementedFollowingCalculationServiceServer()
+}
+
+func RegisterFollowingCalculationServiceServer(s grpc.ServiceRegistrar, srv FollowingCalculationServiceServer) {
+	// If the following call pancis, it indicates UnimplementedFollowingCalculationServiceServer was
+	// embedded by pointer and is nil.  This will cause panics if an
+	// unimplemented method is ever invoked, so we test this at initialization
+	// time to prevent it from happening at runtime later due to I/O.
+	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
+		t.testEmbeddedByValue()
+	}
+	s.RegisterService(&FollowingCalculationService_ServiceDesc, srv)
+}
+
+func _FollowingCalculationService_CreateFollowingCalculation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateFollowingCalculationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FollowingCalculationServiceServer).CreateFollowingCalculation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: FollowingCalculationService_CreateFollowingCalculation_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FollowingCalculationServiceServer).CreateFollowingCalculation(ctx, req.(*CreateFollowingCalculationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _FollowingCalculationService_GetFollowingCalculationById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetFollowingCalculationByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FollowingCalculationServiceServer).GetFollowingCalculationById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: FollowingCalculationService_GetFollowingCalculationById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FollowingCalculationServiceServer).GetFollowingCalculationById(ctx, req.(*GetFollowingCalculationByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _FollowingCalculationService_GetFollowingCalculations_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetFollowingCalculationsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FollowingCalculationServiceServer).GetFollowingCalculations(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: FollowingCalculationService_GetFollowingCalculations_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FollowingCalculationServiceServer).GetFollowingCalculations(ctx, req.(*GetFollowingCalculationsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _FollowingCalculationService_GetFollowingCalculationsDeleted_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetFollowingCalculationsDeletedRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FollowingCalculationServiceServer).GetFollowingCalculationsDeleted(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: FollowingCalculationService_GetFollowingCalculationsDeleted_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FollowingCalculationServiceServer).GetFollowingCalculationsDeleted(ctx, req.(*GetFollowingCalculationsDeletedRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _FollowingCalculationService_GetFollowingCalculationsFilters_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetFollowingCalculationsFiltersRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FollowingCalculationServiceServer).GetFollowingCalculationsFilters(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: FollowingCalculationService_GetFollowingCalculationsFilters_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FollowingCalculationServiceServer).GetFollowingCalculationsFilters(ctx, req.(*GetFollowingCalculationsFiltersRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _FollowingCalculationService_UpdateFollowingCalculationById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateFollowingCalculationByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FollowingCalculationServiceServer).UpdateFollowingCalculationById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: FollowingCalculationService_UpdateFollowingCalculationById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FollowingCalculationServiceServer).UpdateFollowingCalculationById(ctx, req.(*UpdateFollowingCalculationByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _FollowingCalculationService_DeleteFollowingCalculationById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteFollowingCalculationByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FollowingCalculationServiceServer).DeleteFollowingCalculationById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: FollowingCalculationService_DeleteFollowingCalculationById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FollowingCalculationServiceServer).DeleteFollowingCalculationById(ctx, req.(*DeleteFollowingCalculationByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _FollowingCalculationService_UndeleteFollowingCalculationById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UndeleteFollowingCalculationByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FollowingCalculationServiceServer).UndeleteFollowingCalculationById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: FollowingCalculationService_UndeleteFollowingCalculationById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FollowingCalculationServiceServer).UndeleteFollowingCalculationById(ctx, req.(*UndeleteFollowingCalculationByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// FollowingCalculationService_ServiceDesc is the grpc.ServiceDesc for FollowingCalculationService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var FollowingCalculationService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "tables.v1.FollowingCalculationService",
+	HandlerType: (*FollowingCalculationServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "CreateFollowingCalculation",
+			Handler:    _FollowingCalculationService_CreateFollowingCalculation_Handler,
+		},
+		{
+			MethodName: "GetFollowingCalculationById",
+			Handler:    _FollowingCalculationService_GetFollowingCalculationById_Handler,
+		},
+		{
+			MethodName: "GetFollowingCalculations",
+			Handler:    _FollowingCalculationService_GetFollowingCalculations_Handler,
+		},
+		{
+			MethodName: "GetFollowingCalculationsDeleted",
+			Handler:    _FollowingCalculationService_GetFollowingCalculationsDeleted_Handler,
+		},
+		{
+			MethodName: "GetFollowingCalculationsFilters",
+			Handler:    _FollowingCalculationService_GetFollowingCalculationsFilters_Handler,
+		},
+		{
+			MethodName: "UpdateFollowingCalculationById",
+			Handler:    _FollowingCalculationService_UpdateFollowingCalculationById_Handler,
+		},
+		{
+			MethodName: "DeleteFollowingCalculationById",
+			Handler:    _FollowingCalculationService_DeleteFollowingCalculationById_Handler,
+		},
+		{
+			MethodName: "UndeleteFollowingCalculationById",
+			Handler:    _FollowingCalculationService_UndeleteFollowingCalculationById_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "tables/v1/tables.proto",
+}
+
+const (
+	GroupLevelsService_CreateGroupLevels_FullMethodName        = "/tables.v1.GroupLevelsService/CreateGroupLevels"
+	GroupLevelsService_GetGroupLevelsSearchName_FullMethodName = "/tables.v1.GroupLevelsService/GetGroupLevelsSearchName"
+	GroupLevelsService_GetGroupLevels_FullMethodName           = "/tables.v1.GroupLevelsService/GetGroupLevels"
+	GroupLevelsService_GetGroupLevelsById_FullMethodName       = "/tables.v1.GroupLevelsService/GetGroupLevelsById"
+	GroupLevelsService_GetGroupLevelsFiltered_FullMethodName   = "/tables.v1.GroupLevelsService/GetGroupLevelsFiltered"
+	GroupLevelsService_GetGroupLevelsDeleted_FullMethodName    = "/tables.v1.GroupLevelsService/GetGroupLevelsDeleted"
+	GroupLevelsService_UpdateGroupLevelsById_FullMethodName    = "/tables.v1.GroupLevelsService/UpdateGroupLevelsById"
+	GroupLevelsService_DeleteGroupLevelsById_FullMethodName    = "/tables.v1.GroupLevelsService/DeleteGroupLevelsById"
+	GroupLevelsService_UndeleteGroupLevels_FullMethodName      = "/tables.v1.GroupLevelsService/UndeleteGroupLevels"
+)
+
+// GroupLevelsServiceClient is the client API for GroupLevelsService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type GroupLevelsServiceClient interface {
+	CreateGroupLevels(ctx context.Context, in *CreateGroupLevelsRequest, opts ...grpc.CallOption) (*CreateGroupLevelsResponse, error)
+	GetGroupLevelsSearchName(ctx context.Context, in *GetGroupLevelsSearchNameRequest, opts ...grpc.CallOption) (*GetGroupLevelsSearchNameResponse, error)
+	GetGroupLevels(ctx context.Context, in *GetGroupLevelsRequest, opts ...grpc.CallOption) (*GetGroupLevelsResponse, error)
+	GetGroupLevelsById(ctx context.Context, in *GetGroupLevelsByIdRequest, opts ...grpc.CallOption) (*GetGroupLevelsByIdResponse, error)
+	GetGroupLevelsFiltered(ctx context.Context, in *GetGroupLevelsFilteredRequest, opts ...grpc.CallOption) (*GetGroupLevelsFilteredResponse, error)
+	GetGroupLevelsDeleted(ctx context.Context, in *GetGroupLevelsDeletedRequest, opts ...grpc.CallOption) (*GetGroupLevelsDeletedResponse, error)
+	UpdateGroupLevelsById(ctx context.Context, in *UpdateGroupLevelsByIdRequest, opts ...grpc.CallOption) (*UpdateGroupLevelsByIdResponse, error)
+	DeleteGroupLevelsById(ctx context.Context, in *DeleteGroupLevelsByIdRequest, opts ...grpc.CallOption) (*DeleteGroupLevelsByIdResponse, error)
+	UndeleteGroupLevels(ctx context.Context, in *UndeleteGroupLevelsRequest, opts ...grpc.CallOption) (*UndeleteGroupLevelsResponse, error)
+}
+
+type groupLevelsServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewGroupLevelsServiceClient(cc grpc.ClientConnInterface) GroupLevelsServiceClient {
+	return &groupLevelsServiceClient{cc}
+}
+
+func (c *groupLevelsServiceClient) CreateGroupLevels(ctx context.Context, in *CreateGroupLevelsRequest, opts ...grpc.CallOption) (*CreateGroupLevelsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateGroupLevelsResponse)
+	err := c.cc.Invoke(ctx, GroupLevelsService_CreateGroupLevels_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *groupLevelsServiceClient) GetGroupLevelsSearchName(ctx context.Context, in *GetGroupLevelsSearchNameRequest, opts ...grpc.CallOption) (*GetGroupLevelsSearchNameResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetGroupLevelsSearchNameResponse)
+	err := c.cc.Invoke(ctx, GroupLevelsService_GetGroupLevelsSearchName_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *groupLevelsServiceClient) GetGroupLevels(ctx context.Context, in *GetGroupLevelsRequest, opts ...grpc.CallOption) (*GetGroupLevelsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetGroupLevelsResponse)
+	err := c.cc.Invoke(ctx, GroupLevelsService_GetGroupLevels_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *groupLevelsServiceClient) GetGroupLevelsById(ctx context.Context, in *GetGroupLevelsByIdRequest, opts ...grpc.CallOption) (*GetGroupLevelsByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetGroupLevelsByIdResponse)
+	err := c.cc.Invoke(ctx, GroupLevelsService_GetGroupLevelsById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *groupLevelsServiceClient) GetGroupLevelsFiltered(ctx context.Context, in *GetGroupLevelsFilteredRequest, opts ...grpc.CallOption) (*GetGroupLevelsFilteredResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetGroupLevelsFilteredResponse)
+	err := c.cc.Invoke(ctx, GroupLevelsService_GetGroupLevelsFiltered_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *groupLevelsServiceClient) GetGroupLevelsDeleted(ctx context.Context, in *GetGroupLevelsDeletedRequest, opts ...grpc.CallOption) (*GetGroupLevelsDeletedResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetGroupLevelsDeletedResponse)
+	err := c.cc.Invoke(ctx, GroupLevelsService_GetGroupLevelsDeleted_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *groupLevelsServiceClient) UpdateGroupLevelsById(ctx context.Context, in *UpdateGroupLevelsByIdRequest, opts ...grpc.CallOption) (*UpdateGroupLevelsByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateGroupLevelsByIdResponse)
+	err := c.cc.Invoke(ctx, GroupLevelsService_UpdateGroupLevelsById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *groupLevelsServiceClient) DeleteGroupLevelsById(ctx context.Context, in *DeleteGroupLevelsByIdRequest, opts ...grpc.CallOption) (*DeleteGroupLevelsByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteGroupLevelsByIdResponse)
+	err := c.cc.Invoke(ctx, GroupLevelsService_DeleteGroupLevelsById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *groupLevelsServiceClient) UndeleteGroupLevels(ctx context.Context, in *UndeleteGroupLevelsRequest, opts ...grpc.CallOption) (*UndeleteGroupLevelsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UndeleteGroupLevelsResponse)
+	err := c.cc.Invoke(ctx, GroupLevelsService_UndeleteGroupLevels_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// GroupLevelsServiceServer is the server API for GroupLevelsService service.
+// All implementations must embed UnimplementedGroupLevelsServiceServer
+// for forward compatibility.
+type GroupLevelsServiceServer interface {
+	CreateGroupLevels(context.Context, *CreateGroupLevelsRequest) (*CreateGroupLevelsResponse, error)
+	GetGroupLevelsSearchName(context.Context, *GetGroupLevelsSearchNameRequest) (*GetGroupLevelsSearchNameResponse, error)
+	GetGroupLevels(context.Context, *GetGroupLevelsRequest) (*GetGroupLevelsResponse, error)
+	GetGroupLevelsById(context.Context, *GetGroupLevelsByIdRequest) (*GetGroupLevelsByIdResponse, error)
+	GetGroupLevelsFiltered(context.Context, *GetGroupLevelsFilteredRequest) (*GetGroupLevelsFilteredResponse, error)
+	GetGroupLevelsDeleted(context.Context, *GetGroupLevelsDeletedRequest) (*GetGroupLevelsDeletedResponse, error)
+	UpdateGroupLevelsById(context.Context, *UpdateGroupLevelsByIdRequest) (*UpdateGroupLevelsByIdResponse, error)
+	DeleteGroupLevelsById(context.Context, *DeleteGroupLevelsByIdRequest) (*DeleteGroupLevelsByIdResponse, error)
+	UndeleteGroupLevels(context.Context, *UndeleteGroupLevelsRequest) (*UndeleteGroupLevelsResponse, error)
+	mustEmbedUnimplementedGroupLevelsServiceServer()
+}
+
+// UnimplementedGroupLevelsServiceServer must be embedded to have
+// forward compatible implementations.
+//
+// NOTE: this should be embedded by value instead of pointer to avoid a nil
+// pointer dereference when methods are called.
+type UnimplementedGroupLevelsServiceServer struct{}
+
+func (UnimplementedGroupLevelsServiceServer) CreateGroupLevels(context.Context, *CreateGroupLevelsRequest) (*CreateGroupLevelsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateGroupLevels not implemented")
+}
+func (UnimplementedGroupLevelsServiceServer) GetGroupLevelsSearchName(context.Context, *GetGroupLevelsSearchNameRequest) (*GetGroupLevelsSearchNameResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetGroupLevelsSearchName not implemented")
+}
+func (UnimplementedGroupLevelsServiceServer) GetGroupLevels(context.Context, *GetGroupLevelsRequest) (*GetGroupLevelsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetGroupLevels not implemented")
+}
+func (UnimplementedGroupLevelsServiceServer) GetGroupLevelsById(context.Context, *GetGroupLevelsByIdRequest) (*GetGroupLevelsByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetGroupLevelsById not implemented")
+}
+func (UnimplementedGroupLevelsServiceServer) GetGroupLevelsFiltered(context.Context, *GetGroupLevelsFilteredRequest) (*GetGroupLevelsFilteredResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetGroupLevelsFiltered not implemented")
+}
+func (UnimplementedGroupLevelsServiceServer) GetGroupLevelsDeleted(context.Context, *GetGroupLevelsDeletedRequest) (*GetGroupLevelsDeletedResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetGroupLevelsDeleted not implemented")
+}
+func (UnimplementedGroupLevelsServiceServer) UpdateGroupLevelsById(context.Context, *UpdateGroupLevelsByIdRequest) (*UpdateGroupLevelsByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateGroupLevelsById not implemented")
+}
+func (UnimplementedGroupLevelsServiceServer) DeleteGroupLevelsById(context.Context, *DeleteGroupLevelsByIdRequest) (*DeleteGroupLevelsByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteGroupLevelsById not implemented")
+}
+func (UnimplementedGroupLevelsServiceServer) UndeleteGroupLevels(context.Context, *UndeleteGroupLevelsRequest) (*UndeleteGroupLevelsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UndeleteGroupLevels not implemented")
+}
+func (UnimplementedGroupLevelsServiceServer) mustEmbedUnimplementedGroupLevelsServiceServer() {}
+func (UnimplementedGroupLevelsServiceServer) testEmbeddedByValue()                            {}
+
+// UnsafeGroupLevelsServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to GroupLevelsServiceServer will
+// result in compilation errors.
+type UnsafeGroupLevelsServiceServer interface {
+	mustEmbedUnimplementedGroupLevelsServiceServer()
+}
+
+func RegisterGroupLevelsServiceServer(s grpc.ServiceRegistrar, srv GroupLevelsServiceServer) {
+	// If the following call pancis, it indicates UnimplementedGroupLevelsServiceServer was
+	// embedded by pointer and is nil.  This will cause panics if an
+	// unimplemented method is ever invoked, so we test this at initialization
+	// time to prevent it from happening at runtime later due to I/O.
+	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
+		t.testEmbeddedByValue()
+	}
+	s.RegisterService(&GroupLevelsService_ServiceDesc, srv)
+}
+
+func _GroupLevelsService_CreateGroupLevels_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateGroupLevelsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GroupLevelsServiceServer).CreateGroupLevels(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GroupLevelsService_CreateGroupLevels_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GroupLevelsServiceServer).CreateGroupLevels(ctx, req.(*CreateGroupLevelsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GroupLevelsService_GetGroupLevelsSearchName_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetGroupLevelsSearchNameRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GroupLevelsServiceServer).GetGroupLevelsSearchName(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GroupLevelsService_GetGroupLevelsSearchName_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GroupLevelsServiceServer).GetGroupLevelsSearchName(ctx, req.(*GetGroupLevelsSearchNameRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GroupLevelsService_GetGroupLevels_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetGroupLevelsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GroupLevelsServiceServer).GetGroupLevels(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GroupLevelsService_GetGroupLevels_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GroupLevelsServiceServer).GetGroupLevels(ctx, req.(*GetGroupLevelsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GroupLevelsService_GetGroupLevelsById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetGroupLevelsByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GroupLevelsServiceServer).GetGroupLevelsById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GroupLevelsService_GetGroupLevelsById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GroupLevelsServiceServer).GetGroupLevelsById(ctx, req.(*GetGroupLevelsByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GroupLevelsService_GetGroupLevelsFiltered_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetGroupLevelsFilteredRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GroupLevelsServiceServer).GetGroupLevelsFiltered(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GroupLevelsService_GetGroupLevelsFiltered_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GroupLevelsServiceServer).GetGroupLevelsFiltered(ctx, req.(*GetGroupLevelsFilteredRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GroupLevelsService_GetGroupLevelsDeleted_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetGroupLevelsDeletedRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GroupLevelsServiceServer).GetGroupLevelsDeleted(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GroupLevelsService_GetGroupLevelsDeleted_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GroupLevelsServiceServer).GetGroupLevelsDeleted(ctx, req.(*GetGroupLevelsDeletedRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GroupLevelsService_UpdateGroupLevelsById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateGroupLevelsByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GroupLevelsServiceServer).UpdateGroupLevelsById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GroupLevelsService_UpdateGroupLevelsById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GroupLevelsServiceServer).UpdateGroupLevelsById(ctx, req.(*UpdateGroupLevelsByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GroupLevelsService_DeleteGroupLevelsById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteGroupLevelsByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GroupLevelsServiceServer).DeleteGroupLevelsById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GroupLevelsService_DeleteGroupLevelsById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GroupLevelsServiceServer).DeleteGroupLevelsById(ctx, req.(*DeleteGroupLevelsByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GroupLevelsService_UndeleteGroupLevels_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UndeleteGroupLevelsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GroupLevelsServiceServer).UndeleteGroupLevels(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GroupLevelsService_UndeleteGroupLevels_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GroupLevelsServiceServer).UndeleteGroupLevels(ctx, req.(*UndeleteGroupLevelsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// GroupLevelsService_ServiceDesc is the grpc.ServiceDesc for GroupLevelsService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var GroupLevelsService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "tables.v1.GroupLevelsService",
+	HandlerType: (*GroupLevelsServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "CreateGroupLevels",
+			Handler:    _GroupLevelsService_CreateGroupLevels_Handler,
+		},
+		{
+			MethodName: "GetGroupLevelsSearchName",
+			Handler:    _GroupLevelsService_GetGroupLevelsSearchName_Handler,
+		},
+		{
+			MethodName: "GetGroupLevels",
+			Handler:    _GroupLevelsService_GetGroupLevels_Handler,
+		},
+		{
+			MethodName: "GetGroupLevelsById",
+			Handler:    _GroupLevelsService_GetGroupLevelsById_Handler,
+		},
+		{
+			MethodName: "GetGroupLevelsFiltered",
+			Handler:    _GroupLevelsService_GetGroupLevelsFiltered_Handler,
+		},
+		{
+			MethodName: "GetGroupLevelsDeleted",
+			Handler:    _GroupLevelsService_GetGroupLevelsDeleted_Handler,
+		},
+		{
+			MethodName: "UpdateGroupLevelsById",
+			Handler:    _GroupLevelsService_UpdateGroupLevelsById_Handler,
+		},
+		{
+			MethodName: "DeleteGroupLevelsById",
+			Handler:    _GroupLevelsService_DeleteGroupLevelsById_Handler,
+		},
+		{
+			MethodName: "UndeleteGroupLevels",
+			Handler:    _GroupLevelsService_UndeleteGroupLevels_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "tables/v1/tables.proto",
+}
+
+const (
+	HasToGroupService_CreateHasToGroup_FullMethodName         = "/tables.v1.HasToGroupService/CreateHasToGroup"
+	HasToGroupService_GetHasToGroupById_FullMethodName        = "/tables.v1.HasToGroupService/GetHasToGroupById"
+	HasToGroupService_GetHasToGroupsSearchName_FullMethodName = "/tables.v1.HasToGroupService/GetHasToGroupsSearchName"
+	HasToGroupService_GetHasToGroups_FullMethodName           = "/tables.v1.HasToGroupService/GetHasToGroups"
+	HasToGroupService_GetHasToGroupsDeleted_FullMethodName    = "/tables.v1.HasToGroupService/GetHasToGroupsDeleted"
+	HasToGroupService_UpdateHasToGroupById_FullMethodName     = "/tables.v1.HasToGroupService/UpdateHasToGroupById"
+	HasToGroupService_DeleteHasToGroupById_FullMethodName     = "/tables.v1.HasToGroupService/DeleteHasToGroupById"
+	HasToGroupService_UndeleteHasToGroupById_FullMethodName   = "/tables.v1.HasToGroupService/UndeleteHasToGroupById"
+)
+
+// HasToGroupServiceClient is the client API for HasToGroupService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type HasToGroupServiceClient interface {
+	CreateHasToGroup(ctx context.Context, in *CreateHasToGroupRequest, opts ...grpc.CallOption) (*CreateHasToGroupResponse, error)
+	GetHasToGroupById(ctx context.Context, in *GetHasToGroupByIdRequest, opts ...grpc.CallOption) (*GetHasToGroupByIdResponse, error)
+	GetHasToGroupsSearchName(ctx context.Context, in *GetHasToGroupsSearchNameRequest, opts ...grpc.CallOption) (*GetHasToGroupsSearchNameResponse, error)
+	GetHasToGroups(ctx context.Context, in *GetHasToGroupsRequest, opts ...grpc.CallOption) (*GetHasToGroupsResponse, error)
+	GetHasToGroupsDeleted(ctx context.Context, in *GetHasToGroupsDeletedRequest, opts ...grpc.CallOption) (*GetHasToGroupsDeletedResponse, error)
+	UpdateHasToGroupById(ctx context.Context, in *UpdateHasToGroupByIdRequest, opts ...grpc.CallOption) (*UpdateHasToGroupByIdResponse, error)
+	DeleteHasToGroupById(ctx context.Context, in *DeleteHasToGroupByIdRequest, opts ...grpc.CallOption) (*DeleteHasToGroupByIdResponse, error)
+	UndeleteHasToGroupById(ctx context.Context, in *UndeleteHasToGroupByIdRequest, opts ...grpc.CallOption) (*UndeleteHasToGroupByIdResponse, error)
+}
+
+type hasToGroupServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewHasToGroupServiceClient(cc grpc.ClientConnInterface) HasToGroupServiceClient {
+	return &hasToGroupServiceClient{cc}
+}
+
+func (c *hasToGroupServiceClient) CreateHasToGroup(ctx context.Context, in *CreateHasToGroupRequest, opts ...grpc.CallOption) (*CreateHasToGroupResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateHasToGroupResponse)
+	err := c.cc.Invoke(ctx, HasToGroupService_CreateHasToGroup_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *hasToGroupServiceClient) GetHasToGroupById(ctx context.Context, in *GetHasToGroupByIdRequest, opts ...grpc.CallOption) (*GetHasToGroupByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetHasToGroupByIdResponse)
+	err := c.cc.Invoke(ctx, HasToGroupService_GetHasToGroupById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *hasToGroupServiceClient) GetHasToGroupsSearchName(ctx context.Context, in *GetHasToGroupsSearchNameRequest, opts ...grpc.CallOption) (*GetHasToGroupsSearchNameResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetHasToGroupsSearchNameResponse)
+	err := c.cc.Invoke(ctx, HasToGroupService_GetHasToGroupsSearchName_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *hasToGroupServiceClient) GetHasToGroups(ctx context.Context, in *GetHasToGroupsRequest, opts ...grpc.CallOption) (*GetHasToGroupsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetHasToGroupsResponse)
+	err := c.cc.Invoke(ctx, HasToGroupService_GetHasToGroups_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *hasToGroupServiceClient) GetHasToGroupsDeleted(ctx context.Context, in *GetHasToGroupsDeletedRequest, opts ...grpc.CallOption) (*GetHasToGroupsDeletedResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetHasToGroupsDeletedResponse)
+	err := c.cc.Invoke(ctx, HasToGroupService_GetHasToGroupsDeleted_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *hasToGroupServiceClient) UpdateHasToGroupById(ctx context.Context, in *UpdateHasToGroupByIdRequest, opts ...grpc.CallOption) (*UpdateHasToGroupByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateHasToGroupByIdResponse)
+	err := c.cc.Invoke(ctx, HasToGroupService_UpdateHasToGroupById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *hasToGroupServiceClient) DeleteHasToGroupById(ctx context.Context, in *DeleteHasToGroupByIdRequest, opts ...grpc.CallOption) (*DeleteHasToGroupByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteHasToGroupByIdResponse)
+	err := c.cc.Invoke(ctx, HasToGroupService_DeleteHasToGroupById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *hasToGroupServiceClient) UndeleteHasToGroupById(ctx context.Context, in *UndeleteHasToGroupByIdRequest, opts ...grpc.CallOption) (*UndeleteHasToGroupByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UndeleteHasToGroupByIdResponse)
+	err := c.cc.Invoke(ctx, HasToGroupService_UndeleteHasToGroupById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// HasToGroupServiceServer is the server API for HasToGroupService service.
+// All implementations must embed UnimplementedHasToGroupServiceServer
+// for forward compatibility.
+type HasToGroupServiceServer interface {
+	CreateHasToGroup(context.Context, *CreateHasToGroupRequest) (*CreateHasToGroupResponse, error)
+	GetHasToGroupById(context.Context, *GetHasToGroupByIdRequest) (*GetHasToGroupByIdResponse, error)
+	GetHasToGroupsSearchName(context.Context, *GetHasToGroupsSearchNameRequest) (*GetHasToGroupsSearchNameResponse, error)
+	GetHasToGroups(context.Context, *GetHasToGroupsRequest) (*GetHasToGroupsResponse, error)
+	GetHasToGroupsDeleted(context.Context, *GetHasToGroupsDeletedRequest) (*GetHasToGroupsDeletedResponse, error)
+	UpdateHasToGroupById(context.Context, *UpdateHasToGroupByIdRequest) (*UpdateHasToGroupByIdResponse, error)
+	DeleteHasToGroupById(context.Context, *DeleteHasToGroupByIdRequest) (*DeleteHasToGroupByIdResponse, error)
+	UndeleteHasToGroupById(context.Context, *UndeleteHasToGroupByIdRequest) (*UndeleteHasToGroupByIdResponse, error)
+	mustEmbedUnimplementedHasToGroupServiceServer()
+}
+
+// UnimplementedHasToGroupServiceServer must be embedded to have
+// forward compatible implementations.
+//
+// NOTE: this should be embedded by value instead of pointer to avoid a nil
+// pointer dereference when methods are called.
+type UnimplementedHasToGroupServiceServer struct{}
+
+func (UnimplementedHasToGroupServiceServer) CreateHasToGroup(context.Context, *CreateHasToGroupRequest) (*CreateHasToGroupResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateHasToGroup not implemented")
+}
+func (UnimplementedHasToGroupServiceServer) GetHasToGroupById(context.Context, *GetHasToGroupByIdRequest) (*GetHasToGroupByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetHasToGroupById not implemented")
+}
+func (UnimplementedHasToGroupServiceServer) GetHasToGroupsSearchName(context.Context, *GetHasToGroupsSearchNameRequest) (*GetHasToGroupsSearchNameResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetHasToGroupsSearchName not implemented")
+}
+func (UnimplementedHasToGroupServiceServer) GetHasToGroups(context.Context, *GetHasToGroupsRequest) (*GetHasToGroupsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetHasToGroups not implemented")
+}
+func (UnimplementedHasToGroupServiceServer) GetHasToGroupsDeleted(context.Context, *GetHasToGroupsDeletedRequest) (*GetHasToGroupsDeletedResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetHasToGroupsDeleted not implemented")
+}
+func (UnimplementedHasToGroupServiceServer) UpdateHasToGroupById(context.Context, *UpdateHasToGroupByIdRequest) (*UpdateHasToGroupByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateHasToGroupById not implemented")
+}
+func (UnimplementedHasToGroupServiceServer) DeleteHasToGroupById(context.Context, *DeleteHasToGroupByIdRequest) (*DeleteHasToGroupByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteHasToGroupById not implemented")
+}
+func (UnimplementedHasToGroupServiceServer) UndeleteHasToGroupById(context.Context, *UndeleteHasToGroupByIdRequest) (*UndeleteHasToGroupByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UndeleteHasToGroupById not implemented")
+}
+func (UnimplementedHasToGroupServiceServer) mustEmbedUnimplementedHasToGroupServiceServer() {}
+func (UnimplementedHasToGroupServiceServer) testEmbeddedByValue()                           {}
+
+// UnsafeHasToGroupServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to HasToGroupServiceServer will
+// result in compilation errors.
+type UnsafeHasToGroupServiceServer interface {
+	mustEmbedUnimplementedHasToGroupServiceServer()
+}
+
+func RegisterHasToGroupServiceServer(s grpc.ServiceRegistrar, srv HasToGroupServiceServer) {
+	// If the following call pancis, it indicates UnimplementedHasToGroupServiceServer was
+	// embedded by pointer and is nil.  This will cause panics if an
+	// unimplemented method is ever invoked, so we test this at initialization
+	// time to prevent it from happening at runtime later due to I/O.
+	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
+		t.testEmbeddedByValue()
+	}
+	s.RegisterService(&HasToGroupService_ServiceDesc, srv)
+}
+
+func _HasToGroupService_CreateHasToGroup_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateHasToGroupRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HasToGroupServiceServer).CreateHasToGroup(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: HasToGroupService_CreateHasToGroup_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HasToGroupServiceServer).CreateHasToGroup(ctx, req.(*CreateHasToGroupRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _HasToGroupService_GetHasToGroupById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetHasToGroupByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HasToGroupServiceServer).GetHasToGroupById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: HasToGroupService_GetHasToGroupById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HasToGroupServiceServer).GetHasToGroupById(ctx, req.(*GetHasToGroupByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _HasToGroupService_GetHasToGroupsSearchName_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetHasToGroupsSearchNameRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HasToGroupServiceServer).GetHasToGroupsSearchName(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: HasToGroupService_GetHasToGroupsSearchName_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HasToGroupServiceServer).GetHasToGroupsSearchName(ctx, req.(*GetHasToGroupsSearchNameRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _HasToGroupService_GetHasToGroups_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetHasToGroupsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HasToGroupServiceServer).GetHasToGroups(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: HasToGroupService_GetHasToGroups_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HasToGroupServiceServer).GetHasToGroups(ctx, req.(*GetHasToGroupsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _HasToGroupService_GetHasToGroupsDeleted_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetHasToGroupsDeletedRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HasToGroupServiceServer).GetHasToGroupsDeleted(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: HasToGroupService_GetHasToGroupsDeleted_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HasToGroupServiceServer).GetHasToGroupsDeleted(ctx, req.(*GetHasToGroupsDeletedRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _HasToGroupService_UpdateHasToGroupById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateHasToGroupByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HasToGroupServiceServer).UpdateHasToGroupById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: HasToGroupService_UpdateHasToGroupById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HasToGroupServiceServer).UpdateHasToGroupById(ctx, req.(*UpdateHasToGroupByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _HasToGroupService_DeleteHasToGroupById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteHasToGroupByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HasToGroupServiceServer).DeleteHasToGroupById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: HasToGroupService_DeleteHasToGroupById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HasToGroupServiceServer).DeleteHasToGroupById(ctx, req.(*DeleteHasToGroupByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _HasToGroupService_UndeleteHasToGroupById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UndeleteHasToGroupByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HasToGroupServiceServer).UndeleteHasToGroupById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: HasToGroupService_UndeleteHasToGroupById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HasToGroupServiceServer).UndeleteHasToGroupById(ctx, req.(*UndeleteHasToGroupByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// HasToGroupService_ServiceDesc is the grpc.ServiceDesc for HasToGroupService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var HasToGroupService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "tables.v1.HasToGroupService",
+	HandlerType: (*HasToGroupServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "CreateHasToGroup",
+			Handler:    _HasToGroupService_CreateHasToGroup_Handler,
+		},
+		{
+			MethodName: "GetHasToGroupById",
+			Handler:    _HasToGroupService_GetHasToGroupById_Handler,
+		},
+		{
+			MethodName: "GetHasToGroupsSearchName",
+			Handler:    _HasToGroupService_GetHasToGroupsSearchName_Handler,
+		},
+		{
+			MethodName: "GetHasToGroups",
+			Handler:    _HasToGroupService_GetHasToGroups_Handler,
+		},
+		{
+			MethodName: "GetHasToGroupsDeleted",
+			Handler:    _HasToGroupService_GetHasToGroupsDeleted_Handler,
+		},
+		{
+			MethodName: "UpdateHasToGroupById",
+			Handler:    _HasToGroupService_UpdateHasToGroupById_Handler,
+		},
+		{
+			MethodName: "DeleteHasToGroupById",
+			Handler:    _HasToGroupService_DeleteHasToGroupById_Handler,
+		},
+		{
+			MethodName: "UndeleteHasToGroupById",
+			Handler:    _HasToGroupService_UndeleteHasToGroupById_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "tables/v1/tables.proto",
+}
+
+const (
+	SchemaCatService_CreateSchemaCat_FullMethodName       = "/tables.v1.SchemaCatService/CreateSchemaCat"
+	SchemaCatService_GetSchemaCatById_FullMethodName      = "/tables.v1.SchemaCatService/GetSchemaCatById"
+	SchemaCatService_GetSchemaCats_FullMethodName         = "/tables.v1.SchemaCatService/GetSchemaCats"
+	SchemaCatService_GetSchemaCatsDeleted_FullMethodName  = "/tables.v1.SchemaCatService/GetSchemaCatsDeleted"
+	SchemaCatService_UpdateSchemaCatById_FullMethodName   = "/tables.v1.SchemaCatService/UpdateSchemaCatById"
+	SchemaCatService_DeleteSchemaCatById_FullMethodName   = "/tables.v1.SchemaCatService/DeleteSchemaCatById"
+	SchemaCatService_UndeleteSchemaCatById_FullMethodName = "/tables.v1.SchemaCatService/UndeleteSchemaCatById"
+)
+
+// SchemaCatServiceClient is the client API for SchemaCatService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type SchemaCatServiceClient interface {
+	CreateSchemaCat(ctx context.Context, in *CreateSchemaCatRequest, opts ...grpc.CallOption) (*CreateSchemaCatResponse, error)
+	GetSchemaCatById(ctx context.Context, in *GetSchemaCatByIdRequest, opts ...grpc.CallOption) (*GetSchemaCatByIdResponse, error)
+	GetSchemaCats(ctx context.Context, in *GetSchemaCatsRequest, opts ...grpc.CallOption) (*GetSchemaCatsResponse, error)
+	GetSchemaCatsDeleted(ctx context.Context, in *GetSchemaCatsDeletedRequest, opts ...grpc.CallOption) (*GetSchemaCatsDeletedResponse, error)
+	UpdateSchemaCatById(ctx context.Context, in *UpdateSchemaCatByIdRequest, opts ...grpc.CallOption) (*UpdateSchemaCatByIdResponse, error)
+	DeleteSchemaCatById(ctx context.Context, in *DeleteSchemaCatByIdRequest, opts ...grpc.CallOption) (*DeleteSchemaCatByIdResponse, error)
+	UndeleteSchemaCatById(ctx context.Context, in *UndeleteSchemaCatByIdRequest, opts ...grpc.CallOption) (*UndeleteSchemaCatByIdResponse, error)
+}
+
+type schemaCatServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewSchemaCatServiceClient(cc grpc.ClientConnInterface) SchemaCatServiceClient {
+	return &schemaCatServiceClient{cc}
+}
+
+func (c *schemaCatServiceClient) CreateSchemaCat(ctx context.Context, in *CreateSchemaCatRequest, opts ...grpc.CallOption) (*CreateSchemaCatResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateSchemaCatResponse)
+	err := c.cc.Invoke(ctx, SchemaCatService_CreateSchemaCat_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *schemaCatServiceClient) GetSchemaCatById(ctx context.Context, in *GetSchemaCatByIdRequest, opts ...grpc.CallOption) (*GetSchemaCatByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetSchemaCatByIdResponse)
+	err := c.cc.Invoke(ctx, SchemaCatService_GetSchemaCatById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *schemaCatServiceClient) GetSchemaCats(ctx context.Context, in *GetSchemaCatsRequest, opts ...grpc.CallOption) (*GetSchemaCatsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetSchemaCatsResponse)
+	err := c.cc.Invoke(ctx, SchemaCatService_GetSchemaCats_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *schemaCatServiceClient) GetSchemaCatsDeleted(ctx context.Context, in *GetSchemaCatsDeletedRequest, opts ...grpc.CallOption) (*GetSchemaCatsDeletedResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetSchemaCatsDeletedResponse)
+	err := c.cc.Invoke(ctx, SchemaCatService_GetSchemaCatsDeleted_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *schemaCatServiceClient) UpdateSchemaCatById(ctx context.Context, in *UpdateSchemaCatByIdRequest, opts ...grpc.CallOption) (*UpdateSchemaCatByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateSchemaCatByIdResponse)
+	err := c.cc.Invoke(ctx, SchemaCatService_UpdateSchemaCatById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *schemaCatServiceClient) DeleteSchemaCatById(ctx context.Context, in *DeleteSchemaCatByIdRequest, opts ...grpc.CallOption) (*DeleteSchemaCatByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteSchemaCatByIdResponse)
+	err := c.cc.Invoke(ctx, SchemaCatService_DeleteSchemaCatById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *schemaCatServiceClient) UndeleteSchemaCatById(ctx context.Context, in *UndeleteSchemaCatByIdRequest, opts ...grpc.CallOption) (*UndeleteSchemaCatByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UndeleteSchemaCatByIdResponse)
+	err := c.cc.Invoke(ctx, SchemaCatService_UndeleteSchemaCatById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// SchemaCatServiceServer is the server API for SchemaCatService service.
+// All implementations must embed UnimplementedSchemaCatServiceServer
+// for forward compatibility.
+type SchemaCatServiceServer interface {
+	CreateSchemaCat(context.Context, *CreateSchemaCatRequest) (*CreateSchemaCatResponse, error)
+	GetSchemaCatById(context.Context, *GetSchemaCatByIdRequest) (*GetSchemaCatByIdResponse, error)
+	GetSchemaCats(context.Context, *GetSchemaCatsRequest) (*GetSchemaCatsResponse, error)
+	GetSchemaCatsDeleted(context.Context, *GetSchemaCatsDeletedRequest) (*GetSchemaCatsDeletedResponse, error)
+	UpdateSchemaCatById(context.Context, *UpdateSchemaCatByIdRequest) (*UpdateSchemaCatByIdResponse, error)
+	DeleteSchemaCatById(context.Context, *DeleteSchemaCatByIdRequest) (*DeleteSchemaCatByIdResponse, error)
+	UndeleteSchemaCatById(context.Context, *UndeleteSchemaCatByIdRequest) (*UndeleteSchemaCatByIdResponse, error)
+	mustEmbedUnimplementedSchemaCatServiceServer()
+}
+
+// UnimplementedSchemaCatServiceServer must be embedded to have
+// forward compatible implementations.
+//
+// NOTE: this should be embedded by value instead of pointer to avoid a nil
+// pointer dereference when methods are called.
+type UnimplementedSchemaCatServiceServer struct{}
+
+func (UnimplementedSchemaCatServiceServer) CreateSchemaCat(context.Context, *CreateSchemaCatRequest) (*CreateSchemaCatResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateSchemaCat not implemented")
+}
+func (UnimplementedSchemaCatServiceServer) GetSchemaCatById(context.Context, *GetSchemaCatByIdRequest) (*GetSchemaCatByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetSchemaCatById not implemented")
+}
+func (UnimplementedSchemaCatServiceServer) GetSchemaCats(context.Context, *GetSchemaCatsRequest) (*GetSchemaCatsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetSchemaCats not implemented")
+}
+func (UnimplementedSchemaCatServiceServer) GetSchemaCatsDeleted(context.Context, *GetSchemaCatsDeletedRequest) (*GetSchemaCatsDeletedResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetSchemaCatsDeleted not implemented")
+}
+func (UnimplementedSchemaCatServiceServer) UpdateSchemaCatById(context.Context, *UpdateSchemaCatByIdRequest) (*UpdateSchemaCatByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateSchemaCatById not implemented")
+}
+func (UnimplementedSchemaCatServiceServer) DeleteSchemaCatById(context.Context, *DeleteSchemaCatByIdRequest) (*DeleteSchemaCatByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteSchemaCatById not implemented")
+}
+func (UnimplementedSchemaCatServiceServer) UndeleteSchemaCatById(context.Context, *UndeleteSchemaCatByIdRequest) (*UndeleteSchemaCatByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UndeleteSchemaCatById not implemented")
+}
+func (UnimplementedSchemaCatServiceServer) mustEmbedUnimplementedSchemaCatServiceServer() {}
+func (UnimplementedSchemaCatServiceServer) testEmbeddedByValue()                          {}
+
+// UnsafeSchemaCatServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to SchemaCatServiceServer will
+// result in compilation errors.
+type UnsafeSchemaCatServiceServer interface {
+	mustEmbedUnimplementedSchemaCatServiceServer()
+}
+
+func RegisterSchemaCatServiceServer(s grpc.ServiceRegistrar, srv SchemaCatServiceServer) {
+	// If the following call pancis, it indicates UnimplementedSchemaCatServiceServer was
+	// embedded by pointer and is nil.  This will cause panics if an
+	// unimplemented method is ever invoked, so we test this at initialization
+	// time to prevent it from happening at runtime later due to I/O.
+	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
+		t.testEmbeddedByValue()
+	}
+	s.RegisterService(&SchemaCatService_ServiceDesc, srv)
+}
+
+func _SchemaCatService_CreateSchemaCat_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateSchemaCatRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SchemaCatServiceServer).CreateSchemaCat(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SchemaCatService_CreateSchemaCat_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SchemaCatServiceServer).CreateSchemaCat(ctx, req.(*CreateSchemaCatRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SchemaCatService_GetSchemaCatById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetSchemaCatByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SchemaCatServiceServer).GetSchemaCatById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SchemaCatService_GetSchemaCatById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SchemaCatServiceServer).GetSchemaCatById(ctx, req.(*GetSchemaCatByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SchemaCatService_GetSchemaCats_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetSchemaCatsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SchemaCatServiceServer).GetSchemaCats(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SchemaCatService_GetSchemaCats_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SchemaCatServiceServer).GetSchemaCats(ctx, req.(*GetSchemaCatsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SchemaCatService_GetSchemaCatsDeleted_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetSchemaCatsDeletedRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SchemaCatServiceServer).GetSchemaCatsDeleted(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SchemaCatService_GetSchemaCatsDeleted_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SchemaCatServiceServer).GetSchemaCatsDeleted(ctx, req.(*GetSchemaCatsDeletedRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SchemaCatService_UpdateSchemaCatById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateSchemaCatByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SchemaCatServiceServer).UpdateSchemaCatById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SchemaCatService_UpdateSchemaCatById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SchemaCatServiceServer).UpdateSchemaCatById(ctx, req.(*UpdateSchemaCatByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SchemaCatService_DeleteSchemaCatById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteSchemaCatByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SchemaCatServiceServer).DeleteSchemaCatById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SchemaCatService_DeleteSchemaCatById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SchemaCatServiceServer).DeleteSchemaCatById(ctx, req.(*DeleteSchemaCatByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SchemaCatService_UndeleteSchemaCatById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UndeleteSchemaCatByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SchemaCatServiceServer).UndeleteSchemaCatById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SchemaCatService_UndeleteSchemaCatById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SchemaCatServiceServer).UndeleteSchemaCatById(ctx, req.(*UndeleteSchemaCatByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// SchemaCatService_ServiceDesc is the grpc.ServiceDesc for SchemaCatService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var SchemaCatService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "tables.v1.SchemaCatService",
+	HandlerType: (*SchemaCatServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "CreateSchemaCat",
+			Handler:    _SchemaCatService_CreateSchemaCat_Handler,
+		},
+		{
+			MethodName: "GetSchemaCatById",
+			Handler:    _SchemaCatService_GetSchemaCatById_Handler,
+		},
+		{
+			MethodName: "GetSchemaCats",
+			Handler:    _SchemaCatService_GetSchemaCats_Handler,
+		},
+		{
+			MethodName: "GetSchemaCatsDeleted",
+			Handler:    _SchemaCatService_GetSchemaCatsDeleted_Handler,
+		},
+		{
+			MethodName: "UpdateSchemaCatById",
+			Handler:    _SchemaCatService_UpdateSchemaCatById_Handler,
+		},
+		{
+			MethodName: "DeleteSchemaCatById",
+			Handler:    _SchemaCatService_DeleteSchemaCatById_Handler,
+		},
+		{
+			MethodName: "UndeleteSchemaCatById",
+			Handler:    _SchemaCatService_UndeleteSchemaCatById_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "tables/v1/tables.proto",
+}
+
+const (
+	TableCatService_CreateTableCat_FullMethodName       = "/tables.v1.TableCatService/CreateTableCat"
+	TableCatService_GetTableCatById_FullMethodName      = "/tables.v1.TableCatService/GetTableCatById"
+	TableCatService_GetTableCats_FullMethodName         = "/tables.v1.TableCatService/GetTableCats"
+	TableCatService_GetTableCatsDeleted_FullMethodName  = "/tables.v1.TableCatService/GetTableCatsDeleted"
+	TableCatService_UpdateTableCatById_FullMethodName   = "/tables.v1.TableCatService/UpdateTableCatById"
+	TableCatService_DeleteTableCatById_FullMethodName   = "/tables.v1.TableCatService/DeleteTableCatById"
+	TableCatService_UndeleteTableCatById_FullMethodName = "/tables.v1.TableCatService/UndeleteTableCatById"
+)
+
+// TableCatServiceClient is the client API for TableCatService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type TableCatServiceClient interface {
+	CreateTableCat(ctx context.Context, in *CreateTableCatRequest, opts ...grpc.CallOption) (*CreateTableCatResponse, error)
+	GetTableCatById(ctx context.Context, in *GetTableCatByIdRequest, opts ...grpc.CallOption) (*GetTableCatByIdResponse, error)
+	GetTableCats(ctx context.Context, in *GetTableCatsRequest, opts ...grpc.CallOption) (*GetTableCatsResponse, error)
+	GetTableCatsDeleted(ctx context.Context, in *GetTableCatsDeletedRequest, opts ...grpc.CallOption) (*GetTableCatsDeletedResponse, error)
+	UpdateTableCatById(ctx context.Context, in *UpdateTableCatByIdRequest, opts ...grpc.CallOption) (*UpdateTableCatByIdResponse, error)
+	DeleteTableCatById(ctx context.Context, in *DeleteTableCatByIdRequest, opts ...grpc.CallOption) (*DeleteTableCatByIdResponse, error)
+	UndeleteTableCatById(ctx context.Context, in *UndeleteTableCatByIdRequest, opts ...grpc.CallOption) (*UndeleteTableCatByIdResponse, error)
+}
+
+type tableCatServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewTableCatServiceClient(cc grpc.ClientConnInterface) TableCatServiceClient {
+	return &tableCatServiceClient{cc}
+}
+
+func (c *tableCatServiceClient) CreateTableCat(ctx context.Context, in *CreateTableCatRequest, opts ...grpc.CallOption) (*CreateTableCatResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateTableCatResponse)
+	err := c.cc.Invoke(ctx, TableCatService_CreateTableCat_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *tableCatServiceClient) GetTableCatById(ctx context.Context, in *GetTableCatByIdRequest, opts ...grpc.CallOption) (*GetTableCatByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetTableCatByIdResponse)
+	err := c.cc.Invoke(ctx, TableCatService_GetTableCatById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *tableCatServiceClient) GetTableCats(ctx context.Context, in *GetTableCatsRequest, opts ...grpc.CallOption) (*GetTableCatsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetTableCatsResponse)
+	err := c.cc.Invoke(ctx, TableCatService_GetTableCats_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *tableCatServiceClient) GetTableCatsDeleted(ctx context.Context, in *GetTableCatsDeletedRequest, opts ...grpc.CallOption) (*GetTableCatsDeletedResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetTableCatsDeletedResponse)
+	err := c.cc.Invoke(ctx, TableCatService_GetTableCatsDeleted_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *tableCatServiceClient) UpdateTableCatById(ctx context.Context, in *UpdateTableCatByIdRequest, opts ...grpc.CallOption) (*UpdateTableCatByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateTableCatByIdResponse)
+	err := c.cc.Invoke(ctx, TableCatService_UpdateTableCatById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *tableCatServiceClient) DeleteTableCatById(ctx context.Context, in *DeleteTableCatByIdRequest, opts ...grpc.CallOption) (*DeleteTableCatByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteTableCatByIdResponse)
+	err := c.cc.Invoke(ctx, TableCatService_DeleteTableCatById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *tableCatServiceClient) UndeleteTableCatById(ctx context.Context, in *UndeleteTableCatByIdRequest, opts ...grpc.CallOption) (*UndeleteTableCatByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UndeleteTableCatByIdResponse)
+	err := c.cc.Invoke(ctx, TableCatService_UndeleteTableCatById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// TableCatServiceServer is the server API for TableCatService service.
+// All implementations must embed UnimplementedTableCatServiceServer
+// for forward compatibility.
+type TableCatServiceServer interface {
+	CreateTableCat(context.Context, *CreateTableCatRequest) (*CreateTableCatResponse, error)
+	GetTableCatById(context.Context, *GetTableCatByIdRequest) (*GetTableCatByIdResponse, error)
+	GetTableCats(context.Context, *GetTableCatsRequest) (*GetTableCatsResponse, error)
+	GetTableCatsDeleted(context.Context, *GetTableCatsDeletedRequest) (*GetTableCatsDeletedResponse, error)
+	UpdateTableCatById(context.Context, *UpdateTableCatByIdRequest) (*UpdateTableCatByIdResponse, error)
+	DeleteTableCatById(context.Context, *DeleteTableCatByIdRequest) (*DeleteTableCatByIdResponse, error)
+	UndeleteTableCatById(context.Context, *UndeleteTableCatByIdRequest) (*UndeleteTableCatByIdResponse, error)
+	mustEmbedUnimplementedTableCatServiceServer()
+}
+
+// UnimplementedTableCatServiceServer must be embedded to have
+// forward compatible implementations.
+//
+// NOTE: this should be embedded by value instead of pointer to avoid a nil
+// pointer dereference when methods are called.
+type UnimplementedTableCatServiceServer struct{}
+
+func (UnimplementedTableCatServiceServer) CreateTableCat(context.Context, *CreateTableCatRequest) (*CreateTableCatResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateTableCat not implemented")
+}
+func (UnimplementedTableCatServiceServer) GetTableCatById(context.Context, *GetTableCatByIdRequest) (*GetTableCatByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTableCatById not implemented")
+}
+func (UnimplementedTableCatServiceServer) GetTableCats(context.Context, *GetTableCatsRequest) (*GetTableCatsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTableCats not implemented")
+}
+func (UnimplementedTableCatServiceServer) GetTableCatsDeleted(context.Context, *GetTableCatsDeletedRequest) (*GetTableCatsDeletedResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTableCatsDeleted not implemented")
+}
+func (UnimplementedTableCatServiceServer) UpdateTableCatById(context.Context, *UpdateTableCatByIdRequest) (*UpdateTableCatByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateTableCatById not implemented")
+}
+func (UnimplementedTableCatServiceServer) DeleteTableCatById(context.Context, *DeleteTableCatByIdRequest) (*DeleteTableCatByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteTableCatById not implemented")
+}
+func (UnimplementedTableCatServiceServer) UndeleteTableCatById(context.Context, *UndeleteTableCatByIdRequest) (*UndeleteTableCatByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UndeleteTableCatById not implemented")
+}
+func (UnimplementedTableCatServiceServer) mustEmbedUnimplementedTableCatServiceServer() {}
+func (UnimplementedTableCatServiceServer) testEmbeddedByValue()                         {}
+
+// UnsafeTableCatServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to TableCatServiceServer will
+// result in compilation errors.
+type UnsafeTableCatServiceServer interface {
+	mustEmbedUnimplementedTableCatServiceServer()
+}
+
+func RegisterTableCatServiceServer(s grpc.ServiceRegistrar, srv TableCatServiceServer) {
+	// If the following call pancis, it indicates UnimplementedTableCatServiceServer was
+	// embedded by pointer and is nil.  This will cause panics if an
+	// unimplemented method is ever invoked, so we test this at initialization
+	// time to prevent it from happening at runtime later due to I/O.
+	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
+		t.testEmbeddedByValue()
+	}
+	s.RegisterService(&TableCatService_ServiceDesc, srv)
+}
+
+func _TableCatService_CreateTableCat_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateTableCatRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TableCatServiceServer).CreateTableCat(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TableCatService_CreateTableCat_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TableCatServiceServer).CreateTableCat(ctx, req.(*CreateTableCatRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TableCatService_GetTableCatById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTableCatByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TableCatServiceServer).GetTableCatById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TableCatService_GetTableCatById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TableCatServiceServer).GetTableCatById(ctx, req.(*GetTableCatByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TableCatService_GetTableCats_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTableCatsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TableCatServiceServer).GetTableCats(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TableCatService_GetTableCats_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TableCatServiceServer).GetTableCats(ctx, req.(*GetTableCatsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TableCatService_GetTableCatsDeleted_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTableCatsDeletedRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TableCatServiceServer).GetTableCatsDeleted(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TableCatService_GetTableCatsDeleted_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TableCatServiceServer).GetTableCatsDeleted(ctx, req.(*GetTableCatsDeletedRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TableCatService_UpdateTableCatById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateTableCatByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TableCatServiceServer).UpdateTableCatById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TableCatService_UpdateTableCatById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TableCatServiceServer).UpdateTableCatById(ctx, req.(*UpdateTableCatByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TableCatService_DeleteTableCatById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteTableCatByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TableCatServiceServer).DeleteTableCatById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TableCatService_DeleteTableCatById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TableCatServiceServer).DeleteTableCatById(ctx, req.(*DeleteTableCatByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TableCatService_UndeleteTableCatById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UndeleteTableCatByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TableCatServiceServer).UndeleteTableCatById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TableCatService_UndeleteTableCatById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TableCatServiceServer).UndeleteTableCatById(ctx, req.(*UndeleteTableCatByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// TableCatService_ServiceDesc is the grpc.ServiceDesc for TableCatService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var TableCatService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "tables.v1.TableCatService",
+	HandlerType: (*TableCatServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "CreateTableCat",
+			Handler:    _TableCatService_CreateTableCat_Handler,
+		},
+		{
+			MethodName: "GetTableCatById",
+			Handler:    _TableCatService_GetTableCatById_Handler,
+		},
+		{
+			MethodName: "GetTableCats",
+			Handler:    _TableCatService_GetTableCats_Handler,
+		},
+		{
+			MethodName: "GetTableCatsDeleted",
+			Handler:    _TableCatService_GetTableCatsDeleted_Handler,
+		},
+		{
+			MethodName: "UpdateTableCatById",
+			Handler:    _TableCatService_UpdateTableCatById_Handler,
+		},
+		{
+			MethodName: "DeleteTableCatById",
+			Handler:    _TableCatService_DeleteTableCatById_Handler,
+		},
+		{
+			MethodName: "UndeleteTableCatById",
+			Handler:    _TableCatService_UndeleteTableCatById_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "tables/v1/tables.proto",
+}
+
+const (
+	TableTypeService_CreateTableType_FullMethodName       = "/tables.v1.TableTypeService/CreateTableType"
+	TableTypeService_GetTableTypeById_FullMethodName      = "/tables.v1.TableTypeService/GetTableTypeById"
+	TableTypeService_GetTableTypes_FullMethodName         = "/tables.v1.TableTypeService/GetTableTypes"
+	TableTypeService_GetTableTypesDeleted_FullMethodName  = "/tables.v1.TableTypeService/GetTableTypesDeleted"
+	TableTypeService_UpdateTableTypeById_FullMethodName   = "/tables.v1.TableTypeService/UpdateTableTypeById"
+	TableTypeService_DeleteTableTypeById_FullMethodName   = "/tables.v1.TableTypeService/DeleteTableTypeById"
+	TableTypeService_UndeleteTableTypeById_FullMethodName = "/tables.v1.TableTypeService/UndeleteTableTypeById"
+)
+
+// TableTypeServiceClient is the client API for TableTypeService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type TableTypeServiceClient interface {
+	CreateTableType(ctx context.Context, in *CreateTableTypeRequest, opts ...grpc.CallOption) (*CreateTableTypeResponse, error)
+	GetTableTypeById(ctx context.Context, in *GetTableTypeByIdRequest, opts ...grpc.CallOption) (*GetTableTypeByIdResponse, error)
+	GetTableTypes(ctx context.Context, in *GetTableTypesRequest, opts ...grpc.CallOption) (*GetTableTypesResponse, error)
+	GetTableTypesDeleted(ctx context.Context, in *GetTableTypesDeletedRequest, opts ...grpc.CallOption) (*GetTableTypesDeletedResponse, error)
+	UpdateTableTypeById(ctx context.Context, in *UpdateTableTypeByIdRequest, opts ...grpc.CallOption) (*UpdateTableTypeByIdResponse, error)
+	DeleteTableTypeById(ctx context.Context, in *DeleteTableTypeByIdRequest, opts ...grpc.CallOption) (*DeleteTableTypeByIdResponse, error)
+	UndeleteTableTypeById(ctx context.Context, in *UndeleteTableTypeByIdRequest, opts ...grpc.CallOption) (*UndeleteTableTypeByIdResponse, error)
+}
+
+type tableTypeServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewTableTypeServiceClient(cc grpc.ClientConnInterface) TableTypeServiceClient {
+	return &tableTypeServiceClient{cc}
+}
+
+func (c *tableTypeServiceClient) CreateTableType(ctx context.Context, in *CreateTableTypeRequest, opts ...grpc.CallOption) (*CreateTableTypeResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateTableTypeResponse)
+	err := c.cc.Invoke(ctx, TableTypeService_CreateTableType_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *tableTypeServiceClient) GetTableTypeById(ctx context.Context, in *GetTableTypeByIdRequest, opts ...grpc.CallOption) (*GetTableTypeByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetTableTypeByIdResponse)
+	err := c.cc.Invoke(ctx, TableTypeService_GetTableTypeById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *tableTypeServiceClient) GetTableTypes(ctx context.Context, in *GetTableTypesRequest, opts ...grpc.CallOption) (*GetTableTypesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetTableTypesResponse)
+	err := c.cc.Invoke(ctx, TableTypeService_GetTableTypes_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *tableTypeServiceClient) GetTableTypesDeleted(ctx context.Context, in *GetTableTypesDeletedRequest, opts ...grpc.CallOption) (*GetTableTypesDeletedResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetTableTypesDeletedResponse)
+	err := c.cc.Invoke(ctx, TableTypeService_GetTableTypesDeleted_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *tableTypeServiceClient) UpdateTableTypeById(ctx context.Context, in *UpdateTableTypeByIdRequest, opts ...grpc.CallOption) (*UpdateTableTypeByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateTableTypeByIdResponse)
+	err := c.cc.Invoke(ctx, TableTypeService_UpdateTableTypeById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *tableTypeServiceClient) DeleteTableTypeById(ctx context.Context, in *DeleteTableTypeByIdRequest, opts ...grpc.CallOption) (*DeleteTableTypeByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteTableTypeByIdResponse)
+	err := c.cc.Invoke(ctx, TableTypeService_DeleteTableTypeById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *tableTypeServiceClient) UndeleteTableTypeById(ctx context.Context, in *UndeleteTableTypeByIdRequest, opts ...grpc.CallOption) (*UndeleteTableTypeByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UndeleteTableTypeByIdResponse)
+	err := c.cc.Invoke(ctx, TableTypeService_UndeleteTableTypeById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// TableTypeServiceServer is the server API for TableTypeService service.
+// All implementations must embed UnimplementedTableTypeServiceServer
+// for forward compatibility.
+type TableTypeServiceServer interface {
+	CreateTableType(context.Context, *CreateTableTypeRequest) (*CreateTableTypeResponse, error)
+	GetTableTypeById(context.Context, *GetTableTypeByIdRequest) (*GetTableTypeByIdResponse, error)
+	GetTableTypes(context.Context, *GetTableTypesRequest) (*GetTableTypesResponse, error)
+	GetTableTypesDeleted(context.Context, *GetTableTypesDeletedRequest) (*GetTableTypesDeletedResponse, error)
+	UpdateTableTypeById(context.Context, *UpdateTableTypeByIdRequest) (*UpdateTableTypeByIdResponse, error)
+	DeleteTableTypeById(context.Context, *DeleteTableTypeByIdRequest) (*DeleteTableTypeByIdResponse, error)
+	UndeleteTableTypeById(context.Context, *UndeleteTableTypeByIdRequest) (*UndeleteTableTypeByIdResponse, error)
+	mustEmbedUnimplementedTableTypeServiceServer()
+}
+
+// UnimplementedTableTypeServiceServer must be embedded to have
+// forward compatible implementations.
+//
+// NOTE: this should be embedded by value instead of pointer to avoid a nil
+// pointer dereference when methods are called.
+type UnimplementedTableTypeServiceServer struct{}
+
+func (UnimplementedTableTypeServiceServer) CreateTableType(context.Context, *CreateTableTypeRequest) (*CreateTableTypeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateTableType not implemented")
+}
+func (UnimplementedTableTypeServiceServer) GetTableTypeById(context.Context, *GetTableTypeByIdRequest) (*GetTableTypeByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTableTypeById not implemented")
+}
+func (UnimplementedTableTypeServiceServer) GetTableTypes(context.Context, *GetTableTypesRequest) (*GetTableTypesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTableTypes not implemented")
+}
+func (UnimplementedTableTypeServiceServer) GetTableTypesDeleted(context.Context, *GetTableTypesDeletedRequest) (*GetTableTypesDeletedResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTableTypesDeleted not implemented")
+}
+func (UnimplementedTableTypeServiceServer) UpdateTableTypeById(context.Context, *UpdateTableTypeByIdRequest) (*UpdateTableTypeByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateTableTypeById not implemented")
+}
+func (UnimplementedTableTypeServiceServer) DeleteTableTypeById(context.Context, *DeleteTableTypeByIdRequest) (*DeleteTableTypeByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteTableTypeById not implemented")
+}
+func (UnimplementedTableTypeServiceServer) UndeleteTableTypeById(context.Context, *UndeleteTableTypeByIdRequest) (*UndeleteTableTypeByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UndeleteTableTypeById not implemented")
+}
+func (UnimplementedTableTypeServiceServer) mustEmbedUnimplementedTableTypeServiceServer() {}
+func (UnimplementedTableTypeServiceServer) testEmbeddedByValue()                          {}
+
+// UnsafeTableTypeServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to TableTypeServiceServer will
+// result in compilation errors.
+type UnsafeTableTypeServiceServer interface {
+	mustEmbedUnimplementedTableTypeServiceServer()
+}
+
+func RegisterTableTypeServiceServer(s grpc.ServiceRegistrar, srv TableTypeServiceServer) {
+	// If the following call pancis, it indicates UnimplementedTableTypeServiceServer was
+	// embedded by pointer and is nil.  This will cause panics if an
+	// unimplemented method is ever invoked, so we test this at initialization
+	// time to prevent it from happening at runtime later due to I/O.
+	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
+		t.testEmbeddedByValue()
+	}
+	s.RegisterService(&TableTypeService_ServiceDesc, srv)
+}
+
+func _TableTypeService_CreateTableType_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateTableTypeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TableTypeServiceServer).CreateTableType(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TableTypeService_CreateTableType_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TableTypeServiceServer).CreateTableType(ctx, req.(*CreateTableTypeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TableTypeService_GetTableTypeById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTableTypeByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TableTypeServiceServer).GetTableTypeById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TableTypeService_GetTableTypeById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TableTypeServiceServer).GetTableTypeById(ctx, req.(*GetTableTypeByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TableTypeService_GetTableTypes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTableTypesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TableTypeServiceServer).GetTableTypes(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TableTypeService_GetTableTypes_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TableTypeServiceServer).GetTableTypes(ctx, req.(*GetTableTypesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TableTypeService_GetTableTypesDeleted_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTableTypesDeletedRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TableTypeServiceServer).GetTableTypesDeleted(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TableTypeService_GetTableTypesDeleted_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TableTypeServiceServer).GetTableTypesDeleted(ctx, req.(*GetTableTypesDeletedRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TableTypeService_UpdateTableTypeById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateTableTypeByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TableTypeServiceServer).UpdateTableTypeById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TableTypeService_UpdateTableTypeById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TableTypeServiceServer).UpdateTableTypeById(ctx, req.(*UpdateTableTypeByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TableTypeService_DeleteTableTypeById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteTableTypeByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TableTypeServiceServer).DeleteTableTypeById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TableTypeService_DeleteTableTypeById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TableTypeServiceServer).DeleteTableTypeById(ctx, req.(*DeleteTableTypeByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TableTypeService_UndeleteTableTypeById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UndeleteTableTypeByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TableTypeServiceServer).UndeleteTableTypeById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TableTypeService_UndeleteTableTypeById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TableTypeServiceServer).UndeleteTableTypeById(ctx, req.(*UndeleteTableTypeByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// TableTypeService_ServiceDesc is the grpc.ServiceDesc for TableTypeService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var TableTypeService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "tables.v1.TableTypeService",
+	HandlerType: (*TableTypeServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "CreateTableType",
+			Handler:    _TableTypeService_CreateTableType_Handler,
+		},
+		{
+			MethodName: "GetTableTypeById",
+			Handler:    _TableTypeService_GetTableTypeById_Handler,
+		},
+		{
+			MethodName: "GetTableTypes",
+			Handler:    _TableTypeService_GetTableTypes_Handler,
+		},
+		{
+			MethodName: "GetTableTypesDeleted",
+			Handler:    _TableTypeService_GetTableTypesDeleted_Handler,
+		},
+		{
+			MethodName: "UpdateTableTypeById",
+			Handler:    _TableTypeService_UpdateTableTypeById_Handler,
+		},
+		{
+			MethodName: "DeleteTableTypeById",
+			Handler:    _TableTypeService_DeleteTableTypeById_Handler,
+		},
+		{
+			MethodName: "UndeleteTableTypeById",
+			Handler:    _TableTypeService_UndeleteTableTypeById_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "tables/v1/tables.proto",
+}
+
+const (
+	CalculationTypeService_GetCalculationTypeById_FullMethodName = "/tables.v1.CalculationTypeService/GetCalculationTypeById"
+	CalculationTypeService_GetCalculationTypes_FullMethodName    = "/tables.v1.CalculationTypeService/GetCalculationTypes"
+)
+
+// CalculationTypeServiceClient is the client API for CalculationTypeService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type CalculationTypeServiceClient interface {
+	GetCalculationTypeById(ctx context.Context, in *GetCalculationTypeByIdRequest, opts ...grpc.CallOption) (*GetCalculationTypeByIdResponse, error)
+	GetCalculationTypes(ctx context.Context, in *GetCalculationTypesRequest, opts ...grpc.CallOption) (*GetCalculationTypesResponse, error)
+}
+
+type calculationTypeServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewCalculationTypeServiceClient(cc grpc.ClientConnInterface) CalculationTypeServiceClient {
+	return &calculationTypeServiceClient{cc}
+}
+
+func (c *calculationTypeServiceClient) GetCalculationTypeById(ctx context.Context, in *GetCalculationTypeByIdRequest, opts ...grpc.CallOption) (*GetCalculationTypeByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetCalculationTypeByIdResponse)
+	err := c.cc.Invoke(ctx, CalculationTypeService_GetCalculationTypeById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *calculationTypeServiceClient) GetCalculationTypes(ctx context.Context, in *GetCalculationTypesRequest, opts ...grpc.CallOption) (*GetCalculationTypesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetCalculationTypesResponse)
+	err := c.cc.Invoke(ctx, CalculationTypeService_GetCalculationTypes_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// CalculationTypeServiceServer is the server API for CalculationTypeService service.
+// All implementations must embed UnimplementedCalculationTypeServiceServer
+// for forward compatibility.
+type CalculationTypeServiceServer interface {
+	GetCalculationTypeById(context.Context, *GetCalculationTypeByIdRequest) (*GetCalculationTypeByIdResponse, error)
+	GetCalculationTypes(context.Context, *GetCalculationTypesRequest) (*GetCalculationTypesResponse, error)
+	mustEmbedUnimplementedCalculationTypeServiceServer()
+}
+
+// UnimplementedCalculationTypeServiceServer must be embedded to have
+// forward compatible implementations.
+//
+// NOTE: this should be embedded by value instead of pointer to avoid a nil
+// pointer dereference when methods are called.
+type UnimplementedCalculationTypeServiceServer struct{}
+
+func (UnimplementedCalculationTypeServiceServer) GetCalculationTypeById(context.Context, *GetCalculationTypeByIdRequest) (*GetCalculationTypeByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCalculationTypeById not implemented")
+}
+func (UnimplementedCalculationTypeServiceServer) GetCalculationTypes(context.Context, *GetCalculationTypesRequest) (*GetCalculationTypesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCalculationTypes not implemented")
+}
+func (UnimplementedCalculationTypeServiceServer) mustEmbedUnimplementedCalculationTypeServiceServer() {
+}
+func (UnimplementedCalculationTypeServiceServer) testEmbeddedByValue() {}
+
+// UnsafeCalculationTypeServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to CalculationTypeServiceServer will
+// result in compilation errors.
+type UnsafeCalculationTypeServiceServer interface {
+	mustEmbedUnimplementedCalculationTypeServiceServer()
+}
+
+func RegisterCalculationTypeServiceServer(s grpc.ServiceRegistrar, srv CalculationTypeServiceServer) {
+	// If the following call pancis, it indicates UnimplementedCalculationTypeServiceServer was
+	// embedded by pointer and is nil.  This will cause panics if an
+	// unimplemented method is ever invoked, so we test this at initialization
+	// time to prevent it from happening at runtime later due to I/O.
+	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
+		t.testEmbeddedByValue()
+	}
+	s.RegisterService(&CalculationTypeService_ServiceDesc, srv)
+}
+
+func _CalculationTypeService_GetCalculationTypeById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCalculationTypeByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CalculationTypeServiceServer).GetCalculationTypeById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CalculationTypeService_GetCalculationTypeById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CalculationTypeServiceServer).GetCalculationTypeById(ctx, req.(*GetCalculationTypeByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CalculationTypeService_GetCalculationTypes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCalculationTypesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CalculationTypeServiceServer).GetCalculationTypes(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CalculationTypeService_GetCalculationTypes_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CalculationTypeServiceServer).GetCalculationTypes(ctx, req.(*GetCalculationTypesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// CalculationTypeService_ServiceDesc is the grpc.ServiceDesc for CalculationTypeService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var CalculationTypeService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "tables.v1.CalculationTypeService",
+	HandlerType: (*CalculationTypeServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetCalculationTypeById",
+			Handler:    _CalculationTypeService_GetCalculationTypeById_Handler,
+		},
+		{
+			MethodName: "GetCalculationTypes",
+			Handler:    _CalculationTypeService_GetCalculationTypes_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "tables/v1/tables.proto",
+}

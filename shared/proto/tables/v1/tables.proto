@@ -308,3 +308,1566 @@ message UndeleteHostByIdRequest {
 
 // Обратное удаление UndeleteHostById: ответ пустой — запрос ничего не возвращает.
 message UndeleteHostByIdResponse {}
+
+// =========================================================
+// dc.database_type
+// =========================================================
+
+service DatabaseTypeService {
+  rpc CreateDatabaseType(CreateDatabaseTypeRequest) returns (CreateDatabaseTypeResponse);
+  rpc GetDatabaseTypeById(GetDatabaseTypeByIdRequest) returns (GetDatabaseTypeByIdResponse);
+  rpc GetDatabaseTypesSearchName(GetDatabaseTypesSearchNameRequest) returns (GetDatabaseTypesSearchNameResponse);
+  rpc GetDatabaseTypes(GetDatabaseTypesRequest) returns (GetDatabaseTypesResponse);
+  rpc GetDatabaseTypesDeleted(GetDatabaseTypesDeletedRequest) returns (GetDatabaseTypesDeletedResponse);
+  rpc UpdateDatabaseTypeById(UpdateDatabaseTypeByIdRequest) returns (UpdateDatabaseTypeByIdResponse);
+  rpc DeleteDatabaseTypeById(DeleteDatabaseTypeByIdRequest) returns (DeleteDatabaseTypeByIdResponse);
+  rpc UndeleteDatabaseTypeById(UndeleteDatabaseTypeByIdRequest) returns (UndeleteDatabaseTypeByIdResponse);
+}
+
+// Строка таблицы dc.database_type: все колонки, как их вернёт SELECT *.
+message DatabaseType {
+  int64 id = 1;
+  string name = 2;
+  string db_version = 3;
+  bool is_deleted = 4;
+  google.protobuf.Timestamp created_at = 5;
+  google.protobuf.Timestamp updated_at = 6;
+  int64 user_id = 7;
+}
+
+// Вставка CreateDatabaseType: параметры вызова.
+message CreateDatabaseTypeRequest {
+  string name = 1;
+  string db_version = 2;
+  string external_id = 3;
+}
+
+// Вставка CreateDatabaseType: одна строка.
+message CreateDatabaseTypeResponse {
+  DatabaseType database_type = 1;
+}
+
+// Выборка GetDatabaseTypeById: параметры вызова.
+message GetDatabaseTypeByIdRequest {
+  int64 id = 1;
+}
+
+// Выборка GetDatabaseTypeById: одна строка.
+message GetDatabaseTypeByIdResponse {
+  DatabaseType database_type = 1;
+}
+
+// Выборка GetDatabaseTypesSearchName: параметры вызова. Порядок по умолчанию — id.
+message GetDatabaseTypesSearchNameRequest {
+  string search_name = 1;
+  // допустимые значения: ASC, DESC
+  string order = 2;
+  int32 page_limit = 3;
+  int32 page = 4;
+}
+
+// Выборка GetDatabaseTypesSearchName: страница данных и пагинация.
+message GetDatabaseTypesSearchNameResponse {
+  repeated DatabaseType data = 1;
+  Pagination pagination = 2;
+}
+
+// Выборка GetDatabaseTypes: параметры вызова. Порядок по умолчанию — id.
+message GetDatabaseTypesRequest {
+  // допустимые значения: ASC, DESC
+  string order = 1;
+  int32 page_limit = 2;
+  int32 page = 3;
+}
+
+// Выборка GetDatabaseTypes: страница данных и пагинация.
+message GetDatabaseTypesResponse {
+  repeated DatabaseType data = 1;
+  Pagination pagination = 2;
+}
+
+// Выборка GetDatabaseTypesDeleted: параметры вызова. Порядок по умолчанию — id.
+message GetDatabaseTypesDeletedRequest {
+  // допустимые значения: ASC, DESC
+  string order = 1;
+  int32 page_limit = 2;
+  int32 page = 3;
+}
+
+// Выборка GetDatabaseTypesDeleted: страница данных и пагинация.
+message GetDatabaseTypesDeletedResponse {
+  repeated DatabaseType data = 1;
+  Pagination pagination = 2;
+}
+
+// Изменение UpdateDatabaseTypeById: параметры вызова.
+message UpdateDatabaseTypeByIdRequest {
+  string name = 1;
+  string db_version = 2;
+  string external_id = 3;
+  int64 id = 4;
+}
+
+// Изменение UpdateDatabaseTypeById: ответ пустой — запрос ничего не возвращает.
+message UpdateDatabaseTypeByIdResponse {}
+
+// Мягкое удаление DeleteDatabaseTypeById: параметры вызова.
+message DeleteDatabaseTypeByIdRequest {
+  string external_id = 1;
+  int64 id = 2;
+}
+
+// Мягкое удаление DeleteDatabaseTypeById: ответ пустой — запрос ничего не возвращает.
+message DeleteDatabaseTypeByIdResponse {}
+
+// Обратное удаление UndeleteDatabaseTypeById: параметры вызова.
+message UndeleteDatabaseTypeByIdRequest {
+  string external_id = 1;
+  int64 id = 2;
+}
+
+// Обратное удаление UndeleteDatabaseTypeById: ответ пустой — запрос ничего не возвращает.
+message UndeleteDatabaseTypeByIdResponse {}
+
+// =========================================================
+// dc.database_cat
+// =========================================================
+
+service DatabaseCatService {
+  rpc CreateDatabaseCat(CreateDatabaseCatRequest) returns (CreateDatabaseCatResponse);
+  rpc GetDatabaseCatById(GetDatabaseCatByIdRequest) returns (GetDatabaseCatByIdResponse);
+  rpc GetDatabaseCats(GetDatabaseCatsRequest) returns (GetDatabaseCatsResponse);
+  rpc GetDatabaseCatsDeleted(GetDatabaseCatsDeletedRequest) returns (GetDatabaseCatsDeletedResponse);
+  rpc GetDatabaseCatsByHostIdDatabaseTypeId(GetDatabaseCatsByHostIdDatabaseTypeIdRequest) returns (GetDatabaseCatsByHostIdDatabaseTypeIdResponse);
+  rpc GetDatabaseCatsSearchName(GetDatabaseCatsSearchNameRequest) returns (GetDatabaseCatsSearchNameResponse);
+  rpc UpdateDatabaseCatById(UpdateDatabaseCatByIdRequest) returns (UpdateDatabaseCatByIdResponse);
+  rpc DeleteDatabaseCatById(DeleteDatabaseCatByIdRequest) returns (DeleteDatabaseCatByIdResponse);
+  rpc UndeleteDatabaseCatById(UndeleteDatabaseCatByIdRequest) returns (UndeleteDatabaseCatByIdResponse);
+}
+
+// Строка таблицы dc.database_cat: все колонки, как их вернёт SELECT *.
+message DatabaseCat {
+  int64 id = 1;
+  string name = 2;
+  int64 host_id = 3;
+  int64 database_type_id = 4;
+  string description = 5;
+  bool is_deleted = 6;
+  google.protobuf.Timestamp created_at = 7;
+  google.protobuf.Timestamp updated_at = 8;
+  int64 user_id = 9;
+}
+
+// Вставка CreateDatabaseCat: параметры вызова.
+message CreateDatabaseCatRequest {
+  string name = 1;
+  int64 host_id = 2;
+  int64 database_type_id = 3;
+  string description = 4;
+  string external_id = 5;
+}
+
+// Вставка CreateDatabaseCat: одна строка.
+message CreateDatabaseCatResponse {
+  DatabaseCat database_cat = 1;
+}
+
+// Выборка GetDatabaseCatById: параметры вызова.
+message GetDatabaseCatByIdRequest {
+  int64 id = 1;
+}
+
+// Выборка GetDatabaseCatById: одна строка.
+message GetDatabaseCatByIdResponse {
+  DatabaseCat database_cat = 1;
+}
+
+// Выборка GetDatabaseCats: параметры вызова. Порядок по умолчанию — id.
+message GetDatabaseCatsRequest {
+  // допустимые значения: ASC, DESC
+  string order = 1;
+  int32 page_limit = 2;
+  int32 page = 3;
+}
+
+// Выборка GetDatabaseCats: страница данных и пагинация.
+message GetDatabaseCatsResponse {
+  repeated DatabaseCat data = 1;
+  Pagination pagination = 2;
+}
+
+// Выборка GetDatabaseCatsDeleted: параметры вызова. Порядок по умолчанию — id.
+message GetDatabaseCatsDeletedRequest {
+  // допустимые значения: ASC, DESC
+  string order = 1;
+  int32 page_limit = 2;
+  int32 page = 3;
+}
+
+// Выборка GetDatabaseCatsDeleted: страница данных и пагинация.
+message GetDatabaseCatsDeletedResponse {
+  repeated DatabaseCat data = 1;
+  Pagination pagination = 2;
+}
+
+// Выборка GetDatabaseCatsByHostIdDatabaseTypeId: параметры вызова. Порядок по умолчанию — id.
+message GetDatabaseCatsByHostIdDatabaseTypeIdRequest {
+  optional int64 host_id = 1;
+  optional int64 database_type_id = 2;
+  // допустимые значения: ASC, DESC
+  string order = 3;
+  // допустимые значения: name
+  string order_by = 4;
+  int32 page_limit = 5;
+  int32 page = 6;
+}
+
+// Выборка GetDatabaseCatsByHostIdDatabaseTypeId: страница данных и пагинация.
+message GetDatabaseCatsByHostIdDatabaseTypeIdResponse {
+  repeated DatabaseCat data = 1;
+  Pagination pagination = 2;
+}
+
+// Выборка GetDatabaseCatsSearchName: параметры вызова. Порядок по умолчанию — id.
+message GetDatabaseCatsSearchNameRequest {
+  string search_name = 1;
+  // допустимые значения: ASC, DESC
+  string order = 2;
+  int32 page_limit = 3;
+  int32 page = 4;
+}
+
+// Выборка GetDatabaseCatsSearchName: страница данных и пагинация.
+message GetDatabaseCatsSearchNameResponse {
+  repeated DatabaseCat data = 1;
+  Pagination pagination = 2;
+}
+
+// Изменение UpdateDatabaseCatById: параметры вызова.
+message UpdateDatabaseCatByIdRequest {
+  string name = 1;
+  int64 host_id = 2;
+  int64 database_type_id = 3;
+  string description = 4;
+  string external_id = 5;
+  int64 id = 6;
+}
+
+// Изменение UpdateDatabaseCatById: ответ пустой — запрос ничего не возвращает.
+message UpdateDatabaseCatByIdResponse {}
+
+// Мягкое удаление DeleteDatabaseCatById: параметры вызова.
+message DeleteDatabaseCatByIdRequest {
+  string external_id = 1;
+  int64 id = 2;
+}
+
+// Мягкое удаление DeleteDatabaseCatById: ответ пустой — запрос ничего не возвращает.
+message DeleteDatabaseCatByIdResponse {}
+
+// Обратное удаление UndeleteDatabaseCatById: параметры вызова.
+message UndeleteDatabaseCatByIdRequest {
+  string external_id = 1;
+  int64 id = 2;
+}
+
+// Обратное удаление UndeleteDatabaseCatById: ответ пустой — запрос ничего не возвращает.
+message UndeleteDatabaseCatByIdResponse {}
+
+// =========================================================
+// dc.column_cat
+// =========================================================
+
+service ColumnCatService {
+  rpc CreateColumnCat(CreateColumnCatRequest) returns (CreateColumnCatResponse);
+  rpc GetColumnCatById(GetColumnCatByIdRequest) returns (GetColumnCatByIdResponse);
+  rpc GetColumnCats(GetColumnCatsRequest) returns (GetColumnCatsResponse);
+  rpc GetColumnCatsDeleted(GetColumnCatsDeletedRequest) returns (GetColumnCatsDeletedResponse);
+  rpc GetColumnCatsOptionalFilters(GetColumnCatsOptionalFiltersRequest) returns (GetColumnCatsOptionalFiltersResponse);
+  rpc GetColumnCatsSearchName(GetColumnCatsSearchNameRequest) returns (GetColumnCatsSearchNameResponse);
+  rpc UpdateColumnCatById(UpdateColumnCatByIdRequest) returns (UpdateColumnCatByIdResponse);
+  rpc DeleteColumnCatById(DeleteColumnCatByIdRequest) returns (DeleteColumnCatByIdResponse);
+  rpc UndeleteColumnCatById(UndeleteColumnCatByIdRequest) returns (UndeleteColumnCatByIdResponse);
+}
+
+// Строка таблицы dc.column_cat: все колонки, как их вернёт SELECT *.
+message ColumnCat {
+  int64 id = 1;
+  int64 table_id = 2;
+  string name = 3;
+  int64 alias_id = 4;
+  int64 column_type_id = 5;
+  string description = 6;
+  int64 calculation_type_id = 7;
+  bool is_deleted = 8;
+  bool show_in_ui = 9;
+  google.protobuf.Timestamp created_at = 10;
+  google.protobuf.Timestamp updated_at = 11;
+  int64 user_id = 12;
+}
+
+// Вставка CreateColumnCat: параметры вызова.
+message CreateColumnCatRequest {
+  int64 table_id = 1;
+  string name = 2;
+  int64 alias_id = 3;
+  int64 column_type_id = 4;
+  string description = 5;
+  int64 calculation_type_id = 6;
+  bool show_in_ui = 7;
+  string external_id = 8;
+}
+
+// Вставка CreateColumnCat: одна строка.
+message CreateColumnCatResponse {
+  ColumnCat column_cat = 1;
+}
+
+// Выборка GetColumnCatById: параметры вызова.
+message GetColumnCatByIdRequest {
+  int64 id = 1;
+}
+
+// Выборка GetColumnCatById: одна строка.
+message GetColumnCatByIdResponse {
+  ColumnCat column_cat = 1;
+}
+
+// Выборка GetColumnCats: параметры вызова. Порядок по умолчанию — id.
+message GetColumnCatsRequest {
+  // допустимые значения: ASC, DESC
+  string order = 1;
+  int32 page_limit = 2;
+  int32 page = 3;
+}
+
+// Выборка GetColumnCats: страница данных и пагинация.
+message GetColumnCatsResponse {
+  repeated ColumnCat data = 1;
+  Pagination pagination = 2;
+}
+
+// Выборка GetColumnCatsDeleted: параметры вызова. Порядок по умолчанию — id.
+message GetColumnCatsDeletedRequest {
+  // допустимые значения: ASC, DESC
+  string order = 1;
+  int32 page_limit = 2;
+  int32 page = 3;
+}
+
+// Выборка GetColumnCatsDeleted: страница данных и пагинация.
+message GetColumnCatsDeletedResponse {
+  repeated ColumnCat data = 1;
+  Pagination pagination = 2;
+}
+
+// Выборка GetColumnCatsOptionalFilters: параметры вызова. Порядок по умолчанию — id.
+message GetColumnCatsOptionalFiltersRequest {
+  optional int64 table_id = 1;
+  optional int64 alias_id = 2;
+  optional int64 column_type_id = 3;
+  optional int64 calculation_type_id = 4;
+  optional bool show_in_ui = 5;
+  // допустимые значения: ASC, DESC
+  string order = 6;
+  int32 page_limit = 7;
+  int32 page = 8;
+}
+
+// Выборка GetColumnCatsOptionalFilters: страница данных и пагинация.
+message GetColumnCatsOptionalFiltersResponse {
+  repeated ColumnCat data = 1;
+  Pagination pagination = 2;
+}
+
+// Выборка GetColumnCatsSearchName: параметры вызова. Порядок по умолчанию — id.
+message GetColumnCatsSearchNameRequest {
+  string search_name = 1;
+  // допустимые значения: ASC, DESC
+  string order = 2;
+  int32 page_limit = 3;
+  int32 page = 4;
+}
+
+// Выборка GetColumnCatsSearchName: страница данных и пагинация.
+message GetColumnCatsSearchNameResponse {
+  repeated ColumnCat data = 1;
+  Pagination pagination = 2;
+}
+
+// Изменение UpdateColumnCatById: параметры вызова.
+message UpdateColumnCatByIdRequest {
+  int64 table_id = 1;
+  string name = 2;
+  int64 alias_id = 3;
+  int64 column_type_id = 4;
+  string description = 5;
+  int64 calculation_type_id = 6;
+  bool show_in_ui = 7;
+  string external_id = 8;
+  int64 id = 9;
+}
+
+// Изменение UpdateColumnCatById: ответ пустой — запрос ничего не возвращает.
+message UpdateColumnCatByIdResponse {}
+
+// Мягкое удаление DeleteColumnCatById: параметры вызова.
+message DeleteColumnCatByIdRequest {
+  string external_id = 1;
+  int64 id = 2;
+}
+
+// Мягкое удаление DeleteColumnCatById: ответ пустой — запрос ничего не возвращает.
+message DeleteColumnCatByIdResponse {}
+
+// Обратное удаление UndeleteColumnCatById: параметры вызова.
+message UndeleteColumnCatByIdRequest {
+  string external_id = 1;
+  int64 id = 2;
+}
+
+// Обратное удаление UndeleteColumnCatById: ответ пустой — запрос ничего не возвращает.
+message UndeleteColumnCatByIdResponse {}
+
+// =========================================================
+// dc.column_type
+// =========================================================
+
+service ColumnTypeService {
+  rpc CreateColumnType(CreateColumnTypeRequest) returns (CreateColumnTypeResponse);
+  rpc GetColumnTypeById(GetColumnTypeByIdRequest) returns (GetColumnTypeByIdResponse);
+  rpc GetColumnTypes(GetColumnTypesRequest) returns (GetColumnTypesResponse);
+  rpc GetColumnTypesSearchName(GetColumnTypesSearchNameRequest) returns (GetColumnTypesSearchNameResponse);
+  rpc GetColumnTypesDeleted(GetColumnTypesDeletedRequest) returns (GetColumnTypesDeletedResponse);
+  rpc UpdateColumnTypeById(UpdateColumnTypeByIdRequest) returns (UpdateColumnTypeByIdResponse);
+  rpc DeleteColumnTypeById(DeleteColumnTypeByIdRequest) returns (DeleteColumnTypeByIdResponse);
+  rpc UndeleteColumnTypeById(UndeleteColumnTypeByIdRequest) returns (UndeleteColumnTypeByIdResponse);
+}
+
+// Строка таблицы dc.column_type: все колонки, как их вернёт SELECT *.
+message ColumnType {
+  int64 id = 1;
+  string name = 2;
+  string description = 3;
+  bool is_deleted = 4;
+  google.protobuf.Timestamp created_at = 5;
+  google.protobuf.Timestamp updated_at = 6;
+  int64 user_id = 7;
+}
+
+// Вставка CreateColumnType: параметры вызова.
+message CreateColumnTypeRequest {
+  string name = 1;
+  string description = 2;
+  string external_id = 3;
+}
+
+// Вставка CreateColumnType: одна строка.
+message CreateColumnTypeResponse {
+  ColumnType column_type = 1;
+}
+
+// Выборка GetColumnTypeById: параметры вызова.
+message GetColumnTypeByIdRequest {
+  int64 id = 1;
+}
+
+// Выборка GetColumnTypeById: строка ответа — только отмеченные колонки.
+message GetColumnTypeByIdRow {
+  string name = 1;
+  string description = 2;
+  bool is_deleted = 3;
+  google.protobuf.Timestamp created_at = 4;
+  google.protobuf.Timestamp updated_at = 5;
+  int64 user_id = 6;
+}
+
+// Выборка GetColumnTypeById: одна строка.
+message GetColumnTypeByIdResponse {
+  GetColumnTypeByIdRow column_type = 1;
+}
+
+// Выборка GetColumnTypes: параметры вызова. Порядок по умолчанию — id.
+message GetColumnTypesRequest {
+  // допустимые значения: ASC, DESC
+  string order = 1;
+  int32 page_limit = 2;
+  int32 page = 3;
+}
+
+// Выборка GetColumnTypes: страница данных и пагинация.
+message GetColumnTypesResponse {
+  repeated ColumnType data = 1;
+  Pagination pagination = 2;
+}
+
+// Выборка GetColumnTypesSearchName: параметры вызова. Порядок по умолчанию — id.
+message GetColumnTypesSearchNameRequest {
+  string search_name = 1;
+  // допустимые значения: ASC, DESC
+  string order = 2;
+  int32 page_limit = 3;
+  int32 page = 4;
+}
+
+// Выборка GetColumnTypesSearchName: страница данных и пагинация.
+message GetColumnTypesSearchNameResponse {
+  repeated ColumnType data = 1;
+  Pagination pagination = 2;
+}
+
+// Выборка GetColumnTypesDeleted: параметры вызова. Порядок по умолчанию — id.
+message GetColumnTypesDeletedRequest {
+  // допустимые значения: ASC, DESC
+  string order = 1;
+  int32 page_limit = 2;
+  int32 page = 3;
+}
+
+// Выборка GetColumnTypesDeleted: страница данных и пагинация.
+message GetColumnTypesDeletedResponse {
+  repeated ColumnType data = 1;
+  Pagination pagination = 2;
+}
+
+// Изменение UpdateColumnTypeById: параметры вызова.
+message UpdateColumnTypeByIdRequest {
+  string name = 1;
+  string description = 2;
+  string external_id = 3;
+  int64 id = 4;
+}
+
+// Изменение UpdateColumnTypeById: ответ пустой — запрос ничего не возвращает.
+message UpdateColumnTypeByIdResponse {}
+
+// Мягкое удаление DeleteColumnTypeById: параметры вызова.
+message DeleteColumnTypeByIdRequest {
+  string external_id = 1;
+  int64 id = 2;
+}
+
+// Мягкое удаление DeleteColumnTypeById: ответ пустой — запрос ничего не возвращает.
+message DeleteColumnTypeByIdResponse {}
+
+// Обратное удаление UndeleteColumnTypeById: параметры вызова.
+message UndeleteColumnTypeByIdRequest {
+  string external_id = 1;
+  int64 id = 2;
+}
+
+// Обратное удаление UndeleteColumnTypeById: ответ пустой — запрос ничего не возвращает.
+message UndeleteColumnTypeByIdResponse {}
+
+// =========================================================
+// dc.database_calculation
+// =========================================================
+
+service DatabaseCalculationService {
+  rpc CreateDatabaseCalculation(CreateDatabaseCalculationRequest) returns (CreateDatabaseCalculationResponse);
+  rpc GetDatabaseCalculationsSearchName(GetDatabaseCalculationsSearchNameRequest) returns (GetDatabaseCalculationsSearchNameResponse);
+  rpc GetDatabaseCalculationById(GetDatabaseCalculationByIdRequest) returns (GetDatabaseCalculationByIdResponse);
+  rpc GetDatabaseCalculationsFiltered(GetDatabaseCalculationsFilteredRequest) returns (GetDatabaseCalculationsFilteredResponse);
+  rpc GetDatabaseCalculationsDeleted(GetDatabaseCalculationsDeletedRequest) returns (GetDatabaseCalculationsDeletedResponse);
+  rpc GetDatabaseCalculations(GetDatabaseCalculationsRequest) returns (GetDatabaseCalculationsResponse);
+  rpc UpdateDatabaseCalculationById(UpdateDatabaseCalculationByIdRequest) returns (UpdateDatabaseCalculationByIdResponse);
+  rpc DeleteDatabaseCalculationById(DeleteDatabaseCalculationByIdRequest) returns (DeleteDatabaseCalculationByIdResponse);
+  rpc UndeleteDatabaseCalculationById(UndeleteDatabaseCalculationByIdRequest) returns (UndeleteDatabaseCalculationByIdResponse);
+}
+
+// Строка таблицы dc.database_calculation: все колонки, как их вернёт SELECT *.
+message DatabaseCalculation {
+  int64 id = 1;
+  int64 database_cat_id = 2;
+  int64 calculation_type_id = 3;
+  google.protobuf.Timestamp created_at = 4;
+  google.protobuf.Timestamp updated_at = 5;
+  bool is_deleted = 6;
+  int64 user_id = 7;
+}
+
+// Вставка CreateDatabaseCalculation: параметры вызова.
+message CreateDatabaseCalculationRequest {
+  int64 database_cat_id = 1;
+  int64 calculation_type_id = 2;
+  string external_id = 3;
+}
+
+// Вставка CreateDatabaseCalculation: одна строка.
+message CreateDatabaseCalculationResponse {
+  DatabaseCalculation database_calculation = 1;
+}
+
+// Выборка GetDatabaseCalculationsSearchName: параметры вызова. Порядок по умолчанию — id.
+message GetDatabaseCalculationsSearchNameRequest {
+  string search_name = 1;
+  // допустимые значения: ASC, DESC
+  string order = 2;
+  int32 page_limit = 3;
+  int32 page = 4;
+}
+
+// Выборка GetDatabaseCalculationsSearchName: страница данных и пагинация.
+message GetDatabaseCalculationsSearchNameResponse {
+  repeated DatabaseCalculation data = 1;
+  Pagination pagination = 2;
+}
+
+// Выборка GetDatabaseCalculationById: параметры вызова.
+message GetDatabaseCalculationByIdRequest {
+  int64 id = 1;
+}
+
+// Выборка GetDatabaseCalculationById: строка ответа — только отмеченные колонки.
+message GetDatabaseCalculationByIdRow {
+  int64 database_cat_id = 1;
+  int64 calculation_type_id = 2;
+  google.protobuf.Timestamp created_at = 3;
+  google.protobuf.Timestamp updated_at = 4;
+  bool is_deleted = 5;
+  int64 user_id = 6;
+}
+
+// Выборка GetDatabaseCalculationById: одна строка.
+message GetDatabaseCalculationByIdResponse {
+  GetDatabaseCalculationByIdRow database_calculation = 1;
+}
+
+// Выборка GetDatabaseCalculationsFiltered: параметры вызова. Порядок по умолчанию — id.
+message GetDatabaseCalculationsFilteredRequest {
+  optional int64 database_cat_id = 1;
+  optional int64 calculation_type_id = 2;
+  // допустимые значения: ASC, DESC
+  string order = 3;
+  int32 page_limit = 4;
+  int32 page = 5;
+}
+
+// Выборка GetDatabaseCalculationsFiltered: страница данных и пагинация.
+message GetDatabaseCalculationsFilteredResponse {
+  repeated DatabaseCalculation data = 1;
+  Pagination pagination = 2;
+}
+
+// Выборка GetDatabaseCalculationsDeleted: параметры вызова. Порядок по умолчанию — id.
+message GetDatabaseCalculationsDeletedRequest {
+  // допустимые значения: ASC, DESC
+  string order = 1;
+  int32 page_limit = 2;
+  int32 page = 3;
+}
+
+// Выборка GetDatabaseCalculationsDeleted: страница данных и пагинация.
+message GetDatabaseCalculationsDeletedResponse {
+  repeated DatabaseCalculation data = 1;
+  Pagination pagination = 2;
+}
+
+// Выборка GetDatabaseCalculations: параметры вызова. Порядок по умолчанию — id.
+message GetDatabaseCalculationsRequest {
+  // допустимые значения: ASC, DESC
+  string order = 1;
+  int32 page_limit = 2;
+  int32 page = 3;
+}
+
+// Выборка GetDatabaseCalculations: страница данных и пагинация.
+message GetDatabaseCalculationsResponse {
+  repeated DatabaseCalculation data = 1;
+  Pagination pagination = 2;
+}
+
+// Изменение UpdateDatabaseCalculationById: параметры вызова.
+message UpdateDatabaseCalculationByIdRequest {
+  int64 database_cat_id = 1;
+  int64 calculation_type_id = 2;
+  string external_id = 3;
+  int64 id = 4;
+}
+
+// Изменение UpdateDatabaseCalculationById: ответ пустой — запрос ничего не возвращает.
+message UpdateDatabaseCalculationByIdResponse {}
+
+// Мягкое удаление DeleteDatabaseCalculationById: параметры вызова.
+message DeleteDatabaseCalculationByIdRequest {
+  string external_id = 1;
+  int64 id = 2;
+}
+
+// Мягкое удаление DeleteDatabaseCalculationById: ответ пустой — запрос ничего не возвращает.
+message DeleteDatabaseCalculationByIdResponse {}
+
+// Обратное удаление UndeleteDatabaseCalculationById: параметры вызова.
+message UndeleteDatabaseCalculationByIdRequest {
+  string external_id = 1;
+  int64 id = 2;
+}
+
+// Обратное удаление UndeleteDatabaseCalculationById: ответ пустой — запрос ничего не возвращает.
+message UndeleteDatabaseCalculationByIdResponse {}
+
+// =========================================================
+// dc.domain_cat
+// =========================================================
+
+service DomainCatService {
+  rpc CreateDomainCat(CreateDomainCatRequest) returns (CreateDomainCatResponse);
+  rpc GetDomainCatsSearchName(GetDomainCatsSearchNameRequest) returns (GetDomainCatsSearchNameResponse);
+  rpc GetDomainCatById(GetDomainCatByIdRequest) returns (GetDomainCatByIdResponse);
+  rpc GetDomainCats(GetDomainCatsRequest) returns (GetDomainCatsResponse);
+  rpc GetDomainCatsDeleted(GetDomainCatsDeletedRequest) returns (GetDomainCatsDeletedResponse);
+  rpc UpdateDomainCatById(UpdateDomainCatByIdRequest) returns (UpdateDomainCatByIdResponse);
+  rpc DeleteDomainCatById(DeleteDomainCatByIdRequest) returns (DeleteDomainCatByIdResponse);
+  rpc UndeleteDomainCatById(UndeleteDomainCatByIdRequest) returns (UndeleteDomainCatByIdResponse);
+}
+
+// Строка таблицы dc.domain_cat: все колонки, как их вернёт SELECT *.
+message DomainCat {
+  int64 id = 1;
+  string domain_name = 2;
+  bool is_deleted = 3;
+  google.protobuf.Timestamp created_at = 4;
+  google.protobuf.Timestamp updated_at = 5;
+  int64 user_id = 6;
+}
+
+// Вставка CreateDomainCat: параметры вызова.
+message CreateDomainCatRequest {
+  string domain_name = 1;
+  string external_id = 2;
+}
+
+// Вставка CreateDomainCat: одна строка.
+message CreateDomainCatResponse {
+  DomainCat domain_cat = 1;
+}
+
+// Выборка GetDomainCatsSearchName: параметры вызова. Порядок по умолчанию — id.
+message GetDomainCatsSearchNameRequest {
+  string search_name = 1;
+  // допустимые значения: ASC, DESC
+  string order = 2;
+  int32 page_limit = 3;
+  int32 page = 4;
+}
+
+// Выборка GetDomainCatsSearchName: страница данных и пагинация.
+message GetDomainCatsSearchNameResponse {
+  repeated DomainCat data = 1;
+  Pagination pagination = 2;
+}
+
+// Выборка GetDomainCatById: параметры вызова.
+message GetDomainCatByIdRequest {
+  int64 id = 1;
+}
+
+// Выборка GetDomainCatById: одна строка.
+message GetDomainCatByIdResponse {
+  DomainCat domain_cat = 1;
+}
+
+// Выборка GetDomainCats: параметры вызова. Порядок по умолчанию — id.
+message GetDomainCatsRequest {
+  // допустимые значения: ASC, DESC
+  string order = 1;
+  int32 page_limit = 2;
+  int32 page = 3;
+}
+
+// Выборка GetDomainCats: страница данных и пагинация.
+message GetDomainCatsResponse {
+  repeated DomainCat data = 1;
+  Pagination pagination = 2;
+}
+
+// Выборка GetDomainCatsDeleted: параметры вызова. Порядок по умолчанию — id.
+message GetDomainCatsDeletedRequest {
+  // допустимые значения: ASC, DESC
+  string order = 1;
+  int32 page_limit = 2;
+  int32 page = 3;
+}
+
+// Выборка GetDomainCatsDeleted: страница данных и пагинация.
+message GetDomainCatsDeletedResponse {
+  repeated DomainCat data = 1;
+  Pagination pagination = 2;
+}
+
+// Изменение UpdateDomainCatById: параметры вызова.
+message UpdateDomainCatByIdRequest {
+  string domain_name = 1;
+  string external_id = 2;
+  int64 id = 3;
+}
+
+// Изменение UpdateDomainCatById: ответ пустой — запрос ничего не возвращает.
+message UpdateDomainCatByIdResponse {}
+
+// Мягкое удаление DeleteDomainCatById: параметры вызова.
+message DeleteDomainCatByIdRequest {
+  string external_id = 1;
+  int64 id = 2;
+}
+
+// Мягкое удаление DeleteDomainCatById: ответ пустой — запрос ничего не возвращает.
+message DeleteDomainCatByIdResponse {}
+
+// Обратное удаление UndeleteDomainCatById: параметры вызова.
+message UndeleteDomainCatByIdRequest {
+  string external_id = 1;
+  int64 id = 2;
+}
+
+// Обратное удаление UndeleteDomainCatById: ответ пустой — запрос ничего не возвращает.
+message UndeleteDomainCatByIdResponse {}
+
+// =========================================================
+// dc.following_calculation
+// =========================================================
+
+service FollowingCalculationService {
+  rpc CreateFollowingCalculation(CreateFollowingCalculationRequest) returns (CreateFollowingCalculationResponse);
+  rpc GetFollowingCalculationById(GetFollowingCalculationByIdRequest) returns (GetFollowingCalculationByIdResponse);
+  rpc GetFollowingCalculations(GetFollowingCalculationsRequest) returns (GetFollowingCalculationsResponse);
+  rpc GetFollowingCalculationsDeleted(GetFollowingCalculationsDeletedRequest) returns (GetFollowingCalculationsDeletedResponse);
+  rpc GetFollowingCalculationsFilters(GetFollowingCalculationsFiltersRequest) returns (GetFollowingCalculationsFiltersResponse);
+  rpc UpdateFollowingCalculationById(UpdateFollowingCalculationByIdRequest) returns (UpdateFollowingCalculationByIdResponse);
+  rpc DeleteFollowingCalculationById(DeleteFollowingCalculationByIdRequest) returns (DeleteFollowingCalculationByIdResponse);
+  rpc UndeleteFollowingCalculationById(UndeleteFollowingCalculationByIdRequest) returns (UndeleteFollowingCalculationByIdResponse);
+}
+
+// Строка таблицы dc.following_calculation: все колонки, как их вернёт SELECT *.
+message FollowingCalculation {
+  int64 id = 1;
+  int64 column_cat_id = 2;
+  int64 calculation_type_id = 3;
+  google.protobuf.Timestamp created_at = 4;
+  google.protobuf.Timestamp updated_at = 5;
+  bool is_deleted = 6;
+  int64 user_id = 7;
+}
+
+// Вставка CreateFollowingCalculation: параметры вызова.
+message CreateFollowingCalculationRequest {
+  int64 column_cat_id = 1;
+  int64 calculation_type_id = 2;
+  string external_id = 3;
+}
+
+// Вставка CreateFollowingCalculation: одна строка.
+message CreateFollowingCalculationResponse {
+  FollowingCalculation following_calculation = 1;
+}
+
+// Выборка GetFollowingCalculationById: параметры вызова.
+message GetFollowingCalculationByIdRequest {
+  int64 id = 1;
+}
+
+// Выборка GetFollowingCalculationById: одна строка.
+message GetFollowingCalculationByIdResponse {
+  FollowingCalculation following_calculation = 1;
+}
+
+// Выборка GetFollowingCalculations: параметры вызова. Порядок по умолчанию — id.
+message GetFollowingCalculationsRequest {
+  // допустимые значения: ASC, DESC
+  string order = 1;
+  int32 page_limit = 2;
+  int32 page = 3;
+}
+
+// Выборка GetFollowingCalculations: страница данных и пагинация.
+message GetFollowingCalculationsResponse {
+  repeated FollowingCalculation data = 1;
+  Pagination pagination = 2;
+}
+
+// Выборка GetFollowingCalculationsDeleted: параметры вызова. Порядок по умолчанию — id.
+message GetFollowingCalculationsDeletedRequest {
+  // допустимые значения: ASC, DESC
+  string order = 1;
+  int32 page_limit = 2;
+  int32 page = 3;
+}
+
+// Выборка GetFollowingCalculationsDeleted: страница данных и пагинация.
+message GetFollowingCalculationsDeletedResponse {
+  repeated FollowingCalculation data = 1;
+  Pagination pagination = 2;
+}
+
+// Выборка GetFollowingCalculationsFilters: параметры вызова. Порядок по умолчанию — id.
+message GetFollowingCalculationsFiltersRequest {
+  optional int64 column_cat_id = 1;
+  optional int64 calculation_type_id = 2;
+  // допустимые значения: ASC, DESC
+  string order = 3;
+  int32 page_limit = 4;
+  int32 page = 5;
+}
+
+// Выборка GetFollowingCalculationsFilters: страница данных и пагинация.
+message GetFollowingCalculationsFiltersResponse {
+  repeated FollowingCalculation data = 1;
+  Pagination pagination = 2;
+}
+
+// Изменение UpdateFollowingCalculationById: параметры вызова.
+message UpdateFollowingCalculationByIdRequest {
+  int64 column_cat_id = 1;
+  int64 calculation_type_id = 2;
+  string external_id = 3;
+  int64 id = 4;
+}
+
+// Изменение UpdateFollowingCalculationById: ответ пустой — запрос ничего не возвращает.
+message UpdateFollowingCalculationByIdResponse {}
+
+// Мягкое удаление DeleteFollowingCalculationById: параметры вызова.
+message DeleteFollowingCalculationByIdRequest {
+  string external_id = 1;
+  int64 id = 2;
+}
+
+// Мягкое удаление DeleteFollowingCalculationById: ответ пустой — запрос ничего не возвращает.
+message DeleteFollowingCalculationByIdResponse {}
+
+// Обратное удаление UndeleteFollowingCalculationById: параметры вызова.
+message UndeleteFollowingCalculationByIdRequest {
+  string external_id = 1;
+  int64 id = 2;
+}
+
+// Обратное удаление UndeleteFollowingCalculationById: ответ пустой — запрос ничего не возвращает.
+message UndeleteFollowingCalculationByIdResponse {}
+
+// =========================================================
+// dc.group_levels
+// =========================================================
+
+service GroupLevelsService {
+  rpc CreateGroupLevels(CreateGroupLevelsRequest) returns (CreateGroupLevelsResponse);
+  rpc GetGroupLevelsSearchName(GetGroupLevelsSearchNameRequest) returns (GetGroupLevelsSearchNameResponse);
+  rpc GetGroupLevels(GetGroupLevelsRequest) returns (GetGroupLevelsResponse);
+  rpc GetGroupLevelsById(GetGroupLevelsByIdRequest) returns (GetGroupLevelsByIdResponse);
+  rpc GetGroupLevelsFiltered(GetGroupLevelsFilteredRequest) returns (GetGroupLevelsFilteredResponse);
+  rpc GetGroupLevelsDeleted(GetGroupLevelsDeletedRequest) returns (GetGroupLevelsDeletedResponse);
+  rpc UpdateGroupLevelsById(UpdateGroupLevelsByIdRequest) returns (UpdateGroupLevelsByIdResponse);
+  rpc DeleteGroupLevelsById(DeleteGroupLevelsByIdRequest) returns (DeleteGroupLevelsByIdResponse);
+  rpc UndeleteGroupLevels(UndeleteGroupLevelsRequest) returns (UndeleteGroupLevelsResponse);
+}
+
+// Строка таблицы dc.group_levels: все колонки, как их вернёт SELECT *.
+message GroupLevels {
+  int64 id = 1;
+  int64 column_id = 2;
+  int64 parent_column_id = 3;
+  int32 level = 4;
+  string description = 5;
+  google.protobuf.Timestamp created_at = 6;
+  google.protobuf.Timestamp updated_at = 7;
+  bool is_deleted = 8;
+  int64 user_id = 9;
+}
+
+// Вставка CreateGroupLevels: параметры вызова.
+message CreateGroupLevelsRequest {
+  int64 column_id = 1;
+  int64 parent_column_id = 2;
+  int32 level = 3;
+  string description = 4;
+  string external_id = 5;
+}
+
+// Вставка CreateGroupLevels: одна строка.
+message CreateGroupLevelsResponse {
+  GroupLevels group_levels = 1;
+}
+
+// Выборка GetGroupLevelsSearchName: параметры вызова. Порядок по умолчанию — id.
+message GetGroupLevelsSearchNameRequest {
+  string search_name = 1;
+  // допустимые значения: ASC, DESC
+  string order = 2;
+  int32 page_limit = 3;
+  int32 page = 4;
+}
+
+// Выборка GetGroupLevelsSearchName: страница данных и пагинация.
+message GetGroupLevelsSearchNameResponse {
+  repeated GroupLevels data = 1;
+  Pagination pagination = 2;
+}
+
+// Выборка GetGroupLevels: параметры вызова. Порядок по умолчанию — id.
+message GetGroupLevelsRequest {
+  // допустимые значения: ASC, DESC
+  string order = 1;
+  int32 page_limit = 2;
+  int32 page = 3;
+}
+
+// Выборка GetGroupLevels: страница данных и пагинация.
+message GetGroupLevelsResponse {
+  repeated GroupLevels data = 1;
+  Pagination pagination = 2;
+}
+
+// Выборка GetGroupLevelsById: параметры вызова.
+message GetGroupLevelsByIdRequest {
+  int64 id = 1;
+}
+
+// Выборка GetGroupLevelsById: одна строка.
+message GetGroupLevelsByIdResponse {
+  GroupLevels group_levels = 1;
+}
+
+// Выборка GetGroupLevelsFiltered: параметры вызова. Порядок по умолчанию — id.
+message GetGroupLevelsFilteredRequest {
+  optional int64 column_id = 1;
+  optional int64 parent_column_id = 2;
+  // допустимые значения: ASC, DESC
+  string order = 3;
+  int32 page_limit = 4;
+  int32 page = 5;
+}
+
+// Выборка GetGroupLevelsFiltered: страница данных и пагинация.
+message GetGroupLevelsFilteredResponse {
+  repeated GroupLevels data = 1;
+  Pagination pagination = 2;
+}
+
+// Выборка GetGroupLevelsDeleted: параметры вызова. Порядок по умолчанию — id.
+message GetGroupLevelsDeletedRequest {
+  // допустимые значения: ASC, DESC
+  string order = 1;
+}
+
+// Выборка GetGroupLevelsDeleted: все найденные строки.
+message GetGroupLevelsDeletedResponse {
+  repeated GroupLevels rows = 1;
+}
+
+// Изменение UpdateGroupLevelsById: параметры вызова.
+message UpdateGroupLevelsByIdRequest {
+  int64 column_id = 1;
+  int64 parent_column_id = 2;
+  int32 level = 3;
+  string description = 4;
+  string external_id = 5;
+  int64 id = 6;
+}
+
+// Изменение UpdateGroupLevelsById: ответ пустой — запрос ничего не возвращает.
+message UpdateGroupLevelsByIdResponse {}
+
+// Мягкое удаление DeleteGroupLevelsById: параметры вызова.
+message DeleteGroupLevelsByIdRequest {
+  string external_id = 1;
+  int64 id = 2;
+}
+
+// Мягкое удаление DeleteGroupLevelsById: ответ пустой — запрос ничего не возвращает.
+message DeleteGroupLevelsByIdResponse {}
+
+// Обратное удаление UndeleteGroupLevels: параметры вызова.
+message UndeleteGroupLevelsRequest {
+  string external_id = 1;
+  int64 id = 2;
+}
+
+// Обратное удаление UndeleteGroupLevels: ответ пустой — запрос ничего не возвращает.
+message UndeleteGroupLevelsResponse {}
+
+// =========================================================
+// dc.has_to_group
+// =========================================================
+
+service HasToGroupService {
+  rpc CreateHasToGroup(CreateHasToGroupRequest) returns (CreateHasToGroupResponse);
+  rpc GetHasToGroupById(GetHasToGroupByIdRequest) returns (GetHasToGroupByIdResponse);
+  rpc GetHasToGroupsSearchName(GetHasToGroupsSearchNameRequest) returns (GetHasToGroupsSearchNameResponse);
+  rpc GetHasToGroups(GetHasToGroupsRequest) returns (GetHasToGroupsResponse);
+  rpc GetHasToGroupsDeleted(GetHasToGroupsDeletedRequest) returns (GetHasToGroupsDeletedResponse);
+  rpc UpdateHasToGroupById(UpdateHasToGroupByIdRequest) returns (UpdateHasToGroupByIdResponse);
+  rpc DeleteHasToGroupById(DeleteHasToGroupByIdRequest) returns (DeleteHasToGroupByIdResponse);
+  rpc UndeleteHasToGroupById(UndeleteHasToGroupByIdRequest) returns (UndeleteHasToGroupByIdResponse);
+}
+
+// Строка таблицы dc.has_to_group: все колонки, как их вернёт SELECT *.
+message HasToGroup {
+  int64 id = 1;
+  int64 column_id_a = 2;
+  int64 column_id_b = 3;
+  string description = 4;
+  bool is_deleted = 5;
+  google.protobuf.Timestamp created_at = 6;
+  google.protobuf.Timestamp updated_at = 7;
+  int64 user_id = 8;
+}
+
+// Вставка CreateHasToGroup: параметры вызова.
+message CreateHasToGroupRequest {
+  int64 column_id_a = 1;
+  int64 column_id_b = 2;
+  string description = 3;
+  string external_id = 4;
+}
+
+// Вставка CreateHasToGroup: одна строка.
+message CreateHasToGroupResponse {
+  HasToGroup has_to_group = 1;
+}
+
+// Выборка GetHasToGroupById: параметры вызова.
+message GetHasToGroupByIdRequest {
+  int64 id = 1;
+}
+
+// Выборка GetHasToGroupById: одна строка.
+message GetHasToGroupByIdResponse {
+  HasToGroup has_to_group = 1;
+}
+
+// Выборка GetHasToGroupsSearchName: параметры вызова. Порядок по умолчанию — id.
+message GetHasToGroupsSearchNameRequest {
+  string search_name = 1;
+  // допустимые значения: ASC, DESC
+  string order = 2;
+  int32 page_limit = 3;
+  int32 page = 4;
+}
+
+// Выборка GetHasToGroupsSearchName: страница данных и пагинация.
+message GetHasToGroupsSearchNameResponse {
+  repeated HasToGroup data = 1;
+  Pagination pagination = 2;
+}
+
+// Выборка GetHasToGroups: параметры вызова. Порядок по умолчанию — id.
+message GetHasToGroupsRequest {
+  // допустимые значения: ASC, DESC
+  string order = 1;
+  int32 page_limit = 2;
+  int32 page = 3;
+}
+
+// Выборка GetHasToGroups: страница данных и пагинация.
+message GetHasToGroupsResponse {
+  repeated HasToGroup data = 1;
+  Pagination pagination = 2;
+}
+
+// Выборка GetHasToGroupsDeleted: параметры вызова. Порядок по умолчанию — id.
+message GetHasToGroupsDeletedRequest {
+  // допустимые значения: ASC, DESC
+  string order = 1;
+  int32 page_limit = 2;
+  int32 page = 3;
+}
+
+// Выборка GetHasToGroupsDeleted: страница данных и пагинация.
+message GetHasToGroupsDeletedResponse {
+  repeated HasToGroup data = 1;
+  Pagination pagination = 2;
+}
+
+// Изменение UpdateHasToGroupById: параметры вызова.
+message UpdateHasToGroupByIdRequest {
+  int64 column_id_a = 1;
+  int64 column_id_b = 2;
+  string description = 3;
+  string external_id = 4;
+  int64 id = 5;
+}
+
+// Изменение UpdateHasToGroupById: ответ пустой — запрос ничего не возвращает.
+message UpdateHasToGroupByIdResponse {}
+
+// Мягкое удаление DeleteHasToGroupById: параметры вызова.
+message DeleteHasToGroupByIdRequest {
+  string external_id = 1;
+  int64 id = 2;
+}
+
+// Мягкое удаление DeleteHasToGroupById: ответ пустой — запрос ничего не возвращает.
+message DeleteHasToGroupByIdResponse {}
+
+// Обратное удаление UndeleteHasToGroupById: параметры вызова.
+message UndeleteHasToGroupByIdRequest {
+  string external_id = 1;
+  int64 id = 2;
+}
+
+// Обратное удаление UndeleteHasToGroupById: ответ пустой — запрос ничего не возвращает.
+message UndeleteHasToGroupByIdResponse {}
+
+// =========================================================
+// dc.schema_cat
+// =========================================================
+
+service SchemaCatService {
+  rpc CreateSchemaCat(CreateSchemaCatRequest) returns (CreateSchemaCatResponse);
+  rpc GetSchemaCatById(GetSchemaCatByIdRequest) returns (GetSchemaCatByIdResponse);
+  rpc GetSchemaCats(GetSchemaCatsRequest) returns (GetSchemaCatsResponse);
+  rpc GetSchemaCatsDeleted(GetSchemaCatsDeletedRequest) returns (GetSchemaCatsDeletedResponse);
+  rpc UpdateSchemaCatById(UpdateSchemaCatByIdRequest) returns (UpdateSchemaCatByIdResponse);
+  rpc DeleteSchemaCatById(DeleteSchemaCatByIdRequest) returns (DeleteSchemaCatByIdResponse);
+  rpc UndeleteSchemaCatById(UndeleteSchemaCatByIdRequest) returns (UndeleteSchemaCatByIdResponse);
+}
+
+// Строка таблицы dc.schema_cat: все колонки, как их вернёт SELECT *.
+message SchemaCat {
+  int64 id = 1;
+  int64 database_id = 2;
+  string name = 3;
+  bool is_deleted = 4;
+  google.protobuf.Timestamp created_at = 5;
+  google.protobuf.Timestamp updated_at = 6;
+  int64 user_id = 7;
+}
+
+// Вставка CreateSchemaCat: параметры вызова.
+message CreateSchemaCatRequest {
+  int64 database_id = 1;
+  string name = 2;
+  string external_id = 3;
+}
+
+// Вставка CreateSchemaCat: одна строка.
+message CreateSchemaCatResponse {
+  SchemaCat schema_cat = 1;
+}
+
+// Выборка GetSchemaCatById: параметры вызова.
+message GetSchemaCatByIdRequest {
+  int64 id = 1;
+}
+
+// Выборка GetSchemaCatById: одна строка.
+message GetSchemaCatByIdResponse {
+  SchemaCat schema_cat = 1;
+}
+
+// Выборка GetSchemaCats: параметры вызова. Порядок по умолчанию — id.
+message GetSchemaCatsRequest {
+  // допустимые значения: ASC, DESC
+  string order = 1;
+  int32 page_limit = 2;
+  int32 page = 3;
+}
+
+// Выборка GetSchemaCats: страница данных и пагинация.
+message GetSchemaCatsResponse {
+  repeated SchemaCat data = 1;
+  Pagination pagination = 2;
+}
+
+// Выборка GetSchemaCatsDeleted: параметры вызова. Порядок по умолчанию — id.
+message GetSchemaCatsDeletedRequest {
+  // допустимые значения: ASC, DESC
+  string order = 1;
+  int32 page_limit = 2;
+  int32 page = 3;
+}
+
+// Выборка GetSchemaCatsDeleted: страница данных и пагинация.
+message GetSchemaCatsDeletedResponse {
+  repeated SchemaCat data = 1;
+  Pagination pagination = 2;
+}
+
+// Изменение UpdateSchemaCatById: параметры вызова.
+message UpdateSchemaCatByIdRequest {
+  int64 database_id = 1;
+  string name = 2;
+  google.protobuf.Timestamp created_at = 3;
+  string external_id = 4;
+  int64 id = 5;
+}
+
+// Изменение UpdateSchemaCatById: ответ пустой — запрос ничего не возвращает.
+message UpdateSchemaCatByIdResponse {}
+
+// Мягкое удаление DeleteSchemaCatById: параметры вызова.
+message DeleteSchemaCatByIdRequest {
+  google.protobuf.Timestamp updated_at = 1;
+  string external_id = 2;
+  int64 id = 3;
+}
+
+// Мягкое удаление DeleteSchemaCatById: ответ пустой — запрос ничего не возвращает.
+message DeleteSchemaCatByIdResponse {}
+
+// Обратное удаление UndeleteSchemaCatById: параметры вызова.
+message UndeleteSchemaCatByIdRequest {
+  string external_id = 1;
+  int64 id = 2;
+}
+
+// Обратное удаление UndeleteSchemaCatById: ответ пустой — запрос ничего не возвращает.
+message UndeleteSchemaCatByIdResponse {}
+
+// =========================================================
+// dc.table_cat
+// =========================================================
+
+service TableCatService {
+  rpc CreateTableCat(CreateTableCatRequest) returns (CreateTableCatResponse);
+  rpc GetTableCatById(GetTableCatByIdRequest) returns (GetTableCatByIdResponse);
+  rpc GetTableCats(GetTableCatsRequest) returns (GetTableCatsResponse);
+  rpc GetTableCatsDeleted(GetTableCatsDeletedRequest) returns (GetTableCatsDeletedResponse);
+  rpc UpdateTableCatById(UpdateTableCatByIdRequest) returns (UpdateTableCatByIdResponse);
+  rpc DeleteTableCatById(DeleteTableCatByIdRequest) returns (DeleteTableCatByIdResponse);
+  rpc UndeleteTableCatById(UndeleteTableCatByIdRequest) returns (UndeleteTableCatByIdResponse);
+}
+
+// Строка таблицы dc.table_cat: все колонки, как их вернёт SELECT *.
+message TableCat {
+  int64 id = 1;
+  string name = 2;
+  string description = 3;
+  int64 schema_id = 4;
+  int64 table_type_id = 5;
+  int64 domain_id = 6;
+  bool is_deleted = 7;
+  google.protobuf.Timestamp created_at = 8;
+  google.protobuf.Timestamp updated_at = 9;
+  bool is_get_dict = 10;
+  int64 user_id = 11;
+}
+
+// Вставка CreateTableCat: параметры вызова.
+message CreateTableCatRequest {
+  string name = 1;
+  string description = 2;
+  int64 schema_id = 3;
+  int64 table_type_id = 4;
+  int64 domain_id = 5;
+  string external_id = 6;
+}
+
+// Вставка CreateTableCat: одна строка.
+message CreateTableCatResponse {
+  TableCat table_cat = 1;
+}
+
+// Выборка GetTableCatById: параметры вызова.
+message GetTableCatByIdRequest {
+  int64 id = 1;
+}
+
+// Выборка GetTableCatById: одна строка.
+message GetTableCatByIdResponse {
+  TableCat table_cat = 1;
+}
+
+// Выборка GetTableCats: параметры вызова. Порядок по умолчанию — id.
+message GetTableCatsRequest {
+  // допустимые значения: ASC, DESC
+  string order = 1;
+  int32 page_limit = 2;
+  int32 page = 3;
+}
+
+// Выборка GetTableCats: страница данных и пагинация.
+message GetTableCatsResponse {
+  repeated TableCat data = 1;
+  Pagination pagination = 2;
+}
+
+// Выборка GetTableCatsDeleted: параметры вызова. Порядок по умолчанию — id.
+message GetTableCatsDeletedRequest {
+  // допустимые значения: ASC, DESC
+  string order = 1;
+  int32 page_limit = 2;
+  int32 page = 3;
+}
+
+// Выборка GetTableCatsDeleted: страница данных и пагинация.
+message GetTableCatsDeletedResponse {
+  repeated TableCat data = 1;
+  Pagination pagination = 2;
+}
+
+// Изменение UpdateTableCatById: параметры вызова.
+message UpdateTableCatByIdRequest {
+  string name = 1;
+  string description = 2;
+  int64 schema_id = 3;
+  int64 table_type_id = 4;
+  int64 domain_id = 5;
+  bool is_get_dict = 6;
+  string external_id = 7;
+  int64 id = 8;
+}
+
+// Изменение UpdateTableCatById: ответ пустой — запрос ничего не возвращает.
+message UpdateTableCatByIdResponse {}
+
+// Мягкое удаление DeleteTableCatById: параметры вызова.
+message DeleteTableCatByIdRequest {
+  string external_id = 1;
+  int64 id = 2;
+}
+
+// Мягкое удаление DeleteTableCatById: ответ пустой — запрос ничего не возвращает.
+message DeleteTableCatByIdResponse {}
+
+// Обратное удаление UndeleteTableCatById: параметры вызова.
+message UndeleteTableCatByIdRequest {
+  string external_id = 1;
+  int64 id = 2;
+}
+
+// Обратное удаление UndeleteTableCatById: ответ пустой — запрос ничего не возвращает.
+message UndeleteTableCatByIdResponse {}
+
+// =========================================================
+// dc.table_type
+// =========================================================
+
+service TableTypeService {
+  rpc CreateTableType(CreateTableTypeRequest) returns (CreateTableTypeResponse);
+  rpc GetTableTypeById(GetTableTypeByIdRequest) returns (GetTableTypeByIdResponse);
+  rpc GetTableTypes(GetTableTypesRequest) returns (GetTableTypesResponse);
+  rpc GetTableTypesDeleted(GetTableTypesDeletedRequest) returns (GetTableTypesDeletedResponse);
+  rpc UpdateTableTypeById(UpdateTableTypeByIdRequest) returns (UpdateTableTypeByIdResponse);
+  rpc DeleteTableTypeById(DeleteTableTypeByIdRequest) returns (DeleteTableTypeByIdResponse);
+  rpc UndeleteTableTypeById(UndeleteTableTypeByIdRequest) returns (UndeleteTableTypeByIdResponse);
+}
+
+// Строка таблицы dc.table_type: все колонки, как их вернёт SELECT *.
+message TableType {
+  int64 id = 1;
+  string name = 2;
+  string description = 3;
+  bool is_deleted = 4;
+  google.protobuf.Timestamp created_at = 5;
+  google.protobuf.Timestamp updated_at = 6;
+  int64 user_id = 7;
+}
+
+// Вставка CreateTableType: параметры вызова.
+message CreateTableTypeRequest {
+  string name = 1;
+  string description = 2;
+  string external_id = 3;
+}
+
+// Вставка CreateTableType: одна строка.
+message CreateTableTypeResponse {
+  TableType table_type = 1;
+}
+
+// Выборка GetTableTypeById: параметры вызова.
+message GetTableTypeByIdRequest {
+  int64 id = 1;
+}
+
+// Выборка GetTableTypeById: одна строка.
+message GetTableTypeByIdResponse {
+  TableType table_type = 1;
+}
+
+// Выборка GetTableTypes: параметры вызова. Порядок по умолчанию — id.
+message GetTableTypesRequest {
+  // допустимые значения: ASC, DESC
+  string order = 1;
+  int32 page_limit = 2;
+  int32 page = 3;
+}
+
+// Выборка GetTableTypes: страница данных и пагинация.
+message GetTableTypesResponse {
+  repeated TableType data = 1;
+  Pagination pagination = 2;
+}
+
+// Выборка GetTableTypesDeleted: параметры вызова. Порядок по умолчанию — id.
+message GetTableTypesDeletedRequest {
+  // допустимые значения: ASC, DESC
+  string order = 1;
+  int32 page_limit = 2;
+  int32 page = 3;
+}
+
+// Выборка GetTableTypesDeleted: страница данных и пагинация.
+message GetTableTypesDeletedResponse {
+  repeated TableType data = 1;
+  Pagination pagination = 2;
+}
+
+// Изменение UpdateTableTypeById: параметры вызова.
+message UpdateTableTypeByIdRequest {
+  string name = 1;
+  string description = 2;
+  string external_id = 3;
+  int64 id = 4;
+}
+
+// Изменение UpdateTableTypeById: ответ пустой — запрос ничего не возвращает.
+message UpdateTableTypeByIdResponse {}
+
+// Мягкое удаление DeleteTableTypeById: параметры вызова.
+message DeleteTableTypeByIdRequest {
+  string external_id = 1;
+  int64 id = 2;
+}
+
+// Мягкое удаление DeleteTableTypeById: ответ пустой — запрос ничего не возвращает.
+message DeleteTableTypeByIdResponse {}
+
+// Обратное удаление UndeleteTableTypeById: параметры вызова.
+message UndeleteTableTypeByIdRequest {
+  string external_id = 1;
+  int64 id = 2;
+}
+
+// Обратное удаление UndeleteTableTypeById: ответ пустой — запрос ничего не возвращает.
+message UndeleteTableTypeByIdResponse {}
+
+// =========================================================
+// dc.calculation_type
+// =========================================================
+
+service CalculationTypeService {
+  rpc GetCalculationTypeById(GetCalculationTypeByIdRequest) returns (GetCalculationTypeByIdResponse);
+  rpc GetCalculationTypes(GetCalculationTypesRequest) returns (GetCalculationTypesResponse);
+}
+
+// Строка таблицы dc.calculation_type: все колонки, как их вернёт SELECT *.
+message CalculationType {
+  int64 id = 1;
+  string name = 2;
+  string description = 3;
+  google.protobuf.Timestamp created_at = 4;
+  google.protobuf.Timestamp updated_at = 5;
+  bool is_deleted = 6;
+}
+
+// Выборка GetCalculationTypeById: параметры вызова.
+message GetCalculationTypeByIdRequest {
+  int64 id = 1;
+}
+
+// Выборка GetCalculationTypeById: одна строка.
+message GetCalculationTypeByIdResponse {
+  CalculationType calculation_type = 1;
+}
+
+// Выборка GetCalculationTypes: параметры вызова. Порядок по умолчанию — id.
+message GetCalculationTypesRequest {
+  // допустимые значения: ASC, DESC
+  string order = 1;
+}
+
+// Выборка GetCalculationTypes: все найденные строки.
+message GetCalculationTypesResponse {
+  repeated CalculationType rows = 1;
+}

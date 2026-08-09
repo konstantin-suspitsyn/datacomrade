@@ -109,15 +109,41 @@ func claimsFromToken(tok jwt.Token) Claims {
 	var email string
 	_ = tok.Get("email", &email)
 
-	var realmAccess struct {
-		Roles []string `json:"roles"`
-	}
-	_ = tok.Get("realm_access", &realmAccess)
-
 	return Claims{
 		Subject: sub,
 		Name:    name,
 		Email:   email,
-		Roles:   realmAccess.Roles,
+		Roles:   realmRolesFromToken(tok),
 	}
+}
+
+// realmRolesFromToken достаёт realm_access.roles из токена. jwx v3 не умеет
+// анмаршалить приватный claim прямо в именованную struct через tok.Get(name,
+// &dst) — blackmagic.AssignIfCompatible требует совпадения типов, а приватные
+// claim'ы всегда декодируются в map[string]any/[]any, поэтому разбираем их
+// вручную.
+func realmRolesFromToken(tok jwt.Token) []string {
+	var raw any
+	if err := tok.Get("realm_access", &raw); err != nil {
+		return nil
+	}
+
+	realmAccess, ok := raw.(map[string]any)
+	if !ok {
+		return nil
+	}
+
+	rawRoles, ok := realmAccess["roles"].([]any)
+	if !ok {
+		return nil
+	}
+
+	roles := make([]string, 0, len(rawRoles))
+	for _, r := range rawRoles {
+		if s, ok := r.(string); ok {
+			roles = append(roles, s)
+		}
+	}
+
+	return roles
 }

@@ -2319,6 +2319,12070 @@ func (*UndeleteHostByIdResponse) Descriptor() ([]byte, []int) {
 	return file_tables_v1_tables_proto_rawDescGZIP(), []int{39}
 }
 
+// Строка таблицы dc.database_type: все колонки, как их вернёт SELECT *.
+type DatabaseType struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	DbVersion     string                 `protobuf:"bytes,3,opt,name=db_version,json=dbVersion,proto3" json:"db_version,omitempty"`
+	IsDeleted     bool                   `protobuf:"varint,4,opt,name=is_deleted,json=isDeleted,proto3" json:"is_deleted,omitempty"`
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	UserId        int64                  `protobuf:"varint,7,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DatabaseType) Reset() {
+	*x = DatabaseType{}
+	mi := &file_tables_v1_tables_proto_msgTypes[40]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DatabaseType) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DatabaseType) ProtoMessage() {}
+
+func (x *DatabaseType) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[40]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DatabaseType.ProtoReflect.Descriptor instead.
+func (*DatabaseType) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{40}
+}
+
+func (x *DatabaseType) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *DatabaseType) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *DatabaseType) GetDbVersion() string {
+	if x != nil {
+		return x.DbVersion
+	}
+	return ""
+}
+
+func (x *DatabaseType) GetIsDeleted() bool {
+	if x != nil {
+		return x.IsDeleted
+	}
+	return false
+}
+
+func (x *DatabaseType) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *DatabaseType) GetUpdatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return nil
+}
+
+func (x *DatabaseType) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+// Вставка CreateDatabaseType: параметры вызова.
+type CreateDatabaseTypeRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	DbVersion     string                 `protobuf:"bytes,2,opt,name=db_version,json=dbVersion,proto3" json:"db_version,omitempty"`
+	ExternalId    string                 `protobuf:"bytes,3,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateDatabaseTypeRequest) Reset() {
+	*x = CreateDatabaseTypeRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[41]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateDatabaseTypeRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateDatabaseTypeRequest) ProtoMessage() {}
+
+func (x *CreateDatabaseTypeRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[41]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateDatabaseTypeRequest.ProtoReflect.Descriptor instead.
+func (*CreateDatabaseTypeRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{41}
+}
+
+func (x *CreateDatabaseTypeRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *CreateDatabaseTypeRequest) GetDbVersion() string {
+	if x != nil {
+		return x.DbVersion
+	}
+	return ""
+}
+
+func (x *CreateDatabaseTypeRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+// Вставка CreateDatabaseType: одна строка.
+type CreateDatabaseTypeResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	DatabaseType  *DatabaseType          `protobuf:"bytes,1,opt,name=database_type,json=databaseType,proto3" json:"database_type,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateDatabaseTypeResponse) Reset() {
+	*x = CreateDatabaseTypeResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[42]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateDatabaseTypeResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateDatabaseTypeResponse) ProtoMessage() {}
+
+func (x *CreateDatabaseTypeResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[42]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateDatabaseTypeResponse.ProtoReflect.Descriptor instead.
+func (*CreateDatabaseTypeResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{42}
+}
+
+func (x *CreateDatabaseTypeResponse) GetDatabaseType() *DatabaseType {
+	if x != nil {
+		return x.DatabaseType
+	}
+	return nil
+}
+
+// Выборка GetDatabaseTypeById: параметры вызова.
+type GetDatabaseTypeByIdRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDatabaseTypeByIdRequest) Reset() {
+	*x = GetDatabaseTypeByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[43]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDatabaseTypeByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDatabaseTypeByIdRequest) ProtoMessage() {}
+
+func (x *GetDatabaseTypeByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[43]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDatabaseTypeByIdRequest.ProtoReflect.Descriptor instead.
+func (*GetDatabaseTypeByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{43}
+}
+
+func (x *GetDatabaseTypeByIdRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Выборка GetDatabaseTypeById: одна строка.
+type GetDatabaseTypeByIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	DatabaseType  *DatabaseType          `protobuf:"bytes,1,opt,name=database_type,json=databaseType,proto3" json:"database_type,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDatabaseTypeByIdResponse) Reset() {
+	*x = GetDatabaseTypeByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[44]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDatabaseTypeByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDatabaseTypeByIdResponse) ProtoMessage() {}
+
+func (x *GetDatabaseTypeByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[44]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDatabaseTypeByIdResponse.ProtoReflect.Descriptor instead.
+func (*GetDatabaseTypeByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{44}
+}
+
+func (x *GetDatabaseTypeByIdResponse) GetDatabaseType() *DatabaseType {
+	if x != nil {
+		return x.DatabaseType
+	}
+	return nil
+}
+
+// Выборка GetDatabaseTypesSearchName: параметры вызова. Порядок по умолчанию — id.
+type GetDatabaseTypesSearchNameRequest struct {
+	state      protoimpl.MessageState `protogen:"open.v1"`
+	SearchName string                 `protobuf:"bytes,1,opt,name=search_name,json=searchName,proto3" json:"search_name,omitempty"`
+	// допустимые значения: ASC, DESC
+	Order         string `protobuf:"bytes,2,opt,name=order,proto3" json:"order,omitempty"`
+	PageLimit     int32  `protobuf:"varint,3,opt,name=page_limit,json=pageLimit,proto3" json:"page_limit,omitempty"`
+	Page          int32  `protobuf:"varint,4,opt,name=page,proto3" json:"page,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDatabaseTypesSearchNameRequest) Reset() {
+	*x = GetDatabaseTypesSearchNameRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[45]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDatabaseTypesSearchNameRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDatabaseTypesSearchNameRequest) ProtoMessage() {}
+
+func (x *GetDatabaseTypesSearchNameRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[45]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDatabaseTypesSearchNameRequest.ProtoReflect.Descriptor instead.
+func (*GetDatabaseTypesSearchNameRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{45}
+}
+
+func (x *GetDatabaseTypesSearchNameRequest) GetSearchName() string {
+	if x != nil {
+		return x.SearchName
+	}
+	return ""
+}
+
+func (x *GetDatabaseTypesSearchNameRequest) GetOrder() string {
+	if x != nil {
+		return x.Order
+	}
+	return ""
+}
+
+func (x *GetDatabaseTypesSearchNameRequest) GetPageLimit() int32 {
+	if x != nil {
+		return x.PageLimit
+	}
+	return 0
+}
+
+func (x *GetDatabaseTypesSearchNameRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+// Выборка GetDatabaseTypesSearchName: страница данных и пагинация.
+type GetDatabaseTypesSearchNameResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Data          []*DatabaseType        `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
+	Pagination    *Pagination            `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDatabaseTypesSearchNameResponse) Reset() {
+	*x = GetDatabaseTypesSearchNameResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[46]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDatabaseTypesSearchNameResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDatabaseTypesSearchNameResponse) ProtoMessage() {}
+
+func (x *GetDatabaseTypesSearchNameResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[46]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDatabaseTypesSearchNameResponse.ProtoReflect.Descriptor instead.
+func (*GetDatabaseTypesSearchNameResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{46}
+}
+
+func (x *GetDatabaseTypesSearchNameResponse) GetData() []*DatabaseType {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+func (x *GetDatabaseTypesSearchNameResponse) GetPagination() *Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+// Выборка GetDatabaseTypes: параметры вызова. Порядок по умолчанию — id.
+type GetDatabaseTypesRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// допустимые значения: ASC, DESC
+	Order         string `protobuf:"bytes,1,opt,name=order,proto3" json:"order,omitempty"`
+	PageLimit     int32  `protobuf:"varint,2,opt,name=page_limit,json=pageLimit,proto3" json:"page_limit,omitempty"`
+	Page          int32  `protobuf:"varint,3,opt,name=page,proto3" json:"page,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDatabaseTypesRequest) Reset() {
+	*x = GetDatabaseTypesRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[47]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDatabaseTypesRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDatabaseTypesRequest) ProtoMessage() {}
+
+func (x *GetDatabaseTypesRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[47]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDatabaseTypesRequest.ProtoReflect.Descriptor instead.
+func (*GetDatabaseTypesRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{47}
+}
+
+func (x *GetDatabaseTypesRequest) GetOrder() string {
+	if x != nil {
+		return x.Order
+	}
+	return ""
+}
+
+func (x *GetDatabaseTypesRequest) GetPageLimit() int32 {
+	if x != nil {
+		return x.PageLimit
+	}
+	return 0
+}
+
+func (x *GetDatabaseTypesRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+// Выборка GetDatabaseTypes: страница данных и пагинация.
+type GetDatabaseTypesResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Data          []*DatabaseType        `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
+	Pagination    *Pagination            `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDatabaseTypesResponse) Reset() {
+	*x = GetDatabaseTypesResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[48]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDatabaseTypesResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDatabaseTypesResponse) ProtoMessage() {}
+
+func (x *GetDatabaseTypesResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[48]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDatabaseTypesResponse.ProtoReflect.Descriptor instead.
+func (*GetDatabaseTypesResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{48}
+}
+
+func (x *GetDatabaseTypesResponse) GetData() []*DatabaseType {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+func (x *GetDatabaseTypesResponse) GetPagination() *Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+// Выборка GetDatabaseTypesDeleted: параметры вызова. Порядок по умолчанию — id.
+type GetDatabaseTypesDeletedRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// допустимые значения: ASC, DESC
+	Order         string `protobuf:"bytes,1,opt,name=order,proto3" json:"order,omitempty"`
+	PageLimit     int32  `protobuf:"varint,2,opt,name=page_limit,json=pageLimit,proto3" json:"page_limit,omitempty"`
+	Page          int32  `protobuf:"varint,3,opt,name=page,proto3" json:"page,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDatabaseTypesDeletedRequest) Reset() {
+	*x = GetDatabaseTypesDeletedRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[49]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDatabaseTypesDeletedRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDatabaseTypesDeletedRequest) ProtoMessage() {}
+
+func (x *GetDatabaseTypesDeletedRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[49]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDatabaseTypesDeletedRequest.ProtoReflect.Descriptor instead.
+func (*GetDatabaseTypesDeletedRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{49}
+}
+
+func (x *GetDatabaseTypesDeletedRequest) GetOrder() string {
+	if x != nil {
+		return x.Order
+	}
+	return ""
+}
+
+func (x *GetDatabaseTypesDeletedRequest) GetPageLimit() int32 {
+	if x != nil {
+		return x.PageLimit
+	}
+	return 0
+}
+
+func (x *GetDatabaseTypesDeletedRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+// Выборка GetDatabaseTypesDeleted: страница данных и пагинация.
+type GetDatabaseTypesDeletedResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Data          []*DatabaseType        `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
+	Pagination    *Pagination            `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDatabaseTypesDeletedResponse) Reset() {
+	*x = GetDatabaseTypesDeletedResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[50]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDatabaseTypesDeletedResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDatabaseTypesDeletedResponse) ProtoMessage() {}
+
+func (x *GetDatabaseTypesDeletedResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[50]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDatabaseTypesDeletedResponse.ProtoReflect.Descriptor instead.
+func (*GetDatabaseTypesDeletedResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{50}
+}
+
+func (x *GetDatabaseTypesDeletedResponse) GetData() []*DatabaseType {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+func (x *GetDatabaseTypesDeletedResponse) GetPagination() *Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+// Изменение UpdateDatabaseTypeById: параметры вызова.
+type UpdateDatabaseTypeByIdRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	DbVersion     string                 `protobuf:"bytes,2,opt,name=db_version,json=dbVersion,proto3" json:"db_version,omitempty"`
+	ExternalId    string                 `protobuf:"bytes,3,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	Id            int64                  `protobuf:"varint,4,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateDatabaseTypeByIdRequest) Reset() {
+	*x = UpdateDatabaseTypeByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[51]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateDatabaseTypeByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateDatabaseTypeByIdRequest) ProtoMessage() {}
+
+func (x *UpdateDatabaseTypeByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[51]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateDatabaseTypeByIdRequest.ProtoReflect.Descriptor instead.
+func (*UpdateDatabaseTypeByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{51}
+}
+
+func (x *UpdateDatabaseTypeByIdRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *UpdateDatabaseTypeByIdRequest) GetDbVersion() string {
+	if x != nil {
+		return x.DbVersion
+	}
+	return ""
+}
+
+func (x *UpdateDatabaseTypeByIdRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+func (x *UpdateDatabaseTypeByIdRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Изменение UpdateDatabaseTypeById: ответ пустой — запрос ничего не возвращает.
+type UpdateDatabaseTypeByIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateDatabaseTypeByIdResponse) Reset() {
+	*x = UpdateDatabaseTypeByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[52]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateDatabaseTypeByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateDatabaseTypeByIdResponse) ProtoMessage() {}
+
+func (x *UpdateDatabaseTypeByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[52]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateDatabaseTypeByIdResponse.ProtoReflect.Descriptor instead.
+func (*UpdateDatabaseTypeByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{52}
+}
+
+// Мягкое удаление DeleteDatabaseTypeById: параметры вызова.
+type DeleteDatabaseTypeByIdRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ExternalId    string                 `protobuf:"bytes,1,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	Id            int64                  `protobuf:"varint,2,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteDatabaseTypeByIdRequest) Reset() {
+	*x = DeleteDatabaseTypeByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[53]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteDatabaseTypeByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteDatabaseTypeByIdRequest) ProtoMessage() {}
+
+func (x *DeleteDatabaseTypeByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[53]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteDatabaseTypeByIdRequest.ProtoReflect.Descriptor instead.
+func (*DeleteDatabaseTypeByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{53}
+}
+
+func (x *DeleteDatabaseTypeByIdRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+func (x *DeleteDatabaseTypeByIdRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Мягкое удаление DeleteDatabaseTypeById: ответ пустой — запрос ничего не возвращает.
+type DeleteDatabaseTypeByIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteDatabaseTypeByIdResponse) Reset() {
+	*x = DeleteDatabaseTypeByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[54]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteDatabaseTypeByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteDatabaseTypeByIdResponse) ProtoMessage() {}
+
+func (x *DeleteDatabaseTypeByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[54]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteDatabaseTypeByIdResponse.ProtoReflect.Descriptor instead.
+func (*DeleteDatabaseTypeByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{54}
+}
+
+// Обратное удаление UndeleteDatabaseTypeById: параметры вызова.
+type UndeleteDatabaseTypeByIdRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ExternalId    string                 `protobuf:"bytes,1,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	Id            int64                  `protobuf:"varint,2,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UndeleteDatabaseTypeByIdRequest) Reset() {
+	*x = UndeleteDatabaseTypeByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[55]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UndeleteDatabaseTypeByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UndeleteDatabaseTypeByIdRequest) ProtoMessage() {}
+
+func (x *UndeleteDatabaseTypeByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[55]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UndeleteDatabaseTypeByIdRequest.ProtoReflect.Descriptor instead.
+func (*UndeleteDatabaseTypeByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{55}
+}
+
+func (x *UndeleteDatabaseTypeByIdRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+func (x *UndeleteDatabaseTypeByIdRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Обратное удаление UndeleteDatabaseTypeById: ответ пустой — запрос ничего не возвращает.
+type UndeleteDatabaseTypeByIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UndeleteDatabaseTypeByIdResponse) Reset() {
+	*x = UndeleteDatabaseTypeByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[56]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UndeleteDatabaseTypeByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UndeleteDatabaseTypeByIdResponse) ProtoMessage() {}
+
+func (x *UndeleteDatabaseTypeByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[56]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UndeleteDatabaseTypeByIdResponse.ProtoReflect.Descriptor instead.
+func (*UndeleteDatabaseTypeByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{56}
+}
+
+// Строка таблицы dc.database_cat: все колонки, как их вернёт SELECT *.
+type DatabaseCat struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Id             int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name           string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	HostId         int64                  `protobuf:"varint,3,opt,name=host_id,json=hostId,proto3" json:"host_id,omitempty"`
+	DatabaseTypeId int64                  `protobuf:"varint,4,opt,name=database_type_id,json=databaseTypeId,proto3" json:"database_type_id,omitempty"`
+	Description    string                 `protobuf:"bytes,5,opt,name=description,proto3" json:"description,omitempty"`
+	IsDeleted      bool                   `protobuf:"varint,6,opt,name=is_deleted,json=isDeleted,proto3" json:"is_deleted,omitempty"`
+	CreatedAt      *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt      *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	UserId         int64                  `protobuf:"varint,9,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *DatabaseCat) Reset() {
+	*x = DatabaseCat{}
+	mi := &file_tables_v1_tables_proto_msgTypes[57]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DatabaseCat) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DatabaseCat) ProtoMessage() {}
+
+func (x *DatabaseCat) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[57]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DatabaseCat.ProtoReflect.Descriptor instead.
+func (*DatabaseCat) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{57}
+}
+
+func (x *DatabaseCat) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *DatabaseCat) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *DatabaseCat) GetHostId() int64 {
+	if x != nil {
+		return x.HostId
+	}
+	return 0
+}
+
+func (x *DatabaseCat) GetDatabaseTypeId() int64 {
+	if x != nil {
+		return x.DatabaseTypeId
+	}
+	return 0
+}
+
+func (x *DatabaseCat) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *DatabaseCat) GetIsDeleted() bool {
+	if x != nil {
+		return x.IsDeleted
+	}
+	return false
+}
+
+func (x *DatabaseCat) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *DatabaseCat) GetUpdatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return nil
+}
+
+func (x *DatabaseCat) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+// Вставка CreateDatabaseCat: параметры вызова.
+type CreateDatabaseCatRequest struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Name           string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	HostId         int64                  `protobuf:"varint,2,opt,name=host_id,json=hostId,proto3" json:"host_id,omitempty"`
+	DatabaseTypeId int64                  `protobuf:"varint,3,opt,name=database_type_id,json=databaseTypeId,proto3" json:"database_type_id,omitempty"`
+	Description    string                 `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
+	ExternalId     string                 `protobuf:"bytes,5,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *CreateDatabaseCatRequest) Reset() {
+	*x = CreateDatabaseCatRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[58]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateDatabaseCatRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateDatabaseCatRequest) ProtoMessage() {}
+
+func (x *CreateDatabaseCatRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[58]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateDatabaseCatRequest.ProtoReflect.Descriptor instead.
+func (*CreateDatabaseCatRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{58}
+}
+
+func (x *CreateDatabaseCatRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *CreateDatabaseCatRequest) GetHostId() int64 {
+	if x != nil {
+		return x.HostId
+	}
+	return 0
+}
+
+func (x *CreateDatabaseCatRequest) GetDatabaseTypeId() int64 {
+	if x != nil {
+		return x.DatabaseTypeId
+	}
+	return 0
+}
+
+func (x *CreateDatabaseCatRequest) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *CreateDatabaseCatRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+// Вставка CreateDatabaseCat: одна строка.
+type CreateDatabaseCatResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	DatabaseCat   *DatabaseCat           `protobuf:"bytes,1,opt,name=database_cat,json=databaseCat,proto3" json:"database_cat,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateDatabaseCatResponse) Reset() {
+	*x = CreateDatabaseCatResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[59]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateDatabaseCatResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateDatabaseCatResponse) ProtoMessage() {}
+
+func (x *CreateDatabaseCatResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[59]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateDatabaseCatResponse.ProtoReflect.Descriptor instead.
+func (*CreateDatabaseCatResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{59}
+}
+
+func (x *CreateDatabaseCatResponse) GetDatabaseCat() *DatabaseCat {
+	if x != nil {
+		return x.DatabaseCat
+	}
+	return nil
+}
+
+// Выборка GetDatabaseCatById: параметры вызова.
+type GetDatabaseCatByIdRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDatabaseCatByIdRequest) Reset() {
+	*x = GetDatabaseCatByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[60]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDatabaseCatByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDatabaseCatByIdRequest) ProtoMessage() {}
+
+func (x *GetDatabaseCatByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[60]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDatabaseCatByIdRequest.ProtoReflect.Descriptor instead.
+func (*GetDatabaseCatByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{60}
+}
+
+func (x *GetDatabaseCatByIdRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Выборка GetDatabaseCatById: одна строка.
+type GetDatabaseCatByIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	DatabaseCat   *DatabaseCat           `protobuf:"bytes,1,opt,name=database_cat,json=databaseCat,proto3" json:"database_cat,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDatabaseCatByIdResponse) Reset() {
+	*x = GetDatabaseCatByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[61]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDatabaseCatByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDatabaseCatByIdResponse) ProtoMessage() {}
+
+func (x *GetDatabaseCatByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[61]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDatabaseCatByIdResponse.ProtoReflect.Descriptor instead.
+func (*GetDatabaseCatByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{61}
+}
+
+func (x *GetDatabaseCatByIdResponse) GetDatabaseCat() *DatabaseCat {
+	if x != nil {
+		return x.DatabaseCat
+	}
+	return nil
+}
+
+// Выборка GetDatabaseCats: параметры вызова. Порядок по умолчанию — id.
+type GetDatabaseCatsRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// допустимые значения: ASC, DESC
+	Order         string `protobuf:"bytes,1,opt,name=order,proto3" json:"order,omitempty"`
+	PageLimit     int32  `protobuf:"varint,2,opt,name=page_limit,json=pageLimit,proto3" json:"page_limit,omitempty"`
+	Page          int32  `protobuf:"varint,3,opt,name=page,proto3" json:"page,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDatabaseCatsRequest) Reset() {
+	*x = GetDatabaseCatsRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[62]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDatabaseCatsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDatabaseCatsRequest) ProtoMessage() {}
+
+func (x *GetDatabaseCatsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[62]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDatabaseCatsRequest.ProtoReflect.Descriptor instead.
+func (*GetDatabaseCatsRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{62}
+}
+
+func (x *GetDatabaseCatsRequest) GetOrder() string {
+	if x != nil {
+		return x.Order
+	}
+	return ""
+}
+
+func (x *GetDatabaseCatsRequest) GetPageLimit() int32 {
+	if x != nil {
+		return x.PageLimit
+	}
+	return 0
+}
+
+func (x *GetDatabaseCatsRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+// Выборка GetDatabaseCats: страница данных и пагинация.
+type GetDatabaseCatsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Data          []*DatabaseCat         `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
+	Pagination    *Pagination            `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDatabaseCatsResponse) Reset() {
+	*x = GetDatabaseCatsResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[63]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDatabaseCatsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDatabaseCatsResponse) ProtoMessage() {}
+
+func (x *GetDatabaseCatsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[63]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDatabaseCatsResponse.ProtoReflect.Descriptor instead.
+func (*GetDatabaseCatsResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{63}
+}
+
+func (x *GetDatabaseCatsResponse) GetData() []*DatabaseCat {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+func (x *GetDatabaseCatsResponse) GetPagination() *Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+// Выборка GetDatabaseCatsDeleted: параметры вызова. Порядок по умолчанию — id.
+type GetDatabaseCatsDeletedRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// допустимые значения: ASC, DESC
+	Order         string `protobuf:"bytes,1,opt,name=order,proto3" json:"order,omitempty"`
+	PageLimit     int32  `protobuf:"varint,2,opt,name=page_limit,json=pageLimit,proto3" json:"page_limit,omitempty"`
+	Page          int32  `protobuf:"varint,3,opt,name=page,proto3" json:"page,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDatabaseCatsDeletedRequest) Reset() {
+	*x = GetDatabaseCatsDeletedRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[64]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDatabaseCatsDeletedRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDatabaseCatsDeletedRequest) ProtoMessage() {}
+
+func (x *GetDatabaseCatsDeletedRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[64]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDatabaseCatsDeletedRequest.ProtoReflect.Descriptor instead.
+func (*GetDatabaseCatsDeletedRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{64}
+}
+
+func (x *GetDatabaseCatsDeletedRequest) GetOrder() string {
+	if x != nil {
+		return x.Order
+	}
+	return ""
+}
+
+func (x *GetDatabaseCatsDeletedRequest) GetPageLimit() int32 {
+	if x != nil {
+		return x.PageLimit
+	}
+	return 0
+}
+
+func (x *GetDatabaseCatsDeletedRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+// Выборка GetDatabaseCatsDeleted: страница данных и пагинация.
+type GetDatabaseCatsDeletedResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Data          []*DatabaseCat         `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
+	Pagination    *Pagination            `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDatabaseCatsDeletedResponse) Reset() {
+	*x = GetDatabaseCatsDeletedResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[65]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDatabaseCatsDeletedResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDatabaseCatsDeletedResponse) ProtoMessage() {}
+
+func (x *GetDatabaseCatsDeletedResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[65]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDatabaseCatsDeletedResponse.ProtoReflect.Descriptor instead.
+func (*GetDatabaseCatsDeletedResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{65}
+}
+
+func (x *GetDatabaseCatsDeletedResponse) GetData() []*DatabaseCat {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+func (x *GetDatabaseCatsDeletedResponse) GetPagination() *Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+// Выборка GetDatabaseCatsByHostIdDatabaseTypeId: параметры вызова. Порядок по умолчанию — id.
+type GetDatabaseCatsByHostIdDatabaseTypeIdRequest struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	HostId         *int64                 `protobuf:"varint,1,opt,name=host_id,json=hostId,proto3,oneof" json:"host_id,omitempty"`
+	DatabaseTypeId *int64                 `protobuf:"varint,2,opt,name=database_type_id,json=databaseTypeId,proto3,oneof" json:"database_type_id,omitempty"`
+	// допустимые значения: ASC, DESC
+	Order string `protobuf:"bytes,3,opt,name=order,proto3" json:"order,omitempty"`
+	// допустимые значения: name
+	OrderBy       string `protobuf:"bytes,4,opt,name=order_by,json=orderBy,proto3" json:"order_by,omitempty"`
+	PageLimit     int32  `protobuf:"varint,5,opt,name=page_limit,json=pageLimit,proto3" json:"page_limit,omitempty"`
+	Page          int32  `protobuf:"varint,6,opt,name=page,proto3" json:"page,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDatabaseCatsByHostIdDatabaseTypeIdRequest) Reset() {
+	*x = GetDatabaseCatsByHostIdDatabaseTypeIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[66]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDatabaseCatsByHostIdDatabaseTypeIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDatabaseCatsByHostIdDatabaseTypeIdRequest) ProtoMessage() {}
+
+func (x *GetDatabaseCatsByHostIdDatabaseTypeIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[66]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDatabaseCatsByHostIdDatabaseTypeIdRequest.ProtoReflect.Descriptor instead.
+func (*GetDatabaseCatsByHostIdDatabaseTypeIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{66}
+}
+
+func (x *GetDatabaseCatsByHostIdDatabaseTypeIdRequest) GetHostId() int64 {
+	if x != nil && x.HostId != nil {
+		return *x.HostId
+	}
+	return 0
+}
+
+func (x *GetDatabaseCatsByHostIdDatabaseTypeIdRequest) GetDatabaseTypeId() int64 {
+	if x != nil && x.DatabaseTypeId != nil {
+		return *x.DatabaseTypeId
+	}
+	return 0
+}
+
+func (x *GetDatabaseCatsByHostIdDatabaseTypeIdRequest) GetOrder() string {
+	if x != nil {
+		return x.Order
+	}
+	return ""
+}
+
+func (x *GetDatabaseCatsByHostIdDatabaseTypeIdRequest) GetOrderBy() string {
+	if x != nil {
+		return x.OrderBy
+	}
+	return ""
+}
+
+func (x *GetDatabaseCatsByHostIdDatabaseTypeIdRequest) GetPageLimit() int32 {
+	if x != nil {
+		return x.PageLimit
+	}
+	return 0
+}
+
+func (x *GetDatabaseCatsByHostIdDatabaseTypeIdRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+// Выборка GetDatabaseCatsByHostIdDatabaseTypeId: страница данных и пагинация.
+type GetDatabaseCatsByHostIdDatabaseTypeIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Data          []*DatabaseCat         `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
+	Pagination    *Pagination            `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDatabaseCatsByHostIdDatabaseTypeIdResponse) Reset() {
+	*x = GetDatabaseCatsByHostIdDatabaseTypeIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[67]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDatabaseCatsByHostIdDatabaseTypeIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDatabaseCatsByHostIdDatabaseTypeIdResponse) ProtoMessage() {}
+
+func (x *GetDatabaseCatsByHostIdDatabaseTypeIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[67]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDatabaseCatsByHostIdDatabaseTypeIdResponse.ProtoReflect.Descriptor instead.
+func (*GetDatabaseCatsByHostIdDatabaseTypeIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{67}
+}
+
+func (x *GetDatabaseCatsByHostIdDatabaseTypeIdResponse) GetData() []*DatabaseCat {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+func (x *GetDatabaseCatsByHostIdDatabaseTypeIdResponse) GetPagination() *Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+// Выборка GetDatabaseCatsSearchName: параметры вызова. Порядок по умолчанию — id.
+type GetDatabaseCatsSearchNameRequest struct {
+	state      protoimpl.MessageState `protogen:"open.v1"`
+	SearchName string                 `protobuf:"bytes,1,opt,name=search_name,json=searchName,proto3" json:"search_name,omitempty"`
+	// допустимые значения: ASC, DESC
+	Order         string `protobuf:"bytes,2,opt,name=order,proto3" json:"order,omitempty"`
+	PageLimit     int32  `protobuf:"varint,3,opt,name=page_limit,json=pageLimit,proto3" json:"page_limit,omitempty"`
+	Page          int32  `protobuf:"varint,4,opt,name=page,proto3" json:"page,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDatabaseCatsSearchNameRequest) Reset() {
+	*x = GetDatabaseCatsSearchNameRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[68]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDatabaseCatsSearchNameRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDatabaseCatsSearchNameRequest) ProtoMessage() {}
+
+func (x *GetDatabaseCatsSearchNameRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[68]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDatabaseCatsSearchNameRequest.ProtoReflect.Descriptor instead.
+func (*GetDatabaseCatsSearchNameRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{68}
+}
+
+func (x *GetDatabaseCatsSearchNameRequest) GetSearchName() string {
+	if x != nil {
+		return x.SearchName
+	}
+	return ""
+}
+
+func (x *GetDatabaseCatsSearchNameRequest) GetOrder() string {
+	if x != nil {
+		return x.Order
+	}
+	return ""
+}
+
+func (x *GetDatabaseCatsSearchNameRequest) GetPageLimit() int32 {
+	if x != nil {
+		return x.PageLimit
+	}
+	return 0
+}
+
+func (x *GetDatabaseCatsSearchNameRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+// Выборка GetDatabaseCatsSearchName: страница данных и пагинация.
+type GetDatabaseCatsSearchNameResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Data          []*DatabaseCat         `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
+	Pagination    *Pagination            `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDatabaseCatsSearchNameResponse) Reset() {
+	*x = GetDatabaseCatsSearchNameResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[69]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDatabaseCatsSearchNameResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDatabaseCatsSearchNameResponse) ProtoMessage() {}
+
+func (x *GetDatabaseCatsSearchNameResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[69]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDatabaseCatsSearchNameResponse.ProtoReflect.Descriptor instead.
+func (*GetDatabaseCatsSearchNameResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{69}
+}
+
+func (x *GetDatabaseCatsSearchNameResponse) GetData() []*DatabaseCat {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+func (x *GetDatabaseCatsSearchNameResponse) GetPagination() *Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+// Изменение UpdateDatabaseCatById: параметры вызова.
+type UpdateDatabaseCatByIdRequest struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Name           string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	HostId         int64                  `protobuf:"varint,2,opt,name=host_id,json=hostId,proto3" json:"host_id,omitempty"`
+	DatabaseTypeId int64                  `protobuf:"varint,3,opt,name=database_type_id,json=databaseTypeId,proto3" json:"database_type_id,omitempty"`
+	Description    string                 `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
+	ExternalId     string                 `protobuf:"bytes,5,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	Id             int64                  `protobuf:"varint,6,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *UpdateDatabaseCatByIdRequest) Reset() {
+	*x = UpdateDatabaseCatByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[70]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateDatabaseCatByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateDatabaseCatByIdRequest) ProtoMessage() {}
+
+func (x *UpdateDatabaseCatByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[70]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateDatabaseCatByIdRequest.ProtoReflect.Descriptor instead.
+func (*UpdateDatabaseCatByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{70}
+}
+
+func (x *UpdateDatabaseCatByIdRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *UpdateDatabaseCatByIdRequest) GetHostId() int64 {
+	if x != nil {
+		return x.HostId
+	}
+	return 0
+}
+
+func (x *UpdateDatabaseCatByIdRequest) GetDatabaseTypeId() int64 {
+	if x != nil {
+		return x.DatabaseTypeId
+	}
+	return 0
+}
+
+func (x *UpdateDatabaseCatByIdRequest) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *UpdateDatabaseCatByIdRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+func (x *UpdateDatabaseCatByIdRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Изменение UpdateDatabaseCatById: ответ пустой — запрос ничего не возвращает.
+type UpdateDatabaseCatByIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateDatabaseCatByIdResponse) Reset() {
+	*x = UpdateDatabaseCatByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[71]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateDatabaseCatByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateDatabaseCatByIdResponse) ProtoMessage() {}
+
+func (x *UpdateDatabaseCatByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[71]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateDatabaseCatByIdResponse.ProtoReflect.Descriptor instead.
+func (*UpdateDatabaseCatByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{71}
+}
+
+// Мягкое удаление DeleteDatabaseCatById: параметры вызова.
+type DeleteDatabaseCatByIdRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ExternalId    string                 `protobuf:"bytes,1,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	Id            int64                  `protobuf:"varint,2,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteDatabaseCatByIdRequest) Reset() {
+	*x = DeleteDatabaseCatByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[72]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteDatabaseCatByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteDatabaseCatByIdRequest) ProtoMessage() {}
+
+func (x *DeleteDatabaseCatByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[72]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteDatabaseCatByIdRequest.ProtoReflect.Descriptor instead.
+func (*DeleteDatabaseCatByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{72}
+}
+
+func (x *DeleteDatabaseCatByIdRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+func (x *DeleteDatabaseCatByIdRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Мягкое удаление DeleteDatabaseCatById: ответ пустой — запрос ничего не возвращает.
+type DeleteDatabaseCatByIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteDatabaseCatByIdResponse) Reset() {
+	*x = DeleteDatabaseCatByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[73]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteDatabaseCatByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteDatabaseCatByIdResponse) ProtoMessage() {}
+
+func (x *DeleteDatabaseCatByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[73]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteDatabaseCatByIdResponse.ProtoReflect.Descriptor instead.
+func (*DeleteDatabaseCatByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{73}
+}
+
+// Обратное удаление UndeleteDatabaseCatById: параметры вызова.
+type UndeleteDatabaseCatByIdRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ExternalId    string                 `protobuf:"bytes,1,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	Id            int64                  `protobuf:"varint,2,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UndeleteDatabaseCatByIdRequest) Reset() {
+	*x = UndeleteDatabaseCatByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[74]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UndeleteDatabaseCatByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UndeleteDatabaseCatByIdRequest) ProtoMessage() {}
+
+func (x *UndeleteDatabaseCatByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[74]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UndeleteDatabaseCatByIdRequest.ProtoReflect.Descriptor instead.
+func (*UndeleteDatabaseCatByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{74}
+}
+
+func (x *UndeleteDatabaseCatByIdRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+func (x *UndeleteDatabaseCatByIdRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Обратное удаление UndeleteDatabaseCatById: ответ пустой — запрос ничего не возвращает.
+type UndeleteDatabaseCatByIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UndeleteDatabaseCatByIdResponse) Reset() {
+	*x = UndeleteDatabaseCatByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[75]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UndeleteDatabaseCatByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UndeleteDatabaseCatByIdResponse) ProtoMessage() {}
+
+func (x *UndeleteDatabaseCatByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[75]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UndeleteDatabaseCatByIdResponse.ProtoReflect.Descriptor instead.
+func (*UndeleteDatabaseCatByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{75}
+}
+
+// Строка таблицы dc.column_cat: все колонки, как их вернёт SELECT *.
+type ColumnCat struct {
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	Id                int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	TableId           int64                  `protobuf:"varint,2,opt,name=table_id,json=tableId,proto3" json:"table_id,omitempty"`
+	Name              string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
+	AliasId           int64                  `protobuf:"varint,4,opt,name=alias_id,json=aliasId,proto3" json:"alias_id,omitempty"`
+	ColumnTypeId      int64                  `protobuf:"varint,5,opt,name=column_type_id,json=columnTypeId,proto3" json:"column_type_id,omitempty"`
+	Description       string                 `protobuf:"bytes,6,opt,name=description,proto3" json:"description,omitempty"`
+	CalculationTypeId int64                  `protobuf:"varint,7,opt,name=calculation_type_id,json=calculationTypeId,proto3" json:"calculation_type_id,omitempty"`
+	IsDeleted         bool                   `protobuf:"varint,8,opt,name=is_deleted,json=isDeleted,proto3" json:"is_deleted,omitempty"`
+	ShowInUi          bool                   `protobuf:"varint,9,opt,name=show_in_ui,json=showInUi,proto3" json:"show_in_ui,omitempty"`
+	CreatedAt         *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt         *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	UserId            int64                  `protobuf:"varint,12,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
+}
+
+func (x *ColumnCat) Reset() {
+	*x = ColumnCat{}
+	mi := &file_tables_v1_tables_proto_msgTypes[76]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ColumnCat) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ColumnCat) ProtoMessage() {}
+
+func (x *ColumnCat) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[76]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ColumnCat.ProtoReflect.Descriptor instead.
+func (*ColumnCat) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{76}
+}
+
+func (x *ColumnCat) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *ColumnCat) GetTableId() int64 {
+	if x != nil {
+		return x.TableId
+	}
+	return 0
+}
+
+func (x *ColumnCat) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *ColumnCat) GetAliasId() int64 {
+	if x != nil {
+		return x.AliasId
+	}
+	return 0
+}
+
+func (x *ColumnCat) GetColumnTypeId() int64 {
+	if x != nil {
+		return x.ColumnTypeId
+	}
+	return 0
+}
+
+func (x *ColumnCat) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *ColumnCat) GetCalculationTypeId() int64 {
+	if x != nil {
+		return x.CalculationTypeId
+	}
+	return 0
+}
+
+func (x *ColumnCat) GetIsDeleted() bool {
+	if x != nil {
+		return x.IsDeleted
+	}
+	return false
+}
+
+func (x *ColumnCat) GetShowInUi() bool {
+	if x != nil {
+		return x.ShowInUi
+	}
+	return false
+}
+
+func (x *ColumnCat) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *ColumnCat) GetUpdatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return nil
+}
+
+func (x *ColumnCat) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+// Вставка CreateColumnCat: параметры вызова.
+type CreateColumnCatRequest struct {
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	TableId           int64                  `protobuf:"varint,1,opt,name=table_id,json=tableId,proto3" json:"table_id,omitempty"`
+	Name              string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	AliasId           int64                  `protobuf:"varint,3,opt,name=alias_id,json=aliasId,proto3" json:"alias_id,omitempty"`
+	ColumnTypeId      int64                  `protobuf:"varint,4,opt,name=column_type_id,json=columnTypeId,proto3" json:"column_type_id,omitempty"`
+	Description       string                 `protobuf:"bytes,5,opt,name=description,proto3" json:"description,omitempty"`
+	CalculationTypeId int64                  `protobuf:"varint,6,opt,name=calculation_type_id,json=calculationTypeId,proto3" json:"calculation_type_id,omitempty"`
+	ShowInUi          bool                   `protobuf:"varint,7,opt,name=show_in_ui,json=showInUi,proto3" json:"show_in_ui,omitempty"`
+	ExternalId        string                 `protobuf:"bytes,8,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
+}
+
+func (x *CreateColumnCatRequest) Reset() {
+	*x = CreateColumnCatRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[77]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateColumnCatRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateColumnCatRequest) ProtoMessage() {}
+
+func (x *CreateColumnCatRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[77]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateColumnCatRequest.ProtoReflect.Descriptor instead.
+func (*CreateColumnCatRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{77}
+}
+
+func (x *CreateColumnCatRequest) GetTableId() int64 {
+	if x != nil {
+		return x.TableId
+	}
+	return 0
+}
+
+func (x *CreateColumnCatRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *CreateColumnCatRequest) GetAliasId() int64 {
+	if x != nil {
+		return x.AliasId
+	}
+	return 0
+}
+
+func (x *CreateColumnCatRequest) GetColumnTypeId() int64 {
+	if x != nil {
+		return x.ColumnTypeId
+	}
+	return 0
+}
+
+func (x *CreateColumnCatRequest) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *CreateColumnCatRequest) GetCalculationTypeId() int64 {
+	if x != nil {
+		return x.CalculationTypeId
+	}
+	return 0
+}
+
+func (x *CreateColumnCatRequest) GetShowInUi() bool {
+	if x != nil {
+		return x.ShowInUi
+	}
+	return false
+}
+
+func (x *CreateColumnCatRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+// Вставка CreateColumnCat: одна строка.
+type CreateColumnCatResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ColumnCat     *ColumnCat             `protobuf:"bytes,1,opt,name=column_cat,json=columnCat,proto3" json:"column_cat,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateColumnCatResponse) Reset() {
+	*x = CreateColumnCatResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[78]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateColumnCatResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateColumnCatResponse) ProtoMessage() {}
+
+func (x *CreateColumnCatResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[78]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateColumnCatResponse.ProtoReflect.Descriptor instead.
+func (*CreateColumnCatResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{78}
+}
+
+func (x *CreateColumnCatResponse) GetColumnCat() *ColumnCat {
+	if x != nil {
+		return x.ColumnCat
+	}
+	return nil
+}
+
+// Выборка GetColumnCatById: параметры вызова.
+type GetColumnCatByIdRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetColumnCatByIdRequest) Reset() {
+	*x = GetColumnCatByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[79]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetColumnCatByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetColumnCatByIdRequest) ProtoMessage() {}
+
+func (x *GetColumnCatByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[79]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetColumnCatByIdRequest.ProtoReflect.Descriptor instead.
+func (*GetColumnCatByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{79}
+}
+
+func (x *GetColumnCatByIdRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Выборка GetColumnCatById: одна строка.
+type GetColumnCatByIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ColumnCat     *ColumnCat             `protobuf:"bytes,1,opt,name=column_cat,json=columnCat,proto3" json:"column_cat,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetColumnCatByIdResponse) Reset() {
+	*x = GetColumnCatByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[80]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetColumnCatByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetColumnCatByIdResponse) ProtoMessage() {}
+
+func (x *GetColumnCatByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[80]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetColumnCatByIdResponse.ProtoReflect.Descriptor instead.
+func (*GetColumnCatByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{80}
+}
+
+func (x *GetColumnCatByIdResponse) GetColumnCat() *ColumnCat {
+	if x != nil {
+		return x.ColumnCat
+	}
+	return nil
+}
+
+// Выборка GetColumnCats: параметры вызова. Порядок по умолчанию — id.
+type GetColumnCatsRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// допустимые значения: ASC, DESC
+	Order         string `protobuf:"bytes,1,opt,name=order,proto3" json:"order,omitempty"`
+	PageLimit     int32  `protobuf:"varint,2,opt,name=page_limit,json=pageLimit,proto3" json:"page_limit,omitempty"`
+	Page          int32  `protobuf:"varint,3,opt,name=page,proto3" json:"page,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetColumnCatsRequest) Reset() {
+	*x = GetColumnCatsRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[81]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetColumnCatsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetColumnCatsRequest) ProtoMessage() {}
+
+func (x *GetColumnCatsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[81]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetColumnCatsRequest.ProtoReflect.Descriptor instead.
+func (*GetColumnCatsRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{81}
+}
+
+func (x *GetColumnCatsRequest) GetOrder() string {
+	if x != nil {
+		return x.Order
+	}
+	return ""
+}
+
+func (x *GetColumnCatsRequest) GetPageLimit() int32 {
+	if x != nil {
+		return x.PageLimit
+	}
+	return 0
+}
+
+func (x *GetColumnCatsRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+// Выборка GetColumnCats: страница данных и пагинация.
+type GetColumnCatsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Data          []*ColumnCat           `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
+	Pagination    *Pagination            `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetColumnCatsResponse) Reset() {
+	*x = GetColumnCatsResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[82]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetColumnCatsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetColumnCatsResponse) ProtoMessage() {}
+
+func (x *GetColumnCatsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[82]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetColumnCatsResponse.ProtoReflect.Descriptor instead.
+func (*GetColumnCatsResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{82}
+}
+
+func (x *GetColumnCatsResponse) GetData() []*ColumnCat {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+func (x *GetColumnCatsResponse) GetPagination() *Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+// Выборка GetColumnCatsDeleted: параметры вызова. Порядок по умолчанию — id.
+type GetColumnCatsDeletedRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// допустимые значения: ASC, DESC
+	Order         string `protobuf:"bytes,1,opt,name=order,proto3" json:"order,omitempty"`
+	PageLimit     int32  `protobuf:"varint,2,opt,name=page_limit,json=pageLimit,proto3" json:"page_limit,omitempty"`
+	Page          int32  `protobuf:"varint,3,opt,name=page,proto3" json:"page,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetColumnCatsDeletedRequest) Reset() {
+	*x = GetColumnCatsDeletedRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[83]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetColumnCatsDeletedRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetColumnCatsDeletedRequest) ProtoMessage() {}
+
+func (x *GetColumnCatsDeletedRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[83]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetColumnCatsDeletedRequest.ProtoReflect.Descriptor instead.
+func (*GetColumnCatsDeletedRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{83}
+}
+
+func (x *GetColumnCatsDeletedRequest) GetOrder() string {
+	if x != nil {
+		return x.Order
+	}
+	return ""
+}
+
+func (x *GetColumnCatsDeletedRequest) GetPageLimit() int32 {
+	if x != nil {
+		return x.PageLimit
+	}
+	return 0
+}
+
+func (x *GetColumnCatsDeletedRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+// Выборка GetColumnCatsDeleted: страница данных и пагинация.
+type GetColumnCatsDeletedResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Data          []*ColumnCat           `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
+	Pagination    *Pagination            `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetColumnCatsDeletedResponse) Reset() {
+	*x = GetColumnCatsDeletedResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[84]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetColumnCatsDeletedResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetColumnCatsDeletedResponse) ProtoMessage() {}
+
+func (x *GetColumnCatsDeletedResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[84]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetColumnCatsDeletedResponse.ProtoReflect.Descriptor instead.
+func (*GetColumnCatsDeletedResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{84}
+}
+
+func (x *GetColumnCatsDeletedResponse) GetData() []*ColumnCat {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+func (x *GetColumnCatsDeletedResponse) GetPagination() *Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+// Выборка GetColumnCatsOptionalFilters: параметры вызова. Порядок по умолчанию — id.
+type GetColumnCatsOptionalFiltersRequest struct {
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	TableId           *int64                 `protobuf:"varint,1,opt,name=table_id,json=tableId,proto3,oneof" json:"table_id,omitempty"`
+	AliasId           *int64                 `protobuf:"varint,2,opt,name=alias_id,json=aliasId,proto3,oneof" json:"alias_id,omitempty"`
+	ColumnTypeId      *int64                 `protobuf:"varint,3,opt,name=column_type_id,json=columnTypeId,proto3,oneof" json:"column_type_id,omitempty"`
+	CalculationTypeId *int64                 `protobuf:"varint,4,opt,name=calculation_type_id,json=calculationTypeId,proto3,oneof" json:"calculation_type_id,omitempty"`
+	ShowInUi          *bool                  `protobuf:"varint,5,opt,name=show_in_ui,json=showInUi,proto3,oneof" json:"show_in_ui,omitempty"`
+	// допустимые значения: ASC, DESC
+	Order         string `protobuf:"bytes,6,opt,name=order,proto3" json:"order,omitempty"`
+	PageLimit     int32  `protobuf:"varint,7,opt,name=page_limit,json=pageLimit,proto3" json:"page_limit,omitempty"`
+	Page          int32  `protobuf:"varint,8,opt,name=page,proto3" json:"page,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetColumnCatsOptionalFiltersRequest) Reset() {
+	*x = GetColumnCatsOptionalFiltersRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[85]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetColumnCatsOptionalFiltersRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetColumnCatsOptionalFiltersRequest) ProtoMessage() {}
+
+func (x *GetColumnCatsOptionalFiltersRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[85]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetColumnCatsOptionalFiltersRequest.ProtoReflect.Descriptor instead.
+func (*GetColumnCatsOptionalFiltersRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{85}
+}
+
+func (x *GetColumnCatsOptionalFiltersRequest) GetTableId() int64 {
+	if x != nil && x.TableId != nil {
+		return *x.TableId
+	}
+	return 0
+}
+
+func (x *GetColumnCatsOptionalFiltersRequest) GetAliasId() int64 {
+	if x != nil && x.AliasId != nil {
+		return *x.AliasId
+	}
+	return 0
+}
+
+func (x *GetColumnCatsOptionalFiltersRequest) GetColumnTypeId() int64 {
+	if x != nil && x.ColumnTypeId != nil {
+		return *x.ColumnTypeId
+	}
+	return 0
+}
+
+func (x *GetColumnCatsOptionalFiltersRequest) GetCalculationTypeId() int64 {
+	if x != nil && x.CalculationTypeId != nil {
+		return *x.CalculationTypeId
+	}
+	return 0
+}
+
+func (x *GetColumnCatsOptionalFiltersRequest) GetShowInUi() bool {
+	if x != nil && x.ShowInUi != nil {
+		return *x.ShowInUi
+	}
+	return false
+}
+
+func (x *GetColumnCatsOptionalFiltersRequest) GetOrder() string {
+	if x != nil {
+		return x.Order
+	}
+	return ""
+}
+
+func (x *GetColumnCatsOptionalFiltersRequest) GetPageLimit() int32 {
+	if x != nil {
+		return x.PageLimit
+	}
+	return 0
+}
+
+func (x *GetColumnCatsOptionalFiltersRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+// Выборка GetColumnCatsOptionalFilters: страница данных и пагинация.
+type GetColumnCatsOptionalFiltersResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Data          []*ColumnCat           `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
+	Pagination    *Pagination            `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetColumnCatsOptionalFiltersResponse) Reset() {
+	*x = GetColumnCatsOptionalFiltersResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[86]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetColumnCatsOptionalFiltersResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetColumnCatsOptionalFiltersResponse) ProtoMessage() {}
+
+func (x *GetColumnCatsOptionalFiltersResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[86]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetColumnCatsOptionalFiltersResponse.ProtoReflect.Descriptor instead.
+func (*GetColumnCatsOptionalFiltersResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{86}
+}
+
+func (x *GetColumnCatsOptionalFiltersResponse) GetData() []*ColumnCat {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+func (x *GetColumnCatsOptionalFiltersResponse) GetPagination() *Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+// Выборка GetColumnCatsSearchName: параметры вызова. Порядок по умолчанию — id.
+type GetColumnCatsSearchNameRequest struct {
+	state      protoimpl.MessageState `protogen:"open.v1"`
+	SearchName string                 `protobuf:"bytes,1,opt,name=search_name,json=searchName,proto3" json:"search_name,omitempty"`
+	// допустимые значения: ASC, DESC
+	Order         string `protobuf:"bytes,2,opt,name=order,proto3" json:"order,omitempty"`
+	PageLimit     int32  `protobuf:"varint,3,opt,name=page_limit,json=pageLimit,proto3" json:"page_limit,omitempty"`
+	Page          int32  `protobuf:"varint,4,opt,name=page,proto3" json:"page,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetColumnCatsSearchNameRequest) Reset() {
+	*x = GetColumnCatsSearchNameRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[87]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetColumnCatsSearchNameRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetColumnCatsSearchNameRequest) ProtoMessage() {}
+
+func (x *GetColumnCatsSearchNameRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[87]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetColumnCatsSearchNameRequest.ProtoReflect.Descriptor instead.
+func (*GetColumnCatsSearchNameRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{87}
+}
+
+func (x *GetColumnCatsSearchNameRequest) GetSearchName() string {
+	if x != nil {
+		return x.SearchName
+	}
+	return ""
+}
+
+func (x *GetColumnCatsSearchNameRequest) GetOrder() string {
+	if x != nil {
+		return x.Order
+	}
+	return ""
+}
+
+func (x *GetColumnCatsSearchNameRequest) GetPageLimit() int32 {
+	if x != nil {
+		return x.PageLimit
+	}
+	return 0
+}
+
+func (x *GetColumnCatsSearchNameRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+// Выборка GetColumnCatsSearchName: страница данных и пагинация.
+type GetColumnCatsSearchNameResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Data          []*ColumnCat           `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
+	Pagination    *Pagination            `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetColumnCatsSearchNameResponse) Reset() {
+	*x = GetColumnCatsSearchNameResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[88]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetColumnCatsSearchNameResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetColumnCatsSearchNameResponse) ProtoMessage() {}
+
+func (x *GetColumnCatsSearchNameResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[88]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetColumnCatsSearchNameResponse.ProtoReflect.Descriptor instead.
+func (*GetColumnCatsSearchNameResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{88}
+}
+
+func (x *GetColumnCatsSearchNameResponse) GetData() []*ColumnCat {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+func (x *GetColumnCatsSearchNameResponse) GetPagination() *Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+// Изменение UpdateColumnCatById: параметры вызова.
+type UpdateColumnCatByIdRequest struct {
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	TableId           int64                  `protobuf:"varint,1,opt,name=table_id,json=tableId,proto3" json:"table_id,omitempty"`
+	Name              string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	AliasId           int64                  `protobuf:"varint,3,opt,name=alias_id,json=aliasId,proto3" json:"alias_id,omitempty"`
+	ColumnTypeId      int64                  `protobuf:"varint,4,opt,name=column_type_id,json=columnTypeId,proto3" json:"column_type_id,omitempty"`
+	Description       string                 `protobuf:"bytes,5,opt,name=description,proto3" json:"description,omitempty"`
+	CalculationTypeId int64                  `protobuf:"varint,6,opt,name=calculation_type_id,json=calculationTypeId,proto3" json:"calculation_type_id,omitempty"`
+	ShowInUi          bool                   `protobuf:"varint,7,opt,name=show_in_ui,json=showInUi,proto3" json:"show_in_ui,omitempty"`
+	ExternalId        string                 `protobuf:"bytes,8,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	Id                int64                  `protobuf:"varint,9,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
+}
+
+func (x *UpdateColumnCatByIdRequest) Reset() {
+	*x = UpdateColumnCatByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[89]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateColumnCatByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateColumnCatByIdRequest) ProtoMessage() {}
+
+func (x *UpdateColumnCatByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[89]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateColumnCatByIdRequest.ProtoReflect.Descriptor instead.
+func (*UpdateColumnCatByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{89}
+}
+
+func (x *UpdateColumnCatByIdRequest) GetTableId() int64 {
+	if x != nil {
+		return x.TableId
+	}
+	return 0
+}
+
+func (x *UpdateColumnCatByIdRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *UpdateColumnCatByIdRequest) GetAliasId() int64 {
+	if x != nil {
+		return x.AliasId
+	}
+	return 0
+}
+
+func (x *UpdateColumnCatByIdRequest) GetColumnTypeId() int64 {
+	if x != nil {
+		return x.ColumnTypeId
+	}
+	return 0
+}
+
+func (x *UpdateColumnCatByIdRequest) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *UpdateColumnCatByIdRequest) GetCalculationTypeId() int64 {
+	if x != nil {
+		return x.CalculationTypeId
+	}
+	return 0
+}
+
+func (x *UpdateColumnCatByIdRequest) GetShowInUi() bool {
+	if x != nil {
+		return x.ShowInUi
+	}
+	return false
+}
+
+func (x *UpdateColumnCatByIdRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+func (x *UpdateColumnCatByIdRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Изменение UpdateColumnCatById: ответ пустой — запрос ничего не возвращает.
+type UpdateColumnCatByIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateColumnCatByIdResponse) Reset() {
+	*x = UpdateColumnCatByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[90]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateColumnCatByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateColumnCatByIdResponse) ProtoMessage() {}
+
+func (x *UpdateColumnCatByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[90]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateColumnCatByIdResponse.ProtoReflect.Descriptor instead.
+func (*UpdateColumnCatByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{90}
+}
+
+// Мягкое удаление DeleteColumnCatById: параметры вызова.
+type DeleteColumnCatByIdRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ExternalId    string                 `protobuf:"bytes,1,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	Id            int64                  `protobuf:"varint,2,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteColumnCatByIdRequest) Reset() {
+	*x = DeleteColumnCatByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[91]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteColumnCatByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteColumnCatByIdRequest) ProtoMessage() {}
+
+func (x *DeleteColumnCatByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[91]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteColumnCatByIdRequest.ProtoReflect.Descriptor instead.
+func (*DeleteColumnCatByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{91}
+}
+
+func (x *DeleteColumnCatByIdRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+func (x *DeleteColumnCatByIdRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Мягкое удаление DeleteColumnCatById: ответ пустой — запрос ничего не возвращает.
+type DeleteColumnCatByIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteColumnCatByIdResponse) Reset() {
+	*x = DeleteColumnCatByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[92]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteColumnCatByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteColumnCatByIdResponse) ProtoMessage() {}
+
+func (x *DeleteColumnCatByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[92]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteColumnCatByIdResponse.ProtoReflect.Descriptor instead.
+func (*DeleteColumnCatByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{92}
+}
+
+// Обратное удаление UndeleteColumnCatById: параметры вызова.
+type UndeleteColumnCatByIdRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ExternalId    string                 `protobuf:"bytes,1,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	Id            int64                  `protobuf:"varint,2,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UndeleteColumnCatByIdRequest) Reset() {
+	*x = UndeleteColumnCatByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[93]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UndeleteColumnCatByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UndeleteColumnCatByIdRequest) ProtoMessage() {}
+
+func (x *UndeleteColumnCatByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[93]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UndeleteColumnCatByIdRequest.ProtoReflect.Descriptor instead.
+func (*UndeleteColumnCatByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{93}
+}
+
+func (x *UndeleteColumnCatByIdRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+func (x *UndeleteColumnCatByIdRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Обратное удаление UndeleteColumnCatById: ответ пустой — запрос ничего не возвращает.
+type UndeleteColumnCatByIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UndeleteColumnCatByIdResponse) Reset() {
+	*x = UndeleteColumnCatByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[94]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UndeleteColumnCatByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UndeleteColumnCatByIdResponse) ProtoMessage() {}
+
+func (x *UndeleteColumnCatByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[94]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UndeleteColumnCatByIdResponse.ProtoReflect.Descriptor instead.
+func (*UndeleteColumnCatByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{94}
+}
+
+// Строка таблицы dc.column_type: все колонки, как их вернёт SELECT *.
+type ColumnType struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	IsDeleted     bool                   `protobuf:"varint,4,opt,name=is_deleted,json=isDeleted,proto3" json:"is_deleted,omitempty"`
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	UserId        int64                  `protobuf:"varint,7,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ColumnType) Reset() {
+	*x = ColumnType{}
+	mi := &file_tables_v1_tables_proto_msgTypes[95]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ColumnType) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ColumnType) ProtoMessage() {}
+
+func (x *ColumnType) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[95]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ColumnType.ProtoReflect.Descriptor instead.
+func (*ColumnType) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{95}
+}
+
+func (x *ColumnType) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *ColumnType) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *ColumnType) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *ColumnType) GetIsDeleted() bool {
+	if x != nil {
+		return x.IsDeleted
+	}
+	return false
+}
+
+func (x *ColumnType) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *ColumnType) GetUpdatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return nil
+}
+
+func (x *ColumnType) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+// Вставка CreateColumnType: параметры вызова.
+type CreateColumnTypeRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Description   string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
+	ExternalId    string                 `protobuf:"bytes,3,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateColumnTypeRequest) Reset() {
+	*x = CreateColumnTypeRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[96]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateColumnTypeRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateColumnTypeRequest) ProtoMessage() {}
+
+func (x *CreateColumnTypeRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[96]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateColumnTypeRequest.ProtoReflect.Descriptor instead.
+func (*CreateColumnTypeRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{96}
+}
+
+func (x *CreateColumnTypeRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *CreateColumnTypeRequest) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *CreateColumnTypeRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+// Вставка CreateColumnType: одна строка.
+type CreateColumnTypeResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ColumnType    *ColumnType            `protobuf:"bytes,1,opt,name=column_type,json=columnType,proto3" json:"column_type,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateColumnTypeResponse) Reset() {
+	*x = CreateColumnTypeResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[97]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateColumnTypeResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateColumnTypeResponse) ProtoMessage() {}
+
+func (x *CreateColumnTypeResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[97]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateColumnTypeResponse.ProtoReflect.Descriptor instead.
+func (*CreateColumnTypeResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{97}
+}
+
+func (x *CreateColumnTypeResponse) GetColumnType() *ColumnType {
+	if x != nil {
+		return x.ColumnType
+	}
+	return nil
+}
+
+// Выборка GetColumnTypeById: параметры вызова.
+type GetColumnTypeByIdRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetColumnTypeByIdRequest) Reset() {
+	*x = GetColumnTypeByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[98]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetColumnTypeByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetColumnTypeByIdRequest) ProtoMessage() {}
+
+func (x *GetColumnTypeByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[98]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetColumnTypeByIdRequest.ProtoReflect.Descriptor instead.
+func (*GetColumnTypeByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{98}
+}
+
+func (x *GetColumnTypeByIdRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Выборка GetColumnTypeById: строка ответа — только отмеченные колонки.
+type GetColumnTypeByIdRow struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Description   string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
+	IsDeleted     bool                   `protobuf:"varint,3,opt,name=is_deleted,json=isDeleted,proto3" json:"is_deleted,omitempty"`
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	UserId        int64                  `protobuf:"varint,6,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetColumnTypeByIdRow) Reset() {
+	*x = GetColumnTypeByIdRow{}
+	mi := &file_tables_v1_tables_proto_msgTypes[99]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetColumnTypeByIdRow) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetColumnTypeByIdRow) ProtoMessage() {}
+
+func (x *GetColumnTypeByIdRow) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[99]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetColumnTypeByIdRow.ProtoReflect.Descriptor instead.
+func (*GetColumnTypeByIdRow) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{99}
+}
+
+func (x *GetColumnTypeByIdRow) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *GetColumnTypeByIdRow) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *GetColumnTypeByIdRow) GetIsDeleted() bool {
+	if x != nil {
+		return x.IsDeleted
+	}
+	return false
+}
+
+func (x *GetColumnTypeByIdRow) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *GetColumnTypeByIdRow) GetUpdatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return nil
+}
+
+func (x *GetColumnTypeByIdRow) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+// Выборка GetColumnTypeById: одна строка.
+type GetColumnTypeByIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ColumnType    *GetColumnTypeByIdRow  `protobuf:"bytes,1,opt,name=column_type,json=columnType,proto3" json:"column_type,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetColumnTypeByIdResponse) Reset() {
+	*x = GetColumnTypeByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[100]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetColumnTypeByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetColumnTypeByIdResponse) ProtoMessage() {}
+
+func (x *GetColumnTypeByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[100]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetColumnTypeByIdResponse.ProtoReflect.Descriptor instead.
+func (*GetColumnTypeByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{100}
+}
+
+func (x *GetColumnTypeByIdResponse) GetColumnType() *GetColumnTypeByIdRow {
+	if x != nil {
+		return x.ColumnType
+	}
+	return nil
+}
+
+// Выборка GetColumnTypes: параметры вызова. Порядок по умолчанию — id.
+type GetColumnTypesRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// допустимые значения: ASC, DESC
+	Order         string `protobuf:"bytes,1,opt,name=order,proto3" json:"order,omitempty"`
+	PageLimit     int32  `protobuf:"varint,2,opt,name=page_limit,json=pageLimit,proto3" json:"page_limit,omitempty"`
+	Page          int32  `protobuf:"varint,3,opt,name=page,proto3" json:"page,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetColumnTypesRequest) Reset() {
+	*x = GetColumnTypesRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[101]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetColumnTypesRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetColumnTypesRequest) ProtoMessage() {}
+
+func (x *GetColumnTypesRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[101]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetColumnTypesRequest.ProtoReflect.Descriptor instead.
+func (*GetColumnTypesRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{101}
+}
+
+func (x *GetColumnTypesRequest) GetOrder() string {
+	if x != nil {
+		return x.Order
+	}
+	return ""
+}
+
+func (x *GetColumnTypesRequest) GetPageLimit() int32 {
+	if x != nil {
+		return x.PageLimit
+	}
+	return 0
+}
+
+func (x *GetColumnTypesRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+// Выборка GetColumnTypes: страница данных и пагинация.
+type GetColumnTypesResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Data          []*ColumnType          `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
+	Pagination    *Pagination            `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetColumnTypesResponse) Reset() {
+	*x = GetColumnTypesResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[102]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetColumnTypesResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetColumnTypesResponse) ProtoMessage() {}
+
+func (x *GetColumnTypesResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[102]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetColumnTypesResponse.ProtoReflect.Descriptor instead.
+func (*GetColumnTypesResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{102}
+}
+
+func (x *GetColumnTypesResponse) GetData() []*ColumnType {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+func (x *GetColumnTypesResponse) GetPagination() *Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+// Выборка GetColumnTypesSearchName: параметры вызова. Порядок по умолчанию — id.
+type GetColumnTypesSearchNameRequest struct {
+	state      protoimpl.MessageState `protogen:"open.v1"`
+	SearchName string                 `protobuf:"bytes,1,opt,name=search_name,json=searchName,proto3" json:"search_name,omitempty"`
+	// допустимые значения: ASC, DESC
+	Order         string `protobuf:"bytes,2,opt,name=order,proto3" json:"order,omitempty"`
+	PageLimit     int32  `protobuf:"varint,3,opt,name=page_limit,json=pageLimit,proto3" json:"page_limit,omitempty"`
+	Page          int32  `protobuf:"varint,4,opt,name=page,proto3" json:"page,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetColumnTypesSearchNameRequest) Reset() {
+	*x = GetColumnTypesSearchNameRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[103]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetColumnTypesSearchNameRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetColumnTypesSearchNameRequest) ProtoMessage() {}
+
+func (x *GetColumnTypesSearchNameRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[103]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetColumnTypesSearchNameRequest.ProtoReflect.Descriptor instead.
+func (*GetColumnTypesSearchNameRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{103}
+}
+
+func (x *GetColumnTypesSearchNameRequest) GetSearchName() string {
+	if x != nil {
+		return x.SearchName
+	}
+	return ""
+}
+
+func (x *GetColumnTypesSearchNameRequest) GetOrder() string {
+	if x != nil {
+		return x.Order
+	}
+	return ""
+}
+
+func (x *GetColumnTypesSearchNameRequest) GetPageLimit() int32 {
+	if x != nil {
+		return x.PageLimit
+	}
+	return 0
+}
+
+func (x *GetColumnTypesSearchNameRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+// Выборка GetColumnTypesSearchName: страница данных и пагинация.
+type GetColumnTypesSearchNameResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Data          []*ColumnType          `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
+	Pagination    *Pagination            `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetColumnTypesSearchNameResponse) Reset() {
+	*x = GetColumnTypesSearchNameResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[104]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetColumnTypesSearchNameResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetColumnTypesSearchNameResponse) ProtoMessage() {}
+
+func (x *GetColumnTypesSearchNameResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[104]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetColumnTypesSearchNameResponse.ProtoReflect.Descriptor instead.
+func (*GetColumnTypesSearchNameResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{104}
+}
+
+func (x *GetColumnTypesSearchNameResponse) GetData() []*ColumnType {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+func (x *GetColumnTypesSearchNameResponse) GetPagination() *Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+// Выборка GetColumnTypesDeleted: параметры вызова. Порядок по умолчанию — id.
+type GetColumnTypesDeletedRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// допустимые значения: ASC, DESC
+	Order         string `protobuf:"bytes,1,opt,name=order,proto3" json:"order,omitempty"`
+	PageLimit     int32  `protobuf:"varint,2,opt,name=page_limit,json=pageLimit,proto3" json:"page_limit,omitempty"`
+	Page          int32  `protobuf:"varint,3,opt,name=page,proto3" json:"page,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetColumnTypesDeletedRequest) Reset() {
+	*x = GetColumnTypesDeletedRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[105]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetColumnTypesDeletedRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetColumnTypesDeletedRequest) ProtoMessage() {}
+
+func (x *GetColumnTypesDeletedRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[105]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetColumnTypesDeletedRequest.ProtoReflect.Descriptor instead.
+func (*GetColumnTypesDeletedRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{105}
+}
+
+func (x *GetColumnTypesDeletedRequest) GetOrder() string {
+	if x != nil {
+		return x.Order
+	}
+	return ""
+}
+
+func (x *GetColumnTypesDeletedRequest) GetPageLimit() int32 {
+	if x != nil {
+		return x.PageLimit
+	}
+	return 0
+}
+
+func (x *GetColumnTypesDeletedRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+// Выборка GetColumnTypesDeleted: страница данных и пагинация.
+type GetColumnTypesDeletedResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Data          []*ColumnType          `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
+	Pagination    *Pagination            `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetColumnTypesDeletedResponse) Reset() {
+	*x = GetColumnTypesDeletedResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[106]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetColumnTypesDeletedResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetColumnTypesDeletedResponse) ProtoMessage() {}
+
+func (x *GetColumnTypesDeletedResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[106]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetColumnTypesDeletedResponse.ProtoReflect.Descriptor instead.
+func (*GetColumnTypesDeletedResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{106}
+}
+
+func (x *GetColumnTypesDeletedResponse) GetData() []*ColumnType {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+func (x *GetColumnTypesDeletedResponse) GetPagination() *Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+// Изменение UpdateColumnTypeById: параметры вызова.
+type UpdateColumnTypeByIdRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Description   string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
+	ExternalId    string                 `protobuf:"bytes,3,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	Id            int64                  `protobuf:"varint,4,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateColumnTypeByIdRequest) Reset() {
+	*x = UpdateColumnTypeByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[107]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateColumnTypeByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateColumnTypeByIdRequest) ProtoMessage() {}
+
+func (x *UpdateColumnTypeByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[107]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateColumnTypeByIdRequest.ProtoReflect.Descriptor instead.
+func (*UpdateColumnTypeByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{107}
+}
+
+func (x *UpdateColumnTypeByIdRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *UpdateColumnTypeByIdRequest) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *UpdateColumnTypeByIdRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+func (x *UpdateColumnTypeByIdRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Изменение UpdateColumnTypeById: ответ пустой — запрос ничего не возвращает.
+type UpdateColumnTypeByIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateColumnTypeByIdResponse) Reset() {
+	*x = UpdateColumnTypeByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[108]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateColumnTypeByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateColumnTypeByIdResponse) ProtoMessage() {}
+
+func (x *UpdateColumnTypeByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[108]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateColumnTypeByIdResponse.ProtoReflect.Descriptor instead.
+func (*UpdateColumnTypeByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{108}
+}
+
+// Мягкое удаление DeleteColumnTypeById: параметры вызова.
+type DeleteColumnTypeByIdRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ExternalId    string                 `protobuf:"bytes,1,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	Id            int64                  `protobuf:"varint,2,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteColumnTypeByIdRequest) Reset() {
+	*x = DeleteColumnTypeByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[109]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteColumnTypeByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteColumnTypeByIdRequest) ProtoMessage() {}
+
+func (x *DeleteColumnTypeByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[109]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteColumnTypeByIdRequest.ProtoReflect.Descriptor instead.
+func (*DeleteColumnTypeByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{109}
+}
+
+func (x *DeleteColumnTypeByIdRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+func (x *DeleteColumnTypeByIdRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Мягкое удаление DeleteColumnTypeById: ответ пустой — запрос ничего не возвращает.
+type DeleteColumnTypeByIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteColumnTypeByIdResponse) Reset() {
+	*x = DeleteColumnTypeByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[110]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteColumnTypeByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteColumnTypeByIdResponse) ProtoMessage() {}
+
+func (x *DeleteColumnTypeByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[110]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteColumnTypeByIdResponse.ProtoReflect.Descriptor instead.
+func (*DeleteColumnTypeByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{110}
+}
+
+// Обратное удаление UndeleteColumnTypeById: параметры вызова.
+type UndeleteColumnTypeByIdRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ExternalId    string                 `protobuf:"bytes,1,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	Id            int64                  `protobuf:"varint,2,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UndeleteColumnTypeByIdRequest) Reset() {
+	*x = UndeleteColumnTypeByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[111]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UndeleteColumnTypeByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UndeleteColumnTypeByIdRequest) ProtoMessage() {}
+
+func (x *UndeleteColumnTypeByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[111]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UndeleteColumnTypeByIdRequest.ProtoReflect.Descriptor instead.
+func (*UndeleteColumnTypeByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{111}
+}
+
+func (x *UndeleteColumnTypeByIdRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+func (x *UndeleteColumnTypeByIdRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Обратное удаление UndeleteColumnTypeById: ответ пустой — запрос ничего не возвращает.
+type UndeleteColumnTypeByIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UndeleteColumnTypeByIdResponse) Reset() {
+	*x = UndeleteColumnTypeByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[112]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UndeleteColumnTypeByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UndeleteColumnTypeByIdResponse) ProtoMessage() {}
+
+func (x *UndeleteColumnTypeByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[112]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UndeleteColumnTypeByIdResponse.ProtoReflect.Descriptor instead.
+func (*UndeleteColumnTypeByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{112}
+}
+
+// Строка таблицы dc.database_calculation: все колонки, как их вернёт SELECT *.
+type DatabaseCalculation struct {
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	Id                int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	DatabaseCatId     int64                  `protobuf:"varint,2,opt,name=database_cat_id,json=databaseCatId,proto3" json:"database_cat_id,omitempty"`
+	CalculationTypeId int64                  `protobuf:"varint,3,opt,name=calculation_type_id,json=calculationTypeId,proto3" json:"calculation_type_id,omitempty"`
+	CreatedAt         *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt         *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	IsDeleted         bool                   `protobuf:"varint,6,opt,name=is_deleted,json=isDeleted,proto3" json:"is_deleted,omitempty"`
+	UserId            int64                  `protobuf:"varint,7,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
+}
+
+func (x *DatabaseCalculation) Reset() {
+	*x = DatabaseCalculation{}
+	mi := &file_tables_v1_tables_proto_msgTypes[113]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DatabaseCalculation) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DatabaseCalculation) ProtoMessage() {}
+
+func (x *DatabaseCalculation) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[113]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DatabaseCalculation.ProtoReflect.Descriptor instead.
+func (*DatabaseCalculation) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{113}
+}
+
+func (x *DatabaseCalculation) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *DatabaseCalculation) GetDatabaseCatId() int64 {
+	if x != nil {
+		return x.DatabaseCatId
+	}
+	return 0
+}
+
+func (x *DatabaseCalculation) GetCalculationTypeId() int64 {
+	if x != nil {
+		return x.CalculationTypeId
+	}
+	return 0
+}
+
+func (x *DatabaseCalculation) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *DatabaseCalculation) GetUpdatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return nil
+}
+
+func (x *DatabaseCalculation) GetIsDeleted() bool {
+	if x != nil {
+		return x.IsDeleted
+	}
+	return false
+}
+
+func (x *DatabaseCalculation) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+// Вставка CreateDatabaseCalculation: параметры вызова.
+type CreateDatabaseCalculationRequest struct {
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	DatabaseCatId     int64                  `protobuf:"varint,1,opt,name=database_cat_id,json=databaseCatId,proto3" json:"database_cat_id,omitempty"`
+	CalculationTypeId int64                  `protobuf:"varint,2,opt,name=calculation_type_id,json=calculationTypeId,proto3" json:"calculation_type_id,omitempty"`
+	ExternalId        string                 `protobuf:"bytes,3,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
+}
+
+func (x *CreateDatabaseCalculationRequest) Reset() {
+	*x = CreateDatabaseCalculationRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[114]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateDatabaseCalculationRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateDatabaseCalculationRequest) ProtoMessage() {}
+
+func (x *CreateDatabaseCalculationRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[114]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateDatabaseCalculationRequest.ProtoReflect.Descriptor instead.
+func (*CreateDatabaseCalculationRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{114}
+}
+
+func (x *CreateDatabaseCalculationRequest) GetDatabaseCatId() int64 {
+	if x != nil {
+		return x.DatabaseCatId
+	}
+	return 0
+}
+
+func (x *CreateDatabaseCalculationRequest) GetCalculationTypeId() int64 {
+	if x != nil {
+		return x.CalculationTypeId
+	}
+	return 0
+}
+
+func (x *CreateDatabaseCalculationRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+// Вставка CreateDatabaseCalculation: одна строка.
+type CreateDatabaseCalculationResponse struct {
+	state               protoimpl.MessageState `protogen:"open.v1"`
+	DatabaseCalculation *DatabaseCalculation   `protobuf:"bytes,1,opt,name=database_calculation,json=databaseCalculation,proto3" json:"database_calculation,omitempty"`
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
+}
+
+func (x *CreateDatabaseCalculationResponse) Reset() {
+	*x = CreateDatabaseCalculationResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[115]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateDatabaseCalculationResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateDatabaseCalculationResponse) ProtoMessage() {}
+
+func (x *CreateDatabaseCalculationResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[115]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateDatabaseCalculationResponse.ProtoReflect.Descriptor instead.
+func (*CreateDatabaseCalculationResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{115}
+}
+
+func (x *CreateDatabaseCalculationResponse) GetDatabaseCalculation() *DatabaseCalculation {
+	if x != nil {
+		return x.DatabaseCalculation
+	}
+	return nil
+}
+
+// Выборка GetDatabaseCalculationsSearchName: параметры вызова. Порядок по умолчанию — id.
+type GetDatabaseCalculationsSearchNameRequest struct {
+	state      protoimpl.MessageState `protogen:"open.v1"`
+	SearchName string                 `protobuf:"bytes,1,opt,name=search_name,json=searchName,proto3" json:"search_name,omitempty"`
+	// допустимые значения: ASC, DESC
+	Order         string `protobuf:"bytes,2,opt,name=order,proto3" json:"order,omitempty"`
+	PageLimit     int32  `protobuf:"varint,3,opt,name=page_limit,json=pageLimit,proto3" json:"page_limit,omitempty"`
+	Page          int32  `protobuf:"varint,4,opt,name=page,proto3" json:"page,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDatabaseCalculationsSearchNameRequest) Reset() {
+	*x = GetDatabaseCalculationsSearchNameRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[116]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDatabaseCalculationsSearchNameRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDatabaseCalculationsSearchNameRequest) ProtoMessage() {}
+
+func (x *GetDatabaseCalculationsSearchNameRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[116]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDatabaseCalculationsSearchNameRequest.ProtoReflect.Descriptor instead.
+func (*GetDatabaseCalculationsSearchNameRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{116}
+}
+
+func (x *GetDatabaseCalculationsSearchNameRequest) GetSearchName() string {
+	if x != nil {
+		return x.SearchName
+	}
+	return ""
+}
+
+func (x *GetDatabaseCalculationsSearchNameRequest) GetOrder() string {
+	if x != nil {
+		return x.Order
+	}
+	return ""
+}
+
+func (x *GetDatabaseCalculationsSearchNameRequest) GetPageLimit() int32 {
+	if x != nil {
+		return x.PageLimit
+	}
+	return 0
+}
+
+func (x *GetDatabaseCalculationsSearchNameRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+// Выборка GetDatabaseCalculationsSearchName: страница данных и пагинация.
+type GetDatabaseCalculationsSearchNameResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Data          []*DatabaseCalculation `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
+	Pagination    *Pagination            `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDatabaseCalculationsSearchNameResponse) Reset() {
+	*x = GetDatabaseCalculationsSearchNameResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[117]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDatabaseCalculationsSearchNameResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDatabaseCalculationsSearchNameResponse) ProtoMessage() {}
+
+func (x *GetDatabaseCalculationsSearchNameResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[117]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDatabaseCalculationsSearchNameResponse.ProtoReflect.Descriptor instead.
+func (*GetDatabaseCalculationsSearchNameResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{117}
+}
+
+func (x *GetDatabaseCalculationsSearchNameResponse) GetData() []*DatabaseCalculation {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+func (x *GetDatabaseCalculationsSearchNameResponse) GetPagination() *Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+// Выборка GetDatabaseCalculationById: параметры вызова.
+type GetDatabaseCalculationByIdRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDatabaseCalculationByIdRequest) Reset() {
+	*x = GetDatabaseCalculationByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[118]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDatabaseCalculationByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDatabaseCalculationByIdRequest) ProtoMessage() {}
+
+func (x *GetDatabaseCalculationByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[118]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDatabaseCalculationByIdRequest.ProtoReflect.Descriptor instead.
+func (*GetDatabaseCalculationByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{118}
+}
+
+func (x *GetDatabaseCalculationByIdRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Выборка GetDatabaseCalculationById: строка ответа — только отмеченные колонки.
+type GetDatabaseCalculationByIdRow struct {
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	DatabaseCatId     int64                  `protobuf:"varint,1,opt,name=database_cat_id,json=databaseCatId,proto3" json:"database_cat_id,omitempty"`
+	CalculationTypeId int64                  `protobuf:"varint,2,opt,name=calculation_type_id,json=calculationTypeId,proto3" json:"calculation_type_id,omitempty"`
+	CreatedAt         *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt         *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	IsDeleted         bool                   `protobuf:"varint,5,opt,name=is_deleted,json=isDeleted,proto3" json:"is_deleted,omitempty"`
+	UserId            int64                  `protobuf:"varint,6,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
+}
+
+func (x *GetDatabaseCalculationByIdRow) Reset() {
+	*x = GetDatabaseCalculationByIdRow{}
+	mi := &file_tables_v1_tables_proto_msgTypes[119]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDatabaseCalculationByIdRow) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDatabaseCalculationByIdRow) ProtoMessage() {}
+
+func (x *GetDatabaseCalculationByIdRow) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[119]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDatabaseCalculationByIdRow.ProtoReflect.Descriptor instead.
+func (*GetDatabaseCalculationByIdRow) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{119}
+}
+
+func (x *GetDatabaseCalculationByIdRow) GetDatabaseCatId() int64 {
+	if x != nil {
+		return x.DatabaseCatId
+	}
+	return 0
+}
+
+func (x *GetDatabaseCalculationByIdRow) GetCalculationTypeId() int64 {
+	if x != nil {
+		return x.CalculationTypeId
+	}
+	return 0
+}
+
+func (x *GetDatabaseCalculationByIdRow) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *GetDatabaseCalculationByIdRow) GetUpdatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return nil
+}
+
+func (x *GetDatabaseCalculationByIdRow) GetIsDeleted() bool {
+	if x != nil {
+		return x.IsDeleted
+	}
+	return false
+}
+
+func (x *GetDatabaseCalculationByIdRow) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+// Выборка GetDatabaseCalculationById: одна строка.
+type GetDatabaseCalculationByIdResponse struct {
+	state               protoimpl.MessageState         `protogen:"open.v1"`
+	DatabaseCalculation *GetDatabaseCalculationByIdRow `protobuf:"bytes,1,opt,name=database_calculation,json=databaseCalculation,proto3" json:"database_calculation,omitempty"`
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
+}
+
+func (x *GetDatabaseCalculationByIdResponse) Reset() {
+	*x = GetDatabaseCalculationByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[120]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDatabaseCalculationByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDatabaseCalculationByIdResponse) ProtoMessage() {}
+
+func (x *GetDatabaseCalculationByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[120]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDatabaseCalculationByIdResponse.ProtoReflect.Descriptor instead.
+func (*GetDatabaseCalculationByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{120}
+}
+
+func (x *GetDatabaseCalculationByIdResponse) GetDatabaseCalculation() *GetDatabaseCalculationByIdRow {
+	if x != nil {
+		return x.DatabaseCalculation
+	}
+	return nil
+}
+
+// Выборка GetDatabaseCalculationsFiltered: параметры вызова. Порядок по умолчанию — id.
+type GetDatabaseCalculationsFilteredRequest struct {
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	DatabaseCatId     *int64                 `protobuf:"varint,1,opt,name=database_cat_id,json=databaseCatId,proto3,oneof" json:"database_cat_id,omitempty"`
+	CalculationTypeId *int64                 `protobuf:"varint,2,opt,name=calculation_type_id,json=calculationTypeId,proto3,oneof" json:"calculation_type_id,omitempty"`
+	// допустимые значения: ASC, DESC
+	Order         string `protobuf:"bytes,3,opt,name=order,proto3" json:"order,omitempty"`
+	PageLimit     int32  `protobuf:"varint,4,opt,name=page_limit,json=pageLimit,proto3" json:"page_limit,omitempty"`
+	Page          int32  `protobuf:"varint,5,opt,name=page,proto3" json:"page,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDatabaseCalculationsFilteredRequest) Reset() {
+	*x = GetDatabaseCalculationsFilteredRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[121]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDatabaseCalculationsFilteredRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDatabaseCalculationsFilteredRequest) ProtoMessage() {}
+
+func (x *GetDatabaseCalculationsFilteredRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[121]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDatabaseCalculationsFilteredRequest.ProtoReflect.Descriptor instead.
+func (*GetDatabaseCalculationsFilteredRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{121}
+}
+
+func (x *GetDatabaseCalculationsFilteredRequest) GetDatabaseCatId() int64 {
+	if x != nil && x.DatabaseCatId != nil {
+		return *x.DatabaseCatId
+	}
+	return 0
+}
+
+func (x *GetDatabaseCalculationsFilteredRequest) GetCalculationTypeId() int64 {
+	if x != nil && x.CalculationTypeId != nil {
+		return *x.CalculationTypeId
+	}
+	return 0
+}
+
+func (x *GetDatabaseCalculationsFilteredRequest) GetOrder() string {
+	if x != nil {
+		return x.Order
+	}
+	return ""
+}
+
+func (x *GetDatabaseCalculationsFilteredRequest) GetPageLimit() int32 {
+	if x != nil {
+		return x.PageLimit
+	}
+	return 0
+}
+
+func (x *GetDatabaseCalculationsFilteredRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+// Выборка GetDatabaseCalculationsFiltered: страница данных и пагинация.
+type GetDatabaseCalculationsFilteredResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Data          []*DatabaseCalculation `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
+	Pagination    *Pagination            `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDatabaseCalculationsFilteredResponse) Reset() {
+	*x = GetDatabaseCalculationsFilteredResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[122]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDatabaseCalculationsFilteredResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDatabaseCalculationsFilteredResponse) ProtoMessage() {}
+
+func (x *GetDatabaseCalculationsFilteredResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[122]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDatabaseCalculationsFilteredResponse.ProtoReflect.Descriptor instead.
+func (*GetDatabaseCalculationsFilteredResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{122}
+}
+
+func (x *GetDatabaseCalculationsFilteredResponse) GetData() []*DatabaseCalculation {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+func (x *GetDatabaseCalculationsFilteredResponse) GetPagination() *Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+// Выборка GetDatabaseCalculationsDeleted: параметры вызова. Порядок по умолчанию — id.
+type GetDatabaseCalculationsDeletedRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// допустимые значения: ASC, DESC
+	Order         string `protobuf:"bytes,1,opt,name=order,proto3" json:"order,omitempty"`
+	PageLimit     int32  `protobuf:"varint,2,opt,name=page_limit,json=pageLimit,proto3" json:"page_limit,omitempty"`
+	Page          int32  `protobuf:"varint,3,opt,name=page,proto3" json:"page,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDatabaseCalculationsDeletedRequest) Reset() {
+	*x = GetDatabaseCalculationsDeletedRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[123]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDatabaseCalculationsDeletedRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDatabaseCalculationsDeletedRequest) ProtoMessage() {}
+
+func (x *GetDatabaseCalculationsDeletedRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[123]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDatabaseCalculationsDeletedRequest.ProtoReflect.Descriptor instead.
+func (*GetDatabaseCalculationsDeletedRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{123}
+}
+
+func (x *GetDatabaseCalculationsDeletedRequest) GetOrder() string {
+	if x != nil {
+		return x.Order
+	}
+	return ""
+}
+
+func (x *GetDatabaseCalculationsDeletedRequest) GetPageLimit() int32 {
+	if x != nil {
+		return x.PageLimit
+	}
+	return 0
+}
+
+func (x *GetDatabaseCalculationsDeletedRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+// Выборка GetDatabaseCalculationsDeleted: страница данных и пагинация.
+type GetDatabaseCalculationsDeletedResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Data          []*DatabaseCalculation `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
+	Pagination    *Pagination            `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDatabaseCalculationsDeletedResponse) Reset() {
+	*x = GetDatabaseCalculationsDeletedResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[124]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDatabaseCalculationsDeletedResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDatabaseCalculationsDeletedResponse) ProtoMessage() {}
+
+func (x *GetDatabaseCalculationsDeletedResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[124]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDatabaseCalculationsDeletedResponse.ProtoReflect.Descriptor instead.
+func (*GetDatabaseCalculationsDeletedResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{124}
+}
+
+func (x *GetDatabaseCalculationsDeletedResponse) GetData() []*DatabaseCalculation {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+func (x *GetDatabaseCalculationsDeletedResponse) GetPagination() *Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+// Выборка GetDatabaseCalculations: параметры вызова. Порядок по умолчанию — id.
+type GetDatabaseCalculationsRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// допустимые значения: ASC, DESC
+	Order         string `protobuf:"bytes,1,opt,name=order,proto3" json:"order,omitempty"`
+	PageLimit     int32  `protobuf:"varint,2,opt,name=page_limit,json=pageLimit,proto3" json:"page_limit,omitempty"`
+	Page          int32  `protobuf:"varint,3,opt,name=page,proto3" json:"page,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDatabaseCalculationsRequest) Reset() {
+	*x = GetDatabaseCalculationsRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[125]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDatabaseCalculationsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDatabaseCalculationsRequest) ProtoMessage() {}
+
+func (x *GetDatabaseCalculationsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[125]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDatabaseCalculationsRequest.ProtoReflect.Descriptor instead.
+func (*GetDatabaseCalculationsRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{125}
+}
+
+func (x *GetDatabaseCalculationsRequest) GetOrder() string {
+	if x != nil {
+		return x.Order
+	}
+	return ""
+}
+
+func (x *GetDatabaseCalculationsRequest) GetPageLimit() int32 {
+	if x != nil {
+		return x.PageLimit
+	}
+	return 0
+}
+
+func (x *GetDatabaseCalculationsRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+// Выборка GetDatabaseCalculations: страница данных и пагинация.
+type GetDatabaseCalculationsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Data          []*DatabaseCalculation `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
+	Pagination    *Pagination            `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDatabaseCalculationsResponse) Reset() {
+	*x = GetDatabaseCalculationsResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[126]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDatabaseCalculationsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDatabaseCalculationsResponse) ProtoMessage() {}
+
+func (x *GetDatabaseCalculationsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[126]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDatabaseCalculationsResponse.ProtoReflect.Descriptor instead.
+func (*GetDatabaseCalculationsResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{126}
+}
+
+func (x *GetDatabaseCalculationsResponse) GetData() []*DatabaseCalculation {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+func (x *GetDatabaseCalculationsResponse) GetPagination() *Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+// Изменение UpdateDatabaseCalculationById: параметры вызова.
+type UpdateDatabaseCalculationByIdRequest struct {
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	DatabaseCatId     int64                  `protobuf:"varint,1,opt,name=database_cat_id,json=databaseCatId,proto3" json:"database_cat_id,omitempty"`
+	CalculationTypeId int64                  `protobuf:"varint,2,opt,name=calculation_type_id,json=calculationTypeId,proto3" json:"calculation_type_id,omitempty"`
+	ExternalId        string                 `protobuf:"bytes,3,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	Id                int64                  `protobuf:"varint,4,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
+}
+
+func (x *UpdateDatabaseCalculationByIdRequest) Reset() {
+	*x = UpdateDatabaseCalculationByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[127]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateDatabaseCalculationByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateDatabaseCalculationByIdRequest) ProtoMessage() {}
+
+func (x *UpdateDatabaseCalculationByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[127]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateDatabaseCalculationByIdRequest.ProtoReflect.Descriptor instead.
+func (*UpdateDatabaseCalculationByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{127}
+}
+
+func (x *UpdateDatabaseCalculationByIdRequest) GetDatabaseCatId() int64 {
+	if x != nil {
+		return x.DatabaseCatId
+	}
+	return 0
+}
+
+func (x *UpdateDatabaseCalculationByIdRequest) GetCalculationTypeId() int64 {
+	if x != nil {
+		return x.CalculationTypeId
+	}
+	return 0
+}
+
+func (x *UpdateDatabaseCalculationByIdRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+func (x *UpdateDatabaseCalculationByIdRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Изменение UpdateDatabaseCalculationById: ответ пустой — запрос ничего не возвращает.
+type UpdateDatabaseCalculationByIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateDatabaseCalculationByIdResponse) Reset() {
+	*x = UpdateDatabaseCalculationByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[128]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateDatabaseCalculationByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateDatabaseCalculationByIdResponse) ProtoMessage() {}
+
+func (x *UpdateDatabaseCalculationByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[128]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateDatabaseCalculationByIdResponse.ProtoReflect.Descriptor instead.
+func (*UpdateDatabaseCalculationByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{128}
+}
+
+// Мягкое удаление DeleteDatabaseCalculationById: параметры вызова.
+type DeleteDatabaseCalculationByIdRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ExternalId    string                 `protobuf:"bytes,1,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	Id            int64                  `protobuf:"varint,2,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteDatabaseCalculationByIdRequest) Reset() {
+	*x = DeleteDatabaseCalculationByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[129]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteDatabaseCalculationByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteDatabaseCalculationByIdRequest) ProtoMessage() {}
+
+func (x *DeleteDatabaseCalculationByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[129]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteDatabaseCalculationByIdRequest.ProtoReflect.Descriptor instead.
+func (*DeleteDatabaseCalculationByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{129}
+}
+
+func (x *DeleteDatabaseCalculationByIdRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+func (x *DeleteDatabaseCalculationByIdRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Мягкое удаление DeleteDatabaseCalculationById: ответ пустой — запрос ничего не возвращает.
+type DeleteDatabaseCalculationByIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteDatabaseCalculationByIdResponse) Reset() {
+	*x = DeleteDatabaseCalculationByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[130]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteDatabaseCalculationByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteDatabaseCalculationByIdResponse) ProtoMessage() {}
+
+func (x *DeleteDatabaseCalculationByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[130]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteDatabaseCalculationByIdResponse.ProtoReflect.Descriptor instead.
+func (*DeleteDatabaseCalculationByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{130}
+}
+
+// Обратное удаление UndeleteDatabaseCalculationById: параметры вызова.
+type UndeleteDatabaseCalculationByIdRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ExternalId    string                 `protobuf:"bytes,1,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	Id            int64                  `protobuf:"varint,2,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UndeleteDatabaseCalculationByIdRequest) Reset() {
+	*x = UndeleteDatabaseCalculationByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[131]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UndeleteDatabaseCalculationByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UndeleteDatabaseCalculationByIdRequest) ProtoMessage() {}
+
+func (x *UndeleteDatabaseCalculationByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[131]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UndeleteDatabaseCalculationByIdRequest.ProtoReflect.Descriptor instead.
+func (*UndeleteDatabaseCalculationByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{131}
+}
+
+func (x *UndeleteDatabaseCalculationByIdRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+func (x *UndeleteDatabaseCalculationByIdRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Обратное удаление UndeleteDatabaseCalculationById: ответ пустой — запрос ничего не возвращает.
+type UndeleteDatabaseCalculationByIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UndeleteDatabaseCalculationByIdResponse) Reset() {
+	*x = UndeleteDatabaseCalculationByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[132]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UndeleteDatabaseCalculationByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UndeleteDatabaseCalculationByIdResponse) ProtoMessage() {}
+
+func (x *UndeleteDatabaseCalculationByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[132]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UndeleteDatabaseCalculationByIdResponse.ProtoReflect.Descriptor instead.
+func (*UndeleteDatabaseCalculationByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{132}
+}
+
+// Строка таблицы dc.domain_cat: все колонки, как их вернёт SELECT *.
+type DomainCat struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	DomainName    string                 `protobuf:"bytes,2,opt,name=domain_name,json=domainName,proto3" json:"domain_name,omitempty"`
+	IsDeleted     bool                   `protobuf:"varint,3,opt,name=is_deleted,json=isDeleted,proto3" json:"is_deleted,omitempty"`
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	UserId        int64                  `protobuf:"varint,6,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DomainCat) Reset() {
+	*x = DomainCat{}
+	mi := &file_tables_v1_tables_proto_msgTypes[133]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DomainCat) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DomainCat) ProtoMessage() {}
+
+func (x *DomainCat) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[133]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DomainCat.ProtoReflect.Descriptor instead.
+func (*DomainCat) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{133}
+}
+
+func (x *DomainCat) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *DomainCat) GetDomainName() string {
+	if x != nil {
+		return x.DomainName
+	}
+	return ""
+}
+
+func (x *DomainCat) GetIsDeleted() bool {
+	if x != nil {
+		return x.IsDeleted
+	}
+	return false
+}
+
+func (x *DomainCat) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *DomainCat) GetUpdatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return nil
+}
+
+func (x *DomainCat) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+// Вставка CreateDomainCat: параметры вызова.
+type CreateDomainCatRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	DomainName    string                 `protobuf:"bytes,1,opt,name=domain_name,json=domainName,proto3" json:"domain_name,omitempty"`
+	ExternalId    string                 `protobuf:"bytes,2,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateDomainCatRequest) Reset() {
+	*x = CreateDomainCatRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[134]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateDomainCatRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateDomainCatRequest) ProtoMessage() {}
+
+func (x *CreateDomainCatRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[134]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateDomainCatRequest.ProtoReflect.Descriptor instead.
+func (*CreateDomainCatRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{134}
+}
+
+func (x *CreateDomainCatRequest) GetDomainName() string {
+	if x != nil {
+		return x.DomainName
+	}
+	return ""
+}
+
+func (x *CreateDomainCatRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+// Вставка CreateDomainCat: одна строка.
+type CreateDomainCatResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	DomainCat     *DomainCat             `protobuf:"bytes,1,opt,name=domain_cat,json=domainCat,proto3" json:"domain_cat,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateDomainCatResponse) Reset() {
+	*x = CreateDomainCatResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[135]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateDomainCatResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateDomainCatResponse) ProtoMessage() {}
+
+func (x *CreateDomainCatResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[135]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateDomainCatResponse.ProtoReflect.Descriptor instead.
+func (*CreateDomainCatResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{135}
+}
+
+func (x *CreateDomainCatResponse) GetDomainCat() *DomainCat {
+	if x != nil {
+		return x.DomainCat
+	}
+	return nil
+}
+
+// Выборка GetDomainCatsSearchName: параметры вызова. Порядок по умолчанию — id.
+type GetDomainCatsSearchNameRequest struct {
+	state      protoimpl.MessageState `protogen:"open.v1"`
+	SearchName string                 `protobuf:"bytes,1,opt,name=search_name,json=searchName,proto3" json:"search_name,omitempty"`
+	// допустимые значения: ASC, DESC
+	Order         string `protobuf:"bytes,2,opt,name=order,proto3" json:"order,omitempty"`
+	PageLimit     int32  `protobuf:"varint,3,opt,name=page_limit,json=pageLimit,proto3" json:"page_limit,omitempty"`
+	Page          int32  `protobuf:"varint,4,opt,name=page,proto3" json:"page,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDomainCatsSearchNameRequest) Reset() {
+	*x = GetDomainCatsSearchNameRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[136]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDomainCatsSearchNameRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDomainCatsSearchNameRequest) ProtoMessage() {}
+
+func (x *GetDomainCatsSearchNameRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[136]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDomainCatsSearchNameRequest.ProtoReflect.Descriptor instead.
+func (*GetDomainCatsSearchNameRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{136}
+}
+
+func (x *GetDomainCatsSearchNameRequest) GetSearchName() string {
+	if x != nil {
+		return x.SearchName
+	}
+	return ""
+}
+
+func (x *GetDomainCatsSearchNameRequest) GetOrder() string {
+	if x != nil {
+		return x.Order
+	}
+	return ""
+}
+
+func (x *GetDomainCatsSearchNameRequest) GetPageLimit() int32 {
+	if x != nil {
+		return x.PageLimit
+	}
+	return 0
+}
+
+func (x *GetDomainCatsSearchNameRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+// Выборка GetDomainCatsSearchName: страница данных и пагинация.
+type GetDomainCatsSearchNameResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Data          []*DomainCat           `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
+	Pagination    *Pagination            `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDomainCatsSearchNameResponse) Reset() {
+	*x = GetDomainCatsSearchNameResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[137]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDomainCatsSearchNameResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDomainCatsSearchNameResponse) ProtoMessage() {}
+
+func (x *GetDomainCatsSearchNameResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[137]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDomainCatsSearchNameResponse.ProtoReflect.Descriptor instead.
+func (*GetDomainCatsSearchNameResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{137}
+}
+
+func (x *GetDomainCatsSearchNameResponse) GetData() []*DomainCat {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+func (x *GetDomainCatsSearchNameResponse) GetPagination() *Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+// Выборка GetDomainCatById: параметры вызова.
+type GetDomainCatByIdRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDomainCatByIdRequest) Reset() {
+	*x = GetDomainCatByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[138]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDomainCatByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDomainCatByIdRequest) ProtoMessage() {}
+
+func (x *GetDomainCatByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[138]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDomainCatByIdRequest.ProtoReflect.Descriptor instead.
+func (*GetDomainCatByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{138}
+}
+
+func (x *GetDomainCatByIdRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Выборка GetDomainCatById: одна строка.
+type GetDomainCatByIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	DomainCat     *DomainCat             `protobuf:"bytes,1,opt,name=domain_cat,json=domainCat,proto3" json:"domain_cat,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDomainCatByIdResponse) Reset() {
+	*x = GetDomainCatByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[139]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDomainCatByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDomainCatByIdResponse) ProtoMessage() {}
+
+func (x *GetDomainCatByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[139]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDomainCatByIdResponse.ProtoReflect.Descriptor instead.
+func (*GetDomainCatByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{139}
+}
+
+func (x *GetDomainCatByIdResponse) GetDomainCat() *DomainCat {
+	if x != nil {
+		return x.DomainCat
+	}
+	return nil
+}
+
+// Выборка GetDomainCats: параметры вызова. Порядок по умолчанию — id.
+type GetDomainCatsRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// допустимые значения: ASC, DESC
+	Order         string `protobuf:"bytes,1,opt,name=order,proto3" json:"order,omitempty"`
+	PageLimit     int32  `protobuf:"varint,2,opt,name=page_limit,json=pageLimit,proto3" json:"page_limit,omitempty"`
+	Page          int32  `protobuf:"varint,3,opt,name=page,proto3" json:"page,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDomainCatsRequest) Reset() {
+	*x = GetDomainCatsRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[140]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDomainCatsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDomainCatsRequest) ProtoMessage() {}
+
+func (x *GetDomainCatsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[140]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDomainCatsRequest.ProtoReflect.Descriptor instead.
+func (*GetDomainCatsRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{140}
+}
+
+func (x *GetDomainCatsRequest) GetOrder() string {
+	if x != nil {
+		return x.Order
+	}
+	return ""
+}
+
+func (x *GetDomainCatsRequest) GetPageLimit() int32 {
+	if x != nil {
+		return x.PageLimit
+	}
+	return 0
+}
+
+func (x *GetDomainCatsRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+// Выборка GetDomainCats: страница данных и пагинация.
+type GetDomainCatsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Data          []*DomainCat           `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
+	Pagination    *Pagination            `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDomainCatsResponse) Reset() {
+	*x = GetDomainCatsResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[141]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDomainCatsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDomainCatsResponse) ProtoMessage() {}
+
+func (x *GetDomainCatsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[141]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDomainCatsResponse.ProtoReflect.Descriptor instead.
+func (*GetDomainCatsResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{141}
+}
+
+func (x *GetDomainCatsResponse) GetData() []*DomainCat {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+func (x *GetDomainCatsResponse) GetPagination() *Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+// Выборка GetDomainCatsDeleted: параметры вызова. Порядок по умолчанию — id.
+type GetDomainCatsDeletedRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// допустимые значения: ASC, DESC
+	Order         string `protobuf:"bytes,1,opt,name=order,proto3" json:"order,omitempty"`
+	PageLimit     int32  `protobuf:"varint,2,opt,name=page_limit,json=pageLimit,proto3" json:"page_limit,omitempty"`
+	Page          int32  `protobuf:"varint,3,opt,name=page,proto3" json:"page,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDomainCatsDeletedRequest) Reset() {
+	*x = GetDomainCatsDeletedRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[142]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDomainCatsDeletedRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDomainCatsDeletedRequest) ProtoMessage() {}
+
+func (x *GetDomainCatsDeletedRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[142]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDomainCatsDeletedRequest.ProtoReflect.Descriptor instead.
+func (*GetDomainCatsDeletedRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{142}
+}
+
+func (x *GetDomainCatsDeletedRequest) GetOrder() string {
+	if x != nil {
+		return x.Order
+	}
+	return ""
+}
+
+func (x *GetDomainCatsDeletedRequest) GetPageLimit() int32 {
+	if x != nil {
+		return x.PageLimit
+	}
+	return 0
+}
+
+func (x *GetDomainCatsDeletedRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+// Выборка GetDomainCatsDeleted: страница данных и пагинация.
+type GetDomainCatsDeletedResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Data          []*DomainCat           `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
+	Pagination    *Pagination            `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDomainCatsDeletedResponse) Reset() {
+	*x = GetDomainCatsDeletedResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[143]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDomainCatsDeletedResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDomainCatsDeletedResponse) ProtoMessage() {}
+
+func (x *GetDomainCatsDeletedResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[143]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDomainCatsDeletedResponse.ProtoReflect.Descriptor instead.
+func (*GetDomainCatsDeletedResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{143}
+}
+
+func (x *GetDomainCatsDeletedResponse) GetData() []*DomainCat {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+func (x *GetDomainCatsDeletedResponse) GetPagination() *Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+// Изменение UpdateDomainCatById: параметры вызова.
+type UpdateDomainCatByIdRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	DomainName    string                 `protobuf:"bytes,1,opt,name=domain_name,json=domainName,proto3" json:"domain_name,omitempty"`
+	ExternalId    string                 `protobuf:"bytes,2,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	Id            int64                  `protobuf:"varint,3,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateDomainCatByIdRequest) Reset() {
+	*x = UpdateDomainCatByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[144]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateDomainCatByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateDomainCatByIdRequest) ProtoMessage() {}
+
+func (x *UpdateDomainCatByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[144]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateDomainCatByIdRequest.ProtoReflect.Descriptor instead.
+func (*UpdateDomainCatByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{144}
+}
+
+func (x *UpdateDomainCatByIdRequest) GetDomainName() string {
+	if x != nil {
+		return x.DomainName
+	}
+	return ""
+}
+
+func (x *UpdateDomainCatByIdRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+func (x *UpdateDomainCatByIdRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Изменение UpdateDomainCatById: ответ пустой — запрос ничего не возвращает.
+type UpdateDomainCatByIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateDomainCatByIdResponse) Reset() {
+	*x = UpdateDomainCatByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[145]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateDomainCatByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateDomainCatByIdResponse) ProtoMessage() {}
+
+func (x *UpdateDomainCatByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[145]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateDomainCatByIdResponse.ProtoReflect.Descriptor instead.
+func (*UpdateDomainCatByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{145}
+}
+
+// Мягкое удаление DeleteDomainCatById: параметры вызова.
+type DeleteDomainCatByIdRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ExternalId    string                 `protobuf:"bytes,1,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	Id            int64                  `protobuf:"varint,2,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteDomainCatByIdRequest) Reset() {
+	*x = DeleteDomainCatByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[146]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteDomainCatByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteDomainCatByIdRequest) ProtoMessage() {}
+
+func (x *DeleteDomainCatByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[146]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteDomainCatByIdRequest.ProtoReflect.Descriptor instead.
+func (*DeleteDomainCatByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{146}
+}
+
+func (x *DeleteDomainCatByIdRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+func (x *DeleteDomainCatByIdRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Мягкое удаление DeleteDomainCatById: ответ пустой — запрос ничего не возвращает.
+type DeleteDomainCatByIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteDomainCatByIdResponse) Reset() {
+	*x = DeleteDomainCatByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[147]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteDomainCatByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteDomainCatByIdResponse) ProtoMessage() {}
+
+func (x *DeleteDomainCatByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[147]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteDomainCatByIdResponse.ProtoReflect.Descriptor instead.
+func (*DeleteDomainCatByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{147}
+}
+
+// Обратное удаление UndeleteDomainCatById: параметры вызова.
+type UndeleteDomainCatByIdRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ExternalId    string                 `protobuf:"bytes,1,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	Id            int64                  `protobuf:"varint,2,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UndeleteDomainCatByIdRequest) Reset() {
+	*x = UndeleteDomainCatByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[148]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UndeleteDomainCatByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UndeleteDomainCatByIdRequest) ProtoMessage() {}
+
+func (x *UndeleteDomainCatByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[148]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UndeleteDomainCatByIdRequest.ProtoReflect.Descriptor instead.
+func (*UndeleteDomainCatByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{148}
+}
+
+func (x *UndeleteDomainCatByIdRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+func (x *UndeleteDomainCatByIdRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Обратное удаление UndeleteDomainCatById: ответ пустой — запрос ничего не возвращает.
+type UndeleteDomainCatByIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UndeleteDomainCatByIdResponse) Reset() {
+	*x = UndeleteDomainCatByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[149]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UndeleteDomainCatByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UndeleteDomainCatByIdResponse) ProtoMessage() {}
+
+func (x *UndeleteDomainCatByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[149]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UndeleteDomainCatByIdResponse.ProtoReflect.Descriptor instead.
+func (*UndeleteDomainCatByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{149}
+}
+
+// Строка таблицы dc.following_calculation: все колонки, как их вернёт SELECT *.
+type FollowingCalculation struct {
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	Id                int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	ColumnCatId       int64                  `protobuf:"varint,2,opt,name=column_cat_id,json=columnCatId,proto3" json:"column_cat_id,omitempty"`
+	CalculationTypeId int64                  `protobuf:"varint,3,opt,name=calculation_type_id,json=calculationTypeId,proto3" json:"calculation_type_id,omitempty"`
+	CreatedAt         *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt         *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	IsDeleted         bool                   `protobuf:"varint,6,opt,name=is_deleted,json=isDeleted,proto3" json:"is_deleted,omitempty"`
+	UserId            int64                  `protobuf:"varint,7,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
+}
+
+func (x *FollowingCalculation) Reset() {
+	*x = FollowingCalculation{}
+	mi := &file_tables_v1_tables_proto_msgTypes[150]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *FollowingCalculation) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FollowingCalculation) ProtoMessage() {}
+
+func (x *FollowingCalculation) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[150]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FollowingCalculation.ProtoReflect.Descriptor instead.
+func (*FollowingCalculation) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{150}
+}
+
+func (x *FollowingCalculation) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *FollowingCalculation) GetColumnCatId() int64 {
+	if x != nil {
+		return x.ColumnCatId
+	}
+	return 0
+}
+
+func (x *FollowingCalculation) GetCalculationTypeId() int64 {
+	if x != nil {
+		return x.CalculationTypeId
+	}
+	return 0
+}
+
+func (x *FollowingCalculation) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *FollowingCalculation) GetUpdatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return nil
+}
+
+func (x *FollowingCalculation) GetIsDeleted() bool {
+	if x != nil {
+		return x.IsDeleted
+	}
+	return false
+}
+
+func (x *FollowingCalculation) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+// Вставка CreateFollowingCalculation: параметры вызова.
+type CreateFollowingCalculationRequest struct {
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	ColumnCatId       int64                  `protobuf:"varint,1,opt,name=column_cat_id,json=columnCatId,proto3" json:"column_cat_id,omitempty"`
+	CalculationTypeId int64                  `protobuf:"varint,2,opt,name=calculation_type_id,json=calculationTypeId,proto3" json:"calculation_type_id,omitempty"`
+	ExternalId        string                 `protobuf:"bytes,3,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
+}
+
+func (x *CreateFollowingCalculationRequest) Reset() {
+	*x = CreateFollowingCalculationRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[151]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateFollowingCalculationRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateFollowingCalculationRequest) ProtoMessage() {}
+
+func (x *CreateFollowingCalculationRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[151]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateFollowingCalculationRequest.ProtoReflect.Descriptor instead.
+func (*CreateFollowingCalculationRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{151}
+}
+
+func (x *CreateFollowingCalculationRequest) GetColumnCatId() int64 {
+	if x != nil {
+		return x.ColumnCatId
+	}
+	return 0
+}
+
+func (x *CreateFollowingCalculationRequest) GetCalculationTypeId() int64 {
+	if x != nil {
+		return x.CalculationTypeId
+	}
+	return 0
+}
+
+func (x *CreateFollowingCalculationRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+// Вставка CreateFollowingCalculation: одна строка.
+type CreateFollowingCalculationResponse struct {
+	state                protoimpl.MessageState `protogen:"open.v1"`
+	FollowingCalculation *FollowingCalculation  `protobuf:"bytes,1,opt,name=following_calculation,json=followingCalculation,proto3" json:"following_calculation,omitempty"`
+	unknownFields        protoimpl.UnknownFields
+	sizeCache            protoimpl.SizeCache
+}
+
+func (x *CreateFollowingCalculationResponse) Reset() {
+	*x = CreateFollowingCalculationResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[152]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateFollowingCalculationResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateFollowingCalculationResponse) ProtoMessage() {}
+
+func (x *CreateFollowingCalculationResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[152]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateFollowingCalculationResponse.ProtoReflect.Descriptor instead.
+func (*CreateFollowingCalculationResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{152}
+}
+
+func (x *CreateFollowingCalculationResponse) GetFollowingCalculation() *FollowingCalculation {
+	if x != nil {
+		return x.FollowingCalculation
+	}
+	return nil
+}
+
+// Выборка GetFollowingCalculationById: параметры вызова.
+type GetFollowingCalculationByIdRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetFollowingCalculationByIdRequest) Reset() {
+	*x = GetFollowingCalculationByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[153]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetFollowingCalculationByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetFollowingCalculationByIdRequest) ProtoMessage() {}
+
+func (x *GetFollowingCalculationByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[153]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetFollowingCalculationByIdRequest.ProtoReflect.Descriptor instead.
+func (*GetFollowingCalculationByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{153}
+}
+
+func (x *GetFollowingCalculationByIdRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Выборка GetFollowingCalculationById: одна строка.
+type GetFollowingCalculationByIdResponse struct {
+	state                protoimpl.MessageState `protogen:"open.v1"`
+	FollowingCalculation *FollowingCalculation  `protobuf:"bytes,1,opt,name=following_calculation,json=followingCalculation,proto3" json:"following_calculation,omitempty"`
+	unknownFields        protoimpl.UnknownFields
+	sizeCache            protoimpl.SizeCache
+}
+
+func (x *GetFollowingCalculationByIdResponse) Reset() {
+	*x = GetFollowingCalculationByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[154]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetFollowingCalculationByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetFollowingCalculationByIdResponse) ProtoMessage() {}
+
+func (x *GetFollowingCalculationByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[154]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetFollowingCalculationByIdResponse.ProtoReflect.Descriptor instead.
+func (*GetFollowingCalculationByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{154}
+}
+
+func (x *GetFollowingCalculationByIdResponse) GetFollowingCalculation() *FollowingCalculation {
+	if x != nil {
+		return x.FollowingCalculation
+	}
+	return nil
+}
+
+// Выборка GetFollowingCalculations: параметры вызова. Порядок по умолчанию — id.
+type GetFollowingCalculationsRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// допустимые значения: ASC, DESC
+	Order         string `protobuf:"bytes,1,opt,name=order,proto3" json:"order,omitempty"`
+	PageLimit     int32  `protobuf:"varint,2,opt,name=page_limit,json=pageLimit,proto3" json:"page_limit,omitempty"`
+	Page          int32  `protobuf:"varint,3,opt,name=page,proto3" json:"page,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetFollowingCalculationsRequest) Reset() {
+	*x = GetFollowingCalculationsRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[155]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetFollowingCalculationsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetFollowingCalculationsRequest) ProtoMessage() {}
+
+func (x *GetFollowingCalculationsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[155]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetFollowingCalculationsRequest.ProtoReflect.Descriptor instead.
+func (*GetFollowingCalculationsRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{155}
+}
+
+func (x *GetFollowingCalculationsRequest) GetOrder() string {
+	if x != nil {
+		return x.Order
+	}
+	return ""
+}
+
+func (x *GetFollowingCalculationsRequest) GetPageLimit() int32 {
+	if x != nil {
+		return x.PageLimit
+	}
+	return 0
+}
+
+func (x *GetFollowingCalculationsRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+// Выборка GetFollowingCalculations: страница данных и пагинация.
+type GetFollowingCalculationsResponse struct {
+	state         protoimpl.MessageState  `protogen:"open.v1"`
+	Data          []*FollowingCalculation `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
+	Pagination    *Pagination             `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetFollowingCalculationsResponse) Reset() {
+	*x = GetFollowingCalculationsResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[156]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetFollowingCalculationsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetFollowingCalculationsResponse) ProtoMessage() {}
+
+func (x *GetFollowingCalculationsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[156]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetFollowingCalculationsResponse.ProtoReflect.Descriptor instead.
+func (*GetFollowingCalculationsResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{156}
+}
+
+func (x *GetFollowingCalculationsResponse) GetData() []*FollowingCalculation {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+func (x *GetFollowingCalculationsResponse) GetPagination() *Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+// Выборка GetFollowingCalculationsDeleted: параметры вызова. Порядок по умолчанию — id.
+type GetFollowingCalculationsDeletedRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// допустимые значения: ASC, DESC
+	Order         string `protobuf:"bytes,1,opt,name=order,proto3" json:"order,omitempty"`
+	PageLimit     int32  `protobuf:"varint,2,opt,name=page_limit,json=pageLimit,proto3" json:"page_limit,omitempty"`
+	Page          int32  `protobuf:"varint,3,opt,name=page,proto3" json:"page,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetFollowingCalculationsDeletedRequest) Reset() {
+	*x = GetFollowingCalculationsDeletedRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[157]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetFollowingCalculationsDeletedRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetFollowingCalculationsDeletedRequest) ProtoMessage() {}
+
+func (x *GetFollowingCalculationsDeletedRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[157]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetFollowingCalculationsDeletedRequest.ProtoReflect.Descriptor instead.
+func (*GetFollowingCalculationsDeletedRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{157}
+}
+
+func (x *GetFollowingCalculationsDeletedRequest) GetOrder() string {
+	if x != nil {
+		return x.Order
+	}
+	return ""
+}
+
+func (x *GetFollowingCalculationsDeletedRequest) GetPageLimit() int32 {
+	if x != nil {
+		return x.PageLimit
+	}
+	return 0
+}
+
+func (x *GetFollowingCalculationsDeletedRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+// Выборка GetFollowingCalculationsDeleted: страница данных и пагинация.
+type GetFollowingCalculationsDeletedResponse struct {
+	state         protoimpl.MessageState  `protogen:"open.v1"`
+	Data          []*FollowingCalculation `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
+	Pagination    *Pagination             `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetFollowingCalculationsDeletedResponse) Reset() {
+	*x = GetFollowingCalculationsDeletedResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[158]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetFollowingCalculationsDeletedResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetFollowingCalculationsDeletedResponse) ProtoMessage() {}
+
+func (x *GetFollowingCalculationsDeletedResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[158]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetFollowingCalculationsDeletedResponse.ProtoReflect.Descriptor instead.
+func (*GetFollowingCalculationsDeletedResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{158}
+}
+
+func (x *GetFollowingCalculationsDeletedResponse) GetData() []*FollowingCalculation {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+func (x *GetFollowingCalculationsDeletedResponse) GetPagination() *Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+// Выборка GetFollowingCalculationsFilters: параметры вызова. Порядок по умолчанию — id.
+type GetFollowingCalculationsFiltersRequest struct {
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	ColumnCatId       *int64                 `protobuf:"varint,1,opt,name=column_cat_id,json=columnCatId,proto3,oneof" json:"column_cat_id,omitempty"`
+	CalculationTypeId *int64                 `protobuf:"varint,2,opt,name=calculation_type_id,json=calculationTypeId,proto3,oneof" json:"calculation_type_id,omitempty"`
+	// допустимые значения: ASC, DESC
+	Order         string `protobuf:"bytes,3,opt,name=order,proto3" json:"order,omitempty"`
+	PageLimit     int32  `protobuf:"varint,4,opt,name=page_limit,json=pageLimit,proto3" json:"page_limit,omitempty"`
+	Page          int32  `protobuf:"varint,5,opt,name=page,proto3" json:"page,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetFollowingCalculationsFiltersRequest) Reset() {
+	*x = GetFollowingCalculationsFiltersRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[159]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetFollowingCalculationsFiltersRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetFollowingCalculationsFiltersRequest) ProtoMessage() {}
+
+func (x *GetFollowingCalculationsFiltersRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[159]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetFollowingCalculationsFiltersRequest.ProtoReflect.Descriptor instead.
+func (*GetFollowingCalculationsFiltersRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{159}
+}
+
+func (x *GetFollowingCalculationsFiltersRequest) GetColumnCatId() int64 {
+	if x != nil && x.ColumnCatId != nil {
+		return *x.ColumnCatId
+	}
+	return 0
+}
+
+func (x *GetFollowingCalculationsFiltersRequest) GetCalculationTypeId() int64 {
+	if x != nil && x.CalculationTypeId != nil {
+		return *x.CalculationTypeId
+	}
+	return 0
+}
+
+func (x *GetFollowingCalculationsFiltersRequest) GetOrder() string {
+	if x != nil {
+		return x.Order
+	}
+	return ""
+}
+
+func (x *GetFollowingCalculationsFiltersRequest) GetPageLimit() int32 {
+	if x != nil {
+		return x.PageLimit
+	}
+	return 0
+}
+
+func (x *GetFollowingCalculationsFiltersRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+// Выборка GetFollowingCalculationsFilters: страница данных и пагинация.
+type GetFollowingCalculationsFiltersResponse struct {
+	state         protoimpl.MessageState  `protogen:"open.v1"`
+	Data          []*FollowingCalculation `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
+	Pagination    *Pagination             `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetFollowingCalculationsFiltersResponse) Reset() {
+	*x = GetFollowingCalculationsFiltersResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[160]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetFollowingCalculationsFiltersResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetFollowingCalculationsFiltersResponse) ProtoMessage() {}
+
+func (x *GetFollowingCalculationsFiltersResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[160]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetFollowingCalculationsFiltersResponse.ProtoReflect.Descriptor instead.
+func (*GetFollowingCalculationsFiltersResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{160}
+}
+
+func (x *GetFollowingCalculationsFiltersResponse) GetData() []*FollowingCalculation {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+func (x *GetFollowingCalculationsFiltersResponse) GetPagination() *Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+// Изменение UpdateFollowingCalculationById: параметры вызова.
+type UpdateFollowingCalculationByIdRequest struct {
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	ColumnCatId       int64                  `protobuf:"varint,1,opt,name=column_cat_id,json=columnCatId,proto3" json:"column_cat_id,omitempty"`
+	CalculationTypeId int64                  `protobuf:"varint,2,opt,name=calculation_type_id,json=calculationTypeId,proto3" json:"calculation_type_id,omitempty"`
+	ExternalId        string                 `protobuf:"bytes,3,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	Id                int64                  `protobuf:"varint,4,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
+}
+
+func (x *UpdateFollowingCalculationByIdRequest) Reset() {
+	*x = UpdateFollowingCalculationByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[161]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateFollowingCalculationByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateFollowingCalculationByIdRequest) ProtoMessage() {}
+
+func (x *UpdateFollowingCalculationByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[161]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateFollowingCalculationByIdRequest.ProtoReflect.Descriptor instead.
+func (*UpdateFollowingCalculationByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{161}
+}
+
+func (x *UpdateFollowingCalculationByIdRequest) GetColumnCatId() int64 {
+	if x != nil {
+		return x.ColumnCatId
+	}
+	return 0
+}
+
+func (x *UpdateFollowingCalculationByIdRequest) GetCalculationTypeId() int64 {
+	if x != nil {
+		return x.CalculationTypeId
+	}
+	return 0
+}
+
+func (x *UpdateFollowingCalculationByIdRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+func (x *UpdateFollowingCalculationByIdRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Изменение UpdateFollowingCalculationById: ответ пустой — запрос ничего не возвращает.
+type UpdateFollowingCalculationByIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateFollowingCalculationByIdResponse) Reset() {
+	*x = UpdateFollowingCalculationByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[162]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateFollowingCalculationByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateFollowingCalculationByIdResponse) ProtoMessage() {}
+
+func (x *UpdateFollowingCalculationByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[162]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateFollowingCalculationByIdResponse.ProtoReflect.Descriptor instead.
+func (*UpdateFollowingCalculationByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{162}
+}
+
+// Мягкое удаление DeleteFollowingCalculationById: параметры вызова.
+type DeleteFollowingCalculationByIdRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ExternalId    string                 `protobuf:"bytes,1,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	Id            int64                  `protobuf:"varint,2,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteFollowingCalculationByIdRequest) Reset() {
+	*x = DeleteFollowingCalculationByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[163]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteFollowingCalculationByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteFollowingCalculationByIdRequest) ProtoMessage() {}
+
+func (x *DeleteFollowingCalculationByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[163]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteFollowingCalculationByIdRequest.ProtoReflect.Descriptor instead.
+func (*DeleteFollowingCalculationByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{163}
+}
+
+func (x *DeleteFollowingCalculationByIdRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+func (x *DeleteFollowingCalculationByIdRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Мягкое удаление DeleteFollowingCalculationById: ответ пустой — запрос ничего не возвращает.
+type DeleteFollowingCalculationByIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteFollowingCalculationByIdResponse) Reset() {
+	*x = DeleteFollowingCalculationByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[164]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteFollowingCalculationByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteFollowingCalculationByIdResponse) ProtoMessage() {}
+
+func (x *DeleteFollowingCalculationByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[164]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteFollowingCalculationByIdResponse.ProtoReflect.Descriptor instead.
+func (*DeleteFollowingCalculationByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{164}
+}
+
+// Обратное удаление UndeleteFollowingCalculationById: параметры вызова.
+type UndeleteFollowingCalculationByIdRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ExternalId    string                 `protobuf:"bytes,1,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	Id            int64                  `protobuf:"varint,2,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UndeleteFollowingCalculationByIdRequest) Reset() {
+	*x = UndeleteFollowingCalculationByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[165]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UndeleteFollowingCalculationByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UndeleteFollowingCalculationByIdRequest) ProtoMessage() {}
+
+func (x *UndeleteFollowingCalculationByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[165]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UndeleteFollowingCalculationByIdRequest.ProtoReflect.Descriptor instead.
+func (*UndeleteFollowingCalculationByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{165}
+}
+
+func (x *UndeleteFollowingCalculationByIdRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+func (x *UndeleteFollowingCalculationByIdRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Обратное удаление UndeleteFollowingCalculationById: ответ пустой — запрос ничего не возвращает.
+type UndeleteFollowingCalculationByIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UndeleteFollowingCalculationByIdResponse) Reset() {
+	*x = UndeleteFollowingCalculationByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[166]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UndeleteFollowingCalculationByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UndeleteFollowingCalculationByIdResponse) ProtoMessage() {}
+
+func (x *UndeleteFollowingCalculationByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[166]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UndeleteFollowingCalculationByIdResponse.ProtoReflect.Descriptor instead.
+func (*UndeleteFollowingCalculationByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{166}
+}
+
+// Строка таблицы dc.group_levels: все колонки, как их вернёт SELECT *.
+type GroupLevels struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Id             int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	ColumnId       int64                  `protobuf:"varint,2,opt,name=column_id,json=columnId,proto3" json:"column_id,omitempty"`
+	ParentColumnId int64                  `protobuf:"varint,3,opt,name=parent_column_id,json=parentColumnId,proto3" json:"parent_column_id,omitempty"`
+	Level          int32                  `protobuf:"varint,4,opt,name=level,proto3" json:"level,omitempty"`
+	Description    string                 `protobuf:"bytes,5,opt,name=description,proto3" json:"description,omitempty"`
+	CreatedAt      *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt      *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	IsDeleted      bool                   `protobuf:"varint,8,opt,name=is_deleted,json=isDeleted,proto3" json:"is_deleted,omitempty"`
+	UserId         int64                  `protobuf:"varint,9,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *GroupLevels) Reset() {
+	*x = GroupLevels{}
+	mi := &file_tables_v1_tables_proto_msgTypes[167]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GroupLevels) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GroupLevels) ProtoMessage() {}
+
+func (x *GroupLevels) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[167]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GroupLevels.ProtoReflect.Descriptor instead.
+func (*GroupLevels) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{167}
+}
+
+func (x *GroupLevels) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *GroupLevels) GetColumnId() int64 {
+	if x != nil {
+		return x.ColumnId
+	}
+	return 0
+}
+
+func (x *GroupLevels) GetParentColumnId() int64 {
+	if x != nil {
+		return x.ParentColumnId
+	}
+	return 0
+}
+
+func (x *GroupLevels) GetLevel() int32 {
+	if x != nil {
+		return x.Level
+	}
+	return 0
+}
+
+func (x *GroupLevels) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *GroupLevels) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *GroupLevels) GetUpdatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return nil
+}
+
+func (x *GroupLevels) GetIsDeleted() bool {
+	if x != nil {
+		return x.IsDeleted
+	}
+	return false
+}
+
+func (x *GroupLevels) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+// Вставка CreateGroupLevels: параметры вызова.
+type CreateGroupLevelsRequest struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	ColumnId       int64                  `protobuf:"varint,1,opt,name=column_id,json=columnId,proto3" json:"column_id,omitempty"`
+	ParentColumnId int64                  `protobuf:"varint,2,opt,name=parent_column_id,json=parentColumnId,proto3" json:"parent_column_id,omitempty"`
+	Level          int32                  `protobuf:"varint,3,opt,name=level,proto3" json:"level,omitempty"`
+	Description    string                 `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
+	ExternalId     string                 `protobuf:"bytes,5,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *CreateGroupLevelsRequest) Reset() {
+	*x = CreateGroupLevelsRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[168]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateGroupLevelsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateGroupLevelsRequest) ProtoMessage() {}
+
+func (x *CreateGroupLevelsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[168]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateGroupLevelsRequest.ProtoReflect.Descriptor instead.
+func (*CreateGroupLevelsRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{168}
+}
+
+func (x *CreateGroupLevelsRequest) GetColumnId() int64 {
+	if x != nil {
+		return x.ColumnId
+	}
+	return 0
+}
+
+func (x *CreateGroupLevelsRequest) GetParentColumnId() int64 {
+	if x != nil {
+		return x.ParentColumnId
+	}
+	return 0
+}
+
+func (x *CreateGroupLevelsRequest) GetLevel() int32 {
+	if x != nil {
+		return x.Level
+	}
+	return 0
+}
+
+func (x *CreateGroupLevelsRequest) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *CreateGroupLevelsRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+// Вставка CreateGroupLevels: одна строка.
+type CreateGroupLevelsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	GroupLevels   *GroupLevels           `protobuf:"bytes,1,opt,name=group_levels,json=groupLevels,proto3" json:"group_levels,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateGroupLevelsResponse) Reset() {
+	*x = CreateGroupLevelsResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[169]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateGroupLevelsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateGroupLevelsResponse) ProtoMessage() {}
+
+func (x *CreateGroupLevelsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[169]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateGroupLevelsResponse.ProtoReflect.Descriptor instead.
+func (*CreateGroupLevelsResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{169}
+}
+
+func (x *CreateGroupLevelsResponse) GetGroupLevels() *GroupLevels {
+	if x != nil {
+		return x.GroupLevels
+	}
+	return nil
+}
+
+// Выборка GetGroupLevelsSearchName: параметры вызова. Порядок по умолчанию — id.
+type GetGroupLevelsSearchNameRequest struct {
+	state      protoimpl.MessageState `protogen:"open.v1"`
+	SearchName string                 `protobuf:"bytes,1,opt,name=search_name,json=searchName,proto3" json:"search_name,omitempty"`
+	// допустимые значения: ASC, DESC
+	Order         string `protobuf:"bytes,2,opt,name=order,proto3" json:"order,omitempty"`
+	PageLimit     int32  `protobuf:"varint,3,opt,name=page_limit,json=pageLimit,proto3" json:"page_limit,omitempty"`
+	Page          int32  `protobuf:"varint,4,opt,name=page,proto3" json:"page,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetGroupLevelsSearchNameRequest) Reset() {
+	*x = GetGroupLevelsSearchNameRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[170]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetGroupLevelsSearchNameRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetGroupLevelsSearchNameRequest) ProtoMessage() {}
+
+func (x *GetGroupLevelsSearchNameRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[170]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetGroupLevelsSearchNameRequest.ProtoReflect.Descriptor instead.
+func (*GetGroupLevelsSearchNameRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{170}
+}
+
+func (x *GetGroupLevelsSearchNameRequest) GetSearchName() string {
+	if x != nil {
+		return x.SearchName
+	}
+	return ""
+}
+
+func (x *GetGroupLevelsSearchNameRequest) GetOrder() string {
+	if x != nil {
+		return x.Order
+	}
+	return ""
+}
+
+func (x *GetGroupLevelsSearchNameRequest) GetPageLimit() int32 {
+	if x != nil {
+		return x.PageLimit
+	}
+	return 0
+}
+
+func (x *GetGroupLevelsSearchNameRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+// Выборка GetGroupLevelsSearchName: страница данных и пагинация.
+type GetGroupLevelsSearchNameResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Data          []*GroupLevels         `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
+	Pagination    *Pagination            `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetGroupLevelsSearchNameResponse) Reset() {
+	*x = GetGroupLevelsSearchNameResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[171]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetGroupLevelsSearchNameResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetGroupLevelsSearchNameResponse) ProtoMessage() {}
+
+func (x *GetGroupLevelsSearchNameResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[171]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetGroupLevelsSearchNameResponse.ProtoReflect.Descriptor instead.
+func (*GetGroupLevelsSearchNameResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{171}
+}
+
+func (x *GetGroupLevelsSearchNameResponse) GetData() []*GroupLevels {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+func (x *GetGroupLevelsSearchNameResponse) GetPagination() *Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+// Выборка GetGroupLevels: параметры вызова. Порядок по умолчанию — id.
+type GetGroupLevelsRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// допустимые значения: ASC, DESC
+	Order         string `protobuf:"bytes,1,opt,name=order,proto3" json:"order,omitempty"`
+	PageLimit     int32  `protobuf:"varint,2,opt,name=page_limit,json=pageLimit,proto3" json:"page_limit,omitempty"`
+	Page          int32  `protobuf:"varint,3,opt,name=page,proto3" json:"page,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetGroupLevelsRequest) Reset() {
+	*x = GetGroupLevelsRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[172]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetGroupLevelsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetGroupLevelsRequest) ProtoMessage() {}
+
+func (x *GetGroupLevelsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[172]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetGroupLevelsRequest.ProtoReflect.Descriptor instead.
+func (*GetGroupLevelsRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{172}
+}
+
+func (x *GetGroupLevelsRequest) GetOrder() string {
+	if x != nil {
+		return x.Order
+	}
+	return ""
+}
+
+func (x *GetGroupLevelsRequest) GetPageLimit() int32 {
+	if x != nil {
+		return x.PageLimit
+	}
+	return 0
+}
+
+func (x *GetGroupLevelsRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+// Выборка GetGroupLevels: страница данных и пагинация.
+type GetGroupLevelsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Data          []*GroupLevels         `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
+	Pagination    *Pagination            `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetGroupLevelsResponse) Reset() {
+	*x = GetGroupLevelsResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[173]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetGroupLevelsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetGroupLevelsResponse) ProtoMessage() {}
+
+func (x *GetGroupLevelsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[173]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetGroupLevelsResponse.ProtoReflect.Descriptor instead.
+func (*GetGroupLevelsResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{173}
+}
+
+func (x *GetGroupLevelsResponse) GetData() []*GroupLevels {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+func (x *GetGroupLevelsResponse) GetPagination() *Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+// Выборка GetGroupLevelsById: параметры вызова.
+type GetGroupLevelsByIdRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetGroupLevelsByIdRequest) Reset() {
+	*x = GetGroupLevelsByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[174]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetGroupLevelsByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetGroupLevelsByIdRequest) ProtoMessage() {}
+
+func (x *GetGroupLevelsByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[174]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetGroupLevelsByIdRequest.ProtoReflect.Descriptor instead.
+func (*GetGroupLevelsByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{174}
+}
+
+func (x *GetGroupLevelsByIdRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Выборка GetGroupLevelsById: одна строка.
+type GetGroupLevelsByIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	GroupLevels   *GroupLevels           `protobuf:"bytes,1,opt,name=group_levels,json=groupLevels,proto3" json:"group_levels,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetGroupLevelsByIdResponse) Reset() {
+	*x = GetGroupLevelsByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[175]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetGroupLevelsByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetGroupLevelsByIdResponse) ProtoMessage() {}
+
+func (x *GetGroupLevelsByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[175]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetGroupLevelsByIdResponse.ProtoReflect.Descriptor instead.
+func (*GetGroupLevelsByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{175}
+}
+
+func (x *GetGroupLevelsByIdResponse) GetGroupLevels() *GroupLevels {
+	if x != nil {
+		return x.GroupLevels
+	}
+	return nil
+}
+
+// Выборка GetGroupLevelsFiltered: параметры вызова. Порядок по умолчанию — id.
+type GetGroupLevelsFilteredRequest struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	ColumnId       *int64                 `protobuf:"varint,1,opt,name=column_id,json=columnId,proto3,oneof" json:"column_id,omitempty"`
+	ParentColumnId *int64                 `protobuf:"varint,2,opt,name=parent_column_id,json=parentColumnId,proto3,oneof" json:"parent_column_id,omitempty"`
+	// допустимые значения: ASC, DESC
+	Order         string `protobuf:"bytes,3,opt,name=order,proto3" json:"order,omitempty"`
+	PageLimit     int32  `protobuf:"varint,4,opt,name=page_limit,json=pageLimit,proto3" json:"page_limit,omitempty"`
+	Page          int32  `protobuf:"varint,5,opt,name=page,proto3" json:"page,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetGroupLevelsFilteredRequest) Reset() {
+	*x = GetGroupLevelsFilteredRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[176]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetGroupLevelsFilteredRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetGroupLevelsFilteredRequest) ProtoMessage() {}
+
+func (x *GetGroupLevelsFilteredRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[176]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetGroupLevelsFilteredRequest.ProtoReflect.Descriptor instead.
+func (*GetGroupLevelsFilteredRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{176}
+}
+
+func (x *GetGroupLevelsFilteredRequest) GetColumnId() int64 {
+	if x != nil && x.ColumnId != nil {
+		return *x.ColumnId
+	}
+	return 0
+}
+
+func (x *GetGroupLevelsFilteredRequest) GetParentColumnId() int64 {
+	if x != nil && x.ParentColumnId != nil {
+		return *x.ParentColumnId
+	}
+	return 0
+}
+
+func (x *GetGroupLevelsFilteredRequest) GetOrder() string {
+	if x != nil {
+		return x.Order
+	}
+	return ""
+}
+
+func (x *GetGroupLevelsFilteredRequest) GetPageLimit() int32 {
+	if x != nil {
+		return x.PageLimit
+	}
+	return 0
+}
+
+func (x *GetGroupLevelsFilteredRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+// Выборка GetGroupLevelsFiltered: страница данных и пагинация.
+type GetGroupLevelsFilteredResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Data          []*GroupLevels         `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
+	Pagination    *Pagination            `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetGroupLevelsFilteredResponse) Reset() {
+	*x = GetGroupLevelsFilteredResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[177]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetGroupLevelsFilteredResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetGroupLevelsFilteredResponse) ProtoMessage() {}
+
+func (x *GetGroupLevelsFilteredResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[177]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetGroupLevelsFilteredResponse.ProtoReflect.Descriptor instead.
+func (*GetGroupLevelsFilteredResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{177}
+}
+
+func (x *GetGroupLevelsFilteredResponse) GetData() []*GroupLevels {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+func (x *GetGroupLevelsFilteredResponse) GetPagination() *Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+// Выборка GetGroupLevelsDeleted: параметры вызова. Порядок по умолчанию — id.
+type GetGroupLevelsDeletedRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// допустимые значения: ASC, DESC
+	Order         string `protobuf:"bytes,1,opt,name=order,proto3" json:"order,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetGroupLevelsDeletedRequest) Reset() {
+	*x = GetGroupLevelsDeletedRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[178]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetGroupLevelsDeletedRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetGroupLevelsDeletedRequest) ProtoMessage() {}
+
+func (x *GetGroupLevelsDeletedRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[178]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetGroupLevelsDeletedRequest.ProtoReflect.Descriptor instead.
+func (*GetGroupLevelsDeletedRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{178}
+}
+
+func (x *GetGroupLevelsDeletedRequest) GetOrder() string {
+	if x != nil {
+		return x.Order
+	}
+	return ""
+}
+
+// Выборка GetGroupLevelsDeleted: все найденные строки.
+type GetGroupLevelsDeletedResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Rows          []*GroupLevels         `protobuf:"bytes,1,rep,name=rows,proto3" json:"rows,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetGroupLevelsDeletedResponse) Reset() {
+	*x = GetGroupLevelsDeletedResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[179]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetGroupLevelsDeletedResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetGroupLevelsDeletedResponse) ProtoMessage() {}
+
+func (x *GetGroupLevelsDeletedResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[179]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetGroupLevelsDeletedResponse.ProtoReflect.Descriptor instead.
+func (*GetGroupLevelsDeletedResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{179}
+}
+
+func (x *GetGroupLevelsDeletedResponse) GetRows() []*GroupLevels {
+	if x != nil {
+		return x.Rows
+	}
+	return nil
+}
+
+// Изменение UpdateGroupLevelsById: параметры вызова.
+type UpdateGroupLevelsByIdRequest struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	ColumnId       int64                  `protobuf:"varint,1,opt,name=column_id,json=columnId,proto3" json:"column_id,omitempty"`
+	ParentColumnId int64                  `protobuf:"varint,2,opt,name=parent_column_id,json=parentColumnId,proto3" json:"parent_column_id,omitempty"`
+	Level          int32                  `protobuf:"varint,3,opt,name=level,proto3" json:"level,omitempty"`
+	Description    string                 `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
+	ExternalId     string                 `protobuf:"bytes,5,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	Id             int64                  `protobuf:"varint,6,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *UpdateGroupLevelsByIdRequest) Reset() {
+	*x = UpdateGroupLevelsByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[180]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateGroupLevelsByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateGroupLevelsByIdRequest) ProtoMessage() {}
+
+func (x *UpdateGroupLevelsByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[180]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateGroupLevelsByIdRequest.ProtoReflect.Descriptor instead.
+func (*UpdateGroupLevelsByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{180}
+}
+
+func (x *UpdateGroupLevelsByIdRequest) GetColumnId() int64 {
+	if x != nil {
+		return x.ColumnId
+	}
+	return 0
+}
+
+func (x *UpdateGroupLevelsByIdRequest) GetParentColumnId() int64 {
+	if x != nil {
+		return x.ParentColumnId
+	}
+	return 0
+}
+
+func (x *UpdateGroupLevelsByIdRequest) GetLevel() int32 {
+	if x != nil {
+		return x.Level
+	}
+	return 0
+}
+
+func (x *UpdateGroupLevelsByIdRequest) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *UpdateGroupLevelsByIdRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+func (x *UpdateGroupLevelsByIdRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Изменение UpdateGroupLevelsById: ответ пустой — запрос ничего не возвращает.
+type UpdateGroupLevelsByIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateGroupLevelsByIdResponse) Reset() {
+	*x = UpdateGroupLevelsByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[181]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateGroupLevelsByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateGroupLevelsByIdResponse) ProtoMessage() {}
+
+func (x *UpdateGroupLevelsByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[181]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateGroupLevelsByIdResponse.ProtoReflect.Descriptor instead.
+func (*UpdateGroupLevelsByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{181}
+}
+
+// Мягкое удаление DeleteGroupLevelsById: параметры вызова.
+type DeleteGroupLevelsByIdRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ExternalId    string                 `protobuf:"bytes,1,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	Id            int64                  `protobuf:"varint,2,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteGroupLevelsByIdRequest) Reset() {
+	*x = DeleteGroupLevelsByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[182]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteGroupLevelsByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteGroupLevelsByIdRequest) ProtoMessage() {}
+
+func (x *DeleteGroupLevelsByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[182]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteGroupLevelsByIdRequest.ProtoReflect.Descriptor instead.
+func (*DeleteGroupLevelsByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{182}
+}
+
+func (x *DeleteGroupLevelsByIdRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+func (x *DeleteGroupLevelsByIdRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Мягкое удаление DeleteGroupLevelsById: ответ пустой — запрос ничего не возвращает.
+type DeleteGroupLevelsByIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteGroupLevelsByIdResponse) Reset() {
+	*x = DeleteGroupLevelsByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[183]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteGroupLevelsByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteGroupLevelsByIdResponse) ProtoMessage() {}
+
+func (x *DeleteGroupLevelsByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[183]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteGroupLevelsByIdResponse.ProtoReflect.Descriptor instead.
+func (*DeleteGroupLevelsByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{183}
+}
+
+// Обратное удаление UndeleteGroupLevels: параметры вызова.
+type UndeleteGroupLevelsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ExternalId    string                 `protobuf:"bytes,1,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	Id            int64                  `protobuf:"varint,2,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UndeleteGroupLevelsRequest) Reset() {
+	*x = UndeleteGroupLevelsRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[184]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UndeleteGroupLevelsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UndeleteGroupLevelsRequest) ProtoMessage() {}
+
+func (x *UndeleteGroupLevelsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[184]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UndeleteGroupLevelsRequest.ProtoReflect.Descriptor instead.
+func (*UndeleteGroupLevelsRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{184}
+}
+
+func (x *UndeleteGroupLevelsRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+func (x *UndeleteGroupLevelsRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Обратное удаление UndeleteGroupLevels: ответ пустой — запрос ничего не возвращает.
+type UndeleteGroupLevelsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UndeleteGroupLevelsResponse) Reset() {
+	*x = UndeleteGroupLevelsResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[185]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UndeleteGroupLevelsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UndeleteGroupLevelsResponse) ProtoMessage() {}
+
+func (x *UndeleteGroupLevelsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[185]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UndeleteGroupLevelsResponse.ProtoReflect.Descriptor instead.
+func (*UndeleteGroupLevelsResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{185}
+}
+
+// Строка таблицы dc.has_to_group: все колонки, как их вернёт SELECT *.
+type HasToGroup struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	ColumnIdA     int64                  `protobuf:"varint,2,opt,name=column_id_a,json=columnIdA,proto3" json:"column_id_a,omitempty"`
+	ColumnIdB     int64                  `protobuf:"varint,3,opt,name=column_id_b,json=columnIdB,proto3" json:"column_id_b,omitempty"`
+	Description   string                 `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
+	IsDeleted     bool                   `protobuf:"varint,5,opt,name=is_deleted,json=isDeleted,proto3" json:"is_deleted,omitempty"`
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	UserId        int64                  `protobuf:"varint,8,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *HasToGroup) Reset() {
+	*x = HasToGroup{}
+	mi := &file_tables_v1_tables_proto_msgTypes[186]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *HasToGroup) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*HasToGroup) ProtoMessage() {}
+
+func (x *HasToGroup) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[186]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use HasToGroup.ProtoReflect.Descriptor instead.
+func (*HasToGroup) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{186}
+}
+
+func (x *HasToGroup) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *HasToGroup) GetColumnIdA() int64 {
+	if x != nil {
+		return x.ColumnIdA
+	}
+	return 0
+}
+
+func (x *HasToGroup) GetColumnIdB() int64 {
+	if x != nil {
+		return x.ColumnIdB
+	}
+	return 0
+}
+
+func (x *HasToGroup) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *HasToGroup) GetIsDeleted() bool {
+	if x != nil {
+		return x.IsDeleted
+	}
+	return false
+}
+
+func (x *HasToGroup) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *HasToGroup) GetUpdatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return nil
+}
+
+func (x *HasToGroup) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+// Вставка CreateHasToGroup: параметры вызова.
+type CreateHasToGroupRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ColumnIdA     int64                  `protobuf:"varint,1,opt,name=column_id_a,json=columnIdA,proto3" json:"column_id_a,omitempty"`
+	ColumnIdB     int64                  `protobuf:"varint,2,opt,name=column_id_b,json=columnIdB,proto3" json:"column_id_b,omitempty"`
+	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	ExternalId    string                 `protobuf:"bytes,4,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateHasToGroupRequest) Reset() {
+	*x = CreateHasToGroupRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[187]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateHasToGroupRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateHasToGroupRequest) ProtoMessage() {}
+
+func (x *CreateHasToGroupRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[187]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateHasToGroupRequest.ProtoReflect.Descriptor instead.
+func (*CreateHasToGroupRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{187}
+}
+
+func (x *CreateHasToGroupRequest) GetColumnIdA() int64 {
+	if x != nil {
+		return x.ColumnIdA
+	}
+	return 0
+}
+
+func (x *CreateHasToGroupRequest) GetColumnIdB() int64 {
+	if x != nil {
+		return x.ColumnIdB
+	}
+	return 0
+}
+
+func (x *CreateHasToGroupRequest) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *CreateHasToGroupRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+// Вставка CreateHasToGroup: одна строка.
+type CreateHasToGroupResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	HasToGroup    *HasToGroup            `protobuf:"bytes,1,opt,name=has_to_group,json=hasToGroup,proto3" json:"has_to_group,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateHasToGroupResponse) Reset() {
+	*x = CreateHasToGroupResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[188]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateHasToGroupResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateHasToGroupResponse) ProtoMessage() {}
+
+func (x *CreateHasToGroupResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[188]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateHasToGroupResponse.ProtoReflect.Descriptor instead.
+func (*CreateHasToGroupResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{188}
+}
+
+func (x *CreateHasToGroupResponse) GetHasToGroup() *HasToGroup {
+	if x != nil {
+		return x.HasToGroup
+	}
+	return nil
+}
+
+// Выборка GetHasToGroupById: параметры вызова.
+type GetHasToGroupByIdRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetHasToGroupByIdRequest) Reset() {
+	*x = GetHasToGroupByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[189]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetHasToGroupByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetHasToGroupByIdRequest) ProtoMessage() {}
+
+func (x *GetHasToGroupByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[189]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetHasToGroupByIdRequest.ProtoReflect.Descriptor instead.
+func (*GetHasToGroupByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{189}
+}
+
+func (x *GetHasToGroupByIdRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Выборка GetHasToGroupById: одна строка.
+type GetHasToGroupByIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	HasToGroup    *HasToGroup            `protobuf:"bytes,1,opt,name=has_to_group,json=hasToGroup,proto3" json:"has_to_group,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetHasToGroupByIdResponse) Reset() {
+	*x = GetHasToGroupByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[190]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetHasToGroupByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetHasToGroupByIdResponse) ProtoMessage() {}
+
+func (x *GetHasToGroupByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[190]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetHasToGroupByIdResponse.ProtoReflect.Descriptor instead.
+func (*GetHasToGroupByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{190}
+}
+
+func (x *GetHasToGroupByIdResponse) GetHasToGroup() *HasToGroup {
+	if x != nil {
+		return x.HasToGroup
+	}
+	return nil
+}
+
+// Выборка GetHasToGroupsSearchName: параметры вызова. Порядок по умолчанию — id.
+type GetHasToGroupsSearchNameRequest struct {
+	state      protoimpl.MessageState `protogen:"open.v1"`
+	SearchName string                 `protobuf:"bytes,1,opt,name=search_name,json=searchName,proto3" json:"search_name,omitempty"`
+	// допустимые значения: ASC, DESC
+	Order         string `protobuf:"bytes,2,opt,name=order,proto3" json:"order,omitempty"`
+	PageLimit     int32  `protobuf:"varint,3,opt,name=page_limit,json=pageLimit,proto3" json:"page_limit,omitempty"`
+	Page          int32  `protobuf:"varint,4,opt,name=page,proto3" json:"page,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetHasToGroupsSearchNameRequest) Reset() {
+	*x = GetHasToGroupsSearchNameRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[191]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetHasToGroupsSearchNameRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetHasToGroupsSearchNameRequest) ProtoMessage() {}
+
+func (x *GetHasToGroupsSearchNameRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[191]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetHasToGroupsSearchNameRequest.ProtoReflect.Descriptor instead.
+func (*GetHasToGroupsSearchNameRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{191}
+}
+
+func (x *GetHasToGroupsSearchNameRequest) GetSearchName() string {
+	if x != nil {
+		return x.SearchName
+	}
+	return ""
+}
+
+func (x *GetHasToGroupsSearchNameRequest) GetOrder() string {
+	if x != nil {
+		return x.Order
+	}
+	return ""
+}
+
+func (x *GetHasToGroupsSearchNameRequest) GetPageLimit() int32 {
+	if x != nil {
+		return x.PageLimit
+	}
+	return 0
+}
+
+func (x *GetHasToGroupsSearchNameRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+// Выборка GetHasToGroupsSearchName: страница данных и пагинация.
+type GetHasToGroupsSearchNameResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Data          []*HasToGroup          `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
+	Pagination    *Pagination            `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetHasToGroupsSearchNameResponse) Reset() {
+	*x = GetHasToGroupsSearchNameResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[192]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetHasToGroupsSearchNameResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetHasToGroupsSearchNameResponse) ProtoMessage() {}
+
+func (x *GetHasToGroupsSearchNameResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[192]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetHasToGroupsSearchNameResponse.ProtoReflect.Descriptor instead.
+func (*GetHasToGroupsSearchNameResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{192}
+}
+
+func (x *GetHasToGroupsSearchNameResponse) GetData() []*HasToGroup {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+func (x *GetHasToGroupsSearchNameResponse) GetPagination() *Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+// Выборка GetHasToGroups: параметры вызова. Порядок по умолчанию — id.
+type GetHasToGroupsRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// допустимые значения: ASC, DESC
+	Order         string `protobuf:"bytes,1,opt,name=order,proto3" json:"order,omitempty"`
+	PageLimit     int32  `protobuf:"varint,2,opt,name=page_limit,json=pageLimit,proto3" json:"page_limit,omitempty"`
+	Page          int32  `protobuf:"varint,3,opt,name=page,proto3" json:"page,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetHasToGroupsRequest) Reset() {
+	*x = GetHasToGroupsRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[193]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetHasToGroupsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetHasToGroupsRequest) ProtoMessage() {}
+
+func (x *GetHasToGroupsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[193]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetHasToGroupsRequest.ProtoReflect.Descriptor instead.
+func (*GetHasToGroupsRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{193}
+}
+
+func (x *GetHasToGroupsRequest) GetOrder() string {
+	if x != nil {
+		return x.Order
+	}
+	return ""
+}
+
+func (x *GetHasToGroupsRequest) GetPageLimit() int32 {
+	if x != nil {
+		return x.PageLimit
+	}
+	return 0
+}
+
+func (x *GetHasToGroupsRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+// Выборка GetHasToGroups: страница данных и пагинация.
+type GetHasToGroupsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Data          []*HasToGroup          `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
+	Pagination    *Pagination            `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetHasToGroupsResponse) Reset() {
+	*x = GetHasToGroupsResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[194]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetHasToGroupsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetHasToGroupsResponse) ProtoMessage() {}
+
+func (x *GetHasToGroupsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[194]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetHasToGroupsResponse.ProtoReflect.Descriptor instead.
+func (*GetHasToGroupsResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{194}
+}
+
+func (x *GetHasToGroupsResponse) GetData() []*HasToGroup {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+func (x *GetHasToGroupsResponse) GetPagination() *Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+// Выборка GetHasToGroupsDeleted: параметры вызова. Порядок по умолчанию — id.
+type GetHasToGroupsDeletedRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// допустимые значения: ASC, DESC
+	Order         string `protobuf:"bytes,1,opt,name=order,proto3" json:"order,omitempty"`
+	PageLimit     int32  `protobuf:"varint,2,opt,name=page_limit,json=pageLimit,proto3" json:"page_limit,omitempty"`
+	Page          int32  `protobuf:"varint,3,opt,name=page,proto3" json:"page,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetHasToGroupsDeletedRequest) Reset() {
+	*x = GetHasToGroupsDeletedRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[195]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetHasToGroupsDeletedRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetHasToGroupsDeletedRequest) ProtoMessage() {}
+
+func (x *GetHasToGroupsDeletedRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[195]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetHasToGroupsDeletedRequest.ProtoReflect.Descriptor instead.
+func (*GetHasToGroupsDeletedRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{195}
+}
+
+func (x *GetHasToGroupsDeletedRequest) GetOrder() string {
+	if x != nil {
+		return x.Order
+	}
+	return ""
+}
+
+func (x *GetHasToGroupsDeletedRequest) GetPageLimit() int32 {
+	if x != nil {
+		return x.PageLimit
+	}
+	return 0
+}
+
+func (x *GetHasToGroupsDeletedRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+// Выборка GetHasToGroupsDeleted: страница данных и пагинация.
+type GetHasToGroupsDeletedResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Data          []*HasToGroup          `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
+	Pagination    *Pagination            `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetHasToGroupsDeletedResponse) Reset() {
+	*x = GetHasToGroupsDeletedResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[196]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetHasToGroupsDeletedResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetHasToGroupsDeletedResponse) ProtoMessage() {}
+
+func (x *GetHasToGroupsDeletedResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[196]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetHasToGroupsDeletedResponse.ProtoReflect.Descriptor instead.
+func (*GetHasToGroupsDeletedResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{196}
+}
+
+func (x *GetHasToGroupsDeletedResponse) GetData() []*HasToGroup {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+func (x *GetHasToGroupsDeletedResponse) GetPagination() *Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+// Изменение UpdateHasToGroupById: параметры вызова.
+type UpdateHasToGroupByIdRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ColumnIdA     int64                  `protobuf:"varint,1,opt,name=column_id_a,json=columnIdA,proto3" json:"column_id_a,omitempty"`
+	ColumnIdB     int64                  `protobuf:"varint,2,opt,name=column_id_b,json=columnIdB,proto3" json:"column_id_b,omitempty"`
+	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	ExternalId    string                 `protobuf:"bytes,4,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	Id            int64                  `protobuf:"varint,5,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateHasToGroupByIdRequest) Reset() {
+	*x = UpdateHasToGroupByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[197]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateHasToGroupByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateHasToGroupByIdRequest) ProtoMessage() {}
+
+func (x *UpdateHasToGroupByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[197]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateHasToGroupByIdRequest.ProtoReflect.Descriptor instead.
+func (*UpdateHasToGroupByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{197}
+}
+
+func (x *UpdateHasToGroupByIdRequest) GetColumnIdA() int64 {
+	if x != nil {
+		return x.ColumnIdA
+	}
+	return 0
+}
+
+func (x *UpdateHasToGroupByIdRequest) GetColumnIdB() int64 {
+	if x != nil {
+		return x.ColumnIdB
+	}
+	return 0
+}
+
+func (x *UpdateHasToGroupByIdRequest) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *UpdateHasToGroupByIdRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+func (x *UpdateHasToGroupByIdRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Изменение UpdateHasToGroupById: ответ пустой — запрос ничего не возвращает.
+type UpdateHasToGroupByIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateHasToGroupByIdResponse) Reset() {
+	*x = UpdateHasToGroupByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[198]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateHasToGroupByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateHasToGroupByIdResponse) ProtoMessage() {}
+
+func (x *UpdateHasToGroupByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[198]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateHasToGroupByIdResponse.ProtoReflect.Descriptor instead.
+func (*UpdateHasToGroupByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{198}
+}
+
+// Мягкое удаление DeleteHasToGroupById: параметры вызова.
+type DeleteHasToGroupByIdRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ExternalId    string                 `protobuf:"bytes,1,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	Id            int64                  `protobuf:"varint,2,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteHasToGroupByIdRequest) Reset() {
+	*x = DeleteHasToGroupByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[199]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteHasToGroupByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteHasToGroupByIdRequest) ProtoMessage() {}
+
+func (x *DeleteHasToGroupByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[199]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteHasToGroupByIdRequest.ProtoReflect.Descriptor instead.
+func (*DeleteHasToGroupByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{199}
+}
+
+func (x *DeleteHasToGroupByIdRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+func (x *DeleteHasToGroupByIdRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Мягкое удаление DeleteHasToGroupById: ответ пустой — запрос ничего не возвращает.
+type DeleteHasToGroupByIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteHasToGroupByIdResponse) Reset() {
+	*x = DeleteHasToGroupByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[200]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteHasToGroupByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteHasToGroupByIdResponse) ProtoMessage() {}
+
+func (x *DeleteHasToGroupByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[200]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteHasToGroupByIdResponse.ProtoReflect.Descriptor instead.
+func (*DeleteHasToGroupByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{200}
+}
+
+// Обратное удаление UndeleteHasToGroupById: параметры вызова.
+type UndeleteHasToGroupByIdRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ExternalId    string                 `protobuf:"bytes,1,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	Id            int64                  `protobuf:"varint,2,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UndeleteHasToGroupByIdRequest) Reset() {
+	*x = UndeleteHasToGroupByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[201]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UndeleteHasToGroupByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UndeleteHasToGroupByIdRequest) ProtoMessage() {}
+
+func (x *UndeleteHasToGroupByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[201]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UndeleteHasToGroupByIdRequest.ProtoReflect.Descriptor instead.
+func (*UndeleteHasToGroupByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{201}
+}
+
+func (x *UndeleteHasToGroupByIdRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+func (x *UndeleteHasToGroupByIdRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Обратное удаление UndeleteHasToGroupById: ответ пустой — запрос ничего не возвращает.
+type UndeleteHasToGroupByIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UndeleteHasToGroupByIdResponse) Reset() {
+	*x = UndeleteHasToGroupByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[202]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UndeleteHasToGroupByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UndeleteHasToGroupByIdResponse) ProtoMessage() {}
+
+func (x *UndeleteHasToGroupByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[202]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UndeleteHasToGroupByIdResponse.ProtoReflect.Descriptor instead.
+func (*UndeleteHasToGroupByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{202}
+}
+
+// Строка таблицы dc.schema_cat: все колонки, как их вернёт SELECT *.
+type SchemaCat struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	DatabaseId    int64                  `protobuf:"varint,2,opt,name=database_id,json=databaseId,proto3" json:"database_id,omitempty"`
+	Name          string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
+	IsDeleted     bool                   `protobuf:"varint,4,opt,name=is_deleted,json=isDeleted,proto3" json:"is_deleted,omitempty"`
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	UserId        int64                  `protobuf:"varint,7,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SchemaCat) Reset() {
+	*x = SchemaCat{}
+	mi := &file_tables_v1_tables_proto_msgTypes[203]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SchemaCat) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SchemaCat) ProtoMessage() {}
+
+func (x *SchemaCat) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[203]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SchemaCat.ProtoReflect.Descriptor instead.
+func (*SchemaCat) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{203}
+}
+
+func (x *SchemaCat) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *SchemaCat) GetDatabaseId() int64 {
+	if x != nil {
+		return x.DatabaseId
+	}
+	return 0
+}
+
+func (x *SchemaCat) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *SchemaCat) GetIsDeleted() bool {
+	if x != nil {
+		return x.IsDeleted
+	}
+	return false
+}
+
+func (x *SchemaCat) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *SchemaCat) GetUpdatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return nil
+}
+
+func (x *SchemaCat) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+// Вставка CreateSchemaCat: параметры вызова.
+type CreateSchemaCatRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	DatabaseId    int64                  `protobuf:"varint,1,opt,name=database_id,json=databaseId,proto3" json:"database_id,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	ExternalId    string                 `protobuf:"bytes,3,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateSchemaCatRequest) Reset() {
+	*x = CreateSchemaCatRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[204]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateSchemaCatRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateSchemaCatRequest) ProtoMessage() {}
+
+func (x *CreateSchemaCatRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[204]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateSchemaCatRequest.ProtoReflect.Descriptor instead.
+func (*CreateSchemaCatRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{204}
+}
+
+func (x *CreateSchemaCatRequest) GetDatabaseId() int64 {
+	if x != nil {
+		return x.DatabaseId
+	}
+	return 0
+}
+
+func (x *CreateSchemaCatRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *CreateSchemaCatRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+// Вставка CreateSchemaCat: одна строка.
+type CreateSchemaCatResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	SchemaCat     *SchemaCat             `protobuf:"bytes,1,opt,name=schema_cat,json=schemaCat,proto3" json:"schema_cat,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateSchemaCatResponse) Reset() {
+	*x = CreateSchemaCatResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[205]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateSchemaCatResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateSchemaCatResponse) ProtoMessage() {}
+
+func (x *CreateSchemaCatResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[205]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateSchemaCatResponse.ProtoReflect.Descriptor instead.
+func (*CreateSchemaCatResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{205}
+}
+
+func (x *CreateSchemaCatResponse) GetSchemaCat() *SchemaCat {
+	if x != nil {
+		return x.SchemaCat
+	}
+	return nil
+}
+
+// Выборка GetSchemaCatById: параметры вызова.
+type GetSchemaCatByIdRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetSchemaCatByIdRequest) Reset() {
+	*x = GetSchemaCatByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[206]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetSchemaCatByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetSchemaCatByIdRequest) ProtoMessage() {}
+
+func (x *GetSchemaCatByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[206]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetSchemaCatByIdRequest.ProtoReflect.Descriptor instead.
+func (*GetSchemaCatByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{206}
+}
+
+func (x *GetSchemaCatByIdRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Выборка GetSchemaCatById: одна строка.
+type GetSchemaCatByIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	SchemaCat     *SchemaCat             `protobuf:"bytes,1,opt,name=schema_cat,json=schemaCat,proto3" json:"schema_cat,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetSchemaCatByIdResponse) Reset() {
+	*x = GetSchemaCatByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[207]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetSchemaCatByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetSchemaCatByIdResponse) ProtoMessage() {}
+
+func (x *GetSchemaCatByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[207]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetSchemaCatByIdResponse.ProtoReflect.Descriptor instead.
+func (*GetSchemaCatByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{207}
+}
+
+func (x *GetSchemaCatByIdResponse) GetSchemaCat() *SchemaCat {
+	if x != nil {
+		return x.SchemaCat
+	}
+	return nil
+}
+
+// Выборка GetSchemaCats: параметры вызова. Порядок по умолчанию — id.
+type GetSchemaCatsRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// допустимые значения: ASC, DESC
+	Order         string `protobuf:"bytes,1,opt,name=order,proto3" json:"order,omitempty"`
+	PageLimit     int32  `protobuf:"varint,2,opt,name=page_limit,json=pageLimit,proto3" json:"page_limit,omitempty"`
+	Page          int32  `protobuf:"varint,3,opt,name=page,proto3" json:"page,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetSchemaCatsRequest) Reset() {
+	*x = GetSchemaCatsRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[208]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetSchemaCatsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetSchemaCatsRequest) ProtoMessage() {}
+
+func (x *GetSchemaCatsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[208]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetSchemaCatsRequest.ProtoReflect.Descriptor instead.
+func (*GetSchemaCatsRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{208}
+}
+
+func (x *GetSchemaCatsRequest) GetOrder() string {
+	if x != nil {
+		return x.Order
+	}
+	return ""
+}
+
+func (x *GetSchemaCatsRequest) GetPageLimit() int32 {
+	if x != nil {
+		return x.PageLimit
+	}
+	return 0
+}
+
+func (x *GetSchemaCatsRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+// Выборка GetSchemaCats: страница данных и пагинация.
+type GetSchemaCatsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Data          []*SchemaCat           `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
+	Pagination    *Pagination            `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetSchemaCatsResponse) Reset() {
+	*x = GetSchemaCatsResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[209]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetSchemaCatsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetSchemaCatsResponse) ProtoMessage() {}
+
+func (x *GetSchemaCatsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[209]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetSchemaCatsResponse.ProtoReflect.Descriptor instead.
+func (*GetSchemaCatsResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{209}
+}
+
+func (x *GetSchemaCatsResponse) GetData() []*SchemaCat {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+func (x *GetSchemaCatsResponse) GetPagination() *Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+// Выборка GetSchemaCatsDeleted: параметры вызова. Порядок по умолчанию — id.
+type GetSchemaCatsDeletedRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// допустимые значения: ASC, DESC
+	Order         string `protobuf:"bytes,1,opt,name=order,proto3" json:"order,omitempty"`
+	PageLimit     int32  `protobuf:"varint,2,opt,name=page_limit,json=pageLimit,proto3" json:"page_limit,omitempty"`
+	Page          int32  `protobuf:"varint,3,opt,name=page,proto3" json:"page,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetSchemaCatsDeletedRequest) Reset() {
+	*x = GetSchemaCatsDeletedRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[210]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetSchemaCatsDeletedRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetSchemaCatsDeletedRequest) ProtoMessage() {}
+
+func (x *GetSchemaCatsDeletedRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[210]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetSchemaCatsDeletedRequest.ProtoReflect.Descriptor instead.
+func (*GetSchemaCatsDeletedRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{210}
+}
+
+func (x *GetSchemaCatsDeletedRequest) GetOrder() string {
+	if x != nil {
+		return x.Order
+	}
+	return ""
+}
+
+func (x *GetSchemaCatsDeletedRequest) GetPageLimit() int32 {
+	if x != nil {
+		return x.PageLimit
+	}
+	return 0
+}
+
+func (x *GetSchemaCatsDeletedRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+// Выборка GetSchemaCatsDeleted: страница данных и пагинация.
+type GetSchemaCatsDeletedResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Data          []*SchemaCat           `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
+	Pagination    *Pagination            `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetSchemaCatsDeletedResponse) Reset() {
+	*x = GetSchemaCatsDeletedResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[211]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetSchemaCatsDeletedResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetSchemaCatsDeletedResponse) ProtoMessage() {}
+
+func (x *GetSchemaCatsDeletedResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[211]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetSchemaCatsDeletedResponse.ProtoReflect.Descriptor instead.
+func (*GetSchemaCatsDeletedResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{211}
+}
+
+func (x *GetSchemaCatsDeletedResponse) GetData() []*SchemaCat {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+func (x *GetSchemaCatsDeletedResponse) GetPagination() *Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+// Изменение UpdateSchemaCatById: параметры вызова.
+type UpdateSchemaCatByIdRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	DatabaseId    int64                  `protobuf:"varint,1,opt,name=database_id,json=databaseId,proto3" json:"database_id,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	ExternalId    string                 `protobuf:"bytes,4,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	Id            int64                  `protobuf:"varint,5,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateSchemaCatByIdRequest) Reset() {
+	*x = UpdateSchemaCatByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[212]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateSchemaCatByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateSchemaCatByIdRequest) ProtoMessage() {}
+
+func (x *UpdateSchemaCatByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[212]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateSchemaCatByIdRequest.ProtoReflect.Descriptor instead.
+func (*UpdateSchemaCatByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{212}
+}
+
+func (x *UpdateSchemaCatByIdRequest) GetDatabaseId() int64 {
+	if x != nil {
+		return x.DatabaseId
+	}
+	return 0
+}
+
+func (x *UpdateSchemaCatByIdRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *UpdateSchemaCatByIdRequest) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *UpdateSchemaCatByIdRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+func (x *UpdateSchemaCatByIdRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Изменение UpdateSchemaCatById: ответ пустой — запрос ничего не возвращает.
+type UpdateSchemaCatByIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateSchemaCatByIdResponse) Reset() {
+	*x = UpdateSchemaCatByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[213]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateSchemaCatByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateSchemaCatByIdResponse) ProtoMessage() {}
+
+func (x *UpdateSchemaCatByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[213]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateSchemaCatByIdResponse.ProtoReflect.Descriptor instead.
+func (*UpdateSchemaCatByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{213}
+}
+
+// Мягкое удаление DeleteSchemaCatById: параметры вызова.
+type DeleteSchemaCatByIdRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	ExternalId    string                 `protobuf:"bytes,2,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	Id            int64                  `protobuf:"varint,3,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteSchemaCatByIdRequest) Reset() {
+	*x = DeleteSchemaCatByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[214]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteSchemaCatByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteSchemaCatByIdRequest) ProtoMessage() {}
+
+func (x *DeleteSchemaCatByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[214]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteSchemaCatByIdRequest.ProtoReflect.Descriptor instead.
+func (*DeleteSchemaCatByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{214}
+}
+
+func (x *DeleteSchemaCatByIdRequest) GetUpdatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return nil
+}
+
+func (x *DeleteSchemaCatByIdRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+func (x *DeleteSchemaCatByIdRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Мягкое удаление DeleteSchemaCatById: ответ пустой — запрос ничего не возвращает.
+type DeleteSchemaCatByIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteSchemaCatByIdResponse) Reset() {
+	*x = DeleteSchemaCatByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[215]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteSchemaCatByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteSchemaCatByIdResponse) ProtoMessage() {}
+
+func (x *DeleteSchemaCatByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[215]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteSchemaCatByIdResponse.ProtoReflect.Descriptor instead.
+func (*DeleteSchemaCatByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{215}
+}
+
+// Обратное удаление UndeleteSchemaCatById: параметры вызова.
+type UndeleteSchemaCatByIdRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ExternalId    string                 `protobuf:"bytes,1,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	Id            int64                  `protobuf:"varint,2,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UndeleteSchemaCatByIdRequest) Reset() {
+	*x = UndeleteSchemaCatByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[216]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UndeleteSchemaCatByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UndeleteSchemaCatByIdRequest) ProtoMessage() {}
+
+func (x *UndeleteSchemaCatByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[216]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UndeleteSchemaCatByIdRequest.ProtoReflect.Descriptor instead.
+func (*UndeleteSchemaCatByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{216}
+}
+
+func (x *UndeleteSchemaCatByIdRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+func (x *UndeleteSchemaCatByIdRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Обратное удаление UndeleteSchemaCatById: ответ пустой — запрос ничего не возвращает.
+type UndeleteSchemaCatByIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UndeleteSchemaCatByIdResponse) Reset() {
+	*x = UndeleteSchemaCatByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[217]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UndeleteSchemaCatByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UndeleteSchemaCatByIdResponse) ProtoMessage() {}
+
+func (x *UndeleteSchemaCatByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[217]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UndeleteSchemaCatByIdResponse.ProtoReflect.Descriptor instead.
+func (*UndeleteSchemaCatByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{217}
+}
+
+// Строка таблицы dc.table_cat: все колонки, как их вернёт SELECT *.
+type TableCat struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	SchemaId      int64                  `protobuf:"varint,4,opt,name=schema_id,json=schemaId,proto3" json:"schema_id,omitempty"`
+	TableTypeId   int64                  `protobuf:"varint,5,opt,name=table_type_id,json=tableTypeId,proto3" json:"table_type_id,omitempty"`
+	DomainId      int64                  `protobuf:"varint,6,opt,name=domain_id,json=domainId,proto3" json:"domain_id,omitempty"`
+	IsDeleted     bool                   `protobuf:"varint,7,opt,name=is_deleted,json=isDeleted,proto3" json:"is_deleted,omitempty"`
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	IsGetDict     bool                   `protobuf:"varint,10,opt,name=is_get_dict,json=isGetDict,proto3" json:"is_get_dict,omitempty"`
+	UserId        int64                  `protobuf:"varint,11,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *TableCat) Reset() {
+	*x = TableCat{}
+	mi := &file_tables_v1_tables_proto_msgTypes[218]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TableCat) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TableCat) ProtoMessage() {}
+
+func (x *TableCat) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[218]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TableCat.ProtoReflect.Descriptor instead.
+func (*TableCat) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{218}
+}
+
+func (x *TableCat) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *TableCat) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *TableCat) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *TableCat) GetSchemaId() int64 {
+	if x != nil {
+		return x.SchemaId
+	}
+	return 0
+}
+
+func (x *TableCat) GetTableTypeId() int64 {
+	if x != nil {
+		return x.TableTypeId
+	}
+	return 0
+}
+
+func (x *TableCat) GetDomainId() int64 {
+	if x != nil {
+		return x.DomainId
+	}
+	return 0
+}
+
+func (x *TableCat) GetIsDeleted() bool {
+	if x != nil {
+		return x.IsDeleted
+	}
+	return false
+}
+
+func (x *TableCat) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *TableCat) GetUpdatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return nil
+}
+
+func (x *TableCat) GetIsGetDict() bool {
+	if x != nil {
+		return x.IsGetDict
+	}
+	return false
+}
+
+func (x *TableCat) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+// Вставка CreateTableCat: параметры вызова.
+type CreateTableCatRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Description   string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
+	SchemaId      int64                  `protobuf:"varint,3,opt,name=schema_id,json=schemaId,proto3" json:"schema_id,omitempty"`
+	TableTypeId   int64                  `protobuf:"varint,4,opt,name=table_type_id,json=tableTypeId,proto3" json:"table_type_id,omitempty"`
+	DomainId      int64                  `protobuf:"varint,5,opt,name=domain_id,json=domainId,proto3" json:"domain_id,omitempty"`
+	ExternalId    string                 `protobuf:"bytes,6,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateTableCatRequest) Reset() {
+	*x = CreateTableCatRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[219]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateTableCatRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateTableCatRequest) ProtoMessage() {}
+
+func (x *CreateTableCatRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[219]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateTableCatRequest.ProtoReflect.Descriptor instead.
+func (*CreateTableCatRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{219}
+}
+
+func (x *CreateTableCatRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *CreateTableCatRequest) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *CreateTableCatRequest) GetSchemaId() int64 {
+	if x != nil {
+		return x.SchemaId
+	}
+	return 0
+}
+
+func (x *CreateTableCatRequest) GetTableTypeId() int64 {
+	if x != nil {
+		return x.TableTypeId
+	}
+	return 0
+}
+
+func (x *CreateTableCatRequest) GetDomainId() int64 {
+	if x != nil {
+		return x.DomainId
+	}
+	return 0
+}
+
+func (x *CreateTableCatRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+// Вставка CreateTableCat: одна строка.
+type CreateTableCatResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TableCat      *TableCat              `protobuf:"bytes,1,opt,name=table_cat,json=tableCat,proto3" json:"table_cat,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateTableCatResponse) Reset() {
+	*x = CreateTableCatResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[220]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateTableCatResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateTableCatResponse) ProtoMessage() {}
+
+func (x *CreateTableCatResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[220]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateTableCatResponse.ProtoReflect.Descriptor instead.
+func (*CreateTableCatResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{220}
+}
+
+func (x *CreateTableCatResponse) GetTableCat() *TableCat {
+	if x != nil {
+		return x.TableCat
+	}
+	return nil
+}
+
+// Выборка GetTableCatById: параметры вызова.
+type GetTableCatByIdRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetTableCatByIdRequest) Reset() {
+	*x = GetTableCatByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[221]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetTableCatByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTableCatByIdRequest) ProtoMessage() {}
+
+func (x *GetTableCatByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[221]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTableCatByIdRequest.ProtoReflect.Descriptor instead.
+func (*GetTableCatByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{221}
+}
+
+func (x *GetTableCatByIdRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Выборка GetTableCatById: одна строка.
+type GetTableCatByIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TableCat      *TableCat              `protobuf:"bytes,1,opt,name=table_cat,json=tableCat,proto3" json:"table_cat,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetTableCatByIdResponse) Reset() {
+	*x = GetTableCatByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[222]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetTableCatByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTableCatByIdResponse) ProtoMessage() {}
+
+func (x *GetTableCatByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[222]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTableCatByIdResponse.ProtoReflect.Descriptor instead.
+func (*GetTableCatByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{222}
+}
+
+func (x *GetTableCatByIdResponse) GetTableCat() *TableCat {
+	if x != nil {
+		return x.TableCat
+	}
+	return nil
+}
+
+// Выборка GetTableCats: параметры вызова. Порядок по умолчанию — id.
+type GetTableCatsRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// допустимые значения: ASC, DESC
+	Order         string `protobuf:"bytes,1,opt,name=order,proto3" json:"order,omitempty"`
+	PageLimit     int32  `protobuf:"varint,2,opt,name=page_limit,json=pageLimit,proto3" json:"page_limit,omitempty"`
+	Page          int32  `protobuf:"varint,3,opt,name=page,proto3" json:"page,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetTableCatsRequest) Reset() {
+	*x = GetTableCatsRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[223]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetTableCatsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTableCatsRequest) ProtoMessage() {}
+
+func (x *GetTableCatsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[223]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTableCatsRequest.ProtoReflect.Descriptor instead.
+func (*GetTableCatsRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{223}
+}
+
+func (x *GetTableCatsRequest) GetOrder() string {
+	if x != nil {
+		return x.Order
+	}
+	return ""
+}
+
+func (x *GetTableCatsRequest) GetPageLimit() int32 {
+	if x != nil {
+		return x.PageLimit
+	}
+	return 0
+}
+
+func (x *GetTableCatsRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+// Выборка GetTableCats: страница данных и пагинация.
+type GetTableCatsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Data          []*TableCat            `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
+	Pagination    *Pagination            `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetTableCatsResponse) Reset() {
+	*x = GetTableCatsResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[224]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetTableCatsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTableCatsResponse) ProtoMessage() {}
+
+func (x *GetTableCatsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[224]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTableCatsResponse.ProtoReflect.Descriptor instead.
+func (*GetTableCatsResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{224}
+}
+
+func (x *GetTableCatsResponse) GetData() []*TableCat {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+func (x *GetTableCatsResponse) GetPagination() *Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+// Выборка GetTableCatsDeleted: параметры вызова. Порядок по умолчанию — id.
+type GetTableCatsDeletedRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// допустимые значения: ASC, DESC
+	Order         string `protobuf:"bytes,1,opt,name=order,proto3" json:"order,omitempty"`
+	PageLimit     int32  `protobuf:"varint,2,opt,name=page_limit,json=pageLimit,proto3" json:"page_limit,omitempty"`
+	Page          int32  `protobuf:"varint,3,opt,name=page,proto3" json:"page,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetTableCatsDeletedRequest) Reset() {
+	*x = GetTableCatsDeletedRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[225]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetTableCatsDeletedRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTableCatsDeletedRequest) ProtoMessage() {}
+
+func (x *GetTableCatsDeletedRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[225]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTableCatsDeletedRequest.ProtoReflect.Descriptor instead.
+func (*GetTableCatsDeletedRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{225}
+}
+
+func (x *GetTableCatsDeletedRequest) GetOrder() string {
+	if x != nil {
+		return x.Order
+	}
+	return ""
+}
+
+func (x *GetTableCatsDeletedRequest) GetPageLimit() int32 {
+	if x != nil {
+		return x.PageLimit
+	}
+	return 0
+}
+
+func (x *GetTableCatsDeletedRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+// Выборка GetTableCatsDeleted: страница данных и пагинация.
+type GetTableCatsDeletedResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Data          []*TableCat            `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
+	Pagination    *Pagination            `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetTableCatsDeletedResponse) Reset() {
+	*x = GetTableCatsDeletedResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[226]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetTableCatsDeletedResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTableCatsDeletedResponse) ProtoMessage() {}
+
+func (x *GetTableCatsDeletedResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[226]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTableCatsDeletedResponse.ProtoReflect.Descriptor instead.
+func (*GetTableCatsDeletedResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{226}
+}
+
+func (x *GetTableCatsDeletedResponse) GetData() []*TableCat {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+func (x *GetTableCatsDeletedResponse) GetPagination() *Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+// Изменение UpdateTableCatById: параметры вызова.
+type UpdateTableCatByIdRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Description   string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
+	SchemaId      int64                  `protobuf:"varint,3,opt,name=schema_id,json=schemaId,proto3" json:"schema_id,omitempty"`
+	TableTypeId   int64                  `protobuf:"varint,4,opt,name=table_type_id,json=tableTypeId,proto3" json:"table_type_id,omitempty"`
+	DomainId      int64                  `protobuf:"varint,5,opt,name=domain_id,json=domainId,proto3" json:"domain_id,omitempty"`
+	IsGetDict     bool                   `protobuf:"varint,6,opt,name=is_get_dict,json=isGetDict,proto3" json:"is_get_dict,omitempty"`
+	ExternalId    string                 `protobuf:"bytes,7,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	Id            int64                  `protobuf:"varint,8,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateTableCatByIdRequest) Reset() {
+	*x = UpdateTableCatByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[227]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateTableCatByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateTableCatByIdRequest) ProtoMessage() {}
+
+func (x *UpdateTableCatByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[227]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateTableCatByIdRequest.ProtoReflect.Descriptor instead.
+func (*UpdateTableCatByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{227}
+}
+
+func (x *UpdateTableCatByIdRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *UpdateTableCatByIdRequest) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *UpdateTableCatByIdRequest) GetSchemaId() int64 {
+	if x != nil {
+		return x.SchemaId
+	}
+	return 0
+}
+
+func (x *UpdateTableCatByIdRequest) GetTableTypeId() int64 {
+	if x != nil {
+		return x.TableTypeId
+	}
+	return 0
+}
+
+func (x *UpdateTableCatByIdRequest) GetDomainId() int64 {
+	if x != nil {
+		return x.DomainId
+	}
+	return 0
+}
+
+func (x *UpdateTableCatByIdRequest) GetIsGetDict() bool {
+	if x != nil {
+		return x.IsGetDict
+	}
+	return false
+}
+
+func (x *UpdateTableCatByIdRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+func (x *UpdateTableCatByIdRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Изменение UpdateTableCatById: ответ пустой — запрос ничего не возвращает.
+type UpdateTableCatByIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateTableCatByIdResponse) Reset() {
+	*x = UpdateTableCatByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[228]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateTableCatByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateTableCatByIdResponse) ProtoMessage() {}
+
+func (x *UpdateTableCatByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[228]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateTableCatByIdResponse.ProtoReflect.Descriptor instead.
+func (*UpdateTableCatByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{228}
+}
+
+// Мягкое удаление DeleteTableCatById: параметры вызова.
+type DeleteTableCatByIdRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ExternalId    string                 `protobuf:"bytes,1,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	Id            int64                  `protobuf:"varint,2,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteTableCatByIdRequest) Reset() {
+	*x = DeleteTableCatByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[229]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteTableCatByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteTableCatByIdRequest) ProtoMessage() {}
+
+func (x *DeleteTableCatByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[229]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteTableCatByIdRequest.ProtoReflect.Descriptor instead.
+func (*DeleteTableCatByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{229}
+}
+
+func (x *DeleteTableCatByIdRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+func (x *DeleteTableCatByIdRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Мягкое удаление DeleteTableCatById: ответ пустой — запрос ничего не возвращает.
+type DeleteTableCatByIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteTableCatByIdResponse) Reset() {
+	*x = DeleteTableCatByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[230]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteTableCatByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteTableCatByIdResponse) ProtoMessage() {}
+
+func (x *DeleteTableCatByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[230]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteTableCatByIdResponse.ProtoReflect.Descriptor instead.
+func (*DeleteTableCatByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{230}
+}
+
+// Обратное удаление UndeleteTableCatById: параметры вызова.
+type UndeleteTableCatByIdRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ExternalId    string                 `protobuf:"bytes,1,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	Id            int64                  `protobuf:"varint,2,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UndeleteTableCatByIdRequest) Reset() {
+	*x = UndeleteTableCatByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[231]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UndeleteTableCatByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UndeleteTableCatByIdRequest) ProtoMessage() {}
+
+func (x *UndeleteTableCatByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[231]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UndeleteTableCatByIdRequest.ProtoReflect.Descriptor instead.
+func (*UndeleteTableCatByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{231}
+}
+
+func (x *UndeleteTableCatByIdRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+func (x *UndeleteTableCatByIdRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Обратное удаление UndeleteTableCatById: ответ пустой — запрос ничего не возвращает.
+type UndeleteTableCatByIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UndeleteTableCatByIdResponse) Reset() {
+	*x = UndeleteTableCatByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[232]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UndeleteTableCatByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UndeleteTableCatByIdResponse) ProtoMessage() {}
+
+func (x *UndeleteTableCatByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[232]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UndeleteTableCatByIdResponse.ProtoReflect.Descriptor instead.
+func (*UndeleteTableCatByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{232}
+}
+
+// Строка таблицы dc.table_type: все колонки, как их вернёт SELECT *.
+type TableType struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	IsDeleted     bool                   `protobuf:"varint,4,opt,name=is_deleted,json=isDeleted,proto3" json:"is_deleted,omitempty"`
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	UserId        int64                  `protobuf:"varint,7,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *TableType) Reset() {
+	*x = TableType{}
+	mi := &file_tables_v1_tables_proto_msgTypes[233]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TableType) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TableType) ProtoMessage() {}
+
+func (x *TableType) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[233]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TableType.ProtoReflect.Descriptor instead.
+func (*TableType) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{233}
+}
+
+func (x *TableType) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *TableType) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *TableType) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *TableType) GetIsDeleted() bool {
+	if x != nil {
+		return x.IsDeleted
+	}
+	return false
+}
+
+func (x *TableType) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *TableType) GetUpdatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return nil
+}
+
+func (x *TableType) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+// Вставка CreateTableType: параметры вызова.
+type CreateTableTypeRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Description   string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
+	ExternalId    string                 `protobuf:"bytes,3,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateTableTypeRequest) Reset() {
+	*x = CreateTableTypeRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[234]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateTableTypeRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateTableTypeRequest) ProtoMessage() {}
+
+func (x *CreateTableTypeRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[234]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateTableTypeRequest.ProtoReflect.Descriptor instead.
+func (*CreateTableTypeRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{234}
+}
+
+func (x *CreateTableTypeRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *CreateTableTypeRequest) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *CreateTableTypeRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+// Вставка CreateTableType: одна строка.
+type CreateTableTypeResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TableType     *TableType             `protobuf:"bytes,1,opt,name=table_type,json=tableType,proto3" json:"table_type,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateTableTypeResponse) Reset() {
+	*x = CreateTableTypeResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[235]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateTableTypeResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateTableTypeResponse) ProtoMessage() {}
+
+func (x *CreateTableTypeResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[235]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateTableTypeResponse.ProtoReflect.Descriptor instead.
+func (*CreateTableTypeResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{235}
+}
+
+func (x *CreateTableTypeResponse) GetTableType() *TableType {
+	if x != nil {
+		return x.TableType
+	}
+	return nil
+}
+
+// Выборка GetTableTypeById: параметры вызова.
+type GetTableTypeByIdRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetTableTypeByIdRequest) Reset() {
+	*x = GetTableTypeByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[236]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetTableTypeByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTableTypeByIdRequest) ProtoMessage() {}
+
+func (x *GetTableTypeByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[236]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTableTypeByIdRequest.ProtoReflect.Descriptor instead.
+func (*GetTableTypeByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{236}
+}
+
+func (x *GetTableTypeByIdRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Выборка GetTableTypeById: одна строка.
+type GetTableTypeByIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TableType     *TableType             `protobuf:"bytes,1,opt,name=table_type,json=tableType,proto3" json:"table_type,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetTableTypeByIdResponse) Reset() {
+	*x = GetTableTypeByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[237]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetTableTypeByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTableTypeByIdResponse) ProtoMessage() {}
+
+func (x *GetTableTypeByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[237]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTableTypeByIdResponse.ProtoReflect.Descriptor instead.
+func (*GetTableTypeByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{237}
+}
+
+func (x *GetTableTypeByIdResponse) GetTableType() *TableType {
+	if x != nil {
+		return x.TableType
+	}
+	return nil
+}
+
+// Выборка GetTableTypes: параметры вызова. Порядок по умолчанию — id.
+type GetTableTypesRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// допустимые значения: ASC, DESC
+	Order         string `protobuf:"bytes,1,opt,name=order,proto3" json:"order,omitempty"`
+	PageLimit     int32  `protobuf:"varint,2,opt,name=page_limit,json=pageLimit,proto3" json:"page_limit,omitempty"`
+	Page          int32  `protobuf:"varint,3,opt,name=page,proto3" json:"page,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetTableTypesRequest) Reset() {
+	*x = GetTableTypesRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[238]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetTableTypesRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTableTypesRequest) ProtoMessage() {}
+
+func (x *GetTableTypesRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[238]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTableTypesRequest.ProtoReflect.Descriptor instead.
+func (*GetTableTypesRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{238}
+}
+
+func (x *GetTableTypesRequest) GetOrder() string {
+	if x != nil {
+		return x.Order
+	}
+	return ""
+}
+
+func (x *GetTableTypesRequest) GetPageLimit() int32 {
+	if x != nil {
+		return x.PageLimit
+	}
+	return 0
+}
+
+func (x *GetTableTypesRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+// Выборка GetTableTypes: страница данных и пагинация.
+type GetTableTypesResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Data          []*TableType           `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
+	Pagination    *Pagination            `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetTableTypesResponse) Reset() {
+	*x = GetTableTypesResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[239]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetTableTypesResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTableTypesResponse) ProtoMessage() {}
+
+func (x *GetTableTypesResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[239]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTableTypesResponse.ProtoReflect.Descriptor instead.
+func (*GetTableTypesResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{239}
+}
+
+func (x *GetTableTypesResponse) GetData() []*TableType {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+func (x *GetTableTypesResponse) GetPagination() *Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+// Выборка GetTableTypesDeleted: параметры вызова. Порядок по умолчанию — id.
+type GetTableTypesDeletedRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// допустимые значения: ASC, DESC
+	Order         string `protobuf:"bytes,1,opt,name=order,proto3" json:"order,omitempty"`
+	PageLimit     int32  `protobuf:"varint,2,opt,name=page_limit,json=pageLimit,proto3" json:"page_limit,omitempty"`
+	Page          int32  `protobuf:"varint,3,opt,name=page,proto3" json:"page,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetTableTypesDeletedRequest) Reset() {
+	*x = GetTableTypesDeletedRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[240]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetTableTypesDeletedRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTableTypesDeletedRequest) ProtoMessage() {}
+
+func (x *GetTableTypesDeletedRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[240]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTableTypesDeletedRequest.ProtoReflect.Descriptor instead.
+func (*GetTableTypesDeletedRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{240}
+}
+
+func (x *GetTableTypesDeletedRequest) GetOrder() string {
+	if x != nil {
+		return x.Order
+	}
+	return ""
+}
+
+func (x *GetTableTypesDeletedRequest) GetPageLimit() int32 {
+	if x != nil {
+		return x.PageLimit
+	}
+	return 0
+}
+
+func (x *GetTableTypesDeletedRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+// Выборка GetTableTypesDeleted: страница данных и пагинация.
+type GetTableTypesDeletedResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Data          []*TableType           `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
+	Pagination    *Pagination            `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetTableTypesDeletedResponse) Reset() {
+	*x = GetTableTypesDeletedResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[241]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetTableTypesDeletedResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTableTypesDeletedResponse) ProtoMessage() {}
+
+func (x *GetTableTypesDeletedResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[241]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTableTypesDeletedResponse.ProtoReflect.Descriptor instead.
+func (*GetTableTypesDeletedResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{241}
+}
+
+func (x *GetTableTypesDeletedResponse) GetData() []*TableType {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+func (x *GetTableTypesDeletedResponse) GetPagination() *Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+// Изменение UpdateTableTypeById: параметры вызова.
+type UpdateTableTypeByIdRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Description   string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
+	ExternalId    string                 `protobuf:"bytes,3,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	Id            int64                  `protobuf:"varint,4,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateTableTypeByIdRequest) Reset() {
+	*x = UpdateTableTypeByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[242]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateTableTypeByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateTableTypeByIdRequest) ProtoMessage() {}
+
+func (x *UpdateTableTypeByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[242]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateTableTypeByIdRequest.ProtoReflect.Descriptor instead.
+func (*UpdateTableTypeByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{242}
+}
+
+func (x *UpdateTableTypeByIdRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *UpdateTableTypeByIdRequest) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *UpdateTableTypeByIdRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+func (x *UpdateTableTypeByIdRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Изменение UpdateTableTypeById: ответ пустой — запрос ничего не возвращает.
+type UpdateTableTypeByIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateTableTypeByIdResponse) Reset() {
+	*x = UpdateTableTypeByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[243]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateTableTypeByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateTableTypeByIdResponse) ProtoMessage() {}
+
+func (x *UpdateTableTypeByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[243]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateTableTypeByIdResponse.ProtoReflect.Descriptor instead.
+func (*UpdateTableTypeByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{243}
+}
+
+// Мягкое удаление DeleteTableTypeById: параметры вызова.
+type DeleteTableTypeByIdRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ExternalId    string                 `protobuf:"bytes,1,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	Id            int64                  `protobuf:"varint,2,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteTableTypeByIdRequest) Reset() {
+	*x = DeleteTableTypeByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[244]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteTableTypeByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteTableTypeByIdRequest) ProtoMessage() {}
+
+func (x *DeleteTableTypeByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[244]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteTableTypeByIdRequest.ProtoReflect.Descriptor instead.
+func (*DeleteTableTypeByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{244}
+}
+
+func (x *DeleteTableTypeByIdRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+func (x *DeleteTableTypeByIdRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Мягкое удаление DeleteTableTypeById: ответ пустой — запрос ничего не возвращает.
+type DeleteTableTypeByIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteTableTypeByIdResponse) Reset() {
+	*x = DeleteTableTypeByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[245]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteTableTypeByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteTableTypeByIdResponse) ProtoMessage() {}
+
+func (x *DeleteTableTypeByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[245]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteTableTypeByIdResponse.ProtoReflect.Descriptor instead.
+func (*DeleteTableTypeByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{245}
+}
+
+// Обратное удаление UndeleteTableTypeById: параметры вызова.
+type UndeleteTableTypeByIdRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ExternalId    string                 `protobuf:"bytes,1,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	Id            int64                  `protobuf:"varint,2,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UndeleteTableTypeByIdRequest) Reset() {
+	*x = UndeleteTableTypeByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[246]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UndeleteTableTypeByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UndeleteTableTypeByIdRequest) ProtoMessage() {}
+
+func (x *UndeleteTableTypeByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[246]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UndeleteTableTypeByIdRequest.ProtoReflect.Descriptor instead.
+func (*UndeleteTableTypeByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{246}
+}
+
+func (x *UndeleteTableTypeByIdRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+func (x *UndeleteTableTypeByIdRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Обратное удаление UndeleteTableTypeById: ответ пустой — запрос ничего не возвращает.
+type UndeleteTableTypeByIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UndeleteTableTypeByIdResponse) Reset() {
+	*x = UndeleteTableTypeByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[247]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UndeleteTableTypeByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UndeleteTableTypeByIdResponse) ProtoMessage() {}
+
+func (x *UndeleteTableTypeByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[247]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UndeleteTableTypeByIdResponse.ProtoReflect.Descriptor instead.
+func (*UndeleteTableTypeByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{247}
+}
+
+// Строка таблицы dc.calculation_type: все колонки, как их вернёт SELECT *.
+type CalculationType struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	IsDeleted     bool                   `protobuf:"varint,6,opt,name=is_deleted,json=isDeleted,proto3" json:"is_deleted,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CalculationType) Reset() {
+	*x = CalculationType{}
+	mi := &file_tables_v1_tables_proto_msgTypes[248]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CalculationType) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CalculationType) ProtoMessage() {}
+
+func (x *CalculationType) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[248]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CalculationType.ProtoReflect.Descriptor instead.
+func (*CalculationType) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{248}
+}
+
+func (x *CalculationType) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *CalculationType) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *CalculationType) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *CalculationType) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *CalculationType) GetUpdatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return nil
+}
+
+func (x *CalculationType) GetIsDeleted() bool {
+	if x != nil {
+		return x.IsDeleted
+	}
+	return false
+}
+
+// Выборка GetCalculationTypeById: параметры вызова.
+type GetCalculationTypeByIdRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetCalculationTypeByIdRequest) Reset() {
+	*x = GetCalculationTypeByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[249]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetCalculationTypeByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetCalculationTypeByIdRequest) ProtoMessage() {}
+
+func (x *GetCalculationTypeByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[249]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetCalculationTypeByIdRequest.ProtoReflect.Descriptor instead.
+func (*GetCalculationTypeByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{249}
+}
+
+func (x *GetCalculationTypeByIdRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Выборка GetCalculationTypeById: одна строка.
+type GetCalculationTypeByIdResponse struct {
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	CalculationType *CalculationType       `protobuf:"bytes,1,opt,name=calculation_type,json=calculationType,proto3" json:"calculation_type,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *GetCalculationTypeByIdResponse) Reset() {
+	*x = GetCalculationTypeByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[250]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetCalculationTypeByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetCalculationTypeByIdResponse) ProtoMessage() {}
+
+func (x *GetCalculationTypeByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[250]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetCalculationTypeByIdResponse.ProtoReflect.Descriptor instead.
+func (*GetCalculationTypeByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{250}
+}
+
+func (x *GetCalculationTypeByIdResponse) GetCalculationType() *CalculationType {
+	if x != nil {
+		return x.CalculationType
+	}
+	return nil
+}
+
+// Выборка GetCalculationTypes: параметры вызова. Порядок по умолчанию — id.
+type GetCalculationTypesRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// допустимые значения: ASC, DESC
+	Order         string `protobuf:"bytes,1,opt,name=order,proto3" json:"order,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetCalculationTypesRequest) Reset() {
+	*x = GetCalculationTypesRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[251]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetCalculationTypesRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetCalculationTypesRequest) ProtoMessage() {}
+
+func (x *GetCalculationTypesRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[251]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetCalculationTypesRequest.ProtoReflect.Descriptor instead.
+func (*GetCalculationTypesRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{251}
+}
+
+func (x *GetCalculationTypesRequest) GetOrder() string {
+	if x != nil {
+		return x.Order
+	}
+	return ""
+}
+
+// Выборка GetCalculationTypes: все найденные строки.
+type GetCalculationTypesResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Rows          []*CalculationType     `protobuf:"bytes,1,rep,name=rows,proto3" json:"rows,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetCalculationTypesResponse) Reset() {
+	*x = GetCalculationTypesResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[252]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetCalculationTypesResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetCalculationTypesResponse) ProtoMessage() {}
+
+func (x *GetCalculationTypesResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[252]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetCalculationTypesResponse.ProtoReflect.Descriptor instead.
+func (*GetCalculationTypesResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{252}
+}
+
+func (x *GetCalculationTypesResponse) GetRows() []*CalculationType {
+	if x != nil {
+		return x.Rows
+	}
+	return nil
+}
+
 var File_tables_v1_tables_proto protoreflect.FileDescriptor
 
 const file_tables_v1_tables_proto_rawDesc = "" +
@@ -2509,7 +14573,993 @@ const file_tables_v1_tables_proto_rawDesc = "" +
 	"\vexternal_id\x18\x01 \x01(\tR\n" +
 	"externalId\x12\x0e\n" +
 	"\x02id\x18\x02 \x01(\x03R\x02id\"\x1a\n" +
-	"\x18UndeleteHostByIdResponse2\xec\x04\n" +
+	"\x18UndeleteHostByIdResponse\"\xff\x01\n" +
+	"\fDatabaseType\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12\x1d\n" +
+	"\n" +
+	"db_version\x18\x03 \x01(\tR\tdbVersion\x12\x1d\n" +
+	"\n" +
+	"is_deleted\x18\x04 \x01(\bR\tisDeleted\x129\n" +
+	"\n" +
+	"created_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"\n" +
+	"updated_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12\x17\n" +
+	"\auser_id\x18\a \x01(\x03R\x06userId\"o\n" +
+	"\x19CreateDatabaseTypeRequest\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12\x1d\n" +
+	"\n" +
+	"db_version\x18\x02 \x01(\tR\tdbVersion\x12\x1f\n" +
+	"\vexternal_id\x18\x03 \x01(\tR\n" +
+	"externalId\"Z\n" +
+	"\x1aCreateDatabaseTypeResponse\x12<\n" +
+	"\rdatabase_type\x18\x01 \x01(\v2\x17.tables.v1.DatabaseTypeR\fdatabaseType\",\n" +
+	"\x1aGetDatabaseTypeByIdRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\"[\n" +
+	"\x1bGetDatabaseTypeByIdResponse\x12<\n" +
+	"\rdatabase_type\x18\x01 \x01(\v2\x17.tables.v1.DatabaseTypeR\fdatabaseType\"\x8d\x01\n" +
+	"!GetDatabaseTypesSearchNameRequest\x12\x1f\n" +
+	"\vsearch_name\x18\x01 \x01(\tR\n" +
+	"searchName\x12\x14\n" +
+	"\x05order\x18\x02 \x01(\tR\x05order\x12\x1d\n" +
+	"\n" +
+	"page_limit\x18\x03 \x01(\x05R\tpageLimit\x12\x12\n" +
+	"\x04page\x18\x04 \x01(\x05R\x04page\"\x88\x01\n" +
+	"\"GetDatabaseTypesSearchNameResponse\x12+\n" +
+	"\x04data\x18\x01 \x03(\v2\x17.tables.v1.DatabaseTypeR\x04data\x125\n" +
+	"\n" +
+	"pagination\x18\x02 \x01(\v2\x15.tables.v1.PaginationR\n" +
+	"pagination\"b\n" +
+	"\x17GetDatabaseTypesRequest\x12\x14\n" +
+	"\x05order\x18\x01 \x01(\tR\x05order\x12\x1d\n" +
+	"\n" +
+	"page_limit\x18\x02 \x01(\x05R\tpageLimit\x12\x12\n" +
+	"\x04page\x18\x03 \x01(\x05R\x04page\"~\n" +
+	"\x18GetDatabaseTypesResponse\x12+\n" +
+	"\x04data\x18\x01 \x03(\v2\x17.tables.v1.DatabaseTypeR\x04data\x125\n" +
+	"\n" +
+	"pagination\x18\x02 \x01(\v2\x15.tables.v1.PaginationR\n" +
+	"pagination\"i\n" +
+	"\x1eGetDatabaseTypesDeletedRequest\x12\x14\n" +
+	"\x05order\x18\x01 \x01(\tR\x05order\x12\x1d\n" +
+	"\n" +
+	"page_limit\x18\x02 \x01(\x05R\tpageLimit\x12\x12\n" +
+	"\x04page\x18\x03 \x01(\x05R\x04page\"\x85\x01\n" +
+	"\x1fGetDatabaseTypesDeletedResponse\x12+\n" +
+	"\x04data\x18\x01 \x03(\v2\x17.tables.v1.DatabaseTypeR\x04data\x125\n" +
+	"\n" +
+	"pagination\x18\x02 \x01(\v2\x15.tables.v1.PaginationR\n" +
+	"pagination\"\x83\x01\n" +
+	"\x1dUpdateDatabaseTypeByIdRequest\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12\x1d\n" +
+	"\n" +
+	"db_version\x18\x02 \x01(\tR\tdbVersion\x12\x1f\n" +
+	"\vexternal_id\x18\x03 \x01(\tR\n" +
+	"externalId\x12\x0e\n" +
+	"\x02id\x18\x04 \x01(\x03R\x02id\" \n" +
+	"\x1eUpdateDatabaseTypeByIdResponse\"P\n" +
+	"\x1dDeleteDatabaseTypeByIdRequest\x12\x1f\n" +
+	"\vexternal_id\x18\x01 \x01(\tR\n" +
+	"externalId\x12\x0e\n" +
+	"\x02id\x18\x02 \x01(\x03R\x02id\" \n" +
+	"\x1eDeleteDatabaseTypeByIdResponse\"R\n" +
+	"\x1fUndeleteDatabaseTypeByIdRequest\x12\x1f\n" +
+	"\vexternal_id\x18\x01 \x01(\tR\n" +
+	"externalId\x12\x0e\n" +
+	"\x02id\x18\x02 \x01(\x03R\x02id\"\"\n" +
+	" UndeleteDatabaseTypeByIdResponse\"\xc4\x02\n" +
+	"\vDatabaseCat\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12\x17\n" +
+	"\ahost_id\x18\x03 \x01(\x03R\x06hostId\x12(\n" +
+	"\x10database_type_id\x18\x04 \x01(\x03R\x0edatabaseTypeId\x12 \n" +
+	"\vdescription\x18\x05 \x01(\tR\vdescription\x12\x1d\n" +
+	"\n" +
+	"is_deleted\x18\x06 \x01(\bR\tisDeleted\x129\n" +
+	"\n" +
+	"created_at\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"\n" +
+	"updated_at\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12\x17\n" +
+	"\auser_id\x18\t \x01(\x03R\x06userId\"\xb4\x01\n" +
+	"\x18CreateDatabaseCatRequest\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12\x17\n" +
+	"\ahost_id\x18\x02 \x01(\x03R\x06hostId\x12(\n" +
+	"\x10database_type_id\x18\x03 \x01(\x03R\x0edatabaseTypeId\x12 \n" +
+	"\vdescription\x18\x04 \x01(\tR\vdescription\x12\x1f\n" +
+	"\vexternal_id\x18\x05 \x01(\tR\n" +
+	"externalId\"V\n" +
+	"\x19CreateDatabaseCatResponse\x129\n" +
+	"\fdatabase_cat\x18\x01 \x01(\v2\x16.tables.v1.DatabaseCatR\vdatabaseCat\"+\n" +
+	"\x19GetDatabaseCatByIdRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\"W\n" +
+	"\x1aGetDatabaseCatByIdResponse\x129\n" +
+	"\fdatabase_cat\x18\x01 \x01(\v2\x16.tables.v1.DatabaseCatR\vdatabaseCat\"a\n" +
+	"\x16GetDatabaseCatsRequest\x12\x14\n" +
+	"\x05order\x18\x01 \x01(\tR\x05order\x12\x1d\n" +
+	"\n" +
+	"page_limit\x18\x02 \x01(\x05R\tpageLimit\x12\x12\n" +
+	"\x04page\x18\x03 \x01(\x05R\x04page\"|\n" +
+	"\x17GetDatabaseCatsResponse\x12*\n" +
+	"\x04data\x18\x01 \x03(\v2\x16.tables.v1.DatabaseCatR\x04data\x125\n" +
+	"\n" +
+	"pagination\x18\x02 \x01(\v2\x15.tables.v1.PaginationR\n" +
+	"pagination\"h\n" +
+	"\x1dGetDatabaseCatsDeletedRequest\x12\x14\n" +
+	"\x05order\x18\x01 \x01(\tR\x05order\x12\x1d\n" +
+	"\n" +
+	"page_limit\x18\x02 \x01(\x05R\tpageLimit\x12\x12\n" +
+	"\x04page\x18\x03 \x01(\x05R\x04page\"\x83\x01\n" +
+	"\x1eGetDatabaseCatsDeletedResponse\x12*\n" +
+	"\x04data\x18\x01 \x03(\v2\x16.tables.v1.DatabaseCatR\x04data\x125\n" +
+	"\n" +
+	"pagination\x18\x02 \x01(\v2\x15.tables.v1.PaginationR\n" +
+	"pagination\"\x80\x02\n" +
+	",GetDatabaseCatsByHostIdDatabaseTypeIdRequest\x12\x1c\n" +
+	"\ahost_id\x18\x01 \x01(\x03H\x00R\x06hostId\x88\x01\x01\x12-\n" +
+	"\x10database_type_id\x18\x02 \x01(\x03H\x01R\x0edatabaseTypeId\x88\x01\x01\x12\x14\n" +
+	"\x05order\x18\x03 \x01(\tR\x05order\x12\x19\n" +
+	"\border_by\x18\x04 \x01(\tR\aorderBy\x12\x1d\n" +
+	"\n" +
+	"page_limit\x18\x05 \x01(\x05R\tpageLimit\x12\x12\n" +
+	"\x04page\x18\x06 \x01(\x05R\x04pageB\n" +
+	"\n" +
+	"\b_host_idB\x13\n" +
+	"\x11_database_type_id\"\x92\x01\n" +
+	"-GetDatabaseCatsByHostIdDatabaseTypeIdResponse\x12*\n" +
+	"\x04data\x18\x01 \x03(\v2\x16.tables.v1.DatabaseCatR\x04data\x125\n" +
+	"\n" +
+	"pagination\x18\x02 \x01(\v2\x15.tables.v1.PaginationR\n" +
+	"pagination\"\x8c\x01\n" +
+	" GetDatabaseCatsSearchNameRequest\x12\x1f\n" +
+	"\vsearch_name\x18\x01 \x01(\tR\n" +
+	"searchName\x12\x14\n" +
+	"\x05order\x18\x02 \x01(\tR\x05order\x12\x1d\n" +
+	"\n" +
+	"page_limit\x18\x03 \x01(\x05R\tpageLimit\x12\x12\n" +
+	"\x04page\x18\x04 \x01(\x05R\x04page\"\x86\x01\n" +
+	"!GetDatabaseCatsSearchNameResponse\x12*\n" +
+	"\x04data\x18\x01 \x03(\v2\x16.tables.v1.DatabaseCatR\x04data\x125\n" +
+	"\n" +
+	"pagination\x18\x02 \x01(\v2\x15.tables.v1.PaginationR\n" +
+	"pagination\"\xc8\x01\n" +
+	"\x1cUpdateDatabaseCatByIdRequest\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12\x17\n" +
+	"\ahost_id\x18\x02 \x01(\x03R\x06hostId\x12(\n" +
+	"\x10database_type_id\x18\x03 \x01(\x03R\x0edatabaseTypeId\x12 \n" +
+	"\vdescription\x18\x04 \x01(\tR\vdescription\x12\x1f\n" +
+	"\vexternal_id\x18\x05 \x01(\tR\n" +
+	"externalId\x12\x0e\n" +
+	"\x02id\x18\x06 \x01(\x03R\x02id\"\x1f\n" +
+	"\x1dUpdateDatabaseCatByIdResponse\"O\n" +
+	"\x1cDeleteDatabaseCatByIdRequest\x12\x1f\n" +
+	"\vexternal_id\x18\x01 \x01(\tR\n" +
+	"externalId\x12\x0e\n" +
+	"\x02id\x18\x02 \x01(\x03R\x02id\"\x1f\n" +
+	"\x1dDeleteDatabaseCatByIdResponse\"Q\n" +
+	"\x1eUndeleteDatabaseCatByIdRequest\x12\x1f\n" +
+	"\vexternal_id\x18\x01 \x01(\tR\n" +
+	"externalId\x12\x0e\n" +
+	"\x02id\x18\x02 \x01(\x03R\x02id\"!\n" +
+	"\x1fUndeleteDatabaseCatByIdResponse\"\xa9\x03\n" +
+	"\tColumnCat\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x19\n" +
+	"\btable_id\x18\x02 \x01(\x03R\atableId\x12\x12\n" +
+	"\x04name\x18\x03 \x01(\tR\x04name\x12\x19\n" +
+	"\balias_id\x18\x04 \x01(\x03R\aaliasId\x12$\n" +
+	"\x0ecolumn_type_id\x18\x05 \x01(\x03R\fcolumnTypeId\x12 \n" +
+	"\vdescription\x18\x06 \x01(\tR\vdescription\x12.\n" +
+	"\x13calculation_type_id\x18\a \x01(\x03R\x11calculationTypeId\x12\x1d\n" +
+	"\n" +
+	"is_deleted\x18\b \x01(\bR\tisDeleted\x12\x1c\n" +
+	"\n" +
+	"show_in_ui\x18\t \x01(\bR\bshowInUi\x129\n" +
+	"\n" +
+	"created_at\x18\n" +
+	" \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"\n" +
+	"updated_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12\x17\n" +
+	"\auser_id\x18\f \x01(\x03R\x06userId\"\x99\x02\n" +
+	"\x16CreateColumnCatRequest\x12\x19\n" +
+	"\btable_id\x18\x01 \x01(\x03R\atableId\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12\x19\n" +
+	"\balias_id\x18\x03 \x01(\x03R\aaliasId\x12$\n" +
+	"\x0ecolumn_type_id\x18\x04 \x01(\x03R\fcolumnTypeId\x12 \n" +
+	"\vdescription\x18\x05 \x01(\tR\vdescription\x12.\n" +
+	"\x13calculation_type_id\x18\x06 \x01(\x03R\x11calculationTypeId\x12\x1c\n" +
+	"\n" +
+	"show_in_ui\x18\a \x01(\bR\bshowInUi\x12\x1f\n" +
+	"\vexternal_id\x18\b \x01(\tR\n" +
+	"externalId\"N\n" +
+	"\x17CreateColumnCatResponse\x123\n" +
+	"\n" +
+	"column_cat\x18\x01 \x01(\v2\x14.tables.v1.ColumnCatR\tcolumnCat\")\n" +
+	"\x17GetColumnCatByIdRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\"O\n" +
+	"\x18GetColumnCatByIdResponse\x123\n" +
+	"\n" +
+	"column_cat\x18\x01 \x01(\v2\x14.tables.v1.ColumnCatR\tcolumnCat\"_\n" +
+	"\x14GetColumnCatsRequest\x12\x14\n" +
+	"\x05order\x18\x01 \x01(\tR\x05order\x12\x1d\n" +
+	"\n" +
+	"page_limit\x18\x02 \x01(\x05R\tpageLimit\x12\x12\n" +
+	"\x04page\x18\x03 \x01(\x05R\x04page\"x\n" +
+	"\x15GetColumnCatsResponse\x12(\n" +
+	"\x04data\x18\x01 \x03(\v2\x14.tables.v1.ColumnCatR\x04data\x125\n" +
+	"\n" +
+	"pagination\x18\x02 \x01(\v2\x15.tables.v1.PaginationR\n" +
+	"pagination\"f\n" +
+	"\x1bGetColumnCatsDeletedRequest\x12\x14\n" +
+	"\x05order\x18\x01 \x01(\tR\x05order\x12\x1d\n" +
+	"\n" +
+	"page_limit\x18\x02 \x01(\x05R\tpageLimit\x12\x12\n" +
+	"\x04page\x18\x03 \x01(\x05R\x04page\"\x7f\n" +
+	"\x1cGetColumnCatsDeletedResponse\x12(\n" +
+	"\x04data\x18\x01 \x03(\v2\x14.tables.v1.ColumnCatR\x04data\x125\n" +
+	"\n" +
+	"pagination\x18\x02 \x01(\v2\x15.tables.v1.PaginationR\n" +
+	"pagination\"\x85\x03\n" +
+	"#GetColumnCatsOptionalFiltersRequest\x12\x1e\n" +
+	"\btable_id\x18\x01 \x01(\x03H\x00R\atableId\x88\x01\x01\x12\x1e\n" +
+	"\balias_id\x18\x02 \x01(\x03H\x01R\aaliasId\x88\x01\x01\x12)\n" +
+	"\x0ecolumn_type_id\x18\x03 \x01(\x03H\x02R\fcolumnTypeId\x88\x01\x01\x123\n" +
+	"\x13calculation_type_id\x18\x04 \x01(\x03H\x03R\x11calculationTypeId\x88\x01\x01\x12!\n" +
+	"\n" +
+	"show_in_ui\x18\x05 \x01(\bH\x04R\bshowInUi\x88\x01\x01\x12\x14\n" +
+	"\x05order\x18\x06 \x01(\tR\x05order\x12\x1d\n" +
+	"\n" +
+	"page_limit\x18\a \x01(\x05R\tpageLimit\x12\x12\n" +
+	"\x04page\x18\b \x01(\x05R\x04pageB\v\n" +
+	"\t_table_idB\v\n" +
+	"\t_alias_idB\x11\n" +
+	"\x0f_column_type_idB\x16\n" +
+	"\x14_calculation_type_idB\r\n" +
+	"\v_show_in_ui\"\x87\x01\n" +
+	"$GetColumnCatsOptionalFiltersResponse\x12(\n" +
+	"\x04data\x18\x01 \x03(\v2\x14.tables.v1.ColumnCatR\x04data\x125\n" +
+	"\n" +
+	"pagination\x18\x02 \x01(\v2\x15.tables.v1.PaginationR\n" +
+	"pagination\"\x8a\x01\n" +
+	"\x1eGetColumnCatsSearchNameRequest\x12\x1f\n" +
+	"\vsearch_name\x18\x01 \x01(\tR\n" +
+	"searchName\x12\x14\n" +
+	"\x05order\x18\x02 \x01(\tR\x05order\x12\x1d\n" +
+	"\n" +
+	"page_limit\x18\x03 \x01(\x05R\tpageLimit\x12\x12\n" +
+	"\x04page\x18\x04 \x01(\x05R\x04page\"\x82\x01\n" +
+	"\x1fGetColumnCatsSearchNameResponse\x12(\n" +
+	"\x04data\x18\x01 \x03(\v2\x14.tables.v1.ColumnCatR\x04data\x125\n" +
+	"\n" +
+	"pagination\x18\x02 \x01(\v2\x15.tables.v1.PaginationR\n" +
+	"pagination\"\xad\x02\n" +
+	"\x1aUpdateColumnCatByIdRequest\x12\x19\n" +
+	"\btable_id\x18\x01 \x01(\x03R\atableId\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12\x19\n" +
+	"\balias_id\x18\x03 \x01(\x03R\aaliasId\x12$\n" +
+	"\x0ecolumn_type_id\x18\x04 \x01(\x03R\fcolumnTypeId\x12 \n" +
+	"\vdescription\x18\x05 \x01(\tR\vdescription\x12.\n" +
+	"\x13calculation_type_id\x18\x06 \x01(\x03R\x11calculationTypeId\x12\x1c\n" +
+	"\n" +
+	"show_in_ui\x18\a \x01(\bR\bshowInUi\x12\x1f\n" +
+	"\vexternal_id\x18\b \x01(\tR\n" +
+	"externalId\x12\x0e\n" +
+	"\x02id\x18\t \x01(\x03R\x02id\"\x1d\n" +
+	"\x1bUpdateColumnCatByIdResponse\"M\n" +
+	"\x1aDeleteColumnCatByIdRequest\x12\x1f\n" +
+	"\vexternal_id\x18\x01 \x01(\tR\n" +
+	"externalId\x12\x0e\n" +
+	"\x02id\x18\x02 \x01(\x03R\x02id\"\x1d\n" +
+	"\x1bDeleteColumnCatByIdResponse\"O\n" +
+	"\x1cUndeleteColumnCatByIdRequest\x12\x1f\n" +
+	"\vexternal_id\x18\x01 \x01(\tR\n" +
+	"externalId\x12\x0e\n" +
+	"\x02id\x18\x02 \x01(\x03R\x02id\"\x1f\n" +
+	"\x1dUndeleteColumnCatByIdResponse\"\x80\x02\n" +
+	"\n" +
+	"ColumnType\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
+	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x1d\n" +
+	"\n" +
+	"is_deleted\x18\x04 \x01(\bR\tisDeleted\x129\n" +
+	"\n" +
+	"created_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"\n" +
+	"updated_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12\x17\n" +
+	"\auser_id\x18\a \x01(\x03R\x06userId\"p\n" +
+	"\x17CreateColumnTypeRequest\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12 \n" +
+	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x1f\n" +
+	"\vexternal_id\x18\x03 \x01(\tR\n" +
+	"externalId\"R\n" +
+	"\x18CreateColumnTypeResponse\x126\n" +
+	"\vcolumn_type\x18\x01 \x01(\v2\x15.tables.v1.ColumnTypeR\n" +
+	"columnType\"*\n" +
+	"\x18GetColumnTypeByIdRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\"\xfa\x01\n" +
+	"\x14GetColumnTypeByIdRow\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12 \n" +
+	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x1d\n" +
+	"\n" +
+	"is_deleted\x18\x03 \x01(\bR\tisDeleted\x129\n" +
+	"\n" +
+	"created_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"\n" +
+	"updated_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12\x17\n" +
+	"\auser_id\x18\x06 \x01(\x03R\x06userId\"]\n" +
+	"\x19GetColumnTypeByIdResponse\x12@\n" +
+	"\vcolumn_type\x18\x01 \x01(\v2\x1f.tables.v1.GetColumnTypeByIdRowR\n" +
+	"columnType\"`\n" +
+	"\x15GetColumnTypesRequest\x12\x14\n" +
+	"\x05order\x18\x01 \x01(\tR\x05order\x12\x1d\n" +
+	"\n" +
+	"page_limit\x18\x02 \x01(\x05R\tpageLimit\x12\x12\n" +
+	"\x04page\x18\x03 \x01(\x05R\x04page\"z\n" +
+	"\x16GetColumnTypesResponse\x12)\n" +
+	"\x04data\x18\x01 \x03(\v2\x15.tables.v1.ColumnTypeR\x04data\x125\n" +
+	"\n" +
+	"pagination\x18\x02 \x01(\v2\x15.tables.v1.PaginationR\n" +
+	"pagination\"\x8b\x01\n" +
+	"\x1fGetColumnTypesSearchNameRequest\x12\x1f\n" +
+	"\vsearch_name\x18\x01 \x01(\tR\n" +
+	"searchName\x12\x14\n" +
+	"\x05order\x18\x02 \x01(\tR\x05order\x12\x1d\n" +
+	"\n" +
+	"page_limit\x18\x03 \x01(\x05R\tpageLimit\x12\x12\n" +
+	"\x04page\x18\x04 \x01(\x05R\x04page\"\x84\x01\n" +
+	" GetColumnTypesSearchNameResponse\x12)\n" +
+	"\x04data\x18\x01 \x03(\v2\x15.tables.v1.ColumnTypeR\x04data\x125\n" +
+	"\n" +
+	"pagination\x18\x02 \x01(\v2\x15.tables.v1.PaginationR\n" +
+	"pagination\"g\n" +
+	"\x1cGetColumnTypesDeletedRequest\x12\x14\n" +
+	"\x05order\x18\x01 \x01(\tR\x05order\x12\x1d\n" +
+	"\n" +
+	"page_limit\x18\x02 \x01(\x05R\tpageLimit\x12\x12\n" +
+	"\x04page\x18\x03 \x01(\x05R\x04page\"\x81\x01\n" +
+	"\x1dGetColumnTypesDeletedResponse\x12)\n" +
+	"\x04data\x18\x01 \x03(\v2\x15.tables.v1.ColumnTypeR\x04data\x125\n" +
+	"\n" +
+	"pagination\x18\x02 \x01(\v2\x15.tables.v1.PaginationR\n" +
+	"pagination\"\x84\x01\n" +
+	"\x1bUpdateColumnTypeByIdRequest\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12 \n" +
+	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x1f\n" +
+	"\vexternal_id\x18\x03 \x01(\tR\n" +
+	"externalId\x12\x0e\n" +
+	"\x02id\x18\x04 \x01(\x03R\x02id\"\x1e\n" +
+	"\x1cUpdateColumnTypeByIdResponse\"N\n" +
+	"\x1bDeleteColumnTypeByIdRequest\x12\x1f\n" +
+	"\vexternal_id\x18\x01 \x01(\tR\n" +
+	"externalId\x12\x0e\n" +
+	"\x02id\x18\x02 \x01(\x03R\x02id\"\x1e\n" +
+	"\x1cDeleteColumnTypeByIdResponse\"P\n" +
+	"\x1dUndeleteColumnTypeByIdRequest\x12\x1f\n" +
+	"\vexternal_id\x18\x01 \x01(\tR\n" +
+	"externalId\x12\x0e\n" +
+	"\x02id\x18\x02 \x01(\x03R\x02id\" \n" +
+	"\x1eUndeleteColumnTypeByIdResponse\"\xab\x02\n" +
+	"\x13DatabaseCalculation\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12&\n" +
+	"\x0fdatabase_cat_id\x18\x02 \x01(\x03R\rdatabaseCatId\x12.\n" +
+	"\x13calculation_type_id\x18\x03 \x01(\x03R\x11calculationTypeId\x129\n" +
+	"\n" +
+	"created_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"\n" +
+	"updated_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12\x1d\n" +
+	"\n" +
+	"is_deleted\x18\x06 \x01(\bR\tisDeleted\x12\x17\n" +
+	"\auser_id\x18\a \x01(\x03R\x06userId\"\x9b\x01\n" +
+	" CreateDatabaseCalculationRequest\x12&\n" +
+	"\x0fdatabase_cat_id\x18\x01 \x01(\x03R\rdatabaseCatId\x12.\n" +
+	"\x13calculation_type_id\x18\x02 \x01(\x03R\x11calculationTypeId\x12\x1f\n" +
+	"\vexternal_id\x18\x03 \x01(\tR\n" +
+	"externalId\"v\n" +
+	"!CreateDatabaseCalculationResponse\x12Q\n" +
+	"\x14database_calculation\x18\x01 \x01(\v2\x1e.tables.v1.DatabaseCalculationR\x13databaseCalculation\"\x94\x01\n" +
+	"(GetDatabaseCalculationsSearchNameRequest\x12\x1f\n" +
+	"\vsearch_name\x18\x01 \x01(\tR\n" +
+	"searchName\x12\x14\n" +
+	"\x05order\x18\x02 \x01(\tR\x05order\x12\x1d\n" +
+	"\n" +
+	"page_limit\x18\x03 \x01(\x05R\tpageLimit\x12\x12\n" +
+	"\x04page\x18\x04 \x01(\x05R\x04page\"\x96\x01\n" +
+	")GetDatabaseCalculationsSearchNameResponse\x122\n" +
+	"\x04data\x18\x01 \x03(\v2\x1e.tables.v1.DatabaseCalculationR\x04data\x125\n" +
+	"\n" +
+	"pagination\x18\x02 \x01(\v2\x15.tables.v1.PaginationR\n" +
+	"pagination\"3\n" +
+	"!GetDatabaseCalculationByIdRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\"\xa5\x02\n" +
+	"\x1dGetDatabaseCalculationByIdRow\x12&\n" +
+	"\x0fdatabase_cat_id\x18\x01 \x01(\x03R\rdatabaseCatId\x12.\n" +
+	"\x13calculation_type_id\x18\x02 \x01(\x03R\x11calculationTypeId\x129\n" +
+	"\n" +
+	"created_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"\n" +
+	"updated_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12\x1d\n" +
+	"\n" +
+	"is_deleted\x18\x05 \x01(\bR\tisDeleted\x12\x17\n" +
+	"\auser_id\x18\x06 \x01(\x03R\x06userId\"\x81\x01\n" +
+	"\"GetDatabaseCalculationByIdResponse\x12[\n" +
+	"\x14database_calculation\x18\x01 \x01(\v2(.tables.v1.GetDatabaseCalculationByIdRowR\x13databaseCalculation\"\xff\x01\n" +
+	"&GetDatabaseCalculationsFilteredRequest\x12+\n" +
+	"\x0fdatabase_cat_id\x18\x01 \x01(\x03H\x00R\rdatabaseCatId\x88\x01\x01\x123\n" +
+	"\x13calculation_type_id\x18\x02 \x01(\x03H\x01R\x11calculationTypeId\x88\x01\x01\x12\x14\n" +
+	"\x05order\x18\x03 \x01(\tR\x05order\x12\x1d\n" +
+	"\n" +
+	"page_limit\x18\x04 \x01(\x05R\tpageLimit\x12\x12\n" +
+	"\x04page\x18\x05 \x01(\x05R\x04pageB\x12\n" +
+	"\x10_database_cat_idB\x16\n" +
+	"\x14_calculation_type_id\"\x94\x01\n" +
+	"'GetDatabaseCalculationsFilteredResponse\x122\n" +
+	"\x04data\x18\x01 \x03(\v2\x1e.tables.v1.DatabaseCalculationR\x04data\x125\n" +
+	"\n" +
+	"pagination\x18\x02 \x01(\v2\x15.tables.v1.PaginationR\n" +
+	"pagination\"p\n" +
+	"%GetDatabaseCalculationsDeletedRequest\x12\x14\n" +
+	"\x05order\x18\x01 \x01(\tR\x05order\x12\x1d\n" +
+	"\n" +
+	"page_limit\x18\x02 \x01(\x05R\tpageLimit\x12\x12\n" +
+	"\x04page\x18\x03 \x01(\x05R\x04page\"\x93\x01\n" +
+	"&GetDatabaseCalculationsDeletedResponse\x122\n" +
+	"\x04data\x18\x01 \x03(\v2\x1e.tables.v1.DatabaseCalculationR\x04data\x125\n" +
+	"\n" +
+	"pagination\x18\x02 \x01(\v2\x15.tables.v1.PaginationR\n" +
+	"pagination\"i\n" +
+	"\x1eGetDatabaseCalculationsRequest\x12\x14\n" +
+	"\x05order\x18\x01 \x01(\tR\x05order\x12\x1d\n" +
+	"\n" +
+	"page_limit\x18\x02 \x01(\x05R\tpageLimit\x12\x12\n" +
+	"\x04page\x18\x03 \x01(\x05R\x04page\"\x8c\x01\n" +
+	"\x1fGetDatabaseCalculationsResponse\x122\n" +
+	"\x04data\x18\x01 \x03(\v2\x1e.tables.v1.DatabaseCalculationR\x04data\x125\n" +
+	"\n" +
+	"pagination\x18\x02 \x01(\v2\x15.tables.v1.PaginationR\n" +
+	"pagination\"\xaf\x01\n" +
+	"$UpdateDatabaseCalculationByIdRequest\x12&\n" +
+	"\x0fdatabase_cat_id\x18\x01 \x01(\x03R\rdatabaseCatId\x12.\n" +
+	"\x13calculation_type_id\x18\x02 \x01(\x03R\x11calculationTypeId\x12\x1f\n" +
+	"\vexternal_id\x18\x03 \x01(\tR\n" +
+	"externalId\x12\x0e\n" +
+	"\x02id\x18\x04 \x01(\x03R\x02id\"'\n" +
+	"%UpdateDatabaseCalculationByIdResponse\"W\n" +
+	"$DeleteDatabaseCalculationByIdRequest\x12\x1f\n" +
+	"\vexternal_id\x18\x01 \x01(\tR\n" +
+	"externalId\x12\x0e\n" +
+	"\x02id\x18\x02 \x01(\x03R\x02id\"'\n" +
+	"%DeleteDatabaseCalculationByIdResponse\"Y\n" +
+	"&UndeleteDatabaseCalculationByIdRequest\x12\x1f\n" +
+	"\vexternal_id\x18\x01 \x01(\tR\n" +
+	"externalId\x12\x0e\n" +
+	"\x02id\x18\x02 \x01(\x03R\x02id\")\n" +
+	"'UndeleteDatabaseCalculationByIdResponse\"\xea\x01\n" +
+	"\tDomainCat\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1f\n" +
+	"\vdomain_name\x18\x02 \x01(\tR\n" +
+	"domainName\x12\x1d\n" +
+	"\n" +
+	"is_deleted\x18\x03 \x01(\bR\tisDeleted\x129\n" +
+	"\n" +
+	"created_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"\n" +
+	"updated_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12\x17\n" +
+	"\auser_id\x18\x06 \x01(\x03R\x06userId\"Z\n" +
+	"\x16CreateDomainCatRequest\x12\x1f\n" +
+	"\vdomain_name\x18\x01 \x01(\tR\n" +
+	"domainName\x12\x1f\n" +
+	"\vexternal_id\x18\x02 \x01(\tR\n" +
+	"externalId\"N\n" +
+	"\x17CreateDomainCatResponse\x123\n" +
+	"\n" +
+	"domain_cat\x18\x01 \x01(\v2\x14.tables.v1.DomainCatR\tdomainCat\"\x8a\x01\n" +
+	"\x1eGetDomainCatsSearchNameRequest\x12\x1f\n" +
+	"\vsearch_name\x18\x01 \x01(\tR\n" +
+	"searchName\x12\x14\n" +
+	"\x05order\x18\x02 \x01(\tR\x05order\x12\x1d\n" +
+	"\n" +
+	"page_limit\x18\x03 \x01(\x05R\tpageLimit\x12\x12\n" +
+	"\x04page\x18\x04 \x01(\x05R\x04page\"\x82\x01\n" +
+	"\x1fGetDomainCatsSearchNameResponse\x12(\n" +
+	"\x04data\x18\x01 \x03(\v2\x14.tables.v1.DomainCatR\x04data\x125\n" +
+	"\n" +
+	"pagination\x18\x02 \x01(\v2\x15.tables.v1.PaginationR\n" +
+	"pagination\")\n" +
+	"\x17GetDomainCatByIdRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\"O\n" +
+	"\x18GetDomainCatByIdResponse\x123\n" +
+	"\n" +
+	"domain_cat\x18\x01 \x01(\v2\x14.tables.v1.DomainCatR\tdomainCat\"_\n" +
+	"\x14GetDomainCatsRequest\x12\x14\n" +
+	"\x05order\x18\x01 \x01(\tR\x05order\x12\x1d\n" +
+	"\n" +
+	"page_limit\x18\x02 \x01(\x05R\tpageLimit\x12\x12\n" +
+	"\x04page\x18\x03 \x01(\x05R\x04page\"x\n" +
+	"\x15GetDomainCatsResponse\x12(\n" +
+	"\x04data\x18\x01 \x03(\v2\x14.tables.v1.DomainCatR\x04data\x125\n" +
+	"\n" +
+	"pagination\x18\x02 \x01(\v2\x15.tables.v1.PaginationR\n" +
+	"pagination\"f\n" +
+	"\x1bGetDomainCatsDeletedRequest\x12\x14\n" +
+	"\x05order\x18\x01 \x01(\tR\x05order\x12\x1d\n" +
+	"\n" +
+	"page_limit\x18\x02 \x01(\x05R\tpageLimit\x12\x12\n" +
+	"\x04page\x18\x03 \x01(\x05R\x04page\"\x7f\n" +
+	"\x1cGetDomainCatsDeletedResponse\x12(\n" +
+	"\x04data\x18\x01 \x03(\v2\x14.tables.v1.DomainCatR\x04data\x125\n" +
+	"\n" +
+	"pagination\x18\x02 \x01(\v2\x15.tables.v1.PaginationR\n" +
+	"pagination\"n\n" +
+	"\x1aUpdateDomainCatByIdRequest\x12\x1f\n" +
+	"\vdomain_name\x18\x01 \x01(\tR\n" +
+	"domainName\x12\x1f\n" +
+	"\vexternal_id\x18\x02 \x01(\tR\n" +
+	"externalId\x12\x0e\n" +
+	"\x02id\x18\x03 \x01(\x03R\x02id\"\x1d\n" +
+	"\x1bUpdateDomainCatByIdResponse\"M\n" +
+	"\x1aDeleteDomainCatByIdRequest\x12\x1f\n" +
+	"\vexternal_id\x18\x01 \x01(\tR\n" +
+	"externalId\x12\x0e\n" +
+	"\x02id\x18\x02 \x01(\x03R\x02id\"\x1d\n" +
+	"\x1bDeleteDomainCatByIdResponse\"O\n" +
+	"\x1cUndeleteDomainCatByIdRequest\x12\x1f\n" +
+	"\vexternal_id\x18\x01 \x01(\tR\n" +
+	"externalId\x12\x0e\n" +
+	"\x02id\x18\x02 \x01(\x03R\x02id\"\x1f\n" +
+	"\x1dUndeleteDomainCatByIdResponse\"\xa8\x02\n" +
+	"\x14FollowingCalculation\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\"\n" +
+	"\rcolumn_cat_id\x18\x02 \x01(\x03R\vcolumnCatId\x12.\n" +
+	"\x13calculation_type_id\x18\x03 \x01(\x03R\x11calculationTypeId\x129\n" +
+	"\n" +
+	"created_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"\n" +
+	"updated_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12\x1d\n" +
+	"\n" +
+	"is_deleted\x18\x06 \x01(\bR\tisDeleted\x12\x17\n" +
+	"\auser_id\x18\a \x01(\x03R\x06userId\"\x98\x01\n" +
+	"!CreateFollowingCalculationRequest\x12\"\n" +
+	"\rcolumn_cat_id\x18\x01 \x01(\x03R\vcolumnCatId\x12.\n" +
+	"\x13calculation_type_id\x18\x02 \x01(\x03R\x11calculationTypeId\x12\x1f\n" +
+	"\vexternal_id\x18\x03 \x01(\tR\n" +
+	"externalId\"z\n" +
+	"\"CreateFollowingCalculationResponse\x12T\n" +
+	"\x15following_calculation\x18\x01 \x01(\v2\x1f.tables.v1.FollowingCalculationR\x14followingCalculation\"4\n" +
+	"\"GetFollowingCalculationByIdRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\"{\n" +
+	"#GetFollowingCalculationByIdResponse\x12T\n" +
+	"\x15following_calculation\x18\x01 \x01(\v2\x1f.tables.v1.FollowingCalculationR\x14followingCalculation\"j\n" +
+	"\x1fGetFollowingCalculationsRequest\x12\x14\n" +
+	"\x05order\x18\x01 \x01(\tR\x05order\x12\x1d\n" +
+	"\n" +
+	"page_limit\x18\x02 \x01(\x05R\tpageLimit\x12\x12\n" +
+	"\x04page\x18\x03 \x01(\x05R\x04page\"\x8e\x01\n" +
+	" GetFollowingCalculationsResponse\x123\n" +
+	"\x04data\x18\x01 \x03(\v2\x1f.tables.v1.FollowingCalculationR\x04data\x125\n" +
+	"\n" +
+	"pagination\x18\x02 \x01(\v2\x15.tables.v1.PaginationR\n" +
+	"pagination\"q\n" +
+	"&GetFollowingCalculationsDeletedRequest\x12\x14\n" +
+	"\x05order\x18\x01 \x01(\tR\x05order\x12\x1d\n" +
+	"\n" +
+	"page_limit\x18\x02 \x01(\x05R\tpageLimit\x12\x12\n" +
+	"\x04page\x18\x03 \x01(\x05R\x04page\"\x95\x01\n" +
+	"'GetFollowingCalculationsDeletedResponse\x123\n" +
+	"\x04data\x18\x01 \x03(\v2\x1f.tables.v1.FollowingCalculationR\x04data\x125\n" +
+	"\n" +
+	"pagination\x18\x02 \x01(\v2\x15.tables.v1.PaginationR\n" +
+	"pagination\"\xf9\x01\n" +
+	"&GetFollowingCalculationsFiltersRequest\x12'\n" +
+	"\rcolumn_cat_id\x18\x01 \x01(\x03H\x00R\vcolumnCatId\x88\x01\x01\x123\n" +
+	"\x13calculation_type_id\x18\x02 \x01(\x03H\x01R\x11calculationTypeId\x88\x01\x01\x12\x14\n" +
+	"\x05order\x18\x03 \x01(\tR\x05order\x12\x1d\n" +
+	"\n" +
+	"page_limit\x18\x04 \x01(\x05R\tpageLimit\x12\x12\n" +
+	"\x04page\x18\x05 \x01(\x05R\x04pageB\x10\n" +
+	"\x0e_column_cat_idB\x16\n" +
+	"\x14_calculation_type_id\"\x95\x01\n" +
+	"'GetFollowingCalculationsFiltersResponse\x123\n" +
+	"\x04data\x18\x01 \x03(\v2\x1f.tables.v1.FollowingCalculationR\x04data\x125\n" +
+	"\n" +
+	"pagination\x18\x02 \x01(\v2\x15.tables.v1.PaginationR\n" +
+	"pagination\"\xac\x01\n" +
+	"%UpdateFollowingCalculationByIdRequest\x12\"\n" +
+	"\rcolumn_cat_id\x18\x01 \x01(\x03R\vcolumnCatId\x12.\n" +
+	"\x13calculation_type_id\x18\x02 \x01(\x03R\x11calculationTypeId\x12\x1f\n" +
+	"\vexternal_id\x18\x03 \x01(\tR\n" +
+	"externalId\x12\x0e\n" +
+	"\x02id\x18\x04 \x01(\x03R\x02id\"(\n" +
+	"&UpdateFollowingCalculationByIdResponse\"X\n" +
+	"%DeleteFollowingCalculationByIdRequest\x12\x1f\n" +
+	"\vexternal_id\x18\x01 \x01(\tR\n" +
+	"externalId\x12\x0e\n" +
+	"\x02id\x18\x02 \x01(\x03R\x02id\"(\n" +
+	"&DeleteFollowingCalculationByIdResponse\"Z\n" +
+	"'UndeleteFollowingCalculationByIdRequest\x12\x1f\n" +
+	"\vexternal_id\x18\x01 \x01(\tR\n" +
+	"externalId\x12\x0e\n" +
+	"\x02id\x18\x02 \x01(\x03R\x02id\"*\n" +
+	"(UndeleteFollowingCalculationByIdResponse\"\xca\x02\n" +
+	"\vGroupLevels\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1b\n" +
+	"\tcolumn_id\x18\x02 \x01(\x03R\bcolumnId\x12(\n" +
+	"\x10parent_column_id\x18\x03 \x01(\x03R\x0eparentColumnId\x12\x14\n" +
+	"\x05level\x18\x04 \x01(\x05R\x05level\x12 \n" +
+	"\vdescription\x18\x05 \x01(\tR\vdescription\x129\n" +
+	"\n" +
+	"created_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"\n" +
+	"updated_at\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12\x1d\n" +
+	"\n" +
+	"is_deleted\x18\b \x01(\bR\tisDeleted\x12\x17\n" +
+	"\auser_id\x18\t \x01(\x03R\x06userId\"\xba\x01\n" +
+	"\x18CreateGroupLevelsRequest\x12\x1b\n" +
+	"\tcolumn_id\x18\x01 \x01(\x03R\bcolumnId\x12(\n" +
+	"\x10parent_column_id\x18\x02 \x01(\x03R\x0eparentColumnId\x12\x14\n" +
+	"\x05level\x18\x03 \x01(\x05R\x05level\x12 \n" +
+	"\vdescription\x18\x04 \x01(\tR\vdescription\x12\x1f\n" +
+	"\vexternal_id\x18\x05 \x01(\tR\n" +
+	"externalId\"V\n" +
+	"\x19CreateGroupLevelsResponse\x129\n" +
+	"\fgroup_levels\x18\x01 \x01(\v2\x16.tables.v1.GroupLevelsR\vgroupLevels\"\x8b\x01\n" +
+	"\x1fGetGroupLevelsSearchNameRequest\x12\x1f\n" +
+	"\vsearch_name\x18\x01 \x01(\tR\n" +
+	"searchName\x12\x14\n" +
+	"\x05order\x18\x02 \x01(\tR\x05order\x12\x1d\n" +
+	"\n" +
+	"page_limit\x18\x03 \x01(\x05R\tpageLimit\x12\x12\n" +
+	"\x04page\x18\x04 \x01(\x05R\x04page\"\x85\x01\n" +
+	" GetGroupLevelsSearchNameResponse\x12*\n" +
+	"\x04data\x18\x01 \x03(\v2\x16.tables.v1.GroupLevelsR\x04data\x125\n" +
+	"\n" +
+	"pagination\x18\x02 \x01(\v2\x15.tables.v1.PaginationR\n" +
+	"pagination\"`\n" +
+	"\x15GetGroupLevelsRequest\x12\x14\n" +
+	"\x05order\x18\x01 \x01(\tR\x05order\x12\x1d\n" +
+	"\n" +
+	"page_limit\x18\x02 \x01(\x05R\tpageLimit\x12\x12\n" +
+	"\x04page\x18\x03 \x01(\x05R\x04page\"{\n" +
+	"\x16GetGroupLevelsResponse\x12*\n" +
+	"\x04data\x18\x01 \x03(\v2\x16.tables.v1.GroupLevelsR\x04data\x125\n" +
+	"\n" +
+	"pagination\x18\x02 \x01(\v2\x15.tables.v1.PaginationR\n" +
+	"pagination\"+\n" +
+	"\x19GetGroupLevelsByIdRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\"W\n" +
+	"\x1aGetGroupLevelsByIdResponse\x129\n" +
+	"\fgroup_levels\x18\x01 \x01(\v2\x16.tables.v1.GroupLevelsR\vgroupLevels\"\xdc\x01\n" +
+	"\x1dGetGroupLevelsFilteredRequest\x12 \n" +
+	"\tcolumn_id\x18\x01 \x01(\x03H\x00R\bcolumnId\x88\x01\x01\x12-\n" +
+	"\x10parent_column_id\x18\x02 \x01(\x03H\x01R\x0eparentColumnId\x88\x01\x01\x12\x14\n" +
+	"\x05order\x18\x03 \x01(\tR\x05order\x12\x1d\n" +
+	"\n" +
+	"page_limit\x18\x04 \x01(\x05R\tpageLimit\x12\x12\n" +
+	"\x04page\x18\x05 \x01(\x05R\x04pageB\f\n" +
+	"\n" +
+	"_column_idB\x13\n" +
+	"\x11_parent_column_id\"\x83\x01\n" +
+	"\x1eGetGroupLevelsFilteredResponse\x12*\n" +
+	"\x04data\x18\x01 \x03(\v2\x16.tables.v1.GroupLevelsR\x04data\x125\n" +
+	"\n" +
+	"pagination\x18\x02 \x01(\v2\x15.tables.v1.PaginationR\n" +
+	"pagination\"4\n" +
+	"\x1cGetGroupLevelsDeletedRequest\x12\x14\n" +
+	"\x05order\x18\x01 \x01(\tR\x05order\"K\n" +
+	"\x1dGetGroupLevelsDeletedResponse\x12*\n" +
+	"\x04rows\x18\x01 \x03(\v2\x16.tables.v1.GroupLevelsR\x04rows\"\xce\x01\n" +
+	"\x1cUpdateGroupLevelsByIdRequest\x12\x1b\n" +
+	"\tcolumn_id\x18\x01 \x01(\x03R\bcolumnId\x12(\n" +
+	"\x10parent_column_id\x18\x02 \x01(\x03R\x0eparentColumnId\x12\x14\n" +
+	"\x05level\x18\x03 \x01(\x05R\x05level\x12 \n" +
+	"\vdescription\x18\x04 \x01(\tR\vdescription\x12\x1f\n" +
+	"\vexternal_id\x18\x05 \x01(\tR\n" +
+	"externalId\x12\x0e\n" +
+	"\x02id\x18\x06 \x01(\x03R\x02id\"\x1f\n" +
+	"\x1dUpdateGroupLevelsByIdResponse\"O\n" +
+	"\x1cDeleteGroupLevelsByIdRequest\x12\x1f\n" +
+	"\vexternal_id\x18\x01 \x01(\tR\n" +
+	"externalId\x12\x0e\n" +
+	"\x02id\x18\x02 \x01(\x03R\x02id\"\x1f\n" +
+	"\x1dDeleteGroupLevelsByIdResponse\"M\n" +
+	"\x1aUndeleteGroupLevelsRequest\x12\x1f\n" +
+	"\vexternal_id\x18\x01 \x01(\tR\n" +
+	"externalId\x12\x0e\n" +
+	"\x02id\x18\x02 \x01(\x03R\x02id\"\x1d\n" +
+	"\x1bUndeleteGroupLevelsResponse\"\xac\x02\n" +
+	"\n" +
+	"HasToGroup\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1e\n" +
+	"\vcolumn_id_a\x18\x02 \x01(\x03R\tcolumnIdA\x12\x1e\n" +
+	"\vcolumn_id_b\x18\x03 \x01(\x03R\tcolumnIdB\x12 \n" +
+	"\vdescription\x18\x04 \x01(\tR\vdescription\x12\x1d\n" +
+	"\n" +
+	"is_deleted\x18\x05 \x01(\bR\tisDeleted\x129\n" +
+	"\n" +
+	"created_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"\n" +
+	"updated_at\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12\x17\n" +
+	"\auser_id\x18\b \x01(\x03R\x06userId\"\x9c\x01\n" +
+	"\x17CreateHasToGroupRequest\x12\x1e\n" +
+	"\vcolumn_id_a\x18\x01 \x01(\x03R\tcolumnIdA\x12\x1e\n" +
+	"\vcolumn_id_b\x18\x02 \x01(\x03R\tcolumnIdB\x12 \n" +
+	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x1f\n" +
+	"\vexternal_id\x18\x04 \x01(\tR\n" +
+	"externalId\"S\n" +
+	"\x18CreateHasToGroupResponse\x127\n" +
+	"\fhas_to_group\x18\x01 \x01(\v2\x15.tables.v1.HasToGroupR\n" +
+	"hasToGroup\"*\n" +
+	"\x18GetHasToGroupByIdRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\"T\n" +
+	"\x19GetHasToGroupByIdResponse\x127\n" +
+	"\fhas_to_group\x18\x01 \x01(\v2\x15.tables.v1.HasToGroupR\n" +
+	"hasToGroup\"\x8b\x01\n" +
+	"\x1fGetHasToGroupsSearchNameRequest\x12\x1f\n" +
+	"\vsearch_name\x18\x01 \x01(\tR\n" +
+	"searchName\x12\x14\n" +
+	"\x05order\x18\x02 \x01(\tR\x05order\x12\x1d\n" +
+	"\n" +
+	"page_limit\x18\x03 \x01(\x05R\tpageLimit\x12\x12\n" +
+	"\x04page\x18\x04 \x01(\x05R\x04page\"\x84\x01\n" +
+	" GetHasToGroupsSearchNameResponse\x12)\n" +
+	"\x04data\x18\x01 \x03(\v2\x15.tables.v1.HasToGroupR\x04data\x125\n" +
+	"\n" +
+	"pagination\x18\x02 \x01(\v2\x15.tables.v1.PaginationR\n" +
+	"pagination\"`\n" +
+	"\x15GetHasToGroupsRequest\x12\x14\n" +
+	"\x05order\x18\x01 \x01(\tR\x05order\x12\x1d\n" +
+	"\n" +
+	"page_limit\x18\x02 \x01(\x05R\tpageLimit\x12\x12\n" +
+	"\x04page\x18\x03 \x01(\x05R\x04page\"z\n" +
+	"\x16GetHasToGroupsResponse\x12)\n" +
+	"\x04data\x18\x01 \x03(\v2\x15.tables.v1.HasToGroupR\x04data\x125\n" +
+	"\n" +
+	"pagination\x18\x02 \x01(\v2\x15.tables.v1.PaginationR\n" +
+	"pagination\"g\n" +
+	"\x1cGetHasToGroupsDeletedRequest\x12\x14\n" +
+	"\x05order\x18\x01 \x01(\tR\x05order\x12\x1d\n" +
+	"\n" +
+	"page_limit\x18\x02 \x01(\x05R\tpageLimit\x12\x12\n" +
+	"\x04page\x18\x03 \x01(\x05R\x04page\"\x81\x01\n" +
+	"\x1dGetHasToGroupsDeletedResponse\x12)\n" +
+	"\x04data\x18\x01 \x03(\v2\x15.tables.v1.HasToGroupR\x04data\x125\n" +
+	"\n" +
+	"pagination\x18\x02 \x01(\v2\x15.tables.v1.PaginationR\n" +
+	"pagination\"\xb0\x01\n" +
+	"\x1bUpdateHasToGroupByIdRequest\x12\x1e\n" +
+	"\vcolumn_id_a\x18\x01 \x01(\x03R\tcolumnIdA\x12\x1e\n" +
+	"\vcolumn_id_b\x18\x02 \x01(\x03R\tcolumnIdB\x12 \n" +
+	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x1f\n" +
+	"\vexternal_id\x18\x04 \x01(\tR\n" +
+	"externalId\x12\x0e\n" +
+	"\x02id\x18\x05 \x01(\x03R\x02id\"\x1e\n" +
+	"\x1cUpdateHasToGroupByIdResponse\"N\n" +
+	"\x1bDeleteHasToGroupByIdRequest\x12\x1f\n" +
+	"\vexternal_id\x18\x01 \x01(\tR\n" +
+	"externalId\x12\x0e\n" +
+	"\x02id\x18\x02 \x01(\x03R\x02id\"\x1e\n" +
+	"\x1cDeleteHasToGroupByIdResponse\"P\n" +
+	"\x1dUndeleteHasToGroupByIdRequest\x12\x1f\n" +
+	"\vexternal_id\x18\x01 \x01(\tR\n" +
+	"externalId\x12\x0e\n" +
+	"\x02id\x18\x02 \x01(\x03R\x02id\" \n" +
+	"\x1eUndeleteHasToGroupByIdResponse\"\xfe\x01\n" +
+	"\tSchemaCat\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1f\n" +
+	"\vdatabase_id\x18\x02 \x01(\x03R\n" +
+	"databaseId\x12\x12\n" +
+	"\x04name\x18\x03 \x01(\tR\x04name\x12\x1d\n" +
+	"\n" +
+	"is_deleted\x18\x04 \x01(\bR\tisDeleted\x129\n" +
+	"\n" +
+	"created_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"\n" +
+	"updated_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12\x17\n" +
+	"\auser_id\x18\a \x01(\x03R\x06userId\"n\n" +
+	"\x16CreateSchemaCatRequest\x12\x1f\n" +
+	"\vdatabase_id\x18\x01 \x01(\x03R\n" +
+	"databaseId\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12\x1f\n" +
+	"\vexternal_id\x18\x03 \x01(\tR\n" +
+	"externalId\"N\n" +
+	"\x17CreateSchemaCatResponse\x123\n" +
+	"\n" +
+	"schema_cat\x18\x01 \x01(\v2\x14.tables.v1.SchemaCatR\tschemaCat\")\n" +
+	"\x17GetSchemaCatByIdRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\"O\n" +
+	"\x18GetSchemaCatByIdResponse\x123\n" +
+	"\n" +
+	"schema_cat\x18\x01 \x01(\v2\x14.tables.v1.SchemaCatR\tschemaCat\"_\n" +
+	"\x14GetSchemaCatsRequest\x12\x14\n" +
+	"\x05order\x18\x01 \x01(\tR\x05order\x12\x1d\n" +
+	"\n" +
+	"page_limit\x18\x02 \x01(\x05R\tpageLimit\x12\x12\n" +
+	"\x04page\x18\x03 \x01(\x05R\x04page\"x\n" +
+	"\x15GetSchemaCatsResponse\x12(\n" +
+	"\x04data\x18\x01 \x03(\v2\x14.tables.v1.SchemaCatR\x04data\x125\n" +
+	"\n" +
+	"pagination\x18\x02 \x01(\v2\x15.tables.v1.PaginationR\n" +
+	"pagination\"f\n" +
+	"\x1bGetSchemaCatsDeletedRequest\x12\x14\n" +
+	"\x05order\x18\x01 \x01(\tR\x05order\x12\x1d\n" +
+	"\n" +
+	"page_limit\x18\x02 \x01(\x05R\tpageLimit\x12\x12\n" +
+	"\x04page\x18\x03 \x01(\x05R\x04page\"\x7f\n" +
+	"\x1cGetSchemaCatsDeletedResponse\x12(\n" +
+	"\x04data\x18\x01 \x03(\v2\x14.tables.v1.SchemaCatR\x04data\x125\n" +
+	"\n" +
+	"pagination\x18\x02 \x01(\v2\x15.tables.v1.PaginationR\n" +
+	"pagination\"\xbd\x01\n" +
+	"\x1aUpdateSchemaCatByIdRequest\x12\x1f\n" +
+	"\vdatabase_id\x18\x01 \x01(\x03R\n" +
+	"databaseId\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x129\n" +
+	"\n" +
+	"created_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x12\x1f\n" +
+	"\vexternal_id\x18\x04 \x01(\tR\n" +
+	"externalId\x12\x0e\n" +
+	"\x02id\x18\x05 \x01(\x03R\x02id\"\x1d\n" +
+	"\x1bUpdateSchemaCatByIdResponse\"\x88\x01\n" +
+	"\x1aDeleteSchemaCatByIdRequest\x129\n" +
+	"\n" +
+	"updated_at\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12\x1f\n" +
+	"\vexternal_id\x18\x02 \x01(\tR\n" +
+	"externalId\x12\x0e\n" +
+	"\x02id\x18\x03 \x01(\x03R\x02id\"\x1d\n" +
+	"\x1bDeleteSchemaCatByIdResponse\"O\n" +
+	"\x1cUndeleteSchemaCatByIdRequest\x12\x1f\n" +
+	"\vexternal_id\x18\x01 \x01(\tR\n" +
+	"externalId\x12\x0e\n" +
+	"\x02id\x18\x02 \x01(\x03R\x02id\"\x1f\n" +
+	"\x1dUndeleteSchemaCatByIdResponse\"\xfc\x02\n" +
+	"\bTableCat\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
+	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x1b\n" +
+	"\tschema_id\x18\x04 \x01(\x03R\bschemaId\x12\"\n" +
+	"\rtable_type_id\x18\x05 \x01(\x03R\vtableTypeId\x12\x1b\n" +
+	"\tdomain_id\x18\x06 \x01(\x03R\bdomainId\x12\x1d\n" +
+	"\n" +
+	"is_deleted\x18\a \x01(\bR\tisDeleted\x129\n" +
+	"\n" +
+	"created_at\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"\n" +
+	"updated_at\x18\t \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12\x1e\n" +
+	"\vis_get_dict\x18\n" +
+	" \x01(\bR\tisGetDict\x12\x17\n" +
+	"\auser_id\x18\v \x01(\x03R\x06userId\"\xcc\x01\n" +
+	"\x15CreateTableCatRequest\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12 \n" +
+	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x1b\n" +
+	"\tschema_id\x18\x03 \x01(\x03R\bschemaId\x12\"\n" +
+	"\rtable_type_id\x18\x04 \x01(\x03R\vtableTypeId\x12\x1b\n" +
+	"\tdomain_id\x18\x05 \x01(\x03R\bdomainId\x12\x1f\n" +
+	"\vexternal_id\x18\x06 \x01(\tR\n" +
+	"externalId\"J\n" +
+	"\x16CreateTableCatResponse\x120\n" +
+	"\ttable_cat\x18\x01 \x01(\v2\x13.tables.v1.TableCatR\btableCat\"(\n" +
+	"\x16GetTableCatByIdRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\"K\n" +
+	"\x17GetTableCatByIdResponse\x120\n" +
+	"\ttable_cat\x18\x01 \x01(\v2\x13.tables.v1.TableCatR\btableCat\"^\n" +
+	"\x13GetTableCatsRequest\x12\x14\n" +
+	"\x05order\x18\x01 \x01(\tR\x05order\x12\x1d\n" +
+	"\n" +
+	"page_limit\x18\x02 \x01(\x05R\tpageLimit\x12\x12\n" +
+	"\x04page\x18\x03 \x01(\x05R\x04page\"v\n" +
+	"\x14GetTableCatsResponse\x12'\n" +
+	"\x04data\x18\x01 \x03(\v2\x13.tables.v1.TableCatR\x04data\x125\n" +
+	"\n" +
+	"pagination\x18\x02 \x01(\v2\x15.tables.v1.PaginationR\n" +
+	"pagination\"e\n" +
+	"\x1aGetTableCatsDeletedRequest\x12\x14\n" +
+	"\x05order\x18\x01 \x01(\tR\x05order\x12\x1d\n" +
+	"\n" +
+	"page_limit\x18\x02 \x01(\x05R\tpageLimit\x12\x12\n" +
+	"\x04page\x18\x03 \x01(\x05R\x04page\"}\n" +
+	"\x1bGetTableCatsDeletedResponse\x12'\n" +
+	"\x04data\x18\x01 \x03(\v2\x13.tables.v1.TableCatR\x04data\x125\n" +
+	"\n" +
+	"pagination\x18\x02 \x01(\v2\x15.tables.v1.PaginationR\n" +
+	"pagination\"\x80\x02\n" +
+	"\x19UpdateTableCatByIdRequest\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12 \n" +
+	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x1b\n" +
+	"\tschema_id\x18\x03 \x01(\x03R\bschemaId\x12\"\n" +
+	"\rtable_type_id\x18\x04 \x01(\x03R\vtableTypeId\x12\x1b\n" +
+	"\tdomain_id\x18\x05 \x01(\x03R\bdomainId\x12\x1e\n" +
+	"\vis_get_dict\x18\x06 \x01(\bR\tisGetDict\x12\x1f\n" +
+	"\vexternal_id\x18\a \x01(\tR\n" +
+	"externalId\x12\x0e\n" +
+	"\x02id\x18\b \x01(\x03R\x02id\"\x1c\n" +
+	"\x1aUpdateTableCatByIdResponse\"L\n" +
+	"\x19DeleteTableCatByIdRequest\x12\x1f\n" +
+	"\vexternal_id\x18\x01 \x01(\tR\n" +
+	"externalId\x12\x0e\n" +
+	"\x02id\x18\x02 \x01(\x03R\x02id\"\x1c\n" +
+	"\x1aDeleteTableCatByIdResponse\"N\n" +
+	"\x1bUndeleteTableCatByIdRequest\x12\x1f\n" +
+	"\vexternal_id\x18\x01 \x01(\tR\n" +
+	"externalId\x12\x0e\n" +
+	"\x02id\x18\x02 \x01(\x03R\x02id\"\x1e\n" +
+	"\x1cUndeleteTableCatByIdResponse\"\xff\x01\n" +
+	"\tTableType\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
+	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x1d\n" +
+	"\n" +
+	"is_deleted\x18\x04 \x01(\bR\tisDeleted\x129\n" +
+	"\n" +
+	"created_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"\n" +
+	"updated_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12\x17\n" +
+	"\auser_id\x18\a \x01(\x03R\x06userId\"o\n" +
+	"\x16CreateTableTypeRequest\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12 \n" +
+	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x1f\n" +
+	"\vexternal_id\x18\x03 \x01(\tR\n" +
+	"externalId\"N\n" +
+	"\x17CreateTableTypeResponse\x123\n" +
+	"\n" +
+	"table_type\x18\x01 \x01(\v2\x14.tables.v1.TableTypeR\ttableType\")\n" +
+	"\x17GetTableTypeByIdRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\"O\n" +
+	"\x18GetTableTypeByIdResponse\x123\n" +
+	"\n" +
+	"table_type\x18\x01 \x01(\v2\x14.tables.v1.TableTypeR\ttableType\"_\n" +
+	"\x14GetTableTypesRequest\x12\x14\n" +
+	"\x05order\x18\x01 \x01(\tR\x05order\x12\x1d\n" +
+	"\n" +
+	"page_limit\x18\x02 \x01(\x05R\tpageLimit\x12\x12\n" +
+	"\x04page\x18\x03 \x01(\x05R\x04page\"x\n" +
+	"\x15GetTableTypesResponse\x12(\n" +
+	"\x04data\x18\x01 \x03(\v2\x14.tables.v1.TableTypeR\x04data\x125\n" +
+	"\n" +
+	"pagination\x18\x02 \x01(\v2\x15.tables.v1.PaginationR\n" +
+	"pagination\"f\n" +
+	"\x1bGetTableTypesDeletedRequest\x12\x14\n" +
+	"\x05order\x18\x01 \x01(\tR\x05order\x12\x1d\n" +
+	"\n" +
+	"page_limit\x18\x02 \x01(\x05R\tpageLimit\x12\x12\n" +
+	"\x04page\x18\x03 \x01(\x05R\x04page\"\x7f\n" +
+	"\x1cGetTableTypesDeletedResponse\x12(\n" +
+	"\x04data\x18\x01 \x03(\v2\x14.tables.v1.TableTypeR\x04data\x125\n" +
+	"\n" +
+	"pagination\x18\x02 \x01(\v2\x15.tables.v1.PaginationR\n" +
+	"pagination\"\x83\x01\n" +
+	"\x1aUpdateTableTypeByIdRequest\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12 \n" +
+	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x1f\n" +
+	"\vexternal_id\x18\x03 \x01(\tR\n" +
+	"externalId\x12\x0e\n" +
+	"\x02id\x18\x04 \x01(\x03R\x02id\"\x1d\n" +
+	"\x1bUpdateTableTypeByIdResponse\"M\n" +
+	"\x1aDeleteTableTypeByIdRequest\x12\x1f\n" +
+	"\vexternal_id\x18\x01 \x01(\tR\n" +
+	"externalId\x12\x0e\n" +
+	"\x02id\x18\x02 \x01(\x03R\x02id\"\x1d\n" +
+	"\x1bDeleteTableTypeByIdResponse\"O\n" +
+	"\x1cUndeleteTableTypeByIdRequest\x12\x1f\n" +
+	"\vexternal_id\x18\x01 \x01(\tR\n" +
+	"externalId\x12\x0e\n" +
+	"\x02id\x18\x02 \x01(\x03R\x02id\"\x1f\n" +
+	"\x1dUndeleteTableTypeByIdResponse\"\xec\x01\n" +
+	"\x0fCalculationType\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
+	"\vdescription\x18\x03 \x01(\tR\vdescription\x129\n" +
+	"\n" +
+	"created_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"\n" +
+	"updated_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12\x1d\n" +
+	"\n" +
+	"is_deleted\x18\x06 \x01(\bR\tisDeleted\"/\n" +
+	"\x1dGetCalculationTypeByIdRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\"g\n" +
+	"\x1eGetCalculationTypeByIdResponse\x12E\n" +
+	"\x10calculation_type\x18\x01 \x01(\v2\x1a.tables.v1.CalculationTypeR\x0fcalculationType\"2\n" +
+	"\x1aGetCalculationTypesRequest\x12\x14\n" +
+	"\x05order\x18\x01 \x01(\tR\x05order\"M\n" +
+	"\x1bGetCalculationTypesResponse\x12.\n" +
+	"\x04rows\x18\x01 \x03(\v2\x1a.tables.v1.CalculationTypeR\x04rows2\xec\x04\n" +
 	"\fAliasService\x12L\n" +
 	"\vCreateAlias\x12\x1d.tables.v1.CreateAliasRequest\x1a\x1e.tables.v1.CreateAliasResponse\x12O\n" +
 	"\fGetAliasById\x12\x1e.tables.v1.GetAliasByIdRequest\x1a\x1f.tables.v1.GetAliasByIdResponse\x12^\n" +
@@ -2533,7 +15583,119 @@ const file_tables_v1_tables_proto_rawDesc = "" +
 	"\x0eGetHostDeleted\x12 .tables.v1.GetHostDeletedRequest\x1a!.tables.v1.GetHostDeletedResponse\x12U\n" +
 	"\x0eUpdateHostById\x12 .tables.v1.UpdateHostByIdRequest\x1a!.tables.v1.UpdateHostByIdResponse\x12U\n" +
 	"\x0eDeleteHostById\x12 .tables.v1.DeleteHostByIdRequest\x1a!.tables.v1.DeleteHostByIdResponse\x12[\n" +
-	"\x10UndeleteHostById\x12\".tables.v1.UndeleteHostByIdRequest\x1a#.tables.v1.UndeleteHostByIdResponseB^Z\\github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/tables_model/tables/v1;tablesv1b\x06proto3"
+	"\x10UndeleteHostById\x12\".tables.v1.UndeleteHostByIdRequest\x1a#.tables.v1.UndeleteHostByIdResponse2\xfb\x06\n" +
+	"\x13DatabaseTypeService\x12a\n" +
+	"\x12CreateDatabaseType\x12$.tables.v1.CreateDatabaseTypeRequest\x1a%.tables.v1.CreateDatabaseTypeResponse\x12d\n" +
+	"\x13GetDatabaseTypeById\x12%.tables.v1.GetDatabaseTypeByIdRequest\x1a&.tables.v1.GetDatabaseTypeByIdResponse\x12y\n" +
+	"\x1aGetDatabaseTypesSearchName\x12,.tables.v1.GetDatabaseTypesSearchNameRequest\x1a-.tables.v1.GetDatabaseTypesSearchNameResponse\x12[\n" +
+	"\x10GetDatabaseTypes\x12\".tables.v1.GetDatabaseTypesRequest\x1a#.tables.v1.GetDatabaseTypesResponse\x12p\n" +
+	"\x17GetDatabaseTypesDeleted\x12).tables.v1.GetDatabaseTypesDeletedRequest\x1a*.tables.v1.GetDatabaseTypesDeletedResponse\x12m\n" +
+	"\x16UpdateDatabaseTypeById\x12(.tables.v1.UpdateDatabaseTypeByIdRequest\x1a).tables.v1.UpdateDatabaseTypeByIdResponse\x12m\n" +
+	"\x16DeleteDatabaseTypeById\x12(.tables.v1.DeleteDatabaseTypeByIdRequest\x1a).tables.v1.DeleteDatabaseTypeByIdResponse\x12s\n" +
+	"\x18UndeleteDatabaseTypeById\x12*.tables.v1.UndeleteDatabaseTypeByIdRequest\x1a+.tables.v1.UndeleteDatabaseTypeByIdResponse2\xff\a\n" +
+	"\x12DatabaseCatService\x12^\n" +
+	"\x11CreateDatabaseCat\x12#.tables.v1.CreateDatabaseCatRequest\x1a$.tables.v1.CreateDatabaseCatResponse\x12a\n" +
+	"\x12GetDatabaseCatById\x12$.tables.v1.GetDatabaseCatByIdRequest\x1a%.tables.v1.GetDatabaseCatByIdResponse\x12X\n" +
+	"\x0fGetDatabaseCats\x12!.tables.v1.GetDatabaseCatsRequest\x1a\".tables.v1.GetDatabaseCatsResponse\x12m\n" +
+	"\x16GetDatabaseCatsDeleted\x12(.tables.v1.GetDatabaseCatsDeletedRequest\x1a).tables.v1.GetDatabaseCatsDeletedResponse\x12\x9a\x01\n" +
+	"%GetDatabaseCatsByHostIdDatabaseTypeId\x127.tables.v1.GetDatabaseCatsByHostIdDatabaseTypeIdRequest\x1a8.tables.v1.GetDatabaseCatsByHostIdDatabaseTypeIdResponse\x12v\n" +
+	"\x19GetDatabaseCatsSearchName\x12+.tables.v1.GetDatabaseCatsSearchNameRequest\x1a,.tables.v1.GetDatabaseCatsSearchNameResponse\x12j\n" +
+	"\x15UpdateDatabaseCatById\x12'.tables.v1.UpdateDatabaseCatByIdRequest\x1a(.tables.v1.UpdateDatabaseCatByIdResponse\x12j\n" +
+	"\x15DeleteDatabaseCatById\x12'.tables.v1.DeleteDatabaseCatByIdRequest\x1a(.tables.v1.DeleteDatabaseCatByIdResponse\x12p\n" +
+	"\x17UndeleteDatabaseCatById\x12).tables.v1.UndeleteDatabaseCatByIdRequest\x1a*.tables.v1.UndeleteDatabaseCatByIdResponse2\xb1\a\n" +
+	"\x10ColumnCatService\x12X\n" +
+	"\x0fCreateColumnCat\x12!.tables.v1.CreateColumnCatRequest\x1a\".tables.v1.CreateColumnCatResponse\x12[\n" +
+	"\x10GetColumnCatById\x12\".tables.v1.GetColumnCatByIdRequest\x1a#.tables.v1.GetColumnCatByIdResponse\x12R\n" +
+	"\rGetColumnCats\x12\x1f.tables.v1.GetColumnCatsRequest\x1a .tables.v1.GetColumnCatsResponse\x12g\n" +
+	"\x14GetColumnCatsDeleted\x12&.tables.v1.GetColumnCatsDeletedRequest\x1a'.tables.v1.GetColumnCatsDeletedResponse\x12\x7f\n" +
+	"\x1cGetColumnCatsOptionalFilters\x12..tables.v1.GetColumnCatsOptionalFiltersRequest\x1a/.tables.v1.GetColumnCatsOptionalFiltersResponse\x12p\n" +
+	"\x17GetColumnCatsSearchName\x12).tables.v1.GetColumnCatsSearchNameRequest\x1a*.tables.v1.GetColumnCatsSearchNameResponse\x12d\n" +
+	"\x13UpdateColumnCatById\x12%.tables.v1.UpdateColumnCatByIdRequest\x1a&.tables.v1.UpdateColumnCatByIdResponse\x12d\n" +
+	"\x13DeleteColumnCatById\x12%.tables.v1.DeleteColumnCatByIdRequest\x1a&.tables.v1.DeleteColumnCatByIdResponse\x12j\n" +
+	"\x15UndeleteColumnCatById\x12'.tables.v1.UndeleteColumnCatByIdRequest\x1a(.tables.v1.UndeleteColumnCatByIdResponse2\xc9\x06\n" +
+	"\x11ColumnTypeService\x12[\n" +
+	"\x10CreateColumnType\x12\".tables.v1.CreateColumnTypeRequest\x1a#.tables.v1.CreateColumnTypeResponse\x12^\n" +
+	"\x11GetColumnTypeById\x12#.tables.v1.GetColumnTypeByIdRequest\x1a$.tables.v1.GetColumnTypeByIdResponse\x12U\n" +
+	"\x0eGetColumnTypes\x12 .tables.v1.GetColumnTypesRequest\x1a!.tables.v1.GetColumnTypesResponse\x12s\n" +
+	"\x18GetColumnTypesSearchName\x12*.tables.v1.GetColumnTypesSearchNameRequest\x1a+.tables.v1.GetColumnTypesSearchNameResponse\x12j\n" +
+	"\x15GetColumnTypesDeleted\x12'.tables.v1.GetColumnTypesDeletedRequest\x1a(.tables.v1.GetColumnTypesDeletedResponse\x12g\n" +
+	"\x14UpdateColumnTypeById\x12&.tables.v1.UpdateColumnTypeByIdRequest\x1a'.tables.v1.UpdateColumnTypeByIdResponse\x12g\n" +
+	"\x14DeleteColumnTypeById\x12&.tables.v1.DeleteColumnTypeByIdRequest\x1a'.tables.v1.DeleteColumnTypeByIdResponse\x12m\n" +
+	"\x16UndeleteColumnTypeById\x12(.tables.v1.UndeleteColumnTypeByIdRequest\x1a).tables.v1.UndeleteColumnTypeByIdResponse2\xba\t\n" +
+	"\x1aDatabaseCalculationService\x12v\n" +
+	"\x19CreateDatabaseCalculation\x12+.tables.v1.CreateDatabaseCalculationRequest\x1a,.tables.v1.CreateDatabaseCalculationResponse\x12\x8e\x01\n" +
+	"!GetDatabaseCalculationsSearchName\x123.tables.v1.GetDatabaseCalculationsSearchNameRequest\x1a4.tables.v1.GetDatabaseCalculationsSearchNameResponse\x12y\n" +
+	"\x1aGetDatabaseCalculationById\x12,.tables.v1.GetDatabaseCalculationByIdRequest\x1a-.tables.v1.GetDatabaseCalculationByIdResponse\x12\x88\x01\n" +
+	"\x1fGetDatabaseCalculationsFiltered\x121.tables.v1.GetDatabaseCalculationsFilteredRequest\x1a2.tables.v1.GetDatabaseCalculationsFilteredResponse\x12\x85\x01\n" +
+	"\x1eGetDatabaseCalculationsDeleted\x120.tables.v1.GetDatabaseCalculationsDeletedRequest\x1a1.tables.v1.GetDatabaseCalculationsDeletedResponse\x12p\n" +
+	"\x17GetDatabaseCalculations\x12).tables.v1.GetDatabaseCalculationsRequest\x1a*.tables.v1.GetDatabaseCalculationsResponse\x12\x82\x01\n" +
+	"\x1dUpdateDatabaseCalculationById\x12/.tables.v1.UpdateDatabaseCalculationByIdRequest\x1a0.tables.v1.UpdateDatabaseCalculationByIdResponse\x12\x82\x01\n" +
+	"\x1dDeleteDatabaseCalculationById\x12/.tables.v1.DeleteDatabaseCalculationByIdRequest\x1a0.tables.v1.DeleteDatabaseCalculationByIdResponse\x12\x88\x01\n" +
+	"\x1fUndeleteDatabaseCalculationById\x121.tables.v1.UndeleteDatabaseCalculationByIdRequest\x1a2.tables.v1.UndeleteDatabaseCalculationByIdResponse2\xb0\x06\n" +
+	"\x10DomainCatService\x12X\n" +
+	"\x0fCreateDomainCat\x12!.tables.v1.CreateDomainCatRequest\x1a\".tables.v1.CreateDomainCatResponse\x12p\n" +
+	"\x17GetDomainCatsSearchName\x12).tables.v1.GetDomainCatsSearchNameRequest\x1a*.tables.v1.GetDomainCatsSearchNameResponse\x12[\n" +
+	"\x10GetDomainCatById\x12\".tables.v1.GetDomainCatByIdRequest\x1a#.tables.v1.GetDomainCatByIdResponse\x12R\n" +
+	"\rGetDomainCats\x12\x1f.tables.v1.GetDomainCatsRequest\x1a .tables.v1.GetDomainCatsResponse\x12g\n" +
+	"\x14GetDomainCatsDeleted\x12&.tables.v1.GetDomainCatsDeletedRequest\x1a'.tables.v1.GetDomainCatsDeletedResponse\x12d\n" +
+	"\x13UpdateDomainCatById\x12%.tables.v1.UpdateDomainCatByIdRequest\x1a&.tables.v1.UpdateDomainCatByIdResponse\x12d\n" +
+	"\x13DeleteDomainCatById\x12%.tables.v1.DeleteDomainCatByIdRequest\x1a&.tables.v1.DeleteDomainCatByIdResponse\x12j\n" +
+	"\x15UndeleteDomainCatById\x12'.tables.v1.UndeleteDomainCatByIdRequest\x1a(.tables.v1.UndeleteDomainCatByIdResponse2\xbf\b\n" +
+	"\x1bFollowingCalculationService\x12y\n" +
+	"\x1aCreateFollowingCalculation\x12,.tables.v1.CreateFollowingCalculationRequest\x1a-.tables.v1.CreateFollowingCalculationResponse\x12|\n" +
+	"\x1bGetFollowingCalculationById\x12-.tables.v1.GetFollowingCalculationByIdRequest\x1a..tables.v1.GetFollowingCalculationByIdResponse\x12s\n" +
+	"\x18GetFollowingCalculations\x12*.tables.v1.GetFollowingCalculationsRequest\x1a+.tables.v1.GetFollowingCalculationsResponse\x12\x88\x01\n" +
+	"\x1fGetFollowingCalculationsDeleted\x121.tables.v1.GetFollowingCalculationsDeletedRequest\x1a2.tables.v1.GetFollowingCalculationsDeletedResponse\x12\x88\x01\n" +
+	"\x1fGetFollowingCalculationsFilters\x121.tables.v1.GetFollowingCalculationsFiltersRequest\x1a2.tables.v1.GetFollowingCalculationsFiltersResponse\x12\x85\x01\n" +
+	"\x1eUpdateFollowingCalculationById\x120.tables.v1.UpdateFollowingCalculationByIdRequest\x1a1.tables.v1.UpdateFollowingCalculationByIdResponse\x12\x85\x01\n" +
+	"\x1eDeleteFollowingCalculationById\x120.tables.v1.DeleteFollowingCalculationByIdRequest\x1a1.tables.v1.DeleteFollowingCalculationByIdResponse\x12\x8b\x01\n" +
+	" UndeleteFollowingCalculationById\x122.tables.v1.UndeleteFollowingCalculationByIdRequest\x1a3.tables.v1.UndeleteFollowingCalculationByIdResponse2\xbc\a\n" +
+	"\x12GroupLevelsService\x12^\n" +
+	"\x11CreateGroupLevels\x12#.tables.v1.CreateGroupLevelsRequest\x1a$.tables.v1.CreateGroupLevelsResponse\x12s\n" +
+	"\x18GetGroupLevelsSearchName\x12*.tables.v1.GetGroupLevelsSearchNameRequest\x1a+.tables.v1.GetGroupLevelsSearchNameResponse\x12U\n" +
+	"\x0eGetGroupLevels\x12 .tables.v1.GetGroupLevelsRequest\x1a!.tables.v1.GetGroupLevelsResponse\x12a\n" +
+	"\x12GetGroupLevelsById\x12$.tables.v1.GetGroupLevelsByIdRequest\x1a%.tables.v1.GetGroupLevelsByIdResponse\x12m\n" +
+	"\x16GetGroupLevelsFiltered\x12(.tables.v1.GetGroupLevelsFilteredRequest\x1a).tables.v1.GetGroupLevelsFilteredResponse\x12j\n" +
+	"\x15GetGroupLevelsDeleted\x12'.tables.v1.GetGroupLevelsDeletedRequest\x1a(.tables.v1.GetGroupLevelsDeletedResponse\x12j\n" +
+	"\x15UpdateGroupLevelsById\x12'.tables.v1.UpdateGroupLevelsByIdRequest\x1a(.tables.v1.UpdateGroupLevelsByIdResponse\x12j\n" +
+	"\x15DeleteGroupLevelsById\x12'.tables.v1.DeleteGroupLevelsByIdRequest\x1a(.tables.v1.DeleteGroupLevelsByIdResponse\x12d\n" +
+	"\x13UndeleteGroupLevels\x12%.tables.v1.UndeleteGroupLevelsRequest\x1a&.tables.v1.UndeleteGroupLevelsResponse2\xc9\x06\n" +
+	"\x11HasToGroupService\x12[\n" +
+	"\x10CreateHasToGroup\x12\".tables.v1.CreateHasToGroupRequest\x1a#.tables.v1.CreateHasToGroupResponse\x12^\n" +
+	"\x11GetHasToGroupById\x12#.tables.v1.GetHasToGroupByIdRequest\x1a$.tables.v1.GetHasToGroupByIdResponse\x12s\n" +
+	"\x18GetHasToGroupsSearchName\x12*.tables.v1.GetHasToGroupsSearchNameRequest\x1a+.tables.v1.GetHasToGroupsSearchNameResponse\x12U\n" +
+	"\x0eGetHasToGroups\x12 .tables.v1.GetHasToGroupsRequest\x1a!.tables.v1.GetHasToGroupsResponse\x12j\n" +
+	"\x15GetHasToGroupsDeleted\x12'.tables.v1.GetHasToGroupsDeletedRequest\x1a(.tables.v1.GetHasToGroupsDeletedResponse\x12g\n" +
+	"\x14UpdateHasToGroupById\x12&.tables.v1.UpdateHasToGroupByIdRequest\x1a'.tables.v1.UpdateHasToGroupByIdResponse\x12g\n" +
+	"\x14DeleteHasToGroupById\x12&.tables.v1.DeleteHasToGroupByIdRequest\x1a'.tables.v1.DeleteHasToGroupByIdResponse\x12m\n" +
+	"\x16UndeleteHasToGroupById\x12(.tables.v1.UndeleteHasToGroupByIdRequest\x1a).tables.v1.UndeleteHasToGroupByIdResponse2\xbe\x05\n" +
+	"\x10SchemaCatService\x12X\n" +
+	"\x0fCreateSchemaCat\x12!.tables.v1.CreateSchemaCatRequest\x1a\".tables.v1.CreateSchemaCatResponse\x12[\n" +
+	"\x10GetSchemaCatById\x12\".tables.v1.GetSchemaCatByIdRequest\x1a#.tables.v1.GetSchemaCatByIdResponse\x12R\n" +
+	"\rGetSchemaCats\x12\x1f.tables.v1.GetSchemaCatsRequest\x1a .tables.v1.GetSchemaCatsResponse\x12g\n" +
+	"\x14GetSchemaCatsDeleted\x12&.tables.v1.GetSchemaCatsDeletedRequest\x1a'.tables.v1.GetSchemaCatsDeletedResponse\x12d\n" +
+	"\x13UpdateSchemaCatById\x12%.tables.v1.UpdateSchemaCatByIdRequest\x1a&.tables.v1.UpdateSchemaCatByIdResponse\x12d\n" +
+	"\x13DeleteSchemaCatById\x12%.tables.v1.DeleteSchemaCatByIdRequest\x1a&.tables.v1.DeleteSchemaCatByIdResponse\x12j\n" +
+	"\x15UndeleteSchemaCatById\x12'.tables.v1.UndeleteSchemaCatByIdRequest\x1a(.tables.v1.UndeleteSchemaCatByIdResponse2\xa8\x05\n" +
+	"\x0fTableCatService\x12U\n" +
+	"\x0eCreateTableCat\x12 .tables.v1.CreateTableCatRequest\x1a!.tables.v1.CreateTableCatResponse\x12X\n" +
+	"\x0fGetTableCatById\x12!.tables.v1.GetTableCatByIdRequest\x1a\".tables.v1.GetTableCatByIdResponse\x12O\n" +
+	"\fGetTableCats\x12\x1e.tables.v1.GetTableCatsRequest\x1a\x1f.tables.v1.GetTableCatsResponse\x12d\n" +
+	"\x13GetTableCatsDeleted\x12%.tables.v1.GetTableCatsDeletedRequest\x1a&.tables.v1.GetTableCatsDeletedResponse\x12a\n" +
+	"\x12UpdateTableCatById\x12$.tables.v1.UpdateTableCatByIdRequest\x1a%.tables.v1.UpdateTableCatByIdResponse\x12a\n" +
+	"\x12DeleteTableCatById\x12$.tables.v1.DeleteTableCatByIdRequest\x1a%.tables.v1.DeleteTableCatByIdResponse\x12g\n" +
+	"\x14UndeleteTableCatById\x12&.tables.v1.UndeleteTableCatByIdRequest\x1a'.tables.v1.UndeleteTableCatByIdResponse2\xbe\x05\n" +
+	"\x10TableTypeService\x12X\n" +
+	"\x0fCreateTableType\x12!.tables.v1.CreateTableTypeRequest\x1a\".tables.v1.CreateTableTypeResponse\x12[\n" +
+	"\x10GetTableTypeById\x12\".tables.v1.GetTableTypeByIdRequest\x1a#.tables.v1.GetTableTypeByIdResponse\x12R\n" +
+	"\rGetTableTypes\x12\x1f.tables.v1.GetTableTypesRequest\x1a .tables.v1.GetTableTypesResponse\x12g\n" +
+	"\x14GetTableTypesDeleted\x12&.tables.v1.GetTableTypesDeletedRequest\x1a'.tables.v1.GetTableTypesDeletedResponse\x12d\n" +
+	"\x13UpdateTableTypeById\x12%.tables.v1.UpdateTableTypeByIdRequest\x1a&.tables.v1.UpdateTableTypeByIdResponse\x12d\n" +
+	"\x13DeleteTableTypeById\x12%.tables.v1.DeleteTableTypeByIdRequest\x1a&.tables.v1.DeleteTableTypeByIdResponse\x12j\n" +
+	"\x15UndeleteTableTypeById\x12'.tables.v1.UndeleteTableTypeByIdRequest\x1a(.tables.v1.UndeleteTableTypeByIdResponse2\xed\x01\n" +
+	"\x16CalculationTypeService\x12m\n" +
+	"\x16GetCalculationTypeById\x12(.tables.v1.GetCalculationTypeByIdRequest\x1a).tables.v1.GetCalculationTypeByIdResponse\x12d\n" +
+	"\x13GetCalculationTypes\x12%.tables.v1.GetCalculationTypesRequest\x1a&.tables.v1.GetCalculationTypesResponseB^Z\\github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/tables_model/tables/v1;tablesv1b\x06proto3"
 
 var (
 	file_tables_v1_tables_proto_rawDescOnce sync.Once
@@ -2547,116 +15709,658 @@ func file_tables_v1_tables_proto_rawDescGZIP() []byte {
 	return file_tables_v1_tables_proto_rawDescData
 }
 
-var file_tables_v1_tables_proto_msgTypes = make([]protoimpl.MessageInfo, 40)
+var file_tables_v1_tables_proto_msgTypes = make([]protoimpl.MessageInfo, 253)
 var file_tables_v1_tables_proto_goTypes = []any{
-	(*Pagination)(nil),                  // 0: tables.v1.Pagination
-	(*Alias)(nil),                       // 1: tables.v1.Alias
-	(*CreateAliasRequest)(nil),          // 2: tables.v1.CreateAliasRequest
-	(*CreateAliasResponse)(nil),         // 3: tables.v1.CreateAliasResponse
-	(*GetAliasByIdRequest)(nil),         // 4: tables.v1.GetAliasByIdRequest
-	(*GetAliasByIdResponse)(nil),        // 5: tables.v1.GetAliasByIdResponse
-	(*GetAliasesDeletedRequest)(nil),    // 6: tables.v1.GetAliasesDeletedRequest
-	(*GetAliasesDeletedResponse)(nil),   // 7: tables.v1.GetAliasesDeletedResponse
-	(*GetAliasesRequest)(nil),           // 8: tables.v1.GetAliasesRequest
-	(*GetAliasesResponse)(nil),          // 9: tables.v1.GetAliasesResponse
-	(*UpdateAliasByIdRequest)(nil),      // 10: tables.v1.UpdateAliasByIdRequest
-	(*UpdateAliasByIdResponse)(nil),     // 11: tables.v1.UpdateAliasByIdResponse
-	(*DeleteAliasByIdRequest)(nil),      // 12: tables.v1.DeleteAliasByIdRequest
-	(*DeleteAliasByIdResponse)(nil),     // 13: tables.v1.DeleteAliasByIdResponse
-	(*UndeleteAliasByIdRequest)(nil),    // 14: tables.v1.UndeleteAliasByIdRequest
-	(*UndeleteAliasByIdResponse)(nil),   // 15: tables.v1.UndeleteAliasByIdResponse
-	(*User)(nil),                        // 16: tables.v1.User
-	(*CreateUserRequest)(nil),           // 17: tables.v1.CreateUserRequest
-	(*CreateUserResponse)(nil),          // 18: tables.v1.CreateUserResponse
-	(*GetUserByExternalIdRequest)(nil),  // 19: tables.v1.GetUserByExternalIdRequest
-	(*GetUserByExternalIdResponse)(nil), // 20: tables.v1.GetUserByExternalIdResponse
-	(*GetUsersRequest)(nil),             // 21: tables.v1.GetUsersRequest
-	(*GetUsersResponse)(nil),            // 22: tables.v1.GetUsersResponse
-	(*Host)(nil),                        // 23: tables.v1.Host
-	(*CreateHostRequest)(nil),           // 24: tables.v1.CreateHostRequest
-	(*CreateHostResponse)(nil),          // 25: tables.v1.CreateHostResponse
-	(*GetHostByIdRequest)(nil),          // 26: tables.v1.GetHostByIdRequest
-	(*GetHostByIdResponse)(nil),         // 27: tables.v1.GetHostByIdResponse
-	(*GetHostsRequest)(nil),             // 28: tables.v1.GetHostsRequest
-	(*GetHostsResponse)(nil),            // 29: tables.v1.GetHostsResponse
-	(*GetHostsSearchNameRequest)(nil),   // 30: tables.v1.GetHostsSearchNameRequest
-	(*GetHostsSearchNameResponse)(nil),  // 31: tables.v1.GetHostsSearchNameResponse
-	(*GetHostDeletedRequest)(nil),       // 32: tables.v1.GetHostDeletedRequest
-	(*GetHostDeletedResponse)(nil),      // 33: tables.v1.GetHostDeletedResponse
-	(*UpdateHostByIdRequest)(nil),       // 34: tables.v1.UpdateHostByIdRequest
-	(*UpdateHostByIdResponse)(nil),      // 35: tables.v1.UpdateHostByIdResponse
-	(*DeleteHostByIdRequest)(nil),       // 36: tables.v1.DeleteHostByIdRequest
-	(*DeleteHostByIdResponse)(nil),      // 37: tables.v1.DeleteHostByIdResponse
-	(*UndeleteHostByIdRequest)(nil),     // 38: tables.v1.UndeleteHostByIdRequest
-	(*UndeleteHostByIdResponse)(nil),    // 39: tables.v1.UndeleteHostByIdResponse
-	(*timestamppb.Timestamp)(nil),       // 40: google.protobuf.Timestamp
+	(*Pagination)(nil),                                    // 0: tables.v1.Pagination
+	(*Alias)(nil),                                         // 1: tables.v1.Alias
+	(*CreateAliasRequest)(nil),                            // 2: tables.v1.CreateAliasRequest
+	(*CreateAliasResponse)(nil),                           // 3: tables.v1.CreateAliasResponse
+	(*GetAliasByIdRequest)(nil),                           // 4: tables.v1.GetAliasByIdRequest
+	(*GetAliasByIdResponse)(nil),                          // 5: tables.v1.GetAliasByIdResponse
+	(*GetAliasesDeletedRequest)(nil),                      // 6: tables.v1.GetAliasesDeletedRequest
+	(*GetAliasesDeletedResponse)(nil),                     // 7: tables.v1.GetAliasesDeletedResponse
+	(*GetAliasesRequest)(nil),                             // 8: tables.v1.GetAliasesRequest
+	(*GetAliasesResponse)(nil),                            // 9: tables.v1.GetAliasesResponse
+	(*UpdateAliasByIdRequest)(nil),                        // 10: tables.v1.UpdateAliasByIdRequest
+	(*UpdateAliasByIdResponse)(nil),                       // 11: tables.v1.UpdateAliasByIdResponse
+	(*DeleteAliasByIdRequest)(nil),                        // 12: tables.v1.DeleteAliasByIdRequest
+	(*DeleteAliasByIdResponse)(nil),                       // 13: tables.v1.DeleteAliasByIdResponse
+	(*UndeleteAliasByIdRequest)(nil),                      // 14: tables.v1.UndeleteAliasByIdRequest
+	(*UndeleteAliasByIdResponse)(nil),                     // 15: tables.v1.UndeleteAliasByIdResponse
+	(*User)(nil),                                          // 16: tables.v1.User
+	(*CreateUserRequest)(nil),                             // 17: tables.v1.CreateUserRequest
+	(*CreateUserResponse)(nil),                            // 18: tables.v1.CreateUserResponse
+	(*GetUserByExternalIdRequest)(nil),                    // 19: tables.v1.GetUserByExternalIdRequest
+	(*GetUserByExternalIdResponse)(nil),                   // 20: tables.v1.GetUserByExternalIdResponse
+	(*GetUsersRequest)(nil),                               // 21: tables.v1.GetUsersRequest
+	(*GetUsersResponse)(nil),                              // 22: tables.v1.GetUsersResponse
+	(*Host)(nil),                                          // 23: tables.v1.Host
+	(*CreateHostRequest)(nil),                             // 24: tables.v1.CreateHostRequest
+	(*CreateHostResponse)(nil),                            // 25: tables.v1.CreateHostResponse
+	(*GetHostByIdRequest)(nil),                            // 26: tables.v1.GetHostByIdRequest
+	(*GetHostByIdResponse)(nil),                           // 27: tables.v1.GetHostByIdResponse
+	(*GetHostsRequest)(nil),                               // 28: tables.v1.GetHostsRequest
+	(*GetHostsResponse)(nil),                              // 29: tables.v1.GetHostsResponse
+	(*GetHostsSearchNameRequest)(nil),                     // 30: tables.v1.GetHostsSearchNameRequest
+	(*GetHostsSearchNameResponse)(nil),                    // 31: tables.v1.GetHostsSearchNameResponse
+	(*GetHostDeletedRequest)(nil),                         // 32: tables.v1.GetHostDeletedRequest
+	(*GetHostDeletedResponse)(nil),                        // 33: tables.v1.GetHostDeletedResponse
+	(*UpdateHostByIdRequest)(nil),                         // 34: tables.v1.UpdateHostByIdRequest
+	(*UpdateHostByIdResponse)(nil),                        // 35: tables.v1.UpdateHostByIdResponse
+	(*DeleteHostByIdRequest)(nil),                         // 36: tables.v1.DeleteHostByIdRequest
+	(*DeleteHostByIdResponse)(nil),                        // 37: tables.v1.DeleteHostByIdResponse
+	(*UndeleteHostByIdRequest)(nil),                       // 38: tables.v1.UndeleteHostByIdRequest
+	(*UndeleteHostByIdResponse)(nil),                      // 39: tables.v1.UndeleteHostByIdResponse
+	(*DatabaseType)(nil),                                  // 40: tables.v1.DatabaseType
+	(*CreateDatabaseTypeRequest)(nil),                     // 41: tables.v1.CreateDatabaseTypeRequest
+	(*CreateDatabaseTypeResponse)(nil),                    // 42: tables.v1.CreateDatabaseTypeResponse
+	(*GetDatabaseTypeByIdRequest)(nil),                    // 43: tables.v1.GetDatabaseTypeByIdRequest
+	(*GetDatabaseTypeByIdResponse)(nil),                   // 44: tables.v1.GetDatabaseTypeByIdResponse
+	(*GetDatabaseTypesSearchNameRequest)(nil),             // 45: tables.v1.GetDatabaseTypesSearchNameRequest
+	(*GetDatabaseTypesSearchNameResponse)(nil),            // 46: tables.v1.GetDatabaseTypesSearchNameResponse
+	(*GetDatabaseTypesRequest)(nil),                       // 47: tables.v1.GetDatabaseTypesRequest
+	(*GetDatabaseTypesResponse)(nil),                      // 48: tables.v1.GetDatabaseTypesResponse
+	(*GetDatabaseTypesDeletedRequest)(nil),                // 49: tables.v1.GetDatabaseTypesDeletedRequest
+	(*GetDatabaseTypesDeletedResponse)(nil),               // 50: tables.v1.GetDatabaseTypesDeletedResponse
+	(*UpdateDatabaseTypeByIdRequest)(nil),                 // 51: tables.v1.UpdateDatabaseTypeByIdRequest
+	(*UpdateDatabaseTypeByIdResponse)(nil),                // 52: tables.v1.UpdateDatabaseTypeByIdResponse
+	(*DeleteDatabaseTypeByIdRequest)(nil),                 // 53: tables.v1.DeleteDatabaseTypeByIdRequest
+	(*DeleteDatabaseTypeByIdResponse)(nil),                // 54: tables.v1.DeleteDatabaseTypeByIdResponse
+	(*UndeleteDatabaseTypeByIdRequest)(nil),               // 55: tables.v1.UndeleteDatabaseTypeByIdRequest
+	(*UndeleteDatabaseTypeByIdResponse)(nil),              // 56: tables.v1.UndeleteDatabaseTypeByIdResponse
+	(*DatabaseCat)(nil),                                   // 57: tables.v1.DatabaseCat
+	(*CreateDatabaseCatRequest)(nil),                      // 58: tables.v1.CreateDatabaseCatRequest
+	(*CreateDatabaseCatResponse)(nil),                     // 59: tables.v1.CreateDatabaseCatResponse
+	(*GetDatabaseCatByIdRequest)(nil),                     // 60: tables.v1.GetDatabaseCatByIdRequest
+	(*GetDatabaseCatByIdResponse)(nil),                    // 61: tables.v1.GetDatabaseCatByIdResponse
+	(*GetDatabaseCatsRequest)(nil),                        // 62: tables.v1.GetDatabaseCatsRequest
+	(*GetDatabaseCatsResponse)(nil),                       // 63: tables.v1.GetDatabaseCatsResponse
+	(*GetDatabaseCatsDeletedRequest)(nil),                 // 64: tables.v1.GetDatabaseCatsDeletedRequest
+	(*GetDatabaseCatsDeletedResponse)(nil),                // 65: tables.v1.GetDatabaseCatsDeletedResponse
+	(*GetDatabaseCatsByHostIdDatabaseTypeIdRequest)(nil),  // 66: tables.v1.GetDatabaseCatsByHostIdDatabaseTypeIdRequest
+	(*GetDatabaseCatsByHostIdDatabaseTypeIdResponse)(nil), // 67: tables.v1.GetDatabaseCatsByHostIdDatabaseTypeIdResponse
+	(*GetDatabaseCatsSearchNameRequest)(nil),              // 68: tables.v1.GetDatabaseCatsSearchNameRequest
+	(*GetDatabaseCatsSearchNameResponse)(nil),             // 69: tables.v1.GetDatabaseCatsSearchNameResponse
+	(*UpdateDatabaseCatByIdRequest)(nil),                  // 70: tables.v1.UpdateDatabaseCatByIdRequest
+	(*UpdateDatabaseCatByIdResponse)(nil),                 // 71: tables.v1.UpdateDatabaseCatByIdResponse
+	(*DeleteDatabaseCatByIdRequest)(nil),                  // 72: tables.v1.DeleteDatabaseCatByIdRequest
+	(*DeleteDatabaseCatByIdResponse)(nil),                 // 73: tables.v1.DeleteDatabaseCatByIdResponse
+	(*UndeleteDatabaseCatByIdRequest)(nil),                // 74: tables.v1.UndeleteDatabaseCatByIdRequest
+	(*UndeleteDatabaseCatByIdResponse)(nil),               // 75: tables.v1.UndeleteDatabaseCatByIdResponse
+	(*ColumnCat)(nil),                                     // 76: tables.v1.ColumnCat
+	(*CreateColumnCatRequest)(nil),                        // 77: tables.v1.CreateColumnCatRequest
+	(*CreateColumnCatResponse)(nil),                       // 78: tables.v1.CreateColumnCatResponse
+	(*GetColumnCatByIdRequest)(nil),                       // 79: tables.v1.GetColumnCatByIdRequest
+	(*GetColumnCatByIdResponse)(nil),                      // 80: tables.v1.GetColumnCatByIdResponse
+	(*GetColumnCatsRequest)(nil),                          // 81: tables.v1.GetColumnCatsRequest
+	(*GetColumnCatsResponse)(nil),                         // 82: tables.v1.GetColumnCatsResponse
+	(*GetColumnCatsDeletedRequest)(nil),                   // 83: tables.v1.GetColumnCatsDeletedRequest
+	(*GetColumnCatsDeletedResponse)(nil),                  // 84: tables.v1.GetColumnCatsDeletedResponse
+	(*GetColumnCatsOptionalFiltersRequest)(nil),           // 85: tables.v1.GetColumnCatsOptionalFiltersRequest
+	(*GetColumnCatsOptionalFiltersResponse)(nil),          // 86: tables.v1.GetColumnCatsOptionalFiltersResponse
+	(*GetColumnCatsSearchNameRequest)(nil),                // 87: tables.v1.GetColumnCatsSearchNameRequest
+	(*GetColumnCatsSearchNameResponse)(nil),               // 88: tables.v1.GetColumnCatsSearchNameResponse
+	(*UpdateColumnCatByIdRequest)(nil),                    // 89: tables.v1.UpdateColumnCatByIdRequest
+	(*UpdateColumnCatByIdResponse)(nil),                   // 90: tables.v1.UpdateColumnCatByIdResponse
+	(*DeleteColumnCatByIdRequest)(nil),                    // 91: tables.v1.DeleteColumnCatByIdRequest
+	(*DeleteColumnCatByIdResponse)(nil),                   // 92: tables.v1.DeleteColumnCatByIdResponse
+	(*UndeleteColumnCatByIdRequest)(nil),                  // 93: tables.v1.UndeleteColumnCatByIdRequest
+	(*UndeleteColumnCatByIdResponse)(nil),                 // 94: tables.v1.UndeleteColumnCatByIdResponse
+	(*ColumnType)(nil),                                    // 95: tables.v1.ColumnType
+	(*CreateColumnTypeRequest)(nil),                       // 96: tables.v1.CreateColumnTypeRequest
+	(*CreateColumnTypeResponse)(nil),                      // 97: tables.v1.CreateColumnTypeResponse
+	(*GetColumnTypeByIdRequest)(nil),                      // 98: tables.v1.GetColumnTypeByIdRequest
+	(*GetColumnTypeByIdRow)(nil),                          // 99: tables.v1.GetColumnTypeByIdRow
+	(*GetColumnTypeByIdResponse)(nil),                     // 100: tables.v1.GetColumnTypeByIdResponse
+	(*GetColumnTypesRequest)(nil),                         // 101: tables.v1.GetColumnTypesRequest
+	(*GetColumnTypesResponse)(nil),                        // 102: tables.v1.GetColumnTypesResponse
+	(*GetColumnTypesSearchNameRequest)(nil),               // 103: tables.v1.GetColumnTypesSearchNameRequest
+	(*GetColumnTypesSearchNameResponse)(nil),              // 104: tables.v1.GetColumnTypesSearchNameResponse
+	(*GetColumnTypesDeletedRequest)(nil),                  // 105: tables.v1.GetColumnTypesDeletedRequest
+	(*GetColumnTypesDeletedResponse)(nil),                 // 106: tables.v1.GetColumnTypesDeletedResponse
+	(*UpdateColumnTypeByIdRequest)(nil),                   // 107: tables.v1.UpdateColumnTypeByIdRequest
+	(*UpdateColumnTypeByIdResponse)(nil),                  // 108: tables.v1.UpdateColumnTypeByIdResponse
+	(*DeleteColumnTypeByIdRequest)(nil),                   // 109: tables.v1.DeleteColumnTypeByIdRequest
+	(*DeleteColumnTypeByIdResponse)(nil),                  // 110: tables.v1.DeleteColumnTypeByIdResponse
+	(*UndeleteColumnTypeByIdRequest)(nil),                 // 111: tables.v1.UndeleteColumnTypeByIdRequest
+	(*UndeleteColumnTypeByIdResponse)(nil),                // 112: tables.v1.UndeleteColumnTypeByIdResponse
+	(*DatabaseCalculation)(nil),                           // 113: tables.v1.DatabaseCalculation
+	(*CreateDatabaseCalculationRequest)(nil),              // 114: tables.v1.CreateDatabaseCalculationRequest
+	(*CreateDatabaseCalculationResponse)(nil),             // 115: tables.v1.CreateDatabaseCalculationResponse
+	(*GetDatabaseCalculationsSearchNameRequest)(nil),      // 116: tables.v1.GetDatabaseCalculationsSearchNameRequest
+	(*GetDatabaseCalculationsSearchNameResponse)(nil),     // 117: tables.v1.GetDatabaseCalculationsSearchNameResponse
+	(*GetDatabaseCalculationByIdRequest)(nil),             // 118: tables.v1.GetDatabaseCalculationByIdRequest
+	(*GetDatabaseCalculationByIdRow)(nil),                 // 119: tables.v1.GetDatabaseCalculationByIdRow
+	(*GetDatabaseCalculationByIdResponse)(nil),            // 120: tables.v1.GetDatabaseCalculationByIdResponse
+	(*GetDatabaseCalculationsFilteredRequest)(nil),        // 121: tables.v1.GetDatabaseCalculationsFilteredRequest
+	(*GetDatabaseCalculationsFilteredResponse)(nil),       // 122: tables.v1.GetDatabaseCalculationsFilteredResponse
+	(*GetDatabaseCalculationsDeletedRequest)(nil),         // 123: tables.v1.GetDatabaseCalculationsDeletedRequest
+	(*GetDatabaseCalculationsDeletedResponse)(nil),        // 124: tables.v1.GetDatabaseCalculationsDeletedResponse
+	(*GetDatabaseCalculationsRequest)(nil),                // 125: tables.v1.GetDatabaseCalculationsRequest
+	(*GetDatabaseCalculationsResponse)(nil),               // 126: tables.v1.GetDatabaseCalculationsResponse
+	(*UpdateDatabaseCalculationByIdRequest)(nil),          // 127: tables.v1.UpdateDatabaseCalculationByIdRequest
+	(*UpdateDatabaseCalculationByIdResponse)(nil),         // 128: tables.v1.UpdateDatabaseCalculationByIdResponse
+	(*DeleteDatabaseCalculationByIdRequest)(nil),          // 129: tables.v1.DeleteDatabaseCalculationByIdRequest
+	(*DeleteDatabaseCalculationByIdResponse)(nil),         // 130: tables.v1.DeleteDatabaseCalculationByIdResponse
+	(*UndeleteDatabaseCalculationByIdRequest)(nil),        // 131: tables.v1.UndeleteDatabaseCalculationByIdRequest
+	(*UndeleteDatabaseCalculationByIdResponse)(nil),       // 132: tables.v1.UndeleteDatabaseCalculationByIdResponse
+	(*DomainCat)(nil),                                     // 133: tables.v1.DomainCat
+	(*CreateDomainCatRequest)(nil),                        // 134: tables.v1.CreateDomainCatRequest
+	(*CreateDomainCatResponse)(nil),                       // 135: tables.v1.CreateDomainCatResponse
+	(*GetDomainCatsSearchNameRequest)(nil),                // 136: tables.v1.GetDomainCatsSearchNameRequest
+	(*GetDomainCatsSearchNameResponse)(nil),               // 137: tables.v1.GetDomainCatsSearchNameResponse
+	(*GetDomainCatByIdRequest)(nil),                       // 138: tables.v1.GetDomainCatByIdRequest
+	(*GetDomainCatByIdResponse)(nil),                      // 139: tables.v1.GetDomainCatByIdResponse
+	(*GetDomainCatsRequest)(nil),                          // 140: tables.v1.GetDomainCatsRequest
+	(*GetDomainCatsResponse)(nil),                         // 141: tables.v1.GetDomainCatsResponse
+	(*GetDomainCatsDeletedRequest)(nil),                   // 142: tables.v1.GetDomainCatsDeletedRequest
+	(*GetDomainCatsDeletedResponse)(nil),                  // 143: tables.v1.GetDomainCatsDeletedResponse
+	(*UpdateDomainCatByIdRequest)(nil),                    // 144: tables.v1.UpdateDomainCatByIdRequest
+	(*UpdateDomainCatByIdResponse)(nil),                   // 145: tables.v1.UpdateDomainCatByIdResponse
+	(*DeleteDomainCatByIdRequest)(nil),                    // 146: tables.v1.DeleteDomainCatByIdRequest
+	(*DeleteDomainCatByIdResponse)(nil),                   // 147: tables.v1.DeleteDomainCatByIdResponse
+	(*UndeleteDomainCatByIdRequest)(nil),                  // 148: tables.v1.UndeleteDomainCatByIdRequest
+	(*UndeleteDomainCatByIdResponse)(nil),                 // 149: tables.v1.UndeleteDomainCatByIdResponse
+	(*FollowingCalculation)(nil),                          // 150: tables.v1.FollowingCalculation
+	(*CreateFollowingCalculationRequest)(nil),             // 151: tables.v1.CreateFollowingCalculationRequest
+	(*CreateFollowingCalculationResponse)(nil),            // 152: tables.v1.CreateFollowingCalculationResponse
+	(*GetFollowingCalculationByIdRequest)(nil),            // 153: tables.v1.GetFollowingCalculationByIdRequest
+	(*GetFollowingCalculationByIdResponse)(nil),           // 154: tables.v1.GetFollowingCalculationByIdResponse
+	(*GetFollowingCalculationsRequest)(nil),               // 155: tables.v1.GetFollowingCalculationsRequest
+	(*GetFollowingCalculationsResponse)(nil),              // 156: tables.v1.GetFollowingCalculationsResponse
+	(*GetFollowingCalculationsDeletedRequest)(nil),        // 157: tables.v1.GetFollowingCalculationsDeletedRequest
+	(*GetFollowingCalculationsDeletedResponse)(nil),       // 158: tables.v1.GetFollowingCalculationsDeletedResponse
+	(*GetFollowingCalculationsFiltersRequest)(nil),        // 159: tables.v1.GetFollowingCalculationsFiltersRequest
+	(*GetFollowingCalculationsFiltersResponse)(nil),       // 160: tables.v1.GetFollowingCalculationsFiltersResponse
+	(*UpdateFollowingCalculationByIdRequest)(nil),         // 161: tables.v1.UpdateFollowingCalculationByIdRequest
+	(*UpdateFollowingCalculationByIdResponse)(nil),        // 162: tables.v1.UpdateFollowingCalculationByIdResponse
+	(*DeleteFollowingCalculationByIdRequest)(nil),         // 163: tables.v1.DeleteFollowingCalculationByIdRequest
+	(*DeleteFollowingCalculationByIdResponse)(nil),        // 164: tables.v1.DeleteFollowingCalculationByIdResponse
+	(*UndeleteFollowingCalculationByIdRequest)(nil),       // 165: tables.v1.UndeleteFollowingCalculationByIdRequest
+	(*UndeleteFollowingCalculationByIdResponse)(nil),      // 166: tables.v1.UndeleteFollowingCalculationByIdResponse
+	(*GroupLevels)(nil),                                   // 167: tables.v1.GroupLevels
+	(*CreateGroupLevelsRequest)(nil),                      // 168: tables.v1.CreateGroupLevelsRequest
+	(*CreateGroupLevelsResponse)(nil),                     // 169: tables.v1.CreateGroupLevelsResponse
+	(*GetGroupLevelsSearchNameRequest)(nil),               // 170: tables.v1.GetGroupLevelsSearchNameRequest
+	(*GetGroupLevelsSearchNameResponse)(nil),              // 171: tables.v1.GetGroupLevelsSearchNameResponse
+	(*GetGroupLevelsRequest)(nil),                         // 172: tables.v1.GetGroupLevelsRequest
+	(*GetGroupLevelsResponse)(nil),                        // 173: tables.v1.GetGroupLevelsResponse
+	(*GetGroupLevelsByIdRequest)(nil),                     // 174: tables.v1.GetGroupLevelsByIdRequest
+	(*GetGroupLevelsByIdResponse)(nil),                    // 175: tables.v1.GetGroupLevelsByIdResponse
+	(*GetGroupLevelsFilteredRequest)(nil),                 // 176: tables.v1.GetGroupLevelsFilteredRequest
+	(*GetGroupLevelsFilteredResponse)(nil),                // 177: tables.v1.GetGroupLevelsFilteredResponse
+	(*GetGroupLevelsDeletedRequest)(nil),                  // 178: tables.v1.GetGroupLevelsDeletedRequest
+	(*GetGroupLevelsDeletedResponse)(nil),                 // 179: tables.v1.GetGroupLevelsDeletedResponse
+	(*UpdateGroupLevelsByIdRequest)(nil),                  // 180: tables.v1.UpdateGroupLevelsByIdRequest
+	(*UpdateGroupLevelsByIdResponse)(nil),                 // 181: tables.v1.UpdateGroupLevelsByIdResponse
+	(*DeleteGroupLevelsByIdRequest)(nil),                  // 182: tables.v1.DeleteGroupLevelsByIdRequest
+	(*DeleteGroupLevelsByIdResponse)(nil),                 // 183: tables.v1.DeleteGroupLevelsByIdResponse
+	(*UndeleteGroupLevelsRequest)(nil),                    // 184: tables.v1.UndeleteGroupLevelsRequest
+	(*UndeleteGroupLevelsResponse)(nil),                   // 185: tables.v1.UndeleteGroupLevelsResponse
+	(*HasToGroup)(nil),                                    // 186: tables.v1.HasToGroup
+	(*CreateHasToGroupRequest)(nil),                       // 187: tables.v1.CreateHasToGroupRequest
+	(*CreateHasToGroupResponse)(nil),                      // 188: tables.v1.CreateHasToGroupResponse
+	(*GetHasToGroupByIdRequest)(nil),                      // 189: tables.v1.GetHasToGroupByIdRequest
+	(*GetHasToGroupByIdResponse)(nil),                     // 190: tables.v1.GetHasToGroupByIdResponse
+	(*GetHasToGroupsSearchNameRequest)(nil),               // 191: tables.v1.GetHasToGroupsSearchNameRequest
+	(*GetHasToGroupsSearchNameResponse)(nil),              // 192: tables.v1.GetHasToGroupsSearchNameResponse
+	(*GetHasToGroupsRequest)(nil),                         // 193: tables.v1.GetHasToGroupsRequest
+	(*GetHasToGroupsResponse)(nil),                        // 194: tables.v1.GetHasToGroupsResponse
+	(*GetHasToGroupsDeletedRequest)(nil),                  // 195: tables.v1.GetHasToGroupsDeletedRequest
+	(*GetHasToGroupsDeletedResponse)(nil),                 // 196: tables.v1.GetHasToGroupsDeletedResponse
+	(*UpdateHasToGroupByIdRequest)(nil),                   // 197: tables.v1.UpdateHasToGroupByIdRequest
+	(*UpdateHasToGroupByIdResponse)(nil),                  // 198: tables.v1.UpdateHasToGroupByIdResponse
+	(*DeleteHasToGroupByIdRequest)(nil),                   // 199: tables.v1.DeleteHasToGroupByIdRequest
+	(*DeleteHasToGroupByIdResponse)(nil),                  // 200: tables.v1.DeleteHasToGroupByIdResponse
+	(*UndeleteHasToGroupByIdRequest)(nil),                 // 201: tables.v1.UndeleteHasToGroupByIdRequest
+	(*UndeleteHasToGroupByIdResponse)(nil),                // 202: tables.v1.UndeleteHasToGroupByIdResponse
+	(*SchemaCat)(nil),                                     // 203: tables.v1.SchemaCat
+	(*CreateSchemaCatRequest)(nil),                        // 204: tables.v1.CreateSchemaCatRequest
+	(*CreateSchemaCatResponse)(nil),                       // 205: tables.v1.CreateSchemaCatResponse
+	(*GetSchemaCatByIdRequest)(nil),                       // 206: tables.v1.GetSchemaCatByIdRequest
+	(*GetSchemaCatByIdResponse)(nil),                      // 207: tables.v1.GetSchemaCatByIdResponse
+	(*GetSchemaCatsRequest)(nil),                          // 208: tables.v1.GetSchemaCatsRequest
+	(*GetSchemaCatsResponse)(nil),                         // 209: tables.v1.GetSchemaCatsResponse
+	(*GetSchemaCatsDeletedRequest)(nil),                   // 210: tables.v1.GetSchemaCatsDeletedRequest
+	(*GetSchemaCatsDeletedResponse)(nil),                  // 211: tables.v1.GetSchemaCatsDeletedResponse
+	(*UpdateSchemaCatByIdRequest)(nil),                    // 212: tables.v1.UpdateSchemaCatByIdRequest
+	(*UpdateSchemaCatByIdResponse)(nil),                   // 213: tables.v1.UpdateSchemaCatByIdResponse
+	(*DeleteSchemaCatByIdRequest)(nil),                    // 214: tables.v1.DeleteSchemaCatByIdRequest
+	(*DeleteSchemaCatByIdResponse)(nil),                   // 215: tables.v1.DeleteSchemaCatByIdResponse
+	(*UndeleteSchemaCatByIdRequest)(nil),                  // 216: tables.v1.UndeleteSchemaCatByIdRequest
+	(*UndeleteSchemaCatByIdResponse)(nil),                 // 217: tables.v1.UndeleteSchemaCatByIdResponse
+	(*TableCat)(nil),                                      // 218: tables.v1.TableCat
+	(*CreateTableCatRequest)(nil),                         // 219: tables.v1.CreateTableCatRequest
+	(*CreateTableCatResponse)(nil),                        // 220: tables.v1.CreateTableCatResponse
+	(*GetTableCatByIdRequest)(nil),                        // 221: tables.v1.GetTableCatByIdRequest
+	(*GetTableCatByIdResponse)(nil),                       // 222: tables.v1.GetTableCatByIdResponse
+	(*GetTableCatsRequest)(nil),                           // 223: tables.v1.GetTableCatsRequest
+	(*GetTableCatsResponse)(nil),                          // 224: tables.v1.GetTableCatsResponse
+	(*GetTableCatsDeletedRequest)(nil),                    // 225: tables.v1.GetTableCatsDeletedRequest
+	(*GetTableCatsDeletedResponse)(nil),                   // 226: tables.v1.GetTableCatsDeletedResponse
+	(*UpdateTableCatByIdRequest)(nil),                     // 227: tables.v1.UpdateTableCatByIdRequest
+	(*UpdateTableCatByIdResponse)(nil),                    // 228: tables.v1.UpdateTableCatByIdResponse
+	(*DeleteTableCatByIdRequest)(nil),                     // 229: tables.v1.DeleteTableCatByIdRequest
+	(*DeleteTableCatByIdResponse)(nil),                    // 230: tables.v1.DeleteTableCatByIdResponse
+	(*UndeleteTableCatByIdRequest)(nil),                   // 231: tables.v1.UndeleteTableCatByIdRequest
+	(*UndeleteTableCatByIdResponse)(nil),                  // 232: tables.v1.UndeleteTableCatByIdResponse
+	(*TableType)(nil),                                     // 233: tables.v1.TableType
+	(*CreateTableTypeRequest)(nil),                        // 234: tables.v1.CreateTableTypeRequest
+	(*CreateTableTypeResponse)(nil),                       // 235: tables.v1.CreateTableTypeResponse
+	(*GetTableTypeByIdRequest)(nil),                       // 236: tables.v1.GetTableTypeByIdRequest
+	(*GetTableTypeByIdResponse)(nil),                      // 237: tables.v1.GetTableTypeByIdResponse
+	(*GetTableTypesRequest)(nil),                          // 238: tables.v1.GetTableTypesRequest
+	(*GetTableTypesResponse)(nil),                         // 239: tables.v1.GetTableTypesResponse
+	(*GetTableTypesDeletedRequest)(nil),                   // 240: tables.v1.GetTableTypesDeletedRequest
+	(*GetTableTypesDeletedResponse)(nil),                  // 241: tables.v1.GetTableTypesDeletedResponse
+	(*UpdateTableTypeByIdRequest)(nil),                    // 242: tables.v1.UpdateTableTypeByIdRequest
+	(*UpdateTableTypeByIdResponse)(nil),                   // 243: tables.v1.UpdateTableTypeByIdResponse
+	(*DeleteTableTypeByIdRequest)(nil),                    // 244: tables.v1.DeleteTableTypeByIdRequest
+	(*DeleteTableTypeByIdResponse)(nil),                   // 245: tables.v1.DeleteTableTypeByIdResponse
+	(*UndeleteTableTypeByIdRequest)(nil),                  // 246: tables.v1.UndeleteTableTypeByIdRequest
+	(*UndeleteTableTypeByIdResponse)(nil),                 // 247: tables.v1.UndeleteTableTypeByIdResponse
+	(*CalculationType)(nil),                               // 248: tables.v1.CalculationType
+	(*GetCalculationTypeByIdRequest)(nil),                 // 249: tables.v1.GetCalculationTypeByIdRequest
+	(*GetCalculationTypeByIdResponse)(nil),                // 250: tables.v1.GetCalculationTypeByIdResponse
+	(*GetCalculationTypesRequest)(nil),                    // 251: tables.v1.GetCalculationTypesRequest
+	(*GetCalculationTypesResponse)(nil),                   // 252: tables.v1.GetCalculationTypesResponse
+	(*timestamppb.Timestamp)(nil),                         // 253: google.protobuf.Timestamp
 }
 var file_tables_v1_tables_proto_depIdxs = []int32{
-	40, // 0: tables.v1.Alias.created_at:type_name -> google.protobuf.Timestamp
-	40, // 1: tables.v1.Alias.updated_at:type_name -> google.protobuf.Timestamp
-	1,  // 2: tables.v1.CreateAliasResponse.alias:type_name -> tables.v1.Alias
-	1,  // 3: tables.v1.GetAliasByIdResponse.alias:type_name -> tables.v1.Alias
-	1,  // 4: tables.v1.GetAliasesDeletedResponse.data:type_name -> tables.v1.Alias
-	0,  // 5: tables.v1.GetAliasesDeletedResponse.pagination:type_name -> tables.v1.Pagination
-	1,  // 6: tables.v1.GetAliasesResponse.data:type_name -> tables.v1.Alias
-	0,  // 7: tables.v1.GetAliasesResponse.pagination:type_name -> tables.v1.Pagination
-	40, // 8: tables.v1.User.created_at:type_name -> google.protobuf.Timestamp
-	40, // 9: tables.v1.User.updated_at:type_name -> google.protobuf.Timestamp
-	16, // 10: tables.v1.CreateUserResponse.user:type_name -> tables.v1.User
-	16, // 11: tables.v1.GetUserByExternalIdResponse.user:type_name -> tables.v1.User
-	16, // 12: tables.v1.GetUsersResponse.data:type_name -> tables.v1.User
-	0,  // 13: tables.v1.GetUsersResponse.pagination:type_name -> tables.v1.Pagination
-	40, // 14: tables.v1.Host.created_at:type_name -> google.protobuf.Timestamp
-	40, // 15: tables.v1.Host.updated_at:type_name -> google.protobuf.Timestamp
-	23, // 16: tables.v1.CreateHostResponse.host:type_name -> tables.v1.Host
-	23, // 17: tables.v1.GetHostByIdResponse.host:type_name -> tables.v1.Host
-	23, // 18: tables.v1.GetHostsResponse.data:type_name -> tables.v1.Host
-	0,  // 19: tables.v1.GetHostsResponse.pagination:type_name -> tables.v1.Pagination
-	23, // 20: tables.v1.GetHostsSearchNameResponse.data:type_name -> tables.v1.Host
-	0,  // 21: tables.v1.GetHostsSearchNameResponse.pagination:type_name -> tables.v1.Pagination
-	23, // 22: tables.v1.GetHostDeletedResponse.data:type_name -> tables.v1.Host
-	0,  // 23: tables.v1.GetHostDeletedResponse.pagination:type_name -> tables.v1.Pagination
-	2,  // 24: tables.v1.AliasService.CreateAlias:input_type -> tables.v1.CreateAliasRequest
-	4,  // 25: tables.v1.AliasService.GetAliasById:input_type -> tables.v1.GetAliasByIdRequest
-	6,  // 26: tables.v1.AliasService.GetAliasesDeleted:input_type -> tables.v1.GetAliasesDeletedRequest
-	8,  // 27: tables.v1.AliasService.GetAliases:input_type -> tables.v1.GetAliasesRequest
-	10, // 28: tables.v1.AliasService.UpdateAliasById:input_type -> tables.v1.UpdateAliasByIdRequest
-	12, // 29: tables.v1.AliasService.DeleteAliasById:input_type -> tables.v1.DeleteAliasByIdRequest
-	14, // 30: tables.v1.AliasService.UndeleteAliasById:input_type -> tables.v1.UndeleteAliasByIdRequest
-	17, // 31: tables.v1.UserService.CreateUser:input_type -> tables.v1.CreateUserRequest
-	19, // 32: tables.v1.UserService.GetUserByExternalId:input_type -> tables.v1.GetUserByExternalIdRequest
-	21, // 33: tables.v1.UserService.GetUsers:input_type -> tables.v1.GetUsersRequest
-	24, // 34: tables.v1.HostService.CreateHost:input_type -> tables.v1.CreateHostRequest
-	26, // 35: tables.v1.HostService.GetHostById:input_type -> tables.v1.GetHostByIdRequest
-	28, // 36: tables.v1.HostService.GetHosts:input_type -> tables.v1.GetHostsRequest
-	30, // 37: tables.v1.HostService.GetHostsSearchName:input_type -> tables.v1.GetHostsSearchNameRequest
-	32, // 38: tables.v1.HostService.GetHostDeleted:input_type -> tables.v1.GetHostDeletedRequest
-	34, // 39: tables.v1.HostService.UpdateHostById:input_type -> tables.v1.UpdateHostByIdRequest
-	36, // 40: tables.v1.HostService.DeleteHostById:input_type -> tables.v1.DeleteHostByIdRequest
-	38, // 41: tables.v1.HostService.UndeleteHostById:input_type -> tables.v1.UndeleteHostByIdRequest
-	3,  // 42: tables.v1.AliasService.CreateAlias:output_type -> tables.v1.CreateAliasResponse
-	5,  // 43: tables.v1.AliasService.GetAliasById:output_type -> tables.v1.GetAliasByIdResponse
-	7,  // 44: tables.v1.AliasService.GetAliasesDeleted:output_type -> tables.v1.GetAliasesDeletedResponse
-	9,  // 45: tables.v1.AliasService.GetAliases:output_type -> tables.v1.GetAliasesResponse
-	11, // 46: tables.v1.AliasService.UpdateAliasById:output_type -> tables.v1.UpdateAliasByIdResponse
-	13, // 47: tables.v1.AliasService.DeleteAliasById:output_type -> tables.v1.DeleteAliasByIdResponse
-	15, // 48: tables.v1.AliasService.UndeleteAliasById:output_type -> tables.v1.UndeleteAliasByIdResponse
-	18, // 49: tables.v1.UserService.CreateUser:output_type -> tables.v1.CreateUserResponse
-	20, // 50: tables.v1.UserService.GetUserByExternalId:output_type -> tables.v1.GetUserByExternalIdResponse
-	22, // 51: tables.v1.UserService.GetUsers:output_type -> tables.v1.GetUsersResponse
-	25, // 52: tables.v1.HostService.CreateHost:output_type -> tables.v1.CreateHostResponse
-	27, // 53: tables.v1.HostService.GetHostById:output_type -> tables.v1.GetHostByIdResponse
-	29, // 54: tables.v1.HostService.GetHosts:output_type -> tables.v1.GetHostsResponse
-	31, // 55: tables.v1.HostService.GetHostsSearchName:output_type -> tables.v1.GetHostsSearchNameResponse
-	33, // 56: tables.v1.HostService.GetHostDeleted:output_type -> tables.v1.GetHostDeletedResponse
-	35, // 57: tables.v1.HostService.UpdateHostById:output_type -> tables.v1.UpdateHostByIdResponse
-	37, // 58: tables.v1.HostService.DeleteHostById:output_type -> tables.v1.DeleteHostByIdResponse
-	39, // 59: tables.v1.HostService.UndeleteHostById:output_type -> tables.v1.UndeleteHostByIdResponse
-	42, // [42:60] is the sub-list for method output_type
-	24, // [24:42] is the sub-list for method input_type
-	24, // [24:24] is the sub-list for extension type_name
-	24, // [24:24] is the sub-list for extension extendee
-	0,  // [0:24] is the sub-list for field type_name
+	253, // 0: tables.v1.Alias.created_at:type_name -> google.protobuf.Timestamp
+	253, // 1: tables.v1.Alias.updated_at:type_name -> google.protobuf.Timestamp
+	1,   // 2: tables.v1.CreateAliasResponse.alias:type_name -> tables.v1.Alias
+	1,   // 3: tables.v1.GetAliasByIdResponse.alias:type_name -> tables.v1.Alias
+	1,   // 4: tables.v1.GetAliasesDeletedResponse.data:type_name -> tables.v1.Alias
+	0,   // 5: tables.v1.GetAliasesDeletedResponse.pagination:type_name -> tables.v1.Pagination
+	1,   // 6: tables.v1.GetAliasesResponse.data:type_name -> tables.v1.Alias
+	0,   // 7: tables.v1.GetAliasesResponse.pagination:type_name -> tables.v1.Pagination
+	253, // 8: tables.v1.User.created_at:type_name -> google.protobuf.Timestamp
+	253, // 9: tables.v1.User.updated_at:type_name -> google.protobuf.Timestamp
+	16,  // 10: tables.v1.CreateUserResponse.user:type_name -> tables.v1.User
+	16,  // 11: tables.v1.GetUserByExternalIdResponse.user:type_name -> tables.v1.User
+	16,  // 12: tables.v1.GetUsersResponse.data:type_name -> tables.v1.User
+	0,   // 13: tables.v1.GetUsersResponse.pagination:type_name -> tables.v1.Pagination
+	253, // 14: tables.v1.Host.created_at:type_name -> google.protobuf.Timestamp
+	253, // 15: tables.v1.Host.updated_at:type_name -> google.protobuf.Timestamp
+	23,  // 16: tables.v1.CreateHostResponse.host:type_name -> tables.v1.Host
+	23,  // 17: tables.v1.GetHostByIdResponse.host:type_name -> tables.v1.Host
+	23,  // 18: tables.v1.GetHostsResponse.data:type_name -> tables.v1.Host
+	0,   // 19: tables.v1.GetHostsResponse.pagination:type_name -> tables.v1.Pagination
+	23,  // 20: tables.v1.GetHostsSearchNameResponse.data:type_name -> tables.v1.Host
+	0,   // 21: tables.v1.GetHostsSearchNameResponse.pagination:type_name -> tables.v1.Pagination
+	23,  // 22: tables.v1.GetHostDeletedResponse.data:type_name -> tables.v1.Host
+	0,   // 23: tables.v1.GetHostDeletedResponse.pagination:type_name -> tables.v1.Pagination
+	253, // 24: tables.v1.DatabaseType.created_at:type_name -> google.protobuf.Timestamp
+	253, // 25: tables.v1.DatabaseType.updated_at:type_name -> google.protobuf.Timestamp
+	40,  // 26: tables.v1.CreateDatabaseTypeResponse.database_type:type_name -> tables.v1.DatabaseType
+	40,  // 27: tables.v1.GetDatabaseTypeByIdResponse.database_type:type_name -> tables.v1.DatabaseType
+	40,  // 28: tables.v1.GetDatabaseTypesSearchNameResponse.data:type_name -> tables.v1.DatabaseType
+	0,   // 29: tables.v1.GetDatabaseTypesSearchNameResponse.pagination:type_name -> tables.v1.Pagination
+	40,  // 30: tables.v1.GetDatabaseTypesResponse.data:type_name -> tables.v1.DatabaseType
+	0,   // 31: tables.v1.GetDatabaseTypesResponse.pagination:type_name -> tables.v1.Pagination
+	40,  // 32: tables.v1.GetDatabaseTypesDeletedResponse.data:type_name -> tables.v1.DatabaseType
+	0,   // 33: tables.v1.GetDatabaseTypesDeletedResponse.pagination:type_name -> tables.v1.Pagination
+	253, // 34: tables.v1.DatabaseCat.created_at:type_name -> google.protobuf.Timestamp
+	253, // 35: tables.v1.DatabaseCat.updated_at:type_name -> google.protobuf.Timestamp
+	57,  // 36: tables.v1.CreateDatabaseCatResponse.database_cat:type_name -> tables.v1.DatabaseCat
+	57,  // 37: tables.v1.GetDatabaseCatByIdResponse.database_cat:type_name -> tables.v1.DatabaseCat
+	57,  // 38: tables.v1.GetDatabaseCatsResponse.data:type_name -> tables.v1.DatabaseCat
+	0,   // 39: tables.v1.GetDatabaseCatsResponse.pagination:type_name -> tables.v1.Pagination
+	57,  // 40: tables.v1.GetDatabaseCatsDeletedResponse.data:type_name -> tables.v1.DatabaseCat
+	0,   // 41: tables.v1.GetDatabaseCatsDeletedResponse.pagination:type_name -> tables.v1.Pagination
+	57,  // 42: tables.v1.GetDatabaseCatsByHostIdDatabaseTypeIdResponse.data:type_name -> tables.v1.DatabaseCat
+	0,   // 43: tables.v1.GetDatabaseCatsByHostIdDatabaseTypeIdResponse.pagination:type_name -> tables.v1.Pagination
+	57,  // 44: tables.v1.GetDatabaseCatsSearchNameResponse.data:type_name -> tables.v1.DatabaseCat
+	0,   // 45: tables.v1.GetDatabaseCatsSearchNameResponse.pagination:type_name -> tables.v1.Pagination
+	253, // 46: tables.v1.ColumnCat.created_at:type_name -> google.protobuf.Timestamp
+	253, // 47: tables.v1.ColumnCat.updated_at:type_name -> google.protobuf.Timestamp
+	76,  // 48: tables.v1.CreateColumnCatResponse.column_cat:type_name -> tables.v1.ColumnCat
+	76,  // 49: tables.v1.GetColumnCatByIdResponse.column_cat:type_name -> tables.v1.ColumnCat
+	76,  // 50: tables.v1.GetColumnCatsResponse.data:type_name -> tables.v1.ColumnCat
+	0,   // 51: tables.v1.GetColumnCatsResponse.pagination:type_name -> tables.v1.Pagination
+	76,  // 52: tables.v1.GetColumnCatsDeletedResponse.data:type_name -> tables.v1.ColumnCat
+	0,   // 53: tables.v1.GetColumnCatsDeletedResponse.pagination:type_name -> tables.v1.Pagination
+	76,  // 54: tables.v1.GetColumnCatsOptionalFiltersResponse.data:type_name -> tables.v1.ColumnCat
+	0,   // 55: tables.v1.GetColumnCatsOptionalFiltersResponse.pagination:type_name -> tables.v1.Pagination
+	76,  // 56: tables.v1.GetColumnCatsSearchNameResponse.data:type_name -> tables.v1.ColumnCat
+	0,   // 57: tables.v1.GetColumnCatsSearchNameResponse.pagination:type_name -> tables.v1.Pagination
+	253, // 58: tables.v1.ColumnType.created_at:type_name -> google.protobuf.Timestamp
+	253, // 59: tables.v1.ColumnType.updated_at:type_name -> google.protobuf.Timestamp
+	95,  // 60: tables.v1.CreateColumnTypeResponse.column_type:type_name -> tables.v1.ColumnType
+	253, // 61: tables.v1.GetColumnTypeByIdRow.created_at:type_name -> google.protobuf.Timestamp
+	253, // 62: tables.v1.GetColumnTypeByIdRow.updated_at:type_name -> google.protobuf.Timestamp
+	99,  // 63: tables.v1.GetColumnTypeByIdResponse.column_type:type_name -> tables.v1.GetColumnTypeByIdRow
+	95,  // 64: tables.v1.GetColumnTypesResponse.data:type_name -> tables.v1.ColumnType
+	0,   // 65: tables.v1.GetColumnTypesResponse.pagination:type_name -> tables.v1.Pagination
+	95,  // 66: tables.v1.GetColumnTypesSearchNameResponse.data:type_name -> tables.v1.ColumnType
+	0,   // 67: tables.v1.GetColumnTypesSearchNameResponse.pagination:type_name -> tables.v1.Pagination
+	95,  // 68: tables.v1.GetColumnTypesDeletedResponse.data:type_name -> tables.v1.ColumnType
+	0,   // 69: tables.v1.GetColumnTypesDeletedResponse.pagination:type_name -> tables.v1.Pagination
+	253, // 70: tables.v1.DatabaseCalculation.created_at:type_name -> google.protobuf.Timestamp
+	253, // 71: tables.v1.DatabaseCalculation.updated_at:type_name -> google.protobuf.Timestamp
+	113, // 72: tables.v1.CreateDatabaseCalculationResponse.database_calculation:type_name -> tables.v1.DatabaseCalculation
+	113, // 73: tables.v1.GetDatabaseCalculationsSearchNameResponse.data:type_name -> tables.v1.DatabaseCalculation
+	0,   // 74: tables.v1.GetDatabaseCalculationsSearchNameResponse.pagination:type_name -> tables.v1.Pagination
+	253, // 75: tables.v1.GetDatabaseCalculationByIdRow.created_at:type_name -> google.protobuf.Timestamp
+	253, // 76: tables.v1.GetDatabaseCalculationByIdRow.updated_at:type_name -> google.protobuf.Timestamp
+	119, // 77: tables.v1.GetDatabaseCalculationByIdResponse.database_calculation:type_name -> tables.v1.GetDatabaseCalculationByIdRow
+	113, // 78: tables.v1.GetDatabaseCalculationsFilteredResponse.data:type_name -> tables.v1.DatabaseCalculation
+	0,   // 79: tables.v1.GetDatabaseCalculationsFilteredResponse.pagination:type_name -> tables.v1.Pagination
+	113, // 80: tables.v1.GetDatabaseCalculationsDeletedResponse.data:type_name -> tables.v1.DatabaseCalculation
+	0,   // 81: tables.v1.GetDatabaseCalculationsDeletedResponse.pagination:type_name -> tables.v1.Pagination
+	113, // 82: tables.v1.GetDatabaseCalculationsResponse.data:type_name -> tables.v1.DatabaseCalculation
+	0,   // 83: tables.v1.GetDatabaseCalculationsResponse.pagination:type_name -> tables.v1.Pagination
+	253, // 84: tables.v1.DomainCat.created_at:type_name -> google.protobuf.Timestamp
+	253, // 85: tables.v1.DomainCat.updated_at:type_name -> google.protobuf.Timestamp
+	133, // 86: tables.v1.CreateDomainCatResponse.domain_cat:type_name -> tables.v1.DomainCat
+	133, // 87: tables.v1.GetDomainCatsSearchNameResponse.data:type_name -> tables.v1.DomainCat
+	0,   // 88: tables.v1.GetDomainCatsSearchNameResponse.pagination:type_name -> tables.v1.Pagination
+	133, // 89: tables.v1.GetDomainCatByIdResponse.domain_cat:type_name -> tables.v1.DomainCat
+	133, // 90: tables.v1.GetDomainCatsResponse.data:type_name -> tables.v1.DomainCat
+	0,   // 91: tables.v1.GetDomainCatsResponse.pagination:type_name -> tables.v1.Pagination
+	133, // 92: tables.v1.GetDomainCatsDeletedResponse.data:type_name -> tables.v1.DomainCat
+	0,   // 93: tables.v1.GetDomainCatsDeletedResponse.pagination:type_name -> tables.v1.Pagination
+	253, // 94: tables.v1.FollowingCalculation.created_at:type_name -> google.protobuf.Timestamp
+	253, // 95: tables.v1.FollowingCalculation.updated_at:type_name -> google.protobuf.Timestamp
+	150, // 96: tables.v1.CreateFollowingCalculationResponse.following_calculation:type_name -> tables.v1.FollowingCalculation
+	150, // 97: tables.v1.GetFollowingCalculationByIdResponse.following_calculation:type_name -> tables.v1.FollowingCalculation
+	150, // 98: tables.v1.GetFollowingCalculationsResponse.data:type_name -> tables.v1.FollowingCalculation
+	0,   // 99: tables.v1.GetFollowingCalculationsResponse.pagination:type_name -> tables.v1.Pagination
+	150, // 100: tables.v1.GetFollowingCalculationsDeletedResponse.data:type_name -> tables.v1.FollowingCalculation
+	0,   // 101: tables.v1.GetFollowingCalculationsDeletedResponse.pagination:type_name -> tables.v1.Pagination
+	150, // 102: tables.v1.GetFollowingCalculationsFiltersResponse.data:type_name -> tables.v1.FollowingCalculation
+	0,   // 103: tables.v1.GetFollowingCalculationsFiltersResponse.pagination:type_name -> tables.v1.Pagination
+	253, // 104: tables.v1.GroupLevels.created_at:type_name -> google.protobuf.Timestamp
+	253, // 105: tables.v1.GroupLevels.updated_at:type_name -> google.protobuf.Timestamp
+	167, // 106: tables.v1.CreateGroupLevelsResponse.group_levels:type_name -> tables.v1.GroupLevels
+	167, // 107: tables.v1.GetGroupLevelsSearchNameResponse.data:type_name -> tables.v1.GroupLevels
+	0,   // 108: tables.v1.GetGroupLevelsSearchNameResponse.pagination:type_name -> tables.v1.Pagination
+	167, // 109: tables.v1.GetGroupLevelsResponse.data:type_name -> tables.v1.GroupLevels
+	0,   // 110: tables.v1.GetGroupLevelsResponse.pagination:type_name -> tables.v1.Pagination
+	167, // 111: tables.v1.GetGroupLevelsByIdResponse.group_levels:type_name -> tables.v1.GroupLevels
+	167, // 112: tables.v1.GetGroupLevelsFilteredResponse.data:type_name -> tables.v1.GroupLevels
+	0,   // 113: tables.v1.GetGroupLevelsFilteredResponse.pagination:type_name -> tables.v1.Pagination
+	167, // 114: tables.v1.GetGroupLevelsDeletedResponse.rows:type_name -> tables.v1.GroupLevels
+	253, // 115: tables.v1.HasToGroup.created_at:type_name -> google.protobuf.Timestamp
+	253, // 116: tables.v1.HasToGroup.updated_at:type_name -> google.protobuf.Timestamp
+	186, // 117: tables.v1.CreateHasToGroupResponse.has_to_group:type_name -> tables.v1.HasToGroup
+	186, // 118: tables.v1.GetHasToGroupByIdResponse.has_to_group:type_name -> tables.v1.HasToGroup
+	186, // 119: tables.v1.GetHasToGroupsSearchNameResponse.data:type_name -> tables.v1.HasToGroup
+	0,   // 120: tables.v1.GetHasToGroupsSearchNameResponse.pagination:type_name -> tables.v1.Pagination
+	186, // 121: tables.v1.GetHasToGroupsResponse.data:type_name -> tables.v1.HasToGroup
+	0,   // 122: tables.v1.GetHasToGroupsResponse.pagination:type_name -> tables.v1.Pagination
+	186, // 123: tables.v1.GetHasToGroupsDeletedResponse.data:type_name -> tables.v1.HasToGroup
+	0,   // 124: tables.v1.GetHasToGroupsDeletedResponse.pagination:type_name -> tables.v1.Pagination
+	253, // 125: tables.v1.SchemaCat.created_at:type_name -> google.protobuf.Timestamp
+	253, // 126: tables.v1.SchemaCat.updated_at:type_name -> google.protobuf.Timestamp
+	203, // 127: tables.v1.CreateSchemaCatResponse.schema_cat:type_name -> tables.v1.SchemaCat
+	203, // 128: tables.v1.GetSchemaCatByIdResponse.schema_cat:type_name -> tables.v1.SchemaCat
+	203, // 129: tables.v1.GetSchemaCatsResponse.data:type_name -> tables.v1.SchemaCat
+	0,   // 130: tables.v1.GetSchemaCatsResponse.pagination:type_name -> tables.v1.Pagination
+	203, // 131: tables.v1.GetSchemaCatsDeletedResponse.data:type_name -> tables.v1.SchemaCat
+	0,   // 132: tables.v1.GetSchemaCatsDeletedResponse.pagination:type_name -> tables.v1.Pagination
+	253, // 133: tables.v1.UpdateSchemaCatByIdRequest.created_at:type_name -> google.protobuf.Timestamp
+	253, // 134: tables.v1.DeleteSchemaCatByIdRequest.updated_at:type_name -> google.protobuf.Timestamp
+	253, // 135: tables.v1.TableCat.created_at:type_name -> google.protobuf.Timestamp
+	253, // 136: tables.v1.TableCat.updated_at:type_name -> google.protobuf.Timestamp
+	218, // 137: tables.v1.CreateTableCatResponse.table_cat:type_name -> tables.v1.TableCat
+	218, // 138: tables.v1.GetTableCatByIdResponse.table_cat:type_name -> tables.v1.TableCat
+	218, // 139: tables.v1.GetTableCatsResponse.data:type_name -> tables.v1.TableCat
+	0,   // 140: tables.v1.GetTableCatsResponse.pagination:type_name -> tables.v1.Pagination
+	218, // 141: tables.v1.GetTableCatsDeletedResponse.data:type_name -> tables.v1.TableCat
+	0,   // 142: tables.v1.GetTableCatsDeletedResponse.pagination:type_name -> tables.v1.Pagination
+	253, // 143: tables.v1.TableType.created_at:type_name -> google.protobuf.Timestamp
+	253, // 144: tables.v1.TableType.updated_at:type_name -> google.protobuf.Timestamp
+	233, // 145: tables.v1.CreateTableTypeResponse.table_type:type_name -> tables.v1.TableType
+	233, // 146: tables.v1.GetTableTypeByIdResponse.table_type:type_name -> tables.v1.TableType
+	233, // 147: tables.v1.GetTableTypesResponse.data:type_name -> tables.v1.TableType
+	0,   // 148: tables.v1.GetTableTypesResponse.pagination:type_name -> tables.v1.Pagination
+	233, // 149: tables.v1.GetTableTypesDeletedResponse.data:type_name -> tables.v1.TableType
+	0,   // 150: tables.v1.GetTableTypesDeletedResponse.pagination:type_name -> tables.v1.Pagination
+	253, // 151: tables.v1.CalculationType.created_at:type_name -> google.protobuf.Timestamp
+	253, // 152: tables.v1.CalculationType.updated_at:type_name -> google.protobuf.Timestamp
+	248, // 153: tables.v1.GetCalculationTypeByIdResponse.calculation_type:type_name -> tables.v1.CalculationType
+	248, // 154: tables.v1.GetCalculationTypesResponse.rows:type_name -> tables.v1.CalculationType
+	2,   // 155: tables.v1.AliasService.CreateAlias:input_type -> tables.v1.CreateAliasRequest
+	4,   // 156: tables.v1.AliasService.GetAliasById:input_type -> tables.v1.GetAliasByIdRequest
+	6,   // 157: tables.v1.AliasService.GetAliasesDeleted:input_type -> tables.v1.GetAliasesDeletedRequest
+	8,   // 158: tables.v1.AliasService.GetAliases:input_type -> tables.v1.GetAliasesRequest
+	10,  // 159: tables.v1.AliasService.UpdateAliasById:input_type -> tables.v1.UpdateAliasByIdRequest
+	12,  // 160: tables.v1.AliasService.DeleteAliasById:input_type -> tables.v1.DeleteAliasByIdRequest
+	14,  // 161: tables.v1.AliasService.UndeleteAliasById:input_type -> tables.v1.UndeleteAliasByIdRequest
+	17,  // 162: tables.v1.UserService.CreateUser:input_type -> tables.v1.CreateUserRequest
+	19,  // 163: tables.v1.UserService.GetUserByExternalId:input_type -> tables.v1.GetUserByExternalIdRequest
+	21,  // 164: tables.v1.UserService.GetUsers:input_type -> tables.v1.GetUsersRequest
+	24,  // 165: tables.v1.HostService.CreateHost:input_type -> tables.v1.CreateHostRequest
+	26,  // 166: tables.v1.HostService.GetHostById:input_type -> tables.v1.GetHostByIdRequest
+	28,  // 167: tables.v1.HostService.GetHosts:input_type -> tables.v1.GetHostsRequest
+	30,  // 168: tables.v1.HostService.GetHostsSearchName:input_type -> tables.v1.GetHostsSearchNameRequest
+	32,  // 169: tables.v1.HostService.GetHostDeleted:input_type -> tables.v1.GetHostDeletedRequest
+	34,  // 170: tables.v1.HostService.UpdateHostById:input_type -> tables.v1.UpdateHostByIdRequest
+	36,  // 171: tables.v1.HostService.DeleteHostById:input_type -> tables.v1.DeleteHostByIdRequest
+	38,  // 172: tables.v1.HostService.UndeleteHostById:input_type -> tables.v1.UndeleteHostByIdRequest
+	41,  // 173: tables.v1.DatabaseTypeService.CreateDatabaseType:input_type -> tables.v1.CreateDatabaseTypeRequest
+	43,  // 174: tables.v1.DatabaseTypeService.GetDatabaseTypeById:input_type -> tables.v1.GetDatabaseTypeByIdRequest
+	45,  // 175: tables.v1.DatabaseTypeService.GetDatabaseTypesSearchName:input_type -> tables.v1.GetDatabaseTypesSearchNameRequest
+	47,  // 176: tables.v1.DatabaseTypeService.GetDatabaseTypes:input_type -> tables.v1.GetDatabaseTypesRequest
+	49,  // 177: tables.v1.DatabaseTypeService.GetDatabaseTypesDeleted:input_type -> tables.v1.GetDatabaseTypesDeletedRequest
+	51,  // 178: tables.v1.DatabaseTypeService.UpdateDatabaseTypeById:input_type -> tables.v1.UpdateDatabaseTypeByIdRequest
+	53,  // 179: tables.v1.DatabaseTypeService.DeleteDatabaseTypeById:input_type -> tables.v1.DeleteDatabaseTypeByIdRequest
+	55,  // 180: tables.v1.DatabaseTypeService.UndeleteDatabaseTypeById:input_type -> tables.v1.UndeleteDatabaseTypeByIdRequest
+	58,  // 181: tables.v1.DatabaseCatService.CreateDatabaseCat:input_type -> tables.v1.CreateDatabaseCatRequest
+	60,  // 182: tables.v1.DatabaseCatService.GetDatabaseCatById:input_type -> tables.v1.GetDatabaseCatByIdRequest
+	62,  // 183: tables.v1.DatabaseCatService.GetDatabaseCats:input_type -> tables.v1.GetDatabaseCatsRequest
+	64,  // 184: tables.v1.DatabaseCatService.GetDatabaseCatsDeleted:input_type -> tables.v1.GetDatabaseCatsDeletedRequest
+	66,  // 185: tables.v1.DatabaseCatService.GetDatabaseCatsByHostIdDatabaseTypeId:input_type -> tables.v1.GetDatabaseCatsByHostIdDatabaseTypeIdRequest
+	68,  // 186: tables.v1.DatabaseCatService.GetDatabaseCatsSearchName:input_type -> tables.v1.GetDatabaseCatsSearchNameRequest
+	70,  // 187: tables.v1.DatabaseCatService.UpdateDatabaseCatById:input_type -> tables.v1.UpdateDatabaseCatByIdRequest
+	72,  // 188: tables.v1.DatabaseCatService.DeleteDatabaseCatById:input_type -> tables.v1.DeleteDatabaseCatByIdRequest
+	74,  // 189: tables.v1.DatabaseCatService.UndeleteDatabaseCatById:input_type -> tables.v1.UndeleteDatabaseCatByIdRequest
+	77,  // 190: tables.v1.ColumnCatService.CreateColumnCat:input_type -> tables.v1.CreateColumnCatRequest
+	79,  // 191: tables.v1.ColumnCatService.GetColumnCatById:input_type -> tables.v1.GetColumnCatByIdRequest
+	81,  // 192: tables.v1.ColumnCatService.GetColumnCats:input_type -> tables.v1.GetColumnCatsRequest
+	83,  // 193: tables.v1.ColumnCatService.GetColumnCatsDeleted:input_type -> tables.v1.GetColumnCatsDeletedRequest
+	85,  // 194: tables.v1.ColumnCatService.GetColumnCatsOptionalFilters:input_type -> tables.v1.GetColumnCatsOptionalFiltersRequest
+	87,  // 195: tables.v1.ColumnCatService.GetColumnCatsSearchName:input_type -> tables.v1.GetColumnCatsSearchNameRequest
+	89,  // 196: tables.v1.ColumnCatService.UpdateColumnCatById:input_type -> tables.v1.UpdateColumnCatByIdRequest
+	91,  // 197: tables.v1.ColumnCatService.DeleteColumnCatById:input_type -> tables.v1.DeleteColumnCatByIdRequest
+	93,  // 198: tables.v1.ColumnCatService.UndeleteColumnCatById:input_type -> tables.v1.UndeleteColumnCatByIdRequest
+	96,  // 199: tables.v1.ColumnTypeService.CreateColumnType:input_type -> tables.v1.CreateColumnTypeRequest
+	98,  // 200: tables.v1.ColumnTypeService.GetColumnTypeById:input_type -> tables.v1.GetColumnTypeByIdRequest
+	101, // 201: tables.v1.ColumnTypeService.GetColumnTypes:input_type -> tables.v1.GetColumnTypesRequest
+	103, // 202: tables.v1.ColumnTypeService.GetColumnTypesSearchName:input_type -> tables.v1.GetColumnTypesSearchNameRequest
+	105, // 203: tables.v1.ColumnTypeService.GetColumnTypesDeleted:input_type -> tables.v1.GetColumnTypesDeletedRequest
+	107, // 204: tables.v1.ColumnTypeService.UpdateColumnTypeById:input_type -> tables.v1.UpdateColumnTypeByIdRequest
+	109, // 205: tables.v1.ColumnTypeService.DeleteColumnTypeById:input_type -> tables.v1.DeleteColumnTypeByIdRequest
+	111, // 206: tables.v1.ColumnTypeService.UndeleteColumnTypeById:input_type -> tables.v1.UndeleteColumnTypeByIdRequest
+	114, // 207: tables.v1.DatabaseCalculationService.CreateDatabaseCalculation:input_type -> tables.v1.CreateDatabaseCalculationRequest
+	116, // 208: tables.v1.DatabaseCalculationService.GetDatabaseCalculationsSearchName:input_type -> tables.v1.GetDatabaseCalculationsSearchNameRequest
+	118, // 209: tables.v1.DatabaseCalculationService.GetDatabaseCalculationById:input_type -> tables.v1.GetDatabaseCalculationByIdRequest
+	121, // 210: tables.v1.DatabaseCalculationService.GetDatabaseCalculationsFiltered:input_type -> tables.v1.GetDatabaseCalculationsFilteredRequest
+	123, // 211: tables.v1.DatabaseCalculationService.GetDatabaseCalculationsDeleted:input_type -> tables.v1.GetDatabaseCalculationsDeletedRequest
+	125, // 212: tables.v1.DatabaseCalculationService.GetDatabaseCalculations:input_type -> tables.v1.GetDatabaseCalculationsRequest
+	127, // 213: tables.v1.DatabaseCalculationService.UpdateDatabaseCalculationById:input_type -> tables.v1.UpdateDatabaseCalculationByIdRequest
+	129, // 214: tables.v1.DatabaseCalculationService.DeleteDatabaseCalculationById:input_type -> tables.v1.DeleteDatabaseCalculationByIdRequest
+	131, // 215: tables.v1.DatabaseCalculationService.UndeleteDatabaseCalculationById:input_type -> tables.v1.UndeleteDatabaseCalculationByIdRequest
+	134, // 216: tables.v1.DomainCatService.CreateDomainCat:input_type -> tables.v1.CreateDomainCatRequest
+	136, // 217: tables.v1.DomainCatService.GetDomainCatsSearchName:input_type -> tables.v1.GetDomainCatsSearchNameRequest
+	138, // 218: tables.v1.DomainCatService.GetDomainCatById:input_type -> tables.v1.GetDomainCatByIdRequest
+	140, // 219: tables.v1.DomainCatService.GetDomainCats:input_type -> tables.v1.GetDomainCatsRequest
+	142, // 220: tables.v1.DomainCatService.GetDomainCatsDeleted:input_type -> tables.v1.GetDomainCatsDeletedRequest
+	144, // 221: tables.v1.DomainCatService.UpdateDomainCatById:input_type -> tables.v1.UpdateDomainCatByIdRequest
+	146, // 222: tables.v1.DomainCatService.DeleteDomainCatById:input_type -> tables.v1.DeleteDomainCatByIdRequest
+	148, // 223: tables.v1.DomainCatService.UndeleteDomainCatById:input_type -> tables.v1.UndeleteDomainCatByIdRequest
+	151, // 224: tables.v1.FollowingCalculationService.CreateFollowingCalculation:input_type -> tables.v1.CreateFollowingCalculationRequest
+	153, // 225: tables.v1.FollowingCalculationService.GetFollowingCalculationById:input_type -> tables.v1.GetFollowingCalculationByIdRequest
+	155, // 226: tables.v1.FollowingCalculationService.GetFollowingCalculations:input_type -> tables.v1.GetFollowingCalculationsRequest
+	157, // 227: tables.v1.FollowingCalculationService.GetFollowingCalculationsDeleted:input_type -> tables.v1.GetFollowingCalculationsDeletedRequest
+	159, // 228: tables.v1.FollowingCalculationService.GetFollowingCalculationsFilters:input_type -> tables.v1.GetFollowingCalculationsFiltersRequest
+	161, // 229: tables.v1.FollowingCalculationService.UpdateFollowingCalculationById:input_type -> tables.v1.UpdateFollowingCalculationByIdRequest
+	163, // 230: tables.v1.FollowingCalculationService.DeleteFollowingCalculationById:input_type -> tables.v1.DeleteFollowingCalculationByIdRequest
+	165, // 231: tables.v1.FollowingCalculationService.UndeleteFollowingCalculationById:input_type -> tables.v1.UndeleteFollowingCalculationByIdRequest
+	168, // 232: tables.v1.GroupLevelsService.CreateGroupLevels:input_type -> tables.v1.CreateGroupLevelsRequest
+	170, // 233: tables.v1.GroupLevelsService.GetGroupLevelsSearchName:input_type -> tables.v1.GetGroupLevelsSearchNameRequest
+	172, // 234: tables.v1.GroupLevelsService.GetGroupLevels:input_type -> tables.v1.GetGroupLevelsRequest
+	174, // 235: tables.v1.GroupLevelsService.GetGroupLevelsById:input_type -> tables.v1.GetGroupLevelsByIdRequest
+	176, // 236: tables.v1.GroupLevelsService.GetGroupLevelsFiltered:input_type -> tables.v1.GetGroupLevelsFilteredRequest
+	178, // 237: tables.v1.GroupLevelsService.GetGroupLevelsDeleted:input_type -> tables.v1.GetGroupLevelsDeletedRequest
+	180, // 238: tables.v1.GroupLevelsService.UpdateGroupLevelsById:input_type -> tables.v1.UpdateGroupLevelsByIdRequest
+	182, // 239: tables.v1.GroupLevelsService.DeleteGroupLevelsById:input_type -> tables.v1.DeleteGroupLevelsByIdRequest
+	184, // 240: tables.v1.GroupLevelsService.UndeleteGroupLevels:input_type -> tables.v1.UndeleteGroupLevelsRequest
+	187, // 241: tables.v1.HasToGroupService.CreateHasToGroup:input_type -> tables.v1.CreateHasToGroupRequest
+	189, // 242: tables.v1.HasToGroupService.GetHasToGroupById:input_type -> tables.v1.GetHasToGroupByIdRequest
+	191, // 243: tables.v1.HasToGroupService.GetHasToGroupsSearchName:input_type -> tables.v1.GetHasToGroupsSearchNameRequest
+	193, // 244: tables.v1.HasToGroupService.GetHasToGroups:input_type -> tables.v1.GetHasToGroupsRequest
+	195, // 245: tables.v1.HasToGroupService.GetHasToGroupsDeleted:input_type -> tables.v1.GetHasToGroupsDeletedRequest
+	197, // 246: tables.v1.HasToGroupService.UpdateHasToGroupById:input_type -> tables.v1.UpdateHasToGroupByIdRequest
+	199, // 247: tables.v1.HasToGroupService.DeleteHasToGroupById:input_type -> tables.v1.DeleteHasToGroupByIdRequest
+	201, // 248: tables.v1.HasToGroupService.UndeleteHasToGroupById:input_type -> tables.v1.UndeleteHasToGroupByIdRequest
+	204, // 249: tables.v1.SchemaCatService.CreateSchemaCat:input_type -> tables.v1.CreateSchemaCatRequest
+	206, // 250: tables.v1.SchemaCatService.GetSchemaCatById:input_type -> tables.v1.GetSchemaCatByIdRequest
+	208, // 251: tables.v1.SchemaCatService.GetSchemaCats:input_type -> tables.v1.GetSchemaCatsRequest
+	210, // 252: tables.v1.SchemaCatService.GetSchemaCatsDeleted:input_type -> tables.v1.GetSchemaCatsDeletedRequest
+	212, // 253: tables.v1.SchemaCatService.UpdateSchemaCatById:input_type -> tables.v1.UpdateSchemaCatByIdRequest
+	214, // 254: tables.v1.SchemaCatService.DeleteSchemaCatById:input_type -> tables.v1.DeleteSchemaCatByIdRequest
+	216, // 255: tables.v1.SchemaCatService.UndeleteSchemaCatById:input_type -> tables.v1.UndeleteSchemaCatByIdRequest
+	219, // 256: tables.v1.TableCatService.CreateTableCat:input_type -> tables.v1.CreateTableCatRequest
+	221, // 257: tables.v1.TableCatService.GetTableCatById:input_type -> tables.v1.GetTableCatByIdRequest
+	223, // 258: tables.v1.TableCatService.GetTableCats:input_type -> tables.v1.GetTableCatsRequest
+	225, // 259: tables.v1.TableCatService.GetTableCatsDeleted:input_type -> tables.v1.GetTableCatsDeletedRequest
+	227, // 260: tables.v1.TableCatService.UpdateTableCatById:input_type -> tables.v1.UpdateTableCatByIdRequest
+	229, // 261: tables.v1.TableCatService.DeleteTableCatById:input_type -> tables.v1.DeleteTableCatByIdRequest
+	231, // 262: tables.v1.TableCatService.UndeleteTableCatById:input_type -> tables.v1.UndeleteTableCatByIdRequest
+	234, // 263: tables.v1.TableTypeService.CreateTableType:input_type -> tables.v1.CreateTableTypeRequest
+	236, // 264: tables.v1.TableTypeService.GetTableTypeById:input_type -> tables.v1.GetTableTypeByIdRequest
+	238, // 265: tables.v1.TableTypeService.GetTableTypes:input_type -> tables.v1.GetTableTypesRequest
+	240, // 266: tables.v1.TableTypeService.GetTableTypesDeleted:input_type -> tables.v1.GetTableTypesDeletedRequest
+	242, // 267: tables.v1.TableTypeService.UpdateTableTypeById:input_type -> tables.v1.UpdateTableTypeByIdRequest
+	244, // 268: tables.v1.TableTypeService.DeleteTableTypeById:input_type -> tables.v1.DeleteTableTypeByIdRequest
+	246, // 269: tables.v1.TableTypeService.UndeleteTableTypeById:input_type -> tables.v1.UndeleteTableTypeByIdRequest
+	249, // 270: tables.v1.CalculationTypeService.GetCalculationTypeById:input_type -> tables.v1.GetCalculationTypeByIdRequest
+	251, // 271: tables.v1.CalculationTypeService.GetCalculationTypes:input_type -> tables.v1.GetCalculationTypesRequest
+	3,   // 272: tables.v1.AliasService.CreateAlias:output_type -> tables.v1.CreateAliasResponse
+	5,   // 273: tables.v1.AliasService.GetAliasById:output_type -> tables.v1.GetAliasByIdResponse
+	7,   // 274: tables.v1.AliasService.GetAliasesDeleted:output_type -> tables.v1.GetAliasesDeletedResponse
+	9,   // 275: tables.v1.AliasService.GetAliases:output_type -> tables.v1.GetAliasesResponse
+	11,  // 276: tables.v1.AliasService.UpdateAliasById:output_type -> tables.v1.UpdateAliasByIdResponse
+	13,  // 277: tables.v1.AliasService.DeleteAliasById:output_type -> tables.v1.DeleteAliasByIdResponse
+	15,  // 278: tables.v1.AliasService.UndeleteAliasById:output_type -> tables.v1.UndeleteAliasByIdResponse
+	18,  // 279: tables.v1.UserService.CreateUser:output_type -> tables.v1.CreateUserResponse
+	20,  // 280: tables.v1.UserService.GetUserByExternalId:output_type -> tables.v1.GetUserByExternalIdResponse
+	22,  // 281: tables.v1.UserService.GetUsers:output_type -> tables.v1.GetUsersResponse
+	25,  // 282: tables.v1.HostService.CreateHost:output_type -> tables.v1.CreateHostResponse
+	27,  // 283: tables.v1.HostService.GetHostById:output_type -> tables.v1.GetHostByIdResponse
+	29,  // 284: tables.v1.HostService.GetHosts:output_type -> tables.v1.GetHostsResponse
+	31,  // 285: tables.v1.HostService.GetHostsSearchName:output_type -> tables.v1.GetHostsSearchNameResponse
+	33,  // 286: tables.v1.HostService.GetHostDeleted:output_type -> tables.v1.GetHostDeletedResponse
+	35,  // 287: tables.v1.HostService.UpdateHostById:output_type -> tables.v1.UpdateHostByIdResponse
+	37,  // 288: tables.v1.HostService.DeleteHostById:output_type -> tables.v1.DeleteHostByIdResponse
+	39,  // 289: tables.v1.HostService.UndeleteHostById:output_type -> tables.v1.UndeleteHostByIdResponse
+	42,  // 290: tables.v1.DatabaseTypeService.CreateDatabaseType:output_type -> tables.v1.CreateDatabaseTypeResponse
+	44,  // 291: tables.v1.DatabaseTypeService.GetDatabaseTypeById:output_type -> tables.v1.GetDatabaseTypeByIdResponse
+	46,  // 292: tables.v1.DatabaseTypeService.GetDatabaseTypesSearchName:output_type -> tables.v1.GetDatabaseTypesSearchNameResponse
+	48,  // 293: tables.v1.DatabaseTypeService.GetDatabaseTypes:output_type -> tables.v1.GetDatabaseTypesResponse
+	50,  // 294: tables.v1.DatabaseTypeService.GetDatabaseTypesDeleted:output_type -> tables.v1.GetDatabaseTypesDeletedResponse
+	52,  // 295: tables.v1.DatabaseTypeService.UpdateDatabaseTypeById:output_type -> tables.v1.UpdateDatabaseTypeByIdResponse
+	54,  // 296: tables.v1.DatabaseTypeService.DeleteDatabaseTypeById:output_type -> tables.v1.DeleteDatabaseTypeByIdResponse
+	56,  // 297: tables.v1.DatabaseTypeService.UndeleteDatabaseTypeById:output_type -> tables.v1.UndeleteDatabaseTypeByIdResponse
+	59,  // 298: tables.v1.DatabaseCatService.CreateDatabaseCat:output_type -> tables.v1.CreateDatabaseCatResponse
+	61,  // 299: tables.v1.DatabaseCatService.GetDatabaseCatById:output_type -> tables.v1.GetDatabaseCatByIdResponse
+	63,  // 300: tables.v1.DatabaseCatService.GetDatabaseCats:output_type -> tables.v1.GetDatabaseCatsResponse
+	65,  // 301: tables.v1.DatabaseCatService.GetDatabaseCatsDeleted:output_type -> tables.v1.GetDatabaseCatsDeletedResponse
+	67,  // 302: tables.v1.DatabaseCatService.GetDatabaseCatsByHostIdDatabaseTypeId:output_type -> tables.v1.GetDatabaseCatsByHostIdDatabaseTypeIdResponse
+	69,  // 303: tables.v1.DatabaseCatService.GetDatabaseCatsSearchName:output_type -> tables.v1.GetDatabaseCatsSearchNameResponse
+	71,  // 304: tables.v1.DatabaseCatService.UpdateDatabaseCatById:output_type -> tables.v1.UpdateDatabaseCatByIdResponse
+	73,  // 305: tables.v1.DatabaseCatService.DeleteDatabaseCatById:output_type -> tables.v1.DeleteDatabaseCatByIdResponse
+	75,  // 306: tables.v1.DatabaseCatService.UndeleteDatabaseCatById:output_type -> tables.v1.UndeleteDatabaseCatByIdResponse
+	78,  // 307: tables.v1.ColumnCatService.CreateColumnCat:output_type -> tables.v1.CreateColumnCatResponse
+	80,  // 308: tables.v1.ColumnCatService.GetColumnCatById:output_type -> tables.v1.GetColumnCatByIdResponse
+	82,  // 309: tables.v1.ColumnCatService.GetColumnCats:output_type -> tables.v1.GetColumnCatsResponse
+	84,  // 310: tables.v1.ColumnCatService.GetColumnCatsDeleted:output_type -> tables.v1.GetColumnCatsDeletedResponse
+	86,  // 311: tables.v1.ColumnCatService.GetColumnCatsOptionalFilters:output_type -> tables.v1.GetColumnCatsOptionalFiltersResponse
+	88,  // 312: tables.v1.ColumnCatService.GetColumnCatsSearchName:output_type -> tables.v1.GetColumnCatsSearchNameResponse
+	90,  // 313: tables.v1.ColumnCatService.UpdateColumnCatById:output_type -> tables.v1.UpdateColumnCatByIdResponse
+	92,  // 314: tables.v1.ColumnCatService.DeleteColumnCatById:output_type -> tables.v1.DeleteColumnCatByIdResponse
+	94,  // 315: tables.v1.ColumnCatService.UndeleteColumnCatById:output_type -> tables.v1.UndeleteColumnCatByIdResponse
+	97,  // 316: tables.v1.ColumnTypeService.CreateColumnType:output_type -> tables.v1.CreateColumnTypeResponse
+	100, // 317: tables.v1.ColumnTypeService.GetColumnTypeById:output_type -> tables.v1.GetColumnTypeByIdResponse
+	102, // 318: tables.v1.ColumnTypeService.GetColumnTypes:output_type -> tables.v1.GetColumnTypesResponse
+	104, // 319: tables.v1.ColumnTypeService.GetColumnTypesSearchName:output_type -> tables.v1.GetColumnTypesSearchNameResponse
+	106, // 320: tables.v1.ColumnTypeService.GetColumnTypesDeleted:output_type -> tables.v1.GetColumnTypesDeletedResponse
+	108, // 321: tables.v1.ColumnTypeService.UpdateColumnTypeById:output_type -> tables.v1.UpdateColumnTypeByIdResponse
+	110, // 322: tables.v1.ColumnTypeService.DeleteColumnTypeById:output_type -> tables.v1.DeleteColumnTypeByIdResponse
+	112, // 323: tables.v1.ColumnTypeService.UndeleteColumnTypeById:output_type -> tables.v1.UndeleteColumnTypeByIdResponse
+	115, // 324: tables.v1.DatabaseCalculationService.CreateDatabaseCalculation:output_type -> tables.v1.CreateDatabaseCalculationResponse
+	117, // 325: tables.v1.DatabaseCalculationService.GetDatabaseCalculationsSearchName:output_type -> tables.v1.GetDatabaseCalculationsSearchNameResponse
+	120, // 326: tables.v1.DatabaseCalculationService.GetDatabaseCalculationById:output_type -> tables.v1.GetDatabaseCalculationByIdResponse
+	122, // 327: tables.v1.DatabaseCalculationService.GetDatabaseCalculationsFiltered:output_type -> tables.v1.GetDatabaseCalculationsFilteredResponse
+	124, // 328: tables.v1.DatabaseCalculationService.GetDatabaseCalculationsDeleted:output_type -> tables.v1.GetDatabaseCalculationsDeletedResponse
+	126, // 329: tables.v1.DatabaseCalculationService.GetDatabaseCalculations:output_type -> tables.v1.GetDatabaseCalculationsResponse
+	128, // 330: tables.v1.DatabaseCalculationService.UpdateDatabaseCalculationById:output_type -> tables.v1.UpdateDatabaseCalculationByIdResponse
+	130, // 331: tables.v1.DatabaseCalculationService.DeleteDatabaseCalculationById:output_type -> tables.v1.DeleteDatabaseCalculationByIdResponse
+	132, // 332: tables.v1.DatabaseCalculationService.UndeleteDatabaseCalculationById:output_type -> tables.v1.UndeleteDatabaseCalculationByIdResponse
+	135, // 333: tables.v1.DomainCatService.CreateDomainCat:output_type -> tables.v1.CreateDomainCatResponse
+	137, // 334: tables.v1.DomainCatService.GetDomainCatsSearchName:output_type -> tables.v1.GetDomainCatsSearchNameResponse
+	139, // 335: tables.v1.DomainCatService.GetDomainCatById:output_type -> tables.v1.GetDomainCatByIdResponse
+	141, // 336: tables.v1.DomainCatService.GetDomainCats:output_type -> tables.v1.GetDomainCatsResponse
+	143, // 337: tables.v1.DomainCatService.GetDomainCatsDeleted:output_type -> tables.v1.GetDomainCatsDeletedResponse
+	145, // 338: tables.v1.DomainCatService.UpdateDomainCatById:output_type -> tables.v1.UpdateDomainCatByIdResponse
+	147, // 339: tables.v1.DomainCatService.DeleteDomainCatById:output_type -> tables.v1.DeleteDomainCatByIdResponse
+	149, // 340: tables.v1.DomainCatService.UndeleteDomainCatById:output_type -> tables.v1.UndeleteDomainCatByIdResponse
+	152, // 341: tables.v1.FollowingCalculationService.CreateFollowingCalculation:output_type -> tables.v1.CreateFollowingCalculationResponse
+	154, // 342: tables.v1.FollowingCalculationService.GetFollowingCalculationById:output_type -> tables.v1.GetFollowingCalculationByIdResponse
+	156, // 343: tables.v1.FollowingCalculationService.GetFollowingCalculations:output_type -> tables.v1.GetFollowingCalculationsResponse
+	158, // 344: tables.v1.FollowingCalculationService.GetFollowingCalculationsDeleted:output_type -> tables.v1.GetFollowingCalculationsDeletedResponse
+	160, // 345: tables.v1.FollowingCalculationService.GetFollowingCalculationsFilters:output_type -> tables.v1.GetFollowingCalculationsFiltersResponse
+	162, // 346: tables.v1.FollowingCalculationService.UpdateFollowingCalculationById:output_type -> tables.v1.UpdateFollowingCalculationByIdResponse
+	164, // 347: tables.v1.FollowingCalculationService.DeleteFollowingCalculationById:output_type -> tables.v1.DeleteFollowingCalculationByIdResponse
+	166, // 348: tables.v1.FollowingCalculationService.UndeleteFollowingCalculationById:output_type -> tables.v1.UndeleteFollowingCalculationByIdResponse
+	169, // 349: tables.v1.GroupLevelsService.CreateGroupLevels:output_type -> tables.v1.CreateGroupLevelsResponse
+	171, // 350: tables.v1.GroupLevelsService.GetGroupLevelsSearchName:output_type -> tables.v1.GetGroupLevelsSearchNameResponse
+	173, // 351: tables.v1.GroupLevelsService.GetGroupLevels:output_type -> tables.v1.GetGroupLevelsResponse
+	175, // 352: tables.v1.GroupLevelsService.GetGroupLevelsById:output_type -> tables.v1.GetGroupLevelsByIdResponse
+	177, // 353: tables.v1.GroupLevelsService.GetGroupLevelsFiltered:output_type -> tables.v1.GetGroupLevelsFilteredResponse
+	179, // 354: tables.v1.GroupLevelsService.GetGroupLevelsDeleted:output_type -> tables.v1.GetGroupLevelsDeletedResponse
+	181, // 355: tables.v1.GroupLevelsService.UpdateGroupLevelsById:output_type -> tables.v1.UpdateGroupLevelsByIdResponse
+	183, // 356: tables.v1.GroupLevelsService.DeleteGroupLevelsById:output_type -> tables.v1.DeleteGroupLevelsByIdResponse
+	185, // 357: tables.v1.GroupLevelsService.UndeleteGroupLevels:output_type -> tables.v1.UndeleteGroupLevelsResponse
+	188, // 358: tables.v1.HasToGroupService.CreateHasToGroup:output_type -> tables.v1.CreateHasToGroupResponse
+	190, // 359: tables.v1.HasToGroupService.GetHasToGroupById:output_type -> tables.v1.GetHasToGroupByIdResponse
+	192, // 360: tables.v1.HasToGroupService.GetHasToGroupsSearchName:output_type -> tables.v1.GetHasToGroupsSearchNameResponse
+	194, // 361: tables.v1.HasToGroupService.GetHasToGroups:output_type -> tables.v1.GetHasToGroupsResponse
+	196, // 362: tables.v1.HasToGroupService.GetHasToGroupsDeleted:output_type -> tables.v1.GetHasToGroupsDeletedResponse
+	198, // 363: tables.v1.HasToGroupService.UpdateHasToGroupById:output_type -> tables.v1.UpdateHasToGroupByIdResponse
+	200, // 364: tables.v1.HasToGroupService.DeleteHasToGroupById:output_type -> tables.v1.DeleteHasToGroupByIdResponse
+	202, // 365: tables.v1.HasToGroupService.UndeleteHasToGroupById:output_type -> tables.v1.UndeleteHasToGroupByIdResponse
+	205, // 366: tables.v1.SchemaCatService.CreateSchemaCat:output_type -> tables.v1.CreateSchemaCatResponse
+	207, // 367: tables.v1.SchemaCatService.GetSchemaCatById:output_type -> tables.v1.GetSchemaCatByIdResponse
+	209, // 368: tables.v1.SchemaCatService.GetSchemaCats:output_type -> tables.v1.GetSchemaCatsResponse
+	211, // 369: tables.v1.SchemaCatService.GetSchemaCatsDeleted:output_type -> tables.v1.GetSchemaCatsDeletedResponse
+	213, // 370: tables.v1.SchemaCatService.UpdateSchemaCatById:output_type -> tables.v1.UpdateSchemaCatByIdResponse
+	215, // 371: tables.v1.SchemaCatService.DeleteSchemaCatById:output_type -> tables.v1.DeleteSchemaCatByIdResponse
+	217, // 372: tables.v1.SchemaCatService.UndeleteSchemaCatById:output_type -> tables.v1.UndeleteSchemaCatByIdResponse
+	220, // 373: tables.v1.TableCatService.CreateTableCat:output_type -> tables.v1.CreateTableCatResponse
+	222, // 374: tables.v1.TableCatService.GetTableCatById:output_type -> tables.v1.GetTableCatByIdResponse
+	224, // 375: tables.v1.TableCatService.GetTableCats:output_type -> tables.v1.GetTableCatsResponse
+	226, // 376: tables.v1.TableCatService.GetTableCatsDeleted:output_type -> tables.v1.GetTableCatsDeletedResponse
+	228, // 377: tables.v1.TableCatService.UpdateTableCatById:output_type -> tables.v1.UpdateTableCatByIdResponse
+	230, // 378: tables.v1.TableCatService.DeleteTableCatById:output_type -> tables.v1.DeleteTableCatByIdResponse
+	232, // 379: tables.v1.TableCatService.UndeleteTableCatById:output_type -> tables.v1.UndeleteTableCatByIdResponse
+	235, // 380: tables.v1.TableTypeService.CreateTableType:output_type -> tables.v1.CreateTableTypeResponse
+	237, // 381: tables.v1.TableTypeService.GetTableTypeById:output_type -> tables.v1.GetTableTypeByIdResponse
+	239, // 382: tables.v1.TableTypeService.GetTableTypes:output_type -> tables.v1.GetTableTypesResponse
+	241, // 383: tables.v1.TableTypeService.GetTableTypesDeleted:output_type -> tables.v1.GetTableTypesDeletedResponse
+	243, // 384: tables.v1.TableTypeService.UpdateTableTypeById:output_type -> tables.v1.UpdateTableTypeByIdResponse
+	245, // 385: tables.v1.TableTypeService.DeleteTableTypeById:output_type -> tables.v1.DeleteTableTypeByIdResponse
+	247, // 386: tables.v1.TableTypeService.UndeleteTableTypeById:output_type -> tables.v1.UndeleteTableTypeByIdResponse
+	250, // 387: tables.v1.CalculationTypeService.GetCalculationTypeById:output_type -> tables.v1.GetCalculationTypeByIdResponse
+	252, // 388: tables.v1.CalculationTypeService.GetCalculationTypes:output_type -> tables.v1.GetCalculationTypesResponse
+	272, // [272:389] is the sub-list for method output_type
+	155, // [155:272] is the sub-list for method input_type
+	155, // [155:155] is the sub-list for extension type_name
+	155, // [155:155] is the sub-list for extension extendee
+	0,   // [0:155] is the sub-list for field type_name
 }
 
 func init() { file_tables_v1_tables_proto_init() }
@@ -2665,15 +16369,20 @@ func file_tables_v1_tables_proto_init() {
 		return
 	}
 	file_tables_v1_tables_proto_msgTypes[16].OneofWrappers = []any{}
+	file_tables_v1_tables_proto_msgTypes[66].OneofWrappers = []any{}
+	file_tables_v1_tables_proto_msgTypes[85].OneofWrappers = []any{}
+	file_tables_v1_tables_proto_msgTypes[121].OneofWrappers = []any{}
+	file_tables_v1_tables_proto_msgTypes[159].OneofWrappers = []any{}
+	file_tables_v1_tables_proto_msgTypes[176].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_tables_v1_tables_proto_rawDesc), len(file_tables_v1_tables_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   40,
+			NumMessages:   253,
 			NumExtensions: 0,
-			NumServices:   3,
+			NumServices:   16,
 		},
 		GoTypes:           file_tables_v1_tables_proto_goTypes,
 		DependencyIndexes: file_tables_v1_tables_proto_depIdxs,

@@ -7,6 +7,8 @@ package tables_model
 
 import (
 	"context"
+	"database/sql"
+	"time"
 
 	"github.com/google/uuid"
 )
@@ -47,6 +49,706 @@ type CountGetAliasesDeletedRow struct {
 func (q *Queries) CountGetAliasesDeleted(ctx context.Context, pageLimit int32) (CountGetAliasesDeletedRow, error) {
 	row := q.db.QueryRowContext(ctx, countGetAliasesDeleted, pageLimit)
 	var i CountGetAliasesDeletedRow
+	err := row.Scan(&i.TotalItems, &i.TotalPages)
+	return i, err
+}
+
+const countGetColumnCats = `-- name: CountGetColumnCats :one
+SELECT
+    count(*)                                                        AS total_items,
+    ceil(count(*)::numeric / GREATEST($1::int, 1))::bigint AS total_pages
+FROM dc.column_cat
+WHERE column_cat.is_deleted = false
+`
+
+type CountGetColumnCatsRow struct {
+	TotalItems int64
+	TotalPages int64
+}
+
+func (q *Queries) CountGetColumnCats(ctx context.Context, pageLimit int32) (CountGetColumnCatsRow, error) {
+	row := q.db.QueryRowContext(ctx, countGetColumnCats, pageLimit)
+	var i CountGetColumnCatsRow
+	err := row.Scan(&i.TotalItems, &i.TotalPages)
+	return i, err
+}
+
+const countGetColumnCatsDeleted = `-- name: CountGetColumnCatsDeleted :one
+SELECT
+    count(*)                                                        AS total_items,
+    ceil(count(*)::numeric / GREATEST($1::int, 1))::bigint AS total_pages
+FROM dc.column_cat
+WHERE column_cat.is_deleted = true
+`
+
+type CountGetColumnCatsDeletedRow struct {
+	TotalItems int64
+	TotalPages int64
+}
+
+func (q *Queries) CountGetColumnCatsDeleted(ctx context.Context, pageLimit int32) (CountGetColumnCatsDeletedRow, error) {
+	row := q.db.QueryRowContext(ctx, countGetColumnCatsDeleted, pageLimit)
+	var i CountGetColumnCatsDeletedRow
+	err := row.Scan(&i.TotalItems, &i.TotalPages)
+	return i, err
+}
+
+const countGetColumnCatsOptionalFilters = `-- name: CountGetColumnCatsOptionalFilters :one
+SELECT
+    count(*)                                                        AS total_items,
+    ceil(count(*)::numeric / GREATEST($1::int, 1))::bigint AS total_pages
+FROM dc.column_cat
+WHERE ($2::bigint IS NULL OR column_cat.table_id = $2)
+  AND ($3::bigint IS NULL OR column_cat.alias_id = $3)
+  AND ($4::bigint IS NULL OR column_cat.column_type_id = $4)
+  AND ($5::bigint IS NULL OR column_cat.calculation_type_id = $5)
+  AND column_cat.is_deleted = false
+  AND ($6::boolean IS NULL OR column_cat.show_in_ui = $6)
+`
+
+type CountGetColumnCatsOptionalFiltersParams struct {
+	PageLimit         int32
+	TableID           sql.NullInt64
+	AliasID           sql.NullInt64
+	ColumnTypeID      sql.NullInt64
+	CalculationTypeID sql.NullInt64
+	ShowInUi          sql.NullBool
+}
+
+type CountGetColumnCatsOptionalFiltersRow struct {
+	TotalItems int64
+	TotalPages int64
+}
+
+func (q *Queries) CountGetColumnCatsOptionalFilters(ctx context.Context, arg CountGetColumnCatsOptionalFiltersParams) (CountGetColumnCatsOptionalFiltersRow, error) {
+	row := q.db.QueryRowContext(ctx, countGetColumnCatsOptionalFilters,
+		arg.PageLimit,
+		arg.TableID,
+		arg.AliasID,
+		arg.ColumnTypeID,
+		arg.CalculationTypeID,
+		arg.ShowInUi,
+	)
+	var i CountGetColumnCatsOptionalFiltersRow
+	err := row.Scan(&i.TotalItems, &i.TotalPages)
+	return i, err
+}
+
+const countGetColumnCatsSearchName = `-- name: CountGetColumnCatsSearchName :one
+SELECT
+    count(*)                                                        AS total_items,
+    ceil(count(*)::numeric / GREATEST($1::int, 1))::bigint AS total_pages
+FROM dc.column_cat
+WHERE (lower(name) LIKE '%' || lower($2) || '%')
+`
+
+type CountGetColumnCatsSearchNameParams struct {
+	PageLimit  int32
+	SearchName string
+}
+
+type CountGetColumnCatsSearchNameRow struct {
+	TotalItems int64
+	TotalPages int64
+}
+
+func (q *Queries) CountGetColumnCatsSearchName(ctx context.Context, arg CountGetColumnCatsSearchNameParams) (CountGetColumnCatsSearchNameRow, error) {
+	row := q.db.QueryRowContext(ctx, countGetColumnCatsSearchName, arg.PageLimit, arg.SearchName)
+	var i CountGetColumnCatsSearchNameRow
+	err := row.Scan(&i.TotalItems, &i.TotalPages)
+	return i, err
+}
+
+const countGetColumnTypes = `-- name: CountGetColumnTypes :one
+SELECT
+    count(*)                                                        AS total_items,
+    ceil(count(*)::numeric / GREATEST($1::int, 1))::bigint AS total_pages
+FROM dc.column_type
+WHERE column_type.is_deleted = false
+`
+
+type CountGetColumnTypesRow struct {
+	TotalItems int64
+	TotalPages int64
+}
+
+func (q *Queries) CountGetColumnTypes(ctx context.Context, pageLimit int32) (CountGetColumnTypesRow, error) {
+	row := q.db.QueryRowContext(ctx, countGetColumnTypes, pageLimit)
+	var i CountGetColumnTypesRow
+	err := row.Scan(&i.TotalItems, &i.TotalPages)
+	return i, err
+}
+
+const countGetColumnTypesDeleted = `-- name: CountGetColumnTypesDeleted :one
+SELECT
+    count(*)                                                        AS total_items,
+    ceil(count(*)::numeric / GREATEST($1::int, 1))::bigint AS total_pages
+FROM dc.column_type
+WHERE column_type.is_deleted = true
+`
+
+type CountGetColumnTypesDeletedRow struct {
+	TotalItems int64
+	TotalPages int64
+}
+
+func (q *Queries) CountGetColumnTypesDeleted(ctx context.Context, pageLimit int32) (CountGetColumnTypesDeletedRow, error) {
+	row := q.db.QueryRowContext(ctx, countGetColumnTypesDeleted, pageLimit)
+	var i CountGetColumnTypesDeletedRow
+	err := row.Scan(&i.TotalItems, &i.TotalPages)
+	return i, err
+}
+
+const countGetColumnTypesSearchName = `-- name: CountGetColumnTypesSearchName :one
+SELECT
+    count(*)                                                        AS total_items,
+    ceil(count(*)::numeric / GREATEST($1::int, 1))::bigint AS total_pages
+FROM dc.column_type
+WHERE column_type.is_deleted = false
+  AND (lower(name) LIKE '%' || lower($2) || '%')
+`
+
+type CountGetColumnTypesSearchNameParams struct {
+	PageLimit  int32
+	SearchName string
+}
+
+type CountGetColumnTypesSearchNameRow struct {
+	TotalItems int64
+	TotalPages int64
+}
+
+func (q *Queries) CountGetColumnTypesSearchName(ctx context.Context, arg CountGetColumnTypesSearchNameParams) (CountGetColumnTypesSearchNameRow, error) {
+	row := q.db.QueryRowContext(ctx, countGetColumnTypesSearchName, arg.PageLimit, arg.SearchName)
+	var i CountGetColumnTypesSearchNameRow
+	err := row.Scan(&i.TotalItems, &i.TotalPages)
+	return i, err
+}
+
+const countGetDatabaseCalculations = `-- name: CountGetDatabaseCalculations :one
+SELECT
+    count(*)                                                        AS total_items,
+    ceil(count(*)::numeric / GREATEST($1::int, 1))::bigint AS total_pages
+FROM dc.database_calculation
+WHERE database_calculation.is_deleted = false
+`
+
+type CountGetDatabaseCalculationsRow struct {
+	TotalItems int64
+	TotalPages int64
+}
+
+func (q *Queries) CountGetDatabaseCalculations(ctx context.Context, pageLimit int32) (CountGetDatabaseCalculationsRow, error) {
+	row := q.db.QueryRowContext(ctx, countGetDatabaseCalculations, pageLimit)
+	var i CountGetDatabaseCalculationsRow
+	err := row.Scan(&i.TotalItems, &i.TotalPages)
+	return i, err
+}
+
+const countGetDatabaseCalculationsDeleted = `-- name: CountGetDatabaseCalculationsDeleted :one
+SELECT
+    count(*)                                                        AS total_items,
+    ceil(count(*)::numeric / GREATEST($1::int, 1))::bigint AS total_pages
+FROM dc.database_calculation
+WHERE database_calculation.is_deleted = true
+`
+
+type CountGetDatabaseCalculationsDeletedRow struct {
+	TotalItems int64
+	TotalPages int64
+}
+
+func (q *Queries) CountGetDatabaseCalculationsDeleted(ctx context.Context, pageLimit int32) (CountGetDatabaseCalculationsDeletedRow, error) {
+	row := q.db.QueryRowContext(ctx, countGetDatabaseCalculationsDeleted, pageLimit)
+	var i CountGetDatabaseCalculationsDeletedRow
+	err := row.Scan(&i.TotalItems, &i.TotalPages)
+	return i, err
+}
+
+const countGetDatabaseCalculationsFiltered = `-- name: CountGetDatabaseCalculationsFiltered :one
+SELECT
+    count(*)                                                        AS total_items,
+    ceil(count(*)::numeric / GREATEST($1::int, 1))::bigint AS total_pages
+FROM dc.database_calculation
+WHERE ($2::bigint IS NULL OR database_calculation.database_cat_id = $2)
+  AND ($3::bigint IS NULL OR database_calculation.calculation_type_id = $3)
+  AND database_calculation.is_deleted = false
+`
+
+type CountGetDatabaseCalculationsFilteredParams struct {
+	PageLimit         int32
+	DatabaseCatID     sql.NullInt64
+	CalculationTypeID sql.NullInt64
+}
+
+type CountGetDatabaseCalculationsFilteredRow struct {
+	TotalItems int64
+	TotalPages int64
+}
+
+func (q *Queries) CountGetDatabaseCalculationsFiltered(ctx context.Context, arg CountGetDatabaseCalculationsFilteredParams) (CountGetDatabaseCalculationsFilteredRow, error) {
+	row := q.db.QueryRowContext(ctx, countGetDatabaseCalculationsFiltered, arg.PageLimit, arg.DatabaseCatID, arg.CalculationTypeID)
+	var i CountGetDatabaseCalculationsFilteredRow
+	err := row.Scan(&i.TotalItems, &i.TotalPages)
+	return i, err
+}
+
+const countGetDatabaseCalculationsSearchName = `-- name: CountGetDatabaseCalculationsSearchName :one
+SELECT
+    count(*)                                                        AS total_items,
+    ceil(count(*)::numeric / GREATEST($1::int, 1))::bigint AS total_pages
+FROM dc.database_calculation
+WHERE database_calculation.is_deleted = false
+  AND (lower(name) LIKE '%' || lower($2) || '%')
+`
+
+type CountGetDatabaseCalculationsSearchNameParams struct {
+	PageLimit  int32
+	SearchName string
+}
+
+type CountGetDatabaseCalculationsSearchNameRow struct {
+	TotalItems int64
+	TotalPages int64
+}
+
+func (q *Queries) CountGetDatabaseCalculationsSearchName(ctx context.Context, arg CountGetDatabaseCalculationsSearchNameParams) (CountGetDatabaseCalculationsSearchNameRow, error) {
+	row := q.db.QueryRowContext(ctx, countGetDatabaseCalculationsSearchName, arg.PageLimit, arg.SearchName)
+	var i CountGetDatabaseCalculationsSearchNameRow
+	err := row.Scan(&i.TotalItems, &i.TotalPages)
+	return i, err
+}
+
+const countGetDatabaseCats = `-- name: CountGetDatabaseCats :one
+SELECT
+    count(*)                                                        AS total_items,
+    ceil(count(*)::numeric / GREATEST($1::int, 1))::bigint AS total_pages
+FROM dc.database_cat
+WHERE database_cat.is_deleted = false
+`
+
+type CountGetDatabaseCatsRow struct {
+	TotalItems int64
+	TotalPages int64
+}
+
+func (q *Queries) CountGetDatabaseCats(ctx context.Context, pageLimit int32) (CountGetDatabaseCatsRow, error) {
+	row := q.db.QueryRowContext(ctx, countGetDatabaseCats, pageLimit)
+	var i CountGetDatabaseCatsRow
+	err := row.Scan(&i.TotalItems, &i.TotalPages)
+	return i, err
+}
+
+const countGetDatabaseCatsByHostIdDatabaseTypeId = `-- name: CountGetDatabaseCatsByHostIdDatabaseTypeId :one
+SELECT
+    count(*)                                                        AS total_items,
+    ceil(count(*)::numeric / GREATEST($1::int, 1))::bigint AS total_pages
+FROM dc.database_cat
+WHERE ($2::bigint IS NULL OR database_cat.host_id = $2)
+  AND ($3::bigint IS NULL OR database_cat.database_type_id = $3)
+  AND database_cat.is_deleted = false
+`
+
+type CountGetDatabaseCatsByHostIdDatabaseTypeIdParams struct {
+	PageLimit      int32
+	HostID         sql.NullInt64
+	DatabaseTypeID sql.NullInt64
+}
+
+type CountGetDatabaseCatsByHostIdDatabaseTypeIdRow struct {
+	TotalItems int64
+	TotalPages int64
+}
+
+func (q *Queries) CountGetDatabaseCatsByHostIdDatabaseTypeId(ctx context.Context, arg CountGetDatabaseCatsByHostIdDatabaseTypeIdParams) (CountGetDatabaseCatsByHostIdDatabaseTypeIdRow, error) {
+	row := q.db.QueryRowContext(ctx, countGetDatabaseCatsByHostIdDatabaseTypeId, arg.PageLimit, arg.HostID, arg.DatabaseTypeID)
+	var i CountGetDatabaseCatsByHostIdDatabaseTypeIdRow
+	err := row.Scan(&i.TotalItems, &i.TotalPages)
+	return i, err
+}
+
+const countGetDatabaseCatsDeleted = `-- name: CountGetDatabaseCatsDeleted :one
+SELECT
+    count(*)                                                        AS total_items,
+    ceil(count(*)::numeric / GREATEST($1::int, 1))::bigint AS total_pages
+FROM dc.database_cat
+WHERE database_cat.is_deleted = true
+`
+
+type CountGetDatabaseCatsDeletedRow struct {
+	TotalItems int64
+	TotalPages int64
+}
+
+func (q *Queries) CountGetDatabaseCatsDeleted(ctx context.Context, pageLimit int32) (CountGetDatabaseCatsDeletedRow, error) {
+	row := q.db.QueryRowContext(ctx, countGetDatabaseCatsDeleted, pageLimit)
+	var i CountGetDatabaseCatsDeletedRow
+	err := row.Scan(&i.TotalItems, &i.TotalPages)
+	return i, err
+}
+
+const countGetDatabaseCatsSearchName = `-- name: CountGetDatabaseCatsSearchName :one
+SELECT
+    count(*)                                                        AS total_items,
+    ceil(count(*)::numeric / GREATEST($1::int, 1))::bigint AS total_pages
+FROM dc.database_cat
+WHERE database_cat.is_deleted = false
+  AND (lower(name) LIKE '%' || lower($2) || '%')
+`
+
+type CountGetDatabaseCatsSearchNameParams struct {
+	PageLimit  int32
+	SearchName string
+}
+
+type CountGetDatabaseCatsSearchNameRow struct {
+	TotalItems int64
+	TotalPages int64
+}
+
+func (q *Queries) CountGetDatabaseCatsSearchName(ctx context.Context, arg CountGetDatabaseCatsSearchNameParams) (CountGetDatabaseCatsSearchNameRow, error) {
+	row := q.db.QueryRowContext(ctx, countGetDatabaseCatsSearchName, arg.PageLimit, arg.SearchName)
+	var i CountGetDatabaseCatsSearchNameRow
+	err := row.Scan(&i.TotalItems, &i.TotalPages)
+	return i, err
+}
+
+const countGetDatabaseTypes = `-- name: CountGetDatabaseTypes :one
+SELECT
+    count(*)                                                        AS total_items,
+    ceil(count(*)::numeric / GREATEST($1::int, 1))::bigint AS total_pages
+FROM dc.database_type
+WHERE database_type.is_deleted = false
+`
+
+type CountGetDatabaseTypesRow struct {
+	TotalItems int64
+	TotalPages int64
+}
+
+func (q *Queries) CountGetDatabaseTypes(ctx context.Context, pageLimit int32) (CountGetDatabaseTypesRow, error) {
+	row := q.db.QueryRowContext(ctx, countGetDatabaseTypes, pageLimit)
+	var i CountGetDatabaseTypesRow
+	err := row.Scan(&i.TotalItems, &i.TotalPages)
+	return i, err
+}
+
+const countGetDatabaseTypesDeleted = `-- name: CountGetDatabaseTypesDeleted :one
+SELECT
+    count(*)                                                        AS total_items,
+    ceil(count(*)::numeric / GREATEST($1::int, 1))::bigint AS total_pages
+FROM dc.database_type
+WHERE database_type.is_deleted = true
+`
+
+type CountGetDatabaseTypesDeletedRow struct {
+	TotalItems int64
+	TotalPages int64
+}
+
+func (q *Queries) CountGetDatabaseTypesDeleted(ctx context.Context, pageLimit int32) (CountGetDatabaseTypesDeletedRow, error) {
+	row := q.db.QueryRowContext(ctx, countGetDatabaseTypesDeleted, pageLimit)
+	var i CountGetDatabaseTypesDeletedRow
+	err := row.Scan(&i.TotalItems, &i.TotalPages)
+	return i, err
+}
+
+const countGetDatabaseTypesSearchName = `-- name: CountGetDatabaseTypesSearchName :one
+SELECT
+    count(*)                                                        AS total_items,
+    ceil(count(*)::numeric / GREATEST($1::int, 1))::bigint AS total_pages
+FROM dc.database_type
+WHERE database_type.is_deleted = false
+  AND (lower(name) LIKE '%' || lower($2) || '%')
+`
+
+type CountGetDatabaseTypesSearchNameParams struct {
+	PageLimit  int32
+	SearchName string
+}
+
+type CountGetDatabaseTypesSearchNameRow struct {
+	TotalItems int64
+	TotalPages int64
+}
+
+func (q *Queries) CountGetDatabaseTypesSearchName(ctx context.Context, arg CountGetDatabaseTypesSearchNameParams) (CountGetDatabaseTypesSearchNameRow, error) {
+	row := q.db.QueryRowContext(ctx, countGetDatabaseTypesSearchName, arg.PageLimit, arg.SearchName)
+	var i CountGetDatabaseTypesSearchNameRow
+	err := row.Scan(&i.TotalItems, &i.TotalPages)
+	return i, err
+}
+
+const countGetDomainCats = `-- name: CountGetDomainCats :one
+SELECT
+    count(*)                                                        AS total_items,
+    ceil(count(*)::numeric / GREATEST($1::int, 1))::bigint AS total_pages
+FROM dc.domain_cat
+WHERE domain_cat.is_deleted = false
+`
+
+type CountGetDomainCatsRow struct {
+	TotalItems int64
+	TotalPages int64
+}
+
+func (q *Queries) CountGetDomainCats(ctx context.Context, pageLimit int32) (CountGetDomainCatsRow, error) {
+	row := q.db.QueryRowContext(ctx, countGetDomainCats, pageLimit)
+	var i CountGetDomainCatsRow
+	err := row.Scan(&i.TotalItems, &i.TotalPages)
+	return i, err
+}
+
+const countGetDomainCatsDeleted = `-- name: CountGetDomainCatsDeleted :one
+SELECT
+    count(*)                                                        AS total_items,
+    ceil(count(*)::numeric / GREATEST($1::int, 1))::bigint AS total_pages
+FROM dc.domain_cat
+WHERE domain_cat.is_deleted = true
+`
+
+type CountGetDomainCatsDeletedRow struct {
+	TotalItems int64
+	TotalPages int64
+}
+
+func (q *Queries) CountGetDomainCatsDeleted(ctx context.Context, pageLimit int32) (CountGetDomainCatsDeletedRow, error) {
+	row := q.db.QueryRowContext(ctx, countGetDomainCatsDeleted, pageLimit)
+	var i CountGetDomainCatsDeletedRow
+	err := row.Scan(&i.TotalItems, &i.TotalPages)
+	return i, err
+}
+
+const countGetDomainCatsSearchName = `-- name: CountGetDomainCatsSearchName :one
+SELECT
+    count(*)                                                        AS total_items,
+    ceil(count(*)::numeric / GREATEST($1::int, 1))::bigint AS total_pages
+FROM dc.domain_cat
+WHERE domain_cat.is_deleted = false
+  AND (lower(name) LIKE '%' || lower($2) || '%')
+`
+
+type CountGetDomainCatsSearchNameParams struct {
+	PageLimit  int32
+	SearchName string
+}
+
+type CountGetDomainCatsSearchNameRow struct {
+	TotalItems int64
+	TotalPages int64
+}
+
+func (q *Queries) CountGetDomainCatsSearchName(ctx context.Context, arg CountGetDomainCatsSearchNameParams) (CountGetDomainCatsSearchNameRow, error) {
+	row := q.db.QueryRowContext(ctx, countGetDomainCatsSearchName, arg.PageLimit, arg.SearchName)
+	var i CountGetDomainCatsSearchNameRow
+	err := row.Scan(&i.TotalItems, &i.TotalPages)
+	return i, err
+}
+
+const countGetFollowingCalculations = `-- name: CountGetFollowingCalculations :one
+SELECT
+    count(*)                                                        AS total_items,
+    ceil(count(*)::numeric / GREATEST($1::int, 1))::bigint AS total_pages
+FROM dc.following_calculation
+WHERE following_calculation.is_deleted = false
+`
+
+type CountGetFollowingCalculationsRow struct {
+	TotalItems int64
+	TotalPages int64
+}
+
+func (q *Queries) CountGetFollowingCalculations(ctx context.Context, pageLimit int32) (CountGetFollowingCalculationsRow, error) {
+	row := q.db.QueryRowContext(ctx, countGetFollowingCalculations, pageLimit)
+	var i CountGetFollowingCalculationsRow
+	err := row.Scan(&i.TotalItems, &i.TotalPages)
+	return i, err
+}
+
+const countGetFollowingCalculationsDeleted = `-- name: CountGetFollowingCalculationsDeleted :one
+SELECT
+    count(*)                                                        AS total_items,
+    ceil(count(*)::numeric / GREATEST($1::int, 1))::bigint AS total_pages
+FROM dc.following_calculation
+WHERE following_calculation.is_deleted = true
+`
+
+type CountGetFollowingCalculationsDeletedRow struct {
+	TotalItems int64
+	TotalPages int64
+}
+
+func (q *Queries) CountGetFollowingCalculationsDeleted(ctx context.Context, pageLimit int32) (CountGetFollowingCalculationsDeletedRow, error) {
+	row := q.db.QueryRowContext(ctx, countGetFollowingCalculationsDeleted, pageLimit)
+	var i CountGetFollowingCalculationsDeletedRow
+	err := row.Scan(&i.TotalItems, &i.TotalPages)
+	return i, err
+}
+
+const countGetFollowingCalculationsFilters = `-- name: CountGetFollowingCalculationsFilters :one
+SELECT
+    count(*)                                                        AS total_items,
+    ceil(count(*)::numeric / GREATEST($1::int, 1))::bigint AS total_pages
+FROM dc.following_calculation
+WHERE ($2::bigint IS NULL OR following_calculation.column_cat_id = $2)
+  AND ($3::bigint IS NULL OR following_calculation.calculation_type_id = $3)
+  AND following_calculation.is_deleted = false
+`
+
+type CountGetFollowingCalculationsFiltersParams struct {
+	PageLimit         int32
+	ColumnCatID       sql.NullInt64
+	CalculationTypeID sql.NullInt64
+}
+
+type CountGetFollowingCalculationsFiltersRow struct {
+	TotalItems int64
+	TotalPages int64
+}
+
+func (q *Queries) CountGetFollowingCalculationsFilters(ctx context.Context, arg CountGetFollowingCalculationsFiltersParams) (CountGetFollowingCalculationsFiltersRow, error) {
+	row := q.db.QueryRowContext(ctx, countGetFollowingCalculationsFilters, arg.PageLimit, arg.ColumnCatID, arg.CalculationTypeID)
+	var i CountGetFollowingCalculationsFiltersRow
+	err := row.Scan(&i.TotalItems, &i.TotalPages)
+	return i, err
+}
+
+const countGetGroupLevels = `-- name: CountGetGroupLevels :one
+SELECT
+    count(*)                                                        AS total_items,
+    ceil(count(*)::numeric / GREATEST($1::int, 1))::bigint AS total_pages
+FROM dc.group_levels
+WHERE group_levels.is_deleted = false
+`
+
+type CountGetGroupLevelsRow struct {
+	TotalItems int64
+	TotalPages int64
+}
+
+func (q *Queries) CountGetGroupLevels(ctx context.Context, pageLimit int32) (CountGetGroupLevelsRow, error) {
+	row := q.db.QueryRowContext(ctx, countGetGroupLevels, pageLimit)
+	var i CountGetGroupLevelsRow
+	err := row.Scan(&i.TotalItems, &i.TotalPages)
+	return i, err
+}
+
+const countGetGroupLevelsFiltered = `-- name: CountGetGroupLevelsFiltered :one
+SELECT
+    count(*)                                                        AS total_items,
+    ceil(count(*)::numeric / GREATEST($1::int, 1))::bigint AS total_pages
+FROM dc.group_levels
+WHERE ($2::bigint IS NULL OR group_levels.column_id = $2)
+  AND ($3::bigint IS NULL OR group_levels.parent_column_id = $3)
+  AND group_levels.is_deleted = false
+`
+
+type CountGetGroupLevelsFilteredParams struct {
+	PageLimit      int32
+	ColumnID       sql.NullInt64
+	ParentColumnID sql.NullInt64
+}
+
+type CountGetGroupLevelsFilteredRow struct {
+	TotalItems int64
+	TotalPages int64
+}
+
+func (q *Queries) CountGetGroupLevelsFiltered(ctx context.Context, arg CountGetGroupLevelsFilteredParams) (CountGetGroupLevelsFilteredRow, error) {
+	row := q.db.QueryRowContext(ctx, countGetGroupLevelsFiltered, arg.PageLimit, arg.ColumnID, arg.ParentColumnID)
+	var i CountGetGroupLevelsFilteredRow
+	err := row.Scan(&i.TotalItems, &i.TotalPages)
+	return i, err
+}
+
+const countGetGroupLevelsSearchName = `-- name: CountGetGroupLevelsSearchName :one
+SELECT
+    count(*)                                                        AS total_items,
+    ceil(count(*)::numeric / GREATEST($1::int, 1))::bigint AS total_pages
+FROM dc.group_levels
+WHERE group_levels.is_deleted = false
+  AND (lower(name) LIKE '%' || lower($2) || '%')
+`
+
+type CountGetGroupLevelsSearchNameParams struct {
+	PageLimit  int32
+	SearchName string
+}
+
+type CountGetGroupLevelsSearchNameRow struct {
+	TotalItems int64
+	TotalPages int64
+}
+
+func (q *Queries) CountGetGroupLevelsSearchName(ctx context.Context, arg CountGetGroupLevelsSearchNameParams) (CountGetGroupLevelsSearchNameRow, error) {
+	row := q.db.QueryRowContext(ctx, countGetGroupLevelsSearchName, arg.PageLimit, arg.SearchName)
+	var i CountGetGroupLevelsSearchNameRow
+	err := row.Scan(&i.TotalItems, &i.TotalPages)
+	return i, err
+}
+
+const countGetHasToGroups = `-- name: CountGetHasToGroups :one
+SELECT
+    count(*)                                                        AS total_items,
+    ceil(count(*)::numeric / GREATEST($1::int, 1))::bigint AS total_pages
+FROM dc.has_to_group
+WHERE has_to_group.is_deleted = false
+`
+
+type CountGetHasToGroupsRow struct {
+	TotalItems int64
+	TotalPages int64
+}
+
+func (q *Queries) CountGetHasToGroups(ctx context.Context, pageLimit int32) (CountGetHasToGroupsRow, error) {
+	row := q.db.QueryRowContext(ctx, countGetHasToGroups, pageLimit)
+	var i CountGetHasToGroupsRow
+	err := row.Scan(&i.TotalItems, &i.TotalPages)
+	return i, err
+}
+
+const countGetHasToGroupsDeleted = `-- name: CountGetHasToGroupsDeleted :one
+SELECT
+    count(*)                                                        AS total_items,
+    ceil(count(*)::numeric / GREATEST($1::int, 1))::bigint AS total_pages
+FROM dc.has_to_group
+WHERE has_to_group.is_deleted = true
+`
+
+type CountGetHasToGroupsDeletedRow struct {
+	TotalItems int64
+	TotalPages int64
+}
+
+func (q *Queries) CountGetHasToGroupsDeleted(ctx context.Context, pageLimit int32) (CountGetHasToGroupsDeletedRow, error) {
+	row := q.db.QueryRowContext(ctx, countGetHasToGroupsDeleted, pageLimit)
+	var i CountGetHasToGroupsDeletedRow
+	err := row.Scan(&i.TotalItems, &i.TotalPages)
+	return i, err
+}
+
+const countGetHasToGroupsSearchName = `-- name: CountGetHasToGroupsSearchName :one
+SELECT
+    count(*)                                                        AS total_items,
+    ceil(count(*)::numeric / GREATEST($1::int, 1))::bigint AS total_pages
+FROM dc.has_to_group
+WHERE has_to_group.is_deleted = false
+  AND (lower(name) LIKE '%' || lower($2) || '%')
+`
+
+type CountGetHasToGroupsSearchNameParams struct {
+	PageLimit  int32
+	SearchName string
+}
+
+type CountGetHasToGroupsSearchNameRow struct {
+	TotalItems int64
+	TotalPages int64
+}
+
+func (q *Queries) CountGetHasToGroupsSearchName(ctx context.Context, arg CountGetHasToGroupsSearchNameParams) (CountGetHasToGroupsSearchNameRow, error) {
+	row := q.db.QueryRowContext(ctx, countGetHasToGroupsSearchName, arg.PageLimit, arg.SearchName)
+	var i CountGetHasToGroupsSearchNameRow
 	err := row.Scan(&i.TotalItems, &i.TotalPages)
 	return i, err
 }
@@ -117,6 +819,126 @@ func (q *Queries) CountGetHostsSearchName(ctx context.Context, arg CountGetHosts
 	return i, err
 }
 
+const countGetSchemaCats = `-- name: CountGetSchemaCats :one
+SELECT
+    count(*)                                                        AS total_items,
+    ceil(count(*)::numeric / GREATEST($1::int, 1))::bigint AS total_pages
+FROM dc.schema_cat
+WHERE schema_cat.is_deleted = false
+`
+
+type CountGetSchemaCatsRow struct {
+	TotalItems int64
+	TotalPages int64
+}
+
+func (q *Queries) CountGetSchemaCats(ctx context.Context, pageLimit int32) (CountGetSchemaCatsRow, error) {
+	row := q.db.QueryRowContext(ctx, countGetSchemaCats, pageLimit)
+	var i CountGetSchemaCatsRow
+	err := row.Scan(&i.TotalItems, &i.TotalPages)
+	return i, err
+}
+
+const countGetSchemaCatsDeleted = `-- name: CountGetSchemaCatsDeleted :one
+SELECT
+    count(*)                                                        AS total_items,
+    ceil(count(*)::numeric / GREATEST($1::int, 1))::bigint AS total_pages
+FROM dc.schema_cat
+WHERE schema_cat.is_deleted = true
+`
+
+type CountGetSchemaCatsDeletedRow struct {
+	TotalItems int64
+	TotalPages int64
+}
+
+func (q *Queries) CountGetSchemaCatsDeleted(ctx context.Context, pageLimit int32) (CountGetSchemaCatsDeletedRow, error) {
+	row := q.db.QueryRowContext(ctx, countGetSchemaCatsDeleted, pageLimit)
+	var i CountGetSchemaCatsDeletedRow
+	err := row.Scan(&i.TotalItems, &i.TotalPages)
+	return i, err
+}
+
+const countGetTableCats = `-- name: CountGetTableCats :one
+SELECT
+    count(*)                                                        AS total_items,
+    ceil(count(*)::numeric / GREATEST($1::int, 1))::bigint AS total_pages
+FROM dc.table_cat
+WHERE table_cat.is_deleted = false
+`
+
+type CountGetTableCatsRow struct {
+	TotalItems int64
+	TotalPages int64
+}
+
+func (q *Queries) CountGetTableCats(ctx context.Context, pageLimit int32) (CountGetTableCatsRow, error) {
+	row := q.db.QueryRowContext(ctx, countGetTableCats, pageLimit)
+	var i CountGetTableCatsRow
+	err := row.Scan(&i.TotalItems, &i.TotalPages)
+	return i, err
+}
+
+const countGetTableCatsDeleted = `-- name: CountGetTableCatsDeleted :one
+SELECT
+    count(*)                                                        AS total_items,
+    ceil(count(*)::numeric / GREATEST($1::int, 1))::bigint AS total_pages
+FROM dc.table_cat
+WHERE table_cat.is_deleted = true
+`
+
+type CountGetTableCatsDeletedRow struct {
+	TotalItems int64
+	TotalPages int64
+}
+
+func (q *Queries) CountGetTableCatsDeleted(ctx context.Context, pageLimit int32) (CountGetTableCatsDeletedRow, error) {
+	row := q.db.QueryRowContext(ctx, countGetTableCatsDeleted, pageLimit)
+	var i CountGetTableCatsDeletedRow
+	err := row.Scan(&i.TotalItems, &i.TotalPages)
+	return i, err
+}
+
+const countGetTableTypes = `-- name: CountGetTableTypes :one
+SELECT
+    count(*)                                                        AS total_items,
+    ceil(count(*)::numeric / GREATEST($1::int, 1))::bigint AS total_pages
+FROM dc.table_type
+WHERE table_type.is_deleted = false
+`
+
+type CountGetTableTypesRow struct {
+	TotalItems int64
+	TotalPages int64
+}
+
+func (q *Queries) CountGetTableTypes(ctx context.Context, pageLimit int32) (CountGetTableTypesRow, error) {
+	row := q.db.QueryRowContext(ctx, countGetTableTypes, pageLimit)
+	var i CountGetTableTypesRow
+	err := row.Scan(&i.TotalItems, &i.TotalPages)
+	return i, err
+}
+
+const countGetTableTypesDeleted = `-- name: CountGetTableTypesDeleted :one
+SELECT
+    count(*)                                                        AS total_items,
+    ceil(count(*)::numeric / GREATEST($1::int, 1))::bigint AS total_pages
+FROM dc.table_type
+WHERE table_type.is_deleted = true
+`
+
+type CountGetTableTypesDeletedRow struct {
+	TotalItems int64
+	TotalPages int64
+}
+
+func (q *Queries) CountGetTableTypesDeleted(ctx context.Context, pageLimit int32) (CountGetTableTypesDeletedRow, error) {
+	row := q.db.QueryRowContext(ctx, countGetTableTypesDeleted, pageLimit)
+	var i CountGetTableTypesDeletedRow
+	err := row.Scan(&i.TotalItems, &i.TotalPages)
+	return i, err
+}
+
 const countGetUsers = `-- name: CountGetUsers :one
 SELECT
     count(*)                                                        AS total_items,
@@ -179,6 +1001,464 @@ func (q *Queries) CreateAlias(ctx context.Context, arg CreateAliasParams) (DcAli
 		&i.CreatedAt,
 		&i.UpdatedAt,
 		&i.IsDeleted,
+		&i.UserID,
+	)
+	return i, err
+}
+
+const createColumnCat = `-- name: CreateColumnCat :one
+
+INSERT INTO dc.column_cat (
+    table_id,
+    name,
+    alias_id,
+    column_type_id,
+    description,
+    calculation_type_id,
+    is_deleted,
+    show_in_ui,
+    created_at,
+    updated_at,
+    user_id
+) VALUES (
+    $1,
+    $2,
+    $3,
+    $4,
+    $5,
+    $6,
+    false,
+    $7,
+    now(),
+    now(),
+    (SELECT u.id FROM dc."user" u WHERE u.external_id = $8)
+)
+RETURNING id, table_id, name, alias_id, column_type_id, description, calculation_type_id, is_deleted, show_in_ui, created_at, updated_at, user_id
+`
+
+type CreateColumnCatParams struct {
+	TableID           int64
+	Name              string
+	AliasID           int64
+	ColumnTypeID      int64
+	Description       string
+	CalculationTypeID int64
+	ShowInUi          bool
+	ExternalID        uuid.UUID
+}
+
+// =========================================================
+// dc.column_cat
+// =========================================================
+func (q *Queries) CreateColumnCat(ctx context.Context, arg CreateColumnCatParams) (DcColumnCat, error) {
+	row := q.db.QueryRowContext(ctx, createColumnCat,
+		arg.TableID,
+		arg.Name,
+		arg.AliasID,
+		arg.ColumnTypeID,
+		arg.Description,
+		arg.CalculationTypeID,
+		arg.ShowInUi,
+		arg.ExternalID,
+	)
+	var i DcColumnCat
+	err := row.Scan(
+		&i.ID,
+		&i.TableID,
+		&i.Name,
+		&i.AliasID,
+		&i.ColumnTypeID,
+		&i.Description,
+		&i.CalculationTypeID,
+		&i.IsDeleted,
+		&i.ShowInUi,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.UserID,
+	)
+	return i, err
+}
+
+const createColumnType = `-- name: CreateColumnType :one
+
+INSERT INTO dc.column_type (
+    name,
+    description,
+    is_deleted,
+    created_at,
+    updated_at,
+    user_id
+) VALUES (
+    $1,
+    $2,
+    false,
+    now(),
+    now(),
+    (SELECT u.id FROM dc."user" u WHERE u.external_id = $3)
+)
+RETURNING id, name, description, is_deleted, created_at, updated_at, user_id
+`
+
+type CreateColumnTypeParams struct {
+	Name        string
+	Description string
+	ExternalID  uuid.UUID
+}
+
+// =========================================================
+// dc.column_type
+// =========================================================
+func (q *Queries) CreateColumnType(ctx context.Context, arg CreateColumnTypeParams) (DcColumnType, error) {
+	row := q.db.QueryRowContext(ctx, createColumnType, arg.Name, arg.Description, arg.ExternalID)
+	var i DcColumnType
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.Description,
+		&i.IsDeleted,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.UserID,
+	)
+	return i, err
+}
+
+const createDatabaseCalculation = `-- name: CreateDatabaseCalculation :one
+
+INSERT INTO dc.database_calculation (
+    database_cat_id,
+    calculation_type_id,
+    created_at,
+    updated_at,
+    is_deleted,
+    user_id
+) VALUES (
+    $1,
+    $2,
+    now(),
+    now(),
+    false,
+    (SELECT u.id FROM dc."user" u WHERE u.external_id = $3)
+)
+RETURNING id, database_cat_id, calculation_type_id, created_at, updated_at, is_deleted, user_id
+`
+
+type CreateDatabaseCalculationParams struct {
+	DatabaseCatID     int64
+	CalculationTypeID int64
+	ExternalID        uuid.UUID
+}
+
+// =========================================================
+// dc.database_calculation
+// =========================================================
+func (q *Queries) CreateDatabaseCalculation(ctx context.Context, arg CreateDatabaseCalculationParams) (DcDatabaseCalculation, error) {
+	row := q.db.QueryRowContext(ctx, createDatabaseCalculation, arg.DatabaseCatID, arg.CalculationTypeID, arg.ExternalID)
+	var i DcDatabaseCalculation
+	err := row.Scan(
+		&i.ID,
+		&i.DatabaseCatID,
+		&i.CalculationTypeID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.IsDeleted,
+		&i.UserID,
+	)
+	return i, err
+}
+
+const createDatabaseCat = `-- name: CreateDatabaseCat :one
+
+INSERT INTO dc.database_cat (
+    name,
+    host_id,
+    database_type_id,
+    description,
+    is_deleted,
+    created_at,
+    updated_at,
+    user_id
+) VALUES (
+    $1,
+    $2,
+    $3,
+    $4,
+    false,
+    now(),
+    now(),
+    (SELECT u.id FROM dc."user" u WHERE u.external_id = $5)
+)
+RETURNING id, name, host_id, database_type_id, description, is_deleted, created_at, updated_at, user_id
+`
+
+type CreateDatabaseCatParams struct {
+	Name           string
+	HostID         int64
+	DatabaseTypeID int64
+	Description    string
+	ExternalID     uuid.UUID
+}
+
+// =========================================================
+// dc.database_cat
+// =========================================================
+func (q *Queries) CreateDatabaseCat(ctx context.Context, arg CreateDatabaseCatParams) (DcDatabaseCat, error) {
+	row := q.db.QueryRowContext(ctx, createDatabaseCat,
+		arg.Name,
+		arg.HostID,
+		arg.DatabaseTypeID,
+		arg.Description,
+		arg.ExternalID,
+	)
+	var i DcDatabaseCat
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.HostID,
+		&i.DatabaseTypeID,
+		&i.Description,
+		&i.IsDeleted,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.UserID,
+	)
+	return i, err
+}
+
+const createDatabaseType = `-- name: CreateDatabaseType :one
+
+INSERT INTO dc.database_type (
+    name,
+    db_version,
+    is_deleted,
+    created_at,
+    updated_at,
+    user_id
+) VALUES (
+    $1,
+    $2,
+    false,
+    now(),
+    now(),
+    (SELECT u.id FROM dc."user" u WHERE u.external_id = $3)
+)
+RETURNING id, name, db_version, is_deleted, created_at, updated_at, user_id
+`
+
+type CreateDatabaseTypeParams struct {
+	Name       string
+	DbVersion  string
+	ExternalID uuid.UUID
+}
+
+// =========================================================
+// dc.database_type
+// =========================================================
+func (q *Queries) CreateDatabaseType(ctx context.Context, arg CreateDatabaseTypeParams) (DcDatabaseType, error) {
+	row := q.db.QueryRowContext(ctx, createDatabaseType, arg.Name, arg.DbVersion, arg.ExternalID)
+	var i DcDatabaseType
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.DbVersion,
+		&i.IsDeleted,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.UserID,
+	)
+	return i, err
+}
+
+const createDomainCat = `-- name: CreateDomainCat :one
+
+INSERT INTO dc.domain_cat (
+    domain_name,
+    is_deleted,
+    created_at,
+    updated_at,
+    user_id
+) VALUES (
+    $1,
+    false,
+    now(),
+    now(),
+    (SELECT u.id FROM dc."user" u WHERE u.external_id = $2)
+)
+RETURNING id, domain_name, is_deleted, created_at, updated_at, user_id
+`
+
+type CreateDomainCatParams struct {
+	DomainName string
+	ExternalID uuid.UUID
+}
+
+// =========================================================
+// dc.domain_cat
+// =========================================================
+func (q *Queries) CreateDomainCat(ctx context.Context, arg CreateDomainCatParams) (DcDomainCat, error) {
+	row := q.db.QueryRowContext(ctx, createDomainCat, arg.DomainName, arg.ExternalID)
+	var i DcDomainCat
+	err := row.Scan(
+		&i.ID,
+		&i.DomainName,
+		&i.IsDeleted,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.UserID,
+	)
+	return i, err
+}
+
+const createFollowingCalculation = `-- name: CreateFollowingCalculation :one
+
+INSERT INTO dc.following_calculation (
+    column_cat_id,
+    calculation_type_id,
+    created_at,
+    updated_at,
+    is_deleted,
+    user_id
+) VALUES (
+    $1,
+    $2,
+    now(),
+    now(),
+    false,
+    (SELECT u.id FROM dc."user" u WHERE u.external_id = $3)
+)
+RETURNING id, column_cat_id, calculation_type_id, created_at, updated_at, is_deleted, user_id
+`
+
+type CreateFollowingCalculationParams struct {
+	ColumnCatID       int64
+	CalculationTypeID int64
+	ExternalID        uuid.UUID
+}
+
+// =========================================================
+// dc.following_calculation
+// =========================================================
+func (q *Queries) CreateFollowingCalculation(ctx context.Context, arg CreateFollowingCalculationParams) (DcFollowingCalculation, error) {
+	row := q.db.QueryRowContext(ctx, createFollowingCalculation, arg.ColumnCatID, arg.CalculationTypeID, arg.ExternalID)
+	var i DcFollowingCalculation
+	err := row.Scan(
+		&i.ID,
+		&i.ColumnCatID,
+		&i.CalculationTypeID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.IsDeleted,
+		&i.UserID,
+	)
+	return i, err
+}
+
+const createGroupLevels = `-- name: CreateGroupLevels :one
+
+INSERT INTO dc.group_levels (
+    column_id,
+    parent_column_id,
+    level,
+    description,
+    created_at,
+    updated_at,
+    is_deleted,
+    user_id
+) VALUES (
+    $1,
+    $2,
+    $3,
+    $4,
+    now(),
+    now(),
+    false,
+    (SELECT u.id FROM dc."user" u WHERE u.external_id = $5)
+)
+RETURNING id, column_id, parent_column_id, level, description, created_at, updated_at, is_deleted, user_id
+`
+
+type CreateGroupLevelsParams struct {
+	ColumnID       int64
+	ParentColumnID int64
+	Level          int16
+	Description    string
+	ExternalID     uuid.UUID
+}
+
+// =========================================================
+// dc.group_levels
+// =========================================================
+func (q *Queries) CreateGroupLevels(ctx context.Context, arg CreateGroupLevelsParams) (DcGroupLevel, error) {
+	row := q.db.QueryRowContext(ctx, createGroupLevels,
+		arg.ColumnID,
+		arg.ParentColumnID,
+		arg.Level,
+		arg.Description,
+		arg.ExternalID,
+	)
+	var i DcGroupLevel
+	err := row.Scan(
+		&i.ID,
+		&i.ColumnID,
+		&i.ParentColumnID,
+		&i.Level,
+		&i.Description,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.IsDeleted,
+		&i.UserID,
+	)
+	return i, err
+}
+
+const createHasToGroup = `-- name: CreateHasToGroup :one
+
+INSERT INTO dc.has_to_group (
+    column_id_a,
+    column_id_b,
+    description,
+    is_deleted,
+    created_at,
+    updated_at,
+    user_id
+) VALUES (
+    $1,
+    $2,
+    $3,
+    false,
+    now(),
+    now(),
+    (SELECT u.id FROM dc."user" u WHERE u.external_id = $4)
+)
+RETURNING id, column_id_a, column_id_b, description, is_deleted, created_at, updated_at, user_id
+`
+
+type CreateHasToGroupParams struct {
+	ColumnIDA   int64
+	ColumnIDB   int64
+	Description string
+	ExternalID  uuid.UUID
+}
+
+// =========================================================
+// dc.has_to_group
+// =========================================================
+func (q *Queries) CreateHasToGroup(ctx context.Context, arg CreateHasToGroupParams) (DcHasToGroup, error) {
+	row := q.db.QueryRowContext(ctx, createHasToGroup,
+		arg.ColumnIDA,
+		arg.ColumnIDB,
+		arg.Description,
+		arg.ExternalID,
+	)
+	var i DcHasToGroup
+	err := row.Scan(
+		&i.ID,
+		&i.ColumnIDA,
+		&i.ColumnIDB,
+		&i.Description,
+		&i.IsDeleted,
+		&i.CreatedAt,
+		&i.UpdatedAt,
 		&i.UserID,
 	)
 	return i, err
@@ -252,6 +1532,160 @@ func (q *Queries) CreateHost(ctx context.Context, arg CreateHostParams) (DcHost,
 	return i, err
 }
 
+const createSchemaCat = `-- name: CreateSchemaCat :one
+
+INSERT INTO dc.schema_cat (
+    database_id,
+    name,
+    is_deleted,
+    created_at,
+    updated_at,
+    user_id
+) VALUES (
+    $1,
+    $2,
+    false,
+    now(),
+    now(),
+    (SELECT u.id FROM dc."user" u WHERE u.external_id = $3)
+)
+RETURNING id, database_id, name, is_deleted, created_at, updated_at, user_id
+`
+
+type CreateSchemaCatParams struct {
+	DatabaseID int64
+	Name       string
+	ExternalID uuid.UUID
+}
+
+// =========================================================
+// dc.schema_cat
+// =========================================================
+func (q *Queries) CreateSchemaCat(ctx context.Context, arg CreateSchemaCatParams) (DcSchemaCat, error) {
+	row := q.db.QueryRowContext(ctx, createSchemaCat, arg.DatabaseID, arg.Name, arg.ExternalID)
+	var i DcSchemaCat
+	err := row.Scan(
+		&i.ID,
+		&i.DatabaseID,
+		&i.Name,
+		&i.IsDeleted,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.UserID,
+	)
+	return i, err
+}
+
+const createTableCat = `-- name: CreateTableCat :one
+
+INSERT INTO dc.table_cat (
+    name,
+    description,
+    schema_id,
+    table_type_id,
+    domain_id,
+    is_deleted,
+    created_at,
+    updated_at,
+    is_get_dict,
+    user_id
+) VALUES (
+    $1,
+    $2,
+    $3,
+    $4,
+    $5,
+    false,
+    now(),
+    now(),
+    false,
+    (SELECT u.id FROM dc."user" u WHERE u.external_id = $6)
+)
+RETURNING id, name, description, schema_id, table_type_id, domain_id, is_deleted, created_at, updated_at, is_get_dict, user_id
+`
+
+type CreateTableCatParams struct {
+	Name        string
+	Description string
+	SchemaID    int64
+	TableTypeID int64
+	DomainID    int64
+	ExternalID  uuid.UUID
+}
+
+// =========================================================
+// dc.table_cat
+// =========================================================
+func (q *Queries) CreateTableCat(ctx context.Context, arg CreateTableCatParams) (DcTableCat, error) {
+	row := q.db.QueryRowContext(ctx, createTableCat,
+		arg.Name,
+		arg.Description,
+		arg.SchemaID,
+		arg.TableTypeID,
+		arg.DomainID,
+		arg.ExternalID,
+	)
+	var i DcTableCat
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.Description,
+		&i.SchemaID,
+		&i.TableTypeID,
+		&i.DomainID,
+		&i.IsDeleted,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.IsGetDict,
+		&i.UserID,
+	)
+	return i, err
+}
+
+const createTableType = `-- name: CreateTableType :one
+
+INSERT INTO dc.table_type (
+    name,
+    description,
+    is_deleted,
+    created_at,
+    updated_at,
+    user_id
+) VALUES (
+    $1,
+    $2,
+    false,
+    now(),
+    now(),
+    (SELECT u.id FROM dc."user" u WHERE u.external_id = $3)
+)
+RETURNING id, name, description, is_deleted, created_at, updated_at, user_id
+`
+
+type CreateTableTypeParams struct {
+	Name        string
+	Description string
+	ExternalID  uuid.UUID
+}
+
+// =========================================================
+// dc.table_type
+// =========================================================
+func (q *Queries) CreateTableType(ctx context.Context, arg CreateTableTypeParams) (DcTableType, error) {
+	row := q.db.QueryRowContext(ctx, createTableType, arg.Name, arg.Description, arg.ExternalID)
+	var i DcTableType
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.Description,
+		&i.IsDeleted,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.UserID,
+	)
+	return i, err
+}
+
 const createUser = `-- name: CreateUser :one
 
 INSERT INTO dc."user" (
@@ -310,6 +1744,168 @@ func (q *Queries) DeleteAliasById(ctx context.Context, arg DeleteAliasByIdParams
 	return err
 }
 
+const deleteColumnCatById = `-- name: DeleteColumnCatById :exec
+UPDATE dc.column_cat
+SET is_deleted = true,
+    updated_at = now(),
+    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $1)
+WHERE column_cat.id = $2
+`
+
+type DeleteColumnCatByIdParams struct {
+	ExternalID uuid.UUID
+	ID         int64
+}
+
+func (q *Queries) DeleteColumnCatById(ctx context.Context, arg DeleteColumnCatByIdParams) error {
+	_, err := q.db.ExecContext(ctx, deleteColumnCatById, arg.ExternalID, arg.ID)
+	return err
+}
+
+const deleteColumnTypeById = `-- name: DeleteColumnTypeById :exec
+UPDATE dc.column_type
+SET is_deleted = true,
+    updated_at = now(),
+    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $1)
+WHERE column_type.id = $2
+`
+
+type DeleteColumnTypeByIdParams struct {
+	ExternalID uuid.UUID
+	ID         int64
+}
+
+func (q *Queries) DeleteColumnTypeById(ctx context.Context, arg DeleteColumnTypeByIdParams) error {
+	_, err := q.db.ExecContext(ctx, deleteColumnTypeById, arg.ExternalID, arg.ID)
+	return err
+}
+
+const deleteDatabaseCalculationById = `-- name: DeleteDatabaseCalculationById :exec
+UPDATE dc.database_calculation
+SET updated_at = now(),
+    is_deleted = true,
+    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $1)
+WHERE database_calculation.id = $2
+`
+
+type DeleteDatabaseCalculationByIdParams struct {
+	ExternalID uuid.UUID
+	ID         int64
+}
+
+func (q *Queries) DeleteDatabaseCalculationById(ctx context.Context, arg DeleteDatabaseCalculationByIdParams) error {
+	_, err := q.db.ExecContext(ctx, deleteDatabaseCalculationById, arg.ExternalID, arg.ID)
+	return err
+}
+
+const deleteDatabaseCatById = `-- name: DeleteDatabaseCatById :exec
+UPDATE dc.database_cat
+SET is_deleted = true,
+    updated_at = now(),
+    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $1)
+WHERE database_cat.id = $2
+`
+
+type DeleteDatabaseCatByIdParams struct {
+	ExternalID uuid.UUID
+	ID         int64
+}
+
+func (q *Queries) DeleteDatabaseCatById(ctx context.Context, arg DeleteDatabaseCatByIdParams) error {
+	_, err := q.db.ExecContext(ctx, deleteDatabaseCatById, arg.ExternalID, arg.ID)
+	return err
+}
+
+const deleteDatabaseTypeById = `-- name: DeleteDatabaseTypeById :exec
+UPDATE dc.database_type
+SET is_deleted = true,
+    updated_at = now(),
+    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $1)
+WHERE database_type.id = $2
+`
+
+type DeleteDatabaseTypeByIdParams struct {
+	ExternalID uuid.UUID
+	ID         int64
+}
+
+func (q *Queries) DeleteDatabaseTypeById(ctx context.Context, arg DeleteDatabaseTypeByIdParams) error {
+	_, err := q.db.ExecContext(ctx, deleteDatabaseTypeById, arg.ExternalID, arg.ID)
+	return err
+}
+
+const deleteDomainCatById = `-- name: DeleteDomainCatById :exec
+UPDATE dc.domain_cat
+SET is_deleted = true,
+    updated_at = now(),
+    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $1)
+WHERE domain_cat.id = $2
+`
+
+type DeleteDomainCatByIdParams struct {
+	ExternalID uuid.UUID
+	ID         int64
+}
+
+func (q *Queries) DeleteDomainCatById(ctx context.Context, arg DeleteDomainCatByIdParams) error {
+	_, err := q.db.ExecContext(ctx, deleteDomainCatById, arg.ExternalID, arg.ID)
+	return err
+}
+
+const deleteFollowingCalculationById = `-- name: DeleteFollowingCalculationById :exec
+UPDATE dc.following_calculation
+SET updated_at = now(),
+    is_deleted = true,
+    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $1)
+WHERE following_calculation.id = $2
+`
+
+type DeleteFollowingCalculationByIdParams struct {
+	ExternalID uuid.UUID
+	ID         int64
+}
+
+func (q *Queries) DeleteFollowingCalculationById(ctx context.Context, arg DeleteFollowingCalculationByIdParams) error {
+	_, err := q.db.ExecContext(ctx, deleteFollowingCalculationById, arg.ExternalID, arg.ID)
+	return err
+}
+
+const deleteGroupLevelsById = `-- name: DeleteGroupLevelsById :exec
+UPDATE dc.group_levels
+SET updated_at = now(),
+    is_deleted = true,
+    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $1)
+WHERE group_levels.id = $2
+`
+
+type DeleteGroupLevelsByIdParams struct {
+	ExternalID uuid.UUID
+	ID         int64
+}
+
+func (q *Queries) DeleteGroupLevelsById(ctx context.Context, arg DeleteGroupLevelsByIdParams) error {
+	_, err := q.db.ExecContext(ctx, deleteGroupLevelsById, arg.ExternalID, arg.ID)
+	return err
+}
+
+const deleteHasToGroupById = `-- name: DeleteHasToGroupById :exec
+UPDATE dc.has_to_group
+SET is_deleted = true,
+    updated_at = now(),
+    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $1)
+WHERE has_to_group.id = $2
+`
+
+type DeleteHasToGroupByIdParams struct {
+	ExternalID uuid.UUID
+	ID         int64
+}
+
+func (q *Queries) DeleteHasToGroupById(ctx context.Context, arg DeleteHasToGroupByIdParams) error {
+	_, err := q.db.ExecContext(ctx, deleteHasToGroupById, arg.ExternalID, arg.ID)
+	return err
+}
+
 const deleteHostById = `-- name: DeleteHostById :exec
 UPDATE dc.host
 SET is_deleted = true,
@@ -325,6 +1921,61 @@ type DeleteHostByIdParams struct {
 
 func (q *Queries) DeleteHostById(ctx context.Context, arg DeleteHostByIdParams) error {
 	_, err := q.db.ExecContext(ctx, deleteHostById, arg.ExternalID, arg.ID)
+	return err
+}
+
+const deleteSchemaCatById = `-- name: DeleteSchemaCatById :exec
+UPDATE dc.schema_cat
+SET is_deleted = true,
+    updated_at = $1,
+    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $2)
+WHERE schema_cat.id = $3
+`
+
+type DeleteSchemaCatByIdParams struct {
+	UpdatedAt  time.Time
+	ExternalID uuid.UUID
+	ID         int64
+}
+
+func (q *Queries) DeleteSchemaCatById(ctx context.Context, arg DeleteSchemaCatByIdParams) error {
+	_, err := q.db.ExecContext(ctx, deleteSchemaCatById, arg.UpdatedAt, arg.ExternalID, arg.ID)
+	return err
+}
+
+const deleteTableCatById = `-- name: DeleteTableCatById :exec
+UPDATE dc.table_cat
+SET is_deleted = true,
+    updated_at = now(),
+    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $1)
+WHERE table_cat.id = $2
+`
+
+type DeleteTableCatByIdParams struct {
+	ExternalID uuid.UUID
+	ID         int64
+}
+
+func (q *Queries) DeleteTableCatById(ctx context.Context, arg DeleteTableCatByIdParams) error {
+	_, err := q.db.ExecContext(ctx, deleteTableCatById, arg.ExternalID, arg.ID)
+	return err
+}
+
+const deleteTableTypeById = `-- name: DeleteTableTypeById :exec
+UPDATE dc.table_type
+SET is_deleted = true,
+    updated_at = now(),
+    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $1)
+WHERE table_type.id = $2
+`
+
+type DeleteTableTypeByIdParams struct {
+	ExternalID uuid.UUID
+	ID         int64
+}
+
+func (q *Queries) DeleteTableTypeById(ctx context.Context, arg DeleteTableTypeByIdParams) error {
+	_, err := q.db.ExecContext(ctx, deleteTableTypeById, arg.ExternalID, arg.ID)
 	return err
 }
 
@@ -449,6 +2100,2201 @@ func (q *Queries) GetAliasesDeleted(ctx context.Context, arg GetAliasesDeletedPa
 			&i.CreatedAt,
 			&i.UpdatedAt,
 			&i.IsDeleted,
+			&i.UserID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getCalculationTypeById = `-- name: GetCalculationTypeById :one
+
+SELECT
+    calculation_type.id,
+    calculation_type.name,
+    calculation_type.description,
+    calculation_type.created_at,
+    calculation_type.updated_at,
+    calculation_type.is_deleted
+FROM dc.calculation_type
+WHERE calculation_type.id = $1
+LIMIT 1
+`
+
+// =========================================================
+// dc.calculation_type
+// =========================================================
+func (q *Queries) GetCalculationTypeById(ctx context.Context, id int64) (DcCalculationType, error) {
+	row := q.db.QueryRowContext(ctx, getCalculationTypeById, id)
+	var i DcCalculationType
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.Description,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.IsDeleted,
+	)
+	return i, err
+}
+
+const getCalculationTypes = `-- name: GetCalculationTypes :many
+SELECT
+    calculation_type.id,
+    calculation_type.name,
+    calculation_type.description,
+    calculation_type.created_at,
+    calculation_type.updated_at,
+    calculation_type.is_deleted
+FROM dc.calculation_type
+WHERE calculation_type.is_deleted = false
+ORDER BY CASE WHEN $1::text <> 'DESC' THEN calculation_type.id END ASC,
+    CASE WHEN $1::text = 'DESC' THEN calculation_type.id END DESC
+`
+
+func (q *Queries) GetCalculationTypes(ctx context.Context, order string) ([]DcCalculationType, error) {
+	rows, err := q.db.QueryContext(ctx, getCalculationTypes, order)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []DcCalculationType
+	for rows.Next() {
+		var i DcCalculationType
+		if err := rows.Scan(
+			&i.ID,
+			&i.Name,
+			&i.Description,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.IsDeleted,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getColumnCatById = `-- name: GetColumnCatById :one
+SELECT
+    column_cat.id,
+    column_cat.table_id,
+    column_cat.name,
+    column_cat.alias_id,
+    column_cat.column_type_id,
+    column_cat.description,
+    column_cat.calculation_type_id,
+    column_cat.is_deleted,
+    column_cat.show_in_ui,
+    column_cat.created_at,
+    column_cat.updated_at,
+    column_cat.user_id
+FROM dc.column_cat
+WHERE column_cat.id = $1
+LIMIT 1
+`
+
+func (q *Queries) GetColumnCatById(ctx context.Context, id int64) (DcColumnCat, error) {
+	row := q.db.QueryRowContext(ctx, getColumnCatById, id)
+	var i DcColumnCat
+	err := row.Scan(
+		&i.ID,
+		&i.TableID,
+		&i.Name,
+		&i.AliasID,
+		&i.ColumnTypeID,
+		&i.Description,
+		&i.CalculationTypeID,
+		&i.IsDeleted,
+		&i.ShowInUi,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.UserID,
+	)
+	return i, err
+}
+
+const getColumnCats = `-- name: GetColumnCats :many
+SELECT
+    column_cat.id,
+    column_cat.table_id,
+    column_cat.name,
+    column_cat.alias_id,
+    column_cat.column_type_id,
+    column_cat.description,
+    column_cat.calculation_type_id,
+    column_cat.is_deleted,
+    column_cat.show_in_ui,
+    column_cat.created_at,
+    column_cat.updated_at,
+    column_cat.user_id
+FROM dc.column_cat
+WHERE column_cat.is_deleted = false
+ORDER BY CASE WHEN $1::text <> 'DESC' THEN column_cat.id END ASC,
+    CASE WHEN $1::text = 'DESC' THEN column_cat.id END DESC
+LIMIT $3::int OFFSET ($2::int-1)*$3::int
+`
+
+type GetColumnCatsParams struct {
+	Order     string
+	Page      int32
+	PageLimit int32
+}
+
+func (q *Queries) GetColumnCats(ctx context.Context, arg GetColumnCatsParams) ([]DcColumnCat, error) {
+	rows, err := q.db.QueryContext(ctx, getColumnCats, arg.Order, arg.Page, arg.PageLimit)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []DcColumnCat
+	for rows.Next() {
+		var i DcColumnCat
+		if err := rows.Scan(
+			&i.ID,
+			&i.TableID,
+			&i.Name,
+			&i.AliasID,
+			&i.ColumnTypeID,
+			&i.Description,
+			&i.CalculationTypeID,
+			&i.IsDeleted,
+			&i.ShowInUi,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.UserID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getColumnCatsDeleted = `-- name: GetColumnCatsDeleted :many
+SELECT
+    column_cat.id,
+    column_cat.table_id,
+    column_cat.name,
+    column_cat.alias_id,
+    column_cat.column_type_id,
+    column_cat.description,
+    column_cat.calculation_type_id,
+    column_cat.is_deleted,
+    column_cat.show_in_ui,
+    column_cat.created_at,
+    column_cat.updated_at,
+    column_cat.user_id
+FROM dc.column_cat
+WHERE column_cat.is_deleted = true
+ORDER BY CASE WHEN $1::text <> 'DESC' THEN column_cat.id END ASC,
+    CASE WHEN $1::text = 'DESC' THEN column_cat.id END DESC
+LIMIT $3::int OFFSET ($2::int-1)*$3::int
+`
+
+type GetColumnCatsDeletedParams struct {
+	Order     string
+	Page      int32
+	PageLimit int32
+}
+
+func (q *Queries) GetColumnCatsDeleted(ctx context.Context, arg GetColumnCatsDeletedParams) ([]DcColumnCat, error) {
+	rows, err := q.db.QueryContext(ctx, getColumnCatsDeleted, arg.Order, arg.Page, arg.PageLimit)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []DcColumnCat
+	for rows.Next() {
+		var i DcColumnCat
+		if err := rows.Scan(
+			&i.ID,
+			&i.TableID,
+			&i.Name,
+			&i.AliasID,
+			&i.ColumnTypeID,
+			&i.Description,
+			&i.CalculationTypeID,
+			&i.IsDeleted,
+			&i.ShowInUi,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.UserID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getColumnCatsOptionalFilters = `-- name: GetColumnCatsOptionalFilters :many
+SELECT
+    column_cat.id,
+    column_cat.table_id,
+    column_cat.name,
+    column_cat.alias_id,
+    column_cat.column_type_id,
+    column_cat.description,
+    column_cat.calculation_type_id,
+    column_cat.is_deleted,
+    column_cat.show_in_ui,
+    column_cat.created_at,
+    column_cat.updated_at,
+    column_cat.user_id
+FROM dc.column_cat
+WHERE ($1::bigint IS NULL OR column_cat.table_id = $1)
+  AND ($2::bigint IS NULL OR column_cat.alias_id = $2)
+  AND ($3::bigint IS NULL OR column_cat.column_type_id = $3)
+  AND ($4::bigint IS NULL OR column_cat.calculation_type_id = $4)
+  AND column_cat.is_deleted = false
+  AND ($5::boolean IS NULL OR column_cat.show_in_ui = $5)
+ORDER BY CASE WHEN $6::text <> 'DESC' THEN column_cat.id END ASC,
+    CASE WHEN $6::text = 'DESC' THEN column_cat.id END DESC
+LIMIT $8::int OFFSET ($7::int-1)*$8::int
+`
+
+type GetColumnCatsOptionalFiltersParams struct {
+	TableID           sql.NullInt64
+	AliasID           sql.NullInt64
+	ColumnTypeID      sql.NullInt64
+	CalculationTypeID sql.NullInt64
+	ShowInUi          sql.NullBool
+	Order             string
+	Page              int32
+	PageLimit         int32
+}
+
+func (q *Queries) GetColumnCatsOptionalFilters(ctx context.Context, arg GetColumnCatsOptionalFiltersParams) ([]DcColumnCat, error) {
+	rows, err := q.db.QueryContext(ctx, getColumnCatsOptionalFilters,
+		arg.TableID,
+		arg.AliasID,
+		arg.ColumnTypeID,
+		arg.CalculationTypeID,
+		arg.ShowInUi,
+		arg.Order,
+		arg.Page,
+		arg.PageLimit,
+	)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []DcColumnCat
+	for rows.Next() {
+		var i DcColumnCat
+		if err := rows.Scan(
+			&i.ID,
+			&i.TableID,
+			&i.Name,
+			&i.AliasID,
+			&i.ColumnTypeID,
+			&i.Description,
+			&i.CalculationTypeID,
+			&i.IsDeleted,
+			&i.ShowInUi,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.UserID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getColumnCatsSearchName = `-- name: GetColumnCatsSearchName :many
+SELECT
+    column_cat.id,
+    column_cat.table_id,
+    column_cat.name,
+    column_cat.alias_id,
+    column_cat.column_type_id,
+    column_cat.description,
+    column_cat.calculation_type_id,
+    column_cat.is_deleted,
+    column_cat.show_in_ui,
+    column_cat.created_at,
+    column_cat.updated_at,
+    column_cat.user_id
+FROM dc.column_cat
+WHERE (lower(name) LIKE '%' || lower($1) || '%')
+ORDER BY CASE WHEN $2::text <> 'DESC' THEN column_cat.id END ASC,
+    CASE WHEN $2::text = 'DESC' THEN column_cat.id END DESC
+LIMIT $4::int OFFSET ($3::int-1)*$4::int
+`
+
+type GetColumnCatsSearchNameParams struct {
+	SearchName string
+	Order      string
+	Page       int32
+	PageLimit  int32
+}
+
+func (q *Queries) GetColumnCatsSearchName(ctx context.Context, arg GetColumnCatsSearchNameParams) ([]DcColumnCat, error) {
+	rows, err := q.db.QueryContext(ctx, getColumnCatsSearchName,
+		arg.SearchName,
+		arg.Order,
+		arg.Page,
+		arg.PageLimit,
+	)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []DcColumnCat
+	for rows.Next() {
+		var i DcColumnCat
+		if err := rows.Scan(
+			&i.ID,
+			&i.TableID,
+			&i.Name,
+			&i.AliasID,
+			&i.ColumnTypeID,
+			&i.Description,
+			&i.CalculationTypeID,
+			&i.IsDeleted,
+			&i.ShowInUi,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.UserID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getColumnTypeById = `-- name: GetColumnTypeById :one
+SELECT
+    column_type.name,
+    column_type.description,
+    column_type.is_deleted,
+    column_type.created_at,
+    column_type.updated_at,
+    column_type.user_id
+FROM dc.column_type
+WHERE column_type.id = $1
+LIMIT 1
+`
+
+type GetColumnTypeByIdRow struct {
+	Name        string
+	Description string
+	IsDeleted   bool
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
+	UserID      int64
+}
+
+func (q *Queries) GetColumnTypeById(ctx context.Context, id int64) (GetColumnTypeByIdRow, error) {
+	row := q.db.QueryRowContext(ctx, getColumnTypeById, id)
+	var i GetColumnTypeByIdRow
+	err := row.Scan(
+		&i.Name,
+		&i.Description,
+		&i.IsDeleted,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.UserID,
+	)
+	return i, err
+}
+
+const getColumnTypes = `-- name: GetColumnTypes :many
+SELECT
+    column_type.id,
+    column_type.name,
+    column_type.description,
+    column_type.is_deleted,
+    column_type.created_at,
+    column_type.updated_at,
+    column_type.user_id
+FROM dc.column_type
+WHERE column_type.is_deleted = false
+ORDER BY CASE WHEN $1::text <> 'DESC' THEN column_type.id END ASC,
+    CASE WHEN $1::text = 'DESC' THEN column_type.id END DESC
+LIMIT $3::int OFFSET ($2::int-1)*$3::int
+`
+
+type GetColumnTypesParams struct {
+	Order     string
+	Page      int32
+	PageLimit int32
+}
+
+func (q *Queries) GetColumnTypes(ctx context.Context, arg GetColumnTypesParams) ([]DcColumnType, error) {
+	rows, err := q.db.QueryContext(ctx, getColumnTypes, arg.Order, arg.Page, arg.PageLimit)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []DcColumnType
+	for rows.Next() {
+		var i DcColumnType
+		if err := rows.Scan(
+			&i.ID,
+			&i.Name,
+			&i.Description,
+			&i.IsDeleted,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.UserID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getColumnTypesDeleted = `-- name: GetColumnTypesDeleted :many
+SELECT
+    column_type.id,
+    column_type.name,
+    column_type.description,
+    column_type.is_deleted,
+    column_type.created_at,
+    column_type.updated_at,
+    column_type.user_id
+FROM dc.column_type
+WHERE column_type.is_deleted = true
+ORDER BY CASE WHEN $1::text <> 'DESC' THEN column_type.id END ASC,
+    CASE WHEN $1::text = 'DESC' THEN column_type.id END DESC
+LIMIT $3::int OFFSET ($2::int-1)*$3::int
+`
+
+type GetColumnTypesDeletedParams struct {
+	Order     string
+	Page      int32
+	PageLimit int32
+}
+
+func (q *Queries) GetColumnTypesDeleted(ctx context.Context, arg GetColumnTypesDeletedParams) ([]DcColumnType, error) {
+	rows, err := q.db.QueryContext(ctx, getColumnTypesDeleted, arg.Order, arg.Page, arg.PageLimit)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []DcColumnType
+	for rows.Next() {
+		var i DcColumnType
+		if err := rows.Scan(
+			&i.ID,
+			&i.Name,
+			&i.Description,
+			&i.IsDeleted,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.UserID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getColumnTypesSearchName = `-- name: GetColumnTypesSearchName :many
+SELECT
+    column_type.id,
+    column_type.name,
+    column_type.description,
+    column_type.is_deleted,
+    column_type.created_at,
+    column_type.updated_at,
+    column_type.user_id
+FROM dc.column_type
+WHERE column_type.is_deleted = false
+  AND (lower(name) LIKE '%' || lower($1) || '%')
+ORDER BY CASE WHEN $2::text <> 'DESC' THEN column_type.id END ASC,
+    CASE WHEN $2::text = 'DESC' THEN column_type.id END DESC
+LIMIT $4::int OFFSET ($3::int-1)*$4::int
+`
+
+type GetColumnTypesSearchNameParams struct {
+	SearchName string
+	Order      string
+	Page       int32
+	PageLimit  int32
+}
+
+func (q *Queries) GetColumnTypesSearchName(ctx context.Context, arg GetColumnTypesSearchNameParams) ([]DcColumnType, error) {
+	rows, err := q.db.QueryContext(ctx, getColumnTypesSearchName,
+		arg.SearchName,
+		arg.Order,
+		arg.Page,
+		arg.PageLimit,
+	)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []DcColumnType
+	for rows.Next() {
+		var i DcColumnType
+		if err := rows.Scan(
+			&i.ID,
+			&i.Name,
+			&i.Description,
+			&i.IsDeleted,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.UserID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getDatabaseCalculationById = `-- name: GetDatabaseCalculationById :one
+SELECT
+    database_calculation.database_cat_id,
+    database_calculation.calculation_type_id,
+    database_calculation.created_at,
+    database_calculation.updated_at,
+    database_calculation.is_deleted,
+    database_calculation.user_id
+FROM dc.database_calculation
+WHERE database_calculation.id = $1
+LIMIT 1
+`
+
+type GetDatabaseCalculationByIdRow struct {
+	DatabaseCatID     int64
+	CalculationTypeID int64
+	CreatedAt         time.Time
+	UpdatedAt         time.Time
+	IsDeleted         bool
+	UserID            int64
+}
+
+func (q *Queries) GetDatabaseCalculationById(ctx context.Context, id int64) (GetDatabaseCalculationByIdRow, error) {
+	row := q.db.QueryRowContext(ctx, getDatabaseCalculationById, id)
+	var i GetDatabaseCalculationByIdRow
+	err := row.Scan(
+		&i.DatabaseCatID,
+		&i.CalculationTypeID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.IsDeleted,
+		&i.UserID,
+	)
+	return i, err
+}
+
+const getDatabaseCalculations = `-- name: GetDatabaseCalculations :many
+SELECT
+    database_calculation.id,
+    database_calculation.database_cat_id,
+    database_calculation.calculation_type_id,
+    database_calculation.created_at,
+    database_calculation.updated_at,
+    database_calculation.is_deleted,
+    database_calculation.user_id
+FROM dc.database_calculation
+WHERE database_calculation.is_deleted = false
+ORDER BY CASE WHEN $1::text <> 'DESC' THEN database_calculation.id END ASC,
+    CASE WHEN $1::text = 'DESC' THEN database_calculation.id END DESC
+LIMIT $3::int OFFSET ($2::int-1)*$3::int
+`
+
+type GetDatabaseCalculationsParams struct {
+	Order     string
+	Page      int32
+	PageLimit int32
+}
+
+func (q *Queries) GetDatabaseCalculations(ctx context.Context, arg GetDatabaseCalculationsParams) ([]DcDatabaseCalculation, error) {
+	rows, err := q.db.QueryContext(ctx, getDatabaseCalculations, arg.Order, arg.Page, arg.PageLimit)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []DcDatabaseCalculation
+	for rows.Next() {
+		var i DcDatabaseCalculation
+		if err := rows.Scan(
+			&i.ID,
+			&i.DatabaseCatID,
+			&i.CalculationTypeID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.IsDeleted,
+			&i.UserID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getDatabaseCalculationsDeleted = `-- name: GetDatabaseCalculationsDeleted :many
+SELECT
+    database_calculation.id,
+    database_calculation.database_cat_id,
+    database_calculation.calculation_type_id,
+    database_calculation.created_at,
+    database_calculation.updated_at,
+    database_calculation.is_deleted,
+    database_calculation.user_id
+FROM dc.database_calculation
+WHERE database_calculation.is_deleted = true
+ORDER BY CASE WHEN $1::text <> 'DESC' THEN database_calculation.id END ASC,
+    CASE WHEN $1::text = 'DESC' THEN database_calculation.id END DESC
+LIMIT $3::int OFFSET ($2::int-1)*$3::int
+`
+
+type GetDatabaseCalculationsDeletedParams struct {
+	Order     string
+	Page      int32
+	PageLimit int32
+}
+
+func (q *Queries) GetDatabaseCalculationsDeleted(ctx context.Context, arg GetDatabaseCalculationsDeletedParams) ([]DcDatabaseCalculation, error) {
+	rows, err := q.db.QueryContext(ctx, getDatabaseCalculationsDeleted, arg.Order, arg.Page, arg.PageLimit)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []DcDatabaseCalculation
+	for rows.Next() {
+		var i DcDatabaseCalculation
+		if err := rows.Scan(
+			&i.ID,
+			&i.DatabaseCatID,
+			&i.CalculationTypeID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.IsDeleted,
+			&i.UserID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getDatabaseCalculationsFiltered = `-- name: GetDatabaseCalculationsFiltered :many
+SELECT
+    database_calculation.id,
+    database_calculation.database_cat_id,
+    database_calculation.calculation_type_id,
+    database_calculation.created_at,
+    database_calculation.updated_at,
+    database_calculation.is_deleted,
+    database_calculation.user_id
+FROM dc.database_calculation
+WHERE ($1::bigint IS NULL OR database_calculation.database_cat_id = $1)
+  AND ($2::bigint IS NULL OR database_calculation.calculation_type_id = $2)
+  AND database_calculation.is_deleted = false
+ORDER BY CASE WHEN $3::text <> 'DESC' THEN database_calculation.id END ASC,
+    CASE WHEN $3::text = 'DESC' THEN database_calculation.id END DESC
+LIMIT $5::int OFFSET ($4::int-1)*$5::int
+`
+
+type GetDatabaseCalculationsFilteredParams struct {
+	DatabaseCatID     sql.NullInt64
+	CalculationTypeID sql.NullInt64
+	Order             string
+	Page              int32
+	PageLimit         int32
+}
+
+func (q *Queries) GetDatabaseCalculationsFiltered(ctx context.Context, arg GetDatabaseCalculationsFilteredParams) ([]DcDatabaseCalculation, error) {
+	rows, err := q.db.QueryContext(ctx, getDatabaseCalculationsFiltered,
+		arg.DatabaseCatID,
+		arg.CalculationTypeID,
+		arg.Order,
+		arg.Page,
+		arg.PageLimit,
+	)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []DcDatabaseCalculation
+	for rows.Next() {
+		var i DcDatabaseCalculation
+		if err := rows.Scan(
+			&i.ID,
+			&i.DatabaseCatID,
+			&i.CalculationTypeID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.IsDeleted,
+			&i.UserID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getDatabaseCalculationsSearchName = `-- name: GetDatabaseCalculationsSearchName :many
+SELECT
+    database_calculation.id,
+    database_calculation.database_cat_id,
+    database_calculation.calculation_type_id,
+    database_calculation.created_at,
+    database_calculation.updated_at,
+    database_calculation.is_deleted,
+    database_calculation.user_id
+FROM dc.database_calculation
+WHERE database_calculation.is_deleted = false
+  AND (lower(name) LIKE '%' || lower($1) || '%')
+ORDER BY CASE WHEN $2::text <> 'DESC' THEN database_calculation.id END ASC,
+    CASE WHEN $2::text = 'DESC' THEN database_calculation.id END DESC
+LIMIT $4::int OFFSET ($3::int-1)*$4::int
+`
+
+type GetDatabaseCalculationsSearchNameParams struct {
+	SearchName string
+	Order      string
+	Page       int32
+	PageLimit  int32
+}
+
+func (q *Queries) GetDatabaseCalculationsSearchName(ctx context.Context, arg GetDatabaseCalculationsSearchNameParams) ([]DcDatabaseCalculation, error) {
+	rows, err := q.db.QueryContext(ctx, getDatabaseCalculationsSearchName,
+		arg.SearchName,
+		arg.Order,
+		arg.Page,
+		arg.PageLimit,
+	)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []DcDatabaseCalculation
+	for rows.Next() {
+		var i DcDatabaseCalculation
+		if err := rows.Scan(
+			&i.ID,
+			&i.DatabaseCatID,
+			&i.CalculationTypeID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.IsDeleted,
+			&i.UserID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getDatabaseCatById = `-- name: GetDatabaseCatById :one
+SELECT
+    database_cat.id,
+    database_cat.name,
+    database_cat.host_id,
+    database_cat.database_type_id,
+    database_cat.description,
+    database_cat.is_deleted,
+    database_cat.created_at,
+    database_cat.updated_at,
+    database_cat.user_id
+FROM dc.database_cat
+WHERE database_cat.id = $1
+LIMIT 1
+`
+
+func (q *Queries) GetDatabaseCatById(ctx context.Context, id int64) (DcDatabaseCat, error) {
+	row := q.db.QueryRowContext(ctx, getDatabaseCatById, id)
+	var i DcDatabaseCat
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.HostID,
+		&i.DatabaseTypeID,
+		&i.Description,
+		&i.IsDeleted,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.UserID,
+	)
+	return i, err
+}
+
+const getDatabaseCats = `-- name: GetDatabaseCats :many
+SELECT
+    database_cat.id,
+    database_cat.name,
+    database_cat.host_id,
+    database_cat.database_type_id,
+    database_cat.description,
+    database_cat.is_deleted,
+    database_cat.created_at,
+    database_cat.updated_at,
+    database_cat.user_id
+FROM dc.database_cat
+WHERE database_cat.is_deleted = false
+ORDER BY CASE WHEN $1::text <> 'DESC' THEN database_cat.id END ASC,
+    CASE WHEN $1::text = 'DESC' THEN database_cat.id END DESC
+LIMIT $3::int OFFSET ($2::int-1)*$3::int
+`
+
+type GetDatabaseCatsParams struct {
+	Order     string
+	Page      int32
+	PageLimit int32
+}
+
+func (q *Queries) GetDatabaseCats(ctx context.Context, arg GetDatabaseCatsParams) ([]DcDatabaseCat, error) {
+	rows, err := q.db.QueryContext(ctx, getDatabaseCats, arg.Order, arg.Page, arg.PageLimit)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []DcDatabaseCat
+	for rows.Next() {
+		var i DcDatabaseCat
+		if err := rows.Scan(
+			&i.ID,
+			&i.Name,
+			&i.HostID,
+			&i.DatabaseTypeID,
+			&i.Description,
+			&i.IsDeleted,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.UserID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getDatabaseCatsByHostIdDatabaseTypeId = `-- name: GetDatabaseCatsByHostIdDatabaseTypeId :many
+SELECT
+    database_cat.id,
+    database_cat.name,
+    database_cat.host_id,
+    database_cat.database_type_id,
+    database_cat.description,
+    database_cat.is_deleted,
+    database_cat.created_at,
+    database_cat.updated_at,
+    database_cat.user_id
+FROM dc.database_cat
+WHERE ($1::bigint IS NULL OR database_cat.host_id = $1)
+  AND ($2::bigint IS NULL OR database_cat.database_type_id = $2)
+  AND database_cat.is_deleted = false
+ORDER BY CASE WHEN $3::text <> 'DESC' AND $4::text = 'name' THEN database_cat.name END ASC,
+    CASE WHEN $3::text = 'DESC' AND $4::text = 'name' THEN database_cat.name END DESC,
+    CASE WHEN $3::text <> 'DESC' THEN database_cat.id END ASC,
+    CASE WHEN $3::text = 'DESC' THEN database_cat.id END DESC
+LIMIT $6::int OFFSET ($5::int-1)*$6::int
+`
+
+type GetDatabaseCatsByHostIdDatabaseTypeIdParams struct {
+	HostID         sql.NullInt64
+	DatabaseTypeID sql.NullInt64
+	Order          string
+	OrderBy        string
+	Page           int32
+	PageLimit      int32
+}
+
+func (q *Queries) GetDatabaseCatsByHostIdDatabaseTypeId(ctx context.Context, arg GetDatabaseCatsByHostIdDatabaseTypeIdParams) ([]DcDatabaseCat, error) {
+	rows, err := q.db.QueryContext(ctx, getDatabaseCatsByHostIdDatabaseTypeId,
+		arg.HostID,
+		arg.DatabaseTypeID,
+		arg.Order,
+		arg.OrderBy,
+		arg.Page,
+		arg.PageLimit,
+	)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []DcDatabaseCat
+	for rows.Next() {
+		var i DcDatabaseCat
+		if err := rows.Scan(
+			&i.ID,
+			&i.Name,
+			&i.HostID,
+			&i.DatabaseTypeID,
+			&i.Description,
+			&i.IsDeleted,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.UserID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getDatabaseCatsDeleted = `-- name: GetDatabaseCatsDeleted :many
+SELECT
+    database_cat.id,
+    database_cat.name,
+    database_cat.host_id,
+    database_cat.database_type_id,
+    database_cat.description,
+    database_cat.is_deleted,
+    database_cat.created_at,
+    database_cat.updated_at,
+    database_cat.user_id
+FROM dc.database_cat
+WHERE database_cat.is_deleted = true
+ORDER BY CASE WHEN $1::text <> 'DESC' THEN database_cat.id END ASC,
+    CASE WHEN $1::text = 'DESC' THEN database_cat.id END DESC
+LIMIT $3::int OFFSET ($2::int-1)*$3::int
+`
+
+type GetDatabaseCatsDeletedParams struct {
+	Order     string
+	Page      int32
+	PageLimit int32
+}
+
+func (q *Queries) GetDatabaseCatsDeleted(ctx context.Context, arg GetDatabaseCatsDeletedParams) ([]DcDatabaseCat, error) {
+	rows, err := q.db.QueryContext(ctx, getDatabaseCatsDeleted, arg.Order, arg.Page, arg.PageLimit)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []DcDatabaseCat
+	for rows.Next() {
+		var i DcDatabaseCat
+		if err := rows.Scan(
+			&i.ID,
+			&i.Name,
+			&i.HostID,
+			&i.DatabaseTypeID,
+			&i.Description,
+			&i.IsDeleted,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.UserID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getDatabaseCatsSearchName = `-- name: GetDatabaseCatsSearchName :many
+SELECT
+    database_cat.id,
+    database_cat.name,
+    database_cat.host_id,
+    database_cat.database_type_id,
+    database_cat.description,
+    database_cat.is_deleted,
+    database_cat.created_at,
+    database_cat.updated_at,
+    database_cat.user_id
+FROM dc.database_cat
+WHERE database_cat.is_deleted = false
+  AND (lower(name) LIKE '%' || lower($1) || '%')
+ORDER BY CASE WHEN $2::text <> 'DESC' THEN database_cat.id END ASC,
+    CASE WHEN $2::text = 'DESC' THEN database_cat.id END DESC
+LIMIT $4::int OFFSET ($3::int-1)*$4::int
+`
+
+type GetDatabaseCatsSearchNameParams struct {
+	SearchName string
+	Order      string
+	Page       int32
+	PageLimit  int32
+}
+
+func (q *Queries) GetDatabaseCatsSearchName(ctx context.Context, arg GetDatabaseCatsSearchNameParams) ([]DcDatabaseCat, error) {
+	rows, err := q.db.QueryContext(ctx, getDatabaseCatsSearchName,
+		arg.SearchName,
+		arg.Order,
+		arg.Page,
+		arg.PageLimit,
+	)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []DcDatabaseCat
+	for rows.Next() {
+		var i DcDatabaseCat
+		if err := rows.Scan(
+			&i.ID,
+			&i.Name,
+			&i.HostID,
+			&i.DatabaseTypeID,
+			&i.Description,
+			&i.IsDeleted,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.UserID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getDatabaseTypeById = `-- name: GetDatabaseTypeById :one
+SELECT
+    database_type.id,
+    database_type.name,
+    database_type.db_version,
+    database_type.is_deleted,
+    database_type.created_at,
+    database_type.updated_at,
+    database_type.user_id
+FROM dc.database_type
+WHERE database_type.id = $1
+  AND database_type.is_deleted = false
+LIMIT 1
+`
+
+func (q *Queries) GetDatabaseTypeById(ctx context.Context, id int64) (DcDatabaseType, error) {
+	row := q.db.QueryRowContext(ctx, getDatabaseTypeById, id)
+	var i DcDatabaseType
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.DbVersion,
+		&i.IsDeleted,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.UserID,
+	)
+	return i, err
+}
+
+const getDatabaseTypes = `-- name: GetDatabaseTypes :many
+SELECT
+    database_type.id,
+    database_type.name,
+    database_type.db_version,
+    database_type.is_deleted,
+    database_type.created_at,
+    database_type.updated_at,
+    database_type.user_id
+FROM dc.database_type
+WHERE database_type.is_deleted = false
+ORDER BY CASE WHEN $1::text <> 'DESC' THEN database_type.id END ASC,
+    CASE WHEN $1::text = 'DESC' THEN database_type.id END DESC
+LIMIT $3::int OFFSET ($2::int-1)*$3::int
+`
+
+type GetDatabaseTypesParams struct {
+	Order     string
+	Page      int32
+	PageLimit int32
+}
+
+func (q *Queries) GetDatabaseTypes(ctx context.Context, arg GetDatabaseTypesParams) ([]DcDatabaseType, error) {
+	rows, err := q.db.QueryContext(ctx, getDatabaseTypes, arg.Order, arg.Page, arg.PageLimit)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []DcDatabaseType
+	for rows.Next() {
+		var i DcDatabaseType
+		if err := rows.Scan(
+			&i.ID,
+			&i.Name,
+			&i.DbVersion,
+			&i.IsDeleted,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.UserID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getDatabaseTypesDeleted = `-- name: GetDatabaseTypesDeleted :many
+SELECT
+    database_type.id,
+    database_type.name,
+    database_type.db_version,
+    database_type.is_deleted,
+    database_type.created_at,
+    database_type.updated_at,
+    database_type.user_id
+FROM dc.database_type
+WHERE database_type.is_deleted = true
+ORDER BY CASE WHEN $1::text <> 'DESC' THEN database_type.id END ASC,
+    CASE WHEN $1::text = 'DESC' THEN database_type.id END DESC
+LIMIT $3::int OFFSET ($2::int-1)*$3::int
+`
+
+type GetDatabaseTypesDeletedParams struct {
+	Order     string
+	Page      int32
+	PageLimit int32
+}
+
+func (q *Queries) GetDatabaseTypesDeleted(ctx context.Context, arg GetDatabaseTypesDeletedParams) ([]DcDatabaseType, error) {
+	rows, err := q.db.QueryContext(ctx, getDatabaseTypesDeleted, arg.Order, arg.Page, arg.PageLimit)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []DcDatabaseType
+	for rows.Next() {
+		var i DcDatabaseType
+		if err := rows.Scan(
+			&i.ID,
+			&i.Name,
+			&i.DbVersion,
+			&i.IsDeleted,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.UserID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getDatabaseTypesSearchName = `-- name: GetDatabaseTypesSearchName :many
+SELECT
+    database_type.id,
+    database_type.name,
+    database_type.db_version,
+    database_type.is_deleted,
+    database_type.created_at,
+    database_type.updated_at,
+    database_type.user_id
+FROM dc.database_type
+WHERE database_type.is_deleted = false
+  AND (lower(name) LIKE '%' || lower($1) || '%')
+ORDER BY CASE WHEN $2::text <> 'DESC' THEN database_type.id END ASC,
+    CASE WHEN $2::text = 'DESC' THEN database_type.id END DESC
+LIMIT $4::int OFFSET ($3::int-1)*$4::int
+`
+
+type GetDatabaseTypesSearchNameParams struct {
+	SearchName string
+	Order      string
+	Page       int32
+	PageLimit  int32
+}
+
+func (q *Queries) GetDatabaseTypesSearchName(ctx context.Context, arg GetDatabaseTypesSearchNameParams) ([]DcDatabaseType, error) {
+	rows, err := q.db.QueryContext(ctx, getDatabaseTypesSearchName,
+		arg.SearchName,
+		arg.Order,
+		arg.Page,
+		arg.PageLimit,
+	)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []DcDatabaseType
+	for rows.Next() {
+		var i DcDatabaseType
+		if err := rows.Scan(
+			&i.ID,
+			&i.Name,
+			&i.DbVersion,
+			&i.IsDeleted,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.UserID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getDomainCatById = `-- name: GetDomainCatById :one
+SELECT
+    domain_cat.id,
+    domain_cat.domain_name,
+    domain_cat.is_deleted,
+    domain_cat.created_at,
+    domain_cat.updated_at,
+    domain_cat.user_id
+FROM dc.domain_cat
+WHERE domain_cat.id = $1
+LIMIT 1
+`
+
+func (q *Queries) GetDomainCatById(ctx context.Context, id int64) (DcDomainCat, error) {
+	row := q.db.QueryRowContext(ctx, getDomainCatById, id)
+	var i DcDomainCat
+	err := row.Scan(
+		&i.ID,
+		&i.DomainName,
+		&i.IsDeleted,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.UserID,
+	)
+	return i, err
+}
+
+const getDomainCats = `-- name: GetDomainCats :many
+SELECT
+    domain_cat.id,
+    domain_cat.domain_name,
+    domain_cat.is_deleted,
+    domain_cat.created_at,
+    domain_cat.updated_at,
+    domain_cat.user_id
+FROM dc.domain_cat
+WHERE domain_cat.is_deleted = false
+ORDER BY CASE WHEN $1::text <> 'DESC' THEN domain_cat.id END ASC,
+    CASE WHEN $1::text = 'DESC' THEN domain_cat.id END DESC
+LIMIT $3::int OFFSET ($2::int-1)*$3::int
+`
+
+type GetDomainCatsParams struct {
+	Order     string
+	Page      int32
+	PageLimit int32
+}
+
+func (q *Queries) GetDomainCats(ctx context.Context, arg GetDomainCatsParams) ([]DcDomainCat, error) {
+	rows, err := q.db.QueryContext(ctx, getDomainCats, arg.Order, arg.Page, arg.PageLimit)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []DcDomainCat
+	for rows.Next() {
+		var i DcDomainCat
+		if err := rows.Scan(
+			&i.ID,
+			&i.DomainName,
+			&i.IsDeleted,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.UserID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getDomainCatsDeleted = `-- name: GetDomainCatsDeleted :many
+SELECT
+    domain_cat.id,
+    domain_cat.domain_name,
+    domain_cat.is_deleted,
+    domain_cat.created_at,
+    domain_cat.updated_at,
+    domain_cat.user_id
+FROM dc.domain_cat
+WHERE domain_cat.is_deleted = true
+ORDER BY CASE WHEN $1::text <> 'DESC' THEN domain_cat.id END ASC,
+    CASE WHEN $1::text = 'DESC' THEN domain_cat.id END DESC
+LIMIT $3::int OFFSET ($2::int-1)*$3::int
+`
+
+type GetDomainCatsDeletedParams struct {
+	Order     string
+	Page      int32
+	PageLimit int32
+}
+
+func (q *Queries) GetDomainCatsDeleted(ctx context.Context, arg GetDomainCatsDeletedParams) ([]DcDomainCat, error) {
+	rows, err := q.db.QueryContext(ctx, getDomainCatsDeleted, arg.Order, arg.Page, arg.PageLimit)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []DcDomainCat
+	for rows.Next() {
+		var i DcDomainCat
+		if err := rows.Scan(
+			&i.ID,
+			&i.DomainName,
+			&i.IsDeleted,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.UserID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getDomainCatsSearchName = `-- name: GetDomainCatsSearchName :many
+SELECT
+    domain_cat.id,
+    domain_cat.domain_name,
+    domain_cat.is_deleted,
+    domain_cat.created_at,
+    domain_cat.updated_at,
+    domain_cat.user_id
+FROM dc.domain_cat
+WHERE domain_cat.is_deleted = false
+  AND (lower(name) LIKE '%' || lower($1) || '%')
+ORDER BY CASE WHEN $2::text <> 'DESC' THEN domain_cat.id END ASC,
+    CASE WHEN $2::text = 'DESC' THEN domain_cat.id END DESC
+LIMIT $4::int OFFSET ($3::int-1)*$4::int
+`
+
+type GetDomainCatsSearchNameParams struct {
+	SearchName string
+	Order      string
+	Page       int32
+	PageLimit  int32
+}
+
+func (q *Queries) GetDomainCatsSearchName(ctx context.Context, arg GetDomainCatsSearchNameParams) ([]DcDomainCat, error) {
+	rows, err := q.db.QueryContext(ctx, getDomainCatsSearchName,
+		arg.SearchName,
+		arg.Order,
+		arg.Page,
+		arg.PageLimit,
+	)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []DcDomainCat
+	for rows.Next() {
+		var i DcDomainCat
+		if err := rows.Scan(
+			&i.ID,
+			&i.DomainName,
+			&i.IsDeleted,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.UserID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getFollowingCalculationById = `-- name: GetFollowingCalculationById :one
+SELECT
+    following_calculation.id,
+    following_calculation.column_cat_id,
+    following_calculation.calculation_type_id,
+    following_calculation.created_at,
+    following_calculation.updated_at,
+    following_calculation.is_deleted,
+    following_calculation.user_id
+FROM dc.following_calculation
+WHERE following_calculation.id = $1
+LIMIT 1
+`
+
+func (q *Queries) GetFollowingCalculationById(ctx context.Context, id int64) (DcFollowingCalculation, error) {
+	row := q.db.QueryRowContext(ctx, getFollowingCalculationById, id)
+	var i DcFollowingCalculation
+	err := row.Scan(
+		&i.ID,
+		&i.ColumnCatID,
+		&i.CalculationTypeID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.IsDeleted,
+		&i.UserID,
+	)
+	return i, err
+}
+
+const getFollowingCalculations = `-- name: GetFollowingCalculations :many
+SELECT
+    following_calculation.id,
+    following_calculation.column_cat_id,
+    following_calculation.calculation_type_id,
+    following_calculation.created_at,
+    following_calculation.updated_at,
+    following_calculation.is_deleted,
+    following_calculation.user_id
+FROM dc.following_calculation
+WHERE following_calculation.is_deleted = false
+ORDER BY CASE WHEN $1::text <> 'DESC' THEN following_calculation.id END ASC,
+    CASE WHEN $1::text = 'DESC' THEN following_calculation.id END DESC
+LIMIT $3::int OFFSET ($2::int-1)*$3::int
+`
+
+type GetFollowingCalculationsParams struct {
+	Order     string
+	Page      int32
+	PageLimit int32
+}
+
+func (q *Queries) GetFollowingCalculations(ctx context.Context, arg GetFollowingCalculationsParams) ([]DcFollowingCalculation, error) {
+	rows, err := q.db.QueryContext(ctx, getFollowingCalculations, arg.Order, arg.Page, arg.PageLimit)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []DcFollowingCalculation
+	for rows.Next() {
+		var i DcFollowingCalculation
+		if err := rows.Scan(
+			&i.ID,
+			&i.ColumnCatID,
+			&i.CalculationTypeID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.IsDeleted,
+			&i.UserID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getFollowingCalculationsDeleted = `-- name: GetFollowingCalculationsDeleted :many
+SELECT
+    following_calculation.id,
+    following_calculation.column_cat_id,
+    following_calculation.calculation_type_id,
+    following_calculation.created_at,
+    following_calculation.updated_at,
+    following_calculation.is_deleted,
+    following_calculation.user_id
+FROM dc.following_calculation
+WHERE following_calculation.is_deleted = true
+ORDER BY CASE WHEN $1::text <> 'DESC' THEN following_calculation.id END ASC,
+    CASE WHEN $1::text = 'DESC' THEN following_calculation.id END DESC
+LIMIT $3::int OFFSET ($2::int-1)*$3::int
+`
+
+type GetFollowingCalculationsDeletedParams struct {
+	Order     string
+	Page      int32
+	PageLimit int32
+}
+
+func (q *Queries) GetFollowingCalculationsDeleted(ctx context.Context, arg GetFollowingCalculationsDeletedParams) ([]DcFollowingCalculation, error) {
+	rows, err := q.db.QueryContext(ctx, getFollowingCalculationsDeleted, arg.Order, arg.Page, arg.PageLimit)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []DcFollowingCalculation
+	for rows.Next() {
+		var i DcFollowingCalculation
+		if err := rows.Scan(
+			&i.ID,
+			&i.ColumnCatID,
+			&i.CalculationTypeID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.IsDeleted,
+			&i.UserID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getFollowingCalculationsFilters = `-- name: GetFollowingCalculationsFilters :many
+SELECT
+    following_calculation.id,
+    following_calculation.column_cat_id,
+    following_calculation.calculation_type_id,
+    following_calculation.created_at,
+    following_calculation.updated_at,
+    following_calculation.is_deleted,
+    following_calculation.user_id
+FROM dc.following_calculation
+WHERE ($1::bigint IS NULL OR following_calculation.column_cat_id = $1)
+  AND ($2::bigint IS NULL OR following_calculation.calculation_type_id = $2)
+  AND following_calculation.is_deleted = false
+ORDER BY CASE WHEN $3::text <> 'DESC' THEN following_calculation.id END ASC,
+    CASE WHEN $3::text = 'DESC' THEN following_calculation.id END DESC
+LIMIT $5::int OFFSET ($4::int-1)*$5::int
+`
+
+type GetFollowingCalculationsFiltersParams struct {
+	ColumnCatID       sql.NullInt64
+	CalculationTypeID sql.NullInt64
+	Order             string
+	Page              int32
+	PageLimit         int32
+}
+
+func (q *Queries) GetFollowingCalculationsFilters(ctx context.Context, arg GetFollowingCalculationsFiltersParams) ([]DcFollowingCalculation, error) {
+	rows, err := q.db.QueryContext(ctx, getFollowingCalculationsFilters,
+		arg.ColumnCatID,
+		arg.CalculationTypeID,
+		arg.Order,
+		arg.Page,
+		arg.PageLimit,
+	)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []DcFollowingCalculation
+	for rows.Next() {
+		var i DcFollowingCalculation
+		if err := rows.Scan(
+			&i.ID,
+			&i.ColumnCatID,
+			&i.CalculationTypeID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.IsDeleted,
+			&i.UserID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getGroupLevels = `-- name: GetGroupLevels :many
+SELECT
+    group_levels.id,
+    group_levels.column_id,
+    group_levels.parent_column_id,
+    group_levels.level,
+    group_levels.description,
+    group_levels.created_at,
+    group_levels.updated_at,
+    group_levels.is_deleted,
+    group_levels.user_id
+FROM dc.group_levels
+WHERE group_levels.is_deleted = false
+ORDER BY CASE WHEN $1::text <> 'DESC' THEN group_levels.id END ASC,
+    CASE WHEN $1::text = 'DESC' THEN group_levels.id END DESC
+LIMIT $3::int OFFSET ($2::int-1)*$3::int
+`
+
+type GetGroupLevelsParams struct {
+	Order     string
+	Page      int32
+	PageLimit int32
+}
+
+func (q *Queries) GetGroupLevels(ctx context.Context, arg GetGroupLevelsParams) ([]DcGroupLevel, error) {
+	rows, err := q.db.QueryContext(ctx, getGroupLevels, arg.Order, arg.Page, arg.PageLimit)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []DcGroupLevel
+	for rows.Next() {
+		var i DcGroupLevel
+		if err := rows.Scan(
+			&i.ID,
+			&i.ColumnID,
+			&i.ParentColumnID,
+			&i.Level,
+			&i.Description,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.IsDeleted,
+			&i.UserID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getGroupLevelsById = `-- name: GetGroupLevelsById :one
+SELECT
+    group_levels.id,
+    group_levels.column_id,
+    group_levels.parent_column_id,
+    group_levels.level,
+    group_levels.description,
+    group_levels.created_at,
+    group_levels.updated_at,
+    group_levels.is_deleted,
+    group_levels.user_id
+FROM dc.group_levels
+WHERE group_levels.id = $1
+LIMIT 1
+`
+
+func (q *Queries) GetGroupLevelsById(ctx context.Context, id int64) (DcGroupLevel, error) {
+	row := q.db.QueryRowContext(ctx, getGroupLevelsById, id)
+	var i DcGroupLevel
+	err := row.Scan(
+		&i.ID,
+		&i.ColumnID,
+		&i.ParentColumnID,
+		&i.Level,
+		&i.Description,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.IsDeleted,
+		&i.UserID,
+	)
+	return i, err
+}
+
+const getGroupLevelsDeleted = `-- name: GetGroupLevelsDeleted :many
+SELECT
+    group_levels.id,
+    group_levels.column_id,
+    group_levels.parent_column_id,
+    group_levels.level,
+    group_levels.description,
+    group_levels.created_at,
+    group_levels.updated_at,
+    group_levels.is_deleted,
+    group_levels.user_id
+FROM dc.group_levels
+WHERE group_levels.is_deleted = true
+ORDER BY CASE WHEN $1::text <> 'DESC' THEN group_levels.id END ASC,
+    CASE WHEN $1::text = 'DESC' THEN group_levels.id END DESC
+`
+
+func (q *Queries) GetGroupLevelsDeleted(ctx context.Context, order string) ([]DcGroupLevel, error) {
+	rows, err := q.db.QueryContext(ctx, getGroupLevelsDeleted, order)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []DcGroupLevel
+	for rows.Next() {
+		var i DcGroupLevel
+		if err := rows.Scan(
+			&i.ID,
+			&i.ColumnID,
+			&i.ParentColumnID,
+			&i.Level,
+			&i.Description,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.IsDeleted,
+			&i.UserID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getGroupLevelsFiltered = `-- name: GetGroupLevelsFiltered :many
+SELECT
+    group_levels.id,
+    group_levels.column_id,
+    group_levels.parent_column_id,
+    group_levels.level,
+    group_levels.description,
+    group_levels.created_at,
+    group_levels.updated_at,
+    group_levels.is_deleted,
+    group_levels.user_id
+FROM dc.group_levels
+WHERE ($1::bigint IS NULL OR group_levels.column_id = $1)
+  AND ($2::bigint IS NULL OR group_levels.parent_column_id = $2)
+  AND group_levels.is_deleted = false
+ORDER BY CASE WHEN $3::text <> 'DESC' THEN group_levels.id END ASC,
+    CASE WHEN $3::text = 'DESC' THEN group_levels.id END DESC
+LIMIT $5::int OFFSET ($4::int-1)*$5::int
+`
+
+type GetGroupLevelsFilteredParams struct {
+	ColumnID       sql.NullInt64
+	ParentColumnID sql.NullInt64
+	Order          string
+	Page           int32
+	PageLimit      int32
+}
+
+func (q *Queries) GetGroupLevelsFiltered(ctx context.Context, arg GetGroupLevelsFilteredParams) ([]DcGroupLevel, error) {
+	rows, err := q.db.QueryContext(ctx, getGroupLevelsFiltered,
+		arg.ColumnID,
+		arg.ParentColumnID,
+		arg.Order,
+		arg.Page,
+		arg.PageLimit,
+	)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []DcGroupLevel
+	for rows.Next() {
+		var i DcGroupLevel
+		if err := rows.Scan(
+			&i.ID,
+			&i.ColumnID,
+			&i.ParentColumnID,
+			&i.Level,
+			&i.Description,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.IsDeleted,
+			&i.UserID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getGroupLevelsSearchName = `-- name: GetGroupLevelsSearchName :many
+SELECT
+    group_levels.id,
+    group_levels.column_id,
+    group_levels.parent_column_id,
+    group_levels.level,
+    group_levels.description,
+    group_levels.created_at,
+    group_levels.updated_at,
+    group_levels.is_deleted,
+    group_levels.user_id
+FROM dc.group_levels
+WHERE group_levels.is_deleted = false
+  AND (lower(name) LIKE '%' || lower($1) || '%')
+ORDER BY CASE WHEN $2::text <> 'DESC' THEN group_levels.id END ASC,
+    CASE WHEN $2::text = 'DESC' THEN group_levels.id END DESC
+LIMIT $4::int OFFSET ($3::int-1)*$4::int
+`
+
+type GetGroupLevelsSearchNameParams struct {
+	SearchName string
+	Order      string
+	Page       int32
+	PageLimit  int32
+}
+
+func (q *Queries) GetGroupLevelsSearchName(ctx context.Context, arg GetGroupLevelsSearchNameParams) ([]DcGroupLevel, error) {
+	rows, err := q.db.QueryContext(ctx, getGroupLevelsSearchName,
+		arg.SearchName,
+		arg.Order,
+		arg.Page,
+		arg.PageLimit,
+	)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []DcGroupLevel
+	for rows.Next() {
+		var i DcGroupLevel
+		if err := rows.Scan(
+			&i.ID,
+			&i.ColumnID,
+			&i.ParentColumnID,
+			&i.Level,
+			&i.Description,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.IsDeleted,
+			&i.UserID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getHasToGroupById = `-- name: GetHasToGroupById :one
+SELECT
+    has_to_group.id,
+    has_to_group.column_id_a,
+    has_to_group.column_id_b,
+    has_to_group.description,
+    has_to_group.is_deleted,
+    has_to_group.created_at,
+    has_to_group.updated_at,
+    has_to_group.user_id
+FROM dc.has_to_group
+WHERE has_to_group.id = $1
+LIMIT 1
+`
+
+func (q *Queries) GetHasToGroupById(ctx context.Context, id int64) (DcHasToGroup, error) {
+	row := q.db.QueryRowContext(ctx, getHasToGroupById, id)
+	var i DcHasToGroup
+	err := row.Scan(
+		&i.ID,
+		&i.ColumnIDA,
+		&i.ColumnIDB,
+		&i.Description,
+		&i.IsDeleted,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.UserID,
+	)
+	return i, err
+}
+
+const getHasToGroups = `-- name: GetHasToGroups :many
+SELECT
+    has_to_group.id,
+    has_to_group.column_id_a,
+    has_to_group.column_id_b,
+    has_to_group.description,
+    has_to_group.is_deleted,
+    has_to_group.created_at,
+    has_to_group.updated_at,
+    has_to_group.user_id
+FROM dc.has_to_group
+WHERE has_to_group.is_deleted = false
+ORDER BY CASE WHEN $1::text <> 'DESC' THEN has_to_group.id END ASC,
+    CASE WHEN $1::text = 'DESC' THEN has_to_group.id END DESC
+LIMIT $3::int OFFSET ($2::int-1)*$3::int
+`
+
+type GetHasToGroupsParams struct {
+	Order     string
+	Page      int32
+	PageLimit int32
+}
+
+func (q *Queries) GetHasToGroups(ctx context.Context, arg GetHasToGroupsParams) ([]DcHasToGroup, error) {
+	rows, err := q.db.QueryContext(ctx, getHasToGroups, arg.Order, arg.Page, arg.PageLimit)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []DcHasToGroup
+	for rows.Next() {
+		var i DcHasToGroup
+		if err := rows.Scan(
+			&i.ID,
+			&i.ColumnIDA,
+			&i.ColumnIDB,
+			&i.Description,
+			&i.IsDeleted,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.UserID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getHasToGroupsDeleted = `-- name: GetHasToGroupsDeleted :many
+SELECT
+    has_to_group.id,
+    has_to_group.column_id_a,
+    has_to_group.column_id_b,
+    has_to_group.description,
+    has_to_group.is_deleted,
+    has_to_group.created_at,
+    has_to_group.updated_at,
+    has_to_group.user_id
+FROM dc.has_to_group
+WHERE has_to_group.is_deleted = true
+ORDER BY CASE WHEN $1::text <> 'DESC' THEN has_to_group.id END ASC,
+    CASE WHEN $1::text = 'DESC' THEN has_to_group.id END DESC
+LIMIT $3::int OFFSET ($2::int-1)*$3::int
+`
+
+type GetHasToGroupsDeletedParams struct {
+	Order     string
+	Page      int32
+	PageLimit int32
+}
+
+func (q *Queries) GetHasToGroupsDeleted(ctx context.Context, arg GetHasToGroupsDeletedParams) ([]DcHasToGroup, error) {
+	rows, err := q.db.QueryContext(ctx, getHasToGroupsDeleted, arg.Order, arg.Page, arg.PageLimit)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []DcHasToGroup
+	for rows.Next() {
+		var i DcHasToGroup
+		if err := rows.Scan(
+			&i.ID,
+			&i.ColumnIDA,
+			&i.ColumnIDB,
+			&i.Description,
+			&i.IsDeleted,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.UserID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getHasToGroupsSearchName = `-- name: GetHasToGroupsSearchName :many
+SELECT
+    has_to_group.id,
+    has_to_group.column_id_a,
+    has_to_group.column_id_b,
+    has_to_group.description,
+    has_to_group.is_deleted,
+    has_to_group.created_at,
+    has_to_group.updated_at,
+    has_to_group.user_id
+FROM dc.has_to_group
+WHERE has_to_group.is_deleted = false
+  AND (lower(name) LIKE '%' || lower($1) || '%')
+ORDER BY CASE WHEN $2::text <> 'DESC' THEN has_to_group.id END ASC,
+    CASE WHEN $2::text = 'DESC' THEN has_to_group.id END DESC
+LIMIT $4::int OFFSET ($3::int-1)*$4::int
+`
+
+type GetHasToGroupsSearchNameParams struct {
+	SearchName string
+	Order      string
+	Page       int32
+	PageLimit  int32
+}
+
+func (q *Queries) GetHasToGroupsSearchName(ctx context.Context, arg GetHasToGroupsSearchNameParams) ([]DcHasToGroup, error) {
+	rows, err := q.db.QueryContext(ctx, getHasToGroupsSearchName,
+		arg.SearchName,
+		arg.Order,
+		arg.Page,
+		arg.PageLimit,
+	)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []DcHasToGroup
+	for rows.Next() {
+		var i DcHasToGroup
+		if err := rows.Scan(
+			&i.ID,
+			&i.ColumnIDA,
+			&i.ColumnIDB,
+			&i.Description,
+			&i.IsDeleted,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.UserID,
 		); err != nil {
 			return nil, err
@@ -691,6 +4537,435 @@ func (q *Queries) GetHostsSearchName(ctx context.Context, arg GetHostsSearchName
 	return items, nil
 }
 
+const getSchemaCatById = `-- name: GetSchemaCatById :one
+SELECT
+    schema_cat.id,
+    schema_cat.database_id,
+    schema_cat.name,
+    schema_cat.is_deleted,
+    schema_cat.created_at,
+    schema_cat.updated_at,
+    schema_cat.user_id
+FROM dc.schema_cat
+WHERE schema_cat.id = $1
+LIMIT 1
+`
+
+func (q *Queries) GetSchemaCatById(ctx context.Context, id int64) (DcSchemaCat, error) {
+	row := q.db.QueryRowContext(ctx, getSchemaCatById, id)
+	var i DcSchemaCat
+	err := row.Scan(
+		&i.ID,
+		&i.DatabaseID,
+		&i.Name,
+		&i.IsDeleted,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.UserID,
+	)
+	return i, err
+}
+
+const getSchemaCats = `-- name: GetSchemaCats :many
+SELECT
+    schema_cat.id,
+    schema_cat.database_id,
+    schema_cat.name,
+    schema_cat.is_deleted,
+    schema_cat.created_at,
+    schema_cat.updated_at,
+    schema_cat.user_id
+FROM dc.schema_cat
+WHERE schema_cat.is_deleted = false
+ORDER BY CASE WHEN $1::text <> 'DESC' THEN schema_cat.id END ASC,
+    CASE WHEN $1::text = 'DESC' THEN schema_cat.id END DESC
+LIMIT $3::int OFFSET ($2::int-1)*$3::int
+`
+
+type GetSchemaCatsParams struct {
+	Order     string
+	Page      int32
+	PageLimit int32
+}
+
+func (q *Queries) GetSchemaCats(ctx context.Context, arg GetSchemaCatsParams) ([]DcSchemaCat, error) {
+	rows, err := q.db.QueryContext(ctx, getSchemaCats, arg.Order, arg.Page, arg.PageLimit)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []DcSchemaCat
+	for rows.Next() {
+		var i DcSchemaCat
+		if err := rows.Scan(
+			&i.ID,
+			&i.DatabaseID,
+			&i.Name,
+			&i.IsDeleted,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.UserID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getSchemaCatsDeleted = `-- name: GetSchemaCatsDeleted :many
+SELECT
+    schema_cat.id,
+    schema_cat.database_id,
+    schema_cat.name,
+    schema_cat.is_deleted,
+    schema_cat.created_at,
+    schema_cat.updated_at,
+    schema_cat.user_id
+FROM dc.schema_cat
+WHERE schema_cat.is_deleted = true
+ORDER BY CASE WHEN $1::text <> 'DESC' THEN schema_cat.id END ASC,
+    CASE WHEN $1::text = 'DESC' THEN schema_cat.id END DESC
+LIMIT $3::int OFFSET ($2::int-1)*$3::int
+`
+
+type GetSchemaCatsDeletedParams struct {
+	Order     string
+	Page      int32
+	PageLimit int32
+}
+
+func (q *Queries) GetSchemaCatsDeleted(ctx context.Context, arg GetSchemaCatsDeletedParams) ([]DcSchemaCat, error) {
+	rows, err := q.db.QueryContext(ctx, getSchemaCatsDeleted, arg.Order, arg.Page, arg.PageLimit)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []DcSchemaCat
+	for rows.Next() {
+		var i DcSchemaCat
+		if err := rows.Scan(
+			&i.ID,
+			&i.DatabaseID,
+			&i.Name,
+			&i.IsDeleted,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.UserID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getTableCatById = `-- name: GetTableCatById :one
+SELECT
+    table_cat.id,
+    table_cat.name,
+    table_cat.description,
+    table_cat.schema_id,
+    table_cat.table_type_id,
+    table_cat.domain_id,
+    table_cat.is_deleted,
+    table_cat.created_at,
+    table_cat.updated_at,
+    table_cat.is_get_dict,
+    table_cat.user_id
+FROM dc.table_cat
+WHERE table_cat.id = $1
+LIMIT 1
+`
+
+func (q *Queries) GetTableCatById(ctx context.Context, id int64) (DcTableCat, error) {
+	row := q.db.QueryRowContext(ctx, getTableCatById, id)
+	var i DcTableCat
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.Description,
+		&i.SchemaID,
+		&i.TableTypeID,
+		&i.DomainID,
+		&i.IsDeleted,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.IsGetDict,
+		&i.UserID,
+	)
+	return i, err
+}
+
+const getTableCats = `-- name: GetTableCats :many
+SELECT
+    table_cat.id,
+    table_cat.name,
+    table_cat.description,
+    table_cat.schema_id,
+    table_cat.table_type_id,
+    table_cat.domain_id,
+    table_cat.is_deleted,
+    table_cat.created_at,
+    table_cat.updated_at,
+    table_cat.is_get_dict,
+    table_cat.user_id
+FROM dc.table_cat
+WHERE table_cat.is_deleted = false
+ORDER BY CASE WHEN $1::text <> 'DESC' THEN table_cat.id END ASC,
+    CASE WHEN $1::text = 'DESC' THEN table_cat.id END DESC
+LIMIT $3::int OFFSET ($2::int-1)*$3::int
+`
+
+type GetTableCatsParams struct {
+	Order     string
+	Page      int32
+	PageLimit int32
+}
+
+func (q *Queries) GetTableCats(ctx context.Context, arg GetTableCatsParams) ([]DcTableCat, error) {
+	rows, err := q.db.QueryContext(ctx, getTableCats, arg.Order, arg.Page, arg.PageLimit)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []DcTableCat
+	for rows.Next() {
+		var i DcTableCat
+		if err := rows.Scan(
+			&i.ID,
+			&i.Name,
+			&i.Description,
+			&i.SchemaID,
+			&i.TableTypeID,
+			&i.DomainID,
+			&i.IsDeleted,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.IsGetDict,
+			&i.UserID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getTableCatsDeleted = `-- name: GetTableCatsDeleted :many
+SELECT
+    table_cat.id,
+    table_cat.name,
+    table_cat.description,
+    table_cat.schema_id,
+    table_cat.table_type_id,
+    table_cat.domain_id,
+    table_cat.is_deleted,
+    table_cat.created_at,
+    table_cat.updated_at,
+    table_cat.is_get_dict,
+    table_cat.user_id
+FROM dc.table_cat
+WHERE table_cat.is_deleted = true
+ORDER BY CASE WHEN $1::text <> 'DESC' THEN table_cat.id END ASC,
+    CASE WHEN $1::text = 'DESC' THEN table_cat.id END DESC
+LIMIT $3::int OFFSET ($2::int-1)*$3::int
+`
+
+type GetTableCatsDeletedParams struct {
+	Order     string
+	Page      int32
+	PageLimit int32
+}
+
+func (q *Queries) GetTableCatsDeleted(ctx context.Context, arg GetTableCatsDeletedParams) ([]DcTableCat, error) {
+	rows, err := q.db.QueryContext(ctx, getTableCatsDeleted, arg.Order, arg.Page, arg.PageLimit)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []DcTableCat
+	for rows.Next() {
+		var i DcTableCat
+		if err := rows.Scan(
+			&i.ID,
+			&i.Name,
+			&i.Description,
+			&i.SchemaID,
+			&i.TableTypeID,
+			&i.DomainID,
+			&i.IsDeleted,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.IsGetDict,
+			&i.UserID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getTableTypeById = `-- name: GetTableTypeById :one
+SELECT
+    table_type.id,
+    table_type.name,
+    table_type.description,
+    table_type.is_deleted,
+    table_type.created_at,
+    table_type.updated_at,
+    table_type.user_id
+FROM dc.table_type
+WHERE table_type.id = $1
+LIMIT 1
+`
+
+func (q *Queries) GetTableTypeById(ctx context.Context, id int64) (DcTableType, error) {
+	row := q.db.QueryRowContext(ctx, getTableTypeById, id)
+	var i DcTableType
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.Description,
+		&i.IsDeleted,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.UserID,
+	)
+	return i, err
+}
+
+const getTableTypes = `-- name: GetTableTypes :many
+SELECT
+    table_type.id,
+    table_type.name,
+    table_type.description,
+    table_type.is_deleted,
+    table_type.created_at,
+    table_type.updated_at,
+    table_type.user_id
+FROM dc.table_type
+WHERE table_type.is_deleted = false
+ORDER BY CASE WHEN $1::text <> 'DESC' THEN table_type.id END ASC,
+    CASE WHEN $1::text = 'DESC' THEN table_type.id END DESC
+LIMIT $3::int OFFSET ($2::int-1)*$3::int
+`
+
+type GetTableTypesParams struct {
+	Order     string
+	Page      int32
+	PageLimit int32
+}
+
+func (q *Queries) GetTableTypes(ctx context.Context, arg GetTableTypesParams) ([]DcTableType, error) {
+	rows, err := q.db.QueryContext(ctx, getTableTypes, arg.Order, arg.Page, arg.PageLimit)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []DcTableType
+	for rows.Next() {
+		var i DcTableType
+		if err := rows.Scan(
+			&i.ID,
+			&i.Name,
+			&i.Description,
+			&i.IsDeleted,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.UserID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getTableTypesDeleted = `-- name: GetTableTypesDeleted :many
+SELECT
+    table_type.id,
+    table_type.name,
+    table_type.description,
+    table_type.is_deleted,
+    table_type.created_at,
+    table_type.updated_at,
+    table_type.user_id
+FROM dc.table_type
+WHERE table_type.is_deleted = true
+ORDER BY CASE WHEN $1::text <> 'DESC' THEN table_type.id END ASC,
+    CASE WHEN $1::text = 'DESC' THEN table_type.id END DESC
+LIMIT $3::int OFFSET ($2::int-1)*$3::int
+`
+
+type GetTableTypesDeletedParams struct {
+	Order     string
+	Page      int32
+	PageLimit int32
+}
+
+func (q *Queries) GetTableTypesDeleted(ctx context.Context, arg GetTableTypesDeletedParams) ([]DcTableType, error) {
+	rows, err := q.db.QueryContext(ctx, getTableTypesDeleted, arg.Order, arg.Page, arg.PageLimit)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []DcTableType
+	for rows.Next() {
+		var i DcTableType
+		if err := rows.Scan(
+			&i.ID,
+			&i.Name,
+			&i.Description,
+			&i.IsDeleted,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.UserID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const getUserByExternalId = `-- name: GetUserByExternalId :one
 SELECT
     "user".id,
@@ -788,6 +5063,168 @@ func (q *Queries) UndeleteAliasById(ctx context.Context, arg UndeleteAliasByIdPa
 	return err
 }
 
+const undeleteColumnCatById = `-- name: UndeleteColumnCatById :exec
+UPDATE dc.column_cat
+SET is_deleted = false,
+    updated_at = now(),
+    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $1)
+WHERE column_cat.id = $2
+`
+
+type UndeleteColumnCatByIdParams struct {
+	ExternalID uuid.UUID
+	ID         int64
+}
+
+func (q *Queries) UndeleteColumnCatById(ctx context.Context, arg UndeleteColumnCatByIdParams) error {
+	_, err := q.db.ExecContext(ctx, undeleteColumnCatById, arg.ExternalID, arg.ID)
+	return err
+}
+
+const undeleteColumnTypeById = `-- name: UndeleteColumnTypeById :exec
+UPDATE dc.column_type
+SET is_deleted = false,
+    updated_at = now(),
+    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $1)
+WHERE column_type.id = $2
+`
+
+type UndeleteColumnTypeByIdParams struct {
+	ExternalID uuid.UUID
+	ID         int64
+}
+
+func (q *Queries) UndeleteColumnTypeById(ctx context.Context, arg UndeleteColumnTypeByIdParams) error {
+	_, err := q.db.ExecContext(ctx, undeleteColumnTypeById, arg.ExternalID, arg.ID)
+	return err
+}
+
+const undeleteDatabaseCalculationById = `-- name: UndeleteDatabaseCalculationById :exec
+UPDATE dc.database_calculation
+SET updated_at = now(),
+    is_deleted = false,
+    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $1)
+WHERE database_calculation.id = $2
+`
+
+type UndeleteDatabaseCalculationByIdParams struct {
+	ExternalID uuid.UUID
+	ID         int64
+}
+
+func (q *Queries) UndeleteDatabaseCalculationById(ctx context.Context, arg UndeleteDatabaseCalculationByIdParams) error {
+	_, err := q.db.ExecContext(ctx, undeleteDatabaseCalculationById, arg.ExternalID, arg.ID)
+	return err
+}
+
+const undeleteDatabaseCatById = `-- name: UndeleteDatabaseCatById :exec
+UPDATE dc.database_cat
+SET is_deleted = true,
+    updated_at = now(),
+    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $1)
+WHERE database_cat.id = $2
+`
+
+type UndeleteDatabaseCatByIdParams struct {
+	ExternalID uuid.UUID
+	ID         int64
+}
+
+func (q *Queries) UndeleteDatabaseCatById(ctx context.Context, arg UndeleteDatabaseCatByIdParams) error {
+	_, err := q.db.ExecContext(ctx, undeleteDatabaseCatById, arg.ExternalID, arg.ID)
+	return err
+}
+
+const undeleteDatabaseTypeById = `-- name: UndeleteDatabaseTypeById :exec
+UPDATE dc.database_type
+SET is_deleted = false,
+    updated_at = now(),
+    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $1)
+WHERE database_type.id = $2
+`
+
+type UndeleteDatabaseTypeByIdParams struct {
+	ExternalID uuid.UUID
+	ID         int64
+}
+
+func (q *Queries) UndeleteDatabaseTypeById(ctx context.Context, arg UndeleteDatabaseTypeByIdParams) error {
+	_, err := q.db.ExecContext(ctx, undeleteDatabaseTypeById, arg.ExternalID, arg.ID)
+	return err
+}
+
+const undeleteDomainCatById = `-- name: UndeleteDomainCatById :exec
+UPDATE dc.domain_cat
+SET is_deleted = false,
+    updated_at = now(),
+    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $1)
+WHERE domain_cat.id = $2
+`
+
+type UndeleteDomainCatByIdParams struct {
+	ExternalID uuid.UUID
+	ID         int64
+}
+
+func (q *Queries) UndeleteDomainCatById(ctx context.Context, arg UndeleteDomainCatByIdParams) error {
+	_, err := q.db.ExecContext(ctx, undeleteDomainCatById, arg.ExternalID, arg.ID)
+	return err
+}
+
+const undeleteFollowingCalculationById = `-- name: UndeleteFollowingCalculationById :exec
+UPDATE dc.following_calculation
+SET updated_at = now(),
+    is_deleted = false,
+    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $1)
+WHERE following_calculation.id = $2
+`
+
+type UndeleteFollowingCalculationByIdParams struct {
+	ExternalID uuid.UUID
+	ID         int64
+}
+
+func (q *Queries) UndeleteFollowingCalculationById(ctx context.Context, arg UndeleteFollowingCalculationByIdParams) error {
+	_, err := q.db.ExecContext(ctx, undeleteFollowingCalculationById, arg.ExternalID, arg.ID)
+	return err
+}
+
+const undeleteGroupLevels = `-- name: UndeleteGroupLevels :exec
+UPDATE dc.group_levels
+SET updated_at = now(),
+    is_deleted = false,
+    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $1)
+WHERE group_levels.id = $2
+`
+
+type UndeleteGroupLevelsParams struct {
+	ExternalID uuid.UUID
+	ID         int64
+}
+
+func (q *Queries) UndeleteGroupLevels(ctx context.Context, arg UndeleteGroupLevelsParams) error {
+	_, err := q.db.ExecContext(ctx, undeleteGroupLevels, arg.ExternalID, arg.ID)
+	return err
+}
+
+const undeleteHasToGroupById = `-- name: UndeleteHasToGroupById :exec
+UPDATE dc.has_to_group
+SET is_deleted = false,
+    updated_at = now(),
+    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $1)
+WHERE has_to_group.id = $2
+`
+
+type UndeleteHasToGroupByIdParams struct {
+	ExternalID uuid.UUID
+	ID         int64
+}
+
+func (q *Queries) UndeleteHasToGroupById(ctx context.Context, arg UndeleteHasToGroupByIdParams) error {
+	_, err := q.db.ExecContext(ctx, undeleteHasToGroupById, arg.ExternalID, arg.ID)
+	return err
+}
+
 const undeleteHostById = `-- name: UndeleteHostById :exec
 UPDATE dc.host
 SET is_deleted = false,
@@ -803,6 +5240,60 @@ type UndeleteHostByIdParams struct {
 
 func (q *Queries) UndeleteHostById(ctx context.Context, arg UndeleteHostByIdParams) error {
 	_, err := q.db.ExecContext(ctx, undeleteHostById, arg.ExternalID, arg.ID)
+	return err
+}
+
+const undeleteSchemaCatById = `-- name: UndeleteSchemaCatById :exec
+UPDATE dc.schema_cat
+SET is_deleted = false,
+    updated_at = now(),
+    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $1)
+WHERE schema_cat.id = $2
+`
+
+type UndeleteSchemaCatByIdParams struct {
+	ExternalID uuid.UUID
+	ID         int64
+}
+
+func (q *Queries) UndeleteSchemaCatById(ctx context.Context, arg UndeleteSchemaCatByIdParams) error {
+	_, err := q.db.ExecContext(ctx, undeleteSchemaCatById, arg.ExternalID, arg.ID)
+	return err
+}
+
+const undeleteTableCatById = `-- name: UndeleteTableCatById :exec
+UPDATE dc.table_cat
+SET is_deleted = false,
+    updated_at = now(),
+    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $1)
+WHERE table_cat.id = $2
+`
+
+type UndeleteTableCatByIdParams struct {
+	ExternalID uuid.UUID
+	ID         int64
+}
+
+func (q *Queries) UndeleteTableCatById(ctx context.Context, arg UndeleteTableCatByIdParams) error {
+	_, err := q.db.ExecContext(ctx, undeleteTableCatById, arg.ExternalID, arg.ID)
+	return err
+}
+
+const undeleteTableTypeById = `-- name: UndeleteTableTypeById :exec
+UPDATE dc.table_type
+SET is_deleted = false,
+    updated_at = now(),
+    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $1)
+WHERE table_type.id = $2
+`
+
+type UndeleteTableTypeByIdParams struct {
+	ExternalID uuid.UUID
+	ID         int64
+}
+
+func (q *Queries) UndeleteTableTypeById(ctx context.Context, arg UndeleteTableTypeByIdParams) error {
+	_, err := q.db.ExecContext(ctx, undeleteTableTypeById, arg.ExternalID, arg.ID)
 	return err
 }
 
@@ -829,6 +5320,272 @@ func (q *Queries) UpdateAliasById(ctx context.Context, arg UpdateAliasByIdParams
 		arg.Name,
 		arg.Description,
 		arg.IsDeleted,
+		arg.ExternalID,
+		arg.ID,
+	)
+	return err
+}
+
+const updateColumnCatById = `-- name: UpdateColumnCatById :exec
+UPDATE dc.column_cat
+SET table_id = $1,
+    name = $2,
+    alias_id = $3,
+    column_type_id = $4,
+    description = $5,
+    calculation_type_id = $6,
+    is_deleted = false,
+    show_in_ui = $7,
+    updated_at = now(),
+    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $8)
+WHERE column_cat.id = $9
+`
+
+type UpdateColumnCatByIdParams struct {
+	TableID           int64
+	Name              string
+	AliasID           int64
+	ColumnTypeID      int64
+	Description       string
+	CalculationTypeID int64
+	ShowInUi          bool
+	ExternalID        uuid.UUID
+	ID                int64
+}
+
+func (q *Queries) UpdateColumnCatById(ctx context.Context, arg UpdateColumnCatByIdParams) error {
+	_, err := q.db.ExecContext(ctx, updateColumnCatById,
+		arg.TableID,
+		arg.Name,
+		arg.AliasID,
+		arg.ColumnTypeID,
+		arg.Description,
+		arg.CalculationTypeID,
+		arg.ShowInUi,
+		arg.ExternalID,
+		arg.ID,
+	)
+	return err
+}
+
+const updateColumnTypeById = `-- name: UpdateColumnTypeById :exec
+UPDATE dc.column_type
+SET name = $1,
+    description = $2,
+    is_deleted = false,
+    updated_at = now(),
+    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $3)
+WHERE column_type.id = $4
+`
+
+type UpdateColumnTypeByIdParams struct {
+	Name        string
+	Description string
+	ExternalID  uuid.UUID
+	ID          int64
+}
+
+func (q *Queries) UpdateColumnTypeById(ctx context.Context, arg UpdateColumnTypeByIdParams) error {
+	_, err := q.db.ExecContext(ctx, updateColumnTypeById,
+		arg.Name,
+		arg.Description,
+		arg.ExternalID,
+		arg.ID,
+	)
+	return err
+}
+
+const updateDatabaseCalculationById = `-- name: UpdateDatabaseCalculationById :exec
+UPDATE dc.database_calculation
+SET database_cat_id = $1,
+    calculation_type_id = $2,
+    updated_at = now(),
+    is_deleted = false,
+    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $3)
+WHERE database_calculation.id = $4
+`
+
+type UpdateDatabaseCalculationByIdParams struct {
+	DatabaseCatID     int64
+	CalculationTypeID int64
+	ExternalID        uuid.UUID
+	ID                int64
+}
+
+func (q *Queries) UpdateDatabaseCalculationById(ctx context.Context, arg UpdateDatabaseCalculationByIdParams) error {
+	_, err := q.db.ExecContext(ctx, updateDatabaseCalculationById,
+		arg.DatabaseCatID,
+		arg.CalculationTypeID,
+		arg.ExternalID,
+		arg.ID,
+	)
+	return err
+}
+
+const updateDatabaseCatById = `-- name: UpdateDatabaseCatById :exec
+UPDATE dc.database_cat
+SET name = $1,
+    host_id = $2,
+    database_type_id = $3,
+    description = $4,
+    is_deleted = false,
+    updated_at = now(),
+    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $5)
+WHERE database_cat.id = $6
+`
+
+type UpdateDatabaseCatByIdParams struct {
+	Name           string
+	HostID         int64
+	DatabaseTypeID int64
+	Description    string
+	ExternalID     uuid.UUID
+	ID             int64
+}
+
+func (q *Queries) UpdateDatabaseCatById(ctx context.Context, arg UpdateDatabaseCatByIdParams) error {
+	_, err := q.db.ExecContext(ctx, updateDatabaseCatById,
+		arg.Name,
+		arg.HostID,
+		arg.DatabaseTypeID,
+		arg.Description,
+		arg.ExternalID,
+		arg.ID,
+	)
+	return err
+}
+
+const updateDatabaseTypeById = `-- name: UpdateDatabaseTypeById :exec
+UPDATE dc.database_type
+SET name = $1,
+    db_version = $2,
+    is_deleted = false,
+    updated_at = now(),
+    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $3)
+WHERE database_type.id = $4
+`
+
+type UpdateDatabaseTypeByIdParams struct {
+	Name       string
+	DbVersion  string
+	ExternalID uuid.UUID
+	ID         int64
+}
+
+func (q *Queries) UpdateDatabaseTypeById(ctx context.Context, arg UpdateDatabaseTypeByIdParams) error {
+	_, err := q.db.ExecContext(ctx, updateDatabaseTypeById,
+		arg.Name,
+		arg.DbVersion,
+		arg.ExternalID,
+		arg.ID,
+	)
+	return err
+}
+
+const updateDomainCatById = `-- name: UpdateDomainCatById :exec
+UPDATE dc.domain_cat
+SET domain_name = $1,
+    is_deleted = false,
+    updated_at = now(),
+    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $2)
+WHERE domain_cat.id = $3
+`
+
+type UpdateDomainCatByIdParams struct {
+	DomainName string
+	ExternalID uuid.UUID
+	ID         int64
+}
+
+func (q *Queries) UpdateDomainCatById(ctx context.Context, arg UpdateDomainCatByIdParams) error {
+	_, err := q.db.ExecContext(ctx, updateDomainCatById, arg.DomainName, arg.ExternalID, arg.ID)
+	return err
+}
+
+const updateFollowingCalculationById = `-- name: UpdateFollowingCalculationById :exec
+UPDATE dc.following_calculation
+SET column_cat_id = $1,
+    calculation_type_id = $2,
+    updated_at = now(),
+    is_deleted = false,
+    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $3)
+WHERE following_calculation.id = $4
+`
+
+type UpdateFollowingCalculationByIdParams struct {
+	ColumnCatID       int64
+	CalculationTypeID int64
+	ExternalID        uuid.UUID
+	ID                int64
+}
+
+func (q *Queries) UpdateFollowingCalculationById(ctx context.Context, arg UpdateFollowingCalculationByIdParams) error {
+	_, err := q.db.ExecContext(ctx, updateFollowingCalculationById,
+		arg.ColumnCatID,
+		arg.CalculationTypeID,
+		arg.ExternalID,
+		arg.ID,
+	)
+	return err
+}
+
+const updateGroupLevelsById = `-- name: UpdateGroupLevelsById :exec
+UPDATE dc.group_levels
+SET column_id = $1,
+    parent_column_id = $2,
+    level = $3,
+    description = $4,
+    updated_at = now(),
+    is_deleted = false,
+    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $5)
+WHERE group_levels.id = $6
+`
+
+type UpdateGroupLevelsByIdParams struct {
+	ColumnID       int64
+	ParentColumnID int64
+	Level          int16
+	Description    string
+	ExternalID     uuid.UUID
+	ID             int64
+}
+
+func (q *Queries) UpdateGroupLevelsById(ctx context.Context, arg UpdateGroupLevelsByIdParams) error {
+	_, err := q.db.ExecContext(ctx, updateGroupLevelsById,
+		arg.ColumnID,
+		arg.ParentColumnID,
+		arg.Level,
+		arg.Description,
+		arg.ExternalID,
+		arg.ID,
+	)
+	return err
+}
+
+const updateHasToGroupById = `-- name: UpdateHasToGroupById :exec
+UPDATE dc.has_to_group
+SET column_id_a = $1,
+    column_id_b = $2,
+    description = $3,
+    is_deleted = false,
+    updated_at = now(),
+    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $4)
+WHERE has_to_group.id = $5
+`
+
+type UpdateHasToGroupByIdParams struct {
+	ColumnIDA   int64
+	ColumnIDB   int64
+	Description string
+	ExternalID  uuid.UUID
+	ID          int64
+}
+
+func (q *Queries) UpdateHasToGroupById(ctx context.Context, arg UpdateHasToGroupByIdParams) error {
+	_, err := q.db.ExecContext(ctx, updateHasToGroupById,
+		arg.ColumnIDA,
+		arg.ColumnIDB,
+		arg.Description,
 		arg.ExternalID,
 		arg.ID,
 	)
@@ -871,6 +5628,102 @@ func (q *Queries) UpdateHostById(ctx context.Context, arg UpdateHostByIdParams) 
 		arg.UsernameEnv,
 		arg.PasswordEnv,
 		arg.ExternalID,
+	)
+	return err
+}
+
+const updateSchemaCatById = `-- name: UpdateSchemaCatById :exec
+UPDATE dc.schema_cat
+SET database_id = $1,
+    name = $2,
+    is_deleted = false,
+    created_at = $3,
+    updated_at = now(),
+    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $4)
+WHERE schema_cat.id = $5
+`
+
+type UpdateSchemaCatByIdParams struct {
+	DatabaseID int64
+	Name       string
+	CreatedAt  time.Time
+	ExternalID uuid.UUID
+	ID         int64
+}
+
+func (q *Queries) UpdateSchemaCatById(ctx context.Context, arg UpdateSchemaCatByIdParams) error {
+	_, err := q.db.ExecContext(ctx, updateSchemaCatById,
+		arg.DatabaseID,
+		arg.Name,
+		arg.CreatedAt,
+		arg.ExternalID,
+		arg.ID,
+	)
+	return err
+}
+
+const updateTableCatById = `-- name: UpdateTableCatById :exec
+UPDATE dc.table_cat
+SET name = $1,
+    description = $2,
+    schema_id = $3,
+    table_type_id = $4,
+    domain_id = $5,
+    is_deleted = false,
+    updated_at = now(),
+    is_get_dict = $6,
+    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $7)
+WHERE table_cat.id = $8
+`
+
+type UpdateTableCatByIdParams struct {
+	Name        string
+	Description string
+	SchemaID    int64
+	TableTypeID int64
+	DomainID    int64
+	IsGetDict   bool
+	ExternalID  uuid.UUID
+	ID          int64
+}
+
+func (q *Queries) UpdateTableCatById(ctx context.Context, arg UpdateTableCatByIdParams) error {
+	_, err := q.db.ExecContext(ctx, updateTableCatById,
+		arg.Name,
+		arg.Description,
+		arg.SchemaID,
+		arg.TableTypeID,
+		arg.DomainID,
+		arg.IsGetDict,
+		arg.ExternalID,
+		arg.ID,
+	)
+	return err
+}
+
+const updateTableTypeById = `-- name: UpdateTableTypeById :exec
+UPDATE dc.table_type
+SET name = $1,
+    description = $2,
+    is_deleted = false,
+    updated_at = now(),
+    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $3)
+WHERE table_type.id = $4
+`
+
+type UpdateTableTypeByIdParams struct {
+	Name        string
+	Description string
+	ExternalID  uuid.UUID
+	ID          int64
+}
+
+func (q *Queries) UpdateTableTypeById(ctx context.Context, arg UpdateTableTypeByIdParams) error {
+	_, err := q.db.ExecContext(ctx, updateTableTypeById,
+		arg.Name,
+		arg.Description,
+		arg.ExternalID,
+		arg.ID,
 	)
 	return err
 }
