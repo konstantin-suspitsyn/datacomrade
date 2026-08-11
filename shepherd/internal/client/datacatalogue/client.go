@@ -16,8 +16,23 @@ import (
 type Client struct {
 	conn *grpc.ClientConn
 
-	User userv1.UserServiceClient
-	Host tablesv1.HostServiceClient
+	User         userv1.UserServiceClient
+	Host         tablesv1.HostServiceClient
+	DatabaseType tablesv1.DatabaseTypeServiceClient
+	DatabaseCat  tablesv1.DatabaseCatServiceClient
+
+	Alias                tablesv1.AliasServiceClient
+	SchemaCat            tablesv1.SchemaCatServiceClient
+	TableCat             tablesv1.TableCatServiceClient
+	TableType            tablesv1.TableTypeServiceClient
+	ColumnCat            tablesv1.ColumnCatServiceClient
+	ColumnType           tablesv1.ColumnTypeServiceClient
+	DomainCat            tablesv1.DomainCatServiceClient
+	CalculationType      tablesv1.CalculationTypeServiceClient
+	DatabaseCalculation  tablesv1.DatabaseCalculationServiceClient
+	FollowingCalculation tablesv1.FollowingCalculationServiceClient
+	GroupLevels          tablesv1.GroupLevelsServiceClient
+	HasToGroup           tablesv1.HasToGroupServiceClient
 }
 
 // Dial открывает gRPC-соединение с datacatalogue по addr (host:port).
@@ -29,9 +44,24 @@ func Dial(addr string) (*Client, error) {
 	}
 
 	return &Client{
-		conn: conn,
-		User: userv1.NewUserServiceClient(conn),
-		Host: tablesv1.NewHostServiceClient(conn),
+		conn:         conn,
+		User:         userv1.NewUserServiceClient(conn),
+		Host:         tablesv1.NewHostServiceClient(conn),
+		DatabaseType: tablesv1.NewDatabaseTypeServiceClient(conn),
+		DatabaseCat:  tablesv1.NewDatabaseCatServiceClient(conn),
+
+		Alias:                tablesv1.NewAliasServiceClient(conn),
+		SchemaCat:            tablesv1.NewSchemaCatServiceClient(conn),
+		TableCat:             tablesv1.NewTableCatServiceClient(conn),
+		TableType:            tablesv1.NewTableTypeServiceClient(conn),
+		ColumnCat:            tablesv1.NewColumnCatServiceClient(conn),
+		ColumnType:           tablesv1.NewColumnTypeServiceClient(conn),
+		DomainCat:            tablesv1.NewDomainCatServiceClient(conn),
+		CalculationType:      tablesv1.NewCalculationTypeServiceClient(conn),
+		DatabaseCalculation:  tablesv1.NewDatabaseCalculationServiceClient(conn),
+		FollowingCalculation: tablesv1.NewFollowingCalculationServiceClient(conn),
+		GroupLevels:          tablesv1.NewGroupLevelsServiceClient(conn),
+		HasToGroup:           tablesv1.NewHasToGroupServiceClient(conn),
 	}, nil
 }
 

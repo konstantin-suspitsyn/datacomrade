@@ -14,10 +14,290 @@ import (
 	openapi_types "github.com/oapi-codegen/runtime/types"
 )
 
+// Defines values for ListDatabaseCatsByHostAndDatabaseTypeParamsOrderBy.
+const (
+	Name ListDatabaseCatsByHostAndDatabaseTypeParamsOrderBy = "name"
+)
+
+// Valid indicates whether the value is a known member of the ListDatabaseCatsByHostAndDatabaseTypeParamsOrderBy enum.
+func (e ListDatabaseCatsByHostAndDatabaseTypeParamsOrderBy) Valid() bool {
+	switch e {
+	case Name:
+		return true
+	default:
+		return false
+	}
+}
+
+// Alias defines model for Alias.
+type Alias struct {
+	CreatedAt   time.Time `json:"created_at"`
+	Description string    `json:"description"`
+	Id          int64     `json:"id"`
+	IsDeleted   bool      `json:"is_deleted"`
+	Name        string    `json:"name"`
+	UpdatedAt   time.Time `json:"updated_at"`
+	UserId      int64     `json:"user_id"`
+}
+
+// AliasPage defines model for AliasPage.
+type AliasPage struct {
+	Data       []Alias    `json:"data"`
+	Pagination Pagination `json:"pagination"`
+}
+
+// AliasUpdate defines model for AliasUpdate.
+type AliasUpdate struct {
+	Description string `json:"description"`
+	IsDeleted   bool   `json:"is_deleted"`
+	Name        string `json:"name"`
+}
+
+// AliasWrite defines model for AliasWrite.
+type AliasWrite struct {
+	Description string `json:"description"`
+	Name        string `json:"name"`
+}
+
+// CalculationType defines model for CalculationType.
+type CalculationType struct {
+	CreatedAt   time.Time `json:"created_at"`
+	Description string    `json:"description"`
+	Id          int64     `json:"id"`
+	IsDeleted   bool      `json:"is_deleted"`
+	Name        string    `json:"name"`
+	UpdatedAt   time.Time `json:"updated_at"`
+}
+
+// ColumnCat defines model for ColumnCat.
+type ColumnCat struct {
+	AliasId           int64     `json:"alias_id"`
+	CalculationTypeId int64     `json:"calculation_type_id"`
+	ColumnTypeId      int64     `json:"column_type_id"`
+	CreatedAt         time.Time `json:"created_at"`
+	Description       string    `json:"description"`
+	Id                int64     `json:"id"`
+	IsDeleted         bool      `json:"is_deleted"`
+	Name              string    `json:"name"`
+	ShowInUi          bool      `json:"show_in_ui"`
+	TableId           int64     `json:"table_id"`
+	UpdatedAt         time.Time `json:"updated_at"`
+	UserId            int64     `json:"user_id"`
+}
+
+// ColumnCatPage defines model for ColumnCatPage.
+type ColumnCatPage struct {
+	Data       []ColumnCat `json:"data"`
+	Pagination Pagination  `json:"pagination"`
+}
+
+// ColumnCatWrite defines model for ColumnCatWrite.
+type ColumnCatWrite struct {
+	AliasId           int64  `json:"alias_id"`
+	CalculationTypeId int64  `json:"calculation_type_id"`
+	ColumnTypeId      int64  `json:"column_type_id"`
+	Description       string `json:"description"`
+	Name              string `json:"name"`
+	ShowInUi          bool   `json:"show_in_ui"`
+	TableId           int64  `json:"table_id"`
+}
+
+// ColumnType defines model for ColumnType.
+type ColumnType struct {
+	CreatedAt   time.Time `json:"created_at"`
+	Description string    `json:"description"`
+	Id          int64     `json:"id"`
+	IsDeleted   bool      `json:"is_deleted"`
+	Name        string    `json:"name"`
+	UpdatedAt   time.Time `json:"updated_at"`
+	UserId      int64     `json:"user_id"`
+}
+
+// ColumnTypePage defines model for ColumnTypePage.
+type ColumnTypePage struct {
+	Data       []ColumnType `json:"data"`
+	Pagination Pagination   `json:"pagination"`
+}
+
+// ColumnTypeWrite defines model for ColumnTypeWrite.
+type ColumnTypeWrite struct {
+	Description string `json:"description"`
+	Name        string `json:"name"`
+}
+
+// DatabaseCalculation defines model for DatabaseCalculation.
+type DatabaseCalculation struct {
+	CalculationTypeId int64     `json:"calculation_type_id"`
+	CreatedAt         time.Time `json:"created_at"`
+	DatabaseCatId     int64     `json:"database_cat_id"`
+	Id                int64     `json:"id"`
+	IsDeleted         bool      `json:"is_deleted"`
+	UpdatedAt         time.Time `json:"updated_at"`
+	UserId            int64     `json:"user_id"`
+}
+
+// DatabaseCalculationPage defines model for DatabaseCalculationPage.
+type DatabaseCalculationPage struct {
+	Data       []DatabaseCalculation `json:"data"`
+	Pagination Pagination            `json:"pagination"`
+}
+
+// DatabaseCalculationWrite defines model for DatabaseCalculationWrite.
+type DatabaseCalculationWrite struct {
+	CalculationTypeId int64 `json:"calculation_type_id"`
+	DatabaseCatId     int64 `json:"database_cat_id"`
+}
+
+// DatabaseCat defines model for DatabaseCat.
+type DatabaseCat struct {
+	CreatedAt      time.Time `json:"created_at"`
+	DatabaseTypeId int64     `json:"database_type_id"`
+	Description    string    `json:"description"`
+	HostId         int64     `json:"host_id"`
+	Id             int64     `json:"id"`
+	IsDeleted      bool      `json:"is_deleted"`
+	Name           string    `json:"name"`
+	UpdatedAt      time.Time `json:"updated_at"`
+	UserId         int64     `json:"user_id"`
+}
+
+// DatabaseCatPage defines model for DatabaseCatPage.
+type DatabaseCatPage struct {
+	Data       []DatabaseCat `json:"data"`
+	Pagination Pagination    `json:"pagination"`
+}
+
+// DatabaseCatWrite defines model for DatabaseCatWrite.
+type DatabaseCatWrite struct {
+	DatabaseTypeId int64  `json:"database_type_id"`
+	Description    string `json:"description"`
+	HostId         int64  `json:"host_id"`
+	Name           string `json:"name"`
+}
+
+// DatabaseType defines model for DatabaseType.
+type DatabaseType struct {
+	CreatedAt time.Time `json:"created_at"`
+	DbVersion string    `json:"db_version"`
+	Id        int64     `json:"id"`
+	IsDeleted bool      `json:"is_deleted"`
+	Name      string    `json:"name"`
+	UpdatedAt time.Time `json:"updated_at"`
+	UserId    int64     `json:"user_id"`
+}
+
+// DatabaseTypePage defines model for DatabaseTypePage.
+type DatabaseTypePage struct {
+	Data       []DatabaseType `json:"data"`
+	Pagination Pagination     `json:"pagination"`
+}
+
+// DatabaseTypeWrite defines model for DatabaseTypeWrite.
+type DatabaseTypeWrite struct {
+	DbVersion string `json:"db_version"`
+	Name      string `json:"name"`
+}
+
+// DomainCat defines model for DomainCat.
+type DomainCat struct {
+	CreatedAt  time.Time `json:"created_at"`
+	DomainName string    `json:"domain_name"`
+	Id         int64     `json:"id"`
+	IsDeleted  bool      `json:"is_deleted"`
+	UpdatedAt  time.Time `json:"updated_at"`
+	UserId     int64     `json:"user_id"`
+}
+
+// DomainCatPage defines model for DomainCatPage.
+type DomainCatPage struct {
+	Data       []DomainCat `json:"data"`
+	Pagination Pagination  `json:"pagination"`
+}
+
+// DomainCatWrite defines model for DomainCatWrite.
+type DomainCatWrite struct {
+	DomainName string `json:"domain_name"`
+}
+
 // Error defines model for Error.
 type Error struct {
 	Code    string `json:"code"`
 	Message string `json:"message"`
+}
+
+// FollowingCalculation defines model for FollowingCalculation.
+type FollowingCalculation struct {
+	CalculationTypeId int64     `json:"calculation_type_id"`
+	ColumnCatId       int64     `json:"column_cat_id"`
+	CreatedAt         time.Time `json:"created_at"`
+	Id                int64     `json:"id"`
+	IsDeleted         bool      `json:"is_deleted"`
+	UpdatedAt         time.Time `json:"updated_at"`
+	UserId            int64     `json:"user_id"`
+}
+
+// FollowingCalculationPage defines model for FollowingCalculationPage.
+type FollowingCalculationPage struct {
+	Data       []FollowingCalculation `json:"data"`
+	Pagination Pagination             `json:"pagination"`
+}
+
+// FollowingCalculationWrite defines model for FollowingCalculationWrite.
+type FollowingCalculationWrite struct {
+	CalculationTypeId int64 `json:"calculation_type_id"`
+	ColumnCatId       int64 `json:"column_cat_id"`
+}
+
+// GroupLevels defines model for GroupLevels.
+type GroupLevels struct {
+	ColumnId       int64     `json:"column_id"`
+	CreatedAt      time.Time `json:"created_at"`
+	Description    string    `json:"description"`
+	Id             int64     `json:"id"`
+	IsDeleted      bool      `json:"is_deleted"`
+	Level          int32     `json:"level"`
+	ParentColumnId int64     `json:"parent_column_id"`
+	UpdatedAt      time.Time `json:"updated_at"`
+	UserId         int64     `json:"user_id"`
+}
+
+// GroupLevelsPage defines model for GroupLevelsPage.
+type GroupLevelsPage struct {
+	Data       []GroupLevels `json:"data"`
+	Pagination Pagination    `json:"pagination"`
+}
+
+// GroupLevelsWrite defines model for GroupLevelsWrite.
+type GroupLevelsWrite struct {
+	ColumnId       int64  `json:"column_id"`
+	Description    string `json:"description"`
+	Level          int32  `json:"level"`
+	ParentColumnId int64  `json:"parent_column_id"`
+}
+
+// HasToGroup defines model for HasToGroup.
+type HasToGroup struct {
+	ColumnIdA   int64     `json:"column_id_a"`
+	ColumnIdB   int64     `json:"column_id_b"`
+	CreatedAt   time.Time `json:"created_at"`
+	Description string    `json:"description"`
+	Id          int64     `json:"id"`
+	IsDeleted   bool      `json:"is_deleted"`
+	UpdatedAt   time.Time `json:"updated_at"`
+	UserId      int64     `json:"user_id"`
+}
+
+// HasToGroupPage defines model for HasToGroupPage.
+type HasToGroupPage struct {
+	Data       []HasToGroup `json:"data"`
+	Pagination Pagination   `json:"pagination"`
+}
+
+// HasToGroupWrite defines model for HasToGroupWrite.
+type HasToGroupWrite struct {
+	ColumnIdA   int64  `json:"column_id_a"`
+	ColumnIdB   int64  `json:"column_id_b"`
+	Description string `json:"description"`
 }
 
 // Host defines model for Host.
@@ -74,6 +354,125 @@ type Pagination struct {
 	TotalPages int64 `json:"total_pages"`
 }
 
+// SchemaCat defines model for SchemaCat.
+type SchemaCat struct {
+	CreatedAt  time.Time `json:"created_at"`
+	DatabaseId int64     `json:"database_id"`
+	Id         int64     `json:"id"`
+	IsDeleted  bool      `json:"is_deleted"`
+	Name       string    `json:"name"`
+	UpdatedAt  time.Time `json:"updated_at"`
+	UserId     int64     `json:"user_id"`
+}
+
+// SchemaCatPage defines model for SchemaCatPage.
+type SchemaCatPage struct {
+	Data       []SchemaCat `json:"data"`
+	Pagination Pagination  `json:"pagination"`
+}
+
+// SchemaCatWrite defines model for SchemaCatWrite.
+type SchemaCatWrite struct {
+	DatabaseId int64  `json:"database_id"`
+	Name       string `json:"name"`
+}
+
+// TableCat defines model for TableCat.
+type TableCat struct {
+	CreatedAt   time.Time `json:"created_at"`
+	Description string    `json:"description"`
+	DomainId    int64     `json:"domain_id"`
+	Id          int64     `json:"id"`
+	IsDeleted   bool      `json:"is_deleted"`
+	IsGetDict   bool      `json:"is_get_dict"`
+	Name        string    `json:"name"`
+	SchemaId    int64     `json:"schema_id"`
+	TableTypeId int64     `json:"table_type_id"`
+	UpdatedAt   time.Time `json:"updated_at"`
+	UserId      int64     `json:"user_id"`
+}
+
+// TableCatPage defines model for TableCatPage.
+type TableCatPage struct {
+	Data       []TableCat `json:"data"`
+	Pagination Pagination `json:"pagination"`
+}
+
+// TableCatUpdate defines model for TableCatUpdate.
+type TableCatUpdate struct {
+	Description string `json:"description"`
+	DomainId    int64  `json:"domain_id"`
+	IsGetDict   bool   `json:"is_get_dict"`
+	Name        string `json:"name"`
+	SchemaId    int64  `json:"schema_id"`
+	TableTypeId int64  `json:"table_type_id"`
+}
+
+// TableCatWrite defines model for TableCatWrite.
+type TableCatWrite struct {
+	Description string `json:"description"`
+	DomainId    int64  `json:"domain_id"`
+	Name        string `json:"name"`
+	SchemaId    int64  `json:"schema_id"`
+	TableTypeId int64  `json:"table_type_id"`
+}
+
+// TableType defines model for TableType.
+type TableType struct {
+	CreatedAt   time.Time `json:"created_at"`
+	Description string    `json:"description"`
+	Id          int64     `json:"id"`
+	IsDeleted   bool      `json:"is_deleted"`
+	Name        string    `json:"name"`
+	UpdatedAt   time.Time `json:"updated_at"`
+	UserId      int64     `json:"user_id"`
+}
+
+// TableTypePage defines model for TableTypePage.
+type TableTypePage struct {
+	Data       []TableType `json:"data"`
+	Pagination Pagination  `json:"pagination"`
+}
+
+// TableTypeWrite defines model for TableTypeWrite.
+type TableTypeWrite struct {
+	Description string `json:"description"`
+	Name        string `json:"name"`
+}
+
+// AliasIdParam defines model for AliasIdParam.
+type AliasIdParam = int64
+
+// CalculationTypeIdParam defines model for CalculationTypeIdParam.
+type CalculationTypeIdParam = int64
+
+// ColumnCatIdParam defines model for ColumnCatIdParam.
+type ColumnCatIdParam = int64
+
+// ColumnTypeIdParam defines model for ColumnTypeIdParam.
+type ColumnTypeIdParam = int64
+
+// DatabaseCalculationIdParam defines model for DatabaseCalculationIdParam.
+type DatabaseCalculationIdParam = int64
+
+// DatabaseCatIdParam defines model for DatabaseCatIdParam.
+type DatabaseCatIdParam = int64
+
+// DatabaseTypeIdParam defines model for DatabaseTypeIdParam.
+type DatabaseTypeIdParam = int64
+
+// DomainCatIdParam defines model for DomainCatIdParam.
+type DomainCatIdParam = int64
+
+// FollowingCalculationIdParam defines model for FollowingCalculationIdParam.
+type FollowingCalculationIdParam = int64
+
+// GroupLevelsIdParam defines model for GroupLevelsIdParam.
+type GroupLevelsIdParam = int64
+
+// HasToGroupIdParam defines model for HasToGroupIdParam.
+type HasToGroupIdParam = int64
+
 // HostIdParam defines model for HostIdParam.
 type HostIdParam = int64
 
@@ -86,6 +485,15 @@ type PageLimitParam = int32
 // PageParam defines model for PageParam.
 type PageParam = int32
 
+// SchemaCatIdParam defines model for SchemaCatIdParam.
+type SchemaCatIdParam = int64
+
+// TableCatIdParam defines model for TableCatIdParam.
+type TableCatIdParam = int64
+
+// TableTypeIdParam defines model for TableTypeIdParam.
+type TableTypeIdParam = int64
+
 // BadRequest defines model for BadRequest.
 type BadRequest = Error
 
@@ -97,6 +505,442 @@ type NotFound = Error
 
 // Unauthorized defines model for Unauthorized.
 type Unauthorized = Error
+
+// ListAliasesParams defines parameters for ListAliases.
+type ListAliasesParams struct {
+	// Order Направление сортировки — ASC или DESC. Если не передано, применяется значение по умолчанию (pagination.DefaultOrder в shepherd).
+	Order *OrderParam `form:"order,omitempty" json:"order,omitempty"`
+
+	// Page Номер страницы, с 1. Если не передано — используется 1.
+	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
+
+	// PageLimit Размер страницы. Если не передано, применяется значение по умолчанию (pagination.DefaultPageLimit в shepherd).
+	PageLimit *PageLimitParam `form:"page_limit,omitempty" json:"page_limit,omitempty"`
+}
+
+// ListDeletedAliasesParams defines parameters for ListDeletedAliases.
+type ListDeletedAliasesParams struct {
+	// Order Направление сортировки — ASC или DESC. Если не передано, применяется значение по умолчанию (pagination.DefaultOrder в shepherd).
+	Order *OrderParam `form:"order,omitempty" json:"order,omitempty"`
+
+	// Page Номер страницы, с 1. Если не передано — используется 1.
+	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
+
+	// PageLimit Размер страницы. Если не передано, применяется значение по умолчанию (pagination.DefaultPageLimit в shepherd).
+	PageLimit *PageLimitParam `form:"page_limit,omitempty" json:"page_limit,omitempty"`
+}
+
+// ListCalculationTypesParams defines parameters for ListCalculationTypes.
+type ListCalculationTypesParams struct {
+	// Order Направление сортировки — ASC или DESC. Если не передано, применяется значение по умолчанию (pagination.DefaultOrder в shepherd).
+	Order *OrderParam `form:"order,omitempty" json:"order,omitempty"`
+}
+
+// ListColumnCatsParams defines parameters for ListColumnCats.
+type ListColumnCatsParams struct {
+	// Order Направление сортировки — ASC или DESC. Если не передано, применяется значение по умолчанию (pagination.DefaultOrder в shepherd).
+	Order *OrderParam `form:"order,omitempty" json:"order,omitempty"`
+
+	// Page Номер страницы, с 1. Если не передано — используется 1.
+	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
+
+	// PageLimit Размер страницы. Если не передано, применяется значение по умолчанию (pagination.DefaultPageLimit в shepherd).
+	PageLimit *PageLimitParam `form:"page_limit,omitempty" json:"page_limit,omitempty"`
+}
+
+// ListDeletedColumnCatsParams defines parameters for ListDeletedColumnCats.
+type ListDeletedColumnCatsParams struct {
+	// Order Направление сортировки — ASC или DESC. Если не передано, применяется значение по умолчанию (pagination.DefaultOrder в shepherd).
+	Order *OrderParam `form:"order,omitempty" json:"order,omitempty"`
+
+	// Page Номер страницы, с 1. Если не передано — используется 1.
+	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
+
+	// PageLimit Размер страницы. Если не передано, применяется значение по умолчанию (pagination.DefaultPageLimit в shepherd).
+	PageLimit *PageLimitParam `form:"page_limit,omitempty" json:"page_limit,omitempty"`
+}
+
+// FilterColumnCatsParams defines parameters for FilterColumnCats.
+type FilterColumnCatsParams struct {
+	TableId           *int64 `form:"table_id,omitempty" json:"table_id,omitempty"`
+	AliasId           *int64 `form:"alias_id,omitempty" json:"alias_id,omitempty"`
+	ColumnTypeId      *int64 `form:"column_type_id,omitempty" json:"column_type_id,omitempty"`
+	CalculationTypeId *int64 `form:"calculation_type_id,omitempty" json:"calculation_type_id,omitempty"`
+	ShowInUi          *bool  `form:"show_in_ui,omitempty" json:"show_in_ui,omitempty"`
+
+	// Order Направление сортировки — ASC или DESC. Если не передано, применяется значение по умолчанию (pagination.DefaultOrder в shepherd).
+	Order *OrderParam `form:"order,omitempty" json:"order,omitempty"`
+
+	// Page Номер страницы, с 1. Если не передано — используется 1.
+	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
+
+	// PageLimit Размер страницы. Если не передано, применяется значение по умолчанию (pagination.DefaultPageLimit в shepherd).
+	PageLimit *PageLimitParam `form:"page_limit,omitempty" json:"page_limit,omitempty"`
+}
+
+// SearchColumnCatsParams defines parameters for SearchColumnCats.
+type SearchColumnCatsParams struct {
+	SearchName string `form:"search_name" json:"search_name"`
+
+	// Order Направление сортировки — ASC или DESC. Если не передано, применяется значение по умолчанию (pagination.DefaultOrder в shepherd).
+	Order *OrderParam `form:"order,omitempty" json:"order,omitempty"`
+
+	// Page Номер страницы, с 1. Если не передано — используется 1.
+	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
+
+	// PageLimit Размер страницы. Если не передано, применяется значение по умолчанию (pagination.DefaultPageLimit в shepherd).
+	PageLimit *PageLimitParam `form:"page_limit,omitempty" json:"page_limit,omitempty"`
+}
+
+// ListColumnTypesParams defines parameters for ListColumnTypes.
+type ListColumnTypesParams struct {
+	// Order Направление сортировки — ASC или DESC. Если не передано, применяется значение по умолчанию (pagination.DefaultOrder в shepherd).
+	Order *OrderParam `form:"order,omitempty" json:"order,omitempty"`
+
+	// Page Номер страницы, с 1. Если не передано — используется 1.
+	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
+
+	// PageLimit Размер страницы. Если не передано, применяется значение по умолчанию (pagination.DefaultPageLimit в shepherd).
+	PageLimit *PageLimitParam `form:"page_limit,omitempty" json:"page_limit,omitempty"`
+}
+
+// ListDeletedColumnTypesParams defines parameters for ListDeletedColumnTypes.
+type ListDeletedColumnTypesParams struct {
+	// Order Направление сортировки — ASC или DESC. Если не передано, применяется значение по умолчанию (pagination.DefaultOrder в shepherd).
+	Order *OrderParam `form:"order,omitempty" json:"order,omitempty"`
+
+	// Page Номер страницы, с 1. Если не передано — используется 1.
+	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
+
+	// PageLimit Размер страницы. Если не передано, применяется значение по умолчанию (pagination.DefaultPageLimit в shepherd).
+	PageLimit *PageLimitParam `form:"page_limit,omitempty" json:"page_limit,omitempty"`
+}
+
+// SearchColumnTypesParams defines parameters for SearchColumnTypes.
+type SearchColumnTypesParams struct {
+	SearchName string `form:"search_name" json:"search_name"`
+
+	// Order Направление сортировки — ASC или DESC. Если не передано, применяется значение по умолчанию (pagination.DefaultOrder в shepherd).
+	Order *OrderParam `form:"order,omitempty" json:"order,omitempty"`
+
+	// Page Номер страницы, с 1. Если не передано — используется 1.
+	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
+
+	// PageLimit Размер страницы. Если не передано, применяется значение по умолчанию (pagination.DefaultPageLimit в shepherd).
+	PageLimit *PageLimitParam `form:"page_limit,omitempty" json:"page_limit,omitempty"`
+}
+
+// ListDatabaseCalculationsParams defines parameters for ListDatabaseCalculations.
+type ListDatabaseCalculationsParams struct {
+	// Order Направление сортировки — ASC или DESC. Если не передано, применяется значение по умолчанию (pagination.DefaultOrder в shepherd).
+	Order *OrderParam `form:"order,omitempty" json:"order,omitempty"`
+
+	// Page Номер страницы, с 1. Если не передано — используется 1.
+	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
+
+	// PageLimit Размер страницы. Если не передано, применяется значение по умолчанию (pagination.DefaultPageLimit в shepherd).
+	PageLimit *PageLimitParam `form:"page_limit,omitempty" json:"page_limit,omitempty"`
+}
+
+// ListDeletedDatabaseCalculationsParams defines parameters for ListDeletedDatabaseCalculations.
+type ListDeletedDatabaseCalculationsParams struct {
+	// Order Направление сортировки — ASC или DESC. Если не передано, применяется значение по умолчанию (pagination.DefaultOrder в shepherd).
+	Order *OrderParam `form:"order,omitempty" json:"order,omitempty"`
+
+	// Page Номер страницы, с 1. Если не передано — используется 1.
+	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
+
+	// PageLimit Размер страницы. Если не передано, применяется значение по умолчанию (pagination.DefaultPageLimit в shepherd).
+	PageLimit *PageLimitParam `form:"page_limit,omitempty" json:"page_limit,omitempty"`
+}
+
+// FilterDatabaseCalculationsParams defines parameters for FilterDatabaseCalculations.
+type FilterDatabaseCalculationsParams struct {
+	DatabaseCatId     *int64 `form:"database_cat_id,omitempty" json:"database_cat_id,omitempty"`
+	CalculationTypeId *int64 `form:"calculation_type_id,omitempty" json:"calculation_type_id,omitempty"`
+
+	// Order Направление сортировки — ASC или DESC. Если не передано, применяется значение по умолчанию (pagination.DefaultOrder в shepherd).
+	Order *OrderParam `form:"order,omitempty" json:"order,omitempty"`
+
+	// Page Номер страницы, с 1. Если не передано — используется 1.
+	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
+
+	// PageLimit Размер страницы. Если не передано, применяется значение по умолчанию (pagination.DefaultPageLimit в shepherd).
+	PageLimit *PageLimitParam `form:"page_limit,omitempty" json:"page_limit,omitempty"`
+}
+
+// SearchDatabaseCalculationsParams defines parameters for SearchDatabaseCalculations.
+type SearchDatabaseCalculationsParams struct {
+	SearchName string `form:"search_name" json:"search_name"`
+
+	// Order Направление сортировки — ASC или DESC. Если не передано, применяется значение по умолчанию (pagination.DefaultOrder в shepherd).
+	Order *OrderParam `form:"order,omitempty" json:"order,omitempty"`
+
+	// Page Номер страницы, с 1. Если не передано — используется 1.
+	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
+
+	// PageLimit Размер страницы. Если не передано, применяется значение по умолчанию (pagination.DefaultPageLimit в shepherd).
+	PageLimit *PageLimitParam `form:"page_limit,omitempty" json:"page_limit,omitempty"`
+}
+
+// ListDatabaseCatsParams defines parameters for ListDatabaseCats.
+type ListDatabaseCatsParams struct {
+	// Order Направление сортировки — ASC или DESC. Если не передано, применяется значение по умолчанию (pagination.DefaultOrder в shepherd).
+	Order *OrderParam `form:"order,omitempty" json:"order,omitempty"`
+
+	// Page Номер страницы, с 1. Если не передано — используется 1.
+	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
+
+	// PageLimit Размер страницы. Если не передано, применяется значение по умолчанию (pagination.DefaultPageLimit в shepherd).
+	PageLimit *PageLimitParam `form:"page_limit,omitempty" json:"page_limit,omitempty"`
+}
+
+// ListDatabaseCatsByHostAndDatabaseTypeParams defines parameters for ListDatabaseCatsByHostAndDatabaseType.
+type ListDatabaseCatsByHostAndDatabaseTypeParams struct {
+	HostId         *int64 `form:"host_id,omitempty" json:"host_id,omitempty"`
+	DatabaseTypeId *int64 `form:"database_type_id,omitempty" json:"database_type_id,omitempty"`
+
+	// OrderBy Поле сортировки. Допустимо только name; если не передано — сортировка по id.
+	OrderBy *ListDatabaseCatsByHostAndDatabaseTypeParamsOrderBy `form:"order_by,omitempty" json:"order_by,omitempty"`
+
+	// Order Направление сортировки — ASC или DESC. Если не передано, применяется значение по умолчанию (pagination.DefaultOrder в shepherd).
+	Order *OrderParam `form:"order,omitempty" json:"order,omitempty"`
+
+	// Page Номер страницы, с 1. Если не передано — используется 1.
+	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
+
+	// PageLimit Размер страницы. Если не передано, применяется значение по умолчанию (pagination.DefaultPageLimit в shepherd).
+	PageLimit *PageLimitParam `form:"page_limit,omitempty" json:"page_limit,omitempty"`
+}
+
+// ListDatabaseCatsByHostAndDatabaseTypeParamsOrderBy defines parameters for ListDatabaseCatsByHostAndDatabaseType.
+type ListDatabaseCatsByHostAndDatabaseTypeParamsOrderBy string
+
+// ListDeletedDatabaseCatsParams defines parameters for ListDeletedDatabaseCats.
+type ListDeletedDatabaseCatsParams struct {
+	// Order Направление сортировки — ASC или DESC. Если не передано, применяется значение по умолчанию (pagination.DefaultOrder в shepherd).
+	Order *OrderParam `form:"order,omitempty" json:"order,omitempty"`
+
+	// Page Номер страницы, с 1. Если не передано — используется 1.
+	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
+
+	// PageLimit Размер страницы. Если не передано, применяется значение по умолчанию (pagination.DefaultPageLimit в shepherd).
+	PageLimit *PageLimitParam `form:"page_limit,omitempty" json:"page_limit,omitempty"`
+}
+
+// SearchDatabaseCatsParams defines parameters for SearchDatabaseCats.
+type SearchDatabaseCatsParams struct {
+	SearchName string `form:"search_name" json:"search_name"`
+
+	// Order Направление сортировки — ASC или DESC. Если не передано, применяется значение по умолчанию (pagination.DefaultOrder в shepherd).
+	Order *OrderParam `form:"order,omitempty" json:"order,omitempty"`
+
+	// Page Номер страницы, с 1. Если не передано — используется 1.
+	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
+
+	// PageLimit Размер страницы. Если не передано, применяется значение по умолчанию (pagination.DefaultPageLimit в shepherd).
+	PageLimit *PageLimitParam `form:"page_limit,omitempty" json:"page_limit,omitempty"`
+}
+
+// ListDatabaseTypesParams defines parameters for ListDatabaseTypes.
+type ListDatabaseTypesParams struct {
+	// Order Направление сортировки — ASC или DESC. Если не передано, применяется значение по умолчанию (pagination.DefaultOrder в shepherd).
+	Order *OrderParam `form:"order,omitempty" json:"order,omitempty"`
+
+	// Page Номер страницы, с 1. Если не передано — используется 1.
+	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
+
+	// PageLimit Размер страницы. Если не передано, применяется значение по умолчанию (pagination.DefaultPageLimit в shepherd).
+	PageLimit *PageLimitParam `form:"page_limit,omitempty" json:"page_limit,omitempty"`
+}
+
+// ListDeletedDatabaseTypesParams defines parameters for ListDeletedDatabaseTypes.
+type ListDeletedDatabaseTypesParams struct {
+	// Order Направление сортировки — ASC или DESC. Если не передано, применяется значение по умолчанию (pagination.DefaultOrder в shepherd).
+	Order *OrderParam `form:"order,omitempty" json:"order,omitempty"`
+
+	// Page Номер страницы, с 1. Если не передано — используется 1.
+	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
+
+	// PageLimit Размер страницы. Если не передано, применяется значение по умолчанию (pagination.DefaultPageLimit в shepherd).
+	PageLimit *PageLimitParam `form:"page_limit,omitempty" json:"page_limit,omitempty"`
+}
+
+// SearchDatabaseTypesParams defines parameters for SearchDatabaseTypes.
+type SearchDatabaseTypesParams struct {
+	SearchName string `form:"search_name" json:"search_name"`
+
+	// Order Направление сортировки — ASC или DESC. Если не передано, применяется значение по умолчанию (pagination.DefaultOrder в shepherd).
+	Order *OrderParam `form:"order,omitempty" json:"order,omitempty"`
+
+	// Page Номер страницы, с 1. Если не передано — используется 1.
+	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
+
+	// PageLimit Размер страницы. Если не передано, применяется значение по умолчанию (pagination.DefaultPageLimit в shepherd).
+	PageLimit *PageLimitParam `form:"page_limit,omitempty" json:"page_limit,omitempty"`
+}
+
+// ListDomainCatsParams defines parameters for ListDomainCats.
+type ListDomainCatsParams struct {
+	// Order Направление сортировки — ASC или DESC. Если не передано, применяется значение по умолчанию (pagination.DefaultOrder в shepherd).
+	Order *OrderParam `form:"order,omitempty" json:"order,omitempty"`
+
+	// Page Номер страницы, с 1. Если не передано — используется 1.
+	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
+
+	// PageLimit Размер страницы. Если не передано, применяется значение по умолчанию (pagination.DefaultPageLimit в shepherd).
+	PageLimit *PageLimitParam `form:"page_limit,omitempty" json:"page_limit,omitempty"`
+}
+
+// ListDeletedDomainCatsParams defines parameters for ListDeletedDomainCats.
+type ListDeletedDomainCatsParams struct {
+	// Order Направление сортировки — ASC или DESC. Если не передано, применяется значение по умолчанию (pagination.DefaultOrder в shepherd).
+	Order *OrderParam `form:"order,omitempty" json:"order,omitempty"`
+
+	// Page Номер страницы, с 1. Если не передано — используется 1.
+	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
+
+	// PageLimit Размер страницы. Если не передано, применяется значение по умолчанию (pagination.DefaultPageLimit в shepherd).
+	PageLimit *PageLimitParam `form:"page_limit,omitempty" json:"page_limit,omitempty"`
+}
+
+// SearchDomainCatsParams defines parameters for SearchDomainCats.
+type SearchDomainCatsParams struct {
+	SearchName string `form:"search_name" json:"search_name"`
+
+	// Order Направление сортировки — ASC или DESC. Если не передано, применяется значение по умолчанию (pagination.DefaultOrder в shepherd).
+	Order *OrderParam `form:"order,omitempty" json:"order,omitempty"`
+
+	// Page Номер страницы, с 1. Если не передано — используется 1.
+	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
+
+	// PageLimit Размер страницы. Если не передано, применяется значение по умолчанию (pagination.DefaultPageLimit в shepherd).
+	PageLimit *PageLimitParam `form:"page_limit,omitempty" json:"page_limit,omitempty"`
+}
+
+// ListFollowingCalculationsParams defines parameters for ListFollowingCalculations.
+type ListFollowingCalculationsParams struct {
+	// Order Направление сортировки — ASC или DESC. Если не передано, применяется значение по умолчанию (pagination.DefaultOrder в shepherd).
+	Order *OrderParam `form:"order,omitempty" json:"order,omitempty"`
+
+	// Page Номер страницы, с 1. Если не передано — используется 1.
+	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
+
+	// PageLimit Размер страницы. Если не передано, применяется значение по умолчанию (pagination.DefaultPageLimit в shepherd).
+	PageLimit *PageLimitParam `form:"page_limit,omitempty" json:"page_limit,omitempty"`
+}
+
+// ListDeletedFollowingCalculationsParams defines parameters for ListDeletedFollowingCalculations.
+type ListDeletedFollowingCalculationsParams struct {
+	// Order Направление сортировки — ASC или DESC. Если не передано, применяется значение по умолчанию (pagination.DefaultOrder в shepherd).
+	Order *OrderParam `form:"order,omitempty" json:"order,omitempty"`
+
+	// Page Номер страницы, с 1. Если не передано — используется 1.
+	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
+
+	// PageLimit Размер страницы. Если не передано, применяется значение по умолчанию (pagination.DefaultPageLimit в shepherd).
+	PageLimit *PageLimitParam `form:"page_limit,omitempty" json:"page_limit,omitempty"`
+}
+
+// FilterFollowingCalculationsParams defines parameters for FilterFollowingCalculations.
+type FilterFollowingCalculationsParams struct {
+	ColumnCatId       *int64 `form:"column_cat_id,omitempty" json:"column_cat_id,omitempty"`
+	CalculationTypeId *int64 `form:"calculation_type_id,omitempty" json:"calculation_type_id,omitempty"`
+
+	// Order Направление сортировки — ASC или DESC. Если не передано, применяется значение по умолчанию (pagination.DefaultOrder в shepherd).
+	Order *OrderParam `form:"order,omitempty" json:"order,omitempty"`
+
+	// Page Номер страницы, с 1. Если не передано — используется 1.
+	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
+
+	// PageLimit Размер страницы. Если не передано, применяется значение по умолчанию (pagination.DefaultPageLimit в shepherd).
+	PageLimit *PageLimitParam `form:"page_limit,omitempty" json:"page_limit,omitempty"`
+}
+
+// ListGroupLevelsParams defines parameters for ListGroupLevels.
+type ListGroupLevelsParams struct {
+	// Order Направление сортировки — ASC или DESC. Если не передано, применяется значение по умолчанию (pagination.DefaultOrder в shepherd).
+	Order *OrderParam `form:"order,omitempty" json:"order,omitempty"`
+
+	// Page Номер страницы, с 1. Если не передано — используется 1.
+	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
+
+	// PageLimit Размер страницы. Если не передано, применяется значение по умолчанию (pagination.DefaultPageLimit в shepherd).
+	PageLimit *PageLimitParam `form:"page_limit,omitempty" json:"page_limit,omitempty"`
+}
+
+// ListDeletedGroupLevelsParams defines parameters for ListDeletedGroupLevels.
+type ListDeletedGroupLevelsParams struct {
+	// Order Направление сортировки — ASC или DESC. Если не передано, применяется значение по умолчанию (pagination.DefaultOrder в shepherd).
+	Order *OrderParam `form:"order,omitempty" json:"order,omitempty"`
+}
+
+// FilterGroupLevelsParams defines parameters for FilterGroupLevels.
+type FilterGroupLevelsParams struct {
+	ColumnId       *int64 `form:"column_id,omitempty" json:"column_id,omitempty"`
+	ParentColumnId *int64 `form:"parent_column_id,omitempty" json:"parent_column_id,omitempty"`
+
+	// Order Направление сортировки — ASC или DESC. Если не передано, применяется значение по умолчанию (pagination.DefaultOrder в shepherd).
+	Order *OrderParam `form:"order,omitempty" json:"order,omitempty"`
+
+	// Page Номер страницы, с 1. Если не передано — используется 1.
+	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
+
+	// PageLimit Размер страницы. Если не передано, применяется значение по умолчанию (pagination.DefaultPageLimit в shepherd).
+	PageLimit *PageLimitParam `form:"page_limit,omitempty" json:"page_limit,omitempty"`
+}
+
+// SearchGroupLevelsParams defines parameters for SearchGroupLevels.
+type SearchGroupLevelsParams struct {
+	SearchName string `form:"search_name" json:"search_name"`
+
+	// Order Направление сортировки — ASC или DESC. Если не передано, применяется значение по умолчанию (pagination.DefaultOrder в shepherd).
+	Order *OrderParam `form:"order,omitempty" json:"order,omitempty"`
+
+	// Page Номер страницы, с 1. Если не передано — используется 1.
+	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
+
+	// PageLimit Размер страницы. Если не передано, применяется значение по умолчанию (pagination.DefaultPageLimit в shepherd).
+	PageLimit *PageLimitParam `form:"page_limit,omitempty" json:"page_limit,omitempty"`
+}
+
+// ListHasToGroupsParams defines parameters for ListHasToGroups.
+type ListHasToGroupsParams struct {
+	// Order Направление сортировки — ASC или DESC. Если не передано, применяется значение по умолчанию (pagination.DefaultOrder в shepherd).
+	Order *OrderParam `form:"order,omitempty" json:"order,omitempty"`
+
+	// Page Номер страницы, с 1. Если не передано — используется 1.
+	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
+
+	// PageLimit Размер страницы. Если не передано, применяется значение по умолчанию (pagination.DefaultPageLimit в shepherd).
+	PageLimit *PageLimitParam `form:"page_limit,omitempty" json:"page_limit,omitempty"`
+}
+
+// ListDeletedHasToGroupsParams defines parameters for ListDeletedHasToGroups.
+type ListDeletedHasToGroupsParams struct {
+	// Order Направление сортировки — ASC или DESC. Если не передано, применяется значение по умолчанию (pagination.DefaultOrder в shepherd).
+	Order *OrderParam `form:"order,omitempty" json:"order,omitempty"`
+
+	// Page Номер страницы, с 1. Если не передано — используется 1.
+	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
+
+	// PageLimit Размер страницы. Если не передано, применяется значение по умолчанию (pagination.DefaultPageLimit в shepherd).
+	PageLimit *PageLimitParam `form:"page_limit,omitempty" json:"page_limit,omitempty"`
+}
+
+// SearchHasToGroupsParams defines parameters for SearchHasToGroups.
+type SearchHasToGroupsParams struct {
+	SearchName string `form:"search_name" json:"search_name"`
+
+	// Order Направление сортировки — ASC или DESC. Если не передано, применяется значение по умолчанию (pagination.DefaultOrder в shepherd).
+	Order *OrderParam `form:"order,omitempty" json:"order,omitempty"`
+
+	// Page Номер страницы, с 1. Если не передано — используется 1.
+	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
+
+	// PageLimit Размер страницы. Если не передано, применяется значение по умолчанию (pagination.DefaultPageLimit в shepherd).
+	PageLimit *PageLimitParam `form:"page_limit,omitempty" json:"page_limit,omitempty"`
+}
 
 // ListHostsParams defines parameters for ListHosts.
 type ListHostsParams struct {
@@ -136,14 +980,419 @@ type SearchHostsParams struct {
 	PageLimit *PageLimitParam `form:"page_limit,omitempty" json:"page_limit,omitempty"`
 }
 
+// ListSchemaCatsParams defines parameters for ListSchemaCats.
+type ListSchemaCatsParams struct {
+	// Order Направление сортировки — ASC или DESC. Если не передано, применяется значение по умолчанию (pagination.DefaultOrder в shepherd).
+	Order *OrderParam `form:"order,omitempty" json:"order,omitempty"`
+
+	// Page Номер страницы, с 1. Если не передано — используется 1.
+	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
+
+	// PageLimit Размер страницы. Если не передано, применяется значение по умолчанию (pagination.DefaultPageLimit в shepherd).
+	PageLimit *PageLimitParam `form:"page_limit,omitempty" json:"page_limit,omitempty"`
+}
+
+// ListDeletedSchemaCatsParams defines parameters for ListDeletedSchemaCats.
+type ListDeletedSchemaCatsParams struct {
+	// Order Направление сортировки — ASC или DESC. Если не передано, применяется значение по умолчанию (pagination.DefaultOrder в shepherd).
+	Order *OrderParam `form:"order,omitempty" json:"order,omitempty"`
+
+	// Page Номер страницы, с 1. Если не передано — используется 1.
+	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
+
+	// PageLimit Размер страницы. Если не передано, применяется значение по умолчанию (pagination.DefaultPageLimit в shepherd).
+	PageLimit *PageLimitParam `form:"page_limit,omitempty" json:"page_limit,omitempty"`
+}
+
+// ListTableCatsParams defines parameters for ListTableCats.
+type ListTableCatsParams struct {
+	// Order Направление сортировки — ASC или DESC. Если не передано, применяется значение по умолчанию (pagination.DefaultOrder в shepherd).
+	Order *OrderParam `form:"order,omitempty" json:"order,omitempty"`
+
+	// Page Номер страницы, с 1. Если не передано — используется 1.
+	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
+
+	// PageLimit Размер страницы. Если не передано, применяется значение по умолчанию (pagination.DefaultPageLimit в shepherd).
+	PageLimit *PageLimitParam `form:"page_limit,omitempty" json:"page_limit,omitempty"`
+}
+
+// ListDeletedTableCatsParams defines parameters for ListDeletedTableCats.
+type ListDeletedTableCatsParams struct {
+	// Order Направление сортировки — ASC или DESC. Если не передано, применяется значение по умолчанию (pagination.DefaultOrder в shepherd).
+	Order *OrderParam `form:"order,omitempty" json:"order,omitempty"`
+
+	// Page Номер страницы, с 1. Если не передано — используется 1.
+	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
+
+	// PageLimit Размер страницы. Если не передано, применяется значение по умолчанию (pagination.DefaultPageLimit в shepherd).
+	PageLimit *PageLimitParam `form:"page_limit,omitempty" json:"page_limit,omitempty"`
+}
+
+// ListTableTypesParams defines parameters for ListTableTypes.
+type ListTableTypesParams struct {
+	// Order Направление сортировки — ASC или DESC. Если не передано, применяется значение по умолчанию (pagination.DefaultOrder в shepherd).
+	Order *OrderParam `form:"order,omitempty" json:"order,omitempty"`
+
+	// Page Номер страницы, с 1. Если не передано — используется 1.
+	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
+
+	// PageLimit Размер страницы. Если не передано, применяется значение по умолчанию (pagination.DefaultPageLimit в shepherd).
+	PageLimit *PageLimitParam `form:"page_limit,omitempty" json:"page_limit,omitempty"`
+}
+
+// ListDeletedTableTypesParams defines parameters for ListDeletedTableTypes.
+type ListDeletedTableTypesParams struct {
+	// Order Направление сортировки — ASC или DESC. Если не передано, применяется значение по умолчанию (pagination.DefaultOrder в shepherd).
+	Order *OrderParam `form:"order,omitempty" json:"order,omitempty"`
+
+	// Page Номер страницы, с 1. Если не передано — используется 1.
+	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
+
+	// PageLimit Размер страницы. Если не передано, применяется значение по умолчанию (pagination.DefaultPageLimit в shepherd).
+	PageLimit *PageLimitParam `form:"page_limit,omitempty" json:"page_limit,omitempty"`
+}
+
+// CreateAliasJSONRequestBody defines body for CreateAlias for application/json ContentType.
+type CreateAliasJSONRequestBody = AliasWrite
+
+// UpdateAliasByIdJSONRequestBody defines body for UpdateAliasById for application/json ContentType.
+type UpdateAliasByIdJSONRequestBody = AliasUpdate
+
+// CreateColumnCatJSONRequestBody defines body for CreateColumnCat for application/json ContentType.
+type CreateColumnCatJSONRequestBody = ColumnCatWrite
+
+// UpdateColumnCatByIdJSONRequestBody defines body for UpdateColumnCatById for application/json ContentType.
+type UpdateColumnCatByIdJSONRequestBody = ColumnCatWrite
+
+// CreateColumnTypeJSONRequestBody defines body for CreateColumnType for application/json ContentType.
+type CreateColumnTypeJSONRequestBody = ColumnTypeWrite
+
+// UpdateColumnTypeByIdJSONRequestBody defines body for UpdateColumnTypeById for application/json ContentType.
+type UpdateColumnTypeByIdJSONRequestBody = ColumnTypeWrite
+
+// CreateDatabaseCalculationJSONRequestBody defines body for CreateDatabaseCalculation for application/json ContentType.
+type CreateDatabaseCalculationJSONRequestBody = DatabaseCalculationWrite
+
+// UpdateDatabaseCalculationByIdJSONRequestBody defines body for UpdateDatabaseCalculationById for application/json ContentType.
+type UpdateDatabaseCalculationByIdJSONRequestBody = DatabaseCalculationWrite
+
+// CreateDatabaseCatJSONRequestBody defines body for CreateDatabaseCat for application/json ContentType.
+type CreateDatabaseCatJSONRequestBody = DatabaseCatWrite
+
+// UpdateDatabaseCatByIdJSONRequestBody defines body for UpdateDatabaseCatById for application/json ContentType.
+type UpdateDatabaseCatByIdJSONRequestBody = DatabaseCatWrite
+
+// CreateDatabaseTypeJSONRequestBody defines body for CreateDatabaseType for application/json ContentType.
+type CreateDatabaseTypeJSONRequestBody = DatabaseTypeWrite
+
+// UpdateDatabaseTypeByIdJSONRequestBody defines body for UpdateDatabaseTypeById for application/json ContentType.
+type UpdateDatabaseTypeByIdJSONRequestBody = DatabaseTypeWrite
+
+// CreateDomainCatJSONRequestBody defines body for CreateDomainCat for application/json ContentType.
+type CreateDomainCatJSONRequestBody = DomainCatWrite
+
+// UpdateDomainCatByIdJSONRequestBody defines body for UpdateDomainCatById for application/json ContentType.
+type UpdateDomainCatByIdJSONRequestBody = DomainCatWrite
+
+// CreateFollowingCalculationJSONRequestBody defines body for CreateFollowingCalculation for application/json ContentType.
+type CreateFollowingCalculationJSONRequestBody = FollowingCalculationWrite
+
+// UpdateFollowingCalculationByIdJSONRequestBody defines body for UpdateFollowingCalculationById for application/json ContentType.
+type UpdateFollowingCalculationByIdJSONRequestBody = FollowingCalculationWrite
+
+// CreateGroupLevelsJSONRequestBody defines body for CreateGroupLevels for application/json ContentType.
+type CreateGroupLevelsJSONRequestBody = GroupLevelsWrite
+
+// UpdateGroupLevelsByIdJSONRequestBody defines body for UpdateGroupLevelsById for application/json ContentType.
+type UpdateGroupLevelsByIdJSONRequestBody = GroupLevelsWrite
+
+// CreateHasToGroupJSONRequestBody defines body for CreateHasToGroup for application/json ContentType.
+type CreateHasToGroupJSONRequestBody = HasToGroupWrite
+
+// UpdateHasToGroupByIdJSONRequestBody defines body for UpdateHasToGroupById for application/json ContentType.
+type UpdateHasToGroupByIdJSONRequestBody = HasToGroupWrite
+
 // CreateHostJSONRequestBody defines body for CreateHost for application/json ContentType.
 type CreateHostJSONRequestBody = HostWrite
 
 // UpdateHostByIdJSONRequestBody defines body for UpdateHostById for application/json ContentType.
 type UpdateHostByIdJSONRequestBody = HostWrite
 
+// CreateSchemaCatJSONRequestBody defines body for CreateSchemaCat for application/json ContentType.
+type CreateSchemaCatJSONRequestBody = SchemaCatWrite
+
+// UpdateSchemaCatByIdJSONRequestBody defines body for UpdateSchemaCatById for application/json ContentType.
+type UpdateSchemaCatByIdJSONRequestBody = SchemaCatWrite
+
+// CreateTableCatJSONRequestBody defines body for CreateTableCat for application/json ContentType.
+type CreateTableCatJSONRequestBody = TableCatWrite
+
+// UpdateTableCatByIdJSONRequestBody defines body for UpdateTableCatById for application/json ContentType.
+type UpdateTableCatByIdJSONRequestBody = TableCatUpdate
+
+// CreateTableTypeJSONRequestBody defines body for CreateTableType for application/json ContentType.
+type CreateTableTypeJSONRequestBody = TableTypeWrite
+
+// UpdateTableTypeByIdJSONRequestBody defines body for UpdateTableTypeById for application/json ContentType.
+type UpdateTableTypeByIdJSONRequestBody = TableTypeWrite
+
 // ServerInterface represents all server handlers.
 type ServerInterface interface {
+	// ListAliases Список строк dc.alias
+	// (GET /aliases)
+	ListAliases(w http.ResponseWriter, r *http.Request, params ListAliasesParams)
+	// CreateAlias Создать строку dc.alias
+	// (POST /aliases)
+	CreateAlias(w http.ResponseWriter, r *http.Request)
+	// ListDeletedAliases Мягко удалённые строки dc.alias
+	// (GET /aliases/deleted)
+	ListDeletedAliases(w http.ResponseWriter, r *http.Request, params ListDeletedAliasesParams)
+	// DeleteAliasById Мягко удалить строку dc.alias
+	// (DELETE /aliases/{id})
+	DeleteAliasById(w http.ResponseWriter, r *http.Request, id AliasIdParam)
+	// GetAliasById Активная строка dc.alias по id
+	// (GET /aliases/{id})
+	GetAliasById(w http.ResponseWriter, r *http.Request, id AliasIdParam)
+	// UpdateAliasById Обновить строку dc.alias
+	// (PUT /aliases/{id})
+	UpdateAliasById(w http.ResponseWriter, r *http.Request, id AliasIdParam)
+	// UndeleteAliasById Восстановить мягко удалённую строку dc.alias
+	// (POST /aliases/{id}/undelete)
+	UndeleteAliasById(w http.ResponseWriter, r *http.Request, id AliasIdParam)
+	// ListCalculationTypes Список строк dc.calculation_type
+	// (GET /calculation-types)
+	ListCalculationTypes(w http.ResponseWriter, r *http.Request, params ListCalculationTypesParams)
+	// GetCalculationTypeById Активная строка dc.calculation_type по id
+	// (GET /calculation-types/{id})
+	GetCalculationTypeById(w http.ResponseWriter, r *http.Request, id CalculationTypeIdParam)
+	// ListColumnCats Список строк dc.column_cat
+	// (GET /column-cats)
+	ListColumnCats(w http.ResponseWriter, r *http.Request, params ListColumnCatsParams)
+	// CreateColumnCat Создать строку dc.column_cat
+	// (POST /column-cats)
+	CreateColumnCat(w http.ResponseWriter, r *http.Request)
+	// ListDeletedColumnCats Мягко удалённые строки dc.column_cat
+	// (GET /column-cats/deleted)
+	ListDeletedColumnCats(w http.ResponseWriter, r *http.Request, params ListDeletedColumnCatsParams)
+	// FilterColumnCats Страница строк dc.column_cat с необязательными фильтрами
+	// (GET /column-cats/filter)
+	FilterColumnCats(w http.ResponseWriter, r *http.Request, params FilterColumnCatsParams)
+	// SearchColumnCats Страница строк dc.column_cat по подстроке имени
+	// (GET /column-cats/search)
+	SearchColumnCats(w http.ResponseWriter, r *http.Request, params SearchColumnCatsParams)
+	// DeleteColumnCatById Мягко удалить строку dc.column_cat
+	// (DELETE /column-cats/{id})
+	DeleteColumnCatById(w http.ResponseWriter, r *http.Request, id ColumnCatIdParam)
+	// GetColumnCatById Активная строка dc.column_cat по id
+	// (GET /column-cats/{id})
+	GetColumnCatById(w http.ResponseWriter, r *http.Request, id ColumnCatIdParam)
+	// UpdateColumnCatById Обновить строку dc.column_cat
+	// (PUT /column-cats/{id})
+	UpdateColumnCatById(w http.ResponseWriter, r *http.Request, id ColumnCatIdParam)
+	// UndeleteColumnCatById Восстановить мягко удалённую строку dc.column_cat
+	// (POST /column-cats/{id}/undelete)
+	UndeleteColumnCatById(w http.ResponseWriter, r *http.Request, id ColumnCatIdParam)
+	// ListColumnTypes Список строк dc.column_type
+	// (GET /column-types)
+	ListColumnTypes(w http.ResponseWriter, r *http.Request, params ListColumnTypesParams)
+	// CreateColumnType Создать строку dc.column_type
+	// (POST /column-types)
+	CreateColumnType(w http.ResponseWriter, r *http.Request)
+	// ListDeletedColumnTypes Мягко удалённые строки dc.column_type
+	// (GET /column-types/deleted)
+	ListDeletedColumnTypes(w http.ResponseWriter, r *http.Request, params ListDeletedColumnTypesParams)
+	// SearchColumnTypes Страница строк dc.column_type по подстроке имени
+	// (GET /column-types/search)
+	SearchColumnTypes(w http.ResponseWriter, r *http.Request, params SearchColumnTypesParams)
+	// DeleteColumnTypeById Мягко удалить строку dc.column_type
+	// (DELETE /column-types/{id})
+	DeleteColumnTypeById(w http.ResponseWriter, r *http.Request, id ColumnTypeIdParam)
+	// GetColumnTypeById Активная строка dc.column_type по id
+	// (GET /column-types/{id})
+	GetColumnTypeById(w http.ResponseWriter, r *http.Request, id ColumnTypeIdParam)
+	// UpdateColumnTypeById Обновить строку dc.column_type
+	// (PUT /column-types/{id})
+	UpdateColumnTypeById(w http.ResponseWriter, r *http.Request, id ColumnTypeIdParam)
+	// UndeleteColumnTypeById Восстановить мягко удалённую строку dc.column_type
+	// (POST /column-types/{id}/undelete)
+	UndeleteColumnTypeById(w http.ResponseWriter, r *http.Request, id ColumnTypeIdParam)
+	// ListDatabaseCalculations Список строк dc.database_calculation
+	// (GET /database-calculations)
+	ListDatabaseCalculations(w http.ResponseWriter, r *http.Request, params ListDatabaseCalculationsParams)
+	// CreateDatabaseCalculation Создать строку dc.database_calculation
+	// (POST /database-calculations)
+	CreateDatabaseCalculation(w http.ResponseWriter, r *http.Request)
+	// ListDeletedDatabaseCalculations Мягко удалённые строки dc.database_calculation
+	// (GET /database-calculations/deleted)
+	ListDeletedDatabaseCalculations(w http.ResponseWriter, r *http.Request, params ListDeletedDatabaseCalculationsParams)
+	// FilterDatabaseCalculations Страница строк dc.database_calculation с необязательными фильтрами
+	// (GET /database-calculations/filter)
+	FilterDatabaseCalculations(w http.ResponseWriter, r *http.Request, params FilterDatabaseCalculationsParams)
+	// SearchDatabaseCalculations Страница строк dc.database_calculation по подстроке имени
+	// (GET /database-calculations/search)
+	SearchDatabaseCalculations(w http.ResponseWriter, r *http.Request, params SearchDatabaseCalculationsParams)
+	// DeleteDatabaseCalculationById Мягко удалить строку dc.database_calculation
+	// (DELETE /database-calculations/{id})
+	DeleteDatabaseCalculationById(w http.ResponseWriter, r *http.Request, id DatabaseCalculationIdParam)
+	// GetDatabaseCalculationById Активная строка dc.database_calculation по id
+	// (GET /database-calculations/{id})
+	GetDatabaseCalculationById(w http.ResponseWriter, r *http.Request, id DatabaseCalculationIdParam)
+	// UpdateDatabaseCalculationById Обновить строку dc.database_calculation
+	// (PUT /database-calculations/{id})
+	UpdateDatabaseCalculationById(w http.ResponseWriter, r *http.Request, id DatabaseCalculationIdParam)
+	// UndeleteDatabaseCalculationById Восстановить мягко удалённую строку dc.database_calculation
+	// (POST /database-calculations/{id}/undelete)
+	UndeleteDatabaseCalculationById(w http.ResponseWriter, r *http.Request, id DatabaseCalculationIdParam)
+	// ListDatabaseCats Страница строк dc.database_cat
+	// (GET /database-cats)
+	ListDatabaseCats(w http.ResponseWriter, r *http.Request, params ListDatabaseCatsParams)
+	// CreateDatabaseCat Создать строку dc.database_cat
+	// (POST /database-cats)
+	CreateDatabaseCat(w http.ResponseWriter, r *http.Request)
+	// ListDatabaseCatsByHostAndDatabaseType Страница строк dc.database_cat с фильтром по host_id и database_type_id
+	// (GET /database-cats/by-host-database-type)
+	ListDatabaseCatsByHostAndDatabaseType(w http.ResponseWriter, r *http.Request, params ListDatabaseCatsByHostAndDatabaseTypeParams)
+	// ListDeletedDatabaseCats Страница мягко удалённых строк dc.database_cat
+	// (GET /database-cats/deleted)
+	ListDeletedDatabaseCats(w http.ResponseWriter, r *http.Request, params ListDeletedDatabaseCatsParams)
+	// SearchDatabaseCats Страница строк dc.database_cat по подстроке имени
+	// (GET /database-cats/search)
+	SearchDatabaseCats(w http.ResponseWriter, r *http.Request, params SearchDatabaseCatsParams)
+	// DeleteDatabaseCatById Мягко удалить строку dc.database_cat
+	// (DELETE /database-cats/{id})
+	DeleteDatabaseCatById(w http.ResponseWriter, r *http.Request, id DatabaseCatIdParam)
+	// GetDatabaseCatById Активная строка dc.database_cat по id
+	// (GET /database-cats/{id})
+	GetDatabaseCatById(w http.ResponseWriter, r *http.Request, id DatabaseCatIdParam)
+	// UpdateDatabaseCatById Обновить строку dc.database_cat
+	// (PUT /database-cats/{id})
+	UpdateDatabaseCatById(w http.ResponseWriter, r *http.Request, id DatabaseCatIdParam)
+	// UndeleteDatabaseCatById Восстановить мягко удалённую строку dc.database_cat
+	// (POST /database-cats/{id}/undelete)
+	UndeleteDatabaseCatById(w http.ResponseWriter, r *http.Request, id DatabaseCatIdParam)
+	// ListDatabaseTypes Страница строк dc.database_type
+	// (GET /database-types)
+	ListDatabaseTypes(w http.ResponseWriter, r *http.Request, params ListDatabaseTypesParams)
+	// CreateDatabaseType Создать строку dc.database_type
+	// (POST /database-types)
+	CreateDatabaseType(w http.ResponseWriter, r *http.Request)
+	// ListDeletedDatabaseTypes Страница мягко удалённых строк dc.database_type
+	// (GET /database-types/deleted)
+	ListDeletedDatabaseTypes(w http.ResponseWriter, r *http.Request, params ListDeletedDatabaseTypesParams)
+	// SearchDatabaseTypes Страница строк dc.database_type по подстроке имени
+	// (GET /database-types/search)
+	SearchDatabaseTypes(w http.ResponseWriter, r *http.Request, params SearchDatabaseTypesParams)
+	// DeleteDatabaseTypeById Мягко удалить строку dc.database_type
+	// (DELETE /database-types/{id})
+	DeleteDatabaseTypeById(w http.ResponseWriter, r *http.Request, id DatabaseTypeIdParam)
+	// GetDatabaseTypeById Активная строка dc.database_type по id
+	// (GET /database-types/{id})
+	GetDatabaseTypeById(w http.ResponseWriter, r *http.Request, id DatabaseTypeIdParam)
+	// UpdateDatabaseTypeById Обновить строку dc.database_type
+	// (PUT /database-types/{id})
+	UpdateDatabaseTypeById(w http.ResponseWriter, r *http.Request, id DatabaseTypeIdParam)
+	// UndeleteDatabaseTypeById Восстановить мягко удалённую строку dc.database_type
+	// (POST /database-types/{id}/undelete)
+	UndeleteDatabaseTypeById(w http.ResponseWriter, r *http.Request, id DatabaseTypeIdParam)
+	// ListDomainCats Список строк dc.domain_cat
+	// (GET /domain-cats)
+	ListDomainCats(w http.ResponseWriter, r *http.Request, params ListDomainCatsParams)
+	// CreateDomainCat Создать строку dc.domain_cat
+	// (POST /domain-cats)
+	CreateDomainCat(w http.ResponseWriter, r *http.Request)
+	// ListDeletedDomainCats Мягко удалённые строки dc.domain_cat
+	// (GET /domain-cats/deleted)
+	ListDeletedDomainCats(w http.ResponseWriter, r *http.Request, params ListDeletedDomainCatsParams)
+	// SearchDomainCats Страница строк dc.domain_cat по подстроке имени
+	// (GET /domain-cats/search)
+	SearchDomainCats(w http.ResponseWriter, r *http.Request, params SearchDomainCatsParams)
+	// DeleteDomainCatById Мягко удалить строку dc.domain_cat
+	// (DELETE /domain-cats/{id})
+	DeleteDomainCatById(w http.ResponseWriter, r *http.Request, id DomainCatIdParam)
+	// GetDomainCatById Активная строка dc.domain_cat по id
+	// (GET /domain-cats/{id})
+	GetDomainCatById(w http.ResponseWriter, r *http.Request, id DomainCatIdParam)
+	// UpdateDomainCatById Обновить строку dc.domain_cat
+	// (PUT /domain-cats/{id})
+	UpdateDomainCatById(w http.ResponseWriter, r *http.Request, id DomainCatIdParam)
+	// UndeleteDomainCatById Восстановить мягко удалённую строку dc.domain_cat
+	// (POST /domain-cats/{id}/undelete)
+	UndeleteDomainCatById(w http.ResponseWriter, r *http.Request, id DomainCatIdParam)
+	// ListFollowingCalculations Список строк dc.following_calculation
+	// (GET /following-calculations)
+	ListFollowingCalculations(w http.ResponseWriter, r *http.Request, params ListFollowingCalculationsParams)
+	// CreateFollowingCalculation Создать строку dc.following_calculation
+	// (POST /following-calculations)
+	CreateFollowingCalculation(w http.ResponseWriter, r *http.Request)
+	// ListDeletedFollowingCalculations Мягко удалённые строки dc.following_calculation
+	// (GET /following-calculations/deleted)
+	ListDeletedFollowingCalculations(w http.ResponseWriter, r *http.Request, params ListDeletedFollowingCalculationsParams)
+	// FilterFollowingCalculations Страница строк dc.following_calculation с необязательными фильтрами
+	// (GET /following-calculations/filter)
+	FilterFollowingCalculations(w http.ResponseWriter, r *http.Request, params FilterFollowingCalculationsParams)
+	// DeleteFollowingCalculationById Мягко удалить строку dc.following_calculation
+	// (DELETE /following-calculations/{id})
+	DeleteFollowingCalculationById(w http.ResponseWriter, r *http.Request, id FollowingCalculationIdParam)
+	// GetFollowingCalculationById Активная строка dc.following_calculation по id
+	// (GET /following-calculations/{id})
+	GetFollowingCalculationById(w http.ResponseWriter, r *http.Request, id FollowingCalculationIdParam)
+	// UpdateFollowingCalculationById Обновить строку dc.following_calculation
+	// (PUT /following-calculations/{id})
+	UpdateFollowingCalculationById(w http.ResponseWriter, r *http.Request, id FollowingCalculationIdParam)
+	// UndeleteFollowingCalculationById Восстановить мягко удалённую строку dc.following_calculation
+	// (POST /following-calculations/{id}/undelete)
+	UndeleteFollowingCalculationById(w http.ResponseWriter, r *http.Request, id FollowingCalculationIdParam)
+	// ListGroupLevels Список строк dc.group_levels
+	// (GET /group-levels)
+	ListGroupLevels(w http.ResponseWriter, r *http.Request, params ListGroupLevelsParams)
+	// CreateGroupLevels Создать строку dc.group_levels
+	// (POST /group-levels)
+	CreateGroupLevels(w http.ResponseWriter, r *http.Request)
+	// ListDeletedGroupLevels Мягко удалённые строки dc.group_levels
+	// (GET /group-levels/deleted)
+	ListDeletedGroupLevels(w http.ResponseWriter, r *http.Request, params ListDeletedGroupLevelsParams)
+	// FilterGroupLevels Страница строк dc.group_levels с необязательными фильтрами
+	// (GET /group-levels/filter)
+	FilterGroupLevels(w http.ResponseWriter, r *http.Request, params FilterGroupLevelsParams)
+	// SearchGroupLevels Страница строк dc.group_levels по подстроке имени
+	// (GET /group-levels/search)
+	SearchGroupLevels(w http.ResponseWriter, r *http.Request, params SearchGroupLevelsParams)
+	// DeleteGroupLevelsById Мягко удалить строку dc.group_levels
+	// (DELETE /group-levels/{id})
+	DeleteGroupLevelsById(w http.ResponseWriter, r *http.Request, id GroupLevelsIdParam)
+	// GetGroupLevelsById Активная строка dc.group_levels по id
+	// (GET /group-levels/{id})
+	GetGroupLevelsById(w http.ResponseWriter, r *http.Request, id GroupLevelsIdParam)
+	// UpdateGroupLevelsById Обновить строку dc.group_levels
+	// (PUT /group-levels/{id})
+	UpdateGroupLevelsById(w http.ResponseWriter, r *http.Request, id GroupLevelsIdParam)
+	// UndeleteGroupLevelsById Восстановить мягко удалённую строку dc.group_levels
+	// (POST /group-levels/{id}/undelete)
+	UndeleteGroupLevelsById(w http.ResponseWriter, r *http.Request, id GroupLevelsIdParam)
+	// ListHasToGroups Список строк dc.has_to_group
+	// (GET /has-to-groups)
+	ListHasToGroups(w http.ResponseWriter, r *http.Request, params ListHasToGroupsParams)
+	// CreateHasToGroup Создать строку dc.has_to_group
+	// (POST /has-to-groups)
+	CreateHasToGroup(w http.ResponseWriter, r *http.Request)
+	// ListDeletedHasToGroups Мягко удалённые строки dc.has_to_group
+	// (GET /has-to-groups/deleted)
+	ListDeletedHasToGroups(w http.ResponseWriter, r *http.Request, params ListDeletedHasToGroupsParams)
+	// SearchHasToGroups Страница строк dc.has_to_group по подстроке имени
+	// (GET /has-to-groups/search)
+	SearchHasToGroups(w http.ResponseWriter, r *http.Request, params SearchHasToGroupsParams)
+	// DeleteHasToGroupById Мягко удалить строку dc.has_to_group
+	// (DELETE /has-to-groups/{id})
+	DeleteHasToGroupById(w http.ResponseWriter, r *http.Request, id HasToGroupIdParam)
+	// GetHasToGroupById Активная строка dc.has_to_group по id
+	// (GET /has-to-groups/{id})
+	GetHasToGroupById(w http.ResponseWriter, r *http.Request, id HasToGroupIdParam)
+	// UpdateHasToGroupById Обновить строку dc.has_to_group
+	// (PUT /has-to-groups/{id})
+	UpdateHasToGroupById(w http.ResponseWriter, r *http.Request, id HasToGroupIdParam)
+	// UndeleteHasToGroupById Восстановить мягко удалённую строку dc.has_to_group
+	// (POST /has-to-groups/{id}/undelete)
+	UndeleteHasToGroupById(w http.ResponseWriter, r *http.Request, id HasToGroupIdParam)
 	// ListHosts Страница строк dc.host
 	// (GET /hosts)
 	ListHosts(w http.ResponseWriter, r *http.Request, params ListHostsParams)
@@ -174,11 +1423,584 @@ type ServerInterface interface {
 	// GetMe Текущий аутентифицированный пользователь
 	// (GET /me)
 	GetMe(w http.ResponseWriter, r *http.Request)
+	// ListSchemaCats Список строк dc.schema_cat
+	// (GET /schema-cats)
+	ListSchemaCats(w http.ResponseWriter, r *http.Request, params ListSchemaCatsParams)
+	// CreateSchemaCat Создать строку dc.schema_cat
+	// (POST /schema-cats)
+	CreateSchemaCat(w http.ResponseWriter, r *http.Request)
+	// ListDeletedSchemaCats Мягко удалённые строки dc.schema_cat
+	// (GET /schema-cats/deleted)
+	ListDeletedSchemaCats(w http.ResponseWriter, r *http.Request, params ListDeletedSchemaCatsParams)
+	// DeleteSchemaCatById Мягко удалить строку dc.schema_cat
+	// (DELETE /schema-cats/{id})
+	DeleteSchemaCatById(w http.ResponseWriter, r *http.Request, id SchemaCatIdParam)
+	// GetSchemaCatById Активная строка dc.schema_cat по id
+	// (GET /schema-cats/{id})
+	GetSchemaCatById(w http.ResponseWriter, r *http.Request, id SchemaCatIdParam)
+	// UpdateSchemaCatById Обновить строку dc.schema_cat
+	// (PUT /schema-cats/{id})
+	UpdateSchemaCatById(w http.ResponseWriter, r *http.Request, id SchemaCatIdParam)
+	// UndeleteSchemaCatById Восстановить мягко удалённую строку dc.schema_cat
+	// (POST /schema-cats/{id}/undelete)
+	UndeleteSchemaCatById(w http.ResponseWriter, r *http.Request, id SchemaCatIdParam)
+	// ListTableCats Список строк dc.table_cat
+	// (GET /table-cats)
+	ListTableCats(w http.ResponseWriter, r *http.Request, params ListTableCatsParams)
+	// CreateTableCat Создать строку dc.table_cat
+	// (POST /table-cats)
+	CreateTableCat(w http.ResponseWriter, r *http.Request)
+	// ListDeletedTableCats Мягко удалённые строки dc.table_cat
+	// (GET /table-cats/deleted)
+	ListDeletedTableCats(w http.ResponseWriter, r *http.Request, params ListDeletedTableCatsParams)
+	// DeleteTableCatById Мягко удалить строку dc.table_cat
+	// (DELETE /table-cats/{id})
+	DeleteTableCatById(w http.ResponseWriter, r *http.Request, id TableCatIdParam)
+	// GetTableCatById Активная строка dc.table_cat по id
+	// (GET /table-cats/{id})
+	GetTableCatById(w http.ResponseWriter, r *http.Request, id TableCatIdParam)
+	// UpdateTableCatById Обновить строку dc.table_cat
+	// (PUT /table-cats/{id})
+	UpdateTableCatById(w http.ResponseWriter, r *http.Request, id TableCatIdParam)
+	// UndeleteTableCatById Восстановить мягко удалённую строку dc.table_cat
+	// (POST /table-cats/{id}/undelete)
+	UndeleteTableCatById(w http.ResponseWriter, r *http.Request, id TableCatIdParam)
+	// ListTableTypes Список строк dc.table_type
+	// (GET /table-types)
+	ListTableTypes(w http.ResponseWriter, r *http.Request, params ListTableTypesParams)
+	// CreateTableType Создать строку dc.table_type
+	// (POST /table-types)
+	CreateTableType(w http.ResponseWriter, r *http.Request)
+	// ListDeletedTableTypes Мягко удалённые строки dc.table_type
+	// (GET /table-types/deleted)
+	ListDeletedTableTypes(w http.ResponseWriter, r *http.Request, params ListDeletedTableTypesParams)
+	// DeleteTableTypeById Мягко удалить строку dc.table_type
+	// (DELETE /table-types/{id})
+	DeleteTableTypeById(w http.ResponseWriter, r *http.Request, id TableTypeIdParam)
+	// GetTableTypeById Активная строка dc.table_type по id
+	// (GET /table-types/{id})
+	GetTableTypeById(w http.ResponseWriter, r *http.Request, id TableTypeIdParam)
+	// UpdateTableTypeById Обновить строку dc.table_type
+	// (PUT /table-types/{id})
+	UpdateTableTypeById(w http.ResponseWriter, r *http.Request, id TableTypeIdParam)
+	// UndeleteTableTypeById Восстановить мягко удалённую строку dc.table_type
+	// (POST /table-types/{id}/undelete)
+	UndeleteTableTypeById(w http.ResponseWriter, r *http.Request, id TableTypeIdParam)
 }
 
 // Unimplemented server implementation that returns http.StatusNotImplemented for each endpoint.
 
 type Unimplemented struct{}
+
+// ListAliases Список строк dc.alias
+// (GET /aliases)
+func (_ Unimplemented) ListAliases(w http.ResponseWriter, r *http.Request, params ListAliasesParams) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// CreateAlias Создать строку dc.alias
+// (POST /aliases)
+func (_ Unimplemented) CreateAlias(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// ListDeletedAliases Мягко удалённые строки dc.alias
+// (GET /aliases/deleted)
+func (_ Unimplemented) ListDeletedAliases(w http.ResponseWriter, r *http.Request, params ListDeletedAliasesParams) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// DeleteAliasById Мягко удалить строку dc.alias
+// (DELETE /aliases/{id})
+func (_ Unimplemented) DeleteAliasById(w http.ResponseWriter, r *http.Request, id AliasIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// GetAliasById Активная строка dc.alias по id
+// (GET /aliases/{id})
+func (_ Unimplemented) GetAliasById(w http.ResponseWriter, r *http.Request, id AliasIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// UpdateAliasById Обновить строку dc.alias
+// (PUT /aliases/{id})
+func (_ Unimplemented) UpdateAliasById(w http.ResponseWriter, r *http.Request, id AliasIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// UndeleteAliasById Восстановить мягко удалённую строку dc.alias
+// (POST /aliases/{id}/undelete)
+func (_ Unimplemented) UndeleteAliasById(w http.ResponseWriter, r *http.Request, id AliasIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// ListCalculationTypes Список строк dc.calculation_type
+// (GET /calculation-types)
+func (_ Unimplemented) ListCalculationTypes(w http.ResponseWriter, r *http.Request, params ListCalculationTypesParams) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// GetCalculationTypeById Активная строка dc.calculation_type по id
+// (GET /calculation-types/{id})
+func (_ Unimplemented) GetCalculationTypeById(w http.ResponseWriter, r *http.Request, id CalculationTypeIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// ListColumnCats Список строк dc.column_cat
+// (GET /column-cats)
+func (_ Unimplemented) ListColumnCats(w http.ResponseWriter, r *http.Request, params ListColumnCatsParams) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// CreateColumnCat Создать строку dc.column_cat
+// (POST /column-cats)
+func (_ Unimplemented) CreateColumnCat(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// ListDeletedColumnCats Мягко удалённые строки dc.column_cat
+// (GET /column-cats/deleted)
+func (_ Unimplemented) ListDeletedColumnCats(w http.ResponseWriter, r *http.Request, params ListDeletedColumnCatsParams) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// FilterColumnCats Страница строк dc.column_cat с необязательными фильтрами
+// (GET /column-cats/filter)
+func (_ Unimplemented) FilterColumnCats(w http.ResponseWriter, r *http.Request, params FilterColumnCatsParams) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// SearchColumnCats Страница строк dc.column_cat по подстроке имени
+// (GET /column-cats/search)
+func (_ Unimplemented) SearchColumnCats(w http.ResponseWriter, r *http.Request, params SearchColumnCatsParams) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// DeleteColumnCatById Мягко удалить строку dc.column_cat
+// (DELETE /column-cats/{id})
+func (_ Unimplemented) DeleteColumnCatById(w http.ResponseWriter, r *http.Request, id ColumnCatIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// GetColumnCatById Активная строка dc.column_cat по id
+// (GET /column-cats/{id})
+func (_ Unimplemented) GetColumnCatById(w http.ResponseWriter, r *http.Request, id ColumnCatIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// UpdateColumnCatById Обновить строку dc.column_cat
+// (PUT /column-cats/{id})
+func (_ Unimplemented) UpdateColumnCatById(w http.ResponseWriter, r *http.Request, id ColumnCatIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// UndeleteColumnCatById Восстановить мягко удалённую строку dc.column_cat
+// (POST /column-cats/{id}/undelete)
+func (_ Unimplemented) UndeleteColumnCatById(w http.ResponseWriter, r *http.Request, id ColumnCatIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// ListColumnTypes Список строк dc.column_type
+// (GET /column-types)
+func (_ Unimplemented) ListColumnTypes(w http.ResponseWriter, r *http.Request, params ListColumnTypesParams) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// CreateColumnType Создать строку dc.column_type
+// (POST /column-types)
+func (_ Unimplemented) CreateColumnType(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// ListDeletedColumnTypes Мягко удалённые строки dc.column_type
+// (GET /column-types/deleted)
+func (_ Unimplemented) ListDeletedColumnTypes(w http.ResponseWriter, r *http.Request, params ListDeletedColumnTypesParams) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// SearchColumnTypes Страница строк dc.column_type по подстроке имени
+// (GET /column-types/search)
+func (_ Unimplemented) SearchColumnTypes(w http.ResponseWriter, r *http.Request, params SearchColumnTypesParams) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// DeleteColumnTypeById Мягко удалить строку dc.column_type
+// (DELETE /column-types/{id})
+func (_ Unimplemented) DeleteColumnTypeById(w http.ResponseWriter, r *http.Request, id ColumnTypeIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// GetColumnTypeById Активная строка dc.column_type по id
+// (GET /column-types/{id})
+func (_ Unimplemented) GetColumnTypeById(w http.ResponseWriter, r *http.Request, id ColumnTypeIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// UpdateColumnTypeById Обновить строку dc.column_type
+// (PUT /column-types/{id})
+func (_ Unimplemented) UpdateColumnTypeById(w http.ResponseWriter, r *http.Request, id ColumnTypeIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// UndeleteColumnTypeById Восстановить мягко удалённую строку dc.column_type
+// (POST /column-types/{id}/undelete)
+func (_ Unimplemented) UndeleteColumnTypeById(w http.ResponseWriter, r *http.Request, id ColumnTypeIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// ListDatabaseCalculations Список строк dc.database_calculation
+// (GET /database-calculations)
+func (_ Unimplemented) ListDatabaseCalculations(w http.ResponseWriter, r *http.Request, params ListDatabaseCalculationsParams) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// CreateDatabaseCalculation Создать строку dc.database_calculation
+// (POST /database-calculations)
+func (_ Unimplemented) CreateDatabaseCalculation(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// ListDeletedDatabaseCalculations Мягко удалённые строки dc.database_calculation
+// (GET /database-calculations/deleted)
+func (_ Unimplemented) ListDeletedDatabaseCalculations(w http.ResponseWriter, r *http.Request, params ListDeletedDatabaseCalculationsParams) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// FilterDatabaseCalculations Страница строк dc.database_calculation с необязательными фильтрами
+// (GET /database-calculations/filter)
+func (_ Unimplemented) FilterDatabaseCalculations(w http.ResponseWriter, r *http.Request, params FilterDatabaseCalculationsParams) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// SearchDatabaseCalculations Страница строк dc.database_calculation по подстроке имени
+// (GET /database-calculations/search)
+func (_ Unimplemented) SearchDatabaseCalculations(w http.ResponseWriter, r *http.Request, params SearchDatabaseCalculationsParams) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// DeleteDatabaseCalculationById Мягко удалить строку dc.database_calculation
+// (DELETE /database-calculations/{id})
+func (_ Unimplemented) DeleteDatabaseCalculationById(w http.ResponseWriter, r *http.Request, id DatabaseCalculationIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// GetDatabaseCalculationById Активная строка dc.database_calculation по id
+// (GET /database-calculations/{id})
+func (_ Unimplemented) GetDatabaseCalculationById(w http.ResponseWriter, r *http.Request, id DatabaseCalculationIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// UpdateDatabaseCalculationById Обновить строку dc.database_calculation
+// (PUT /database-calculations/{id})
+func (_ Unimplemented) UpdateDatabaseCalculationById(w http.ResponseWriter, r *http.Request, id DatabaseCalculationIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// UndeleteDatabaseCalculationById Восстановить мягко удалённую строку dc.database_calculation
+// (POST /database-calculations/{id}/undelete)
+func (_ Unimplemented) UndeleteDatabaseCalculationById(w http.ResponseWriter, r *http.Request, id DatabaseCalculationIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// ListDatabaseCats Страница строк dc.database_cat
+// (GET /database-cats)
+func (_ Unimplemented) ListDatabaseCats(w http.ResponseWriter, r *http.Request, params ListDatabaseCatsParams) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// CreateDatabaseCat Создать строку dc.database_cat
+// (POST /database-cats)
+func (_ Unimplemented) CreateDatabaseCat(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// ListDatabaseCatsByHostAndDatabaseType Страница строк dc.database_cat с фильтром по host_id и database_type_id
+// (GET /database-cats/by-host-database-type)
+func (_ Unimplemented) ListDatabaseCatsByHostAndDatabaseType(w http.ResponseWriter, r *http.Request, params ListDatabaseCatsByHostAndDatabaseTypeParams) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// ListDeletedDatabaseCats Страница мягко удалённых строк dc.database_cat
+// (GET /database-cats/deleted)
+func (_ Unimplemented) ListDeletedDatabaseCats(w http.ResponseWriter, r *http.Request, params ListDeletedDatabaseCatsParams) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// SearchDatabaseCats Страница строк dc.database_cat по подстроке имени
+// (GET /database-cats/search)
+func (_ Unimplemented) SearchDatabaseCats(w http.ResponseWriter, r *http.Request, params SearchDatabaseCatsParams) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// DeleteDatabaseCatById Мягко удалить строку dc.database_cat
+// (DELETE /database-cats/{id})
+func (_ Unimplemented) DeleteDatabaseCatById(w http.ResponseWriter, r *http.Request, id DatabaseCatIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// GetDatabaseCatById Активная строка dc.database_cat по id
+// (GET /database-cats/{id})
+func (_ Unimplemented) GetDatabaseCatById(w http.ResponseWriter, r *http.Request, id DatabaseCatIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// UpdateDatabaseCatById Обновить строку dc.database_cat
+// (PUT /database-cats/{id})
+func (_ Unimplemented) UpdateDatabaseCatById(w http.ResponseWriter, r *http.Request, id DatabaseCatIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// UndeleteDatabaseCatById Восстановить мягко удалённую строку dc.database_cat
+// (POST /database-cats/{id}/undelete)
+func (_ Unimplemented) UndeleteDatabaseCatById(w http.ResponseWriter, r *http.Request, id DatabaseCatIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// ListDatabaseTypes Страница строк dc.database_type
+// (GET /database-types)
+func (_ Unimplemented) ListDatabaseTypes(w http.ResponseWriter, r *http.Request, params ListDatabaseTypesParams) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// CreateDatabaseType Создать строку dc.database_type
+// (POST /database-types)
+func (_ Unimplemented) CreateDatabaseType(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// ListDeletedDatabaseTypes Страница мягко удалённых строк dc.database_type
+// (GET /database-types/deleted)
+func (_ Unimplemented) ListDeletedDatabaseTypes(w http.ResponseWriter, r *http.Request, params ListDeletedDatabaseTypesParams) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// SearchDatabaseTypes Страница строк dc.database_type по подстроке имени
+// (GET /database-types/search)
+func (_ Unimplemented) SearchDatabaseTypes(w http.ResponseWriter, r *http.Request, params SearchDatabaseTypesParams) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// DeleteDatabaseTypeById Мягко удалить строку dc.database_type
+// (DELETE /database-types/{id})
+func (_ Unimplemented) DeleteDatabaseTypeById(w http.ResponseWriter, r *http.Request, id DatabaseTypeIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// GetDatabaseTypeById Активная строка dc.database_type по id
+// (GET /database-types/{id})
+func (_ Unimplemented) GetDatabaseTypeById(w http.ResponseWriter, r *http.Request, id DatabaseTypeIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// UpdateDatabaseTypeById Обновить строку dc.database_type
+// (PUT /database-types/{id})
+func (_ Unimplemented) UpdateDatabaseTypeById(w http.ResponseWriter, r *http.Request, id DatabaseTypeIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// UndeleteDatabaseTypeById Восстановить мягко удалённую строку dc.database_type
+// (POST /database-types/{id}/undelete)
+func (_ Unimplemented) UndeleteDatabaseTypeById(w http.ResponseWriter, r *http.Request, id DatabaseTypeIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// ListDomainCats Список строк dc.domain_cat
+// (GET /domain-cats)
+func (_ Unimplemented) ListDomainCats(w http.ResponseWriter, r *http.Request, params ListDomainCatsParams) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// CreateDomainCat Создать строку dc.domain_cat
+// (POST /domain-cats)
+func (_ Unimplemented) CreateDomainCat(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// ListDeletedDomainCats Мягко удалённые строки dc.domain_cat
+// (GET /domain-cats/deleted)
+func (_ Unimplemented) ListDeletedDomainCats(w http.ResponseWriter, r *http.Request, params ListDeletedDomainCatsParams) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// SearchDomainCats Страница строк dc.domain_cat по подстроке имени
+// (GET /domain-cats/search)
+func (_ Unimplemented) SearchDomainCats(w http.ResponseWriter, r *http.Request, params SearchDomainCatsParams) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// DeleteDomainCatById Мягко удалить строку dc.domain_cat
+// (DELETE /domain-cats/{id})
+func (_ Unimplemented) DeleteDomainCatById(w http.ResponseWriter, r *http.Request, id DomainCatIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// GetDomainCatById Активная строка dc.domain_cat по id
+// (GET /domain-cats/{id})
+func (_ Unimplemented) GetDomainCatById(w http.ResponseWriter, r *http.Request, id DomainCatIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// UpdateDomainCatById Обновить строку dc.domain_cat
+// (PUT /domain-cats/{id})
+func (_ Unimplemented) UpdateDomainCatById(w http.ResponseWriter, r *http.Request, id DomainCatIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// UndeleteDomainCatById Восстановить мягко удалённую строку dc.domain_cat
+// (POST /domain-cats/{id}/undelete)
+func (_ Unimplemented) UndeleteDomainCatById(w http.ResponseWriter, r *http.Request, id DomainCatIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// ListFollowingCalculations Список строк dc.following_calculation
+// (GET /following-calculations)
+func (_ Unimplemented) ListFollowingCalculations(w http.ResponseWriter, r *http.Request, params ListFollowingCalculationsParams) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// CreateFollowingCalculation Создать строку dc.following_calculation
+// (POST /following-calculations)
+func (_ Unimplemented) CreateFollowingCalculation(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// ListDeletedFollowingCalculations Мягко удалённые строки dc.following_calculation
+// (GET /following-calculations/deleted)
+func (_ Unimplemented) ListDeletedFollowingCalculations(w http.ResponseWriter, r *http.Request, params ListDeletedFollowingCalculationsParams) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// FilterFollowingCalculations Страница строк dc.following_calculation с необязательными фильтрами
+// (GET /following-calculations/filter)
+func (_ Unimplemented) FilterFollowingCalculations(w http.ResponseWriter, r *http.Request, params FilterFollowingCalculationsParams) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// DeleteFollowingCalculationById Мягко удалить строку dc.following_calculation
+// (DELETE /following-calculations/{id})
+func (_ Unimplemented) DeleteFollowingCalculationById(w http.ResponseWriter, r *http.Request, id FollowingCalculationIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// GetFollowingCalculationById Активная строка dc.following_calculation по id
+// (GET /following-calculations/{id})
+func (_ Unimplemented) GetFollowingCalculationById(w http.ResponseWriter, r *http.Request, id FollowingCalculationIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// UpdateFollowingCalculationById Обновить строку dc.following_calculation
+// (PUT /following-calculations/{id})
+func (_ Unimplemented) UpdateFollowingCalculationById(w http.ResponseWriter, r *http.Request, id FollowingCalculationIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// UndeleteFollowingCalculationById Восстановить мягко удалённую строку dc.following_calculation
+// (POST /following-calculations/{id}/undelete)
+func (_ Unimplemented) UndeleteFollowingCalculationById(w http.ResponseWriter, r *http.Request, id FollowingCalculationIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// ListGroupLevels Список строк dc.group_levels
+// (GET /group-levels)
+func (_ Unimplemented) ListGroupLevels(w http.ResponseWriter, r *http.Request, params ListGroupLevelsParams) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// CreateGroupLevels Создать строку dc.group_levels
+// (POST /group-levels)
+func (_ Unimplemented) CreateGroupLevels(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// ListDeletedGroupLevels Мягко удалённые строки dc.group_levels
+// (GET /group-levels/deleted)
+func (_ Unimplemented) ListDeletedGroupLevels(w http.ResponseWriter, r *http.Request, params ListDeletedGroupLevelsParams) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// FilterGroupLevels Страница строк dc.group_levels с необязательными фильтрами
+// (GET /group-levels/filter)
+func (_ Unimplemented) FilterGroupLevels(w http.ResponseWriter, r *http.Request, params FilterGroupLevelsParams) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// SearchGroupLevels Страница строк dc.group_levels по подстроке имени
+// (GET /group-levels/search)
+func (_ Unimplemented) SearchGroupLevels(w http.ResponseWriter, r *http.Request, params SearchGroupLevelsParams) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// DeleteGroupLevelsById Мягко удалить строку dc.group_levels
+// (DELETE /group-levels/{id})
+func (_ Unimplemented) DeleteGroupLevelsById(w http.ResponseWriter, r *http.Request, id GroupLevelsIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// GetGroupLevelsById Активная строка dc.group_levels по id
+// (GET /group-levels/{id})
+func (_ Unimplemented) GetGroupLevelsById(w http.ResponseWriter, r *http.Request, id GroupLevelsIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// UpdateGroupLevelsById Обновить строку dc.group_levels
+// (PUT /group-levels/{id})
+func (_ Unimplemented) UpdateGroupLevelsById(w http.ResponseWriter, r *http.Request, id GroupLevelsIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// UndeleteGroupLevelsById Восстановить мягко удалённую строку dc.group_levels
+// (POST /group-levels/{id}/undelete)
+func (_ Unimplemented) UndeleteGroupLevelsById(w http.ResponseWriter, r *http.Request, id GroupLevelsIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// ListHasToGroups Список строк dc.has_to_group
+// (GET /has-to-groups)
+func (_ Unimplemented) ListHasToGroups(w http.ResponseWriter, r *http.Request, params ListHasToGroupsParams) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// CreateHasToGroup Создать строку dc.has_to_group
+// (POST /has-to-groups)
+func (_ Unimplemented) CreateHasToGroup(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// ListDeletedHasToGroups Мягко удалённые строки dc.has_to_group
+// (GET /has-to-groups/deleted)
+func (_ Unimplemented) ListDeletedHasToGroups(w http.ResponseWriter, r *http.Request, params ListDeletedHasToGroupsParams) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// SearchHasToGroups Страница строк dc.has_to_group по подстроке имени
+// (GET /has-to-groups/search)
+func (_ Unimplemented) SearchHasToGroups(w http.ResponseWriter, r *http.Request, params SearchHasToGroupsParams) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// DeleteHasToGroupById Мягко удалить строку dc.has_to_group
+// (DELETE /has-to-groups/{id})
+func (_ Unimplemented) DeleteHasToGroupById(w http.ResponseWriter, r *http.Request, id HasToGroupIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// GetHasToGroupById Активная строка dc.has_to_group по id
+// (GET /has-to-groups/{id})
+func (_ Unimplemented) GetHasToGroupById(w http.ResponseWriter, r *http.Request, id HasToGroupIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// UpdateHasToGroupById Обновить строку dc.has_to_group
+// (PUT /has-to-groups/{id})
+func (_ Unimplemented) UpdateHasToGroupById(w http.ResponseWriter, r *http.Request, id HasToGroupIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// UndeleteHasToGroupById Восстановить мягко удалённую строку dc.has_to_group
+// (POST /has-to-groups/{id}/undelete)
+func (_ Unimplemented) UndeleteHasToGroupById(w http.ResponseWriter, r *http.Request, id HasToGroupIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
 
 // ListHosts Страница строк dc.host
 // (GET /hosts)
@@ -240,6 +2062,132 @@ func (_ Unimplemented) GetMe(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
+// ListSchemaCats Список строк dc.schema_cat
+// (GET /schema-cats)
+func (_ Unimplemented) ListSchemaCats(w http.ResponseWriter, r *http.Request, params ListSchemaCatsParams) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// CreateSchemaCat Создать строку dc.schema_cat
+// (POST /schema-cats)
+func (_ Unimplemented) CreateSchemaCat(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// ListDeletedSchemaCats Мягко удалённые строки dc.schema_cat
+// (GET /schema-cats/deleted)
+func (_ Unimplemented) ListDeletedSchemaCats(w http.ResponseWriter, r *http.Request, params ListDeletedSchemaCatsParams) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// DeleteSchemaCatById Мягко удалить строку dc.schema_cat
+// (DELETE /schema-cats/{id})
+func (_ Unimplemented) DeleteSchemaCatById(w http.ResponseWriter, r *http.Request, id SchemaCatIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// GetSchemaCatById Активная строка dc.schema_cat по id
+// (GET /schema-cats/{id})
+func (_ Unimplemented) GetSchemaCatById(w http.ResponseWriter, r *http.Request, id SchemaCatIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// UpdateSchemaCatById Обновить строку dc.schema_cat
+// (PUT /schema-cats/{id})
+func (_ Unimplemented) UpdateSchemaCatById(w http.ResponseWriter, r *http.Request, id SchemaCatIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// UndeleteSchemaCatById Восстановить мягко удалённую строку dc.schema_cat
+// (POST /schema-cats/{id}/undelete)
+func (_ Unimplemented) UndeleteSchemaCatById(w http.ResponseWriter, r *http.Request, id SchemaCatIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// ListTableCats Список строк dc.table_cat
+// (GET /table-cats)
+func (_ Unimplemented) ListTableCats(w http.ResponseWriter, r *http.Request, params ListTableCatsParams) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// CreateTableCat Создать строку dc.table_cat
+// (POST /table-cats)
+func (_ Unimplemented) CreateTableCat(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// ListDeletedTableCats Мягко удалённые строки dc.table_cat
+// (GET /table-cats/deleted)
+func (_ Unimplemented) ListDeletedTableCats(w http.ResponseWriter, r *http.Request, params ListDeletedTableCatsParams) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// DeleteTableCatById Мягко удалить строку dc.table_cat
+// (DELETE /table-cats/{id})
+func (_ Unimplemented) DeleteTableCatById(w http.ResponseWriter, r *http.Request, id TableCatIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// GetTableCatById Активная строка dc.table_cat по id
+// (GET /table-cats/{id})
+func (_ Unimplemented) GetTableCatById(w http.ResponseWriter, r *http.Request, id TableCatIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// UpdateTableCatById Обновить строку dc.table_cat
+// (PUT /table-cats/{id})
+func (_ Unimplemented) UpdateTableCatById(w http.ResponseWriter, r *http.Request, id TableCatIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// UndeleteTableCatById Восстановить мягко удалённую строку dc.table_cat
+// (POST /table-cats/{id}/undelete)
+func (_ Unimplemented) UndeleteTableCatById(w http.ResponseWriter, r *http.Request, id TableCatIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// ListTableTypes Список строк dc.table_type
+// (GET /table-types)
+func (_ Unimplemented) ListTableTypes(w http.ResponseWriter, r *http.Request, params ListTableTypesParams) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// CreateTableType Создать строку dc.table_type
+// (POST /table-types)
+func (_ Unimplemented) CreateTableType(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// ListDeletedTableTypes Мягко удалённые строки dc.table_type
+// (GET /table-types/deleted)
+func (_ Unimplemented) ListDeletedTableTypes(w http.ResponseWriter, r *http.Request, params ListDeletedTableTypesParams) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// DeleteTableTypeById Мягко удалить строку dc.table_type
+// (DELETE /table-types/{id})
+func (_ Unimplemented) DeleteTableTypeById(w http.ResponseWriter, r *http.Request, id TableTypeIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// GetTableTypeById Активная строка dc.table_type по id
+// (GET /table-types/{id})
+func (_ Unimplemented) GetTableTypeById(w http.ResponseWriter, r *http.Request, id TableTypeIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// UpdateTableTypeById Обновить строку dc.table_type
+// (PUT /table-types/{id})
+func (_ Unimplemented) UpdateTableTypeById(w http.ResponseWriter, r *http.Request, id TableTypeIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// UndeleteTableTypeById Восстановить мягко удалённую строку dc.table_type
+// (POST /table-types/{id}/undelete)
+func (_ Unimplemented) UndeleteTableTypeById(w http.ResponseWriter, r *http.Request, id TableTypeIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
 // ServerInterfaceWrapper converts contexts to parameters.
 type ServerInterfaceWrapper struct {
 	Handler            ServerInterface
@@ -248,6 +2196,3452 @@ type ServerInterfaceWrapper struct {
 }
 
 type MiddlewareFunc func(http.Handler) http.Handler
+
+// ListAliases operation middleware
+func (siw *ServerInterfaceWrapper) ListAliases(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params ListAliasesParams
+
+	// ------------- Optional query parameter "order" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "order", r.URL.Query(), &params.Order, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "order"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "order", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page", r.URL.Query(), &params.Page, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page_limit" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page_limit", r.URL.Query(), &params.PageLimit, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page_limit"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page_limit", Err: err})
+		}
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.ListAliases(w, r, params)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// CreateAlias operation middleware
+func (siw *ServerInterfaceWrapper) CreateAlias(w http.ResponseWriter, r *http.Request) {
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.CreateAlias(w, r)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// ListDeletedAliases operation middleware
+func (siw *ServerInterfaceWrapper) ListDeletedAliases(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params ListDeletedAliasesParams
+
+	// ------------- Optional query parameter "order" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "order", r.URL.Query(), &params.Order, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "order"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "order", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page", r.URL.Query(), &params.Page, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page_limit" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page_limit", r.URL.Query(), &params.PageLimit, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page_limit"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page_limit", Err: err})
+		}
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.ListDeletedAliases(w, r, params)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// DeleteAliasById operation middleware
+func (siw *ServerInterfaceWrapper) DeleteAliasById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id AliasIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.DeleteAliasById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// GetAliasById operation middleware
+func (siw *ServerInterfaceWrapper) GetAliasById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id AliasIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.GetAliasById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// UpdateAliasById operation middleware
+func (siw *ServerInterfaceWrapper) UpdateAliasById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id AliasIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.UpdateAliasById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// UndeleteAliasById operation middleware
+func (siw *ServerInterfaceWrapper) UndeleteAliasById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id AliasIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.UndeleteAliasById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// ListCalculationTypes operation middleware
+func (siw *ServerInterfaceWrapper) ListCalculationTypes(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params ListCalculationTypesParams
+
+	// ------------- Optional query parameter "order" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "order", r.URL.Query(), &params.Order, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "order"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "order", Err: err})
+		}
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.ListCalculationTypes(w, r, params)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// GetCalculationTypeById operation middleware
+func (siw *ServerInterfaceWrapper) GetCalculationTypeById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id CalculationTypeIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.GetCalculationTypeById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// ListColumnCats operation middleware
+func (siw *ServerInterfaceWrapper) ListColumnCats(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params ListColumnCatsParams
+
+	// ------------- Optional query parameter "order" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "order", r.URL.Query(), &params.Order, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "order"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "order", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page", r.URL.Query(), &params.Page, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page_limit" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page_limit", r.URL.Query(), &params.PageLimit, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page_limit"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page_limit", Err: err})
+		}
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.ListColumnCats(w, r, params)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// CreateColumnCat operation middleware
+func (siw *ServerInterfaceWrapper) CreateColumnCat(w http.ResponseWriter, r *http.Request) {
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.CreateColumnCat(w, r)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// ListDeletedColumnCats operation middleware
+func (siw *ServerInterfaceWrapper) ListDeletedColumnCats(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params ListDeletedColumnCatsParams
+
+	// ------------- Optional query parameter "order" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "order", r.URL.Query(), &params.Order, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "order"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "order", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page", r.URL.Query(), &params.Page, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page_limit" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page_limit", r.URL.Query(), &params.PageLimit, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page_limit"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page_limit", Err: err})
+		}
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.ListDeletedColumnCats(w, r, params)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// FilterColumnCats operation middleware
+func (siw *ServerInterfaceWrapper) FilterColumnCats(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params FilterColumnCatsParams
+
+	// ------------- Optional query parameter "table_id" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "table_id", r.URL.Query(), &params.TableId, runtime.BindQueryParameterOptions{Type: "integer", Format: "int64"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "table_id"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "table_id", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "alias_id" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "alias_id", r.URL.Query(), &params.AliasId, runtime.BindQueryParameterOptions{Type: "integer", Format: "int64"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "alias_id"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "alias_id", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "column_type_id" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "column_type_id", r.URL.Query(), &params.ColumnTypeId, runtime.BindQueryParameterOptions{Type: "integer", Format: "int64"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "column_type_id"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "column_type_id", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "calculation_type_id" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "calculation_type_id", r.URL.Query(), &params.CalculationTypeId, runtime.BindQueryParameterOptions{Type: "integer", Format: "int64"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "calculation_type_id"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "calculation_type_id", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "show_in_ui" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "show_in_ui", r.URL.Query(), &params.ShowInUi, runtime.BindQueryParameterOptions{Type: "boolean", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "show_in_ui"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "show_in_ui", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "order" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "order", r.URL.Query(), &params.Order, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "order"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "order", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page", r.URL.Query(), &params.Page, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page_limit" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page_limit", r.URL.Query(), &params.PageLimit, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page_limit"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page_limit", Err: err})
+		}
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.FilterColumnCats(w, r, params)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// SearchColumnCats operation middleware
+func (siw *ServerInterfaceWrapper) SearchColumnCats(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params SearchColumnCatsParams
+
+	// ------------- Required query parameter "search_name" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, true, "search_name", r.URL.Query(), &params.SearchName, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "search_name"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "search_name", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "order" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "order", r.URL.Query(), &params.Order, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "order"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "order", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page", r.URL.Query(), &params.Page, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page_limit" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page_limit", r.URL.Query(), &params.PageLimit, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page_limit"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page_limit", Err: err})
+		}
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.SearchColumnCats(w, r, params)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// DeleteColumnCatById operation middleware
+func (siw *ServerInterfaceWrapper) DeleteColumnCatById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id ColumnCatIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.DeleteColumnCatById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// GetColumnCatById operation middleware
+func (siw *ServerInterfaceWrapper) GetColumnCatById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id ColumnCatIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.GetColumnCatById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// UpdateColumnCatById operation middleware
+func (siw *ServerInterfaceWrapper) UpdateColumnCatById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id ColumnCatIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.UpdateColumnCatById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// UndeleteColumnCatById operation middleware
+func (siw *ServerInterfaceWrapper) UndeleteColumnCatById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id ColumnCatIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.UndeleteColumnCatById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// ListColumnTypes operation middleware
+func (siw *ServerInterfaceWrapper) ListColumnTypes(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params ListColumnTypesParams
+
+	// ------------- Optional query parameter "order" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "order", r.URL.Query(), &params.Order, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "order"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "order", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page", r.URL.Query(), &params.Page, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page_limit" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page_limit", r.URL.Query(), &params.PageLimit, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page_limit"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page_limit", Err: err})
+		}
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.ListColumnTypes(w, r, params)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// CreateColumnType operation middleware
+func (siw *ServerInterfaceWrapper) CreateColumnType(w http.ResponseWriter, r *http.Request) {
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.CreateColumnType(w, r)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// ListDeletedColumnTypes operation middleware
+func (siw *ServerInterfaceWrapper) ListDeletedColumnTypes(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params ListDeletedColumnTypesParams
+
+	// ------------- Optional query parameter "order" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "order", r.URL.Query(), &params.Order, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "order"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "order", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page", r.URL.Query(), &params.Page, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page_limit" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page_limit", r.URL.Query(), &params.PageLimit, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page_limit"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page_limit", Err: err})
+		}
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.ListDeletedColumnTypes(w, r, params)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// SearchColumnTypes operation middleware
+func (siw *ServerInterfaceWrapper) SearchColumnTypes(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params SearchColumnTypesParams
+
+	// ------------- Required query parameter "search_name" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, true, "search_name", r.URL.Query(), &params.SearchName, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "search_name"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "search_name", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "order" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "order", r.URL.Query(), &params.Order, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "order"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "order", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page", r.URL.Query(), &params.Page, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page_limit" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page_limit", r.URL.Query(), &params.PageLimit, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page_limit"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page_limit", Err: err})
+		}
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.SearchColumnTypes(w, r, params)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// DeleteColumnTypeById operation middleware
+func (siw *ServerInterfaceWrapper) DeleteColumnTypeById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id ColumnTypeIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.DeleteColumnTypeById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// GetColumnTypeById operation middleware
+func (siw *ServerInterfaceWrapper) GetColumnTypeById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id ColumnTypeIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.GetColumnTypeById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// UpdateColumnTypeById operation middleware
+func (siw *ServerInterfaceWrapper) UpdateColumnTypeById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id ColumnTypeIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.UpdateColumnTypeById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// UndeleteColumnTypeById operation middleware
+func (siw *ServerInterfaceWrapper) UndeleteColumnTypeById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id ColumnTypeIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.UndeleteColumnTypeById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// ListDatabaseCalculations operation middleware
+func (siw *ServerInterfaceWrapper) ListDatabaseCalculations(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params ListDatabaseCalculationsParams
+
+	// ------------- Optional query parameter "order" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "order", r.URL.Query(), &params.Order, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "order"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "order", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page", r.URL.Query(), &params.Page, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page_limit" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page_limit", r.URL.Query(), &params.PageLimit, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page_limit"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page_limit", Err: err})
+		}
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.ListDatabaseCalculations(w, r, params)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// CreateDatabaseCalculation operation middleware
+func (siw *ServerInterfaceWrapper) CreateDatabaseCalculation(w http.ResponseWriter, r *http.Request) {
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.CreateDatabaseCalculation(w, r)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// ListDeletedDatabaseCalculations operation middleware
+func (siw *ServerInterfaceWrapper) ListDeletedDatabaseCalculations(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params ListDeletedDatabaseCalculationsParams
+
+	// ------------- Optional query parameter "order" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "order", r.URL.Query(), &params.Order, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "order"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "order", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page", r.URL.Query(), &params.Page, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page_limit" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page_limit", r.URL.Query(), &params.PageLimit, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page_limit"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page_limit", Err: err})
+		}
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.ListDeletedDatabaseCalculations(w, r, params)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// FilterDatabaseCalculations operation middleware
+func (siw *ServerInterfaceWrapper) FilterDatabaseCalculations(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params FilterDatabaseCalculationsParams
+
+	// ------------- Optional query parameter "database_cat_id" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "database_cat_id", r.URL.Query(), &params.DatabaseCatId, runtime.BindQueryParameterOptions{Type: "integer", Format: "int64"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "database_cat_id"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "database_cat_id", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "calculation_type_id" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "calculation_type_id", r.URL.Query(), &params.CalculationTypeId, runtime.BindQueryParameterOptions{Type: "integer", Format: "int64"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "calculation_type_id"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "calculation_type_id", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "order" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "order", r.URL.Query(), &params.Order, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "order"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "order", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page", r.URL.Query(), &params.Page, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page_limit" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page_limit", r.URL.Query(), &params.PageLimit, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page_limit"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page_limit", Err: err})
+		}
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.FilterDatabaseCalculations(w, r, params)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// SearchDatabaseCalculations operation middleware
+func (siw *ServerInterfaceWrapper) SearchDatabaseCalculations(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params SearchDatabaseCalculationsParams
+
+	// ------------- Required query parameter "search_name" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, true, "search_name", r.URL.Query(), &params.SearchName, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "search_name"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "search_name", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "order" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "order", r.URL.Query(), &params.Order, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "order"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "order", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page", r.URL.Query(), &params.Page, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page_limit" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page_limit", r.URL.Query(), &params.PageLimit, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page_limit"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page_limit", Err: err})
+		}
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.SearchDatabaseCalculations(w, r, params)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// DeleteDatabaseCalculationById operation middleware
+func (siw *ServerInterfaceWrapper) DeleteDatabaseCalculationById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id DatabaseCalculationIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.DeleteDatabaseCalculationById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// GetDatabaseCalculationById operation middleware
+func (siw *ServerInterfaceWrapper) GetDatabaseCalculationById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id DatabaseCalculationIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.GetDatabaseCalculationById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// UpdateDatabaseCalculationById operation middleware
+func (siw *ServerInterfaceWrapper) UpdateDatabaseCalculationById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id DatabaseCalculationIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.UpdateDatabaseCalculationById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// UndeleteDatabaseCalculationById operation middleware
+func (siw *ServerInterfaceWrapper) UndeleteDatabaseCalculationById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id DatabaseCalculationIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.UndeleteDatabaseCalculationById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// ListDatabaseCats operation middleware
+func (siw *ServerInterfaceWrapper) ListDatabaseCats(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params ListDatabaseCatsParams
+
+	// ------------- Optional query parameter "order" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "order", r.URL.Query(), &params.Order, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "order"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "order", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page", r.URL.Query(), &params.Page, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page_limit" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page_limit", r.URL.Query(), &params.PageLimit, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page_limit"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page_limit", Err: err})
+		}
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.ListDatabaseCats(w, r, params)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// CreateDatabaseCat operation middleware
+func (siw *ServerInterfaceWrapper) CreateDatabaseCat(w http.ResponseWriter, r *http.Request) {
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.CreateDatabaseCat(w, r)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// ListDatabaseCatsByHostAndDatabaseType operation middleware
+func (siw *ServerInterfaceWrapper) ListDatabaseCatsByHostAndDatabaseType(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params ListDatabaseCatsByHostAndDatabaseTypeParams
+
+	// ------------- Optional query parameter "host_id" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "host_id", r.URL.Query(), &params.HostId, runtime.BindQueryParameterOptions{Type: "integer", Format: "int64"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "host_id"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "host_id", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "database_type_id" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "database_type_id", r.URL.Query(), &params.DatabaseTypeId, runtime.BindQueryParameterOptions{Type: "integer", Format: "int64"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "database_type_id"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "database_type_id", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "order_by" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "order_by", r.URL.Query(), &params.OrderBy, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "order_by"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "order_by", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "order" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "order", r.URL.Query(), &params.Order, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "order"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "order", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page", r.URL.Query(), &params.Page, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page_limit" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page_limit", r.URL.Query(), &params.PageLimit, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page_limit"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page_limit", Err: err})
+		}
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.ListDatabaseCatsByHostAndDatabaseType(w, r, params)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// ListDeletedDatabaseCats operation middleware
+func (siw *ServerInterfaceWrapper) ListDeletedDatabaseCats(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params ListDeletedDatabaseCatsParams
+
+	// ------------- Optional query parameter "order" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "order", r.URL.Query(), &params.Order, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "order"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "order", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page", r.URL.Query(), &params.Page, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page_limit" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page_limit", r.URL.Query(), &params.PageLimit, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page_limit"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page_limit", Err: err})
+		}
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.ListDeletedDatabaseCats(w, r, params)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// SearchDatabaseCats operation middleware
+func (siw *ServerInterfaceWrapper) SearchDatabaseCats(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params SearchDatabaseCatsParams
+
+	// ------------- Required query parameter "search_name" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, true, "search_name", r.URL.Query(), &params.SearchName, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "search_name"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "search_name", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "order" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "order", r.URL.Query(), &params.Order, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "order"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "order", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page", r.URL.Query(), &params.Page, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page_limit" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page_limit", r.URL.Query(), &params.PageLimit, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page_limit"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page_limit", Err: err})
+		}
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.SearchDatabaseCats(w, r, params)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// DeleteDatabaseCatById operation middleware
+func (siw *ServerInterfaceWrapper) DeleteDatabaseCatById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id DatabaseCatIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.DeleteDatabaseCatById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// GetDatabaseCatById operation middleware
+func (siw *ServerInterfaceWrapper) GetDatabaseCatById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id DatabaseCatIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.GetDatabaseCatById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// UpdateDatabaseCatById operation middleware
+func (siw *ServerInterfaceWrapper) UpdateDatabaseCatById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id DatabaseCatIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.UpdateDatabaseCatById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// UndeleteDatabaseCatById operation middleware
+func (siw *ServerInterfaceWrapper) UndeleteDatabaseCatById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id DatabaseCatIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.UndeleteDatabaseCatById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// ListDatabaseTypes operation middleware
+func (siw *ServerInterfaceWrapper) ListDatabaseTypes(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params ListDatabaseTypesParams
+
+	// ------------- Optional query parameter "order" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "order", r.URL.Query(), &params.Order, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "order"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "order", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page", r.URL.Query(), &params.Page, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page_limit" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page_limit", r.URL.Query(), &params.PageLimit, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page_limit"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page_limit", Err: err})
+		}
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.ListDatabaseTypes(w, r, params)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// CreateDatabaseType operation middleware
+func (siw *ServerInterfaceWrapper) CreateDatabaseType(w http.ResponseWriter, r *http.Request) {
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.CreateDatabaseType(w, r)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// ListDeletedDatabaseTypes operation middleware
+func (siw *ServerInterfaceWrapper) ListDeletedDatabaseTypes(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params ListDeletedDatabaseTypesParams
+
+	// ------------- Optional query parameter "order" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "order", r.URL.Query(), &params.Order, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "order"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "order", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page", r.URL.Query(), &params.Page, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page_limit" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page_limit", r.URL.Query(), &params.PageLimit, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page_limit"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page_limit", Err: err})
+		}
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.ListDeletedDatabaseTypes(w, r, params)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// SearchDatabaseTypes operation middleware
+func (siw *ServerInterfaceWrapper) SearchDatabaseTypes(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params SearchDatabaseTypesParams
+
+	// ------------- Required query parameter "search_name" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, true, "search_name", r.URL.Query(), &params.SearchName, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "search_name"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "search_name", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "order" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "order", r.URL.Query(), &params.Order, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "order"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "order", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page", r.URL.Query(), &params.Page, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page_limit" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page_limit", r.URL.Query(), &params.PageLimit, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page_limit"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page_limit", Err: err})
+		}
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.SearchDatabaseTypes(w, r, params)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// DeleteDatabaseTypeById operation middleware
+func (siw *ServerInterfaceWrapper) DeleteDatabaseTypeById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id DatabaseTypeIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.DeleteDatabaseTypeById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// GetDatabaseTypeById operation middleware
+func (siw *ServerInterfaceWrapper) GetDatabaseTypeById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id DatabaseTypeIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.GetDatabaseTypeById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// UpdateDatabaseTypeById operation middleware
+func (siw *ServerInterfaceWrapper) UpdateDatabaseTypeById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id DatabaseTypeIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.UpdateDatabaseTypeById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// UndeleteDatabaseTypeById operation middleware
+func (siw *ServerInterfaceWrapper) UndeleteDatabaseTypeById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id DatabaseTypeIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.UndeleteDatabaseTypeById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// ListDomainCats operation middleware
+func (siw *ServerInterfaceWrapper) ListDomainCats(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params ListDomainCatsParams
+
+	// ------------- Optional query parameter "order" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "order", r.URL.Query(), &params.Order, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "order"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "order", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page", r.URL.Query(), &params.Page, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page_limit" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page_limit", r.URL.Query(), &params.PageLimit, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page_limit"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page_limit", Err: err})
+		}
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.ListDomainCats(w, r, params)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// CreateDomainCat operation middleware
+func (siw *ServerInterfaceWrapper) CreateDomainCat(w http.ResponseWriter, r *http.Request) {
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.CreateDomainCat(w, r)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// ListDeletedDomainCats operation middleware
+func (siw *ServerInterfaceWrapper) ListDeletedDomainCats(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params ListDeletedDomainCatsParams
+
+	// ------------- Optional query parameter "order" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "order", r.URL.Query(), &params.Order, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "order"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "order", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page", r.URL.Query(), &params.Page, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page_limit" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page_limit", r.URL.Query(), &params.PageLimit, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page_limit"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page_limit", Err: err})
+		}
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.ListDeletedDomainCats(w, r, params)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// SearchDomainCats operation middleware
+func (siw *ServerInterfaceWrapper) SearchDomainCats(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params SearchDomainCatsParams
+
+	// ------------- Required query parameter "search_name" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, true, "search_name", r.URL.Query(), &params.SearchName, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "search_name"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "search_name", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "order" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "order", r.URL.Query(), &params.Order, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "order"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "order", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page", r.URL.Query(), &params.Page, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page_limit" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page_limit", r.URL.Query(), &params.PageLimit, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page_limit"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page_limit", Err: err})
+		}
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.SearchDomainCats(w, r, params)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// DeleteDomainCatById operation middleware
+func (siw *ServerInterfaceWrapper) DeleteDomainCatById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id DomainCatIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.DeleteDomainCatById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// GetDomainCatById operation middleware
+func (siw *ServerInterfaceWrapper) GetDomainCatById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id DomainCatIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.GetDomainCatById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// UpdateDomainCatById operation middleware
+func (siw *ServerInterfaceWrapper) UpdateDomainCatById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id DomainCatIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.UpdateDomainCatById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// UndeleteDomainCatById operation middleware
+func (siw *ServerInterfaceWrapper) UndeleteDomainCatById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id DomainCatIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.UndeleteDomainCatById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// ListFollowingCalculations operation middleware
+func (siw *ServerInterfaceWrapper) ListFollowingCalculations(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params ListFollowingCalculationsParams
+
+	// ------------- Optional query parameter "order" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "order", r.URL.Query(), &params.Order, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "order"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "order", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page", r.URL.Query(), &params.Page, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page_limit" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page_limit", r.URL.Query(), &params.PageLimit, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page_limit"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page_limit", Err: err})
+		}
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.ListFollowingCalculations(w, r, params)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// CreateFollowingCalculation operation middleware
+func (siw *ServerInterfaceWrapper) CreateFollowingCalculation(w http.ResponseWriter, r *http.Request) {
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.CreateFollowingCalculation(w, r)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// ListDeletedFollowingCalculations operation middleware
+func (siw *ServerInterfaceWrapper) ListDeletedFollowingCalculations(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params ListDeletedFollowingCalculationsParams
+
+	// ------------- Optional query parameter "order" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "order", r.URL.Query(), &params.Order, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "order"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "order", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page", r.URL.Query(), &params.Page, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page_limit" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page_limit", r.URL.Query(), &params.PageLimit, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page_limit"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page_limit", Err: err})
+		}
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.ListDeletedFollowingCalculations(w, r, params)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// FilterFollowingCalculations operation middleware
+func (siw *ServerInterfaceWrapper) FilterFollowingCalculations(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params FilterFollowingCalculationsParams
+
+	// ------------- Optional query parameter "column_cat_id" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "column_cat_id", r.URL.Query(), &params.ColumnCatId, runtime.BindQueryParameterOptions{Type: "integer", Format: "int64"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "column_cat_id"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "column_cat_id", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "calculation_type_id" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "calculation_type_id", r.URL.Query(), &params.CalculationTypeId, runtime.BindQueryParameterOptions{Type: "integer", Format: "int64"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "calculation_type_id"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "calculation_type_id", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "order" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "order", r.URL.Query(), &params.Order, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "order"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "order", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page", r.URL.Query(), &params.Page, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page_limit" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page_limit", r.URL.Query(), &params.PageLimit, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page_limit"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page_limit", Err: err})
+		}
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.FilterFollowingCalculations(w, r, params)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// DeleteFollowingCalculationById operation middleware
+func (siw *ServerInterfaceWrapper) DeleteFollowingCalculationById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id FollowingCalculationIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.DeleteFollowingCalculationById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// GetFollowingCalculationById operation middleware
+func (siw *ServerInterfaceWrapper) GetFollowingCalculationById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id FollowingCalculationIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.GetFollowingCalculationById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// UpdateFollowingCalculationById operation middleware
+func (siw *ServerInterfaceWrapper) UpdateFollowingCalculationById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id FollowingCalculationIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.UpdateFollowingCalculationById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// UndeleteFollowingCalculationById operation middleware
+func (siw *ServerInterfaceWrapper) UndeleteFollowingCalculationById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id FollowingCalculationIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.UndeleteFollowingCalculationById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// ListGroupLevels operation middleware
+func (siw *ServerInterfaceWrapper) ListGroupLevels(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params ListGroupLevelsParams
+
+	// ------------- Optional query parameter "order" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "order", r.URL.Query(), &params.Order, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "order"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "order", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page", r.URL.Query(), &params.Page, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page_limit" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page_limit", r.URL.Query(), &params.PageLimit, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page_limit"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page_limit", Err: err})
+		}
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.ListGroupLevels(w, r, params)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// CreateGroupLevels operation middleware
+func (siw *ServerInterfaceWrapper) CreateGroupLevels(w http.ResponseWriter, r *http.Request) {
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.CreateGroupLevels(w, r)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// ListDeletedGroupLevels operation middleware
+func (siw *ServerInterfaceWrapper) ListDeletedGroupLevels(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params ListDeletedGroupLevelsParams
+
+	// ------------- Optional query parameter "order" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "order", r.URL.Query(), &params.Order, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "order"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "order", Err: err})
+		}
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.ListDeletedGroupLevels(w, r, params)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// FilterGroupLevels operation middleware
+func (siw *ServerInterfaceWrapper) FilterGroupLevels(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params FilterGroupLevelsParams
+
+	// ------------- Optional query parameter "column_id" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "column_id", r.URL.Query(), &params.ColumnId, runtime.BindQueryParameterOptions{Type: "integer", Format: "int64"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "column_id"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "column_id", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "parent_column_id" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "parent_column_id", r.URL.Query(), &params.ParentColumnId, runtime.BindQueryParameterOptions{Type: "integer", Format: "int64"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "parent_column_id"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "parent_column_id", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "order" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "order", r.URL.Query(), &params.Order, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "order"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "order", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page", r.URL.Query(), &params.Page, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page_limit" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page_limit", r.URL.Query(), &params.PageLimit, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page_limit"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page_limit", Err: err})
+		}
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.FilterGroupLevels(w, r, params)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// SearchGroupLevels operation middleware
+func (siw *ServerInterfaceWrapper) SearchGroupLevels(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params SearchGroupLevelsParams
+
+	// ------------- Required query parameter "search_name" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, true, "search_name", r.URL.Query(), &params.SearchName, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "search_name"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "search_name", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "order" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "order", r.URL.Query(), &params.Order, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "order"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "order", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page", r.URL.Query(), &params.Page, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page_limit" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page_limit", r.URL.Query(), &params.PageLimit, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page_limit"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page_limit", Err: err})
+		}
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.SearchGroupLevels(w, r, params)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// DeleteGroupLevelsById operation middleware
+func (siw *ServerInterfaceWrapper) DeleteGroupLevelsById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id GroupLevelsIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.DeleteGroupLevelsById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// GetGroupLevelsById operation middleware
+func (siw *ServerInterfaceWrapper) GetGroupLevelsById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id GroupLevelsIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.GetGroupLevelsById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// UpdateGroupLevelsById operation middleware
+func (siw *ServerInterfaceWrapper) UpdateGroupLevelsById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id GroupLevelsIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.UpdateGroupLevelsById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// UndeleteGroupLevelsById operation middleware
+func (siw *ServerInterfaceWrapper) UndeleteGroupLevelsById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id GroupLevelsIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.UndeleteGroupLevelsById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// ListHasToGroups operation middleware
+func (siw *ServerInterfaceWrapper) ListHasToGroups(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params ListHasToGroupsParams
+
+	// ------------- Optional query parameter "order" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "order", r.URL.Query(), &params.Order, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "order"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "order", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page", r.URL.Query(), &params.Page, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page_limit" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page_limit", r.URL.Query(), &params.PageLimit, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page_limit"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page_limit", Err: err})
+		}
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.ListHasToGroups(w, r, params)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// CreateHasToGroup operation middleware
+func (siw *ServerInterfaceWrapper) CreateHasToGroup(w http.ResponseWriter, r *http.Request) {
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.CreateHasToGroup(w, r)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// ListDeletedHasToGroups operation middleware
+func (siw *ServerInterfaceWrapper) ListDeletedHasToGroups(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params ListDeletedHasToGroupsParams
+
+	// ------------- Optional query parameter "order" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "order", r.URL.Query(), &params.Order, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "order"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "order", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page", r.URL.Query(), &params.Page, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page_limit" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page_limit", r.URL.Query(), &params.PageLimit, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page_limit"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page_limit", Err: err})
+		}
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.ListDeletedHasToGroups(w, r, params)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// SearchHasToGroups operation middleware
+func (siw *ServerInterfaceWrapper) SearchHasToGroups(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params SearchHasToGroupsParams
+
+	// ------------- Required query parameter "search_name" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, true, "search_name", r.URL.Query(), &params.SearchName, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "search_name"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "search_name", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "order" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "order", r.URL.Query(), &params.Order, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "order"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "order", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page", r.URL.Query(), &params.Page, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page_limit" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page_limit", r.URL.Query(), &params.PageLimit, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page_limit"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page_limit", Err: err})
+		}
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.SearchHasToGroups(w, r, params)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// DeleteHasToGroupById operation middleware
+func (siw *ServerInterfaceWrapper) DeleteHasToGroupById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id HasToGroupIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.DeleteHasToGroupById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// GetHasToGroupById operation middleware
+func (siw *ServerInterfaceWrapper) GetHasToGroupById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id HasToGroupIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.GetHasToGroupById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// UpdateHasToGroupById operation middleware
+func (siw *ServerInterfaceWrapper) UpdateHasToGroupById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id HasToGroupIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.UpdateHasToGroupById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// UndeleteHasToGroupById operation middleware
+func (siw *ServerInterfaceWrapper) UndeleteHasToGroupById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id HasToGroupIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.UndeleteHasToGroupById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
 
 // ListHosts operation middleware
 func (siw *ServerInterfaceWrapper) ListHosts(w http.ResponseWriter, r *http.Request) {
@@ -585,6 +5979,714 @@ func (siw *ServerInterfaceWrapper) GetMe(w http.ResponseWriter, r *http.Request)
 	handler.ServeHTTP(w, r)
 }
 
+// ListSchemaCats operation middleware
+func (siw *ServerInterfaceWrapper) ListSchemaCats(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params ListSchemaCatsParams
+
+	// ------------- Optional query parameter "order" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "order", r.URL.Query(), &params.Order, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "order"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "order", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page", r.URL.Query(), &params.Page, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page_limit" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page_limit", r.URL.Query(), &params.PageLimit, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page_limit"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page_limit", Err: err})
+		}
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.ListSchemaCats(w, r, params)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// CreateSchemaCat operation middleware
+func (siw *ServerInterfaceWrapper) CreateSchemaCat(w http.ResponseWriter, r *http.Request) {
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.CreateSchemaCat(w, r)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// ListDeletedSchemaCats operation middleware
+func (siw *ServerInterfaceWrapper) ListDeletedSchemaCats(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params ListDeletedSchemaCatsParams
+
+	// ------------- Optional query parameter "order" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "order", r.URL.Query(), &params.Order, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "order"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "order", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page", r.URL.Query(), &params.Page, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page_limit" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page_limit", r.URL.Query(), &params.PageLimit, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page_limit"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page_limit", Err: err})
+		}
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.ListDeletedSchemaCats(w, r, params)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// DeleteSchemaCatById operation middleware
+func (siw *ServerInterfaceWrapper) DeleteSchemaCatById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id SchemaCatIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.DeleteSchemaCatById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// GetSchemaCatById operation middleware
+func (siw *ServerInterfaceWrapper) GetSchemaCatById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id SchemaCatIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.GetSchemaCatById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// UpdateSchemaCatById operation middleware
+func (siw *ServerInterfaceWrapper) UpdateSchemaCatById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id SchemaCatIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.UpdateSchemaCatById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// UndeleteSchemaCatById operation middleware
+func (siw *ServerInterfaceWrapper) UndeleteSchemaCatById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id SchemaCatIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.UndeleteSchemaCatById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// ListTableCats operation middleware
+func (siw *ServerInterfaceWrapper) ListTableCats(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params ListTableCatsParams
+
+	// ------------- Optional query parameter "order" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "order", r.URL.Query(), &params.Order, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "order"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "order", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page", r.URL.Query(), &params.Page, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page_limit" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page_limit", r.URL.Query(), &params.PageLimit, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page_limit"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page_limit", Err: err})
+		}
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.ListTableCats(w, r, params)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// CreateTableCat operation middleware
+func (siw *ServerInterfaceWrapper) CreateTableCat(w http.ResponseWriter, r *http.Request) {
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.CreateTableCat(w, r)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// ListDeletedTableCats operation middleware
+func (siw *ServerInterfaceWrapper) ListDeletedTableCats(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params ListDeletedTableCatsParams
+
+	// ------------- Optional query parameter "order" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "order", r.URL.Query(), &params.Order, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "order"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "order", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page", r.URL.Query(), &params.Page, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page_limit" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page_limit", r.URL.Query(), &params.PageLimit, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page_limit"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page_limit", Err: err})
+		}
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.ListDeletedTableCats(w, r, params)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// DeleteTableCatById operation middleware
+func (siw *ServerInterfaceWrapper) DeleteTableCatById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id TableCatIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.DeleteTableCatById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// GetTableCatById operation middleware
+func (siw *ServerInterfaceWrapper) GetTableCatById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id TableCatIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.GetTableCatById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// UpdateTableCatById operation middleware
+func (siw *ServerInterfaceWrapper) UpdateTableCatById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id TableCatIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.UpdateTableCatById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// UndeleteTableCatById operation middleware
+func (siw *ServerInterfaceWrapper) UndeleteTableCatById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id TableCatIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.UndeleteTableCatById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// ListTableTypes operation middleware
+func (siw *ServerInterfaceWrapper) ListTableTypes(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params ListTableTypesParams
+
+	// ------------- Optional query parameter "order" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "order", r.URL.Query(), &params.Order, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "order"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "order", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page", r.URL.Query(), &params.Page, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page_limit" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page_limit", r.URL.Query(), &params.PageLimit, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page_limit"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page_limit", Err: err})
+		}
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.ListTableTypes(w, r, params)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// CreateTableType operation middleware
+func (siw *ServerInterfaceWrapper) CreateTableType(w http.ResponseWriter, r *http.Request) {
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.CreateTableType(w, r)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// ListDeletedTableTypes operation middleware
+func (siw *ServerInterfaceWrapper) ListDeletedTableTypes(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params ListDeletedTableTypesParams
+
+	// ------------- Optional query parameter "order" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "order", r.URL.Query(), &params.Order, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "order"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "order", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page", r.URL.Query(), &params.Page, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page_limit" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page_limit", r.URL.Query(), &params.PageLimit, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page_limit"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page_limit", Err: err})
+		}
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.ListDeletedTableTypes(w, r, params)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// DeleteTableTypeById operation middleware
+func (siw *ServerInterfaceWrapper) DeleteTableTypeById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id TableTypeIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.DeleteTableTypeById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// GetTableTypeById operation middleware
+func (siw *ServerInterfaceWrapper) GetTableTypeById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id TableTypeIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.GetTableTypeById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// UpdateTableTypeById operation middleware
+func (siw *ServerInterfaceWrapper) UpdateTableTypeById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id TableTypeIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.UpdateTableTypeById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// UndeleteTableTypeById operation middleware
+func (siw *ServerInterfaceWrapper) UndeleteTableTypeById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id TableTypeIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.UndeleteTableTypeById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
 type UnescapedCookieParamError struct {
 	ParamName string
 	Err       error
@@ -727,6 +6829,324 @@ func HandlerWithOptions(si ServerInterface, options ChiServerOptions) http.Handl
 	})
 	r.Group(func(r chi.Router) {
 		r.Post(options.BaseURL+"/hosts/{id}/undelete", wrapper.UndeleteHostById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/database-types", wrapper.ListDatabaseTypes)
+	})
+	r.Group(func(r chi.Router) {
+		r.Post(options.BaseURL+"/database-types", wrapper.CreateDatabaseType)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/database-types/search", wrapper.SearchDatabaseTypes)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/database-types/deleted", wrapper.ListDeletedDatabaseTypes)
+	})
+	r.Group(func(r chi.Router) {
+		r.Delete(options.BaseURL+"/database-types/{id}", wrapper.DeleteDatabaseTypeById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/database-types/{id}", wrapper.GetDatabaseTypeById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Put(options.BaseURL+"/database-types/{id}", wrapper.UpdateDatabaseTypeById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Post(options.BaseURL+"/database-types/{id}/undelete", wrapper.UndeleteDatabaseTypeById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/database-cats", wrapper.ListDatabaseCats)
+	})
+	r.Group(func(r chi.Router) {
+		r.Post(options.BaseURL+"/database-cats", wrapper.CreateDatabaseCat)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/database-cats/search", wrapper.SearchDatabaseCats)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/database-cats/deleted", wrapper.ListDeletedDatabaseCats)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/database-cats/by-host-database-type", wrapper.ListDatabaseCatsByHostAndDatabaseType)
+	})
+	r.Group(func(r chi.Router) {
+		r.Delete(options.BaseURL+"/database-cats/{id}", wrapper.DeleteDatabaseCatById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/database-cats/{id}", wrapper.GetDatabaseCatById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Put(options.BaseURL+"/database-cats/{id}", wrapper.UpdateDatabaseCatById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Post(options.BaseURL+"/database-cats/{id}/undelete", wrapper.UndeleteDatabaseCatById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/aliases", wrapper.ListAliases)
+	})
+	r.Group(func(r chi.Router) {
+		r.Post(options.BaseURL+"/aliases", wrapper.CreateAlias)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/aliases/deleted", wrapper.ListDeletedAliases)
+	})
+	r.Group(func(r chi.Router) {
+		r.Delete(options.BaseURL+"/aliases/{id}", wrapper.DeleteAliasById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/aliases/{id}", wrapper.GetAliasById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Put(options.BaseURL+"/aliases/{id}", wrapper.UpdateAliasById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Post(options.BaseURL+"/aliases/{id}/undelete", wrapper.UndeleteAliasById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/column-cats", wrapper.ListColumnCats)
+	})
+	r.Group(func(r chi.Router) {
+		r.Post(options.BaseURL+"/column-cats", wrapper.CreateColumnCat)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/column-cats/search", wrapper.SearchColumnCats)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/column-cats/deleted", wrapper.ListDeletedColumnCats)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/column-cats/filter", wrapper.FilterColumnCats)
+	})
+	r.Group(func(r chi.Router) {
+		r.Delete(options.BaseURL+"/column-cats/{id}", wrapper.DeleteColumnCatById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/column-cats/{id}", wrapper.GetColumnCatById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Put(options.BaseURL+"/column-cats/{id}", wrapper.UpdateColumnCatById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Post(options.BaseURL+"/column-cats/{id}/undelete", wrapper.UndeleteColumnCatById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/column-types", wrapper.ListColumnTypes)
+	})
+	r.Group(func(r chi.Router) {
+		r.Post(options.BaseURL+"/column-types", wrapper.CreateColumnType)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/column-types/search", wrapper.SearchColumnTypes)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/column-types/deleted", wrapper.ListDeletedColumnTypes)
+	})
+	r.Group(func(r chi.Router) {
+		r.Delete(options.BaseURL+"/column-types/{id}", wrapper.DeleteColumnTypeById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/column-types/{id}", wrapper.GetColumnTypeById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Put(options.BaseURL+"/column-types/{id}", wrapper.UpdateColumnTypeById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Post(options.BaseURL+"/column-types/{id}/undelete", wrapper.UndeleteColumnTypeById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/database-calculations", wrapper.ListDatabaseCalculations)
+	})
+	r.Group(func(r chi.Router) {
+		r.Post(options.BaseURL+"/database-calculations", wrapper.CreateDatabaseCalculation)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/database-calculations/search", wrapper.SearchDatabaseCalculations)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/database-calculations/deleted", wrapper.ListDeletedDatabaseCalculations)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/database-calculations/filter", wrapper.FilterDatabaseCalculations)
+	})
+	r.Group(func(r chi.Router) {
+		r.Delete(options.BaseURL+"/database-calculations/{id}", wrapper.DeleteDatabaseCalculationById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/database-calculations/{id}", wrapper.GetDatabaseCalculationById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Put(options.BaseURL+"/database-calculations/{id}", wrapper.UpdateDatabaseCalculationById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Post(options.BaseURL+"/database-calculations/{id}/undelete", wrapper.UndeleteDatabaseCalculationById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/domain-cats", wrapper.ListDomainCats)
+	})
+	r.Group(func(r chi.Router) {
+		r.Post(options.BaseURL+"/domain-cats", wrapper.CreateDomainCat)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/domain-cats/search", wrapper.SearchDomainCats)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/domain-cats/deleted", wrapper.ListDeletedDomainCats)
+	})
+	r.Group(func(r chi.Router) {
+		r.Delete(options.BaseURL+"/domain-cats/{id}", wrapper.DeleteDomainCatById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/domain-cats/{id}", wrapper.GetDomainCatById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Put(options.BaseURL+"/domain-cats/{id}", wrapper.UpdateDomainCatById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Post(options.BaseURL+"/domain-cats/{id}/undelete", wrapper.UndeleteDomainCatById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/following-calculations", wrapper.ListFollowingCalculations)
+	})
+	r.Group(func(r chi.Router) {
+		r.Post(options.BaseURL+"/following-calculations", wrapper.CreateFollowingCalculation)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/following-calculations/deleted", wrapper.ListDeletedFollowingCalculations)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/following-calculations/filter", wrapper.FilterFollowingCalculations)
+	})
+	r.Group(func(r chi.Router) {
+		r.Delete(options.BaseURL+"/following-calculations/{id}", wrapper.DeleteFollowingCalculationById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/following-calculations/{id}", wrapper.GetFollowingCalculationById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Put(options.BaseURL+"/following-calculations/{id}", wrapper.UpdateFollowingCalculationById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Post(options.BaseURL+"/following-calculations/{id}/undelete", wrapper.UndeleteFollowingCalculationById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/group-levels", wrapper.ListGroupLevels)
+	})
+	r.Group(func(r chi.Router) {
+		r.Post(options.BaseURL+"/group-levels", wrapper.CreateGroupLevels)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/group-levels/search", wrapper.SearchGroupLevels)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/group-levels/deleted", wrapper.ListDeletedGroupLevels)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/group-levels/filter", wrapper.FilterGroupLevels)
+	})
+	r.Group(func(r chi.Router) {
+		r.Delete(options.BaseURL+"/group-levels/{id}", wrapper.DeleteGroupLevelsById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/group-levels/{id}", wrapper.GetGroupLevelsById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Put(options.BaseURL+"/group-levels/{id}", wrapper.UpdateGroupLevelsById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Post(options.BaseURL+"/group-levels/{id}/undelete", wrapper.UndeleteGroupLevelsById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/has-to-groups", wrapper.ListHasToGroups)
+	})
+	r.Group(func(r chi.Router) {
+		r.Post(options.BaseURL+"/has-to-groups", wrapper.CreateHasToGroup)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/has-to-groups/search", wrapper.SearchHasToGroups)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/has-to-groups/deleted", wrapper.ListDeletedHasToGroups)
+	})
+	r.Group(func(r chi.Router) {
+		r.Delete(options.BaseURL+"/has-to-groups/{id}", wrapper.DeleteHasToGroupById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/has-to-groups/{id}", wrapper.GetHasToGroupById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Put(options.BaseURL+"/has-to-groups/{id}", wrapper.UpdateHasToGroupById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Post(options.BaseURL+"/has-to-groups/{id}/undelete", wrapper.UndeleteHasToGroupById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/schema-cats", wrapper.ListSchemaCats)
+	})
+	r.Group(func(r chi.Router) {
+		r.Post(options.BaseURL+"/schema-cats", wrapper.CreateSchemaCat)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/schema-cats/deleted", wrapper.ListDeletedSchemaCats)
+	})
+	r.Group(func(r chi.Router) {
+		r.Delete(options.BaseURL+"/schema-cats/{id}", wrapper.DeleteSchemaCatById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/schema-cats/{id}", wrapper.GetSchemaCatById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Put(options.BaseURL+"/schema-cats/{id}", wrapper.UpdateSchemaCatById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Post(options.BaseURL+"/schema-cats/{id}/undelete", wrapper.UndeleteSchemaCatById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/table-cats", wrapper.ListTableCats)
+	})
+	r.Group(func(r chi.Router) {
+		r.Post(options.BaseURL+"/table-cats", wrapper.CreateTableCat)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/table-cats/deleted", wrapper.ListDeletedTableCats)
+	})
+	r.Group(func(r chi.Router) {
+		r.Delete(options.BaseURL+"/table-cats/{id}", wrapper.DeleteTableCatById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/table-cats/{id}", wrapper.GetTableCatById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Put(options.BaseURL+"/table-cats/{id}", wrapper.UpdateTableCatById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Post(options.BaseURL+"/table-cats/{id}/undelete", wrapper.UndeleteTableCatById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/table-types", wrapper.ListTableTypes)
+	})
+	r.Group(func(r chi.Router) {
+		r.Post(options.BaseURL+"/table-types", wrapper.CreateTableType)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/table-types/deleted", wrapper.ListDeletedTableTypes)
+	})
+	r.Group(func(r chi.Router) {
+		r.Delete(options.BaseURL+"/table-types/{id}", wrapper.DeleteTableTypeById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/table-types/{id}", wrapper.GetTableTypeById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Put(options.BaseURL+"/table-types/{id}", wrapper.UpdateTableTypeById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Post(options.BaseURL+"/table-types/{id}/undelete", wrapper.UndeleteTableTypeById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/calculation-types", wrapper.ListCalculationTypes)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/calculation-types/{id}", wrapper.GetCalculationTypeById)
 	})
 
 	return r
