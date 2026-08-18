@@ -7,6 +7,7 @@ import (
 
 	tablesv1 "github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/tables/v1"
 	userv1 "github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/user/v1"
+	userdomainrolesv1 "github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/user_domain_roles/v1"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )
@@ -33,6 +34,9 @@ type Client struct {
 	FollowingCalculation tablesv1.FollowingCalculationServiceClient
 	GroupLevels          tablesv1.GroupLevelsServiceClient
 	HasToGroup           tablesv1.HasToGroupServiceClient
+
+	UserDomainRoles userdomainrolesv1.UserDomainRolesServiceClient
+	UserTableRoles  userdomainrolesv1.UserTableRolesServiceClient
 }
 
 // Dial открывает gRPC-соединение с datacatalogue по addr (host:port).
@@ -62,6 +66,9 @@ func Dial(addr string) (*Client, error) {
 		FollowingCalculation: tablesv1.NewFollowingCalculationServiceClient(conn),
 		GroupLevels:          tablesv1.NewGroupLevelsServiceClient(conn),
 		HasToGroup:           tablesv1.NewHasToGroupServiceClient(conn),
+
+		UserDomainRoles: userdomainrolesv1.NewUserDomainRolesServiceClient(conn),
+		UserTableRoles:  userdomainrolesv1.NewUserTableRolesServiceClient(conn),
 	}, nil
 }
 

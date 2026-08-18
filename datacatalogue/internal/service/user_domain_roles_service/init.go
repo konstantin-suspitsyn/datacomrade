@@ -8,8 +8,8 @@ import (
 	"github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/repository/user_domain_roles"
 )
 
-// UserDomainRolesService обслуживает 6 таблиц ролей: dc.domain_roles,
-// dc.table_roles и связующие к ним.
+// UserDomainRolesService обслуживает связующие таблицы ролей:
+// dc.user_domain_roles и dc.user_table_roles.
 type UserDomainRolesService struct {
 	UserDomainRolesRepository *user_domain_roles.Queries
 }

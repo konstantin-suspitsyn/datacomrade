@@ -19,6 +19,20 @@ type DcDomainRole struct {
 	IsDeleted   bool
 }
 
+type DcTableCat struct {
+	ID          int64
+	Name        string
+	Description string
+	SchemaID    int64
+	TableTypeID int64
+	DomainID    int64
+	IsDeleted   bool
+	IsGetDict   bool
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
+	UserID      int64
+}
+
 type DcTableRole struct {
 	ID          int64
 	Name        string

@@ -440,6 +440,127 @@ type TableTypeWrite struct {
 	Name        string `json:"name"`
 }
 
+// UserDomainRoles defines model for UserDomainRoles.
+type UserDomainRoles struct {
+	CreatedAt     time.Time `json:"created_at"`
+	DomainId      int64     `json:"domain_id"`
+	DomainRolesId int64     `json:"domain_roles_id"`
+	Id            int64     `json:"id"`
+	IsDeleted     bool      `json:"is_deleted"`
+	UpdatedAt     time.Time `json:"updated_at"`
+	UpdatedById   int64     `json:"updated_by_id"`
+	UserId        int64     `json:"user_id"`
+}
+
+// UserDomainRolesPage defines model for UserDomainRolesPage.
+type UserDomainRolesPage struct {
+	Data       []UserDomainRolesRow `json:"data"`
+	Pagination Pagination           `json:"pagination"`
+}
+
+// UserDomainRolesRow Строка списка dc.user_domain_roles: колонки таблицы плюс подтянутые джойном имена роли и пользователя.
+type UserDomainRolesRow struct {
+	CreatedAt              time.Time `json:"created_at"`
+	DcUserName             string    `json:"dc_user_name"`
+	DomainId               int64     `json:"domain_id"`
+	DomainRolesDescription string    `json:"domain_roles_description"`
+	DomainRolesId          int64     `json:"domain_roles_id"`
+	DomainRolesName        string    `json:"domain_roles_name"`
+	Id                     int64     `json:"id"`
+	IsDeleted              bool      `json:"is_deleted"`
+	UpdatedAt              time.Time `json:"updated_at"`
+	UpdatedById            int64     `json:"updated_by_id"`
+	UserId                 int64     `json:"user_id"`
+}
+
+// UserDomainRolesWrite defines model for UserDomainRolesWrite.
+type UserDomainRolesWrite struct {
+	DomainId      int64 `json:"domain_id"`
+	DomainRolesId int64 `json:"domain_roles_id"`
+	UserId        int64 `json:"user_id"`
+}
+
+// UserTableRoles defines model for UserTableRoles.
+type UserTableRoles struct {
+	CreatedAt    time.Time `json:"created_at"`
+	Id           int64     `json:"id"`
+	IsDeleted    bool      `json:"is_deleted"`
+	TableId      int64     `json:"table_id"`
+	TableRolesId int64     `json:"table_roles_id"`
+	UpdatedAt    time.Time `json:"updated_at"`
+	UpdatedById  int64     `json:"updated_by_id"`
+	UserId       int64     `json:"user_id"`
+}
+
+// UserTableRolesDetail Одна строка dc.user_table_roles по id, с джойнами.
+type UserTableRolesDetail struct {
+	CreatedAt             time.Time `json:"created_at"`
+	DcUserExternalId      string    `json:"dc_user_external_id"`
+	DcUserId              *int64    `json:"dc_user_id,omitempty"`
+	DcUserName            string    `json:"dc_user_name"`
+	Id                    int64     `json:"id"`
+	TableCatId            *int64    `json:"table_cat_id,omitempty"`
+	TableCatName          string    `json:"table_cat_name"`
+	TableId               int64     `json:"table_id"`
+	TableRolesDescription string    `json:"table_roles_description"`
+	TableRolesId          int64     `json:"table_roles_id"`
+	TableRolesName        string    `json:"table_roles_name"`
+	UpdatedAt             time.Time `json:"updated_at"`
+	UserId                int64     `json:"user_id"`
+}
+
+// UserTableRolesFilteredPage defines model for UserTableRolesFilteredPage.
+type UserTableRolesFilteredPage struct {
+	Data       []UserTableRolesFilteredRow `json:"data"`
+	Pagination Pagination                  `json:"pagination"`
+}
+
+// UserTableRolesFilteredRow Строка отфильтрованного списка dc.user_table_roles. Отличается от UserTableRolesRow отсутствием table_roles_id — запрос с фильтрами его не отдаёт.
+type UserTableRolesFilteredRow struct {
+	CreatedAt             time.Time `json:"created_at"`
+	DcUserExternalId      string    `json:"dc_user_external_id"`
+	DcUserId              *int64    `json:"dc_user_id,omitempty"`
+	DcUserName            string    `json:"dc_user_name"`
+	Id                    int64     `json:"id"`
+	TableCatId            *int64    `json:"table_cat_id,omitempty"`
+	TableCatName          string    `json:"table_cat_name"`
+	TableId               int64     `json:"table_id"`
+	TableRolesDescription string    `json:"table_roles_description"`
+	TableRolesName        string    `json:"table_roles_name"`
+	UpdatedAt             time.Time `json:"updated_at"`
+	UserId                int64     `json:"user_id"`
+}
+
+// UserTableRolesPage defines model for UserTableRolesPage.
+type UserTableRolesPage struct {
+	Data       []UserTableRolesRow `json:"data"`
+	Pagination Pagination          `json:"pagination"`
+}
+
+// UserTableRolesRow Строка списка dc.user_table_roles: колонки таблицы плюс подтянутые джойном пользователь, роль и таблица. dc_user_id/table_cat_id необязательны — джойн левый, связанной строки может не быть.
+type UserTableRolesRow struct {
+	CreatedAt             time.Time `json:"created_at"`
+	DcUserExternalId      string    `json:"dc_user_external_id"`
+	DcUserId              *int64    `json:"dc_user_id,omitempty"`
+	DcUserName            string    `json:"dc_user_name"`
+	Id                    int64     `json:"id"`
+	TableCatId            *int64    `json:"table_cat_id,omitempty"`
+	TableCatName          string    `json:"table_cat_name"`
+	TableId               int64     `json:"table_id"`
+	TableRolesDescription string    `json:"table_roles_description"`
+	TableRolesId          int64     `json:"table_roles_id"`
+	TableRolesName        string    `json:"table_roles_name"`
+	UpdatedAt             time.Time `json:"updated_at"`
+	UserId                int64     `json:"user_id"`
+}
+
+// UserTableRolesWrite defines model for UserTableRolesWrite.
+type UserTableRolesWrite struct {
+	TableId      int64 `json:"table_id"`
+	TableRolesId int64 `json:"table_roles_id"`
+	UserId       int64 `json:"user_id"`
+}
+
 // AliasIdParam defines model for AliasIdParam.
 type AliasIdParam = int64
 
@@ -494,11 +615,20 @@ type TableCatIdParam = int64
 // TableTypeIdParam defines model for TableTypeIdParam.
 type TableTypeIdParam = int64
 
+// UserDomainRolesIdParam defines model for UserDomainRolesIdParam.
+type UserDomainRolesIdParam = int64
+
+// UserTableRolesIdParam defines model for UserTableRolesIdParam.
+type UserTableRolesIdParam = int64
+
 // BadRequest defines model for BadRequest.
 type BadRequest = Error
 
 // Forbidden defines model for Forbidden.
 type Forbidden = Error
+
+// ForbiddenAdmin defines model for ForbiddenAdmin.
+type ForbiddenAdmin = Error
 
 // NotFound defines model for NotFound.
 type NotFound = Error
@@ -1052,6 +1182,48 @@ type ListDeletedTableTypesParams struct {
 	PageLimit *PageLimitParam `form:"page_limit,omitempty" json:"page_limit,omitempty"`
 }
 
+// ListUserDomainRolesParams defines parameters for ListUserDomainRoles.
+type ListUserDomainRolesParams struct {
+	// Order Направление сортировки — ASC или DESC. Если не передано, применяется значение по умолчанию (pagination.DefaultOrder в shepherd).
+	Order *OrderParam `form:"order,omitempty" json:"order,omitempty"`
+
+	// Page Номер страницы, с 1. Если не передано — используется 1.
+	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
+
+	// PageLimit Размер страницы. Если не передано, применяется значение по умолчанию (pagination.DefaultPageLimit в shepherd).
+	PageLimit *PageLimitParam `form:"page_limit,omitempty" json:"page_limit,omitempty"`
+}
+
+// ListUserTableRolesParams defines parameters for ListUserTableRoles.
+type ListUserTableRolesParams struct {
+	// Order Направление сортировки — ASC или DESC. Если не передано, применяется значение по умолчанию (pagination.DefaultOrder в shepherd).
+	Order *OrderParam `form:"order,omitempty" json:"order,omitempty"`
+
+	// Page Номер страницы, с 1. Если не передано — используется 1.
+	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
+
+	// PageLimit Размер страницы. Если не передано, применяется значение по умолчанию (pagination.DefaultPageLimit в shepherd).
+	PageLimit *PageLimitParam `form:"page_limit,omitempty" json:"page_limit,omitempty"`
+}
+
+// FilterUserTableRolesParams defines parameters for FilterUserTableRoles.
+type FilterUserTableRolesParams struct {
+	DcUserName       *string `form:"dc_user_name,omitempty" json:"dc_user_name,omitempty"`
+	DcUserExternalId *string `form:"dc_user_external_id,omitempty" json:"dc_user_external_id,omitempty"`
+	TableRolesName   *string `form:"table_roles_name,omitempty" json:"table_roles_name,omitempty"`
+	TableCatId       *int64  `form:"table_cat_id,omitempty" json:"table_cat_id,omitempty"`
+	TableCatName     *string `form:"table_cat_name,omitempty" json:"table_cat_name,omitempty"`
+
+	// Order Направление сортировки — ASC или DESC. Если не передано, применяется значение по умолчанию (pagination.DefaultOrder в shepherd).
+	Order *OrderParam `form:"order,omitempty" json:"order,omitempty"`
+
+	// Page Номер страницы, с 1. Если не передано — используется 1.
+	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
+
+	// PageLimit Размер страницы. Если не передано, применяется значение по умолчанию (pagination.DefaultPageLimit в shepherd).
+	PageLimit *PageLimitParam `form:"page_limit,omitempty" json:"page_limit,omitempty"`
+}
+
 // CreateAliasJSONRequestBody defines body for CreateAlias for application/json ContentType.
 type CreateAliasJSONRequestBody = AliasWrite
 
@@ -1135,6 +1307,18 @@ type CreateTableTypeJSONRequestBody = TableTypeWrite
 
 // UpdateTableTypeByIdJSONRequestBody defines body for UpdateTableTypeById for application/json ContentType.
 type UpdateTableTypeByIdJSONRequestBody = TableTypeWrite
+
+// CreateUserDomainRolesJSONRequestBody defines body for CreateUserDomainRoles for application/json ContentType.
+type CreateUserDomainRolesJSONRequestBody = UserDomainRolesWrite
+
+// UpdateUserDomainRolesByIdJSONRequestBody defines body for UpdateUserDomainRolesById for application/json ContentType.
+type UpdateUserDomainRolesByIdJSONRequestBody = UserDomainRolesWrite
+
+// CreateUserTableRolesJSONRequestBody defines body for CreateUserTableRoles for application/json ContentType.
+type CreateUserTableRolesJSONRequestBody = UserTableRolesWrite
+
+// UpdateUserTableRolesByIdJSONRequestBody defines body for UpdateUserTableRolesById for application/json ContentType.
+type UpdateUserTableRolesByIdJSONRequestBody = UserTableRolesWrite
 
 // ServerInterface represents all server handlers.
 type ServerInterface interface {
@@ -1486,6 +1670,42 @@ type ServerInterface interface {
 	// UndeleteTableTypeById Восстановить мягко удалённую строку dc.table_type
 	// (POST /table-types/{id}/undelete)
 	UndeleteTableTypeById(w http.ResponseWriter, r *http.Request, id TableTypeIdParam)
+	// ListUserDomainRoles Страница строк dc.user_domain_roles
+	// (GET /user-domain-roles)
+	ListUserDomainRoles(w http.ResponseWriter, r *http.Request, params ListUserDomainRolesParams)
+	// CreateUserDomainRoles Выдать пользователю роль на домен
+	// (POST /user-domain-roles)
+	CreateUserDomainRoles(w http.ResponseWriter, r *http.Request)
+	// DeleteUserDomainRolesById Мягко удалить строку dc.user_domain_roles
+	// (DELETE /user-domain-roles/{id})
+	DeleteUserDomainRolesById(w http.ResponseWriter, r *http.Request, id UserDomainRolesIdParam)
+	// UpdateUserDomainRolesById Обновить строку dc.user_domain_roles
+	// (PUT /user-domain-roles/{id})
+	UpdateUserDomainRolesById(w http.ResponseWriter, r *http.Request, id UserDomainRolesIdParam)
+	// UndeleteUserDomainRolesById Восстановить мягко удалённую строку dc.user_domain_roles
+	// (POST /user-domain-roles/{id}/undelete)
+	UndeleteUserDomainRolesById(w http.ResponseWriter, r *http.Request, id UserDomainRolesIdParam)
+	// ListUserTableRoles Страница строк dc.user_table_roles
+	// (GET /user-table-roles)
+	ListUserTableRoles(w http.ResponseWriter, r *http.Request, params ListUserTableRolesParams)
+	// CreateUserTableRoles Выдать пользователю роль на таблицу
+	// (POST /user-table-roles)
+	CreateUserTableRoles(w http.ResponseWriter, r *http.Request)
+	// FilterUserTableRoles Страница строк dc.user_table_roles с необязательными фильтрами
+	// (GET /user-table-roles/filter)
+	FilterUserTableRoles(w http.ResponseWriter, r *http.Request, params FilterUserTableRolesParams)
+	// DeleteUserTableRolesById Мягко удалить строку dc.user_table_roles
+	// (DELETE /user-table-roles/{id})
+	DeleteUserTableRolesById(w http.ResponseWriter, r *http.Request, id UserTableRolesIdParam)
+	// GetUserTableRolesById Активная строка dc.user_table_roles по id
+	// (GET /user-table-roles/{id})
+	GetUserTableRolesById(w http.ResponseWriter, r *http.Request, id UserTableRolesIdParam)
+	// UpdateUserTableRolesById Обновить строку dc.user_table_roles
+	// (PUT /user-table-roles/{id})
+	UpdateUserTableRolesById(w http.ResponseWriter, r *http.Request, id UserTableRolesIdParam)
+	// UndeleteUserTableRolesById Восстановить мягко удалённую строку dc.user_table_roles
+	// (POST /user-table-roles/{id}/undelete)
+	UndeleteUserTableRolesById(w http.ResponseWriter, r *http.Request, id UserTableRolesIdParam)
 }
 
 // Unimplemented server implementation that returns http.StatusNotImplemented for each endpoint.
@@ -2185,6 +2405,78 @@ func (_ Unimplemented) UpdateTableTypeById(w http.ResponseWriter, r *http.Reques
 // UndeleteTableTypeById Восстановить мягко удалённую строку dc.table_type
 // (POST /table-types/{id}/undelete)
 func (_ Unimplemented) UndeleteTableTypeById(w http.ResponseWriter, r *http.Request, id TableTypeIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// ListUserDomainRoles Страница строк dc.user_domain_roles
+// (GET /user-domain-roles)
+func (_ Unimplemented) ListUserDomainRoles(w http.ResponseWriter, r *http.Request, params ListUserDomainRolesParams) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// CreateUserDomainRoles Выдать пользователю роль на домен
+// (POST /user-domain-roles)
+func (_ Unimplemented) CreateUserDomainRoles(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// DeleteUserDomainRolesById Мягко удалить строку dc.user_domain_roles
+// (DELETE /user-domain-roles/{id})
+func (_ Unimplemented) DeleteUserDomainRolesById(w http.ResponseWriter, r *http.Request, id UserDomainRolesIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// UpdateUserDomainRolesById Обновить строку dc.user_domain_roles
+// (PUT /user-domain-roles/{id})
+func (_ Unimplemented) UpdateUserDomainRolesById(w http.ResponseWriter, r *http.Request, id UserDomainRolesIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// UndeleteUserDomainRolesById Восстановить мягко удалённую строку dc.user_domain_roles
+// (POST /user-domain-roles/{id}/undelete)
+func (_ Unimplemented) UndeleteUserDomainRolesById(w http.ResponseWriter, r *http.Request, id UserDomainRolesIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// ListUserTableRoles Страница строк dc.user_table_roles
+// (GET /user-table-roles)
+func (_ Unimplemented) ListUserTableRoles(w http.ResponseWriter, r *http.Request, params ListUserTableRolesParams) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// CreateUserTableRoles Выдать пользователю роль на таблицу
+// (POST /user-table-roles)
+func (_ Unimplemented) CreateUserTableRoles(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// FilterUserTableRoles Страница строк dc.user_table_roles с необязательными фильтрами
+// (GET /user-table-roles/filter)
+func (_ Unimplemented) FilterUserTableRoles(w http.ResponseWriter, r *http.Request, params FilterUserTableRolesParams) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// DeleteUserTableRolesById Мягко удалить строку dc.user_table_roles
+// (DELETE /user-table-roles/{id})
+func (_ Unimplemented) DeleteUserTableRolesById(w http.ResponseWriter, r *http.Request, id UserTableRolesIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// GetUserTableRolesById Активная строка dc.user_table_roles по id
+// (GET /user-table-roles/{id})
+func (_ Unimplemented) GetUserTableRolesById(w http.ResponseWriter, r *http.Request, id UserTableRolesIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// UpdateUserTableRolesById Обновить строку dc.user_table_roles
+// (PUT /user-table-roles/{id})
+func (_ Unimplemented) UpdateUserTableRolesById(w http.ResponseWriter, r *http.Request, id UserTableRolesIdParam) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// UndeleteUserTableRolesById Восстановить мягко удалённую строку dc.user_table_roles
+// (POST /user-table-roles/{id}/undelete)
+func (_ Unimplemented) UndeleteUserTableRolesById(w http.ResponseWriter, r *http.Request, id UserTableRolesIdParam) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
@@ -6687,6 +6979,458 @@ func (siw *ServerInterfaceWrapper) UndeleteTableTypeById(w http.ResponseWriter, 
 	handler.ServeHTTP(w, r)
 }
 
+// ListUserDomainRoles operation middleware
+func (siw *ServerInterfaceWrapper) ListUserDomainRoles(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params ListUserDomainRolesParams
+
+	// ------------- Optional query parameter "order" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "order", r.URL.Query(), &params.Order, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "order"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "order", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page", r.URL.Query(), &params.Page, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page_limit" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page_limit", r.URL.Query(), &params.PageLimit, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page_limit"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page_limit", Err: err})
+		}
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.ListUserDomainRoles(w, r, params)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// CreateUserDomainRoles operation middleware
+func (siw *ServerInterfaceWrapper) CreateUserDomainRoles(w http.ResponseWriter, r *http.Request) {
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.CreateUserDomainRoles(w, r)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// DeleteUserDomainRolesById operation middleware
+func (siw *ServerInterfaceWrapper) DeleteUserDomainRolesById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id UserDomainRolesIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.DeleteUserDomainRolesById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// UpdateUserDomainRolesById operation middleware
+func (siw *ServerInterfaceWrapper) UpdateUserDomainRolesById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id UserDomainRolesIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.UpdateUserDomainRolesById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// UndeleteUserDomainRolesById operation middleware
+func (siw *ServerInterfaceWrapper) UndeleteUserDomainRolesById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id UserDomainRolesIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.UndeleteUserDomainRolesById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// ListUserTableRoles operation middleware
+func (siw *ServerInterfaceWrapper) ListUserTableRoles(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params ListUserTableRolesParams
+
+	// ------------- Optional query parameter "order" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "order", r.URL.Query(), &params.Order, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "order"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "order", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page", r.URL.Query(), &params.Page, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page_limit" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page_limit", r.URL.Query(), &params.PageLimit, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page_limit"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page_limit", Err: err})
+		}
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.ListUserTableRoles(w, r, params)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// CreateUserTableRoles operation middleware
+func (siw *ServerInterfaceWrapper) CreateUserTableRoles(w http.ResponseWriter, r *http.Request) {
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.CreateUserTableRoles(w, r)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// FilterUserTableRoles operation middleware
+func (siw *ServerInterfaceWrapper) FilterUserTableRoles(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params FilterUserTableRolesParams
+
+	// ------------- Optional query parameter "dc_user_name" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "dc_user_name", r.URL.Query(), &params.DcUserName, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "dc_user_name"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "dc_user_name", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "dc_user_external_id" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "dc_user_external_id", r.URL.Query(), &params.DcUserExternalId, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "dc_user_external_id"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "dc_user_external_id", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "table_roles_name" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "table_roles_name", r.URL.Query(), &params.TableRolesName, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "table_roles_name"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "table_roles_name", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "table_cat_id" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "table_cat_id", r.URL.Query(), &params.TableCatId, runtime.BindQueryParameterOptions{Type: "integer", Format: "int64"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "table_cat_id"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "table_cat_id", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "table_cat_name" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "table_cat_name", r.URL.Query(), &params.TableCatName, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "table_cat_name"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "table_cat_name", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "order" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "order", r.URL.Query(), &params.Order, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "order"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "order", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page", r.URL.Query(), &params.Page, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page", Err: err})
+		}
+		return
+	}
+
+	// ------------- Optional query parameter "page_limit" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "page_limit", r.URL.Query(), &params.PageLimit, runtime.BindQueryParameterOptions{Type: "integer", Format: "int32"})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "page_limit"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page_limit", Err: err})
+		}
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.FilterUserTableRoles(w, r, params)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// DeleteUserTableRolesById operation middleware
+func (siw *ServerInterfaceWrapper) DeleteUserTableRolesById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id UserTableRolesIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.DeleteUserTableRolesById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// GetUserTableRolesById operation middleware
+func (siw *ServerInterfaceWrapper) GetUserTableRolesById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id UserTableRolesIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.GetUserTableRolesById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// UpdateUserTableRolesById operation middleware
+func (siw *ServerInterfaceWrapper) UpdateUserTableRolesById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id UserTableRolesIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.UpdateUserTableRolesById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// UndeleteUserTableRolesById operation middleware
+func (siw *ServerInterfaceWrapper) UndeleteUserTableRolesById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id UserTableRolesIdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.UndeleteUserTableRolesById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
 type UnescapedCookieParamError struct {
 	ParamName string
 	Err       error
@@ -7147,6 +7891,42 @@ func HandlerWithOptions(si ServerInterface, options ChiServerOptions) http.Handl
 	})
 	r.Group(func(r chi.Router) {
 		r.Get(options.BaseURL+"/calculation-types/{id}", wrapper.GetCalculationTypeById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/user-domain-roles", wrapper.ListUserDomainRoles)
+	})
+	r.Group(func(r chi.Router) {
+		r.Post(options.BaseURL+"/user-domain-roles", wrapper.CreateUserDomainRoles)
+	})
+	r.Group(func(r chi.Router) {
+		r.Delete(options.BaseURL+"/user-domain-roles/{id}", wrapper.DeleteUserDomainRolesById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Put(options.BaseURL+"/user-domain-roles/{id}", wrapper.UpdateUserDomainRolesById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Post(options.BaseURL+"/user-domain-roles/{id}/undelete", wrapper.UndeleteUserDomainRolesById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/user-table-roles", wrapper.ListUserTableRoles)
+	})
+	r.Group(func(r chi.Router) {
+		r.Post(options.BaseURL+"/user-table-roles", wrapper.CreateUserTableRoles)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/user-table-roles/filter", wrapper.FilterUserTableRoles)
+	})
+	r.Group(func(r chi.Router) {
+		r.Delete(options.BaseURL+"/user-table-roles/{id}", wrapper.DeleteUserTableRolesById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/user-table-roles/{id}", wrapper.GetUserTableRolesById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Put(options.BaseURL+"/user-table-roles/{id}", wrapper.UpdateUserTableRolesById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Post(options.BaseURL+"/user-table-roles/{id}/undelete", wrapper.UndeleteUserTableRolesById)
 	})
 
 	return r

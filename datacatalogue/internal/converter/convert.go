@@ -91,6 +91,18 @@ func ProtoToNullBool(v *bool) sql.NullBool {
 	return sql.NullBool{Bool: *v, Valid: true}
 }
 
+// ProtoToNullUUID переводит необязательное поле proto в необязательный
+// параметр-uuid запроса (sqlc.narg). nil — "фильтр не задан" (SQL NULL);
+// нераспознанная строка становится uuid.Nil, как и в ProtoToUUID: формат
+// проверяет валидация api-слоя, а не конвертер.
+func ProtoToNullUUID(s *string) uuid.NullUUID {
+	if s == nil {
+		return uuid.NullUUID{}
+	}
+
+	return uuid.NullUUID{UUID: ProtoToUUID(*s), Valid: true}
+}
+
 // Int64ToProto переводит колонку id в необязательное поле proto — внутренний
 // идентификатор не гарантирован клиентам API, только external_id.
 func Int64ToProto(id int64) *int64 {

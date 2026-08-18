@@ -13,7 +13,9 @@
 запрос заодно резолвит user_id через external_id). Списочные запросы
 (поле "lists") бывают простыми (без аргументов, один ответ-слайс) или
 постраничными (Params{Order?,Page,PageLimit}, ответ — список плюс общее
-сообщение Pagination, парный Count<имя>) — см.
+сообщение Pagination, парный Count<имя>). Строка ответа — либо сущность
+(<Entity>ToProto), либо собственная строка запроса, если тот джойнит соседние
+таблицы (<Query>RowToProto) — см.
 documentation/dev_instructions/crud/optional_standard_ops.md
 
 Запуск:  python deploy/generators/gen.py [--config ...] [--work-dir ...]
@@ -83,6 +85,8 @@ def row_to_proto_expr(f, var):
 NULLABLE_PAIRS = {
     ("sql.NullInt64", "*int64"): "converter.ProtoToNullInt64",
     ("sql.NullBool", "*bool"): "converter.ProtoToNullBool",
+    ("sql.NullString", "*string"): "converter.ProtoToNullString",
+    ("uuid.NullUUID", "*string"): "converter.ProtoToNullUUID",
 }
 
 
@@ -144,6 +148,39 @@ def all_param_fields(e):
     return fields
 
 
+def response_rows(e):
+    """Все строки, которые сущность отдаёт наружу, по одной записи на запрос."""
+    rows = [e["ops"][k]["row"] for k in ("get_by_id", "get_deleted_by_id") if k in e["ops"]]
+    rows += [l["row"] for l in e["lists"]]
+    rows += [fk["row"] for fk in e["fks"]]
+    rows += [lk["row"] for lk in e["lookups"]]
+    return rows
+
+
+def query_rows(e):
+    """Собственные строки запросов (join отдаёт колонки соседних таблиц) —
+    по одной на структуру sqlc, с пометкой, нужен ли слайс-конвертер."""
+    seen = {}
+    slices = set()
+    for l in e["lists"]:
+        slices.add(l["row"]["go"])
+    for fk in e["fks"]:
+        slices.add(fk["row"]["go"])
+    for r in response_rows(e):
+        if not r["own"] and r["go"] not in seen:
+            seen[r["go"]] = dict(r)
+    for go, r in seen.items():
+        r["slice"] = go in slices
+    return list(seen.values())
+
+
+def query_row_fields(e):
+    fields = []
+    for r in query_rows(e):
+        fields += r["fields"]
+    return fields
+
+
 def all_filter_fields(e):
     """Поля фильтра всех постраничных списков сущности (см. gen_converter)."""
     fields = []
@@ -154,7 +191,7 @@ def all_filter_fields(e):
 
 
 def needs_converter_pkg(e):
-    for f in e["row_fields"] + all_param_fields(e) + all_filter_fields(e):
+    for f in e["row_fields"] + all_param_fields(e) + all_filter_fields(e) + query_row_fields(e):
         if f["proto_type"] in ("*timestamppb.Timestamp", "*string"):
             return True
         if f["go_type"] == "uuid.UUID":
@@ -168,8 +205,8 @@ def needs_converter_pkg(e):
 
 
 def needs_uuid_pkg(e, extra_fields=()):
-    for f in list(e["row_fields"]) + list(extra_fields) + all_filter_fields(e):
-        if f["go_type"] == "uuid.UUID":
+    for f in list(e["row_fields"]) + list(extra_fields) + all_filter_fields(e) + query_row_fields(e):
+        if f["go_type"] in ("uuid.UUID", "uuid.NullUUID"):
             return True
     for lk in e["lookups"]:
         if lk["arg_type"] == "uuid.UUID":
@@ -226,6 +263,36 @@ def gen_converter(meta, e):
     lines.append("\treturn items")
     lines.append("}")
     lines.append("")
+
+    # Собственные строки запросов: join отдаёт колонки соседних таблиц, у такой
+    # строки свой набор полей и своё proto-сообщение (см. resolve_row).
+    for r in query_rows(e):
+        lines.append("// %sToProto переводит строку выборки в сообщение gRPC." % r["conv"])
+        lines.append("func %sToProto(row %s.%s) *%s.%s {" % (r["conv"], repo, r["go"], proto, r["proto"]))
+        lines.append("\treturn &%s.%s{" % (proto, r["proto"]))
+        for f in r["fields"]:
+            lines.append("\t\t%s: %s," % (f["proto"], row_to_proto_expr(f, "row")))
+        lines.append("\t}")
+        lines.append("}")
+        lines.append("")
+
+        if not r["slice"]:
+            continue
+
+        lines.append("// %sToProto переводит список строк выборки в список сообщений gRPC." % r["conv_plural"])
+        lines.append("// Для пустого входа возвращается пустой, а не nil-слайс.")
+        lines.append(
+            "func %sToProto(rows []%s.%s) []*%s.%s {" % (r["conv_plural"], repo, r["go"], proto, r["proto"])
+        )
+        lines.append("\titems := make([]*%s.%s, 0, len(rows))" % (proto, r["proto"]))
+        lines.append("")
+        lines.append("\tfor _, row := range rows {")
+        lines.append("\t\titems = append(items, %sToProto(row))" % r["conv"])
+        lines.append("\t}")
+        lines.append("")
+        lines.append("\treturn items")
+        lines.append("}")
+        lines.append("")
 
     if e["has_create"]:
         lines.append("// ToCreate%sParams собирает параметры вставки %s из запроса gRPC." % (E, e["table"]))
@@ -347,6 +414,10 @@ def filter_proto_literal(f, idx, ptr_helper):
         return "%s(int64(%d))" % (ptr_helper, 100 + idx)
     if pair == ("sql.NullBool", "*bool"):
         return "%s(true)" % ptr_helper
+    if pair == ("sql.NullString", "*string"):
+        return '%s("%s-%d")' % (ptr_helper, f["go"].lower(), idx)
+    if pair == ("uuid.NullUUID", "*string"):
+        return '%s("%s")' % (ptr_helper, uuid_literal(idx))
     return sample_value(f, idx)
 
 
@@ -360,7 +431,114 @@ def filter_repo_literal(f, idx):
         return "(sql.NullInt64{Int64: %d, Valid: true})" % (100 + idx)
     if pair == ("sql.NullBool", "*bool"):
         return "(sql.NullBool{Bool: true, Valid: true})"
+    if pair == ("sql.NullString", "*string"):
+        return '(sql.NullString{String: "%s-%d", Valid: true})' % (f["go"].lower(), idx)
+    if pair == ("uuid.NullUUID", "*string"):
+        return '(uuid.NullUUID{UUID: uuid.MustParse("%s"), Valid: true})' % uuid_literal(idx)
     return repo_sample_value(f, idx)
+
+
+def gen_row_sample_block(repo, struct, func_name, fields, time_prefix, doc):
+    """test<Что>Row() — строка со значениями, различимыми между полями."""
+    lines = []
+    lines.append("// %s — %s со значениями, различимыми между полями." % (func_name, doc))
+    lines.append("func %s() %s.%s {" % (func_name, repo, struct))
+    lines.append('\treturn %s.%s{' % (repo, struct))
+    for i, f in enumerate(fields):
+        if f["go_type"] == "time.Time":
+            v = "%sCreatedAt" % time_prefix if f["col"] == "created_at" else "%sUpdatedAt" % time_prefix
+        elif f["go_type"] == "sql.NullTime":
+            v = "sql.NullTime{Time: %sUpdatedAt, Valid: true}" % time_prefix
+        elif f["col"] == "is_deleted":
+            v = "false"
+        else:
+            v = repo_sample_value(f, i)
+        lines.append('\t\t%s: %s,' % (f["go"], v))
+    lines.append('\t}')
+    lines.append("}")
+    lines.append("")
+    return lines
+
+
+def gen_row_to_proto_test(conv, sample_func, fields):
+    """Test<Конвертер>ToProto: каждое поле строки доехало без потери значения."""
+    lines = []
+    lines.append("func Test%sToProto(t *testing.T) {" % conv)
+    lines.append('\trow := %s()' % sample_func)
+    lines.append('\tgot := %sToProto(row)' % conv)
+    lines.append("")
+    lines.append('\tif got == nil {')
+    lines.append('\t\tt.Fatal("%sToProto() = nil, want value")' % conv)
+    lines.append('\t}')
+    lines.append("")
+    for f in fields:
+        g = "got.Get%s()" % f["proto"]
+        pair = (f["go_type"], f["proto_type"])
+        if pair == ("time.Time", "*timestamppb.Timestamp"):
+            lines.append('\tif !%s.AsTime().Equal(row.%s) {' % (g, f["go"]))
+            lines.append('\t\tt.Errorf("%s = %%v, want %%v", %s.AsTime(), row.%s)' % (f["proto"], g, f["go"]))
+        elif pair == ("sql.NullTime", "*timestamppb.Timestamp"):
+            lines.append('\tif !%s.AsTime().Equal(row.%s.Time) {' % (g, f["go"]))
+            lines.append(
+                '\t\tt.Errorf("%s = %%v, want %%v", %s.AsTime(), row.%s.Time)' % (f["proto"], g, f["go"])
+            )
+        elif pair == ("int16", "int32"):
+            lines.append('\tif %s != int32(row.%s) {' % (g, f["go"]))
+            lines.append('\t\tt.Errorf("%s = %%d, want %%d", %s, row.%s)' % (f["proto"], g, f["go"]))
+        elif pair == ("uuid.UUID", "string"):
+            lines.append('\tif %s != row.%s.String() {' % (g, f["go"]))
+            lines.append('\t\tt.Errorf("%s = %%q, want %%q", %s, row.%s.String())' % (f["proto"], g, f["go"]))
+        else:
+            verb = "%q" if f["go_type"] == "string" else ("%d" if f["go_type"] == "int64" else "%v")
+            lines.append('\tif %s != row.%s {' % (g, f["go"]))
+            lines.append('\t\tt.Errorf("%s = %s, want %s", %s, row.%s)' % (f["proto"], verb, verb, g, f["go"]))
+        lines.append('\t}')
+        lines.append("")
+    lines.append("}")
+    lines.append("")
+    return lines
+
+
+def gen_rows_to_proto_test(plural_conv, sample_func, repo, struct, fields):
+    """Test<Конвертер>sToProto: длина слайса и пустой (не nil) ответ на пустом входе."""
+    first_str = next((f for f in fields if f["go_type"] == "string"), None)
+    id_field = next((f for f in fields if f["col"] == "id"), None)
+    lines = []
+    lines.append("func Test%sToProto(t *testing.T) {" % plural_conv)
+    lines.append('\tfirst := %s()' % sample_func)
+    lines.append("")
+    lines.append('\tsecond := %s()' % sample_func)
+    if id_field:
+        lines.append('\tsecond.%s = 999' % id_field["go"])
+    if first_str:
+        lines.append('\tsecond.%s = "second-value"' % first_str["go"])
+    lines.append("")
+    lines.append('\ttests := []struct {')
+    lines.append('\t\tname    string')
+    lines.append('\t\tinput   []%s.%s' % (repo, struct))
+    lines.append('\t\twantLen int')
+    lines.append('\t}{')
+    lines.append('\t\t{name: "two rows", input: []%s.%s{first, second}, wantLen: 2},' % (repo, struct))
+    lines.append('\t\t{name: "empty slice", input: []%s.%s{}, wantLen: 0},' % (repo, struct))
+    lines.append('\t\t{name: "nil slice", input: nil, wantLen: 0},')
+    lines.append('\t}')
+    lines.append("")
+    lines.append('\tfor _, tt := range tests {')
+    lines.append('\t\tt.Run(tt.name, func(t *testing.T) {')
+    lines.append('\t\t\tgot := %sToProto(tt.input)' % plural_conv)
+    lines.append("")
+    lines.append('\t\t\tif got == nil {')
+    lines.append('\t\t\t\tt.Fatal("%sToProto() = nil, want empty slice")' % plural_conv)
+    lines.append('\t\t\t}')
+    lines.append("")
+    lines.append('\t\t\tif len(got) != tt.wantLen {')
+    lines.append('\t\t\t\tt.Fatalf("len = %d, want %d", len(got), tt.wantLen)')
+    lines.append('\t\t\t}')
+    lines.append('\t\t})')
+    lines.append('\t}')
+    lines.append("}")
+    lines.append("")
+    return lines
 
 
 def gen_params_test_block(proto, repo, req_type, params_type, func_name, fields):
@@ -410,8 +588,9 @@ def gen_converter_test(meta, e):
         if op_key in e["ops"] and e["ops"][op_key]["arg_form"] == "params"
     ]
 
-    has_time = any(f["go_type"] in ("time.Time", "sql.NullTime") for f in e["row_fields"])
-    has_nulltime = any(f["go_type"] == "sql.NullTime" for f in e["row_fields"])
+    row_fields = e["row_fields"] + query_row_fields(e)
+    has_time = any(f["go_type"] in ("time.Time", "sql.NullTime") for f in row_fields)
+    has_nulltime = any(f["go_type"] == "sql.NullTime" for f in row_fields)
     # Необязательные фильтры сравниваются с sql.Null*-литералами и требуют
     # адреса значения для optional-полей proto — отсюда импорт и хелпер.
     optional_filters = [f for f in all_filter_fields(e) if (f["go_type"], f["proto_type"]) in NULLABLE_PAIRS]
@@ -444,100 +623,25 @@ def gen_converter_test(meta, e):
         lines.append(")")
         lines.append("")
 
-    lines.append("// test%sRow — строка %s со значениями, различимыми между полями." % (E, e["table"]))
-    lines.append("func test%sRow() %s.%s {" % (E, repo, e["row_struct"]))
-    lines.append("\treturn %s.%s{" % (repo, e["row_struct"]))
-    for i, f in enumerate(e["row_fields"]):
-        if f["go_type"] == "time.Time":
-            v = "%sCreatedAt" % lower_first(E) if f["col"] == "created_at" else "%sUpdatedAt" % lower_first(E)
-        elif f["go_type"] == "sql.NullTime":
-            v = "sql.NullTime{Time: %sUpdatedAt, Valid: true}" % lower_first(E)
-        elif f["col"] == "is_deleted":
-            v = "false"
-        else:
-            v = repo_sample_value(f, i)
-        lines.append("\t\t%s: %s," % (f["go"], v))
-    lines.append("\t}")
-    lines.append("}")
-    lines.append("")
-
-    lines.append("func Test%sToProto(t *testing.T) {" % E)
-    lines.append("\trow := test%sRow()" % E)
-    lines.append("\tgot := %sToProto(row)" % E)
-    lines.append("")
-    lines.append("\tif got == nil {")
-    lines.append('\t\tt.Fatal("%sToProto() = nil, want value")' % E)
-    lines.append("\t}")
-    lines.append("")
-    for f in e["row_fields"]:
-        g = "got.Get%s()" % f["proto"]
-        pair = (f["go_type"], f["proto_type"])
-        if pair == ("time.Time", "*timestamppb.Timestamp"):
-            lines.append("\tif !%s.AsTime().Equal(row.%s) {" % (g, f["go"]))
-            lines.append('\t\tt.Errorf("%s = %%v, want %%v", %s.AsTime(), row.%s)' % (f["proto"], g, f["go"]))
-        elif pair == ("sql.NullTime", "*timestamppb.Timestamp"):
-            lines.append("\tif !%s.AsTime().Equal(row.%s.Time) {" % (g, f["go"]))
-            lines.append(
-                '\t\tt.Errorf("%s = %%v, want %%v", %s.AsTime(), row.%s.Time)' % (f["proto"], g, f["go"])
-            )
-        elif pair == ("int16", "int32"):
-            lines.append("\tif %s != int32(row.%s) {" % (g, f["go"]))
-            lines.append('\t\tt.Errorf("%s = %%d, want %%d", %s, row.%s)' % (f["proto"], g, f["go"]))
-        elif pair == ("uuid.UUID", "string"):
-            lines.append("\tif %s != row.%s.String() {" % (g, f["go"]))
-            lines.append(
-                '\t\tt.Errorf("%s = %%q, want %%q", %s, row.%s.String())' % (f["proto"], g, f["go"])
-            )
-        else:
-            verb = "%q" if f["go_type"] == "string" else ("%d" if f["go_type"] == "int64" else "%v")
-            lines.append("\tif %s != row.%s {" % (g, f["go"]))
-            lines.append(
-                '\t\tt.Errorf("%s = %s, want %s", %s, row.%s)' % (f["proto"], verb, verb, g, f["go"])
-            )
-        lines.append("\t}")
-        lines.append("")
-    lines.append("}")
-    lines.append("")
-
-    first_str = next((f for f in e["row_fields"] if f["go_type"] == "string"), None)
-    id_field = next((f for f in e["row_fields"] if f["col"] == "id"), None)
-    mark = first_str or id_field
-    lines.append("func Test%sToProto(t *testing.T) {" % P)
-    lines.append("\tfirst := test%sRow()" % E)
-    lines.append("")
-    lines.append("\tsecond := test%sRow()" % E)
-    if id_field:
-        lines.append("\tsecond.%s = 999" % id_field["go"])
-    if first_str:
-        lines.append('\tsecond.%s = "second-value"' % first_str["go"])
-    lines.append("")
-    lines.append("\ttests := []struct {")
-    lines.append("\t\tname    string")
-    lines.append("\t\tinput   []%s.%s" % (repo, e["row_struct"]))
-    lines.append("\t\twantLen int")
-    lines.append("\t}{")
-    lines.append(
-        '\t\t{name: "two rows", input: []%s.%s{first, second}, wantLen: 2},' % (repo, e["row_struct"])
+    lines.extend(
+        gen_row_sample_block(
+            repo, e["row_struct"], "test%sRow" % E, e["row_fields"], lower_first(E), "строка %s" % e["table"]
+        )
     )
-    lines.append('\t\t{name: "empty slice", input: []%s.%s{}, wantLen: 0},' % (repo, e["row_struct"]))
-    lines.append('\t\t{name: "nil slice", input: nil, wantLen: 0},')
-    lines.append("\t}")
-    lines.append("")
-    lines.append("\tfor _, tt := range tests {")
-    lines.append("\t\tt.Run(tt.name, func(t *testing.T) {")
-    lines.append("\t\t\tgot := %sToProto(tt.input)" % P)
-    lines.append("")
-    lines.append("\t\t\tif got == nil {")
-    lines.append('\t\t\t\tt.Fatal("%sToProto() = nil, want empty slice")' % P)
-    lines.append("\t\t\t}")
-    lines.append("")
-    lines.append("\t\t\tif len(got) != tt.wantLen {")
-    lines.append('\t\t\t\tt.Fatalf("len = %d, want %d", len(got), tt.wantLen)')
-    lines.append("\t\t\t}")
-    lines.append("\t\t})")
-    lines.append("\t}")
-    lines.append("}")
-    lines.append("")
+    lines.extend(gen_row_to_proto_test(E, "test%sRow" % E, e["row_fields"]))
+    lines.extend(gen_rows_to_proto_test(P, "test%sRow" % E, repo, e["row_struct"], e["row_fields"]))
+
+    # Собственные строки запросов — свой набор полей, свой конвертер.
+    for r in query_rows(e):
+        sample = "test%s" % r["go"]
+        lines.extend(
+            gen_row_sample_block(
+                repo, r["go"], sample, r["fields"], lower_first(E), "строка выборки %s" % r["go"]
+            )
+        )
+        lines.extend(gen_row_to_proto_test(r["conv"], sample, r["fields"]))
+        if r["slice"]:
+            lines.extend(gen_rows_to_proto_test(r["conv_plural"], sample, repo, r["go"], r["fields"]))
 
     # Create params
     if e["has_create"]:
@@ -1157,23 +1261,14 @@ def gen_service(meta, e):
     low = e["table"]
     ops = e["ops"]
 
+    # Шапка собирается в конце: у таблицы без Get<E>ById в файле не остаётся ни
+    # одной проверки sql.ErrNoRows, и неиспользованный импорт не дал бы собрать пакет.
     lines = []
-    lines.append("package %s" % meta["service_pkg"])
-    lines.append("")
-    lines.append("import (")
-    lines.append('\t"context"')
-    lines.append('\t"database/sql"')
-    lines.append('\t"errors"')
-    lines.append('\t"fmt"')
-    lines.append("")
-    if any(lk["arg_type"] == "uuid.UUID" for lk in e["lookups"]):
-        lines.append('\t"github.com/google/uuid"')
-    lines.append('\t"%s"' % meta["repo_import"])
-    lines.append('\tcustomerrors "%s"' % ERRORS_IMPORT)
-    lines.append(")")
-    lines.append("")
 
-    def one(name, doc, notfound_msg):
+    def row_type(r):
+        return "%s.%s" % (repo, r["go"])
+
+    def one(name, doc, notfound_msg, row):
         out = []
         out.append("// %s %s" % (name, doc))
         out.append("func (%s *%s) %s(ctx context.Context, id int64) (%s, error) {" % (recv, st, name, row))
@@ -1196,14 +1291,27 @@ def gen_service(meta, e):
         return out
 
     if "get_by_id" in ops:
-        lines.extend(one("Get%sById" % E, "возвращает активную строку %s по id." % low, low))
+        lines.extend(
+            one(
+                "Get%sById" % E,
+                "возвращает активную строку %s по id." % low,
+                low,
+                row_type(ops["get_by_id"]["row"]),
+            )
+        )
     if "get_deleted_by_id" in ops:
         lines.extend(
-            one("GetDeleted%sById" % E, "возвращает мягко удалённую строку %s по id." % low, "deleted " + low)
+            one(
+                "GetDeleted%sById" % E,
+                "возвращает мягко удалённую строку %s по id." % low,
+                "deleted " + low,
+                row_type(ops["get_deleted_by_id"]["row"]),
+            )
         )
 
     for l in e["lists"]:
         name = l["query"]
+        row = row_type(l["row"])
         if not l["paginated"]:
             ordered = l["arg_form"] == "order"
             lines.append("// %s возвращает строки %s." % (name, low))
@@ -1255,6 +1363,7 @@ def gen_service(meta, e):
         lines.append("")
 
     for fk in e["fks"]:
+        row = row_type(fk["row"])
         lines.append("// %s возвращает активные строки %s, отобранные по %s." % (fk["query"], low, fk["col"]))
         lines.append(
             "func (%s *%s) %s(ctx context.Context, %s %s) ([]%s, error) {"
@@ -1273,6 +1382,7 @@ def gen_service(meta, e):
         lines.append("")
 
     for lk in e["lookups"]:
+        row = row_type(lk["row"])
         verb = "%d" if lk["arg_type"] == "int64" else ("%q" if lk["arg_type"] == "string" else "%v")
         lines.append(
             "// %s возвращает активную строку %s по уникальной колонке %s." % (lk["query"], low, lk["col"])
@@ -1299,6 +1409,9 @@ def gen_service(meta, e):
         lines.append("\treturn row, nil")
         lines.append("}")
         lines.append("")
+
+    # Create и Update/Delete/Undelete с RETURNING отдают строку своей таблицы.
+    row = "%s.%s" % (repo, e["row_struct"])
 
     # Create — у таблицы-справочника его нет
     if e["has_create"]:
@@ -1361,9 +1474,9 @@ def gen_service(meta, e):
             lines.append("")
         else:
             lines.append("// %s обновляет строку %s." % (name, low))
-            lines.append("//")
-            lines.append("// Запрос — :exec и не сообщает число затронутых строк, поэтому")
             if "get_by_id" in ops:
+                lines.append("//")
+                lines.append("// Запрос — :exec и не сообщает число затронутых строк, поэтому")
                 lines.append("// существование активной записи проверяется заранее.")
             lines.append(
                 "func (%s *%s) %s(ctx context.Context, %s) error {"
@@ -1428,7 +1541,25 @@ def gen_service(meta, e):
         lines.append("}")
         lines.append("")
 
-    return "\n".join(lines)
+    body = "\n".join(lines)
+
+    head = ["package %s" % meta["service_pkg"], "", "import (", '\t"context"']
+    if "sql.ErrNoRows" in body:
+        head.append('\t"database/sql"')
+    if "errors.Is(" in body or "errors.Join(" in body:
+        head.append('\t"errors"')
+    head.append('\t"fmt"')
+    head.append("")
+    if any(lk["arg_type"] == "uuid.UUID" for lk in e["lookups"]):
+        head.append('\t"github.com/google/uuid"')
+    head.append('\t"%s"' % meta["repo_import"])
+    if "customerrors." in body:
+        head.append('\tcustomerrors "%s"' % ERRORS_IMPORT)
+    head.append(")")
+    head.append("")
+    head.append("")
+
+    return "\n".join(head) + body
 
 
 # ---------- api ----------
@@ -1472,7 +1603,7 @@ def gen_api(meta, e):
     lines.append(")")
     lines.append("")
 
-    def by_id(rpc, doc, svc_call, resp_field):
+    def by_id(rpc, doc, svc_call, resp_field, row_conv):
         out = []
         out.append("// %s %s" % (rpc, doc))
         out.append(
@@ -1489,7 +1620,7 @@ def gen_api(meta, e):
         out.append("\t}")
         out.append("")
         out.append(
-            "\treturn &%s.%sResponse{%s: %s.%sToProto(row)}, nil" % (proto, rpc, resp_field, conv, E)
+            "\treturn &%s.%sResponse{%s: %s.%sToProto(row)}, nil" % (proto, rpc, resp_field, conv, row_conv)
         )
         out.append("}")
         out.append("")
@@ -1502,6 +1633,7 @@ def gen_api(meta, e):
                 "отдаёт активную строку %s по id." % e["table"],
                 "Get%sById" % E,
                 ops["get_by_id"]["resp_field"],
+                ops["get_by_id"]["row"]["conv"],
             )
         )
     if "get_deleted_by_id" in ops:
@@ -1511,6 +1643,7 @@ def gen_api(meta, e):
                 "отдаёт мягко удалённую строку %s по id." % e["table"],
                 "GetDeleted%sById" % E,
                 ops["get_deleted_by_id"]["resp_field"],
+                ops["get_deleted_by_id"]["row"]["conv"],
             )
         )
 
@@ -1537,7 +1670,8 @@ def gen_api(meta, e):
             lines.append("\t}")
             lines.append("")
             lines.append(
-                "\treturn &%s.%sResponse{%s: %s.%sToProto(rows)}, nil" % (proto, name, l["resp_field"], conv, P)
+                "\treturn &%s.%sResponse{%s: %s.%sToProto(rows)}, nil"
+                % (proto, name, l["resp_field"], conv, l["row"]["conv_plural"])
             )
             lines.append("}")
             lines.append("")
@@ -1563,7 +1697,7 @@ def gen_api(meta, e):
         lines.append("")
         pm = l["pagination_msg_fields"]
         lines.append("\treturn &%s.%sResponse{" % (proto, name))
-        lines.append("\t\t%s: %s.%sToProto(rows)," % (l["resp_field"], conv, P))
+        lines.append("\t\t%s: %s.%sToProto(rows)," % (l["resp_field"], conv, l["row"]["conv_plural"]))
         lines.append("\t\t%s: &%s.Pagination{" % (l["pagination_field"], proto))
         lines.append("\t\t\t%s: params.Page," % pm["page"])
         lines.append("\t\t\t%s: params.PageLimit," % pm["per_page"])
@@ -1594,7 +1728,7 @@ def gen_api(meta, e):
         lines.append("")
         lines.append(
             "\treturn &%s.%sResponse{%s: %s.%sToProto(rows)}, nil"
-            % (proto, rpc, fk["resp_field"], conv, P)
+            % (proto, rpc, fk["resp_field"], conv, fk["row"]["conv_plural"])
         )
         lines.append("}")
         lines.append("")
@@ -1621,7 +1755,7 @@ def gen_api(meta, e):
         lines.append("")
         lines.append(
             "\treturn &%s.%sResponse{%s: %s.%sToProto(row)}, nil"
-            % (proto, rpc, lk["resp_field"], conv, E)
+            % (proto, rpc, lk["resp_field"], conv, lk["row"]["conv"])
         )
         lines.append("}")
         lines.append("")

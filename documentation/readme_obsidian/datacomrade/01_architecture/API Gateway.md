@@ -22,7 +22,7 @@ Tags: [[architecture]] [[security]]
   - `viewer` — базовая роль без специальных прав сверх обычной аутентификации.
   - Создание пользователя (`UserService.CreateUser`, срабатывает через `POST /login`, см. «Автосоздание пользователя» ниже) нарочно не гейтится ролью — доступно любому аутентифицированному пользователю независимо от роли.
 
-  Сейчас наружу проброшен весь каталог: по пакету хендлеров на таблицу `tables_model` (`shepherd/internal/api/<таблица>apiv1`), все под одним гейтом `requireCatalogRole` (`admin`/`maintainer`) в `shepherd/cmd/main.go` — включая справочник `dc.calculation_type`, доступный только на чтение. Роуты `userdomainrolesapiv1` наружу пока не проброшены. `GET /v1/me` и `POST /v1/login` ролью не гейтятся.
+  Сейчас наружу проброшен весь каталог: по пакету хендлеров на таблицу `tables_model` (`shepherd/internal/api/<таблица>apiv1`), все под одним гейтом `requireCatalogRole` (`admin`/`maintainer`) в `shepherd/cmd/main.go` — включая справочник `dc.calculation_type`, доступный только на чтение. Выдача прав пользователям тоже проброшена наружу — `/v1/user-domain-roles` (`shepherd/internal/api/userdomainrolesapiv1`) и `/v1/user-table-roles` (`shepherd/internal/api/usertablerolesapiv1`) поверх gRPC-сервисов `datacatalogue/internal/api/userdomainrolesapiv1`, но под отдельным гейтом `requireUserRolesRole` (только `admin`, без `maintainer`). `GET /v1/me` и `POST /v1/login` ролью не гейтятся.
 - CORS: фронтенд — отдельный домен и порт, allowlist origin'ов из конфига. Credentials не нужны, токен идёт в заголовке, не в cookie.
 - Агрегация ответов для фронтенда (BFF): экран конструктора собирает дерево доступных таблиц/полей одним вызовом, дёргая несколько gRPC-клиентов параллельно и склеивая ответ в хендлере.
 - Rate limiting — token bucket на Redis, ключ `rl:{user_id}:{window}` (см. [[Кеширование Redis]]).
@@ -72,6 +72,8 @@ Contract-first, по той же логике, что `shared/proto` + `buf` з�
 - `external_id` (автор изменения) берётся из claims токена, а не из тела: во всех `*Write`-схемах его нет.
 - Фильтры на `/filter` необязательны и независимы — непереданный уходит в gRPC как отсутствующий (proto `optional`) и не сужает выборку. Именно поэтому `show_in_ui=false` — это фильтр, а не «фильтра нет».
 - `PUT` принимает `<E>Write`; отдельная схема `<E>Update` появляется только там, где gRPC-обновление принимает поле, которого нет во вставке (`dc.alias` — `is_deleted`, `dc.table_cat` — `is_get_dict`).
+
+`/user-domain-roles` и `/user-table-roles` держатся той же формы и тех же соглашений, отличаясь только гейтом (`admin`) и набором роутов — ровно тем, что есть в gRPC: у `dc.user_domain_roles` нет `GET /{id}`, у обеих таблиц нет `/search` и `/deleted`. Из-за джойнов в выборках схемы ответа у них разведены: `<E>` — строка таблицы (ответ `POST`), `<E>Row`/`<E>FilteredRow`/`<E>Detail` — строки соответствующих запросов с подтянутыми именами пользователя, роли и таблицы.
 
 ## Почему проверка прав не только здесь
 

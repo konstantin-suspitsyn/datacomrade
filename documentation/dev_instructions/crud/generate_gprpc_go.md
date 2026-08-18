@@ -180,8 +180,8 @@ for d in "auth_logic:authlogicv1" "tables:tablesv1" "user:userv1" "user_domain_r
 скомпилируется) — для `tablesapiv1.TablesApiV1` это делается в
 рукописном `init.go`, не в сгенерированных файлах.
 
-На момент последнего прогона: 158 RPC — 117 `tables`, 9 `user`,
-32 `user_domain_roles`; 21 таблица (16 из них в `tables_model`); 1292 теста.
+На момент последнего прогона: 138 RPC — 117 `tables`, 9 `user`,
+12 `user_domain_roles`; 19 таблиц (16 из них в `tables_model`); 1324 теста.
 
 ## Когда перезапускать
 
@@ -207,7 +207,9 @@ task proto:gen && python deploy/generators/parse.py && python deploy/generators/
 - каждый запрос таблицы попал в одну из известных форм — стандартную операцию, выборку или список (какие из них обязательны, см. [optional_standard_ops.md](optional_standard_ops.md));
 - каждому запросу соответствует метод репозитория;
 - каждому полю sqlc-структуры находится поле в proto-сообщении;
-- имя колонки из proto-тега есть в `schema.sql`;
+- имя колонки из proto-тега есть в `schema.sql` — кроме полей строки
+  join-выборки и полей фильтра списка: и то и другое не колонка этой таблицы
+  (см. [optional_standard_ops.md](optional_standard_ops.md));
 - у каждого `Response` ровно одно поле;
 - для каждой пары типов sqlc→proto есть правило.
 
@@ -223,6 +225,10 @@ task proto:gen && python deploy/generators/parse.py && python deploy/generators/
 | `time.Time` | `*timestamppb.Timestamp` | `converter.TimeToProto` |
 | `sql.NullTime` | `*timestamppb.Timestamp` | `converter.NullTimeToProto`, NULL → `nil` |
 | `uuid.UUID` | `string` | `converter.UUIDToProto` / `converter.ProtoToUUID` |
+
+Необязательные фильтры (`sqlc.narg` ↔ `optional`) добавляют к таблице ещё
+четыре пары — `sql.NullInt64`, `sql.NullBool`, `sql.NullString`,
+`uuid.NullUUID`; они описаны в [optional_standard_ops.md](optional_standard_ops.md).
 
 В protobuf нет типа для UUID, поэтому колонка `uuid` едет строкой в каноническом
 виде 8-4-4-4-12. Обратное преобразование не возвращает ошибку (конвертеры —

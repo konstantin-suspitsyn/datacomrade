@@ -54,3 +54,35 @@ create table dc."user"
             unique
 );
 
+create table dc.table_cat
+(
+    id            bigserial
+        constraint table_cat_pk
+            primary key,
+    name          varchar(128)            not null,
+    description   varchar(2000)           not null,
+    schema_id     bigint                  not null
+        constraint table_cat_schema_cat_fk
+            references dc.schema_cat
+            on update cascade on delete restrict,
+    table_type_id bigint                  not null
+        constraint table_cat_table_type_fk
+            references dc.table_type
+            on update cascade on delete restrict,
+    domain_id     bigint                  not null
+        constraint table_cat_domain_cat_fk
+            references dc.domain_cat
+            on update cascade on delete restrict,
+    is_deleted    boolean   default false not null,
+    is_get_dict   boolean   default false not null,
+    created_at    timestamp default now() not null,
+    updated_at    timestamp default now() not null,
+    user_id       bigint                  not null
+        constraint table_cat_user_fk
+            references dc."user"
+            on update cascade on delete restrict,
+    constraint table_cat_name_unique
+        unique (schema_id, name)
+);
+
+

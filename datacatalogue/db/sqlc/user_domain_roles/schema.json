@@ -1,0 +1,1750 @@
+{
+  "description": "Файл создан программой SG Buddy. Здесь лежат настройки генерации query.sql и .proto по DDL-схеме. Программа перезаписывает файл целиком, когда сохраняет настройки.",
+  "schema_folder_path": "C:\\Users\\const\\working\\datacomrade\\datacatalogue\\db\\sqlc\\user_domain_roles",
+  "save_proto_path": "C:\\Users\\const\\working\\datacomrade\\shared\\proto\\user_domain_roles\\v1\\user_domain_roles.proto",
+  "proto_package": "user_domain_roles.v1",
+  "go_package": "github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/user_domain_roles/v1;userdomainrolesv1",
+  "JOINS": {
+    "dc.user_domain_roles": [
+      {
+        "Name": "user_domain_role",
+        "joins": [
+          {
+            "type": "INNER",
+            "table": "dc.domain_roles",
+            "alias": "domain_roles",
+            "on": "user_domain_roles.domain_roles_id = domain_roles.id"
+          },
+          {
+            "type": "INNER",
+            "table": "dc.user",
+            "alias": "dc_user",
+            "on": "user_domain_roles.user_id = dc_user.id"
+          }
+        ]
+      }
+    ],
+    "dc.user_table_roles": [
+      {
+        "Name": "user_role_table",
+        "joins": [
+          {
+            "type": "INNER",
+            "table": "dc.user",
+            "alias": "dc_user",
+            "on": "user_table_roles.user_id = dc_user.id"
+          },
+          {
+            "type": "INNER",
+            "table": "dc.table_roles",
+            "alias": "table_roles",
+            "on": "user_table_roles.table_roles_id = table_roles.id"
+          },
+          {
+            "type": "INNER",
+            "table": "dc.table_cat",
+            "alias": "table_cat",
+            "on": "user_table_roles.table_id = table_cat.id"
+          }
+        ]
+      }
+    ]
+  },
+  "CRUD": {
+    "dc.user_domain_roles": {
+      "CREATE": [
+        {
+          "Name": "CreateUserDomainRoles",
+          "Query Annotation": "one",
+          "columns": [
+            {
+              "column_name": "user_id",
+              "column_value": "@user_id"
+            },
+            {
+              "column_name": "domain_roles_id",
+              "column_value": "@domain_roles_id"
+            },
+            {
+              "column_name": "created_at",
+              "column_value": "now()"
+            },
+            {
+              "column_name": "updated_at",
+              "column_value": "now()"
+            },
+            {
+              "column_name": "is_deleted",
+              "column_value": "false"
+            },
+            {
+              "column_name": "domain_id",
+              "column_value": "@domain_id"
+            },
+            {
+              "column_name": "updated_by_id",
+              "column_value": "(SELECT u.id FROM dc.\"user\" u WHERE u.external_id = @external_id)"
+            }
+          ],
+          "custom_query": null
+        }
+      ],
+      "READ": [
+        {
+          "Name": "GetUserDomainRoleses",
+          "Query Annotation": "many",
+          "Pagination": true,
+          "joins": [
+            "user_domain_role"
+          ],
+          "columns": [
+            {
+              "column_name": "id",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "user_id",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": true,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "domain_roles_id",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "created_at",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "updated_at",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "is_deleted",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": "false",
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "domain_id",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "updated_by_id",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            }
+          ],
+          "joined_columns": [
+            {
+              "join": "user_domain_role",
+              "alias": "domain_roles",
+              "column_name": "id",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_domain_role",
+              "alias": "domain_roles",
+              "column_name": "name",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_domain_role",
+              "alias": "domain_roles",
+              "column_name": "description",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_domain_role",
+              "alias": "domain_roles",
+              "column_name": "created_at",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_domain_role",
+              "alias": "domain_roles",
+              "column_name": "updated_at",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_domain_role",
+              "alias": "domain_roles",
+              "column_name": "is_deleted",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": "false",
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_domain_role",
+              "alias": "dc_user",
+              "column_name": "id",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_domain_role",
+              "alias": "dc_user",
+              "column_name": "name",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_domain_role",
+              "alias": "dc_user",
+              "column_name": "created_at",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_domain_role",
+              "alias": "dc_user",
+              "column_name": "updated_at",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_domain_role",
+              "alias": "dc_user",
+              "column_name": "is_deleted",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": "false",
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_domain_role",
+              "alias": "dc_user",
+              "column_name": "external_id",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            }
+          ],
+          "custom_where": null,
+          "custom_query": null
+        }
+      ],
+      "UPDATE": [
+        {
+          "Name": "UpdateUserDomainRolesById",
+          "Query Annotation": "exec",
+          "columns": [
+            {
+              "column_name": "id",
+              "set": false,
+              "set_value": "@id",
+              "where": true,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "user_id",
+              "set": true,
+              "set_value": "@user_id",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "domain_roles_id",
+              "set": true,
+              "set_value": "@domain_roles_id",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "created_at",
+              "set": false,
+              "set_value": "@created_at",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "updated_at",
+              "set": true,
+              "set_value": "now()",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "is_deleted",
+              "set": true,
+              "set_value": "false",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "domain_id",
+              "set": true,
+              "set_value": "@domain_id",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "updated_by_id",
+              "set": true,
+              "set_value": "(SELECT u.id FROM dc.\"user\" u WHERE u.external_id = @external_id)",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            }
+          ],
+          "custom_where": null,
+          "custom_query": null
+        }
+      ],
+      "DELETE": [
+        {
+          "Name": "DeleteUserDomainRolesById",
+          "Mode": "SOFT DELETE",
+          "columns": [
+            {
+              "column_name": "id",
+              "set": false,
+              "set_value": null,
+              "where": true,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "user_id",
+              "set": false,
+              "set_value": null,
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "domain_roles_id",
+              "set": false,
+              "set_value": null,
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "created_at",
+              "set": false,
+              "set_value": null,
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "updated_at",
+              "set": false,
+              "set_value": "now()",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "is_deleted",
+              "set": true,
+              "set_value": "true",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "domain_id",
+              "set": false,
+              "set_value": null,
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "updated_by_id",
+              "set": true,
+              "set_value": "(SELECT u.id FROM dc.\"user\" u WHERE u.external_id = @external_id)",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            }
+          ],
+          "custom_where": null,
+          "custom_query": null
+        },
+        {
+          "Name": "UndeleteUserDomainRolesById",
+          "Mode": "UNDELETE",
+          "columns": [
+            {
+              "column_name": "id",
+              "set": false,
+              "set_value": null,
+              "where": true,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "user_id",
+              "set": false,
+              "set_value": null,
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "domain_roles_id",
+              "set": false,
+              "set_value": null,
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "created_at",
+              "set": false,
+              "set_value": null,
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "updated_at",
+              "set": true,
+              "set_value": "now()",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "is_deleted",
+              "set": true,
+              "set_value": "false",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "domain_id",
+              "set": false,
+              "set_value": null,
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "updated_by_id",
+              "set": true,
+              "set_value": "(SELECT u.id FROM dc.\"user\" u WHERE u.external_id = @external_id)",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            }
+          ],
+          "custom_where": null,
+          "custom_query": null
+        }
+      ]
+    },
+    "dc.user_table_roles": {
+      "CREATE": [
+        {
+          "Name": "CreateUserTableRoles",
+          "Query Annotation": "one",
+          "columns": [
+            {
+              "column_name": "user_id",
+              "column_value": "@user_id"
+            },
+            {
+              "column_name": "table_roles_id",
+              "column_value": "@table_roles_id"
+            },
+            {
+              "column_name": "created_at",
+              "column_value": "now()"
+            },
+            {
+              "column_name": "updated_at",
+              "column_value": "now()"
+            },
+            {
+              "column_name": "is_deleted",
+              "column_value": "false"
+            },
+            {
+              "column_name": "table_id",
+              "column_value": "@table_id"
+            },
+            {
+              "column_name": "updated_by_id",
+              "column_value": "(SELECT u.id FROM dc.\"user\" u WHERE u.external_id = @external_id)"
+            }
+          ],
+          "custom_query": null
+        }
+      ],
+      "READ": [
+        {
+          "Name": "GetUserTableRoleses",
+          "Query Annotation": "many",
+          "Pagination": true,
+          "joins": [
+            "user_role_table"
+          ],
+          "columns": [
+            {
+              "column_name": "id",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": true,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "user_id",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "table_roles_id",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "created_at",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "updated_at",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "is_deleted",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": "false",
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "table_id",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "updated_by_id",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            }
+          ],
+          "joined_columns": [
+            {
+              "join": "user_role_table",
+              "alias": "dc_user",
+              "column_name": "id",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_role_table",
+              "alias": "dc_user",
+              "column_name": "name",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_role_table",
+              "alias": "dc_user",
+              "column_name": "created_at",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_role_table",
+              "alias": "dc_user",
+              "column_name": "updated_at",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_role_table",
+              "alias": "dc_user",
+              "column_name": "is_deleted",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": "false",
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_role_table",
+              "alias": "dc_user",
+              "column_name": "external_id",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_role_table",
+              "alias": "table_roles",
+              "column_name": "id",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_role_table",
+              "alias": "table_roles",
+              "column_name": "name",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_role_table",
+              "alias": "table_roles",
+              "column_name": "description",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_role_table",
+              "alias": "table_roles",
+              "column_name": "created_at",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_role_table",
+              "alias": "table_roles",
+              "column_name": "updated_at",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_role_table",
+              "alias": "table_roles",
+              "column_name": "is_deleted",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": "false",
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_role_table",
+              "alias": "table_cat",
+              "column_name": "id",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_role_table",
+              "alias": "table_cat",
+              "column_name": "name",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_role_table",
+              "alias": "table_cat",
+              "column_name": "description",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_role_table",
+              "alias": "table_cat",
+              "column_name": "schema_id",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_role_table",
+              "alias": "table_cat",
+              "column_name": "table_type_id",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_role_table",
+              "alias": "table_cat",
+              "column_name": "domain_id",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_role_table",
+              "alias": "table_cat",
+              "column_name": "is_deleted",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": "false",
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_role_table",
+              "alias": "table_cat",
+              "column_name": "is_get_dict",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_role_table",
+              "alias": "table_cat",
+              "column_name": "created_at",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_role_table",
+              "alias": "table_cat",
+              "column_name": "updated_at",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_role_table",
+              "alias": "table_cat",
+              "column_name": "user_id",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            }
+          ],
+          "custom_where": null,
+          "custom_query": null
+        },
+        {
+          "Name": "GetUserTableRolesesFiltered",
+          "Query Annotation": "many",
+          "Pagination": true,
+          "joins": [
+            "user_role_table"
+          ],
+          "columns": [
+            {
+              "column_name": "id",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": true,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "user_id",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "table_roles_id",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "created_at",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "updated_at",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "is_deleted",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": "false",
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "table_id",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "updated_by_id",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            }
+          ],
+          "joined_columns": [
+            {
+              "join": "user_role_table",
+              "alias": "dc_user",
+              "column_name": "id",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_role_table",
+              "alias": "dc_user",
+              "column_name": "name",
+              "show": true,
+              "where": false,
+              "where_optional": true,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_role_table",
+              "alias": "dc_user",
+              "column_name": "created_at",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_role_table",
+              "alias": "dc_user",
+              "column_name": "updated_at",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_role_table",
+              "alias": "dc_user",
+              "column_name": "is_deleted",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": "false",
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_role_table",
+              "alias": "dc_user",
+              "column_name": "external_id",
+              "show": true,
+              "where": false,
+              "where_optional": true,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_role_table",
+              "alias": "table_roles",
+              "column_name": "id",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_role_table",
+              "alias": "table_roles",
+              "column_name": "name",
+              "show": true,
+              "where": false,
+              "where_optional": true,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_role_table",
+              "alias": "table_roles",
+              "column_name": "description",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_role_table",
+              "alias": "table_roles",
+              "column_name": "created_at",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_role_table",
+              "alias": "table_roles",
+              "column_name": "updated_at",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_role_table",
+              "alias": "table_roles",
+              "column_name": "is_deleted",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": "false",
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_role_table",
+              "alias": "table_cat",
+              "column_name": "id",
+              "show": true,
+              "where": false,
+              "where_optional": true,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_role_table",
+              "alias": "table_cat",
+              "column_name": "name",
+              "show": true,
+              "where": false,
+              "where_optional": true,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_role_table",
+              "alias": "table_cat",
+              "column_name": "description",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_role_table",
+              "alias": "table_cat",
+              "column_name": "schema_id",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_role_table",
+              "alias": "table_cat",
+              "column_name": "table_type_id",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_role_table",
+              "alias": "table_cat",
+              "column_name": "domain_id",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_role_table",
+              "alias": "table_cat",
+              "column_name": "is_deleted",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": "false",
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_role_table",
+              "alias": "table_cat",
+              "column_name": "is_get_dict",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_role_table",
+              "alias": "table_cat",
+              "column_name": "created_at",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_role_table",
+              "alias": "table_cat",
+              "column_name": "updated_at",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "user_role_table",
+              "alias": "table_cat",
+              "column_name": "user_id",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            }
+          ],
+          "custom_where": null,
+          "custom_query": null
+        },
+        {
+          "Name": "GetUserTableRolesById",
+          "Query Annotation": "one",
+          "Pagination": false,
+          "joins": [
+            "user_role_table"
+          ],
+          "columns": [
+            {
+              "column_name": "id",
+              "show": true,
+              "where": true,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "column_name": "user_id",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "column_name": "table_roles_id",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "column_name": "created_at",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "column_name": "updated_at",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "column_name": "is_deleted",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": "false"
+            },
+            {
+              "column_name": "table_id",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "column_name": "updated_by_id",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            }
+          ],
+          "joined_columns": [
+            {
+              "join": "user_role_table",
+              "alias": "dc_user",
+              "column_name": "id",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "join": "user_role_table",
+              "alias": "dc_user",
+              "column_name": "name",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "join": "user_role_table",
+              "alias": "dc_user",
+              "column_name": "created_at",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "join": "user_role_table",
+              "alias": "dc_user",
+              "column_name": "updated_at",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "join": "user_role_table",
+              "alias": "dc_user",
+              "column_name": "is_deleted",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": "false"
+            },
+            {
+              "join": "user_role_table",
+              "alias": "dc_user",
+              "column_name": "external_id",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "join": "user_role_table",
+              "alias": "table_roles",
+              "column_name": "id",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "join": "user_role_table",
+              "alias": "table_roles",
+              "column_name": "name",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "join": "user_role_table",
+              "alias": "table_roles",
+              "column_name": "description",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "join": "user_role_table",
+              "alias": "table_roles",
+              "column_name": "created_at",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "join": "user_role_table",
+              "alias": "table_roles",
+              "column_name": "updated_at",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "join": "user_role_table",
+              "alias": "table_roles",
+              "column_name": "is_deleted",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": "false"
+            },
+            {
+              "join": "user_role_table",
+              "alias": "table_cat",
+              "column_name": "id",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "join": "user_role_table",
+              "alias": "table_cat",
+              "column_name": "name",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "join": "user_role_table",
+              "alias": "table_cat",
+              "column_name": "description",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "join": "user_role_table",
+              "alias": "table_cat",
+              "column_name": "schema_id",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "join": "user_role_table",
+              "alias": "table_cat",
+              "column_name": "table_type_id",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "join": "user_role_table",
+              "alias": "table_cat",
+              "column_name": "domain_id",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "join": "user_role_table",
+              "alias": "table_cat",
+              "column_name": "is_deleted",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": "false"
+            },
+            {
+              "join": "user_role_table",
+              "alias": "table_cat",
+              "column_name": "is_get_dict",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "join": "user_role_table",
+              "alias": "table_cat",
+              "column_name": "created_at",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "join": "user_role_table",
+              "alias": "table_cat",
+              "column_name": "updated_at",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "join": "user_role_table",
+              "alias": "table_cat",
+              "column_name": "user_id",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            }
+          ],
+          "custom_where": null,
+          "custom_query": null
+        }
+      ],
+      "UPDATE": [
+        {
+          "Name": "UpdateUserTableRolesById",
+          "Query Annotation": "exec",
+          "columns": [
+            {
+              "column_name": "id",
+              "set": false,
+              "set_value": "@id",
+              "where": true,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "user_id",
+              "set": true,
+              "set_value": "@user_id",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "table_roles_id",
+              "set": true,
+              "set_value": "@table_roles_id",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "created_at",
+              "set": false,
+              "set_value": "@created_at",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "updated_at",
+              "set": true,
+              "set_value": "now()",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "is_deleted",
+              "set": true,
+              "set_value": "false",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "table_id",
+              "set": true,
+              "set_value": "@table_id",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "updated_by_id",
+              "set": true,
+              "set_value": "(SELECT u.id FROM dc.\"user\" u WHERE u.external_id = @external_id)",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            }
+          ],
+          "custom_where": null,
+          "custom_query": null
+        }
+      ],
+      "DELETE": [
+        {
+          "Name": "DeleteUserTableRolesById",
+          "Mode": "SOFT DELETE",
+          "columns": [
+            {
+              "column_name": "id",
+              "set": false,
+              "set_value": null,
+              "where": true,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "user_id",
+              "set": false,
+              "set_value": null,
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "table_roles_id",
+              "set": false,
+              "set_value": null,
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "created_at",
+              "set": false,
+              "set_value": null,
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "updated_at",
+              "set": true,
+              "set_value": "now()",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "is_deleted",
+              "set": true,
+              "set_value": "true",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "table_id",
+              "set": false,
+              "set_value": null,
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "updated_by_id",
+              "set": true,
+              "set_value": "(SELECT u.id FROM dc.\"user\" u WHERE u.external_id = @external_id)",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            }
+          ],
+          "custom_where": null,
+          "custom_query": null
+        },
+        {
+          "Name": "UndeleteUserTableRolesById",
+          "Mode": "UNDELETE",
+          "columns": [
+            {
+              "column_name": "id",
+              "set": false,
+              "set_value": null,
+              "where": true,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "user_id",
+              "set": false,
+              "set_value": null,
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "table_roles_id",
+              "set": false,
+              "set_value": null,
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "created_at",
+              "set": false,
+              "set_value": null,
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "updated_at",
+              "set": true,
+              "set_value": "now()",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "is_deleted",
+              "set": true,
+              "set_value": "false",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "table_id",
+              "set": false,
+              "set_value": null,
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "updated_by_id",
+              "set": true,
+              "set_value": "(SELECT u.id FROM dc.\"user\" u WHERE u.external_id = @external_id)",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            }
+          ],
+          "custom_where": null,
+          "custom_query": null
+        }
+      ]
+    }
+  }
+}

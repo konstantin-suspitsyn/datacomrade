@@ -88,6 +88,7 @@ func main() {
 	tablesv1.RegisterTableTypeServiceServer(s, tablesAPI)
 	tablesv1.RegisterCalculationTypeServiceServer(s, tablesAPI)
 	userdomainrolesv1.RegisterUserDomainRolesServiceServer(s, userDomainRolesAPI)
+	userdomainrolesv1.RegisterUserTableRolesServiceServer(s, userDomainRolesAPI)
 	authlogicv1.RegisterAuthLogicServiceServer(s, authLogicAPI)
 
 	reflection.Register(s)

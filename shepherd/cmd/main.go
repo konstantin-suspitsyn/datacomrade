@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -33,7 +34,8 @@ import (
 	"github.com/konstantin-suspitsyn/datacomrade/shepherd/internal/api/schemacatapiv1"
 	"github.com/konstantin-suspitsyn/datacomrade/shepherd/internal/api/tablecatapiv1"
 	"github.com/konstantin-suspitsyn/datacomrade/shepherd/internal/api/tabletypeapiv1"
-	"github.com/konstantin-suspitsyn/datacomrade/shepherd/internal/apierror"
+	"github.com/konstantin-suspitsyn/datacomrade/shepherd/internal/api/userdomainrolesapiv1"
+	"github.com/konstantin-suspitsyn/datacomrade/shepherd/internal/api/usertablerolesapiv1"
 	"github.com/konstantin-suspitsyn/datacomrade/shepherd/internal/client/datacatalogue"
 	"github.com/konstantin-suspitsyn/datacomrade/shepherd/internal/config/constants"
 	"github.com/konstantin-suspitsyn/datacomrade/shepherd/internal/ensureuser"
@@ -155,6 +157,9 @@ type api struct {
 	followingCalculation *followingcalculationapiv1.Handler
 	groupLevels          *grouplevelsapiv1.Handler
 	hasToGroup           *hastogroupapiv1.Handler
+
+	userDomainRoles *userdomainrolesapiv1.Handler
+	userTableRoles  *usertablerolesapiv1.Handler
 }
 
 // newAPI принимает клиент datacatalogue целиком, а не по gRPC-клиенту на
@@ -180,6 +185,9 @@ func newAPI(resolver *ensureuser.Resolver, dc *datacatalogue.Client) api {
 		followingCalculation: followingcalculationapiv1.New(dc.FollowingCalculation),
 		groupLevels:          grouplevelsapiv1.New(dc.GroupLevels),
 		hasToGroup:           hastogroupapiv1.New(dc.HasToGroup),
+
+		userDomainRoles: userdomainrolesapiv1.New(dc.UserDomainRoles),
+		userTableRoles:  usertablerolesapiv1.New(dc.UserTableRoles),
 	}
 }
 
@@ -191,6 +199,15 @@ func (a api) Login(w http.ResponseWriter, r *http.Request) { a.login.Login(w, r)
 func requireCatalogRole(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		rbac.RequireRole(rbac.RoleAdmin, rbac.RoleMaintainer)(next).ServeHTTP(w, r)
+	}
+}
+
+// requireUserRolesRole гейтит выдачу прав пользователям (dc.user_domain_roles
+// и dc.user_table_roles) ролью admin — maintainer сюда не допускается, см.
+// mapping роль → группа методов в rbac.go.
+func requireUserRolesRole(next http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		rbac.RequireRole(rbac.RoleAdmin)(next).ServeHTTP(w, r)
 	}
 }
 
@@ -682,27 +699,101 @@ func (a api) GetCalculationTypeById(w http.ResponseWriter, r *http.Request, id o
 	requireCatalogRole(func(w http.ResponseWriter, r *http.Request) { a.calculationType.GetCalculationTypeById(w, r, id) })(w, r)
 }
 
-func handleHealthz(w http.ResponseWriter, _ *http.Request) {
-	w.WriteHeader(http.StatusOK)
-	_, _ = w.Write([]byte("ok"))
+func (a api) ListUserDomainRoles(w http.ResponseWriter, r *http.Request, params openapiv1.ListUserDomainRolesParams) {
+	requireUserRolesRole(func(w http.ResponseWriter, r *http.Request) { a.userDomainRoles.ListUserDomainRoles(w, r, params) })(w, r)
 }
 
-// handleReadyz проверяет только Redis: он единственная зависимость, без
-// которой процесс не может обслуживать запросы (JWKS и EnsureUser его
-// требуют). datacatalogue дозвонится лениво через grpc.NewClient — его
-// недоступность проявится как ошибка конкретного запроса, а не всего сервиса.
-func handleReadyz(redisClient *redis.Client) http.HandlerFunc {
+func (a api) CreateUserDomainRoles(w http.ResponseWriter, r *http.Request) {
+	requireUserRolesRole(a.userDomainRoles.CreateUserDomainRoles)(w, r)
+}
+
+func (a api) UpdateUserDomainRolesById(w http.ResponseWriter, r *http.Request, id openapiv1.UserDomainRolesIdParam) {
+	requireUserRolesRole(func(w http.ResponseWriter, r *http.Request) { a.userDomainRoles.UpdateUserDomainRolesById(w, r, id) })(w, r)
+}
+
+func (a api) DeleteUserDomainRolesById(w http.ResponseWriter, r *http.Request, id openapiv1.UserDomainRolesIdParam) {
+	requireUserRolesRole(func(w http.ResponseWriter, r *http.Request) { a.userDomainRoles.DeleteUserDomainRolesById(w, r, id) })(w, r)
+}
+
+func (a api) UndeleteUserDomainRolesById(w http.ResponseWriter, r *http.Request, id openapiv1.UserDomainRolesIdParam) {
+	requireUserRolesRole(func(w http.ResponseWriter, r *http.Request) { a.userDomainRoles.UndeleteUserDomainRolesById(w, r, id) })(w, r)
+}
+
+func (a api) ListUserTableRoles(w http.ResponseWriter, r *http.Request, params openapiv1.ListUserTableRolesParams) {
+	requireUserRolesRole(func(w http.ResponseWriter, r *http.Request) { a.userTableRoles.ListUserTableRoles(w, r, params) })(w, r)
+}
+
+func (a api) FilterUserTableRoles(w http.ResponseWriter, r *http.Request, params openapiv1.FilterUserTableRolesParams) {
+	requireUserRolesRole(func(w http.ResponseWriter, r *http.Request) { a.userTableRoles.FilterUserTableRoles(w, r, params) })(w, r)
+}
+
+func (a api) CreateUserTableRoles(w http.ResponseWriter, r *http.Request) {
+	requireUserRolesRole(a.userTableRoles.CreateUserTableRoles)(w, r)
+}
+
+func (a api) GetUserTableRolesById(w http.ResponseWriter, r *http.Request, id openapiv1.UserTableRolesIdParam) {
+	requireUserRolesRole(func(w http.ResponseWriter, r *http.Request) { a.userTableRoles.GetUserTableRolesById(w, r, id) })(w, r)
+}
+
+func (a api) UpdateUserTableRolesById(w http.ResponseWriter, r *http.Request, id openapiv1.UserTableRolesIdParam) {
+	requireUserRolesRole(func(w http.ResponseWriter, r *http.Request) { a.userTableRoles.UpdateUserTableRolesById(w, r, id) })(w, r)
+}
+
+func (a api) DeleteUserTableRolesById(w http.ResponseWriter, r *http.Request, id openapiv1.UserTableRolesIdParam) {
+	requireUserRolesRole(func(w http.ResponseWriter, r *http.Request) { a.userTableRoles.DeleteUserTableRolesById(w, r, id) })(w, r)
+}
+
+func (a api) UndeleteUserTableRolesById(w http.ResponseWriter, r *http.Request, id openapiv1.UserTableRolesIdParam) {
+	requireUserRolesRole(func(w http.ResponseWriter, r *http.Request) { a.userTableRoles.UndeleteUserTableRolesById(w, r, id) })(w, r)
+}
+
+// redisPinger — та часть *redis.Client, которая нужна пробе готовности.
+type redisPinger interface {
+	Ping(ctx context.Context) *redis.StatusCmd
+}
+
+// healthBody — общее тело ответа проб. status: ok | degraded. Поле redis
+// заполняет только /readyz; для /healthz оно опускается, чтобы проба живости
+// не выглядела утверждением о состоянии кеша.
+type healthBody struct {
+	Status string `json:"status"`
+	Redis  string `json:"redis,omitempty"`
+}
+
+func writeHealth(w http.ResponseWriter, body healthBody) {
+	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+	w.WriteHeader(http.StatusOK)
+	_ = json.NewEncoder(w).Encode(body)
+}
+
+func handleHealthz(w http.ResponseWriter, _ *http.Request) {
+	writeHealth(w, healthBody{Status: "ok"})
+}
+
+// handleReadyz всегда отвечает 200: у сервиса нет зависимости, без которой он
+// не может обслуживать запросы. Redis — кеш, а не источник правды: JWKS и
+// EnsureUser при его недоступности фолбэкаются в Keycloak и datacatalogue,
+// поэтому его падение обязано деградировать производительность, но не выводить
+// инстанс из балансировки — см. Кеширование Redis.md. datacatalogue дозвонится
+// лениво через grpc.NewClient — его недоступность проявится как ошибка
+// конкретного запроса, а не всего сервиса.
+//
+// Пинг остаётся ради наблюдаемости: состояние кеша видно в теле ответа и в логе.
+//
+// Принимает redisPinger, а не *redis.Client, чтобы проба тестировалась без
+// поднятого Redis.
+func handleReadyz(redisClient redisPinger) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx, cancel := context.WithTimeout(r.Context(), 2*time.Second)
 		defer cancel()
 
+		body := healthBody{Status: "ok", Redis: "up"}
 		if err := redisClient.Ping(ctx).Err(); err != nil {
-			apierror.Write(w, http.StatusServiceUnavailable, "not_ready", "redis недоступен")
-			return
+			pkglogger.Warn(ctx, "readyz: redis недоступен, работаем без кеша", zap.Error(err))
+			body = healthBody{Status: "degraded", Redis: "down"}
 		}
 
-		w.WriteHeader(http.StatusOK)
-		_, _ = w.Write([]byte("ok"))
+		writeHealth(w, body)
 	}
 }
 

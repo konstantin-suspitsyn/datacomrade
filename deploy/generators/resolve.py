@@ -12,6 +12,10 @@ generate_gprpc_go.md). Обязателен только Create<Entity> — из
 (Get<E>ById, GetDeleted<E>ById, Update<E>ById, Delete<E>ById,
 Undelete<E>ById) — не обязаны присутствовать.
 
+Строку ответа каждый запрос определяет сам: SELECT по своей таблице отдаёт
+сущность, join — собственную структуру <Query>Row со своим proto-сообщением
+(resolve_row). Раньше строка была одна на таблицу.
+
 Списочные запросы (`:many`, без обязательного аргумента-фильтра) собираются
 в один список "lists" независимо от имени: генератору не важно, значит ли
 имя "активные", "удалённые" или что-то ещё — важна форма (простой список
@@ -86,6 +90,8 @@ FILTER_FIELD_TYPES = {
     "uuid.UUID",
     "sql.NullInt64",
     "sql.NullBool",
+    "sql.NullString",
+    "uuid.NullUUID",
 }
 
 
@@ -199,6 +205,78 @@ def pair_filter_fields(data, table, go_fields, proto_msg, what):
     return paired
 
 
+def pair_row_fields(data, table, go_fields, proto_msg, what):
+    """Сопоставляет поля строки запроса с полями proto-сообщения по имени.
+
+    Строка join-запроса (<Query>Row) отдаёт колонки соседних таблиц —
+    "dc_user_name", "table_roles_description" и так далее, — которых в
+    schema.sql этой таблицы нет. Поэтому, в отличие от pair_fields, колонка
+    не проверяется и external_id не резолвится: такая строка едет только
+    наружу, ни в один INSERT/UPDATE её поля не попадают, а значит и границы
+    длины ей не нужны. "col" всё же заполняется — именем из proto-тега: оно
+    совпадает с алиасом колонки в SELECT и служит подписью в тестах.
+    """
+    proto = data["proto_structs"]
+    if proto_msg not in proto:
+        raise Fail("%s: нет proto-сообщения %s" % (table, proto_msg))
+    pfields = {norm(f["field"]): f for f in proto[proto_msg]}
+    paired = []
+    for f in go_fields:
+        pf = pfields.get(norm(f["field"]))
+        if pf is None:
+            raise Fail("%s: поле строки %s.%s не найдено в %s" % (table, what, f["field"], proto_msg))
+        paired.append(
+            {
+                "go": f["field"],
+                "go_type": f["type"],
+                "proto": pf["field"],
+                "proto_type": pf["type"],
+                "col": pf["proto_name"] or snake(pf["field"]),
+                "varchar": None,
+            }
+        )
+    return paired
+
+
+def resolve_row(data, table, entity, entity_row, plural, go_row, proto_type):
+    """Строка, которую запрос отдаёт наружу: сама сущность или своя строка.
+
+    SELECT по одной своей таблице возвращает сущность целиком — её переносит
+    общий <Entity>ToProto. Join подмешивает колонки соседних таблиц: sqlc
+    делает под такую выборку отдельную структуру <Query>Row, SG Buddy —
+    одноимённое proto-сообщение, и переносить её нужно своим конвертером.
+    Отличаем по форме — по типу, который вернул репозиторий, а не по имени
+    запроса.
+    """
+    proto_msg = proto_type.lstrip("[]*")
+    if go_row == entity_row:
+        if proto_msg != entity:
+            raise Fail(
+                "%s: строка %s ожидалась в ответе как %s, найдено %s"
+                % (table, go_row, entity, proto_msg)
+            )
+        return {
+            "own": True,
+            "go": go_row,
+            "proto": entity,
+            "conv": entity,
+            "conv_plural": plural,
+            "fields": None,
+        }
+    if go_row not in data["param_structs"]:
+        raise Fail("%s: нет структуры строки %s" % (table, go_row))
+    if proto_msg not in data["proto_structs"]:
+        raise Fail("%s: нет proto-сообщения %s под строку %s" % (table, proto_msg, go_row))
+    return {
+        "own": False,
+        "go": go_row,
+        "proto": proto_msg,
+        "conv": go_row,
+        "conv_plural": go_row + "s",
+        "fields": pair_row_fields(data, table, data["param_structs"][go_row], proto_msg, go_row),
+    }
+
+
 def row_or_empty_response(data, msg, entity):
     """Форма ответа операций по id (get/create/update/delete/undelete):
 
@@ -277,15 +355,28 @@ def resolve_exec_args(data, name):
     raise Fail("%s: неожиданная форма аргументов: %s" % (name, args))
 
 
-def resolve_id_op(data, table, entity, name):
+def repo_row_struct(data, name):
+    """Имя структуры, которую метод репозитория отдаёт наружу: `[]GetXRow, error`
+    и `DcAlias, error` одинаково сводятся к имени структуры."""
+    return data["funcs"][name]["ret"].split(",")[0].strip().lstrip("[]*")
+
+
+def resolve_id_op(data, table, entity, entity_row, plural, name):
     """Общая логика для Get<E>ById / GetDeleted<E>ById: строго один id-аргумент,
-    ответ обязан быть строкой сущности."""
+    ответ — ровно одно поле со строкой. Строка бывает двух видов: сама
+    сущность или собственная строка запроса (см. resolve_row)."""
     if name not in data["funcs"]:
         raise Fail("%s: нет метода репозитория %s" % (table, name))
-    resp = row_or_empty_response(data, name + "Response", entity)
-    if resp["form"] != "row":
-        raise Fail("%s: %s обязан возвращать строку %s" % (table, name, entity))
-    return {"query": name, "resp_field": resp["field"]}
+    fields = data["proto_structs"].get(name + "Response")
+    if not fields or len(fields) != 1:
+        raise Fail(
+            "%s: %s обязан возвращать ровно одно поле-строку, найдено %s"
+            % (table, name, [f["field"] for f in (fields or [])])
+        )
+    row = resolve_row(
+        data, table, entity, entity_row, plural, repo_row_struct(data, name), fields[0]["type"]
+    )
+    return {"query": name, "resp_field": fields[0]["field"], "row": row}
 
 
 def resolve_exec_op(data, table, entity, name):
@@ -345,6 +436,7 @@ def resolve_entity(sqlc, data, block):
             )
         entity = by_id[0][len("Get"): -len("ById")]
     E = entity
+    P = pluralize(entity)
 
     if creates:
         create_name = "Create%s" % E
@@ -383,11 +475,11 @@ def resolve_entity(sqlc, data, block):
 
     name = "Get%sById" % E
     if take(name):
-        ops["get_by_id"] = resolve_id_op(data, table, entity, name)
+        ops["get_by_id"] = resolve_id_op(data, table, entity, row_struct, P, name)
 
     name = "GetDeleted%sById" % E
     if take(name):
-        ops["get_deleted_by_id"] = resolve_id_op(data, table, entity, name)
+        ops["get_deleted_by_id"] = resolve_id_op(data, table, entity, row_struct, P, name)
 
     name = "Update%sById" % E
     if take(name):
@@ -433,9 +525,15 @@ def resolve_entity(sqlc, data, block):
             schema_cols = data["schema"][table]
             if col not in schema_cols:
                 raise Fail("%s: колонки %s нет в schema.sql" % (table, col))
-            resp = row_or_empty_response(data, name + "Response", entity)
-            if resp["form"] != "row":
-                raise Fail("%s: %s обязан возвращать строку %s" % (table, name, entity))
+            resp_fields = proto.get(name + "Response")
+            if not resp_fields or len(resp_fields) != 1:
+                raise Fail(
+                    "%s: %s обязан возвращать ровно одно поле-строку, найдено %s"
+                    % (table, name, [f["field"] for f in (resp_fields or [])])
+                )
+            row = resolve_row(
+                data, table, entity, row_struct, P, repo_row_struct(data, name), resp_fields[0]["type"]
+            )
             lookups.append(
                 {
                     "query": name,
@@ -445,7 +543,8 @@ def resolve_entity(sqlc, data, block):
                     "proto_type": pf[0]["type"],
                     "col": col,
                     "varchar": schema_cols[col]["varchar"],
-                    "resp_field": resp["field"],
+                    "resp_field": resp_fields[0]["field"],
+                    "row": row,
                 }
             )
             continue
@@ -470,6 +569,9 @@ def resolve_entity(sqlc, data, block):
                     "params_type": None,
                     "paginated": False,
                     "resp_field": resp["resp_field"],
+                    "row": resolve_row(
+                        data, table, entity, row_struct, P, repo_row_struct(data, name), resp["row_type"]
+                    ),
                     "order_field": "Order",
                 }
             )
@@ -494,6 +596,9 @@ def resolve_entity(sqlc, data, block):
                     "proto_field": pf[0]["field"],
                     "col": col,
                     "resp_field": resp["resp_field"],
+                    "row": resolve_row(
+                        data, table, entity, row_struct, P, repo_row_struct(data, name), resp["row_type"]
+                    ),
                 }
             )
             continue
@@ -509,6 +614,9 @@ def resolve_entity(sqlc, data, block):
                     "params_type": None,
                     "paginated": False,
                     "resp_field": resp["resp_field"],
+                    "row": resolve_row(
+                        data, table, entity, row_struct, P, repo_row_struct(data, name), resp["row_type"]
+                    ),
                     "order_field": None,
                 }
             )
@@ -609,6 +717,9 @@ def resolve_entity(sqlc, data, block):
                     "params_type": ptype,
                     "paginated": True,
                     "resp_field": resp["resp_field"],
+                    "row": resolve_row(
+                        data, table, entity, row_struct, P, repo_row_struct(data, name), resp["row_type"]
+                    ),
                     "pagination_field": resp["pagination_field"],
                     "order_field": "Order" if "Order" in pnames else None,
                     "order_by_field": "OrderBy" if "OrderBy" in pnames else None,
@@ -637,7 +748,7 @@ def resolve_entity(sqlc, data, block):
         "short": short,
         "file": snake(entity),
         "entity": entity,
-        "plural": pluralize(entity),
+        "plural": P,
         "row_struct": row_struct,
         "has_create": bool(creates),
         "create_params": create_params,
@@ -699,6 +810,11 @@ def main():
         for e in d["entities"]:
             for f in e["row_fields"] + e["create_fields"]:
                 types.add((f["go_type"], f["proto_type"]))
+            for r in [e["ops"][k]["row"] for k in ("get_by_id", "get_deleted_by_id") if k in e["ops"]] + [
+                x["row"] for x in e["lists"] + e["fks"] + e["lookups"]
+            ]:
+                for f in r["fields"] or []:
+                    types.add((f["go_type"], f["proto_type"]))
             for l in e["lists"]:
                 for f in l.get("filter_fields") or []:
                     types.add((f["go_type"], f["proto_type"]))
