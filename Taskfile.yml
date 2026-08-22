@@ -11,6 +11,7 @@ vars:
   PROTOC_GEN_GO_GRPC_VERSION: "v1.5.1"
   OAPI_CODEGEN_VERSION: "v2.8.0"
   SQLC_VERSION: "v1.31.1"
+  GOOSE_VERSION: "v3.27.3"
 
   BIN_DIR: "{{.ROOT_DIR}}/bin"
   GOLANGCI_LINT: "{{.BIN_DIR}}/golangci-lint"
@@ -24,6 +25,7 @@ vars:
   GRPCURL: "{{.BIN_DIR}}/grpcurl"
   OAPI_CODEGEN: "{{.BIN_DIR}}/oapi-codegen"
   SQLC: "{{.BIN_DIR}}/sqlc"
+  GOOSE: "{{.BIN_DIR}}/goose"
 
 tasks:
   install-formatters:
@@ -204,6 +206,30 @@ tasks:
     dir: datacatalogue/db/sqlc
     cmds:
       - "{{.SQLC}} generate"
+
+  install-goose:
+    desc: "Устанавливает goose (миграции БД) в каталог bin"
+    cmds:
+      - |
+        mkdir -p {{.BIN_DIR}}
+        [ -f {{.GOOSE}} ] || {
+          echo '📦 Устанавливаем goose {{.GOOSE_VERSION}}...'
+          GOBIN={{.BIN_DIR}} go install github.com/pressly/goose/v3/cmd/goose@{{.GOOSE_VERSION}}
+        }
+    status:
+      - test -x {{.GOOSE}}
+
+  migrate:up:
+    desc: "Применяет миграции БД для всех микросервисов — запускает под-таски migrate:up:<микросервис>"
+    cmds:
+      - task: migrate:up:datacatalogue
+
+  migrate:up:datacatalogue:
+    deps: [install-goose]
+    desc: "Применяет миграции БД для datacatalogue (Data Catalog)"
+    dir: datacatalogue
+    cmds:
+      - "{{.GOOSE}} up"
 
   env:install-requirements:
     desc: "Устанавливает Python-зависимости для скриптов в deploy/python-scripts"

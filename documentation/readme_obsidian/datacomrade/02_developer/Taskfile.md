@@ -6,16 +6,16 @@ Tags: [[workflow]] [[must_install]] [[new_microservice]]
 
 # Taskfile
 
-Единая точка автоматизации проекта — корневой `Taskfile.yml`. Через [Task](https://taskfile.dev/) запускаются форматирование, линтинг, генерация кода (protobuf, OpenAPI, sqlc), генерация `.env` и поднятие/остановка docker-compose окружений. Установка самого Task — см. [[Taskdetail]].
+Единая точка автоматизации проекта — корневой `Taskfile.yml`. Через [Task](https://taskfile.dev/) запускаются форматирование, линтинг, генерация кода (protobuf, OpenAPI, sqlc), генерация `.env`, миграции БД и поднятие/остановка docker-compose окружений. Установка самого Task — см. [[Taskdetail]].
 
 ## Как устроены задачи
 
-Имена задач — `область:действие` (`proto:gen`, `sqlc:gen`, `env:gen`...); задачи без области (`format`, `lint`, `up-core`...) — общепроектные или per-компонентные, исторически без namespace.
+Имена задач — `область:действие` (`proto:gen`, `sqlc:gen`, `env:gen`, `migrate:up`...); задачи без области (`format`, `lint`, `up-core`...) — общепроектные или per-компонентные, исторически без namespace.
 
 В большинстве блоков есть **общая задача**, которую реально запускают руками (`*:gen`, `format`, `lint`, `up-all`...), и **под-таски**, которые она тянет за собой сама — руками их обычно не вызывают. Под-таски подключены двумя разными механизмами:
 
 - **`deps: [...]`** — под-таск (обычно `*:install-plugins` / `install-*`) выполняется автоматически перед `cmds` самой задачи. У install-тасков есть блок `status:`, который через `test -x <бинарник>` пропускает переустановку, если инструмент уже стоит в `bin/`.
-- **`cmds: - task: Y`** (или просто `- task Y` в shell-команде) — общая задача явно вызывает другие задачи из своего тела, одну за другой. Так работают `sqlc:gen` → `sqlc:gen:datacatalogue` и `up-all`/`down-all` → задачи `up-*`/`down-*`.
+- **`cmds: - task: Y`** (или просто `- task Y` в shell-команде) — общая задача явно вызывает другие задачи из своего тела, одну за другой. Так работают `sqlc:gen` → `sqlc:gen:datacatalogue`, `migrate:up` → `migrate:up:datacatalogue` и `up-all`/`down-all` → задачи `up-*`/`down-*`.
 
 ## Глобальные переменные (`vars`)
 
@@ -32,13 +32,14 @@ Tags: [[workflow]] [[must_install]] [[new_microservice]]
 | `PROTOC_GEN_GO_GRPC_VERSION` | `v1.5.1` | `proto:install-plugins` |
 | `OAPI_CODEGEN_VERSION` | `v2.8.0` | `openapi:install-plugins` |
 | `SQLC_VERSION` | `v1.31.1` | `sqlc:install-plugins` |
+| `GOOSE_VERSION` | `v3.27.3` | `install-goose` |
 
 ### Пути и списки
 
 | Переменная | Значение | Использует |
 | --- | --- | --- |
 | `BIN_DIR` | `{{.ROOT_DIR}}/bin` | все install-таски — общая папка для скачанных бинарников |
-| `GOLANGCI_LINT`, `GCI`, `GOFUMPT`, `BUF`, `PROTOC_GEN_GO`, `PROTOC_GEN_GO_GRPC`, `OAPI_CODEGEN`, `SQLC` | `{{.BIN_DIR}}/<бинарник>` | соответствующие install- и gen-таски |
+| `GOLANGCI_LINT`, `GCI`, `GOFUMPT`, `BUF`, `PROTOC_GEN_GO`, `PROTOC_GEN_GO_GRPC`, `OAPI_CODEGEN`, `SQLC`, `GOOSE` | `{{.BIN_DIR}}/<бинарник>` | соответствующие install- и gen-таски |
 | `GRPCURL` | `{{.BIN_DIR}}/grpcurl` | объявлена, но пока ни одна задача её не использует (зарезервирована) |
 | `MODULES` | `datacatalogue shepherd shared` | `format`, `lint` — список Go-модулей, по которым идёт цикл |
 | `SERVICES` | `datacatalogue shepherd shared` | объявлена, но пока ни одна задача её не использует (зарезервирована) |
@@ -105,6 +106,19 @@ Tags: [[workflow]] [[must_install]] [[new_microservice]]
 | `sqlc:install-plugins` | ставит `sqlc` в `bin/` |
 | `sqlc:gen:datacatalogue` | `sqlc generate` в `datacatalogue/db/sqlc` (по `sqlc.yml`); сама зависит от `sqlc:install-plugins` |
 
+## Миграции БД (goose)
+
+### `migrate:up` — общая задача
+
+Не мигрирует сама — вызывает под-таски вида `migrate:up:<микросервис>` (сейчас один — `migrate:up:datacatalogue`). При появлении БД у нового микросервиса заводится его собственный `migrate:up:<микросервис>` и добавляется вызов сюда — см. [[Миграции БД]].
+
+Под-таски:
+
+| Задача | Что делает |
+| --- | --- |
+| `install-goose` | ставит `goose` в `bin/` |
+| `migrate:up:datacatalogue` | `goose up` в `datacatalogue` — настройки подключения goose берёт из `datacatalogue/.env`; сама зависит от `install-goose` |
+
 ## Генерация `.env`
 
 ### `env:gen` — общая задача
@@ -128,15 +142,18 @@ Tags: [[workflow]] [[must_install]] [[new_microservice]]
 | `up-keycloak` / `down-keycloak` | `deploy/compose/keycloak` |
 | `up-redis` / `down-redis` | `deploy/compose/redis` |
 
+Отдельно стоит `up-shepherd` / `down-shepherd`: своего контейнера у shepherd нет, поэтому `up-shepherd` собирает `go build -o bin/shepherd ./cmd` и запускает его фоновым процессом (PID пишется в `bin/shepherd.pid`, логи — в `bin/shepherd.log`), а `down-shepherd` убивает процесс по этому PID.
+
 ### `up-all` / `down-all` — общие задачи
 
 Просто вызывают компонентные задачи по очереди (`cmds: - task up-core` и т.д., не `deps`, то есть строго последовательно, не параллельно):
 
-- `up-all`: `up-core` → `up-datacatalogue` → `up-keycloak` → `up-redis`.
-- `down-all`: `down-redis` → `down-keycloak` → `down-datacatalogue` → `down-core` (обратный порядок относительно `up-all`).
+- `up-all`: `up-core` → `up-datacatalogue` → `up-keycloak` → `up-redis` → `up-shepherd`.
+- `down-all`: `down-shepherd` → `down-redis` → `down-keycloak` → `down-datacatalogue` → `down-core` (обратный порядок относительно `up-all`).
 
 ### References
 - [[Taskdetail]]
+- [[Миграции БД]]
 - [[sqlc_generation]]
 - [[Работа с env файлами]]
 - [[generate_gprpc_go]]

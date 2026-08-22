@@ -15,6 +15,7 @@ Alias используется для того, чтобы понять одна
 | `updated_at` | `timestamp` | yes | `now()` | Дата обновления. |
 | `is_deleted` | `bool` | no | `false` | Флаг мягкого удаления. |
 | `user_id` | `int8` | no | `none` | Владелец записи. |
+| `column_type_id` | `bigint` | no | `-1` | Ссылка на тип колонки. `column_type_id` у alias должен совпадать с `column_type_id` колонки в других таблицах — то есть у всех колонок [[dc.column_cat]], которым присоединен этот alias, тип колонки должен быть тем же. |
 
 ## Keys & Constraints
 - Primary key: `alias_pk` (`id`).
@@ -22,14 +23,15 @@ Alias используется для того, чтобы понять одна
 
 ## Foreign Keys
 - `alias_user_fk`: `user_id` -> [[dc.user]](`dc."user".id`) `ON DELETE RESTRICT ON UPDATE CASCADE`.
+- `alias_column_type_id_fk`: `column_type_id` -> [[dc.column_type]](`dc.column_type.id`).
 
 ## Indexes
 - Явно не создаются отдельными миграциями.
 
 ## Migration source
 - Create: `datacatalogue/db/migrations/000000002_create_table_alias.sql`
-- FK/Alter: `datacatalogue/db/migrations/000000018_add_fk_alias.sql`
+- FK/Alter: `datacatalogue/db/migrations/000000018_add_fk_alias.sql`, `datacatalogue/db/migrations/000000045_add_alias_column_type_id.sql`
 
 ## References
 - Tags: #database #datacatalogue #table
-- Links: [[dc.user]] [[dc.column_cat]]
+- Links: [[dc.user]] [[dc.column_cat]] [[dc.column_type]]

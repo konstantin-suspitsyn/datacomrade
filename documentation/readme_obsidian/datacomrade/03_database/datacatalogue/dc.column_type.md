@@ -34,4 +34,4 @@
 
 ## References
 - Tags: #database #datacatalogue #table
-- Links: [[dc.user]] [[dc.column_cat]]
+- Links: [[dc.user]] [[dc.column_cat]] [[dc.alias]]
