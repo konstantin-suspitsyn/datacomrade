@@ -69,6 +69,19 @@ func ProtoToNullString(s *string) sql.NullString {
 	return sql.NullString{String: *s, Valid: true}
 }
 
+// NullInt64ToProto переводит nullable-колонку int64 в необязательное поле
+// proto. SQL NULL становится nil: у клиента должно оставаться различимо
+// "значения нет" и "значение 0" — для FK это разные вещи.
+func NullInt64ToProto(v sql.NullInt64) *int64 {
+	if !v.Valid {
+		return nil
+	}
+
+	value := v.Int64
+
+	return &value
+}
+
 // ProtoToNullInt64 переводит необязательное поле proto в необязательный
 // параметр запроса (sqlc.narg). nil — "фильтр не задан", то есть SQL NULL:
 // запрос трактует его как «не сужать выборку», а не как значение 0.

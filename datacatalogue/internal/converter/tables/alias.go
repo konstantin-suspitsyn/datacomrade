@@ -10,13 +10,14 @@ import (
 // AliasToProto переводит строку dc.alias в сущность gRPC.
 func AliasToProto(row tables_model.DcAlias) *tablesv1.Alias {
 	return &tablesv1.Alias{
-		Id:          row.ID,
-		Name:        row.Name,
-		Description: row.Description,
-		CreatedAt:   converter.TimeToProto(row.CreatedAt),
-		UpdatedAt:   converter.NullTimeToProto(row.UpdatedAt),
-		IsDeleted:   row.IsDeleted,
-		UserId:      row.UserID,
+		Id:           row.ID,
+		Name:         row.Name,
+		Description:  row.Description,
+		CreatedAt:    converter.TimeToProto(row.CreatedAt),
+		UpdatedAt:    converter.NullTimeToProto(row.UpdatedAt),
+		IsDeleted:    row.IsDeleted,
+		UserId:       row.UserID,
+		ColumnTypeId: row.ColumnTypeID,
 	}
 }
 
@@ -36,20 +37,22 @@ func AliasesToProto(rows []tables_model.DcAlias) []*tablesv1.Alias {
 // id, is_deleted, created_at и updated_at не переносятся — их выставляет SQL.
 func ToCreateAliasParams(req *tablesv1.CreateAliasRequest) tables_model.CreateAliasParams {
 	return tables_model.CreateAliasParams{
-		Name:        req.GetName(),
-		Description: req.GetDescription(),
-		ExternalID:  converter.ProtoToUUID(req.GetExternalId()),
+		Name:         req.GetName(),
+		Description:  req.GetDescription(),
+		ExternalID:   converter.ProtoToUUID(req.GetExternalId()),
+		ColumnTypeID: req.GetColumnTypeId(),
 	}
 }
 
 // ToUpdateAliasByIdParams собирает параметры обновления dc.alias из запроса gRPC.
 func ToUpdateAliasByIdParams(req *tablesv1.UpdateAliasByIdRequest) tables_model.UpdateAliasByIdParams {
 	return tables_model.UpdateAliasByIdParams{
-		Name:        req.GetName(),
-		Description: req.GetDescription(),
-		IsDeleted:   req.GetIsDeleted(),
-		ExternalID:  converter.ProtoToUUID(req.GetExternalId()),
-		ID:          req.GetId(),
+		Name:         req.GetName(),
+		Description:  req.GetDescription(),
+		IsDeleted:    req.GetIsDeleted(),
+		ExternalID:   converter.ProtoToUUID(req.GetExternalId()),
+		ColumnTypeID: req.GetColumnTypeId(),
+		ID:           req.GetId(),
 	}
 }
 

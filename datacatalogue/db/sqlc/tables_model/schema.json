@@ -34,6 +34,10 @@
             {
               "column_name": "user_id",
               "column_value": "(SELECT u.id FROM dc.\"user\" u WHERE u.external_id = @external_id)"
+            },
+            {
+              "column_name": "column_type_id",
+              "column_value": "@column_type_id"
             }
           ],
           "custom_query": null
@@ -89,6 +93,13 @@
             },
             {
               "column_name": "user_id",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "column_name": "column_type_id",
               "show": true,
               "where": false,
               "where_optional": false,
@@ -159,6 +170,15 @@
             },
             {
               "column_name": "user_id",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "column_type_id",
               "show": true,
               "where": false,
               "where_optional": false,
@@ -237,6 +257,15 @@
               "exact_where": null,
               "order_by": false,
               "order_by_optional": false
+            },
+            {
+              "column_name": "column_type_id",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
             }
           ],
           "custom_where": null,
@@ -300,6 +329,14 @@
               "column_name": "user_id",
               "set": true,
               "set_value": "(SELECT u.id FROM dc.\"user\" u WHERE u.external_id = @external_id)",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "column_type_id",
+              "set": true,
+              "set_value": "@column_type_id",
               "where": false,
               "where_optional": false,
               "where_value": null

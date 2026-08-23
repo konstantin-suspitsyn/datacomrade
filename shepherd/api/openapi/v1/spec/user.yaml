@@ -1,0 +1,82 @@
+openapi: 3.0.3
+info:
+  title: Shepherd API — userapiv1
+  description: |-
+    Ручки, которые обслуживает пакет datacatalogue/internal/api/userapiv1
+    (gRPC-контракт shared/proto/user/v1).
+    Собирается в openapi.yaml через task openapi:bundle.
+  version: 1.0.0
+paths:
+  /me:
+    get:
+      operationId: getMe
+      summary: Текущий аутентифицированный пользователь
+      description: >
+        Identity из Bearer-токена Keycloak, дополненная user_id из Metadata Service. Только читает dc.user — не
+        создаёт: если строки ещё нет, отвечает 404, вызывающий должен сначала сходить в POST /login.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Me'
+        '401':
+          description: Не аутентифицирован — отсутствует или недействителен токен
+          content:
+            application/json:
+              schema:
+                $ref: ./common.yaml#/components/schemas/Error
+        '404':
+          description: Пользователь ещё не создан в Metadata Service — сначала вызовите POST /login
+          content:
+            application/json:
+              schema:
+                $ref: ./common.yaml#/components/schemas/Error
+  /login:
+    post:
+      operationId: login
+      summary: Получить или создать пользователя dc.user
+      description: >
+        Резолвит dc.user по external_id (=sub из Keycloak); если записи ещё нет — создаёт её. Единственная ручка,
+        которая пишет в Metadata Service при первом входе пользователя — см. «Автосоздание пользователя» в API Gateway.md.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Me'
+        '401':
+          description: Не аутентифицирован — отсутствует или недействителен токен
+          content:
+            application/json:
+              schema:
+                $ref: ./common.yaml#/components/schemas/Error
+components:
+  schemas:
+    Me:
+      type: object
+      required:
+        - external_id
+        - user_id
+        - name
+        - roles
+      properties:
+        external_id:
+          type: string
+          format: uuid
+          description: sub из Keycloak — он же external_id в dc.user
+        user_id:
+          type: integer
+          format: int64
+          description: Численный id строки dc.user в Metadata Service
+        name:
+          type: string
+        email:
+          type: string
+        roles:
+          type: array
+          items:
+            type: string
+          description: Realm-роли Keycloak (admin/maintainer/viewer)

@@ -967,22 +967,25 @@ INSERT INTO dc.alias (
     created_at,
     updated_at,
     is_deleted,
-    user_id
+    user_id,
+    column_type_id
 ) VALUES (
     $1,
     $2,
     now(),
     now(),
     false,
-    (SELECT u.id FROM dc."user" u WHERE u.external_id = $3)
+    (SELECT u.id FROM dc."user" u WHERE u.external_id = $3),
+    $4
 )
-RETURNING id, name, description, created_at, updated_at, is_deleted, user_id
+RETURNING id, name, description, created_at, updated_at, is_deleted, user_id, column_type_id
 `
 
 type CreateAliasParams struct {
-	Name        string
-	Description string
-	ExternalID  uuid.UUID
+	Name         string
+	Description  string
+	ExternalID   uuid.UUID
+	ColumnTypeID int64
 }
 
 // Файл сгенерирован программой SG Buddy https://github.com/konstantin-suspitsyn/sg_buddy
@@ -991,7 +994,12 @@ type CreateAliasParams struct {
 // dc.alias
 // =========================================================
 func (q *Queries) CreateAlias(ctx context.Context, arg CreateAliasParams) (DcAlias, error) {
-	row := q.db.QueryRowContext(ctx, createAlias, arg.Name, arg.Description, arg.ExternalID)
+	row := q.db.QueryRowContext(ctx, createAlias,
+		arg.Name,
+		arg.Description,
+		arg.ExternalID,
+		arg.ColumnTypeID,
+	)
 	var i DcAlias
 	err := row.Scan(
 		&i.ID,
@@ -1001,6 +1009,7 @@ func (q *Queries) CreateAlias(ctx context.Context, arg CreateAliasParams) (DcAli
 		&i.UpdatedAt,
 		&i.IsDeleted,
 		&i.UserID,
+		&i.ColumnTypeID,
 	)
 	return i, err
 }
@@ -1038,7 +1047,7 @@ RETURNING id, table_id, name, alias_id, column_type_id, description, calculation
 type CreateColumnCatParams struct {
 	TableID           int64
 	Name              string
-	AliasID           int64
+	AliasID           sql.NullInt64
 	ColumnTypeID      int64
 	Description       string
 	CalculationTypeID int64
@@ -1985,7 +1994,8 @@ SELECT
     alias.created_at,
     alias.updated_at,
     alias.is_deleted,
-    alias.user_id
+    alias.user_id,
+    alias.column_type_id
 FROM dc.alias
 WHERE alias.id = $1
   AND alias.is_deleted = false
@@ -2003,6 +2013,7 @@ func (q *Queries) GetAliasById(ctx context.Context, id int64) (DcAlias, error) {
 		&i.UpdatedAt,
 		&i.IsDeleted,
 		&i.UserID,
+		&i.ColumnTypeID,
 	)
 	return i, err
 }
@@ -2015,7 +2026,8 @@ SELECT
     alias.created_at,
     alias.updated_at,
     alias.is_deleted,
-    alias.user_id
+    alias.user_id,
+    alias.column_type_id
 FROM dc.alias
 WHERE alias.is_deleted = false
 ORDER BY CASE WHEN $1::text <> 'DESC' THEN alias.id END ASC,
@@ -2046,6 +2058,7 @@ func (q *Queries) GetAliases(ctx context.Context, arg GetAliasesParams) ([]DcAli
 			&i.UpdatedAt,
 			&i.IsDeleted,
 			&i.UserID,
+			&i.ColumnTypeID,
 		); err != nil {
 			return nil, err
 		}
@@ -2068,7 +2081,8 @@ SELECT
     alias.created_at,
     alias.updated_at,
     alias.is_deleted,
-    alias.user_id
+    alias.user_id,
+    alias.column_type_id
 FROM dc.alias
 WHERE alias.is_deleted = true
 ORDER BY CASE WHEN $1::text <> 'DESC' THEN alias.id END ASC,
@@ -2099,6 +2113,7 @@ func (q *Queries) GetAliasesDeleted(ctx context.Context, arg GetAliasesDeletedPa
 			&i.UpdatedAt,
 			&i.IsDeleted,
 			&i.UserID,
+			&i.ColumnTypeID,
 		); err != nil {
 			return nil, err
 		}
@@ -5287,16 +5302,18 @@ SET name = $1,
     description = $2,
     updated_at = now(),
     is_deleted = $3,
-    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $4)
-WHERE alias.id = $5
+    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $4),
+    column_type_id = $5
+WHERE alias.id = $6
 `
 
 type UpdateAliasByIdParams struct {
-	Name        string
-	Description string
-	IsDeleted   bool
-	ExternalID  uuid.UUID
-	ID          int64
+	Name         string
+	Description  string
+	IsDeleted    bool
+	ExternalID   uuid.UUID
+	ColumnTypeID int64
+	ID           int64
 }
 
 func (q *Queries) UpdateAliasById(ctx context.Context, arg UpdateAliasByIdParams) error {
@@ -5305,6 +5322,7 @@ func (q *Queries) UpdateAliasById(ctx context.Context, arg UpdateAliasByIdParams
 		arg.Description,
 		arg.IsDeleted,
 		arg.ExternalID,
+		arg.ColumnTypeID,
 		arg.ID,
 	)
 	return err
@@ -5328,7 +5346,7 @@ WHERE column_cat.id = $9
 type UpdateColumnCatByIdParams struct {
 	TableID           int64
 	Name              string
-	AliasID           int64
+	AliasID           sql.NullInt64
 	ColumnTypeID      int64
 	Description       string
 	CalculationTypeID int64

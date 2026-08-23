@@ -1,0 +1,98 @@
+openapi: 3.0.3
+info:
+  title: Shepherd API — общие компоненты
+  description: |-
+    Пагинация, ошибки и стандартные ответы, общие для всех частей контракта.
+    Собирается в openapi.yaml через task openapi:bundle.
+  version: 1.0.0
+paths: {}
+components:
+  parameters:
+    OrderParam:
+      name: order
+      in: query
+      required: false
+      schema:
+        type: string
+      description: >
+        Направление сортировки — ASC или DESC. Если не передано, применяется значение по умолчанию (pagination.DefaultOrder
+        в shepherd).
+    PageParam:
+      name: page
+      in: query
+      required: false
+      schema:
+        type: integer
+        format: int32
+      description: Номер страницы, с 1. Если не передано — используется 1.
+    PageLimitParam:
+      name: page_limit
+      in: query
+      required: false
+      schema:
+        type: integer
+        format: int32
+      description: >
+        Размер страницы. Если не передано, применяется значение по умолчанию (pagination.DefaultPageLimit в shepherd).
+  responses:
+    BadRequest:
+      description: Некорректные параметры запроса
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Не аутентифицирован — отсутствует или недействителен токен
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Недостаточно прав — требуется роль admin или maintainer
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ForbiddenAdmin:
+      description: Недостаточно прав — требуется роль admin
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Строка не найдена
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Pagination:
+      type: object
+      required:
+        - page
+        - per_page
+        - total_items
+        - total_pages
+      properties:
+        page:
+          type: integer
+          format: int32
+        per_page:
+          type: integer
+          format: int32
+        total_items:
+          type: integer
+          format: int64
+        total_pages:
+          type: integer
+          format: int64
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+        message:
+          type: string

@@ -12,14 +12,16 @@ INSERT INTO dc.alias (
     created_at,
     updated_at,
     is_deleted,
-    user_id
+    user_id,
+    column_type_id
 ) VALUES (
     @name,
     @description,
     now(),
     now(),
     false,
-    (SELECT u.id FROM dc."user" u WHERE u.external_id = @external_id)
+    (SELECT u.id FROM dc."user" u WHERE u.external_id = @external_id),
+    @column_type_id
 )
 RETURNING *;
 
@@ -31,7 +33,8 @@ SELECT
     alias.created_at,
     alias.updated_at,
     alias.is_deleted,
-    alias.user_id
+    alias.user_id,
+    alias.column_type_id
 FROM dc.alias
 WHERE alias.id = @id
   AND alias.is_deleted = false
@@ -45,7 +48,8 @@ SELECT
     alias.created_at,
     alias.updated_at,
     alias.is_deleted,
-    alias.user_id
+    alias.user_id,
+    alias.column_type_id
 FROM dc.alias
 WHERE alias.is_deleted = true
 ORDER BY CASE WHEN sqlc.arg('order')::text <> 'DESC' THEN alias.id END ASC,
@@ -67,7 +71,8 @@ SELECT
     alias.created_at,
     alias.updated_at,
     alias.is_deleted,
-    alias.user_id
+    alias.user_id,
+    alias.column_type_id
 FROM dc.alias
 WHERE alias.is_deleted = false
 ORDER BY CASE WHEN sqlc.arg('order')::text <> 'DESC' THEN alias.id END ASC,
@@ -87,7 +92,8 @@ SET name = @name,
     description = @description,
     updated_at = now(),
     is_deleted = @is_deleted,
-    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = @external_id)
+    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = @external_id),
+    column_type_id = @column_type_id
 WHERE alias.id = @id;
 
 -- name: DeleteAliasById :exec

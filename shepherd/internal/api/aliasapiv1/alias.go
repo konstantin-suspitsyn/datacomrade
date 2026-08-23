@@ -102,9 +102,10 @@ func (h *Handler) CreateAlias(w http.ResponseWriter, r *http.Request) {
 	}
 
 	resp, err := h.client.CreateAlias(r.Context(), &tablesv1.CreateAliasRequest{
-		Name:        body.Name,
-		Description: body.Description,
-		ExternalId:  claims.Subject,
+		Name:         body.Name,
+		Description:  body.Description,
+		ColumnTypeId: body.ColumnTypeId,
+		ExternalId:   claims.Subject,
 	})
 	if err != nil {
 		apierror.WriteGRPC(w, err)
@@ -129,11 +130,12 @@ func (h *Handler) UpdateAliasById(w http.ResponseWriter, r *http.Request, id ope
 	}
 
 	_, err := h.client.UpdateAliasById(r.Context(), &tablesv1.UpdateAliasByIdRequest{
-		Id:          id,
-		Name:        body.Name,
-		Description: body.Description,
-		IsDeleted:   body.IsDeleted,
-		ExternalId:  claims.Subject,
+		Id:           id,
+		Name:         body.Name,
+		Description:  body.Description,
+		IsDeleted:    body.IsDeleted,
+		ColumnTypeId: body.ColumnTypeId,
+		ExternalId:   claims.Subject,
 	})
 	if err != nil {
 		apierror.WriteGRPC(w, err)

@@ -1,19 +1,20 @@
 CREATE SCHEMA dc;
 CREATE SCHEMA tech;
 CREATE TABLE dc.alias (
-    id bigint NOT NULL,
-    name character varying(255) NOT NULL,
-    description character varying(1000) NOT NULL,
-    created_at timestamp without time zone DEFAULT now() NOT NULL,
-    updated_at timestamp without time zone DEFAULT now(),
-    is_deleted boolean DEFAULT false NOT NULL,
-    user_id bigint NOT NULL
+                          id bigserial NOT NULL,
+                          "name" varchar(255) NOT NULL,
+                          description varchar(1000) NOT NULL,
+                          created_at timestamp DEFAULT now() NOT NULL,
+                          updated_at timestamp DEFAULT now() NULL,
+                          is_deleted bool DEFAULT false NOT NULL,
+                          user_id int8 NOT NULL,
+                          column_type_id int8 DEFAULT 1 NOT NULL
 );
 CREATE TABLE dc.column_cat (
     id bigint NOT NULL,
     table_id bigint NOT NULL,
     name character varying(256) NOT NULL,
-    alias_id bigint NOT NULL,
+    alias_id bigint,
     column_type_id bigint NOT NULL,
     description character varying(1000) NOT NULL,
     calculation_type_id bigint NOT NULL,

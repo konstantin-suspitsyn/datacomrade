@@ -9,11 +9,18 @@ import (
 )
 
 func toColumnCat(row *tablesv1.ColumnCat) openapiv1.ColumnCat {
+	// alias_id читается полем, а не геттером: колонка может быть без алиаса, и
+	// GetAliasId() отдал бы 0 и на «алиаса нет», и на алиас с id 0. Прямой
+	// доступ к полю не переживает nil-row, который геттеры гасят сами.
+	if row == nil {
+		row = &tablesv1.ColumnCat{}
+	}
+
 	return openapiv1.ColumnCat{
 		Id:                row.GetId(),
 		TableId:           row.GetTableId(),
 		Name:              row.GetName(),
-		AliasId:           row.GetAliasId(),
+		AliasId:           row.AliasId,
 		ColumnTypeId:      row.GetColumnTypeId(),
 		Description:       row.GetDescription(),
 		CalculationTypeId: row.GetCalculationTypeId(),

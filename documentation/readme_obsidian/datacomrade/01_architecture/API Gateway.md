@@ -47,7 +47,21 @@ Tags: [[architecture]] [[security]]
 
 Contract-first, по той же логике, что `shared/proto` + `buf` задают gRPC-границы:
 
-- `shepherd/api/openapi/v1/openapi.yaml` — рукописный контракт, источник истины.
+- `shepherd/api/openapi/v1/spec/*.yaml` — рукописный контракт, источник истины. Разрезан по пакетам микросервиса [[Metadata Service]], которые обслуживают ручки, — чтобы кусок контракта и его реализация в `datacatalogue` лежали в одних границах:
+
+| Файл | Пакет datacatalogue | gRPC-контракт | Что внутри |
+|---|---|---|---|
+| `spec/user.yaml` | `internal/api/userapiv1` | `shared/proto/user/v1` | `/me`, `/login` |
+| `spec/tables.yaml` | `internal/api/tablesapiv1` | `shared/proto/tables/v1` | весь каталог: хосты, БД, схемы, таблицы, колонки, домены, расчёты, группы |
+| `spec/user_domain_roles.yaml` | `internal/api/userdomainrolesapiv1` | `shared/proto/user_domain_roles/v1` | `/user-domain-roles`, `/user-table-roles` |
+| `spec/common.yaml` | — | — | `Error`, `Pagination`, `page`/`page_limit`/`order`, стандартные ответы 400/401/403/404 |
+| `spec/root.yaml` | — | — | `info`/`servers`/`security`, `bearerAuth` и список частей в `x-spec-parts` |
+
+  У `authlogicapiv1` своих REST-ручек нет — это внутренний gRPC, наружу не торчит.
+
+  Каждая часть — самостоятельный валидный OpenAPI-документ, ссылки между частями пишутся как `./common.yaml#/components/schemas/Error`, поэтому файл можно открыть и пролинтовать отдельно.
+
+- `shepherd/api/openapi/v1/openapi.yaml` — **сборка, редактировать нельзя**. `task openapi:bundle` (сидит в `deps` у `openapi:gen`) склеивает части в один файл скриптом `deploy/python-scripts/bundle_openapi.py`. Склейка нужна потому, что `oapi-codegen` v2 берёт модели только из `components` корневого документа: внешние `$ref` он либо отказывается резолвить без `--import-mapping`, либо молча выбрасывает типы. Скрипт падает на дубле пути или компонента между частями.
 - `oapi-codegen` генерирует `internal/api/openapiv1/{types.go,server.gen.go}` — модели и `ServerInterface` под `go-chi`. Реализация хендлеров обязана покрывать весь интерфейс целиком — расхождение спеки и кода не компилируется.
 - Рантайм-валидация входящих запросов по спеке — `oapi-codegen/nethttp-middleware`, отрабатывает до хендлера.
 - `GET /openapi.yaml` отдаёт спеку как есть, `GET /docs` — Swagger UI; оба включены только вне production (`SHEPHERD_ENABLE_DOCS`).
@@ -72,6 +86,8 @@ Contract-first, по той же логике, что `shared/proto` + `buf` з�
 - `external_id` (автор изменения) берётся из claims токена, а не из тела: во всех `*Write`-схемах его нет.
 - Фильтры на `/filter` необязательны и независимы — непереданный уходит в gRPC как отсутствующий (proto `optional`) и не сужает выборку. Именно поэтому `show_in_ui=false` — это фильтр, а не «фильтра нет».
 - `PUT` принимает `<E>Write`; отдельная схема `<E>Update` появляется только там, где gRPC-обновление принимает поле, которого нет во вставке (`dc.alias` — `is_deleted`, `dc.table_cat` — `is_get_dict`).
+- Колонка без `NOT NULL` — необязательное `nullable: true`-поле схемы (в Go — указатель): `null` и отсутствие поля значат одно и то же, «значения нет», а `0` остаётся значением и уезжает в gRPC как есть. Сейчас такое поле одно — `alias_id` у `column_cat`; в ответе оно опускается, когда алиаса нет.
+- Правило, связывающее две таблицы, гейтвей не проверяет — оно живёт в [[Metadata Service]] и доезжает сюда обычным кодом ошибки. Такое правило сейчас одно: `column_type_id` колонки обязан совпадать с `column_type_id` её алиаса. Стережётся оно с обеих сторон, поэтому касается трёх ручек. `POST /column-cats` и `PUT /column-cats/{id}` — 400 на несовпадение; у `POST` из-за этого появился и 404 (ссылка на несуществующий алиас, хотя самой колонки ещё нет). `PUT /aliases/{id}` — 400 на смену `column_type_id`, пока на алиас ссылается хоть одна активная колонка: одним запросом перевести алиас и его колонки нельзя, а разрешить полумеру значило бы оставить каталог с двумя разными типами у одной колонки.
 
 `/user-domain-roles` и `/user-table-roles` держатся той же формы и тех же соглашений, отличаясь только гейтом (`admin`) и набором роутов — ровно тем, что есть в gRPC: у `dc.user_domain_roles` нет `GET /{id}`, у обеих таблиц нет `/search` и `/deleted`. Из-за джойнов в выборках схемы ответа у них разведены: `<E>` — строка таблицы (ответ `POST`), `<E>Row`/`<E>FilteredRow`/`<E>Detail` — строки соответствующих запросов с подтянутыми именами пользователя, роли и таблицы.
 

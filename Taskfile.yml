@@ -176,8 +176,14 @@ tasks:
     status:
       - test -x {{.OAPI_CODEGEN}}
 
+  openapi:bundle:
+    desc: "Собирает api/openapi/v1/openapi.yaml из частей spec/*.yaml (по пакетам datacatalogue)"
+    deps: [env:install-requirements]
+    cmds:
+      - python deploy/python-scripts/bundle_openapi.py
+
   openapi:gen:
-    deps: [openapi:install-plugins]
+    deps: [openapi:install-plugins, openapi:bundle]
     desc: "Генерация Go-кода (types + chi ServerInterface) из OpenAPI-спеки Shepherd"
     dir: shepherd
     cmds:

@@ -9,6 +9,11 @@ import (
 	"github.com/konstantin-suspitsyn/datacomrade/shared/pkg/validator"
 )
 
+// columnCatPtr — адрес значения для optional-полей proto.
+func columnCatPtr[T any](v T) *T {
+	return &v
+}
+
 // columnCatFieldErrors достаёт из ошибки список полей с претензиями.
 func columnCatFieldErrors(t *testing.T, err error) map[string][]string {
 	t.Helper()
@@ -25,7 +30,7 @@ func validValidateCreateColumnCatRequest() *tablesv1.CreateColumnCatRequest {
 	return &tablesv1.CreateColumnCatRequest{
 		TableId:           100,
 		Name:              "name-1",
-		AliasId:           102,
+		AliasId:           columnCatPtr(int64(102)),
 		ColumnTypeId:      103,
 		Description:       "description-4",
 		CalculationTypeId: 105,
@@ -44,7 +49,8 @@ func TestValidateCreateColumnCat(t *testing.T) {
 		{name: "zero table_id", mutate: func(r *tablesv1.CreateColumnCatRequest) { r.TableId = 0 }, wantField: "table_id"},
 		{name: "empty name", mutate: func(r *tablesv1.CreateColumnCatRequest) { r.Name = "" }, wantField: "name"},
 		{name: "name too long", mutate: func(r *tablesv1.CreateColumnCatRequest) { r.Name = strings.Repeat("a", columnCatNameMaxLen+1) }, wantField: "name"},
-		{name: "zero alias_id", mutate: func(r *tablesv1.CreateColumnCatRequest) { r.AliasId = 0 }, wantField: "alias_id"},
+		{name: "absent alias_id", mutate: func(r *tablesv1.CreateColumnCatRequest) { r.AliasId = nil }},
+		{name: "zero alias_id", mutate: func(r *tablesv1.CreateColumnCatRequest) { r.AliasId = columnCatPtr(int64(0)) }, wantField: "alias_id"},
 		{name: "zero column_type_id", mutate: func(r *tablesv1.CreateColumnCatRequest) { r.ColumnTypeId = 0 }, wantField: "column_type_id"},
 		{name: "empty description", mutate: func(r *tablesv1.CreateColumnCatRequest) { r.Description = "" }, wantField: "description"},
 		{name: "description too long", mutate: func(r *tablesv1.CreateColumnCatRequest) {
@@ -91,7 +97,7 @@ func validValidateUpdateColumnCatByIdRequest() *tablesv1.UpdateColumnCatByIdRequ
 	return &tablesv1.UpdateColumnCatByIdRequest{
 		TableId:           100,
 		Name:              "name-1",
-		AliasId:           102,
+		AliasId:           columnCatPtr(int64(102)),
 		ColumnTypeId:      103,
 		Description:       "description-4",
 		CalculationTypeId: 105,
@@ -111,7 +117,8 @@ func TestValidateUpdateColumnCatById(t *testing.T) {
 		{name: "zero table_id", mutate: func(r *tablesv1.UpdateColumnCatByIdRequest) { r.TableId = 0 }, wantField: "table_id"},
 		{name: "empty name", mutate: func(r *tablesv1.UpdateColumnCatByIdRequest) { r.Name = "" }, wantField: "name"},
 		{name: "name too long", mutate: func(r *tablesv1.UpdateColumnCatByIdRequest) { r.Name = strings.Repeat("a", columnCatNameMaxLen+1) }, wantField: "name"},
-		{name: "zero alias_id", mutate: func(r *tablesv1.UpdateColumnCatByIdRequest) { r.AliasId = 0 }, wantField: "alias_id"},
+		{name: "absent alias_id", mutate: func(r *tablesv1.UpdateColumnCatByIdRequest) { r.AliasId = nil }},
+		{name: "zero alias_id", mutate: func(r *tablesv1.UpdateColumnCatByIdRequest) { r.AliasId = columnCatPtr(int64(0)) }, wantField: "alias_id"},
 		{name: "zero column_type_id", mutate: func(r *tablesv1.UpdateColumnCatByIdRequest) { r.ColumnTypeId = 0 }, wantField: "column_type_id"},
 		{name: "empty description", mutate: func(r *tablesv1.UpdateColumnCatByIdRequest) { r.Description = "" }, wantField: "description"},
 		{name: "description too long", mutate: func(r *tablesv1.UpdateColumnCatByIdRequest) {

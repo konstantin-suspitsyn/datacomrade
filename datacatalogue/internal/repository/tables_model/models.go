@@ -12,13 +12,14 @@ import (
 )
 
 type DcAlias struct {
-	ID          int64
-	Name        string
-	Description string
-	CreatedAt   time.Time
-	UpdatedAt   sql.NullTime
-	IsDeleted   bool
-	UserID      int64
+	ID           int64
+	Name         string
+	Description  string
+	CreatedAt    time.Time
+	UpdatedAt    sql.NullTime
+	IsDeleted    bool
+	UserID       int64
+	ColumnTypeID int64
 }
 
 type DcCalculationType struct {
@@ -34,7 +35,7 @@ type DcColumnCat struct {
 	ID                int64
 	TableID           int64
 	Name              string
-	AliasID           int64
+	AliasID           sql.NullInt64
 	ColumnTypeID      int64
 	Description       string
 	CalculationTypeID int64

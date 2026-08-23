@@ -67,6 +67,12 @@ def row_to_proto_expr(f, var):
         return "converter.TimeToProto(%s)" % src
     if pair == ("sql.NullTime", "*timestamppb.Timestamp"):
         return "converter.NullTimeToProto(%s)" % src
+    if pair == ("sql.NullInt64", "*int64"):
+        # Nullable-колонка (dc.column_cat.alias_id): NULL обязан доехать до
+        # клиента как отсутствие значения, а не как 0 — для FK это разное.
+        return "converter.NullInt64ToProto(%s)" % src
+    if pair == ("sql.NullString", "*string"):
+        return "converter.NullStringToProto(%s)" % src
     if pair == ("string", "*string"):
         return "converter.StringToProto(%s)" % src
     if pair == ("int64", "*int64"):
@@ -382,11 +388,11 @@ def uuid_literal(idx, variant=0):
     return "00000000-0000-4000-8000-%012d" % (idx + variant * 1000 + 1)
 
 
-def sample_value(f, idx, variant=0):
+def sample_value(f, idx, variant=0, ptr_helper=None):
     t = f["go_type"]
+    tag = f.get("col") or f["go"]
     if t == "string":
         # Поля фильтра постраничного списка не привязаны к колонке (нет "col").
-        tag = f.get("col") or f["go"]
         return '"%s-%d"' % (tag.replace("_", "-"), variant)
     if t == "int64":
         return str(100 + idx + variant * 1000)
@@ -396,10 +402,19 @@ def sample_value(f, idx, variant=0):
         return "true"
     if t == "uuid.UUID":
         return '"%s"' % uuid_literal(idx, variant)
-    return None
+    if t == "sql.NullInt64":
+        # optional int64 в proto — литерал обязан быть указателем.
+        if ptr_helper is None:
+            raise Exception("для %s (%s) нужен ptr-хелпер" % (tag, t))
+        return "%s(int64(%d))" % (ptr_helper, 100 + idx + variant * 1000)
+    # Молча вернуть None значило бы записать в .go строку "None" — генератор
+    # обязан падать на неизвестном типе, а не выдавать несобираемый код.
+    raise Exception("нет тестового значения для %s (%s)" % (tag, t))
 
 
 def repo_sample_value(f, idx, variant=0):
+    if f["go_type"] == "sql.NullInt64":
+        return "sql.NullInt64{Int64: %d, Valid: true}" % (100 + idx + variant * 1000)
     value = sample_value(f, idx, variant)
     if f["go_type"] == "uuid.UUID":
         return "uuid.MustParse(%s)" % value
@@ -488,12 +503,33 @@ def gen_row_to_proto_test(conv, sample_func, fields):
         elif pair == ("uuid.UUID", "string"):
             lines.append('\tif %s != row.%s.String() {' % (g, f["go"]))
             lines.append('\t\tt.Errorf("%s = %%q, want %%q", %s, row.%s.String())' % (f["proto"], g, f["go"]))
+        elif pair == ("sql.NullInt64", "*int64"):
+            # Сверяется поле, а не геттер: тот отдаёт 0 и на nil, и на явный
+            # ноль, и потеря значения выглядела бы как успешный перенос.
+            lines.append('\tif got.%s == nil || *got.%s != row.%s.Int64 {' % (f["proto"], f["proto"], f["go"]))
+            lines.append(
+                '\t\tt.Errorf("%s = %%v, want %%d", got.%s, row.%s.Int64)' % (f["proto"], f["proto"], f["go"])
+            )
         else:
             verb = "%q" if f["go_type"] == "string" else ("%d" if f["go_type"] == "int64" else "%v")
             lines.append('\tif %s != row.%s {' % (g, f["go"]))
             lines.append('\t\tt.Errorf("%s = %s, want %s", %s, row.%s)' % (f["proto"], verb, verb, g, f["go"]))
         lines.append('\t}')
         lines.append("")
+
+    # NULL в колонке обязан доехать до клиента как отсутствие поля. Без этой
+    # проверки конвертер, подставляющий 0 вместо nil, прошёл бы тесты выше.
+    for f in fields:
+        if (f["go_type"], f["proto_type"]) != ("sql.NullInt64", "*int64"):
+            continue
+        lines.append('\trow.%s = sql.NullInt64{}' % f["go"])
+        lines.append('\tif got := %sToProto(row); got.%s != nil {' % (conv, f["proto"]))
+        lines.append(
+            '\t\tt.Errorf("%s = %%v, want nil для SQL NULL", got.%s)' % (f["proto"], f["proto"])
+        )
+        lines.append('\t}')
+        lines.append("")
+
     lines.append("}")
     lines.append("")
     return lines
@@ -541,14 +577,14 @@ def gen_rows_to_proto_test(plural_conv, sample_func, repo, struct, fields):
     return lines
 
 
-def gen_params_test_block(proto, repo, req_type, params_type, func_name, fields):
+def gen_params_test_block(proto, repo, req_type, params_type, func_name, fields, ptr_helper=None):
     """TestTo<Func>Params + TestTo<Func>ParamsNil — общий шаблон для Create и
     для update/delete/undelete в форме параметров."""
     lines = []
     lines.append("func Test%s(t *testing.T) {" % func_name)
     lines.append("\treq := &%s.%s{" % (proto, req_type))
     for i, f in enumerate(fields):
-        v = sample_value(f, i)
+        v = sample_value(f, i, ptr_helper=ptr_helper)
         lines.append("\t\t%s: %s," % (f["proto"], v))
     lines.append("\t}")
     lines.append("")
@@ -600,12 +636,18 @@ def gen_converter_test(meta, e):
     for _, op in param_ops:
         extra_fields += op["fields"]
 
+    # Указатель нужен не только фильтрам: nullable-колонка (dc.column_cat.alias_id)
+    # приезжает в строке и в параметрах Create/Update тем же optional-полем proto.
+    needs_ptr = bool(optional_filters) or any(
+        (f["go_type"], f["proto_type"]) in NULLABLE_PAIRS for f in row_fields + extra_fields
+    )
+
     # Шапка собирается в конце: у таблицы-справочника (без Create и без
     # запросов с параметрами) proto-пакет в тестах не упоминается вовсе,
     # и неиспользованный импорт не дал бы собрать пакет.
     lines = []
 
-    if optional_filters:
+    if needs_ptr:
         lines.append("// %s — адрес значения для optional-полей proto." % ptr_helper)
         lines.append("func %s[T any](v T) *T {" % ptr_helper)
         lines.append("\treturn &v")
@@ -647,7 +689,8 @@ def gen_converter_test(meta, e):
     if e["has_create"]:
         lines.extend(
             gen_params_test_block(
-                proto, repo, "Create%sRequest" % E, e["create_params"], "ToCreate%sParams" % E, e["create_fields"]
+                proto, repo, "Create%sRequest" % E, e["create_params"], "ToCreate%sParams" % E,
+                e["create_fields"], ptr_helper,
             )
         )
 
@@ -655,7 +698,9 @@ def gen_converter_test(meta, e):
     for op_key, op in param_ops:
         name = op["query"]
         lines.extend(
-            gen_params_test_block(proto, repo, name + "Request", op["params_type"], "To%sParams" % name, op["fields"])
+            gen_params_test_block(
+                proto, repo, name + "Request", op["params_type"], "To%sParams" % name, op["fields"], ptr_helper
+            )
         )
 
     for lk in e["lookups"]:
@@ -750,7 +795,10 @@ def gen_converter_test(meta, e):
     body = "\n".join(lines)
 
     head = ["package %s" % meta["conv_pkg"], "", "import ("]
-    if has_nulltime or optional_filters:
+    # По телу файла, а не по флагам: sql.Null*-литералы приезжают из строки,
+    # из параметров и из фильтров, и перечислять источники — лишний шанс
+    # выписать неиспользованный импорт, а это ошибка сборки Go.
+    if "sql.Null" in body:
         head.append('\t"database/sql"')
     head.append('\t"testing"')
     if has_time:
@@ -779,6 +827,11 @@ def field_validation_line(f, limit_entity):
         return '\tv.StringVarchar("%s", %s, %s)' % (col, getter, limit_const(limit_entity, f["proto"]))
     if f["go_type"] == "int64":
         return '\tv.Int64ID("%s", %s)' % (col, getter)
+    if f["go_type"] == "sql.NullInt64":
+        # Nullable-колонка: не передали — проходит, передали — обязан быть
+        # больше нуля. Значение берётся из поля, а не из геттера: тот отдаёт 0
+        # и на "не передан", и на явный ноль, и presence потерялась бы.
+        return '\tv.OptionalInt64ID("%s", req.%s)' % (col, f["proto"])
     if f["go_type"] == "int16":
         return '\tv.Int32Between("%s", %s, math.MinInt16, math.MaxInt16)' % (col, getter)
     if f["go_type"] == "uuid.UUID":
@@ -939,7 +992,11 @@ def gen_validation_test(meta, e):
     ]
     paginated_lists = [l for l in e["lists"] if l["paginated"]]
 
+    ptr_helper = "%sPtr" % lower_first(E)
+    needs_ptr = False
+
     def literal(f, i):
+        nonlocal needs_ptr
         if f["go_type"] == "string":
             return '"%s-%d"' % (f["col"].replace("_", "-"), i)
         if f["go_type"] == "int64":
@@ -950,7 +1007,12 @@ def gen_validation_test(meta, e):
             return "true"
         if f["go_type"] == "uuid.UUID":
             return '"%s"' % uuid_literal(i)
-        return "0"
+        if f["go_type"] == "sql.NullInt64":
+            needs_ptr = True
+            return "%s(int64(%d))" % (ptr_helper, 100 + i)
+        # Прежняя заглушка "0" молча подставляла неверный литерал вместо того,
+        # чтобы упасть: для optional-поля он к тому же не компилировался.
+        raise Exception("нет тестового литерала для %s (%s)" % (f["col"], f["go_type"]))
 
     lines = []
     lines.append("// %sFieldErrors достаёт из ошибки список полей с претензиями." % lower_first(E))
@@ -1013,6 +1075,18 @@ def gen_validation_test(meta, e):
                 out.append(
                     '\t\t{name: "malformed %s", mutate: func(r *%s.%s) { r.%s = "not-a-uuid" }, wantField: "%s"},'
                     % (col, proto, reqtype, f["proto"], col)
+                )
+            elif f["go_type"] == "sql.NullInt64":
+                # Два случая, и оба важны: непереданное значение обязано
+                # проходить (иначе колонка не необязательная), а переданный
+                # ноль — отбиваться, как у обычного FK.
+                out.append(
+                    '\t\t{name: "absent %s", mutate: func(r *%s.%s) { r.%s = nil }},'
+                    % (col, proto, reqtype, f["proto"])
+                )
+                out.append(
+                    '\t\t{name: "zero %s", mutate: func(r *%s.%s) { r.%s = %s(int64(0)) }, wantField: "%s"},'
+                    % (col, proto, reqtype, f["proto"], ptr_helper, col)
                 )
         out.append("\t}")
         out.append("")
@@ -1198,6 +1272,14 @@ def gen_validation_test(meta, e):
         lines.append("")
 
     body = "\n".join(lines)
+
+    if needs_ptr:
+        body = (
+            "// %s — адрес значения для optional-полей proto.\n"
+            "func %s[T any](v T) *T {\n"
+            "\treturn &v\n"
+            "}\n\n" % (ptr_helper, ptr_helper)
+        ) + body
 
     head = ["package %s" % meta["conv_pkg"], "", "import (", '\t"errors"']
     if "math.MaxInt16" in body:

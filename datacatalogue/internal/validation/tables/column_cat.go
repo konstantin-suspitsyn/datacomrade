@@ -17,7 +17,7 @@ func ValidateCreateColumnCat(req *tablesv1.CreateColumnCatRequest) error {
 
 	v.Int64ID("table_id", req.GetTableId())
 	v.StringVarchar("name", req.GetName(), columnCatNameMaxLen)
-	v.Int64ID("alias_id", req.GetAliasId())
+	v.OptionalInt64ID("alias_id", req.AliasId)
 	v.Int64ID("column_type_id", req.GetColumnTypeId())
 	v.StringVarchar("description", req.GetDescription(), columnCatDescriptionMaxLen)
 	v.Int64ID("calculation_type_id", req.GetCalculationTypeId())
@@ -37,7 +37,7 @@ func ValidateUpdateColumnCatById(req *tablesv1.UpdateColumnCatByIdRequest) error
 
 	v.Int64ID("table_id", req.GetTableId())
 	v.StringVarchar("name", req.GetName(), columnCatNameMaxLen)
-	v.Int64ID("alias_id", req.GetAliasId())
+	v.OptionalInt64ID("alias_id", req.AliasId)
 	v.Int64ID("column_type_id", req.GetColumnTypeId())
 	v.StringVarchar("description", req.GetDescription(), columnCatDescriptionMaxLen)
 	v.Int64ID("calculation_type_id", req.GetCalculationTypeId())

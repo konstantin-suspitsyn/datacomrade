@@ -87,11 +87,14 @@ Tags: [[workflow]] [[must_install]] [[new_microservice]]
 
 Генерирует `types.go`/`server.gen.go` (модели + chi `ServerInterface`) из `shepherd/api/openapi/v1/openapi.yaml` — `dir: shepherd`.
 
-Под-таск:
+Под-таски:
 
 | Задача | Что делает |
 | --- | --- |
 | `openapi:install-plugins` | ставит `oapi-codegen` в `bin/` (`deps` у `openapi:gen`) |
+| `openapi:bundle` | склеивает `shepherd/api/openapi/v1/openapi.yaml` из частей `spec/*.yaml`, разрезанных по пакетам `datacatalogue` (`deps` у `openapi:gen`) |
+
+Править руками нужно `shepherd/api/openapi/v1/spec/<пакет>.yaml`, а не собранный `openapi.yaml` — он перезаписывается на каждом прогоне. Разбивка и её причины — в [[API Gateway]].
 
 ## sqlc
 

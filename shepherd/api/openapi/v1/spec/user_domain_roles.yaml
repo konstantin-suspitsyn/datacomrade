@@ -1,0 +1,648 @@
+openapi: 3.0.3
+info:
+  title: Shepherd API — userdomainrolesapiv1
+  description: |-
+    Ручки, которые обслуживает пакет datacatalogue/internal/api/userdomainrolesapiv1
+    (gRPC-контракт shared/proto/user_domain_roles/v1).
+    Собирается в openapi.yaml через task openapi:bundle.
+  version: 1.0.0
+paths:
+  /user-domain-roles:
+    get:
+      operationId: listUserDomainRoles
+      summary: Страница строк dc.user_domain_roles
+      description: >
+        Требуется роль admin. order/page_limit по умолчанию — см. pagination.DefaultOrder/DefaultPageLimit в shepherd.
+      parameters:
+        - $ref: ./common.yaml#/components/parameters/OrderParam
+        - $ref: ./common.yaml#/components/parameters/PageParam
+        - $ref: ./common.yaml#/components/parameters/PageLimitParam
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDomainRolesPage'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/ForbiddenAdmin
+    post:
+      operationId: createUserDomainRoles
+      summary: Выдать пользователю роль на домен
+      description: Требуется роль admin.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserDomainRolesWrite'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDomainRoles'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/ForbiddenAdmin
+        '409':
+          description: Строка с такими уникальными полями уже существует
+          content:
+            application/json:
+              schema:
+                $ref: ./common.yaml#/components/schemas/Error
+  /user-domain-roles/{id}:
+    put:
+      operationId: updateUserDomainRolesById
+      summary: Обновить строку dc.user_domain_roles
+      description: Требуется роль admin.
+      parameters:
+        - $ref: '#/components/parameters/UserDomainRolesIdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserDomainRolesWrite'
+      responses:
+        '204':
+          description: Обновлено
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/ForbiddenAdmin
+        '404':
+          $ref: ./common.yaml#/components/responses/NotFound
+    delete:
+      operationId: deleteUserDomainRolesById
+      summary: Мягко удалить строку dc.user_domain_roles
+      description: Требуется роль admin.
+      parameters:
+        - $ref: '#/components/parameters/UserDomainRolesIdParam'
+      responses:
+        '204':
+          description: Удалено
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/ForbiddenAdmin
+        '404':
+          $ref: ./common.yaml#/components/responses/NotFound
+  /user-domain-roles/{id}/undelete:
+    post:
+      operationId: undeleteUserDomainRolesById
+      summary: Восстановить мягко удалённую строку dc.user_domain_roles
+      description: Требуется роль admin.
+      parameters:
+        - $ref: '#/components/parameters/UserDomainRolesIdParam'
+      responses:
+        '204':
+          description: Восстановлено
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/ForbiddenAdmin
+  /user-table-roles:
+    get:
+      operationId: listUserTableRoles
+      summary: Страница строк dc.user_table_roles
+      description: >
+        Требуется роль admin. order/page_limit по умолчанию — см. pagination.DefaultOrder/DefaultPageLimit в shepherd.
+      parameters:
+        - $ref: ./common.yaml#/components/parameters/OrderParam
+        - $ref: ./common.yaml#/components/parameters/PageParam
+        - $ref: ./common.yaml#/components/parameters/PageLimitParam
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserTableRolesPage'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/ForbiddenAdmin
+    post:
+      operationId: createUserTableRoles
+      summary: Выдать пользователю роль на таблицу
+      description: Требуется роль admin.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserTableRolesWrite'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserTableRoles'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/ForbiddenAdmin
+        '409':
+          description: Строка с такими уникальными полями уже существует
+          content:
+            application/json:
+              schema:
+                $ref: ./common.yaml#/components/schemas/Error
+  /user-table-roles/filter:
+    get:
+      operationId: filterUserTableRoles
+      summary: Страница строк dc.user_table_roles с необязательными фильтрами
+      description: >
+        Требуется роль admin. Фильтры необязательны и независимы: непереданный не сужает выборку.
+      parameters:
+        - name: dc_user_name
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: dc_user_external_id
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: table_roles_name
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: table_cat_id
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: table_cat_name
+          in: query
+          required: false
+          schema:
+            type: string
+        - $ref: ./common.yaml#/components/parameters/OrderParam
+        - $ref: ./common.yaml#/components/parameters/PageParam
+        - $ref: ./common.yaml#/components/parameters/PageLimitParam
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserTableRolesFilteredPage'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/ForbiddenAdmin
+  /user-table-roles/{id}:
+    get:
+      operationId: getUserTableRolesById
+      summary: Активная строка dc.user_table_roles по id
+      description: Требуется роль admin.
+      parameters:
+        - $ref: '#/components/parameters/UserTableRolesIdParam'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserTableRolesDetail'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/ForbiddenAdmin
+        '404':
+          $ref: ./common.yaml#/components/responses/NotFound
+    put:
+      operationId: updateUserTableRolesById
+      summary: Обновить строку dc.user_table_roles
+      description: Требуется роль admin.
+      parameters:
+        - $ref: '#/components/parameters/UserTableRolesIdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserTableRolesWrite'
+      responses:
+        '204':
+          description: Обновлено
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/ForbiddenAdmin
+        '404':
+          $ref: ./common.yaml#/components/responses/NotFound
+    delete:
+      operationId: deleteUserTableRolesById
+      summary: Мягко удалить строку dc.user_table_roles
+      description: Требуется роль admin.
+      parameters:
+        - $ref: '#/components/parameters/UserTableRolesIdParam'
+      responses:
+        '204':
+          description: Удалено
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/ForbiddenAdmin
+        '404':
+          $ref: ./common.yaml#/components/responses/NotFound
+  /user-table-roles/{id}/undelete:
+    post:
+      operationId: undeleteUserTableRolesById
+      summary: Восстановить мягко удалённую строку dc.user_table_roles
+      description: Требуется роль admin.
+      parameters:
+        - $ref: '#/components/parameters/UserTableRolesIdParam'
+      responses:
+        '204':
+          description: Восстановлено
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/ForbiddenAdmin
+components:
+  parameters:
+    UserDomainRolesIdParam:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+    UserTableRolesIdParam:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+  schemas:
+    UserDomainRoles:
+      type: object
+      required:
+        - id
+        - user_id
+        - domain_roles_id
+        - created_at
+        - updated_at
+        - is_deleted
+        - domain_id
+        - updated_by_id
+      properties:
+        id:
+          type: integer
+          format: int64
+        user_id:
+          type: integer
+          format: int64
+        domain_roles_id:
+          type: integer
+          format: int64
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        is_deleted:
+          type: boolean
+        domain_id:
+          type: integer
+          format: int64
+        updated_by_id:
+          type: integer
+          format: int64
+    UserDomainRolesRow:
+      description: >
+        Строка списка dc.user_domain_roles: колонки таблицы плюс подтянутые джойном имена роли и пользователя.
+      type: object
+      required:
+        - id
+        - user_id
+        - domain_roles_id
+        - created_at
+        - updated_at
+        - is_deleted
+        - domain_id
+        - updated_by_id
+        - domain_roles_name
+        - domain_roles_description
+        - dc_user_name
+      properties:
+        id:
+          type: integer
+          format: int64
+        user_id:
+          type: integer
+          format: int64
+        domain_roles_id:
+          type: integer
+          format: int64
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        is_deleted:
+          type: boolean
+        domain_id:
+          type: integer
+          format: int64
+        updated_by_id:
+          type: integer
+          format: int64
+        domain_roles_name:
+          type: string
+        domain_roles_description:
+          type: string
+        dc_user_name:
+          type: string
+    UserDomainRolesPage:
+      type: object
+      required:
+        - data
+        - pagination
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserDomainRolesRow'
+        pagination:
+          $ref: ./common.yaml#/components/schemas/Pagination
+    UserDomainRolesWrite:
+      type: object
+      required:
+        - user_id
+        - domain_roles_id
+        - domain_id
+      properties:
+        user_id:
+          type: integer
+          format: int64
+        domain_roles_id:
+          type: integer
+          format: int64
+        domain_id:
+          type: integer
+          format: int64
+    UserTableRoles:
+      type: object
+      required:
+        - id
+        - user_id
+        - table_roles_id
+        - created_at
+        - updated_at
+        - is_deleted
+        - table_id
+        - updated_by_id
+      properties:
+        id:
+          type: integer
+          format: int64
+        user_id:
+          type: integer
+          format: int64
+        table_roles_id:
+          type: integer
+          format: int64
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        is_deleted:
+          type: boolean
+        table_id:
+          type: integer
+          format: int64
+        updated_by_id:
+          type: integer
+          format: int64
+    UserTableRolesRow:
+      description: >
+        Строка списка dc.user_table_roles: колонки таблицы плюс подтянутые джойном пользователь, роль и таблица.
+        dc_user_id/table_cat_id необязательны — джойн левый, связанной строки может не быть.
+      type: object
+      required:
+        - id
+        - user_id
+        - table_roles_id
+        - created_at
+        - updated_at
+        - table_id
+        - dc_user_name
+        - dc_user_external_id
+        - table_roles_name
+        - table_roles_description
+        - table_cat_name
+      properties:
+        id:
+          type: integer
+          format: int64
+        user_id:
+          type: integer
+          format: int64
+        table_roles_id:
+          type: integer
+          format: int64
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        table_id:
+          type: integer
+          format: int64
+        dc_user_id:
+          type: integer
+          format: int64
+        dc_user_name:
+          type: string
+        dc_user_external_id:
+          type: string
+        table_roles_name:
+          type: string
+        table_roles_description:
+          type: string
+        table_cat_id:
+          type: integer
+          format: int64
+        table_cat_name:
+          type: string
+    UserTableRolesPage:
+      type: object
+      required:
+        - data
+        - pagination
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserTableRolesRow'
+        pagination:
+          $ref: ./common.yaml#/components/schemas/Pagination
+    UserTableRolesFilteredRow:
+      description: >
+        Строка отфильтрованного списка dc.user_table_roles. Отличается от UserTableRolesRow отсутствием table_roles_id
+        — запрос с фильтрами его не отдаёт.
+      type: object
+      required:
+        - id
+        - user_id
+        - created_at
+        - updated_at
+        - table_id
+        - dc_user_name
+        - dc_user_external_id
+        - table_roles_name
+        - table_roles_description
+        - table_cat_name
+      properties:
+        id:
+          type: integer
+          format: int64
+        user_id:
+          type: integer
+          format: int64
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        table_id:
+          type: integer
+          format: int64
+        dc_user_id:
+          type: integer
+          format: int64
+        dc_user_name:
+          type: string
+        dc_user_external_id:
+          type: string
+        table_roles_name:
+          type: string
+        table_roles_description:
+          type: string
+        table_cat_id:
+          type: integer
+          format: int64
+        table_cat_name:
+          type: string
+    UserTableRolesFilteredPage:
+      type: object
+      required:
+        - data
+        - pagination
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserTableRolesFilteredRow'
+        pagination:
+          $ref: ./common.yaml#/components/schemas/Pagination
+    UserTableRolesDetail:
+      description: Одна строка dc.user_table_roles по id, с джойнами.
+      type: object
+      required:
+        - id
+        - user_id
+        - table_roles_id
+        - created_at
+        - updated_at
+        - table_id
+        - dc_user_name
+        - dc_user_external_id
+        - table_roles_name
+        - table_roles_description
+        - table_cat_name
+      properties:
+        id:
+          type: integer
+          format: int64
+        user_id:
+          type: integer
+          format: int64
+        table_roles_id:
+          type: integer
+          format: int64
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        table_id:
+          type: integer
+          format: int64
+        dc_user_id:
+          type: integer
+          format: int64
+        dc_user_name:
+          type: string
+        dc_user_external_id:
+          type: string
+        table_roles_name:
+          type: string
+        table_roles_description:
+          type: string
+        table_cat_id:
+          type: integer
+          format: int64
+        table_cat_name:
+          type: string
+    UserTableRolesWrite:
+      type: object
+      required:
+        - user_id
+        - table_roles_id
+        - table_id
+      properties:
+        user_id:
+          type: integer
+          format: int64
+        table_roles_id:
+          type: integer
+          format: int64
+        table_id:
+          type: integer
+          format: int64

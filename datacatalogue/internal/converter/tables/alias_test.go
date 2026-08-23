@@ -19,13 +19,14 @@ var (
 // testAliasRow — строка dc.alias со значениями, различимыми между полями.
 func testAliasRow() tables_model.DcAlias {
 	return tables_model.DcAlias{
-		ID:          100,
-		Name:        "name-0",
-		Description: "description-0",
-		CreatedAt:   aliasCreatedAt,
-		UpdatedAt:   sql.NullTime{Time: aliasUpdatedAt, Valid: true},
-		IsDeleted:   false,
-		UserID:      106,
+		ID:           100,
+		Name:         "name-0",
+		Description:  "description-0",
+		CreatedAt:    aliasCreatedAt,
+		UpdatedAt:    sql.NullTime{Time: aliasUpdatedAt, Valid: true},
+		IsDeleted:    false,
+		UserID:       106,
+		ColumnTypeID: 107,
 	}
 }
 
@@ -65,6 +66,10 @@ func TestAliasToProto(t *testing.T) {
 		t.Errorf("UserId = %d, want %d", got.GetUserId(), row.UserID)
 	}
 
+	if got.GetColumnTypeId() != row.ColumnTypeID {
+		t.Errorf("ColumnTypeId = %d, want %d", got.GetColumnTypeId(), row.ColumnTypeID)
+	}
+
 }
 
 func TestAliasesToProto(t *testing.T) {
@@ -101,15 +106,17 @@ func TestAliasesToProto(t *testing.T) {
 
 func TestToCreateAliasParams(t *testing.T) {
 	req := &tablesv1.CreateAliasRequest{
-		Name:        "name-0",
-		Description: "description-0",
-		ExternalId:  "00000000-0000-4000-8000-000000000003",
+		Name:         "name-0",
+		Description:  "description-0",
+		ExternalId:   "00000000-0000-4000-8000-000000000003",
+		ColumnTypeId: 103,
 	}
 
 	want := tables_model.CreateAliasParams{
-		Name:        "name-0",
-		Description: "description-0",
-		ExternalID:  uuid.MustParse("00000000-0000-4000-8000-000000000003"),
+		Name:         "name-0",
+		Description:  "description-0",
+		ExternalID:   uuid.MustParse("00000000-0000-4000-8000-000000000003"),
+		ColumnTypeID: 103,
 	}
 
 	if got := ToCreateAliasParams(req); got != want {
@@ -126,19 +133,21 @@ func TestToCreateAliasParamsNil(t *testing.T) {
 
 func TestToUpdateAliasByIdParams(t *testing.T) {
 	req := &tablesv1.UpdateAliasByIdRequest{
-		Name:        "name-0",
-		Description: "description-0",
-		IsDeleted:   true,
-		ExternalId:  "00000000-0000-4000-8000-000000000004",
-		Id:          104,
+		Name:         "name-0",
+		Description:  "description-0",
+		IsDeleted:    true,
+		ExternalId:   "00000000-0000-4000-8000-000000000004",
+		ColumnTypeId: 104,
+		Id:           105,
 	}
 
 	want := tables_model.UpdateAliasByIdParams{
-		Name:        "name-0",
-		Description: "description-0",
-		IsDeleted:   true,
-		ExternalID:  uuid.MustParse("00000000-0000-4000-8000-000000000004"),
-		ID:          104,
+		Name:         "name-0",
+		Description:  "description-0",
+		IsDeleted:    true,
+		ExternalID:   uuid.MustParse("00000000-0000-4000-8000-000000000004"),
+		ColumnTypeID: 104,
+		ID:           105,
 	}
 
 	if got := ToUpdateAliasByIdParams(req); got != want {

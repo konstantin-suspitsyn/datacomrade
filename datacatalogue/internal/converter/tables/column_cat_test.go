@@ -27,7 +27,7 @@ func testColumnCatRow() tables_model.DcColumnCat {
 		ID:                100,
 		TableID:           101,
 		Name:              "name-0",
-		AliasID:           103,
+		AliasID:           sql.NullInt64{Int64: 103, Valid: true},
 		ColumnTypeID:      104,
 		Description:       "description-0",
 		CalculationTypeID: 106,
@@ -59,8 +59,8 @@ func TestColumnCatToProto(t *testing.T) {
 		t.Errorf("Name = %q, want %q", got.GetName(), row.Name)
 	}
 
-	if got.GetAliasId() != row.AliasID {
-		t.Errorf("AliasId = %d, want %d", got.GetAliasId(), row.AliasID)
+	if got.AliasId == nil || *got.AliasId != row.AliasID.Int64 {
+		t.Errorf("AliasId = %v, want %d", got.AliasId, row.AliasID.Int64)
 	}
 
 	if got.GetColumnTypeId() != row.ColumnTypeID {
@@ -93,6 +93,11 @@ func TestColumnCatToProto(t *testing.T) {
 
 	if got.GetUserId() != row.UserID {
 		t.Errorf("UserId = %d, want %d", got.GetUserId(), row.UserID)
+	}
+
+	row.AliasID = sql.NullInt64{}
+	if got := ColumnCatToProto(row); got.AliasId != nil {
+		t.Errorf("AliasId = %v, want nil для SQL NULL", got.AliasId)
 	}
 
 }
@@ -133,7 +138,7 @@ func TestToCreateColumnCatParams(t *testing.T) {
 	req := &tablesv1.CreateColumnCatRequest{
 		TableId:           100,
 		Name:              "name-0",
-		AliasId:           102,
+		AliasId:           columnCatPtr(int64(102)),
 		ColumnTypeId:      103,
 		Description:       "description-0",
 		CalculationTypeId: 105,
@@ -144,7 +149,7 @@ func TestToCreateColumnCatParams(t *testing.T) {
 	want := tables_model.CreateColumnCatParams{
 		TableID:           100,
 		Name:              "name-0",
-		AliasID:           102,
+		AliasID:           sql.NullInt64{Int64: 102, Valid: true},
 		ColumnTypeID:      103,
 		Description:       "description-0",
 		CalculationTypeID: 105,
@@ -168,7 +173,7 @@ func TestToUpdateColumnCatByIdParams(t *testing.T) {
 	req := &tablesv1.UpdateColumnCatByIdRequest{
 		TableId:           100,
 		Name:              "name-0",
-		AliasId:           102,
+		AliasId:           columnCatPtr(int64(102)),
 		ColumnTypeId:      103,
 		Description:       "description-0",
 		CalculationTypeId: 105,
@@ -180,7 +185,7 @@ func TestToUpdateColumnCatByIdParams(t *testing.T) {
 	want := tables_model.UpdateColumnCatByIdParams{
 		TableID:           100,
 		Name:              "name-0",
-		AliasID:           102,
+		AliasID:           sql.NullInt64{Int64: 102, Valid: true},
 		ColumnTypeID:      103,
 		Description:       "description-0",
 		CalculationTypeID: 105,

@@ -1,0 +1,3667 @@
+openapi: 3.0.3
+info:
+  title: Shepherd API — tablesapiv1
+  description: |-
+    Ручки, которые обслуживает пакет datacatalogue/internal/api/tablesapiv1
+    (gRPC-контракт shared/proto/tables/v1).
+    Собирается в openapi.yaml через task openapi:bundle.
+  version: 1.0.0
+paths:
+  /hosts:
+    get:
+      operationId: listHosts
+      summary: Страница строк dc.host
+      description: >
+        Требуется роль admin или maintainer. order/page_limit по умолчанию — см. pagination.DefaultOrder/DefaultPageLimit
+        в shepherd.
+      parameters:
+        - $ref: ./common.yaml#/components/parameters/OrderParam
+        - $ref: ./common.yaml#/components/parameters/PageParam
+        - $ref: ./common.yaml#/components/parameters/PageLimitParam
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HostPage'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+    post:
+      operationId: createHost
+      summary: Создать строку dc.host
+      description: Требуется роль admin или maintainer.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HostWrite'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Host'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '409':
+          description: Строка с такими уникальными полями уже существует
+          content:
+            application/json:
+              schema:
+                $ref: ./common.yaml#/components/schemas/Error
+  /hosts/search:
+    get:
+      operationId: searchHosts
+      summary: Страница строк dc.host по подстроке имени
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - name: search_name
+          in: query
+          required: true
+          schema:
+            type: string
+        - $ref: ./common.yaml#/components/parameters/OrderParam
+        - $ref: ./common.yaml#/components/parameters/PageParam
+        - $ref: ./common.yaml#/components/parameters/PageLimitParam
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HostPage'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+  /hosts/deleted:
+    get:
+      operationId: listDeletedHosts
+      summary: Страница мягко удалённых строк dc.host
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: ./common.yaml#/components/parameters/OrderParam
+        - $ref: ./common.yaml#/components/parameters/PageParam
+        - $ref: ./common.yaml#/components/parameters/PageLimitParam
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HostPage'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+  /hosts/{id}:
+    get:
+      operationId: getHostById
+      summary: Активная строка dc.host по id
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/HostIdParam'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Host'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '404':
+          $ref: ./common.yaml#/components/responses/NotFound
+    put:
+      operationId: updateHostById
+      summary: Обновить строку dc.host
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/HostIdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HostWrite'
+      responses:
+        '204':
+          description: Обновлено
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '404':
+          $ref: ./common.yaml#/components/responses/NotFound
+    delete:
+      operationId: deleteHostById
+      summary: Мягко удалить строку dc.host
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/HostIdParam'
+      responses:
+        '204':
+          description: Удалено
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '404':
+          $ref: ./common.yaml#/components/responses/NotFound
+  /hosts/{id}/undelete:
+    post:
+      operationId: undeleteHostById
+      summary: Восстановить мягко удалённую строку dc.host
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/HostIdParam'
+      responses:
+        '204':
+          description: Восстановлено
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+  /database-types:
+    get:
+      operationId: listDatabaseTypes
+      summary: Страница строк dc.database_type
+      description: >
+        Требуется роль admin или maintainer. order/page_limit по умолчанию — см. pagination.DefaultOrder/DefaultPageLimit
+        в shepherd.
+      parameters:
+        - $ref: ./common.yaml#/components/parameters/OrderParam
+        - $ref: ./common.yaml#/components/parameters/PageParam
+        - $ref: ./common.yaml#/components/parameters/PageLimitParam
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatabaseTypePage'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+    post:
+      operationId: createDatabaseType
+      summary: Создать строку dc.database_type
+      description: Требуется роль admin или maintainer.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DatabaseTypeWrite'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatabaseType'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '409':
+          description: Строка с такими уникальными полями уже существует
+          content:
+            application/json:
+              schema:
+                $ref: ./common.yaml#/components/schemas/Error
+  /database-types/search:
+    get:
+      operationId: searchDatabaseTypes
+      summary: Страница строк dc.database_type по подстроке имени
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - name: search_name
+          in: query
+          required: true
+          schema:
+            type: string
+        - $ref: ./common.yaml#/components/parameters/OrderParam
+        - $ref: ./common.yaml#/components/parameters/PageParam
+        - $ref: ./common.yaml#/components/parameters/PageLimitParam
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatabaseTypePage'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+  /database-types/deleted:
+    get:
+      operationId: listDeletedDatabaseTypes
+      summary: Страница мягко удалённых строк dc.database_type
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: ./common.yaml#/components/parameters/OrderParam
+        - $ref: ./common.yaml#/components/parameters/PageParam
+        - $ref: ./common.yaml#/components/parameters/PageLimitParam
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatabaseTypePage'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+  /database-types/{id}:
+    get:
+      operationId: getDatabaseTypeById
+      summary: Активная строка dc.database_type по id
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/DatabaseTypeIdParam'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatabaseType'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '404':
+          $ref: ./common.yaml#/components/responses/NotFound
+    put:
+      operationId: updateDatabaseTypeById
+      summary: Обновить строку dc.database_type
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/DatabaseTypeIdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DatabaseTypeWrite'
+      responses:
+        '204':
+          description: Обновлено
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '404':
+          $ref: ./common.yaml#/components/responses/NotFound
+    delete:
+      operationId: deleteDatabaseTypeById
+      summary: Мягко удалить строку dc.database_type
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/DatabaseTypeIdParam'
+      responses:
+        '204':
+          description: Удалено
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '404':
+          $ref: ./common.yaml#/components/responses/NotFound
+  /database-types/{id}/undelete:
+    post:
+      operationId: undeleteDatabaseTypeById
+      summary: Восстановить мягко удалённую строку dc.database_type
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/DatabaseTypeIdParam'
+      responses:
+        '204':
+          description: Восстановлено
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+  /database-cats:
+    get:
+      operationId: listDatabaseCats
+      summary: Страница строк dc.database_cat
+      description: >
+        Требуется роль admin или maintainer. order/page_limit по умолчанию — см. pagination.DefaultOrder/DefaultPageLimit
+        в shepherd.
+      parameters:
+        - $ref: ./common.yaml#/components/parameters/OrderParam
+        - $ref: ./common.yaml#/components/parameters/PageParam
+        - $ref: ./common.yaml#/components/parameters/PageLimitParam
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatabaseCatPage'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+    post:
+      operationId: createDatabaseCat
+      summary: Создать строку dc.database_cat
+      description: Требуется роль admin или maintainer.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DatabaseCatWrite'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatabaseCat'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '409':
+          description: Строка с такими уникальными полями уже существует
+          content:
+            application/json:
+              schema:
+                $ref: ./common.yaml#/components/schemas/Error
+  /database-cats/search:
+    get:
+      operationId: searchDatabaseCats
+      summary: Страница строк dc.database_cat по подстроке имени
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - name: search_name
+          in: query
+          required: true
+          schema:
+            type: string
+        - $ref: ./common.yaml#/components/parameters/OrderParam
+        - $ref: ./common.yaml#/components/parameters/PageParam
+        - $ref: ./common.yaml#/components/parameters/PageLimitParam
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatabaseCatPage'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+  /database-cats/deleted:
+    get:
+      operationId: listDeletedDatabaseCats
+      summary: Страница мягко удалённых строк dc.database_cat
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: ./common.yaml#/components/parameters/OrderParam
+        - $ref: ./common.yaml#/components/parameters/PageParam
+        - $ref: ./common.yaml#/components/parameters/PageLimitParam
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatabaseCatPage'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+  /database-cats/by-host-database-type:
+    get:
+      operationId: listDatabaseCatsByHostAndDatabaseType
+      summary: Страница строк dc.database_cat с фильтром по host_id и database_type_id
+      description: >
+        Требуется роль admin или maintainer. Оба фильтра необязательны и независимы: непереданный не сужает выборку.
+        В отличие от остальных выборок каталога, здесь доступна сортировка по имени — order_by=name; если не передан,
+        порядок по умолчанию — id.
+      parameters:
+        - name: host_id
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: database_type_id
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: order_by
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - name
+          description: 'Поле сортировки. Допустимо только name; если не передано — сортировка по id.
+
+            '
+        - $ref: ./common.yaml#/components/parameters/OrderParam
+        - $ref: ./common.yaml#/components/parameters/PageParam
+        - $ref: ./common.yaml#/components/parameters/PageLimitParam
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatabaseCatPage'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+  /database-cats/{id}:
+    get:
+      operationId: getDatabaseCatById
+      summary: Активная строка dc.database_cat по id
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/DatabaseCatIdParam'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatabaseCat'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '404':
+          $ref: ./common.yaml#/components/responses/NotFound
+    put:
+      operationId: updateDatabaseCatById
+      summary: Обновить строку dc.database_cat
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/DatabaseCatIdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DatabaseCatWrite'
+      responses:
+        '204':
+          description: Обновлено
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '404':
+          $ref: ./common.yaml#/components/responses/NotFound
+    delete:
+      operationId: deleteDatabaseCatById
+      summary: Мягко удалить строку dc.database_cat
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/DatabaseCatIdParam'
+      responses:
+        '204':
+          description: Удалено
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '404':
+          $ref: ./common.yaml#/components/responses/NotFound
+  /database-cats/{id}/undelete:
+    post:
+      operationId: undeleteDatabaseCatById
+      summary: Восстановить мягко удалённую строку dc.database_cat
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/DatabaseCatIdParam'
+      responses:
+        '204':
+          description: Восстановлено
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+  /aliases:
+    get:
+      operationId: listAliases
+      summary: Список строк dc.alias
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: ./common.yaml#/components/parameters/OrderParam
+        - $ref: ./common.yaml#/components/parameters/PageParam
+        - $ref: ./common.yaml#/components/parameters/PageLimitParam
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AliasPage'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+    post:
+      operationId: createAlias
+      summary: Создать строку dc.alias
+      description: Требуется роль admin или maintainer.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AliasWrite'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Alias'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '409':
+          description: Строка с такими уникальными полями уже существует
+          content:
+            application/json:
+              schema:
+                $ref: ./common.yaml#/components/schemas/Error
+  /aliases/deleted:
+    get:
+      operationId: listDeletedAliases
+      summary: Мягко удалённые строки dc.alias
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: ./common.yaml#/components/parameters/OrderParam
+        - $ref: ./common.yaml#/components/parameters/PageParam
+        - $ref: ./common.yaml#/components/parameters/PageLimitParam
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AliasPage'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+  /aliases/{id}:
+    get:
+      operationId: getAliasById
+      summary: Активная строка dc.alias по id
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/AliasIdParam'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Alias'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '404':
+          $ref: ./common.yaml#/components/responses/NotFound
+    put:
+      operationId: updateAliasById
+      summary: Обновить строку dc.alias
+      description: >
+        Требуется роль admin или maintainer. Сменить column_type_id можно, только пока на алиас не ссылается ни
+        одна активная колонка: иначе 400 — тип колонок и тип их алиаса обязаны совпадать, и менять их нужно вместе.
+        Имя и описание правятся всегда.
+      parameters:
+        - $ref: '#/components/parameters/AliasIdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AliasUpdate'
+      responses:
+        '204':
+          description: Обновлено
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '404':
+          $ref: ./common.yaml#/components/responses/NotFound
+    delete:
+      operationId: deleteAliasById
+      summary: Мягко удалить строку dc.alias
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/AliasIdParam'
+      responses:
+        '204':
+          description: Удалено
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '404':
+          $ref: ./common.yaml#/components/responses/NotFound
+  /aliases/{id}/undelete:
+    post:
+      operationId: undeleteAliasById
+      summary: Восстановить мягко удалённую строку dc.alias
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/AliasIdParam'
+      responses:
+        '204':
+          description: Восстановлено
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+  /column-cats:
+    get:
+      operationId: listColumnCats
+      summary: Список строк dc.column_cat
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: ./common.yaml#/components/parameters/OrderParam
+        - $ref: ./common.yaml#/components/parameters/PageParam
+        - $ref: ./common.yaml#/components/parameters/PageLimitParam
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ColumnCatPage'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+    post:
+      operationId: createColumnCat
+      summary: Создать строку dc.column_cat
+      description: >
+        Требуется роль admin или maintainer. alias_id необязателен: null или отсутствие поля означают «у колонки
+        нет алиаса», но при show_in_ui = true алиас обязателен — именно он несёт бизнес-имя колонки, и без него
+        показывать в интерфейсе нечего (иначе 400). Если alias_id задан, column_type_id колонки обязан совпадать
+        с column_type_id этого алиаса — иначе 400; ссылка на несуществующий алиас — 404.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ColumnCatWrite'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ColumnCat'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '404':
+          $ref: ./common.yaml#/components/responses/NotFound
+        '409':
+          description: Строка с такими уникальными полями уже существует
+          content:
+            application/json:
+              schema:
+                $ref: ./common.yaml#/components/schemas/Error
+  /column-cats/search:
+    get:
+      operationId: searchColumnCats
+      summary: Страница строк dc.column_cat по подстроке имени
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - name: search_name
+          in: query
+          required: true
+          schema:
+            type: string
+        - $ref: ./common.yaml#/components/parameters/OrderParam
+        - $ref: ./common.yaml#/components/parameters/PageParam
+        - $ref: ./common.yaml#/components/parameters/PageLimitParam
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ColumnCatPage'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+  /column-cats/deleted:
+    get:
+      operationId: listDeletedColumnCats
+      summary: Мягко удалённые строки dc.column_cat
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: ./common.yaml#/components/parameters/OrderParam
+        - $ref: ./common.yaml#/components/parameters/PageParam
+        - $ref: ./common.yaml#/components/parameters/PageLimitParam
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ColumnCatPage'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+  /column-cats/filter:
+    get:
+      operationId: filterColumnCats
+      summary: Страница строк dc.column_cat с необязательными фильтрами
+      description: >
+        Требуется роль admin или maintainer. Фильтры необязательны и независимы: непереданный не сужает выборку.
+      parameters:
+        - name: table_id
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: alias_id
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: column_type_id
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: calculation_type_id
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: show_in_ui
+          in: query
+          required: false
+          schema:
+            type: boolean
+        - $ref: ./common.yaml#/components/parameters/OrderParam
+        - $ref: ./common.yaml#/components/parameters/PageParam
+        - $ref: ./common.yaml#/components/parameters/PageLimitParam
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ColumnCatPage'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+  /column-cats/{id}:
+    get:
+      operationId: getColumnCatById
+      summary: Активная строка dc.column_cat по id
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/ColumnCatIdParam'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ColumnCat'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '404':
+          $ref: ./common.yaml#/components/responses/NotFound
+    put:
+      operationId: updateColumnCatById
+      summary: Обновить строку dc.column_cat
+      description: >
+        Требуется роль admin или maintainer. alias_id необязателен: null или отсутствие поля снимают алиас с колонки
+        — вместе с ним нужно снять и show_in_ui, потому что показываемая в интерфейсе колонка обязана иметь алиас
+        (иначе 400). Если alias_id задан, column_type_id колонки обязан совпадать с column_type_id этого алиаса
+        — иначе 400. 404 приходит и на несуществующую колонку, и на несуществующий алиас.
+      parameters:
+        - $ref: '#/components/parameters/ColumnCatIdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ColumnCatWrite'
+      responses:
+        '204':
+          description: Обновлено
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '404':
+          $ref: ./common.yaml#/components/responses/NotFound
+    delete:
+      operationId: deleteColumnCatById
+      summary: Мягко удалить строку dc.column_cat
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/ColumnCatIdParam'
+      responses:
+        '204':
+          description: Удалено
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '404':
+          $ref: ./common.yaml#/components/responses/NotFound
+  /column-cats/{id}/undelete:
+    post:
+      operationId: undeleteColumnCatById
+      summary: Восстановить мягко удалённую строку dc.column_cat
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/ColumnCatIdParam'
+      responses:
+        '204':
+          description: Восстановлено
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+  /column-types:
+    get:
+      operationId: listColumnTypes
+      summary: Список строк dc.column_type
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: ./common.yaml#/components/parameters/OrderParam
+        - $ref: ./common.yaml#/components/parameters/PageParam
+        - $ref: ./common.yaml#/components/parameters/PageLimitParam
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ColumnTypePage'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+    post:
+      operationId: createColumnType
+      summary: Создать строку dc.column_type
+      description: Требуется роль admin или maintainer.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ColumnTypeWrite'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ColumnType'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '409':
+          description: Строка с такими уникальными полями уже существует
+          content:
+            application/json:
+              schema:
+                $ref: ./common.yaml#/components/schemas/Error
+  /column-types/search:
+    get:
+      operationId: searchColumnTypes
+      summary: Страница строк dc.column_type по подстроке имени
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - name: search_name
+          in: query
+          required: true
+          schema:
+            type: string
+        - $ref: ./common.yaml#/components/parameters/OrderParam
+        - $ref: ./common.yaml#/components/parameters/PageParam
+        - $ref: ./common.yaml#/components/parameters/PageLimitParam
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ColumnTypePage'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+  /column-types/deleted:
+    get:
+      operationId: listDeletedColumnTypes
+      summary: Мягко удалённые строки dc.column_type
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: ./common.yaml#/components/parameters/OrderParam
+        - $ref: ./common.yaml#/components/parameters/PageParam
+        - $ref: ./common.yaml#/components/parameters/PageLimitParam
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ColumnTypePage'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+  /column-types/{id}:
+    get:
+      operationId: getColumnTypeById
+      summary: Активная строка dc.column_type по id
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/ColumnTypeIdParam'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ColumnType'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '404':
+          $ref: ./common.yaml#/components/responses/NotFound
+    put:
+      operationId: updateColumnTypeById
+      summary: Обновить строку dc.column_type
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/ColumnTypeIdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ColumnTypeWrite'
+      responses:
+        '204':
+          description: Обновлено
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '404':
+          $ref: ./common.yaml#/components/responses/NotFound
+    delete:
+      operationId: deleteColumnTypeById
+      summary: Мягко удалить строку dc.column_type
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/ColumnTypeIdParam'
+      responses:
+        '204':
+          description: Удалено
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '404':
+          $ref: ./common.yaml#/components/responses/NotFound
+  /column-types/{id}/undelete:
+    post:
+      operationId: undeleteColumnTypeById
+      summary: Восстановить мягко удалённую строку dc.column_type
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/ColumnTypeIdParam'
+      responses:
+        '204':
+          description: Восстановлено
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+  /database-calculations:
+    get:
+      operationId: listDatabaseCalculations
+      summary: Список строк dc.database_calculation
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: ./common.yaml#/components/parameters/OrderParam
+        - $ref: ./common.yaml#/components/parameters/PageParam
+        - $ref: ./common.yaml#/components/parameters/PageLimitParam
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatabaseCalculationPage'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+    post:
+      operationId: createDatabaseCalculation
+      summary: Создать строку dc.database_calculation
+      description: Требуется роль admin или maintainer.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DatabaseCalculationWrite'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatabaseCalculation'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '409':
+          description: Строка с такими уникальными полями уже существует
+          content:
+            application/json:
+              schema:
+                $ref: ./common.yaml#/components/schemas/Error
+  /database-calculations/search:
+    get:
+      operationId: searchDatabaseCalculations
+      summary: Страница строк dc.database_calculation по подстроке имени
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - name: search_name
+          in: query
+          required: true
+          schema:
+            type: string
+        - $ref: ./common.yaml#/components/parameters/OrderParam
+        - $ref: ./common.yaml#/components/parameters/PageParam
+        - $ref: ./common.yaml#/components/parameters/PageLimitParam
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatabaseCalculationPage'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+  /database-calculations/deleted:
+    get:
+      operationId: listDeletedDatabaseCalculations
+      summary: Мягко удалённые строки dc.database_calculation
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: ./common.yaml#/components/parameters/OrderParam
+        - $ref: ./common.yaml#/components/parameters/PageParam
+        - $ref: ./common.yaml#/components/parameters/PageLimitParam
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatabaseCalculationPage'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+  /database-calculations/filter:
+    get:
+      operationId: filterDatabaseCalculations
+      summary: Страница строк dc.database_calculation с необязательными фильтрами
+      description: >
+        Требуется роль admin или maintainer. Фильтры необязательны и независимы: непереданный не сужает выборку.
+      parameters:
+        - name: database_cat_id
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: calculation_type_id
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - $ref: ./common.yaml#/components/parameters/OrderParam
+        - $ref: ./common.yaml#/components/parameters/PageParam
+        - $ref: ./common.yaml#/components/parameters/PageLimitParam
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatabaseCalculationPage'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+  /database-calculations/{id}:
+    get:
+      operationId: getDatabaseCalculationById
+      summary: Активная строка dc.database_calculation по id
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/DatabaseCalculationIdParam'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatabaseCalculation'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '404':
+          $ref: ./common.yaml#/components/responses/NotFound
+    put:
+      operationId: updateDatabaseCalculationById
+      summary: Обновить строку dc.database_calculation
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/DatabaseCalculationIdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DatabaseCalculationWrite'
+      responses:
+        '204':
+          description: Обновлено
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '404':
+          $ref: ./common.yaml#/components/responses/NotFound
+    delete:
+      operationId: deleteDatabaseCalculationById
+      summary: Мягко удалить строку dc.database_calculation
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/DatabaseCalculationIdParam'
+      responses:
+        '204':
+          description: Удалено
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '404':
+          $ref: ./common.yaml#/components/responses/NotFound
+  /database-calculations/{id}/undelete:
+    post:
+      operationId: undeleteDatabaseCalculationById
+      summary: Восстановить мягко удалённую строку dc.database_calculation
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/DatabaseCalculationIdParam'
+      responses:
+        '204':
+          description: Восстановлено
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+  /domain-cats:
+    get:
+      operationId: listDomainCats
+      summary: Список строк dc.domain_cat
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: ./common.yaml#/components/parameters/OrderParam
+        - $ref: ./common.yaml#/components/parameters/PageParam
+        - $ref: ./common.yaml#/components/parameters/PageLimitParam
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DomainCatPage'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+    post:
+      operationId: createDomainCat
+      summary: Создать строку dc.domain_cat
+      description: Требуется роль admin или maintainer.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DomainCatWrite'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DomainCat'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '409':
+          description: Строка с такими уникальными полями уже существует
+          content:
+            application/json:
+              schema:
+                $ref: ./common.yaml#/components/schemas/Error
+  /domain-cats/search:
+    get:
+      operationId: searchDomainCats
+      summary: Страница строк dc.domain_cat по подстроке имени
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - name: search_name
+          in: query
+          required: true
+          schema:
+            type: string
+        - $ref: ./common.yaml#/components/parameters/OrderParam
+        - $ref: ./common.yaml#/components/parameters/PageParam
+        - $ref: ./common.yaml#/components/parameters/PageLimitParam
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DomainCatPage'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+  /domain-cats/deleted:
+    get:
+      operationId: listDeletedDomainCats
+      summary: Мягко удалённые строки dc.domain_cat
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: ./common.yaml#/components/parameters/OrderParam
+        - $ref: ./common.yaml#/components/parameters/PageParam
+        - $ref: ./common.yaml#/components/parameters/PageLimitParam
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DomainCatPage'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+  /domain-cats/{id}:
+    get:
+      operationId: getDomainCatById
+      summary: Активная строка dc.domain_cat по id
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/DomainCatIdParam'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DomainCat'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '404':
+          $ref: ./common.yaml#/components/responses/NotFound
+    put:
+      operationId: updateDomainCatById
+      summary: Обновить строку dc.domain_cat
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/DomainCatIdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DomainCatWrite'
+      responses:
+        '204':
+          description: Обновлено
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '404':
+          $ref: ./common.yaml#/components/responses/NotFound
+    delete:
+      operationId: deleteDomainCatById
+      summary: Мягко удалить строку dc.domain_cat
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/DomainCatIdParam'
+      responses:
+        '204':
+          description: Удалено
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '404':
+          $ref: ./common.yaml#/components/responses/NotFound
+  /domain-cats/{id}/undelete:
+    post:
+      operationId: undeleteDomainCatById
+      summary: Восстановить мягко удалённую строку dc.domain_cat
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/DomainCatIdParam'
+      responses:
+        '204':
+          description: Восстановлено
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+  /following-calculations:
+    get:
+      operationId: listFollowingCalculations
+      summary: Список строк dc.following_calculation
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: ./common.yaml#/components/parameters/OrderParam
+        - $ref: ./common.yaml#/components/parameters/PageParam
+        - $ref: ./common.yaml#/components/parameters/PageLimitParam
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FollowingCalculationPage'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+    post:
+      operationId: createFollowingCalculation
+      summary: Создать строку dc.following_calculation
+      description: Требуется роль admin или maintainer.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FollowingCalculationWrite'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FollowingCalculation'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '409':
+          description: Строка с такими уникальными полями уже существует
+          content:
+            application/json:
+              schema:
+                $ref: ./common.yaml#/components/schemas/Error
+  /following-calculations/deleted:
+    get:
+      operationId: listDeletedFollowingCalculations
+      summary: Мягко удалённые строки dc.following_calculation
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: ./common.yaml#/components/parameters/OrderParam
+        - $ref: ./common.yaml#/components/parameters/PageParam
+        - $ref: ./common.yaml#/components/parameters/PageLimitParam
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FollowingCalculationPage'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+  /following-calculations/filter:
+    get:
+      operationId: filterFollowingCalculations
+      summary: Страница строк dc.following_calculation с необязательными фильтрами
+      description: >
+        Требуется роль admin или maintainer. Фильтры необязательны и независимы: непереданный не сужает выборку.
+      parameters:
+        - name: column_cat_id
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: calculation_type_id
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - $ref: ./common.yaml#/components/parameters/OrderParam
+        - $ref: ./common.yaml#/components/parameters/PageParam
+        - $ref: ./common.yaml#/components/parameters/PageLimitParam
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FollowingCalculationPage'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+  /following-calculations/{id}:
+    get:
+      operationId: getFollowingCalculationById
+      summary: Активная строка dc.following_calculation по id
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/FollowingCalculationIdParam'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FollowingCalculation'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '404':
+          $ref: ./common.yaml#/components/responses/NotFound
+    put:
+      operationId: updateFollowingCalculationById
+      summary: Обновить строку dc.following_calculation
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/FollowingCalculationIdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FollowingCalculationWrite'
+      responses:
+        '204':
+          description: Обновлено
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '404':
+          $ref: ./common.yaml#/components/responses/NotFound
+    delete:
+      operationId: deleteFollowingCalculationById
+      summary: Мягко удалить строку dc.following_calculation
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/FollowingCalculationIdParam'
+      responses:
+        '204':
+          description: Удалено
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '404':
+          $ref: ./common.yaml#/components/responses/NotFound
+  /following-calculations/{id}/undelete:
+    post:
+      operationId: undeleteFollowingCalculationById
+      summary: Восстановить мягко удалённую строку dc.following_calculation
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/FollowingCalculationIdParam'
+      responses:
+        '204':
+          description: Восстановлено
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+  /group-levels:
+    get:
+      operationId: listGroupLevels
+      summary: Список строк dc.group_levels
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: ./common.yaml#/components/parameters/OrderParam
+        - $ref: ./common.yaml#/components/parameters/PageParam
+        - $ref: ./common.yaml#/components/parameters/PageLimitParam
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupLevelsPage'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+    post:
+      operationId: createGroupLevels
+      summary: Создать строку dc.group_levels
+      description: Требуется роль admin или maintainer.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupLevelsWrite'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupLevels'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '409':
+          description: Строка с такими уникальными полями уже существует
+          content:
+            application/json:
+              schema:
+                $ref: ./common.yaml#/components/schemas/Error
+  /group-levels/search:
+    get:
+      operationId: searchGroupLevels
+      summary: Страница строк dc.group_levels по подстроке имени
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - name: search_name
+          in: query
+          required: true
+          schema:
+            type: string
+        - $ref: ./common.yaml#/components/parameters/OrderParam
+        - $ref: ./common.yaml#/components/parameters/PageParam
+        - $ref: ./common.yaml#/components/parameters/PageLimitParam
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupLevelsPage'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+  /group-levels/deleted:
+    get:
+      operationId: listDeletedGroupLevels
+      summary: Мягко удалённые строки dc.group_levels
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: ./common.yaml#/components/parameters/OrderParam
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GroupLevels'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+  /group-levels/filter:
+    get:
+      operationId: filterGroupLevels
+      summary: Страница строк dc.group_levels с необязательными фильтрами
+      description: >
+        Требуется роль admin или maintainer. Фильтры необязательны и независимы: непереданный не сужает выборку.
+      parameters:
+        - name: column_id
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: parent_column_id
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - $ref: ./common.yaml#/components/parameters/OrderParam
+        - $ref: ./common.yaml#/components/parameters/PageParam
+        - $ref: ./common.yaml#/components/parameters/PageLimitParam
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupLevelsPage'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+  /group-levels/{id}:
+    get:
+      operationId: getGroupLevelsById
+      summary: Активная строка dc.group_levels по id
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/GroupLevelsIdParam'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupLevels'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '404':
+          $ref: ./common.yaml#/components/responses/NotFound
+    put:
+      operationId: updateGroupLevelsById
+      summary: Обновить строку dc.group_levels
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/GroupLevelsIdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupLevelsWrite'
+      responses:
+        '204':
+          description: Обновлено
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '404':
+          $ref: ./common.yaml#/components/responses/NotFound
+    delete:
+      operationId: deleteGroupLevelsById
+      summary: Мягко удалить строку dc.group_levels
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/GroupLevelsIdParam'
+      responses:
+        '204':
+          description: Удалено
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '404':
+          $ref: ./common.yaml#/components/responses/NotFound
+  /group-levels/{id}/undelete:
+    post:
+      operationId: undeleteGroupLevelsById
+      summary: Восстановить мягко удалённую строку dc.group_levels
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/GroupLevelsIdParam'
+      responses:
+        '204':
+          description: Восстановлено
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+  /has-to-groups:
+    get:
+      operationId: listHasToGroups
+      summary: Список строк dc.has_to_group
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: ./common.yaml#/components/parameters/OrderParam
+        - $ref: ./common.yaml#/components/parameters/PageParam
+        - $ref: ./common.yaml#/components/parameters/PageLimitParam
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HasToGroupPage'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+    post:
+      operationId: createHasToGroup
+      summary: Создать строку dc.has_to_group
+      description: Требуется роль admin или maintainer.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HasToGroupWrite'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HasToGroup'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '409':
+          description: Строка с такими уникальными полями уже существует
+          content:
+            application/json:
+              schema:
+                $ref: ./common.yaml#/components/schemas/Error
+  /has-to-groups/search:
+    get:
+      operationId: searchHasToGroups
+      summary: Страница строк dc.has_to_group по подстроке имени
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - name: search_name
+          in: query
+          required: true
+          schema:
+            type: string
+        - $ref: ./common.yaml#/components/parameters/OrderParam
+        - $ref: ./common.yaml#/components/parameters/PageParam
+        - $ref: ./common.yaml#/components/parameters/PageLimitParam
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HasToGroupPage'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+  /has-to-groups/deleted:
+    get:
+      operationId: listDeletedHasToGroups
+      summary: Мягко удалённые строки dc.has_to_group
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: ./common.yaml#/components/parameters/OrderParam
+        - $ref: ./common.yaml#/components/parameters/PageParam
+        - $ref: ./common.yaml#/components/parameters/PageLimitParam
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HasToGroupPage'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+  /has-to-groups/{id}:
+    get:
+      operationId: getHasToGroupById
+      summary: Активная строка dc.has_to_group по id
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/HasToGroupIdParam'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HasToGroup'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '404':
+          $ref: ./common.yaml#/components/responses/NotFound
+    put:
+      operationId: updateHasToGroupById
+      summary: Обновить строку dc.has_to_group
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/HasToGroupIdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HasToGroupWrite'
+      responses:
+        '204':
+          description: Обновлено
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '404':
+          $ref: ./common.yaml#/components/responses/NotFound
+    delete:
+      operationId: deleteHasToGroupById
+      summary: Мягко удалить строку dc.has_to_group
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/HasToGroupIdParam'
+      responses:
+        '204':
+          description: Удалено
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '404':
+          $ref: ./common.yaml#/components/responses/NotFound
+  /has-to-groups/{id}/undelete:
+    post:
+      operationId: undeleteHasToGroupById
+      summary: Восстановить мягко удалённую строку dc.has_to_group
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/HasToGroupIdParam'
+      responses:
+        '204':
+          description: Восстановлено
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+  /schema-cats:
+    get:
+      operationId: listSchemaCats
+      summary: Список строк dc.schema_cat
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: ./common.yaml#/components/parameters/OrderParam
+        - $ref: ./common.yaml#/components/parameters/PageParam
+        - $ref: ./common.yaml#/components/parameters/PageLimitParam
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SchemaCatPage'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+    post:
+      operationId: createSchemaCat
+      summary: Создать строку dc.schema_cat
+      description: Требуется роль admin или maintainer.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SchemaCatWrite'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SchemaCat'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '409':
+          description: Строка с такими уникальными полями уже существует
+          content:
+            application/json:
+              schema:
+                $ref: ./common.yaml#/components/schemas/Error
+  /schema-cats/deleted:
+    get:
+      operationId: listDeletedSchemaCats
+      summary: Мягко удалённые строки dc.schema_cat
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: ./common.yaml#/components/parameters/OrderParam
+        - $ref: ./common.yaml#/components/parameters/PageParam
+        - $ref: ./common.yaml#/components/parameters/PageLimitParam
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SchemaCatPage'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+  /schema-cats/{id}:
+    get:
+      operationId: getSchemaCatById
+      summary: Активная строка dc.schema_cat по id
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/SchemaCatIdParam'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SchemaCat'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '404':
+          $ref: ./common.yaml#/components/responses/NotFound
+    put:
+      operationId: updateSchemaCatById
+      summary: Обновить строку dc.schema_cat
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/SchemaCatIdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SchemaCatWrite'
+      responses:
+        '204':
+          description: Обновлено
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '404':
+          $ref: ./common.yaml#/components/responses/NotFound
+    delete:
+      operationId: deleteSchemaCatById
+      summary: Мягко удалить строку dc.schema_cat
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/SchemaCatIdParam'
+      responses:
+        '204':
+          description: Удалено
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '404':
+          $ref: ./common.yaml#/components/responses/NotFound
+  /schema-cats/{id}/undelete:
+    post:
+      operationId: undeleteSchemaCatById
+      summary: Восстановить мягко удалённую строку dc.schema_cat
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/SchemaCatIdParam'
+      responses:
+        '204':
+          description: Восстановлено
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+  /table-cats:
+    get:
+      operationId: listTableCats
+      summary: Список строк dc.table_cat
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: ./common.yaml#/components/parameters/OrderParam
+        - $ref: ./common.yaml#/components/parameters/PageParam
+        - $ref: ./common.yaml#/components/parameters/PageLimitParam
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TableCatPage'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+    post:
+      operationId: createTableCat
+      summary: Создать строку dc.table_cat
+      description: Требуется роль admin или maintainer.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TableCatWrite'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TableCat'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '409':
+          description: Строка с такими уникальными полями уже существует
+          content:
+            application/json:
+              schema:
+                $ref: ./common.yaml#/components/schemas/Error
+  /table-cats/deleted:
+    get:
+      operationId: listDeletedTableCats
+      summary: Мягко удалённые строки dc.table_cat
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: ./common.yaml#/components/parameters/OrderParam
+        - $ref: ./common.yaml#/components/parameters/PageParam
+        - $ref: ./common.yaml#/components/parameters/PageLimitParam
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TableCatPage'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+  /table-cats/{id}:
+    get:
+      operationId: getTableCatById
+      summary: Активная строка dc.table_cat по id
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/TableCatIdParam'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TableCat'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '404':
+          $ref: ./common.yaml#/components/responses/NotFound
+    put:
+      operationId: updateTableCatById
+      summary: Обновить строку dc.table_cat
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/TableCatIdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TableCatUpdate'
+      responses:
+        '204':
+          description: Обновлено
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '404':
+          $ref: ./common.yaml#/components/responses/NotFound
+    delete:
+      operationId: deleteTableCatById
+      summary: Мягко удалить строку dc.table_cat
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/TableCatIdParam'
+      responses:
+        '204':
+          description: Удалено
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '404':
+          $ref: ./common.yaml#/components/responses/NotFound
+  /table-cats/{id}/undelete:
+    post:
+      operationId: undeleteTableCatById
+      summary: Восстановить мягко удалённую строку dc.table_cat
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/TableCatIdParam'
+      responses:
+        '204':
+          description: Восстановлено
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+  /table-types:
+    get:
+      operationId: listTableTypes
+      summary: Список строк dc.table_type
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: ./common.yaml#/components/parameters/OrderParam
+        - $ref: ./common.yaml#/components/parameters/PageParam
+        - $ref: ./common.yaml#/components/parameters/PageLimitParam
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TableTypePage'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+    post:
+      operationId: createTableType
+      summary: Создать строку dc.table_type
+      description: Требуется роль admin или maintainer.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TableTypeWrite'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TableType'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '409':
+          description: Строка с такими уникальными полями уже существует
+          content:
+            application/json:
+              schema:
+                $ref: ./common.yaml#/components/schemas/Error
+  /table-types/deleted:
+    get:
+      operationId: listDeletedTableTypes
+      summary: Мягко удалённые строки dc.table_type
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: ./common.yaml#/components/parameters/OrderParam
+        - $ref: ./common.yaml#/components/parameters/PageParam
+        - $ref: ./common.yaml#/components/parameters/PageLimitParam
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TableTypePage'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+  /table-types/{id}:
+    get:
+      operationId: getTableTypeById
+      summary: Активная строка dc.table_type по id
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/TableTypeIdParam'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TableType'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '404':
+          $ref: ./common.yaml#/components/responses/NotFound
+    put:
+      operationId: updateTableTypeById
+      summary: Обновить строку dc.table_type
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/TableTypeIdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TableTypeWrite'
+      responses:
+        '204':
+          description: Обновлено
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '404':
+          $ref: ./common.yaml#/components/responses/NotFound
+    delete:
+      operationId: deleteTableTypeById
+      summary: Мягко удалить строку dc.table_type
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/TableTypeIdParam'
+      responses:
+        '204':
+          description: Удалено
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '404':
+          $ref: ./common.yaml#/components/responses/NotFound
+  /table-types/{id}/undelete:
+    post:
+      operationId: undeleteTableTypeById
+      summary: Восстановить мягко удалённую строку dc.table_type
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/TableTypeIdParam'
+      responses:
+        '204':
+          description: Восстановлено
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+  /calculation-types:
+    get:
+      operationId: listCalculationTypes
+      summary: Список строк dc.calculation_type
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: ./common.yaml#/components/parameters/OrderParam
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CalculationType'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+  /calculation-types/{id}:
+    get:
+      operationId: getCalculationTypeById
+      summary: Активная строка dc.calculation_type по id
+      description: Требуется роль admin или maintainer.
+      parameters:
+        - $ref: '#/components/parameters/CalculationTypeIdParam'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CalculationType'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+        '403':
+          $ref: ./common.yaml#/components/responses/Forbidden
+        '404':
+          $ref: ./common.yaml#/components/responses/NotFound
+components:
+  parameters:
+    HostIdParam:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+    DatabaseTypeIdParam:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+    DatabaseCatIdParam:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+    AliasIdParam:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+    ColumnCatIdParam:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+    ColumnTypeIdParam:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+    DatabaseCalculationIdParam:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+    DomainCatIdParam:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+    FollowingCalculationIdParam:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+    GroupLevelsIdParam:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+    HasToGroupIdParam:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+    SchemaCatIdParam:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+    TableCatIdParam:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+    TableTypeIdParam:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+    CalculationTypeIdParam:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+  schemas:
+    Host:
+      type: object
+      required:
+        - id
+        - name
+        - description
+        - host_env
+        - port_env
+        - username_env
+        - password_env
+        - is_deleted
+        - created_at
+        - updated_at
+        - user_id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        description:
+          type: string
+        host_env:
+          type: string
+        port_env:
+          type: string
+        username_env:
+          type: string
+        password_env:
+          type: string
+        is_deleted:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        user_id:
+          type: integer
+          format: int64
+    HostPage:
+      type: object
+      required:
+        - data
+        - pagination
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Host'
+        pagination:
+          $ref: ./common.yaml#/components/schemas/Pagination
+    HostWrite:
+      type: object
+      required:
+        - name
+        - description
+        - host_env
+        - port_env
+        - username_env
+        - password_env
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        host_env:
+          type: string
+        port_env:
+          type: string
+        username_env:
+          type: string
+        password_env:
+          type: string
+    DatabaseType:
+      type: object
+      required:
+        - id
+        - name
+        - db_version
+        - is_deleted
+        - created_at
+        - updated_at
+        - user_id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        db_version:
+          type: string
+        is_deleted:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        user_id:
+          type: integer
+          format: int64
+    DatabaseTypePage:
+      type: object
+      required:
+        - data
+        - pagination
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/DatabaseType'
+        pagination:
+          $ref: ./common.yaml#/components/schemas/Pagination
+    DatabaseTypeWrite:
+      type: object
+      required:
+        - name
+        - db_version
+      properties:
+        name:
+          type: string
+        db_version:
+          type: string
+    DatabaseCat:
+      type: object
+      required:
+        - id
+        - name
+        - host_id
+        - database_type_id
+        - description
+        - is_deleted
+        - created_at
+        - updated_at
+        - user_id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        host_id:
+          type: integer
+          format: int64
+        database_type_id:
+          type: integer
+          format: int64
+        description:
+          type: string
+        is_deleted:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        user_id:
+          type: integer
+          format: int64
+    DatabaseCatPage:
+      type: object
+      required:
+        - data
+        - pagination
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/DatabaseCat'
+        pagination:
+          $ref: ./common.yaml#/components/schemas/Pagination
+    DatabaseCatWrite:
+      type: object
+      required:
+        - name
+        - host_id
+        - database_type_id
+        - description
+      properties:
+        name:
+          type: string
+        host_id:
+          type: integer
+          format: int64
+        database_type_id:
+          type: integer
+          format: int64
+        description:
+          type: string
+    Alias:
+      type: object
+      required:
+        - id
+        - name
+        - description
+        - created_at
+        - updated_at
+        - is_deleted
+        - user_id
+        - column_type_id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        description:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        is_deleted:
+          type: boolean
+        user_id:
+          type: integer
+          format: int64
+        column_type_id:
+          type: integer
+          format: int64
+    AliasPage:
+      type: object
+      required:
+        - data
+        - pagination
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Alias'
+        pagination:
+          $ref: ./common.yaml#/components/schemas/Pagination
+    AliasWrite:
+      type: object
+      required:
+        - name
+        - description
+        - column_type_id
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        column_type_id:
+          type: integer
+          format: int64
+    AliasUpdate:
+      type: object
+      required:
+        - name
+        - description
+        - is_deleted
+        - column_type_id
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        is_deleted:
+          type: boolean
+        column_type_id:
+          type: integer
+          format: int64
+    ColumnCat:
+      type: object
+      required:
+        - id
+        - table_id
+        - name
+        - column_type_id
+        - description
+        - calculation_type_id
+        - is_deleted
+        - show_in_ui
+        - created_at
+        - updated_at
+        - user_id
+      properties:
+        id:
+          type: integer
+          format: int64
+        table_id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        alias_id:
+          type: integer
+          format: int64
+          nullable: true
+        column_type_id:
+          type: integer
+          format: int64
+        description:
+          type: string
+        calculation_type_id:
+          type: integer
+          format: int64
+        is_deleted:
+          type: boolean
+        show_in_ui:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        user_id:
+          type: integer
+          format: int64
+    ColumnCatPage:
+      type: object
+      required:
+        - data
+        - pagination
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ColumnCat'
+        pagination:
+          $ref: ./common.yaml#/components/schemas/Pagination
+    ColumnCatWrite:
+      type: object
+      required:
+        - table_id
+        - name
+        - column_type_id
+        - description
+        - calculation_type_id
+        - show_in_ui
+      properties:
+        table_id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        alias_id:
+          type: integer
+          format: int64
+          nullable: true
+        column_type_id:
+          type: integer
+          format: int64
+        description:
+          type: string
+        calculation_type_id:
+          type: integer
+          format: int64
+        show_in_ui:
+          type: boolean
+    ColumnType:
+      type: object
+      required:
+        - id
+        - name
+        - description
+        - is_deleted
+        - created_at
+        - updated_at
+        - user_id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        description:
+          type: string
+        is_deleted:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        user_id:
+          type: integer
+          format: int64
+    ColumnTypePage:
+      type: object
+      required:
+        - data
+        - pagination
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ColumnType'
+        pagination:
+          $ref: ./common.yaml#/components/schemas/Pagination
+    ColumnTypeWrite:
+      type: object
+      required:
+        - name
+        - description
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+    DatabaseCalculation:
+      type: object
+      required:
+        - id
+        - database_cat_id
+        - calculation_type_id
+        - created_at
+        - updated_at
+        - is_deleted
+        - user_id
+      properties:
+        id:
+          type: integer
+          format: int64
+        database_cat_id:
+          type: integer
+          format: int64
+        calculation_type_id:
+          type: integer
+          format: int64
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        is_deleted:
+          type: boolean
+        user_id:
+          type: integer
+          format: int64
+    DatabaseCalculationPage:
+      type: object
+      required:
+        - data
+        - pagination
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/DatabaseCalculation'
+        pagination:
+          $ref: ./common.yaml#/components/schemas/Pagination
+    DatabaseCalculationWrite:
+      type: object
+      required:
+        - database_cat_id
+        - calculation_type_id
+      properties:
+        database_cat_id:
+          type: integer
+          format: int64
+        calculation_type_id:
+          type: integer
+          format: int64
+    DomainCat:
+      type: object
+      required:
+        - id
+        - domain_name
+        - is_deleted
+        - created_at
+        - updated_at
+        - user_id
+      properties:
+        id:
+          type: integer
+          format: int64
+        domain_name:
+          type: string
+        is_deleted:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        user_id:
+          type: integer
+          format: int64
+    DomainCatPage:
+      type: object
+      required:
+        - data
+        - pagination
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/DomainCat'
+        pagination:
+          $ref: ./common.yaml#/components/schemas/Pagination
+    DomainCatWrite:
+      type: object
+      required:
+        - domain_name
+      properties:
+        domain_name:
+          type: string
+    FollowingCalculation:
+      type: object
+      required:
+        - id
+        - column_cat_id
+        - calculation_type_id
+        - created_at
+        - updated_at
+        - is_deleted
+        - user_id
+      properties:
+        id:
+          type: integer
+          format: int64
+        column_cat_id:
+          type: integer
+          format: int64
+        calculation_type_id:
+          type: integer
+          format: int64
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        is_deleted:
+          type: boolean
+        user_id:
+          type: integer
+          format: int64
+    FollowingCalculationPage:
+      type: object
+      required:
+        - data
+        - pagination
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/FollowingCalculation'
+        pagination:
+          $ref: ./common.yaml#/components/schemas/Pagination
+    FollowingCalculationWrite:
+      type: object
+      required:
+        - column_cat_id
+        - calculation_type_id
+      properties:
+        column_cat_id:
+          type: integer
+          format: int64
+        calculation_type_id:
+          type: integer
+          format: int64
+    GroupLevels:
+      type: object
+      required:
+        - id
+        - column_id
+        - parent_column_id
+        - level
+        - description
+        - created_at
+        - updated_at
+        - is_deleted
+        - user_id
+      properties:
+        id:
+          type: integer
+          format: int64
+        column_id:
+          type: integer
+          format: int64
+        parent_column_id:
+          type: integer
+          format: int64
+        level:
+          type: integer
+          format: int32
+        description:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        is_deleted:
+          type: boolean
+        user_id:
+          type: integer
+          format: int64
+    GroupLevelsPage:
+      type: object
+      required:
+        - data
+        - pagination
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/GroupLevels'
+        pagination:
+          $ref: ./common.yaml#/components/schemas/Pagination
+    GroupLevelsWrite:
+      type: object
+      required:
+        - column_id
+        - parent_column_id
+        - level
+        - description
+      properties:
+        column_id:
+          type: integer
+          format: int64
+        parent_column_id:
+          type: integer
+          format: int64
+        level:
+          type: integer
+          format: int32
+        description:
+          type: string
+    HasToGroup:
+      type: object
+      required:
+        - id
+        - column_id_a
+        - column_id_b
+        - description
+        - is_deleted
+        - created_at
+        - updated_at
+        - user_id
+      properties:
+        id:
+          type: integer
+          format: int64
+        column_id_a:
+          type: integer
+          format: int64
+        column_id_b:
+          type: integer
+          format: int64
+        description:
+          type: string
+        is_deleted:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        user_id:
+          type: integer
+          format: int64
+    HasToGroupPage:
+      type: object
+      required:
+        - data
+        - pagination
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/HasToGroup'
+        pagination:
+          $ref: ./common.yaml#/components/schemas/Pagination
+    HasToGroupWrite:
+      type: object
+      required:
+        - column_id_a
+        - column_id_b
+        - description
+      properties:
+        column_id_a:
+          type: integer
+          format: int64
+        column_id_b:
+          type: integer
+          format: int64
+        description:
+          type: string
+    SchemaCat:
+      type: object
+      required:
+        - id
+        - database_id
+        - name
+        - is_deleted
+        - created_at
+        - updated_at
+        - user_id
+      properties:
+        id:
+          type: integer
+          format: int64
+        database_id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        is_deleted:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        user_id:
+          type: integer
+          format: int64
+    SchemaCatPage:
+      type: object
+      required:
+        - data
+        - pagination
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/SchemaCat'
+        pagination:
+          $ref: ./common.yaml#/components/schemas/Pagination
+    SchemaCatWrite:
+      type: object
+      required:
+        - database_id
+        - name
+      properties:
+        database_id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    TableCat:
+      type: object
+      required:
+        - id
+        - name
+        - description
+        - schema_id
+        - table_type_id
+        - domain_id
+        - is_deleted
+        - created_at
+        - updated_at
+        - is_get_dict
+        - user_id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        description:
+          type: string
+        schema_id:
+          type: integer
+          format: int64
+        table_type_id:
+          type: integer
+          format: int64
+        domain_id:
+          type: integer
+          format: int64
+        is_deleted:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        is_get_dict:
+          type: boolean
+        user_id:
+          type: integer
+          format: int64
+    TableCatPage:
+      type: object
+      required:
+        - data
+        - pagination
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/TableCat'
+        pagination:
+          $ref: ./common.yaml#/components/schemas/Pagination
+    TableCatWrite:
+      type: object
+      required:
+        - name
+        - description
+        - schema_id
+        - table_type_id
+        - domain_id
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        schema_id:
+          type: integer
+          format: int64
+        table_type_id:
+          type: integer
+          format: int64
+        domain_id:
+          type: integer
+          format: int64
+    TableCatUpdate:
+      type: object
+      required:
+        - name
+        - description
+        - schema_id
+        - table_type_id
+        - domain_id
+        - is_get_dict
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        schema_id:
+          type: integer
+          format: int64
+        table_type_id:
+          type: integer
+          format: int64
+        domain_id:
+          type: integer
+          format: int64
+        is_get_dict:
+          type: boolean
+    TableType:
+      type: object
+      required:
+        - id
+        - name
+        - description
+        - is_deleted
+        - created_at
+        - updated_at
+        - user_id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        description:
+          type: string
+        is_deleted:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        user_id:
+          type: integer
+          format: int64
+    TableTypePage:
+      type: object
+      required:
+        - data
+        - pagination
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/TableType'
+        pagination:
+          $ref: ./common.yaml#/components/schemas/Pagination
+    TableTypeWrite:
+      type: object
+      required:
+        - name
+        - description
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+    CalculationType:
+      type: object
+      required:
+        - id
+        - name
+        - description
+        - created_at
+        - updated_at
+        - is_deleted
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        description:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        is_deleted:
+          type: boolean

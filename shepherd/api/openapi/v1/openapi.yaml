@@ -1,11 +1,18 @@
+# СГЕНЕРИРОВАННЫЙ ФАЙЛ — НЕ РЕДАКТИРОВАТЬ.
+# Собран из api/openapi/v1/spec/*.yaml командой `task openapi:bundle`.
+# Правки вносить в spec/<пакет>.yaml, затем `task openapi:gen`.
 openapi: 3.0.3
 info:
   title: Shepherd API
-  description: >
-    REST-контракт API Gateway (contract-first). Этот файл — источник истины:
-    internal/api/openapiv1 генерируется из него через `task openapi:gen`
-    (oapi-codegen). См. documentation/readme_obsidian/datacomrade/01_architecture/API Gateway.md
-  version: "1.0.0"
+  description: |-
+    REST-контракт API Gateway (contract-first). Источник истины — файлы в
+    api/openapi/v1/spec, разбитые по пакетам микросервиса datacatalogue:
+    user.yaml (userapiv1), tables.yaml (tablesapiv1),
+    user_domain_roles.yaml (userdomainrolesapiv1) и общий common.yaml.
+    `task openapi:gen` собирает их в api/openapi/v1/openapi.yaml и генерирует
+    internal/api/openapiv1 через oapi-codegen. Править openapi.yaml руками нельзя.
+    См. documentation/readme_obsidian/datacomrade/01_architecture/API Gateway.md
+  version: 1.0.0
 servers:
   - url: /v1
 security:
@@ -16,74 +23,71 @@ paths:
       operationId: getMe
       summary: Текущий аутентифицированный пользователь
       description: >
-        Identity из Bearer-токена Keycloak, дополненная user_id из
-        Metadata Service. Только читает dc.user — не создаёт: если строки ещё
-        нет, отвечает 404, вызывающий должен сначала сходить в POST /login.
+        Identity из Bearer-токена Keycloak, дополненная user_id из Metadata Service. Только читает dc.user — не
+        создаёт: если строки ещё нет, отвечает 404, вызывающий должен сначала сходить в POST /login.
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Me"
-        "401":
+                $ref: '#/components/schemas/Me'
+        '401':
           description: Не аутентифицирован — отсутствует или недействителен токен
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "404":
+                $ref: '#/components/schemas/Error'
+        '404':
           description: Пользователь ещё не создан в Metadata Service — сначала вызовите POST /login
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
   /login:
     post:
       operationId: login
       summary: Получить или создать пользователя dc.user
       description: >
-        Резолвит dc.user по external_id (=sub из Keycloak); если записи ещё
-        нет — создаёт её. Единственная ручка, которая пишет в Metadata
-        Service при первом входе пользователя — см. «Автосоздание
-        пользователя» в API Gateway.md.
+        Резолвит dc.user по external_id (=sub из Keycloak); если записи ещё нет — создаёт её. Единственная ручка,
+        которая пишет в Metadata Service при первом входе пользователя — см. «Автосоздание пользователя» в API Gateway.md.
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Me"
-        "401":
+                $ref: '#/components/schemas/Me'
+        '401':
           description: Не аутентифицирован — отсутствует или недействителен токен
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
   /hosts:
     get:
       operationId: listHosts
       summary: Страница строк dc.host
       description: >
-        Требуется роль admin или maintainer. order/page_limit по умолчанию —
-        см. pagination.DefaultOrder/DefaultPageLimit в shepherd.
+        Требуется роль admin или maintainer. order/page_limit по умолчанию — см. pagination.DefaultOrder/DefaultPageLimit
+        в shepherd.
       parameters:
-        - $ref: "#/components/parameters/OrderParam"
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PageLimitParam"
+        - $ref: '#/components/parameters/OrderParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageLimitParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/HostPage"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+                $ref: '#/components/schemas/HostPage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
     post:
       operationId: createHost
       summary: Создать строку dc.host
@@ -93,26 +97,26 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/HostWrite"
+              $ref: '#/components/schemas/HostWrite'
       responses:
-        "201":
+        '201':
           description: Created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Host"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "409":
+                $ref: '#/components/schemas/Host'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '409':
           description: Строка с такими уникальными полями уже существует
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
   /hosts/search:
     get:
       operationId: searchHosts
@@ -124,146 +128,146 @@ paths:
           required: true
           schema:
             type: string
-        - $ref: "#/components/parameters/OrderParam"
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PageLimitParam"
+        - $ref: '#/components/parameters/OrderParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageLimitParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/HostPage"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+                $ref: '#/components/schemas/HostPage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
   /hosts/deleted:
     get:
       operationId: listDeletedHosts
       summary: Страница мягко удалённых строк dc.host
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/OrderParam"
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PageLimitParam"
+        - $ref: '#/components/parameters/OrderParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageLimitParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/HostPage"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+                $ref: '#/components/schemas/HostPage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
   /hosts/{id}:
     get:
       operationId: getHostById
       summary: Активная строка dc.host по id
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/HostIdParam"
+        - $ref: '#/components/parameters/HostIdParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Host"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
+                $ref: '#/components/schemas/Host'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
     put:
       operationId: updateHostById
       summary: Обновить строку dc.host
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/HostIdParam"
+        - $ref: '#/components/parameters/HostIdParam'
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/HostWrite"
+              $ref: '#/components/schemas/HostWrite'
       responses:
-        "204":
+        '204':
           description: Обновлено
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
     delete:
       operationId: deleteHostById
       summary: Мягко удалить строку dc.host
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/HostIdParam"
+        - $ref: '#/components/parameters/HostIdParam'
       responses:
-        "204":
+        '204':
           description: Удалено
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
   /hosts/{id}/undelete:
     post:
       operationId: undeleteHostById
       summary: Восстановить мягко удалённую строку dc.host
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/HostIdParam"
+        - $ref: '#/components/parameters/HostIdParam'
       responses:
-        "204":
+        '204':
           description: Восстановлено
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
   /database-types:
     get:
       operationId: listDatabaseTypes
       summary: Страница строк dc.database_type
       description: >
-        Требуется роль admin или maintainer. order/page_limit по умолчанию —
-        см. pagination.DefaultOrder/DefaultPageLimit в shepherd.
+        Требуется роль admin или maintainer. order/page_limit по умолчанию — см. pagination.DefaultOrder/DefaultPageLimit
+        в shepherd.
       parameters:
-        - $ref: "#/components/parameters/OrderParam"
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PageLimitParam"
+        - $ref: '#/components/parameters/OrderParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageLimitParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/DatabaseTypePage"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+                $ref: '#/components/schemas/DatabaseTypePage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
     post:
       operationId: createDatabaseType
       summary: Создать строку dc.database_type
@@ -273,26 +277,26 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/DatabaseTypeWrite"
+              $ref: '#/components/schemas/DatabaseTypeWrite'
       responses:
-        "201":
+        '201':
           description: Created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/DatabaseType"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "409":
+                $ref: '#/components/schemas/DatabaseType'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '409':
           description: Строка с такими уникальными полями уже существует
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
   /database-types/search:
     get:
       operationId: searchDatabaseTypes
@@ -304,146 +308,146 @@ paths:
           required: true
           schema:
             type: string
-        - $ref: "#/components/parameters/OrderParam"
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PageLimitParam"
+        - $ref: '#/components/parameters/OrderParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageLimitParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/DatabaseTypePage"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+                $ref: '#/components/schemas/DatabaseTypePage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
   /database-types/deleted:
     get:
       operationId: listDeletedDatabaseTypes
       summary: Страница мягко удалённых строк dc.database_type
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/OrderParam"
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PageLimitParam"
+        - $ref: '#/components/parameters/OrderParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageLimitParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/DatabaseTypePage"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+                $ref: '#/components/schemas/DatabaseTypePage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
   /database-types/{id}:
     get:
       operationId: getDatabaseTypeById
       summary: Активная строка dc.database_type по id
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/DatabaseTypeIdParam"
+        - $ref: '#/components/parameters/DatabaseTypeIdParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/DatabaseType"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
+                $ref: '#/components/schemas/DatabaseType'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
     put:
       operationId: updateDatabaseTypeById
       summary: Обновить строку dc.database_type
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/DatabaseTypeIdParam"
+        - $ref: '#/components/parameters/DatabaseTypeIdParam'
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/DatabaseTypeWrite"
+              $ref: '#/components/schemas/DatabaseTypeWrite'
       responses:
-        "204":
+        '204':
           description: Обновлено
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
     delete:
       operationId: deleteDatabaseTypeById
       summary: Мягко удалить строку dc.database_type
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/DatabaseTypeIdParam"
+        - $ref: '#/components/parameters/DatabaseTypeIdParam'
       responses:
-        "204":
+        '204':
           description: Удалено
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
   /database-types/{id}/undelete:
     post:
       operationId: undeleteDatabaseTypeById
       summary: Восстановить мягко удалённую строку dc.database_type
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/DatabaseTypeIdParam"
+        - $ref: '#/components/parameters/DatabaseTypeIdParam'
       responses:
-        "204":
+        '204':
           description: Восстановлено
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
   /database-cats:
     get:
       operationId: listDatabaseCats
       summary: Страница строк dc.database_cat
       description: >
-        Требуется роль admin или maintainer. order/page_limit по умолчанию —
-        см. pagination.DefaultOrder/DefaultPageLimit в shepherd.
+        Требуется роль admin или maintainer. order/page_limit по умолчанию — см. pagination.DefaultOrder/DefaultPageLimit
+        в shepherd.
       parameters:
-        - $ref: "#/components/parameters/OrderParam"
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PageLimitParam"
+        - $ref: '#/components/parameters/OrderParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageLimitParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/DatabaseCatPage"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+                $ref: '#/components/schemas/DatabaseCatPage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
     post:
       operationId: createDatabaseCat
       summary: Создать строку dc.database_cat
@@ -453,26 +457,26 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/DatabaseCatWrite"
+              $ref: '#/components/schemas/DatabaseCatWrite'
       responses:
-        "201":
+        '201':
           description: Created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/DatabaseCat"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "409":
+                $ref: '#/components/schemas/DatabaseCat'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '409':
           description: Строка с такими уникальными полями уже существует
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
   /database-cats/search:
     get:
       operationId: searchDatabaseCats
@@ -484,53 +488,52 @@ paths:
           required: true
           schema:
             type: string
-        - $ref: "#/components/parameters/OrderParam"
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PageLimitParam"
+        - $ref: '#/components/parameters/OrderParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageLimitParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/DatabaseCatPage"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+                $ref: '#/components/schemas/DatabaseCatPage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
   /database-cats/deleted:
     get:
       operationId: listDeletedDatabaseCats
       summary: Страница мягко удалённых строк dc.database_cat
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/OrderParam"
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PageLimitParam"
+        - $ref: '#/components/parameters/OrderParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageLimitParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/DatabaseCatPage"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+                $ref: '#/components/schemas/DatabaseCatPage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
   /database-cats/by-host-database-type:
     get:
       operationId: listDatabaseCatsByHostAndDatabaseType
       summary: Страница строк dc.database_cat с фильтром по host_id и database_type_id
       description: >
-        Требуется роль admin или maintainer. Оба фильтра необязательны и
-        независимы: непереданный не сужает выборку. В отличие от остальных
-        выборок каталога, здесь доступна сортировка по имени — order_by=name;
-        если не передан, порядок по умолчанию — id.
+        Требуется роль admin или maintainer. Оба фильтра необязательны и независимы: непереданный не сужает выборку.
+        В отличие от остальных выборок каталога, здесь доступна сортировка по имени — order_by=name; если не передан,
+        порядок по умолчанию — id.
       parameters:
         - name: host_id
           in: query
@@ -549,126 +552,127 @@ paths:
           required: false
           schema:
             type: string
-            enum: [name]
-          description: >
-            Поле сортировки. Допустимо только name; если не передано —
-            сортировка по id.
-        - $ref: "#/components/parameters/OrderParam"
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PageLimitParam"
+            enum:
+              - name
+          description: 'Поле сортировки. Допустимо только name; если не передано — сортировка по id.
+
+            '
+        - $ref: '#/components/parameters/OrderParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageLimitParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/DatabaseCatPage"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+                $ref: '#/components/schemas/DatabaseCatPage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
   /database-cats/{id}:
     get:
       operationId: getDatabaseCatById
       summary: Активная строка dc.database_cat по id
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/DatabaseCatIdParam"
+        - $ref: '#/components/parameters/DatabaseCatIdParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/DatabaseCat"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
+                $ref: '#/components/schemas/DatabaseCat'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
     put:
       operationId: updateDatabaseCatById
       summary: Обновить строку dc.database_cat
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/DatabaseCatIdParam"
+        - $ref: '#/components/parameters/DatabaseCatIdParam'
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/DatabaseCatWrite"
+              $ref: '#/components/schemas/DatabaseCatWrite'
       responses:
-        "204":
+        '204':
           description: Обновлено
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
     delete:
       operationId: deleteDatabaseCatById
       summary: Мягко удалить строку dc.database_cat
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/DatabaseCatIdParam"
+        - $ref: '#/components/parameters/DatabaseCatIdParam'
       responses:
-        "204":
+        '204':
           description: Удалено
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
   /database-cats/{id}/undelete:
     post:
       operationId: undeleteDatabaseCatById
       summary: Восстановить мягко удалённую строку dc.database_cat
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/DatabaseCatIdParam"
+        - $ref: '#/components/parameters/DatabaseCatIdParam'
       responses:
-        "204":
+        '204':
           description: Восстановлено
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
   /aliases:
     get:
       operationId: listAliases
       summary: Список строк dc.alias
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/OrderParam"
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PageLimitParam"
+        - $ref: '#/components/parameters/OrderParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageLimitParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/AliasPage"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+                $ref: '#/components/schemas/AliasPage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
     post:
       operationId: createAlias
       summary: Создать строку dc.alias
@@ -678,177 +682,186 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/AliasWrite"
+              $ref: '#/components/schemas/AliasWrite'
       responses:
-        "201":
+        '201':
           description: Created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Alias"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "409":
+                $ref: '#/components/schemas/Alias'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '409':
           description: Строка с такими уникальными полями уже существует
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
   /aliases/deleted:
     get:
       operationId: listDeletedAliases
       summary: Мягко удалённые строки dc.alias
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/OrderParam"
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PageLimitParam"
+        - $ref: '#/components/parameters/OrderParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageLimitParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/AliasPage"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+                $ref: '#/components/schemas/AliasPage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
   /aliases/{id}:
     get:
       operationId: getAliasById
       summary: Активная строка dc.alias по id
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/AliasIdParam"
+        - $ref: '#/components/parameters/AliasIdParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Alias"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
+                $ref: '#/components/schemas/Alias'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
     put:
       operationId: updateAliasById
       summary: Обновить строку dc.alias
-      description: Требуется роль admin или maintainer.
+      description: >
+        Требуется роль admin или maintainer. Сменить column_type_id можно, только пока на алиас не ссылается ни
+        одна активная колонка: иначе 400 — тип колонок и тип их алиаса обязаны совпадать, и менять их нужно вместе.
+        Имя и описание правятся всегда.
       parameters:
-        - $ref: "#/components/parameters/AliasIdParam"
+        - $ref: '#/components/parameters/AliasIdParam'
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/AliasUpdate"
+              $ref: '#/components/schemas/AliasUpdate'
       responses:
-        "204":
+        '204':
           description: Обновлено
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
     delete:
       operationId: deleteAliasById
       summary: Мягко удалить строку dc.alias
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/AliasIdParam"
+        - $ref: '#/components/parameters/AliasIdParam'
       responses:
-        "204":
+        '204':
           description: Удалено
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
   /aliases/{id}/undelete:
     post:
       operationId: undeleteAliasById
       summary: Восстановить мягко удалённую строку dc.alias
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/AliasIdParam"
+        - $ref: '#/components/parameters/AliasIdParam'
       responses:
-        "204":
+        '204':
           description: Восстановлено
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
   /column-cats:
     get:
       operationId: listColumnCats
       summary: Список строк dc.column_cat
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/OrderParam"
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PageLimitParam"
+        - $ref: '#/components/parameters/OrderParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageLimitParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ColumnCatPage"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+                $ref: '#/components/schemas/ColumnCatPage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
     post:
       operationId: createColumnCat
       summary: Создать строку dc.column_cat
-      description: Требуется роль admin или maintainer.
+      description: >
+        Требуется роль admin или maintainer. alias_id необязателен: null или отсутствие поля означают «у колонки
+        нет алиаса», но при show_in_ui = true алиас обязателен — именно он несёт бизнес-имя колонки, и без него
+        показывать в интерфейсе нечего (иначе 400). Если alias_id задан, column_type_id колонки обязан совпадать
+        с column_type_id этого алиаса — иначе 400; ссылка на несуществующий алиас — 404.
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/ColumnCatWrite"
+              $ref: '#/components/schemas/ColumnCatWrite'
       responses:
-        "201":
+        '201':
           description: Created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ColumnCat"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "409":
+                $ref: '#/components/schemas/ColumnCat'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
           description: Строка с такими уникальными полями уже существует
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
   /column-cats/search:
     get:
       operationId: searchColumnCats
@@ -860,51 +873,50 @@ paths:
           required: true
           schema:
             type: string
-        - $ref: "#/components/parameters/OrderParam"
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PageLimitParam"
+        - $ref: '#/components/parameters/OrderParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageLimitParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ColumnCatPage"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+                $ref: '#/components/schemas/ColumnCatPage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
   /column-cats/deleted:
     get:
       operationId: listDeletedColumnCats
       summary: Мягко удалённые строки dc.column_cat
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/OrderParam"
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PageLimitParam"
+        - $ref: '#/components/parameters/OrderParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageLimitParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ColumnCatPage"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+                $ref: '#/components/schemas/ColumnCatPage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
   /column-cats/filter:
     get:
       operationId: filterColumnCats
       summary: Страница строк dc.column_cat с необязательными фильтрами
       description: >
-        Требуется роль admin или maintainer. Фильтры необязательны и
-        независимы: непереданный не сужает выборку.
+        Требуется роль admin или maintainer. Фильтры необязательны и независимы: непереданный не сужает выборку.
       parameters:
         - name: table_id
           in: query
@@ -935,122 +947,126 @@ paths:
           required: false
           schema:
             type: boolean
-        - $ref: "#/components/parameters/OrderParam"
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PageLimitParam"
+        - $ref: '#/components/parameters/OrderParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageLimitParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ColumnCatPage"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+                $ref: '#/components/schemas/ColumnCatPage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
   /column-cats/{id}:
     get:
       operationId: getColumnCatById
       summary: Активная строка dc.column_cat по id
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/ColumnCatIdParam"
+        - $ref: '#/components/parameters/ColumnCatIdParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ColumnCat"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
+                $ref: '#/components/schemas/ColumnCat'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
     put:
       operationId: updateColumnCatById
       summary: Обновить строку dc.column_cat
-      description: Требуется роль admin или maintainer.
+      description: >
+        Требуется роль admin или maintainer. alias_id необязателен: null или отсутствие поля снимают алиас с колонки
+        — вместе с ним нужно снять и show_in_ui, потому что показываемая в интерфейсе колонка обязана иметь алиас
+        (иначе 400). Если alias_id задан, column_type_id колонки обязан совпадать с column_type_id этого алиаса
+        — иначе 400. 404 приходит и на несуществующую колонку, и на несуществующий алиас.
       parameters:
-        - $ref: "#/components/parameters/ColumnCatIdParam"
+        - $ref: '#/components/parameters/ColumnCatIdParam'
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/ColumnCatWrite"
+              $ref: '#/components/schemas/ColumnCatWrite'
       responses:
-        "204":
+        '204':
           description: Обновлено
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
     delete:
       operationId: deleteColumnCatById
       summary: Мягко удалить строку dc.column_cat
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/ColumnCatIdParam"
+        - $ref: '#/components/parameters/ColumnCatIdParam'
       responses:
-        "204":
+        '204':
           description: Удалено
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
   /column-cats/{id}/undelete:
     post:
       operationId: undeleteColumnCatById
       summary: Восстановить мягко удалённую строку dc.column_cat
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/ColumnCatIdParam"
+        - $ref: '#/components/parameters/ColumnCatIdParam'
       responses:
-        "204":
+        '204':
           description: Восстановлено
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
   /column-types:
     get:
       operationId: listColumnTypes
       summary: Список строк dc.column_type
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/OrderParam"
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PageLimitParam"
+        - $ref: '#/components/parameters/OrderParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageLimitParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ColumnTypePage"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+                $ref: '#/components/schemas/ColumnTypePage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
     post:
       operationId: createColumnType
       summary: Создать строку dc.column_type
@@ -1060,26 +1076,26 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/ColumnTypeWrite"
+              $ref: '#/components/schemas/ColumnTypeWrite'
       responses:
-        "201":
+        '201':
           description: Created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ColumnType"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "409":
+                $ref: '#/components/schemas/ColumnType'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '409':
           description: Строка с такими уникальными полями уже существует
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
   /column-types/search:
     get:
       operationId: searchColumnTypes
@@ -1091,144 +1107,144 @@ paths:
           required: true
           schema:
             type: string
-        - $ref: "#/components/parameters/OrderParam"
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PageLimitParam"
+        - $ref: '#/components/parameters/OrderParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageLimitParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ColumnTypePage"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+                $ref: '#/components/schemas/ColumnTypePage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
   /column-types/deleted:
     get:
       operationId: listDeletedColumnTypes
       summary: Мягко удалённые строки dc.column_type
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/OrderParam"
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PageLimitParam"
+        - $ref: '#/components/parameters/OrderParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageLimitParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ColumnTypePage"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+                $ref: '#/components/schemas/ColumnTypePage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
   /column-types/{id}:
     get:
       operationId: getColumnTypeById
       summary: Активная строка dc.column_type по id
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/ColumnTypeIdParam"
+        - $ref: '#/components/parameters/ColumnTypeIdParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ColumnType"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
+                $ref: '#/components/schemas/ColumnType'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
     put:
       operationId: updateColumnTypeById
       summary: Обновить строку dc.column_type
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/ColumnTypeIdParam"
+        - $ref: '#/components/parameters/ColumnTypeIdParam'
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/ColumnTypeWrite"
+              $ref: '#/components/schemas/ColumnTypeWrite'
       responses:
-        "204":
+        '204':
           description: Обновлено
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
     delete:
       operationId: deleteColumnTypeById
       summary: Мягко удалить строку dc.column_type
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/ColumnTypeIdParam"
+        - $ref: '#/components/parameters/ColumnTypeIdParam'
       responses:
-        "204":
+        '204':
           description: Удалено
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
   /column-types/{id}/undelete:
     post:
       operationId: undeleteColumnTypeById
       summary: Восстановить мягко удалённую строку dc.column_type
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/ColumnTypeIdParam"
+        - $ref: '#/components/parameters/ColumnTypeIdParam'
       responses:
-        "204":
+        '204':
           description: Восстановлено
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
   /database-calculations:
     get:
       operationId: listDatabaseCalculations
       summary: Список строк dc.database_calculation
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/OrderParam"
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PageLimitParam"
+        - $ref: '#/components/parameters/OrderParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageLimitParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/DatabaseCalculationPage"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+                $ref: '#/components/schemas/DatabaseCalculationPage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
     post:
       operationId: createDatabaseCalculation
       summary: Создать строку dc.database_calculation
@@ -1238,26 +1254,26 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/DatabaseCalculationWrite"
+              $ref: '#/components/schemas/DatabaseCalculationWrite'
       responses:
-        "201":
+        '201':
           description: Created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/DatabaseCalculation"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "409":
+                $ref: '#/components/schemas/DatabaseCalculation'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '409':
           description: Строка с такими уникальными полями уже существует
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
   /database-calculations/search:
     get:
       operationId: searchDatabaseCalculations
@@ -1269,51 +1285,50 @@ paths:
           required: true
           schema:
             type: string
-        - $ref: "#/components/parameters/OrderParam"
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PageLimitParam"
+        - $ref: '#/components/parameters/OrderParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageLimitParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/DatabaseCalculationPage"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+                $ref: '#/components/schemas/DatabaseCalculationPage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
   /database-calculations/deleted:
     get:
       operationId: listDeletedDatabaseCalculations
       summary: Мягко удалённые строки dc.database_calculation
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/OrderParam"
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PageLimitParam"
+        - $ref: '#/components/parameters/OrderParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageLimitParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/DatabaseCalculationPage"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+                $ref: '#/components/schemas/DatabaseCalculationPage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
   /database-calculations/filter:
     get:
       operationId: filterDatabaseCalculations
       summary: Страница строк dc.database_calculation с необязательными фильтрами
       description: >
-        Требуется роль admin или maintainer. Фильтры необязательны и
-        независимы: непереданный не сужает выборку.
+        Требуется роль admin или maintainer. Фильтры необязательны и независимы: непереданный не сужает выборку.
       parameters:
         - name: database_cat_id
           in: query
@@ -1327,122 +1342,122 @@ paths:
           schema:
             type: integer
             format: int64
-        - $ref: "#/components/parameters/OrderParam"
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PageLimitParam"
+        - $ref: '#/components/parameters/OrderParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageLimitParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/DatabaseCalculationPage"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+                $ref: '#/components/schemas/DatabaseCalculationPage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
   /database-calculations/{id}:
     get:
       operationId: getDatabaseCalculationById
       summary: Активная строка dc.database_calculation по id
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/DatabaseCalculationIdParam"
+        - $ref: '#/components/parameters/DatabaseCalculationIdParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/DatabaseCalculation"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
+                $ref: '#/components/schemas/DatabaseCalculation'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
     put:
       operationId: updateDatabaseCalculationById
       summary: Обновить строку dc.database_calculation
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/DatabaseCalculationIdParam"
+        - $ref: '#/components/parameters/DatabaseCalculationIdParam'
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/DatabaseCalculationWrite"
+              $ref: '#/components/schemas/DatabaseCalculationWrite'
       responses:
-        "204":
+        '204':
           description: Обновлено
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
     delete:
       operationId: deleteDatabaseCalculationById
       summary: Мягко удалить строку dc.database_calculation
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/DatabaseCalculationIdParam"
+        - $ref: '#/components/parameters/DatabaseCalculationIdParam'
       responses:
-        "204":
+        '204':
           description: Удалено
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
   /database-calculations/{id}/undelete:
     post:
       operationId: undeleteDatabaseCalculationById
       summary: Восстановить мягко удалённую строку dc.database_calculation
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/DatabaseCalculationIdParam"
+        - $ref: '#/components/parameters/DatabaseCalculationIdParam'
       responses:
-        "204":
+        '204':
           description: Восстановлено
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
   /domain-cats:
     get:
       operationId: listDomainCats
       summary: Список строк dc.domain_cat
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/OrderParam"
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PageLimitParam"
+        - $ref: '#/components/parameters/OrderParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageLimitParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/DomainCatPage"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+                $ref: '#/components/schemas/DomainCatPage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
     post:
       operationId: createDomainCat
       summary: Создать строку dc.domain_cat
@@ -1452,26 +1467,26 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/DomainCatWrite"
+              $ref: '#/components/schemas/DomainCatWrite'
       responses:
-        "201":
+        '201':
           description: Created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/DomainCat"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "409":
+                $ref: '#/components/schemas/DomainCat'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '409':
           description: Строка с такими уникальными полями уже существует
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
   /domain-cats/search:
     get:
       operationId: searchDomainCats
@@ -1483,144 +1498,144 @@ paths:
           required: true
           schema:
             type: string
-        - $ref: "#/components/parameters/OrderParam"
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PageLimitParam"
+        - $ref: '#/components/parameters/OrderParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageLimitParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/DomainCatPage"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+                $ref: '#/components/schemas/DomainCatPage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
   /domain-cats/deleted:
     get:
       operationId: listDeletedDomainCats
       summary: Мягко удалённые строки dc.domain_cat
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/OrderParam"
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PageLimitParam"
+        - $ref: '#/components/parameters/OrderParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageLimitParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/DomainCatPage"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+                $ref: '#/components/schemas/DomainCatPage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
   /domain-cats/{id}:
     get:
       operationId: getDomainCatById
       summary: Активная строка dc.domain_cat по id
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/DomainCatIdParam"
+        - $ref: '#/components/parameters/DomainCatIdParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/DomainCat"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
+                $ref: '#/components/schemas/DomainCat'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
     put:
       operationId: updateDomainCatById
       summary: Обновить строку dc.domain_cat
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/DomainCatIdParam"
+        - $ref: '#/components/parameters/DomainCatIdParam'
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/DomainCatWrite"
+              $ref: '#/components/schemas/DomainCatWrite'
       responses:
-        "204":
+        '204':
           description: Обновлено
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
     delete:
       operationId: deleteDomainCatById
       summary: Мягко удалить строку dc.domain_cat
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/DomainCatIdParam"
+        - $ref: '#/components/parameters/DomainCatIdParam'
       responses:
-        "204":
+        '204':
           description: Удалено
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
   /domain-cats/{id}/undelete:
     post:
       operationId: undeleteDomainCatById
       summary: Восстановить мягко удалённую строку dc.domain_cat
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/DomainCatIdParam"
+        - $ref: '#/components/parameters/DomainCatIdParam'
       responses:
-        "204":
+        '204':
           description: Восстановлено
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
   /following-calculations:
     get:
       operationId: listFollowingCalculations
       summary: Список строк dc.following_calculation
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/OrderParam"
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PageLimitParam"
+        - $ref: '#/components/parameters/OrderParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageLimitParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/FollowingCalculationPage"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+                $ref: '#/components/schemas/FollowingCalculationPage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
     post:
       operationId: createFollowingCalculation
       summary: Создать строку dc.following_calculation
@@ -1630,55 +1645,54 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/FollowingCalculationWrite"
+              $ref: '#/components/schemas/FollowingCalculationWrite'
       responses:
-        "201":
+        '201':
           description: Created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/FollowingCalculation"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "409":
+                $ref: '#/components/schemas/FollowingCalculation'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '409':
           description: Строка с такими уникальными полями уже существует
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
   /following-calculations/deleted:
     get:
       operationId: listDeletedFollowingCalculations
       summary: Мягко удалённые строки dc.following_calculation
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/OrderParam"
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PageLimitParam"
+        - $ref: '#/components/parameters/OrderParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageLimitParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/FollowingCalculationPage"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+                $ref: '#/components/schemas/FollowingCalculationPage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
   /following-calculations/filter:
     get:
       operationId: filterFollowingCalculations
       summary: Страница строк dc.following_calculation с необязательными фильтрами
       description: >
-        Требуется роль admin или maintainer. Фильтры необязательны и
-        независимы: непереданный не сужает выборку.
+        Требуется роль admin или maintainer. Фильтры необязательны и независимы: непереданный не сужает выборку.
       parameters:
         - name: column_cat_id
           in: query
@@ -1692,122 +1706,122 @@ paths:
           schema:
             type: integer
             format: int64
-        - $ref: "#/components/parameters/OrderParam"
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PageLimitParam"
+        - $ref: '#/components/parameters/OrderParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageLimitParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/FollowingCalculationPage"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+                $ref: '#/components/schemas/FollowingCalculationPage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
   /following-calculations/{id}:
     get:
       operationId: getFollowingCalculationById
       summary: Активная строка dc.following_calculation по id
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/FollowingCalculationIdParam"
+        - $ref: '#/components/parameters/FollowingCalculationIdParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/FollowingCalculation"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
+                $ref: '#/components/schemas/FollowingCalculation'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
     put:
       operationId: updateFollowingCalculationById
       summary: Обновить строку dc.following_calculation
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/FollowingCalculationIdParam"
+        - $ref: '#/components/parameters/FollowingCalculationIdParam'
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/FollowingCalculationWrite"
+              $ref: '#/components/schemas/FollowingCalculationWrite'
       responses:
-        "204":
+        '204':
           description: Обновлено
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
     delete:
       operationId: deleteFollowingCalculationById
       summary: Мягко удалить строку dc.following_calculation
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/FollowingCalculationIdParam"
+        - $ref: '#/components/parameters/FollowingCalculationIdParam'
       responses:
-        "204":
+        '204':
           description: Удалено
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
   /following-calculations/{id}/undelete:
     post:
       operationId: undeleteFollowingCalculationById
       summary: Восстановить мягко удалённую строку dc.following_calculation
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/FollowingCalculationIdParam"
+        - $ref: '#/components/parameters/FollowingCalculationIdParam'
       responses:
-        "204":
+        '204':
           description: Восстановлено
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
   /group-levels:
     get:
       operationId: listGroupLevels
       summary: Список строк dc.group_levels
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/OrderParam"
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PageLimitParam"
+        - $ref: '#/components/parameters/OrderParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageLimitParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/GroupLevelsPage"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+                $ref: '#/components/schemas/GroupLevelsPage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
     post:
       operationId: createGroupLevels
       summary: Создать строку dc.group_levels
@@ -1817,26 +1831,26 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/GroupLevelsWrite"
+              $ref: '#/components/schemas/GroupLevelsWrite'
       responses:
-        "201":
+        '201':
           description: Created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/GroupLevels"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "409":
+                $ref: '#/components/schemas/GroupLevels'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '409':
           description: Строка с такими уникальными полями уже существует
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
   /group-levels/search:
     get:
       operationId: searchGroupLevels
@@ -1848,51 +1862,50 @@ paths:
           required: true
           schema:
             type: string
-        - $ref: "#/components/parameters/OrderParam"
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PageLimitParam"
+        - $ref: '#/components/parameters/OrderParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageLimitParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/GroupLevelsPage"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+                $ref: '#/components/schemas/GroupLevelsPage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
   /group-levels/deleted:
     get:
       operationId: listDeletedGroupLevels
       summary: Мягко удалённые строки dc.group_levels
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/OrderParam"
+        - $ref: '#/components/parameters/OrderParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/GroupLevels"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+                  $ref: '#/components/schemas/GroupLevels'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
   /group-levels/filter:
     get:
       operationId: filterGroupLevels
       summary: Страница строк dc.group_levels с необязательными фильтрами
       description: >
-        Требуется роль admin или maintainer. Фильтры необязательны и
-        независимы: непереданный не сужает выборку.
+        Требуется роль admin или maintainer. Фильтры необязательны и независимы: непереданный не сужает выборку.
       parameters:
         - name: column_id
           in: query
@@ -1906,122 +1919,122 @@ paths:
           schema:
             type: integer
             format: int64
-        - $ref: "#/components/parameters/OrderParam"
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PageLimitParam"
+        - $ref: '#/components/parameters/OrderParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageLimitParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/GroupLevelsPage"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+                $ref: '#/components/schemas/GroupLevelsPage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
   /group-levels/{id}:
     get:
       operationId: getGroupLevelsById
       summary: Активная строка dc.group_levels по id
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/GroupLevelsIdParam"
+        - $ref: '#/components/parameters/GroupLevelsIdParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/GroupLevels"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
+                $ref: '#/components/schemas/GroupLevels'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
     put:
       operationId: updateGroupLevelsById
       summary: Обновить строку dc.group_levels
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/GroupLevelsIdParam"
+        - $ref: '#/components/parameters/GroupLevelsIdParam'
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/GroupLevelsWrite"
+              $ref: '#/components/schemas/GroupLevelsWrite'
       responses:
-        "204":
+        '204':
           description: Обновлено
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
     delete:
       operationId: deleteGroupLevelsById
       summary: Мягко удалить строку dc.group_levels
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/GroupLevelsIdParam"
+        - $ref: '#/components/parameters/GroupLevelsIdParam'
       responses:
-        "204":
+        '204':
           description: Удалено
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
   /group-levels/{id}/undelete:
     post:
       operationId: undeleteGroupLevelsById
       summary: Восстановить мягко удалённую строку dc.group_levels
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/GroupLevelsIdParam"
+        - $ref: '#/components/parameters/GroupLevelsIdParam'
       responses:
-        "204":
+        '204':
           description: Восстановлено
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
   /has-to-groups:
     get:
       operationId: listHasToGroups
       summary: Список строк dc.has_to_group
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/OrderParam"
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PageLimitParam"
+        - $ref: '#/components/parameters/OrderParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageLimitParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/HasToGroupPage"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+                $ref: '#/components/schemas/HasToGroupPage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
     post:
       operationId: createHasToGroup
       summary: Создать строку dc.has_to_group
@@ -2031,26 +2044,26 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/HasToGroupWrite"
+              $ref: '#/components/schemas/HasToGroupWrite'
       responses:
-        "201":
+        '201':
           description: Created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/HasToGroup"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "409":
+                $ref: '#/components/schemas/HasToGroup'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '409':
           description: Строка с такими уникальными полями уже существует
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
   /has-to-groups/search:
     get:
       operationId: searchHasToGroups
@@ -2062,144 +2075,144 @@ paths:
           required: true
           schema:
             type: string
-        - $ref: "#/components/parameters/OrderParam"
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PageLimitParam"
+        - $ref: '#/components/parameters/OrderParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageLimitParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/HasToGroupPage"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+                $ref: '#/components/schemas/HasToGroupPage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
   /has-to-groups/deleted:
     get:
       operationId: listDeletedHasToGroups
       summary: Мягко удалённые строки dc.has_to_group
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/OrderParam"
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PageLimitParam"
+        - $ref: '#/components/parameters/OrderParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageLimitParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/HasToGroupPage"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+                $ref: '#/components/schemas/HasToGroupPage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
   /has-to-groups/{id}:
     get:
       operationId: getHasToGroupById
       summary: Активная строка dc.has_to_group по id
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/HasToGroupIdParam"
+        - $ref: '#/components/parameters/HasToGroupIdParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/HasToGroup"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
+                $ref: '#/components/schemas/HasToGroup'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
     put:
       operationId: updateHasToGroupById
       summary: Обновить строку dc.has_to_group
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/HasToGroupIdParam"
+        - $ref: '#/components/parameters/HasToGroupIdParam'
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/HasToGroupWrite"
+              $ref: '#/components/schemas/HasToGroupWrite'
       responses:
-        "204":
+        '204':
           description: Обновлено
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
     delete:
       operationId: deleteHasToGroupById
       summary: Мягко удалить строку dc.has_to_group
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/HasToGroupIdParam"
+        - $ref: '#/components/parameters/HasToGroupIdParam'
       responses:
-        "204":
+        '204':
           description: Удалено
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
   /has-to-groups/{id}/undelete:
     post:
       operationId: undeleteHasToGroupById
       summary: Восстановить мягко удалённую строку dc.has_to_group
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/HasToGroupIdParam"
+        - $ref: '#/components/parameters/HasToGroupIdParam'
       responses:
-        "204":
+        '204':
           description: Восстановлено
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
   /schema-cats:
     get:
       operationId: listSchemaCats
       summary: Список строк dc.schema_cat
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/OrderParam"
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PageLimitParam"
+        - $ref: '#/components/parameters/OrderParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageLimitParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SchemaCatPage"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+                $ref: '#/components/schemas/SchemaCatPage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
     post:
       operationId: createSchemaCat
       summary: Создать строку dc.schema_cat
@@ -2209,148 +2222,148 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/SchemaCatWrite"
+              $ref: '#/components/schemas/SchemaCatWrite'
       responses:
-        "201":
+        '201':
           description: Created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SchemaCat"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "409":
+                $ref: '#/components/schemas/SchemaCat'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '409':
           description: Строка с такими уникальными полями уже существует
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
   /schema-cats/deleted:
     get:
       operationId: listDeletedSchemaCats
       summary: Мягко удалённые строки dc.schema_cat
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/OrderParam"
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PageLimitParam"
+        - $ref: '#/components/parameters/OrderParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageLimitParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SchemaCatPage"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+                $ref: '#/components/schemas/SchemaCatPage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
   /schema-cats/{id}:
     get:
       operationId: getSchemaCatById
       summary: Активная строка dc.schema_cat по id
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/SchemaCatIdParam"
+        - $ref: '#/components/parameters/SchemaCatIdParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SchemaCat"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
+                $ref: '#/components/schemas/SchemaCat'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
     put:
       operationId: updateSchemaCatById
       summary: Обновить строку dc.schema_cat
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/SchemaCatIdParam"
+        - $ref: '#/components/parameters/SchemaCatIdParam'
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/SchemaCatWrite"
+              $ref: '#/components/schemas/SchemaCatWrite'
       responses:
-        "204":
+        '204':
           description: Обновлено
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
     delete:
       operationId: deleteSchemaCatById
       summary: Мягко удалить строку dc.schema_cat
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/SchemaCatIdParam"
+        - $ref: '#/components/parameters/SchemaCatIdParam'
       responses:
-        "204":
+        '204':
           description: Удалено
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
   /schema-cats/{id}/undelete:
     post:
       operationId: undeleteSchemaCatById
       summary: Восстановить мягко удалённую строку dc.schema_cat
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/SchemaCatIdParam"
+        - $ref: '#/components/parameters/SchemaCatIdParam'
       responses:
-        "204":
+        '204':
           description: Восстановлено
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
   /table-cats:
     get:
       operationId: listTableCats
       summary: Список строк dc.table_cat
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/OrderParam"
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PageLimitParam"
+        - $ref: '#/components/parameters/OrderParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageLimitParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/TableCatPage"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+                $ref: '#/components/schemas/TableCatPage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
     post:
       operationId: createTableCat
       summary: Создать строку dc.table_cat
@@ -2360,148 +2373,148 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/TableCatWrite"
+              $ref: '#/components/schemas/TableCatWrite'
       responses:
-        "201":
+        '201':
           description: Created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/TableCat"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "409":
+                $ref: '#/components/schemas/TableCat'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '409':
           description: Строка с такими уникальными полями уже существует
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
   /table-cats/deleted:
     get:
       operationId: listDeletedTableCats
       summary: Мягко удалённые строки dc.table_cat
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/OrderParam"
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PageLimitParam"
+        - $ref: '#/components/parameters/OrderParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageLimitParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/TableCatPage"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+                $ref: '#/components/schemas/TableCatPage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
   /table-cats/{id}:
     get:
       operationId: getTableCatById
       summary: Активная строка dc.table_cat по id
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/TableCatIdParam"
+        - $ref: '#/components/parameters/TableCatIdParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/TableCat"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
+                $ref: '#/components/schemas/TableCat'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
     put:
       operationId: updateTableCatById
       summary: Обновить строку dc.table_cat
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/TableCatIdParam"
+        - $ref: '#/components/parameters/TableCatIdParam'
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/TableCatUpdate"
+              $ref: '#/components/schemas/TableCatUpdate'
       responses:
-        "204":
+        '204':
           description: Обновлено
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
     delete:
       operationId: deleteTableCatById
       summary: Мягко удалить строку dc.table_cat
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/TableCatIdParam"
+        - $ref: '#/components/parameters/TableCatIdParam'
       responses:
-        "204":
+        '204':
           description: Удалено
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
   /table-cats/{id}/undelete:
     post:
       operationId: undeleteTableCatById
       summary: Восстановить мягко удалённую строку dc.table_cat
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/TableCatIdParam"
+        - $ref: '#/components/parameters/TableCatIdParam'
       responses:
-        "204":
+        '204':
           description: Восстановлено
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
   /table-types:
     get:
       operationId: listTableTypes
       summary: Список строк dc.table_type
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/OrderParam"
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PageLimitParam"
+        - $ref: '#/components/parameters/OrderParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageLimitParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/TableTypePage"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+                $ref: '#/components/schemas/TableTypePage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
     post:
       operationId: createTableType
       summary: Создать строку dc.table_type
@@ -2511,194 +2524,193 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/TableTypeWrite"
+              $ref: '#/components/schemas/TableTypeWrite'
       responses:
-        "201":
+        '201':
           description: Created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/TableType"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "409":
+                $ref: '#/components/schemas/TableType'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '409':
           description: Строка с такими уникальными полями уже существует
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
   /table-types/deleted:
     get:
       operationId: listDeletedTableTypes
       summary: Мягко удалённые строки dc.table_type
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/OrderParam"
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PageLimitParam"
+        - $ref: '#/components/parameters/OrderParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageLimitParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/TableTypePage"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+                $ref: '#/components/schemas/TableTypePage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
   /table-types/{id}:
     get:
       operationId: getTableTypeById
       summary: Активная строка dc.table_type по id
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/TableTypeIdParam"
+        - $ref: '#/components/parameters/TableTypeIdParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/TableType"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
+                $ref: '#/components/schemas/TableType'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
     put:
       operationId: updateTableTypeById
       summary: Обновить строку dc.table_type
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/TableTypeIdParam"
+        - $ref: '#/components/parameters/TableTypeIdParam'
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/TableTypeWrite"
+              $ref: '#/components/schemas/TableTypeWrite'
       responses:
-        "204":
+        '204':
           description: Обновлено
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
     delete:
       operationId: deleteTableTypeById
       summary: Мягко удалить строку dc.table_type
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/TableTypeIdParam"
+        - $ref: '#/components/parameters/TableTypeIdParam'
       responses:
-        "204":
+        '204':
           description: Удалено
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
   /table-types/{id}/undelete:
     post:
       operationId: undeleteTableTypeById
       summary: Восстановить мягко удалённую строку dc.table_type
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/TableTypeIdParam"
+        - $ref: '#/components/parameters/TableTypeIdParam'
       responses:
-        "204":
+        '204':
           description: Восстановлено
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
   /calculation-types:
     get:
       operationId: listCalculationTypes
       summary: Список строк dc.calculation_type
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/OrderParam"
+        - $ref: '#/components/parameters/OrderParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/CalculationType"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+                  $ref: '#/components/schemas/CalculationType'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
   /calculation-types/{id}:
     get:
       operationId: getCalculationTypeById
       summary: Активная строка dc.calculation_type по id
       description: Требуется роль admin или maintainer.
       parameters:
-        - $ref: "#/components/parameters/CalculationTypeIdParam"
+        - $ref: '#/components/parameters/CalculationTypeIdParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CalculationType"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
+                $ref: '#/components/schemas/CalculationType'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
   /user-domain-roles:
     get:
       operationId: listUserDomainRoles
       summary: Страница строк dc.user_domain_roles
       description: >
-        Требуется роль admin. order/page_limit по умолчанию —
-        см. pagination.DefaultOrder/DefaultPageLimit в shepherd.
+        Требуется роль admin. order/page_limit по умолчанию — см. pagination.DefaultOrder/DefaultPageLimit в shepherd.
       parameters:
-        - $ref: "#/components/parameters/OrderParam"
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PageLimitParam"
+        - $ref: '#/components/parameters/OrderParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageLimitParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UserDomainRolesPage"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/ForbiddenAdmin"
+                $ref: '#/components/schemas/UserDomainRolesPage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/ForbiddenAdmin'
     post:
       operationId: createUserDomainRoles
       summary: Выдать пользователю роль на домен
@@ -2708,107 +2720,106 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UserDomainRolesWrite"
+              $ref: '#/components/schemas/UserDomainRolesWrite'
       responses:
-        "201":
+        '201':
           description: Created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UserDomainRoles"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/ForbiddenAdmin"
-        "409":
+                $ref: '#/components/schemas/UserDomainRoles'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/ForbiddenAdmin'
+        '409':
           description: Строка с такими уникальными полями уже существует
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
   /user-domain-roles/{id}:
     put:
       operationId: updateUserDomainRolesById
       summary: Обновить строку dc.user_domain_roles
       description: Требуется роль admin.
       parameters:
-        - $ref: "#/components/parameters/UserDomainRolesIdParam"
+        - $ref: '#/components/parameters/UserDomainRolesIdParam'
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UserDomainRolesWrite"
+              $ref: '#/components/schemas/UserDomainRolesWrite'
       responses:
-        "204":
+        '204':
           description: Обновлено
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/ForbiddenAdmin"
-        "404":
-          $ref: "#/components/responses/NotFound"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/ForbiddenAdmin'
+        '404':
+          $ref: '#/components/responses/NotFound'
     delete:
       operationId: deleteUserDomainRolesById
       summary: Мягко удалить строку dc.user_domain_roles
       description: Требуется роль admin.
       parameters:
-        - $ref: "#/components/parameters/UserDomainRolesIdParam"
+        - $ref: '#/components/parameters/UserDomainRolesIdParam'
       responses:
-        "204":
+        '204':
           description: Удалено
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/ForbiddenAdmin"
-        "404":
-          $ref: "#/components/responses/NotFound"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/ForbiddenAdmin'
+        '404':
+          $ref: '#/components/responses/NotFound'
   /user-domain-roles/{id}/undelete:
     post:
       operationId: undeleteUserDomainRolesById
       summary: Восстановить мягко удалённую строку dc.user_domain_roles
       description: Требуется роль admin.
       parameters:
-        - $ref: "#/components/parameters/UserDomainRolesIdParam"
+        - $ref: '#/components/parameters/UserDomainRolesIdParam'
       responses:
-        "204":
+        '204':
           description: Восстановлено
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/ForbiddenAdmin"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/ForbiddenAdmin'
   /user-table-roles:
     get:
       operationId: listUserTableRoles
       summary: Страница строк dc.user_table_roles
       description: >
-        Требуется роль admin. order/page_limit по умолчанию —
-        см. pagination.DefaultOrder/DefaultPageLimit в shepherd.
+        Требуется роль admin. order/page_limit по умолчанию — см. pagination.DefaultOrder/DefaultPageLimit в shepherd.
       parameters:
-        - $ref: "#/components/parameters/OrderParam"
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PageLimitParam"
+        - $ref: '#/components/parameters/OrderParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageLimitParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UserTableRolesPage"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/ForbiddenAdmin"
+                $ref: '#/components/schemas/UserTableRolesPage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/ForbiddenAdmin'
     post:
       operationId: createUserTableRoles
       summary: Выдать пользователю роль на таблицу
@@ -2818,33 +2829,32 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UserTableRolesWrite"
+              $ref: '#/components/schemas/UserTableRolesWrite'
       responses:
-        "201":
+        '201':
           description: Created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UserTableRoles"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/ForbiddenAdmin"
-        "409":
+                $ref: '#/components/schemas/UserTableRoles'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/ForbiddenAdmin'
+        '409':
           description: Строка с такими уникальными полями уже существует
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
   /user-table-roles/filter:
     get:
       operationId: filterUserTableRoles
       summary: Страница строк dc.user_table_roles с необязательными фильтрами
       description: >
-        Требуется роль admin. Фильтры необязательны и независимы:
-        непереданный не сужает выборку.
+        Требуется роль admin. Фильтры необязательны и независимы: непереданный не сужает выборку.
       parameters:
         - name: dc_user_name
           in: query
@@ -2872,100 +2882,100 @@ paths:
           required: false
           schema:
             type: string
-        - $ref: "#/components/parameters/OrderParam"
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PageLimitParam"
+        - $ref: '#/components/parameters/OrderParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageLimitParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UserTableRolesFilteredPage"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/ForbiddenAdmin"
+                $ref: '#/components/schemas/UserTableRolesFilteredPage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/ForbiddenAdmin'
   /user-table-roles/{id}:
     get:
       operationId: getUserTableRolesById
       summary: Активная строка dc.user_table_roles по id
       description: Требуется роль admin.
       parameters:
-        - $ref: "#/components/parameters/UserTableRolesIdParam"
+        - $ref: '#/components/parameters/UserTableRolesIdParam'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UserTableRolesDetail"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/ForbiddenAdmin"
-        "404":
-          $ref: "#/components/responses/NotFound"
+                $ref: '#/components/schemas/UserTableRolesDetail'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/ForbiddenAdmin'
+        '404':
+          $ref: '#/components/responses/NotFound'
     put:
       operationId: updateUserTableRolesById
       summary: Обновить строку dc.user_table_roles
       description: Требуется роль admin.
       parameters:
-        - $ref: "#/components/parameters/UserTableRolesIdParam"
+        - $ref: '#/components/parameters/UserTableRolesIdParam'
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UserTableRolesWrite"
+              $ref: '#/components/schemas/UserTableRolesWrite'
       responses:
-        "204":
+        '204':
           description: Обновлено
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/ForbiddenAdmin"
-        "404":
-          $ref: "#/components/responses/NotFound"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/ForbiddenAdmin'
+        '404':
+          $ref: '#/components/responses/NotFound'
     delete:
       operationId: deleteUserTableRolesById
       summary: Мягко удалить строку dc.user_table_roles
       description: Требуется роль admin.
       parameters:
-        - $ref: "#/components/parameters/UserTableRolesIdParam"
+        - $ref: '#/components/parameters/UserTableRolesIdParam'
       responses:
-        "204":
+        '204':
           description: Удалено
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/ForbiddenAdmin"
-        "404":
-          $ref: "#/components/responses/NotFound"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/ForbiddenAdmin'
+        '404':
+          $ref: '#/components/responses/NotFound'
   /user-table-roles/{id}/undelete:
     post:
       operationId: undeleteUserTableRolesById
       summary: Восстановить мягко удалённую строку dc.user_table_roles
       description: Требуется роль admin.
       parameters:
-        - $ref: "#/components/parameters/UserTableRolesIdParam"
+        - $ref: '#/components/parameters/UserTableRolesIdParam'
       responses:
-        "204":
+        '204':
           description: Восстановлено
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/ForbiddenAdmin"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/ForbiddenAdmin'
 components:
   securitySchemes:
     bearerAuth:
@@ -2973,6 +2983,32 @@ components:
       scheme: bearer
       bearerFormat: JWT
   parameters:
+    OrderParam:
+      name: order
+      in: query
+      required: false
+      schema:
+        type: string
+      description: >
+        Направление сортировки — ASC или DESC. Если не передано, применяется значение по умолчанию (pagination.DefaultOrder
+        в shepherd).
+    PageParam:
+      name: page
+      in: query
+      required: false
+      schema:
+        type: integer
+        format: int32
+      description: Номер страницы, с 1. Если не передано — используется 1.
+    PageLimitParam:
+      name: page_limit
+      in: query
+      required: false
+      schema:
+        type: integer
+        format: int32
+      description: >
+        Размер страницы. Если не передано, применяется значение по умолчанию (pagination.DefaultPageLimit в shepherd).
     HostIdParam:
       name: id
       in: path
@@ -3092,68 +3128,45 @@ components:
       schema:
         type: integer
         format: int64
-    OrderParam:
-      name: order
-      in: query
-      required: false
-      schema:
-        type: string
-      description: >
-        Направление сортировки — ASC или DESC. Если не передано, применяется
-        значение по умолчанию (pagination.DefaultOrder в shepherd).
-    PageParam:
-      name: page
-      in: query
-      required: false
-      schema:
-        type: integer
-        format: int32
-      description: Номер страницы, с 1. Если не передано — используется 1.
-    PageLimitParam:
-      name: page_limit
-      in: query
-      required: false
-      schema:
-        type: integer
-        format: int32
-      description: >
-        Размер страницы. Если не передано, применяется значение по
-        умолчанию (pagination.DefaultPageLimit в shepherd).
   responses:
     BadRequest:
       description: Некорректные параметры запроса
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/Error"
+            $ref: '#/components/schemas/Error'
     Unauthorized:
       description: Не аутентифицирован — отсутствует или недействителен токен
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/Error"
+            $ref: '#/components/schemas/Error'
     Forbidden:
       description: Недостаточно прав — требуется роль admin или maintainer
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/Error"
+            $ref: '#/components/schemas/Error'
     ForbiddenAdmin:
       description: Недостаточно прав — требуется роль admin
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/Error"
+            $ref: '#/components/schemas/Error'
     NotFound:
       description: Строка не найдена
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/Error"
+            $ref: '#/components/schemas/Error'
   schemas:
     Pagination:
       type: object
-      required: [page, per_page, total_items, total_pages]
+      required:
+        - page
+        - per_page
+        - total_items
+        - total_pages
       properties:
         page:
           type: integer
@@ -3167,6 +3180,41 @@ components:
         total_pages:
           type: integer
           format: int64
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    Me:
+      type: object
+      required:
+        - external_id
+        - user_id
+        - name
+        - roles
+      properties:
+        external_id:
+          type: string
+          format: uuid
+          description: sub из Keycloak — он же external_id в dc.user
+        user_id:
+          type: integer
+          format: int64
+          description: Численный id строки dc.user в Metadata Service
+        name:
+          type: string
+        email:
+          type: string
+        roles:
+          type: array
+          items:
+            type: string
+          description: Realm-роли Keycloak (admin/maintainer/viewer)
     Host:
       type: object
       required:
@@ -3210,14 +3258,16 @@ components:
           format: int64
     HostPage:
       type: object
-      required: [data, pagination]
+      required:
+        - data
+        - pagination
       properties:
         data:
           type: array
           items:
-            $ref: "#/components/schemas/Host"
+            $ref: '#/components/schemas/Host'
         pagination:
-          $ref: "#/components/schemas/Pagination"
+          $ref: '#/components/schemas/Pagination'
     HostWrite:
       type: object
       required:
@@ -3271,14 +3321,16 @@ components:
           format: int64
     DatabaseTypePage:
       type: object
-      required: [data, pagination]
+      required:
+        - data
+        - pagination
       properties:
         data:
           type: array
           items:
-            $ref: "#/components/schemas/DatabaseType"
+            $ref: '#/components/schemas/DatabaseType'
         pagination:
-          $ref: "#/components/schemas/Pagination"
+          $ref: '#/components/schemas/Pagination'
     DatabaseTypeWrite:
       type: object
       required:
@@ -3328,14 +3380,16 @@ components:
           format: int64
     DatabaseCatPage:
       type: object
-      required: [data, pagination]
+      required:
+        - data
+        - pagination
       properties:
         data:
           type: array
           items:
-            $ref: "#/components/schemas/DatabaseCat"
+            $ref: '#/components/schemas/DatabaseCat'
         pagination:
-          $ref: "#/components/schemas/Pagination"
+          $ref: '#/components/schemas/Pagination'
     DatabaseCatWrite:
       type: object
       required:
@@ -3364,6 +3418,7 @@ components:
         - updated_at
         - is_deleted
         - user_id
+        - column_type_id
       properties:
         id:
           type: integer
@@ -3383,32 +3438,42 @@ components:
         user_id:
           type: integer
           format: int64
+        column_type_id:
+          type: integer
+          format: int64
     AliasPage:
       type: object
-      required: [data, pagination]
+      required:
+        - data
+        - pagination
       properties:
         data:
           type: array
           items:
-            $ref: "#/components/schemas/Alias"
+            $ref: '#/components/schemas/Alias'
         pagination:
-          $ref: "#/components/schemas/Pagination"
+          $ref: '#/components/schemas/Pagination'
     AliasWrite:
       type: object
       required:
         - name
         - description
+        - column_type_id
       properties:
         name:
           type: string
         description:
           type: string
+        column_type_id:
+          type: integer
+          format: int64
     AliasUpdate:
       type: object
       required:
         - name
         - description
         - is_deleted
+        - column_type_id
       properties:
         name:
           type: string
@@ -3416,13 +3481,15 @@ components:
           type: string
         is_deleted:
           type: boolean
+        column_type_id:
+          type: integer
+          format: int64
     ColumnCat:
       type: object
       required:
         - id
         - table_id
         - name
-        - alias_id
         - column_type_id
         - description
         - calculation_type_id
@@ -3443,6 +3510,7 @@ components:
         alias_id:
           type: integer
           format: int64
+          nullable: true
         column_type_id:
           type: integer
           format: int64
@@ -3466,20 +3534,21 @@ components:
           format: int64
     ColumnCatPage:
       type: object
-      required: [data, pagination]
+      required:
+        - data
+        - pagination
       properties:
         data:
           type: array
           items:
-            $ref: "#/components/schemas/ColumnCat"
+            $ref: '#/components/schemas/ColumnCat'
         pagination:
-          $ref: "#/components/schemas/Pagination"
+          $ref: '#/components/schemas/Pagination'
     ColumnCatWrite:
       type: object
       required:
         - table_id
         - name
-        - alias_id
         - column_type_id
         - description
         - calculation_type_id
@@ -3493,6 +3562,7 @@ components:
         alias_id:
           type: integer
           format: int64
+          nullable: true
         column_type_id:
           type: integer
           format: int64
@@ -3534,14 +3604,16 @@ components:
           format: int64
     ColumnTypePage:
       type: object
-      required: [data, pagination]
+      required:
+        - data
+        - pagination
       properties:
         data:
           type: array
           items:
-            $ref: "#/components/schemas/ColumnType"
+            $ref: '#/components/schemas/ColumnType'
         pagination:
-          $ref: "#/components/schemas/Pagination"
+          $ref: '#/components/schemas/Pagination'
     ColumnTypeWrite:
       type: object
       required:
@@ -3585,14 +3657,16 @@ components:
           format: int64
     DatabaseCalculationPage:
       type: object
-      required: [data, pagination]
+      required:
+        - data
+        - pagination
       properties:
         data:
           type: array
           items:
-            $ref: "#/components/schemas/DatabaseCalculation"
+            $ref: '#/components/schemas/DatabaseCalculation'
         pagination:
-          $ref: "#/components/schemas/Pagination"
+          $ref: '#/components/schemas/Pagination'
     DatabaseCalculationWrite:
       type: object
       required:
@@ -3633,14 +3707,16 @@ components:
           format: int64
     DomainCatPage:
       type: object
-      required: [data, pagination]
+      required:
+        - data
+        - pagination
       properties:
         data:
           type: array
           items:
-            $ref: "#/components/schemas/DomainCat"
+            $ref: '#/components/schemas/DomainCat'
         pagination:
-          $ref: "#/components/schemas/Pagination"
+          $ref: '#/components/schemas/Pagination'
     DomainCatWrite:
       type: object
       required:
@@ -3681,14 +3757,16 @@ components:
           format: int64
     FollowingCalculationPage:
       type: object
-      required: [data, pagination]
+      required:
+        - data
+        - pagination
       properties:
         data:
           type: array
           items:
-            $ref: "#/components/schemas/FollowingCalculation"
+            $ref: '#/components/schemas/FollowingCalculation'
         pagination:
-          $ref: "#/components/schemas/Pagination"
+          $ref: '#/components/schemas/Pagination'
     FollowingCalculationWrite:
       type: object
       required:
@@ -3741,14 +3819,16 @@ components:
           format: int64
     GroupLevelsPage:
       type: object
-      required: [data, pagination]
+      required:
+        - data
+        - pagination
       properties:
         data:
           type: array
           items:
-            $ref: "#/components/schemas/GroupLevels"
+            $ref: '#/components/schemas/GroupLevels'
         pagination:
-          $ref: "#/components/schemas/Pagination"
+          $ref: '#/components/schemas/Pagination'
     GroupLevelsWrite:
       type: object
       required:
@@ -3804,14 +3884,16 @@ components:
           format: int64
     HasToGroupPage:
       type: object
-      required: [data, pagination]
+      required:
+        - data
+        - pagination
       properties:
         data:
           type: array
           items:
-            $ref: "#/components/schemas/HasToGroup"
+            $ref: '#/components/schemas/HasToGroup'
         pagination:
-          $ref: "#/components/schemas/Pagination"
+          $ref: '#/components/schemas/Pagination'
     HasToGroupWrite:
       type: object
       required:
@@ -3859,14 +3941,16 @@ components:
           format: int64
     SchemaCatPage:
       type: object
-      required: [data, pagination]
+      required:
+        - data
+        - pagination
       properties:
         data:
           type: array
           items:
-            $ref: "#/components/schemas/SchemaCat"
+            $ref: '#/components/schemas/SchemaCat'
         pagination:
-          $ref: "#/components/schemas/Pagination"
+          $ref: '#/components/schemas/Pagination'
     SchemaCatWrite:
       type: object
       required:
@@ -3924,14 +4008,16 @@ components:
           format: int64
     TableCatPage:
       type: object
-      required: [data, pagination]
+      required:
+        - data
+        - pagination
       properties:
         data:
           type: array
           items:
-            $ref: "#/components/schemas/TableCat"
+            $ref: '#/components/schemas/TableCat'
         pagination:
-          $ref: "#/components/schemas/Pagination"
+          $ref: '#/components/schemas/Pagination'
     TableCatWrite:
       type: object
       required:
@@ -4010,14 +4096,16 @@ components:
           format: int64
     TableTypePage:
       type: object
-      required: [data, pagination]
+      required:
+        - data
+        - pagination
       properties:
         data:
           type: array
           items:
-            $ref: "#/components/schemas/TableType"
+            $ref: '#/components/schemas/TableType'
         pagination:
-          $ref: "#/components/schemas/Pagination"
+          $ref: '#/components/schemas/Pagination'
     TableTypeWrite:
       type: object
       required:
@@ -4053,35 +4141,6 @@ components:
           format: date-time
         is_deleted:
           type: boolean
-    Me:
-      type: object
-      required: [external_id, user_id, name, roles]
-      properties:
-        external_id:
-          type: string
-          format: uuid
-          description: "sub из Keycloak — он же external_id в dc.user"
-        user_id:
-          type: integer
-          format: int64
-          description: Численный id строки dc.user в Metadata Service
-        name:
-          type: string
-        email:
-          type: string
-        roles:
-          type: array
-          items:
-            type: string
-          description: Realm-роли Keycloak (admin/maintainer/viewer)
-    Error:
-      type: object
-      required: [code, message]
-      properties:
-        code:
-          type: string
-        message:
-          type: string
     UserDomainRoles:
       type: object
       required:
@@ -4119,8 +4178,7 @@ components:
           format: int64
     UserDomainRolesRow:
       description: >
-        Строка списка dc.user_domain_roles: колонки таблицы плюс подтянутые
-        джойном имена роли и пользователя.
+        Строка списка dc.user_domain_roles: колонки таблицы плюс подтянутые джойном имена роли и пользователя.
       type: object
       required:
         - id
@@ -4166,14 +4224,16 @@ components:
           type: string
     UserDomainRolesPage:
       type: object
-      required: [data, pagination]
+      required:
+        - data
+        - pagination
       properties:
         data:
           type: array
           items:
-            $ref: "#/components/schemas/UserDomainRolesRow"
+            $ref: '#/components/schemas/UserDomainRolesRow'
         pagination:
-          $ref: "#/components/schemas/Pagination"
+          $ref: '#/components/schemas/Pagination'
     UserDomainRolesWrite:
       type: object
       required:
@@ -4227,9 +4287,8 @@ components:
           format: int64
     UserTableRolesRow:
       description: >
-        Строка списка dc.user_table_roles: колонки таблицы плюс подтянутые
-        джойном пользователь, роль и таблица. dc_user_id/table_cat_id
-        необязательны — джойн левый, связанной строки может не быть.
+        Строка списка dc.user_table_roles: колонки таблицы плюс подтянутые джойном пользователь, роль и таблица.
+        dc_user_id/table_cat_id необязательны — джойн левый, связанной строки может не быть.
       type: object
       required:
         - id
@@ -4280,19 +4339,20 @@ components:
           type: string
     UserTableRolesPage:
       type: object
-      required: [data, pagination]
+      required:
+        - data
+        - pagination
       properties:
         data:
           type: array
           items:
-            $ref: "#/components/schemas/UserTableRolesRow"
+            $ref: '#/components/schemas/UserTableRolesRow'
         pagination:
-          $ref: "#/components/schemas/Pagination"
+          $ref: '#/components/schemas/Pagination'
     UserTableRolesFilteredRow:
       description: >
-        Строка отфильтрованного списка dc.user_table_roles. Отличается от
-        UserTableRolesRow отсутствием table_roles_id — запрос с фильтрами его
-        не отдаёт.
+        Строка отфильтрованного списка dc.user_table_roles. Отличается от UserTableRolesRow отсутствием table_roles_id
+        — запрос с фильтрами его не отдаёт.
       type: object
       required:
         - id
@@ -4339,14 +4399,16 @@ components:
           type: string
     UserTableRolesFilteredPage:
       type: object
-      required: [data, pagination]
+      required:
+        - data
+        - pagination
       properties:
         data:
           type: array
           items:
-            $ref: "#/components/schemas/UserTableRolesFilteredRow"
+            $ref: '#/components/schemas/UserTableRolesFilteredRow'
         pagination:
-          $ref: "#/components/schemas/Pagination"
+          $ref: '#/components/schemas/Pagination'
     UserTableRolesDetail:
       description: Одна строка dc.user_table_roles по id, с джойнами.
       type: object

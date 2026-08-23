@@ -184,6 +184,7 @@ grep -c "^-- name: Count" datacatalogue/db/sqlc/tables_model/query.sql; grep -c 
 `?page_limit=&page_offset=` плюс флаги сортировки и отдаёт `rows` вместе с
 `total_rows` и `total_pages`.
 
-`shepherd/api/openapi/v1/openapi.yaml` пишется руками — соответствие контракту
+`shepherd/api/openapi/v1/spec/<пакет>.yaml` пишется руками (собранный
+`openapi.yaml` — артефакт `task openapi:bundle`) — соответствие контракту
 проверяется глазами. Генератор спеки шлюза из настроек схемы в SG Buddy пока
 не входит.

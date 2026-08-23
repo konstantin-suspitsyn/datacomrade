@@ -1,0 +1,28 @@
+openapi: 3.0.3
+info:
+  title: Shepherd API
+  description: |-
+    REST-контракт API Gateway (contract-first). Источник истины — файлы в
+    api/openapi/v1/spec, разбитые по пакетам микросервиса datacatalogue:
+    user.yaml (userapiv1), tables.yaml (tablesapiv1),
+    user_domain_roles.yaml (userdomainrolesapiv1) и общий common.yaml.
+    `task openapi:gen` собирает их в api/openapi/v1/openapi.yaml и генерирует
+    internal/api/openapiv1 через oapi-codegen. Править openapi.yaml руками нельзя.
+    См. documentation/readme_obsidian/datacomrade/01_architecture/API Gateway.md
+  version: 1.0.0
+servers:
+  - url: /v1
+security:
+  - bearerAuth: []
+x-spec-parts:
+  - common.yaml
+  - user.yaml
+  - tables.yaml
+  - user_domain_roles.yaml
+paths: {}
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

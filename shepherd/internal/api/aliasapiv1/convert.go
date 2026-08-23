@@ -10,13 +10,14 @@ import (
 
 func toAlias(row *tablesv1.Alias) openapiv1.Alias {
 	return openapiv1.Alias{
-		Id:          row.GetId(),
-		Name:        row.GetName(),
-		Description: row.GetDescription(),
-		CreatedAt:   row.GetCreatedAt().AsTime(),
-		UpdatedAt:   row.GetUpdatedAt().AsTime(),
-		IsDeleted:   row.GetIsDeleted(),
-		UserId:      row.GetUserId(),
+		Id:           row.GetId(),
+		Name:         row.GetName(),
+		Description:  row.GetDescription(),
+		CreatedAt:    row.GetCreatedAt().AsTime(),
+		UpdatedAt:    row.GetUpdatedAt().AsTime(),
+		IsDeleted:    row.GetIsDeleted(),
+		UserId:       row.GetUserId(),
+		ColumnTypeId: row.GetColumnTypeId(),
 	}
 }
 

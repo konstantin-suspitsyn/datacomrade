@@ -13,7 +13,7 @@ func ColumnCatToProto(row tables_model.DcColumnCat) *tablesv1.ColumnCat {
 		Id:                row.ID,
 		TableId:           row.TableID,
 		Name:              row.Name,
-		AliasId:           row.AliasID,
+		AliasId:           converter.NullInt64ToProto(row.AliasID),
 		ColumnTypeId:      row.ColumnTypeID,
 		Description:       row.Description,
 		CalculationTypeId: row.CalculationTypeID,
@@ -40,10 +40,14 @@ func ColumnCatsToProto(rows []tables_model.DcColumnCat) []*tablesv1.ColumnCat {
 // ToCreateColumnCatParams собирает параметры вставки dc.column_cat из запроса gRPC.
 // id, is_deleted, created_at и updated_at не переносятся — их выставляет SQL.
 func ToCreateColumnCatParams(req *tablesv1.CreateColumnCatRequest) tables_model.CreateColumnCatParams {
+	if req == nil {
+		req = &tablesv1.CreateColumnCatRequest{}
+	}
+
 	return tables_model.CreateColumnCatParams{
 		TableID:           req.GetTableId(),
 		Name:              req.GetName(),
-		AliasID:           req.GetAliasId(),
+		AliasID:           converter.ProtoToNullInt64(req.AliasId),
 		ColumnTypeID:      req.GetColumnTypeId(),
 		Description:       req.GetDescription(),
 		CalculationTypeID: req.GetCalculationTypeId(),
@@ -54,10 +58,14 @@ func ToCreateColumnCatParams(req *tablesv1.CreateColumnCatRequest) tables_model.
 
 // ToUpdateColumnCatByIdParams собирает параметры обновления dc.column_cat из запроса gRPC.
 func ToUpdateColumnCatByIdParams(req *tablesv1.UpdateColumnCatByIdRequest) tables_model.UpdateColumnCatByIdParams {
+	if req == nil {
+		req = &tablesv1.UpdateColumnCatByIdRequest{}
+	}
+
 	return tables_model.UpdateColumnCatByIdParams{
 		TableID:           req.GetTableId(),
 		Name:              req.GetName(),
-		AliasID:           req.GetAliasId(),
+		AliasID:           converter.ProtoToNullInt64(req.AliasId),
 		ColumnTypeID:      req.GetColumnTypeId(),
 		Description:       req.GetDescription(),
 		CalculationTypeID: req.GetCalculationTypeId(),

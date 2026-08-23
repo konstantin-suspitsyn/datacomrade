@@ -104,6 +104,7 @@ type Alias struct {
 	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
 	IsDeleted     bool                   `protobuf:"varint,6,opt,name=is_deleted,json=isDeleted,proto3" json:"is_deleted,omitempty"`
 	UserId        int64                  `protobuf:"varint,7,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	ColumnTypeId  int64                  `protobuf:"varint,8,opt,name=column_type_id,json=columnTypeId,proto3" json:"column_type_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -187,12 +188,20 @@ func (x *Alias) GetUserId() int64 {
 	return 0
 }
 
+func (x *Alias) GetColumnTypeId() int64 {
+	if x != nil {
+		return x.ColumnTypeId
+	}
+	return 0
+}
+
 // Вставка CreateAlias: параметры вызова.
 type CreateAliasRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	Description   string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
 	ExternalId    string                 `protobuf:"bytes,3,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	ColumnTypeId  int64                  `protobuf:"varint,4,opt,name=column_type_id,json=columnTypeId,proto3" json:"column_type_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -246,6 +255,13 @@ func (x *CreateAliasRequest) GetExternalId() string {
 		return x.ExternalId
 	}
 	return ""
+}
+
+func (x *CreateAliasRequest) GetColumnTypeId() int64 {
+	if x != nil {
+		return x.ColumnTypeId
+	}
+	return 0
 }
 
 // Вставка CreateAlias: одна строка.
@@ -620,7 +636,8 @@ type UpdateAliasByIdRequest struct {
 	Description   string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
 	IsDeleted     bool                   `protobuf:"varint,3,opt,name=is_deleted,json=isDeleted,proto3" json:"is_deleted,omitempty"`
 	ExternalId    string                 `protobuf:"bytes,4,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
-	Id            int64                  `protobuf:"varint,5,opt,name=id,proto3" json:"id,omitempty"`
+	ColumnTypeId  int64                  `protobuf:"varint,5,opt,name=column_type_id,json=columnTypeId,proto3" json:"column_type_id,omitempty"`
+	Id            int64                  `protobuf:"varint,6,opt,name=id,proto3" json:"id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -681,6 +698,13 @@ func (x *UpdateAliasByIdRequest) GetExternalId() string {
 		return x.ExternalId
 	}
 	return ""
+}
+
+func (x *UpdateAliasByIdRequest) GetColumnTypeId() int64 {
+	if x != nil {
+		return x.ColumnTypeId
+	}
+	return 0
 }
 
 func (x *UpdateAliasByIdRequest) GetId() int64 {
@@ -4369,7 +4393,7 @@ type ColumnCat struct {
 	Id                int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	TableId           int64                  `protobuf:"varint,2,opt,name=table_id,json=tableId,proto3" json:"table_id,omitempty"`
 	Name              string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
-	AliasId           int64                  `protobuf:"varint,4,opt,name=alias_id,json=aliasId,proto3" json:"alias_id,omitempty"`
+	AliasId           *int64                 `protobuf:"varint,4,opt,name=alias_id,json=aliasId,proto3,oneof" json:"alias_id,omitempty"`
 	ColumnTypeId      int64                  `protobuf:"varint,5,opt,name=column_type_id,json=columnTypeId,proto3" json:"column_type_id,omitempty"`
 	Description       string                 `protobuf:"bytes,6,opt,name=description,proto3" json:"description,omitempty"`
 	CalculationTypeId int64                  `protobuf:"varint,7,opt,name=calculation_type_id,json=calculationTypeId,proto3" json:"calculation_type_id,omitempty"`
@@ -4434,8 +4458,8 @@ func (x *ColumnCat) GetName() string {
 }
 
 func (x *ColumnCat) GetAliasId() int64 {
-	if x != nil {
-		return x.AliasId
+	if x != nil && x.AliasId != nil {
+		return *x.AliasId
 	}
 	return 0
 }
@@ -4501,7 +4525,7 @@ type CreateColumnCatRequest struct {
 	state             protoimpl.MessageState `protogen:"open.v1"`
 	TableId           int64                  `protobuf:"varint,1,opt,name=table_id,json=tableId,proto3" json:"table_id,omitempty"`
 	Name              string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	AliasId           int64                  `protobuf:"varint,3,opt,name=alias_id,json=aliasId,proto3" json:"alias_id,omitempty"`
+	AliasId           *int64                 `protobuf:"varint,3,opt,name=alias_id,json=aliasId,proto3,oneof" json:"alias_id,omitempty"`
 	ColumnTypeId      int64                  `protobuf:"varint,4,opt,name=column_type_id,json=columnTypeId,proto3" json:"column_type_id,omitempty"`
 	Description       string                 `protobuf:"bytes,5,opt,name=description,proto3" json:"description,omitempty"`
 	CalculationTypeId int64                  `protobuf:"varint,6,opt,name=calculation_type_id,json=calculationTypeId,proto3" json:"calculation_type_id,omitempty"`
@@ -4556,8 +4580,8 @@ func (x *CreateColumnCatRequest) GetName() string {
 }
 
 func (x *CreateColumnCatRequest) GetAliasId() int64 {
-	if x != nil {
-		return x.AliasId
+	if x != nil && x.AliasId != nil {
+		return *x.AliasId
 	}
 	return 0
 }
@@ -5245,7 +5269,7 @@ type UpdateColumnCatByIdRequest struct {
 	state             protoimpl.MessageState `protogen:"open.v1"`
 	TableId           int64                  `protobuf:"varint,1,opt,name=table_id,json=tableId,proto3" json:"table_id,omitempty"`
 	Name              string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	AliasId           int64                  `protobuf:"varint,3,opt,name=alias_id,json=aliasId,proto3" json:"alias_id,omitempty"`
+	AliasId           *int64                 `protobuf:"varint,3,opt,name=alias_id,json=aliasId,proto3,oneof" json:"alias_id,omitempty"`
 	ColumnTypeId      int64                  `protobuf:"varint,4,opt,name=column_type_id,json=columnTypeId,proto3" json:"column_type_id,omitempty"`
 	Description       string                 `protobuf:"bytes,5,opt,name=description,proto3" json:"description,omitempty"`
 	CalculationTypeId int64                  `protobuf:"varint,6,opt,name=calculation_type_id,json=calculationTypeId,proto3" json:"calculation_type_id,omitempty"`
@@ -5301,8 +5325,8 @@ func (x *UpdateColumnCatByIdRequest) GetName() string {
 }
 
 func (x *UpdateColumnCatByIdRequest) GetAliasId() int64 {
-	if x != nil {
-		return x.AliasId
+	if x != nil && x.AliasId != nil {
+		return *x.AliasId
 	}
 	return 0
 }
@@ -14209,7 +14233,7 @@ const file_tables_v1_tables_proto_rawDesc = "" +
 	"\vtotal_items\x18\x03 \x01(\x03R\n" +
 	"totalItems\x12\x1f\n" +
 	"\vtotal_pages\x18\x04 \x01(\x03R\n" +
-	"totalPages\"\xfb\x01\n" +
+	"totalPages\"\xa1\x02\n" +
 	"\x05Alias\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
@@ -14220,12 +14244,14 @@ const file_tables_v1_tables_proto_rawDesc = "" +
 	"updated_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12\x1d\n" +
 	"\n" +
 	"is_deleted\x18\x06 \x01(\bR\tisDeleted\x12\x17\n" +
-	"\auser_id\x18\a \x01(\x03R\x06userId\"k\n" +
+	"\auser_id\x18\a \x01(\x03R\x06userId\x12$\n" +
+	"\x0ecolumn_type_id\x18\b \x01(\x03R\fcolumnTypeId\"\x91\x01\n" +
 	"\x12CreateAliasRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12 \n" +
 	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x1f\n" +
 	"\vexternal_id\x18\x03 \x01(\tR\n" +
-	"externalId\"=\n" +
+	"externalId\x12$\n" +
+	"\x0ecolumn_type_id\x18\x04 \x01(\x03R\fcolumnTypeId\"=\n" +
 	"\x13CreateAliasResponse\x12&\n" +
 	"\x05alias\x18\x01 \x01(\v2\x10.tables.v1.AliasR\x05alias\"%\n" +
 	"\x13GetAliasByIdRequest\x12\x0e\n" +
@@ -14251,15 +14277,16 @@ const file_tables_v1_tables_proto_rawDesc = "" +
 	"\x04data\x18\x01 \x03(\v2\x10.tables.v1.AliasR\x04data\x125\n" +
 	"\n" +
 	"pagination\x18\x02 \x01(\v2\x15.tables.v1.PaginationR\n" +
-	"pagination\"\x9e\x01\n" +
+	"pagination\"\xc4\x01\n" +
 	"\x16UpdateAliasByIdRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12 \n" +
 	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x1d\n" +
 	"\n" +
 	"is_deleted\x18\x03 \x01(\bR\tisDeleted\x12\x1f\n" +
 	"\vexternal_id\x18\x04 \x01(\tR\n" +
-	"externalId\x12\x0e\n" +
-	"\x02id\x18\x05 \x01(\x03R\x02id\"\x19\n" +
+	"externalId\x12$\n" +
+	"\x0ecolumn_type_id\x18\x05 \x01(\x03R\fcolumnTypeId\x12\x0e\n" +
+	"\x02id\x18\x06 \x01(\x03R\x02id\"\x19\n" +
 	"\x17UpdateAliasByIdResponse\"I\n" +
 	"\x16DeleteAliasByIdRequest\x12\x1f\n" +
 	"\vexternal_id\x18\x01 \x01(\tR\n" +
@@ -14554,12 +14581,12 @@ const file_tables_v1_tables_proto_rawDesc = "" +
 	"\vexternal_id\x18\x01 \x01(\tR\n" +
 	"externalId\x12\x0e\n" +
 	"\x02id\x18\x02 \x01(\x03R\x02id\"!\n" +
-	"\x1fUndeleteDatabaseCatByIdResponse\"\xa9\x03\n" +
+	"\x1fUndeleteDatabaseCatByIdResponse\"\xbb\x03\n" +
 	"\tColumnCat\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x19\n" +
 	"\btable_id\x18\x02 \x01(\x03R\atableId\x12\x12\n" +
-	"\x04name\x18\x03 \x01(\tR\x04name\x12\x19\n" +
-	"\balias_id\x18\x04 \x01(\x03R\aaliasId\x12$\n" +
+	"\x04name\x18\x03 \x01(\tR\x04name\x12\x1e\n" +
+	"\balias_id\x18\x04 \x01(\x03H\x00R\aaliasId\x88\x01\x01\x12$\n" +
 	"\x0ecolumn_type_id\x18\x05 \x01(\x03R\fcolumnTypeId\x12 \n" +
 	"\vdescription\x18\x06 \x01(\tR\vdescription\x12.\n" +
 	"\x13calculation_type_id\x18\a \x01(\x03R\x11calculationTypeId\x12\x1d\n" +
@@ -14572,18 +14599,20 @@ const file_tables_v1_tables_proto_rawDesc = "" +
 	" \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
 	"updated_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12\x17\n" +
-	"\auser_id\x18\f \x01(\x03R\x06userId\"\x99\x02\n" +
+	"\auser_id\x18\f \x01(\x03R\x06userIdB\v\n" +
+	"\t_alias_id\"\xab\x02\n" +
 	"\x16CreateColumnCatRequest\x12\x19\n" +
 	"\btable_id\x18\x01 \x01(\x03R\atableId\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name\x12\x19\n" +
-	"\balias_id\x18\x03 \x01(\x03R\aaliasId\x12$\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12\x1e\n" +
+	"\balias_id\x18\x03 \x01(\x03H\x00R\aaliasId\x88\x01\x01\x12$\n" +
 	"\x0ecolumn_type_id\x18\x04 \x01(\x03R\fcolumnTypeId\x12 \n" +
 	"\vdescription\x18\x05 \x01(\tR\vdescription\x12.\n" +
 	"\x13calculation_type_id\x18\x06 \x01(\x03R\x11calculationTypeId\x12\x1c\n" +
 	"\n" +
 	"show_in_ui\x18\a \x01(\bR\bshowInUi\x12\x1f\n" +
 	"\vexternal_id\x18\b \x01(\tR\n" +
-	"externalId\"N\n" +
+	"externalIdB\v\n" +
+	"\t_alias_id\"N\n" +
 	"\x17CreateColumnCatResponse\x123\n" +
 	"\n" +
 	"column_cat\x18\x01 \x01(\v2\x14.tables.v1.ColumnCatR\tcolumnCat\")\n" +
@@ -14644,11 +14673,11 @@ const file_tables_v1_tables_proto_rawDesc = "" +
 	"\x04data\x18\x01 \x03(\v2\x14.tables.v1.ColumnCatR\x04data\x125\n" +
 	"\n" +
 	"pagination\x18\x02 \x01(\v2\x15.tables.v1.PaginationR\n" +
-	"pagination\"\xad\x02\n" +
+	"pagination\"\xbf\x02\n" +
 	"\x1aUpdateColumnCatByIdRequest\x12\x19\n" +
 	"\btable_id\x18\x01 \x01(\x03R\atableId\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name\x12\x19\n" +
-	"\balias_id\x18\x03 \x01(\x03R\aaliasId\x12$\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12\x1e\n" +
+	"\balias_id\x18\x03 \x01(\x03H\x00R\aaliasId\x88\x01\x01\x12$\n" +
 	"\x0ecolumn_type_id\x18\x04 \x01(\x03R\fcolumnTypeId\x12 \n" +
 	"\vdescription\x18\x05 \x01(\tR\vdescription\x12.\n" +
 	"\x13calculation_type_id\x18\x06 \x01(\x03R\x11calculationTypeId\x12\x1c\n" +
@@ -14656,7 +14685,8 @@ const file_tables_v1_tables_proto_rawDesc = "" +
 	"show_in_ui\x18\a \x01(\bR\bshowInUi\x12\x1f\n" +
 	"\vexternal_id\x18\b \x01(\tR\n" +
 	"externalId\x12\x0e\n" +
-	"\x02id\x18\t \x01(\x03R\x02id\"\x1d\n" +
+	"\x02id\x18\t \x01(\x03R\x02idB\v\n" +
+	"\t_alias_id\"\x1d\n" +
 	"\x1bUpdateColumnCatByIdResponse\"M\n" +
 	"\x1aDeleteColumnCatByIdRequest\x12\x1f\n" +
 	"\vexternal_id\x18\x01 \x01(\tR\n" +
@@ -16152,7 +16182,10 @@ func file_tables_v1_tables_proto_init() {
 	}
 	file_tables_v1_tables_proto_msgTypes[16].OneofWrappers = []any{}
 	file_tables_v1_tables_proto_msgTypes[66].OneofWrappers = []any{}
+	file_tables_v1_tables_proto_msgTypes[76].OneofWrappers = []any{}
+	file_tables_v1_tables_proto_msgTypes[77].OneofWrappers = []any{}
 	file_tables_v1_tables_proto_msgTypes[85].OneofWrappers = []any{}
+	file_tables_v1_tables_proto_msgTypes[89].OneofWrappers = []any{}
 	file_tables_v1_tables_proto_msgTypes[119].OneofWrappers = []any{}
 	file_tables_v1_tables_proto_msgTypes[157].OneofWrappers = []any{}
 	file_tables_v1_tables_proto_msgTypes[174].OneofWrappers = []any{}

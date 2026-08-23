@@ -71,12 +71,16 @@ func main() {
 
 	// Регистрация сервисов
 	userv1.RegisterUserServiceServer(s, userAPI)
-	tablesv1.RegisterAliasServiceServer(s, tablesAPI)
+	// AliasService — через обёртку: она не даёт сменить column_type_id алиаса,
+	// пока на него ссылаются активные колонки, остальные RPC делегирует tablesAPI.
+	tablesv1.RegisterAliasServiceServer(s, tablesapiv1.NewAliasGuard(tablesAPI))
 	tablesv1.RegisterUserServiceServer(s, tablesAPI)
 	tablesv1.RegisterHostServiceServer(s, tablesAPI)
 	tablesv1.RegisterDatabaseTypeServiceServer(s, tablesAPI)
 	tablesv1.RegisterDatabaseCatServiceServer(s, tablesAPI)
-	tablesv1.RegisterColumnCatServiceServer(s, tablesAPI)
+	// ColumnCatService — через обёртку: она сверяет column_type_id колонки с
+	// column_type_id её алиаса перед записью, остальные RPC делегирует tablesAPI.
+	tablesv1.RegisterColumnCatServiceServer(s, tablesapiv1.NewColumnCatGuard(tablesAPI))
 	tablesv1.RegisterColumnTypeServiceServer(s, tablesAPI)
 	tablesv1.RegisterDatabaseCalculationServiceServer(s, tablesAPI)
 	tablesv1.RegisterDomainCatServiceServer(s, tablesAPI)

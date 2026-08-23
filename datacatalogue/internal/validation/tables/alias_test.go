@@ -23,9 +23,10 @@ func aliasFieldErrors(t *testing.T, err error) map[string][]string {
 
 func validValidateCreateAliasRequest() *tablesv1.CreateAliasRequest {
 	return &tablesv1.CreateAliasRequest{
-		Name:        "name-0",
-		Description: "description-1",
-		ExternalId:  "00000000-0000-4000-8000-000000000003",
+		Name:         "name-0",
+		Description:  "description-1",
+		ExternalId:   "00000000-0000-4000-8000-000000000003",
+		ColumnTypeId: 103,
 	}
 }
 
@@ -42,6 +43,7 @@ func TestValidateCreateAlias(t *testing.T) {
 		{name: "description too long", mutate: func(r *tablesv1.CreateAliasRequest) { r.Description = strings.Repeat("a", aliasDescriptionMaxLen+1) }, wantField: "description"},
 		{name: "empty user_id", mutate: func(r *tablesv1.CreateAliasRequest) { r.ExternalId = "" }, wantField: "user_id"},
 		{name: "malformed user_id", mutate: func(r *tablesv1.CreateAliasRequest) { r.ExternalId = "not-a-uuid" }, wantField: "user_id"},
+		{name: "zero column_type_id", mutate: func(r *tablesv1.CreateAliasRequest) { r.ColumnTypeId = 0 }, wantField: "column_type_id"},
 	}
 
 	for _, tt := range tests {
@@ -78,11 +80,12 @@ func TestValidateCreateAliasNil(t *testing.T) {
 
 func validValidateUpdateAliasByIdRequest() *tablesv1.UpdateAliasByIdRequest {
 	return &tablesv1.UpdateAliasByIdRequest{
-		Name:        "name-0",
-		Description: "description-1",
-		IsDeleted:   true,
-		ExternalId:  "00000000-0000-4000-8000-000000000004",
-		Id:          104,
+		Name:         "name-0",
+		Description:  "description-1",
+		IsDeleted:    true,
+		ExternalId:   "00000000-0000-4000-8000-000000000004",
+		ColumnTypeId: 104,
+		Id:           105,
 	}
 }
 
@@ -101,6 +104,7 @@ func TestValidateUpdateAliasById(t *testing.T) {
 		}, wantField: "description"},
 		{name: "empty user_id", mutate: func(r *tablesv1.UpdateAliasByIdRequest) { r.ExternalId = "" }, wantField: "user_id"},
 		{name: "malformed user_id", mutate: func(r *tablesv1.UpdateAliasByIdRequest) { r.ExternalId = "not-a-uuid" }, wantField: "user_id"},
+		{name: "zero column_type_id", mutate: func(r *tablesv1.UpdateAliasByIdRequest) { r.ColumnTypeId = 0 }, wantField: "column_type_id"},
 		{name: "zero id", mutate: func(r *tablesv1.UpdateAliasByIdRequest) { r.Id = 0 }, wantField: "id"},
 	}
 

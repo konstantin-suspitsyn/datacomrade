@@ -181,7 +181,7 @@ for d in "auth_logic:authlogicv1" "tables:tablesv1" "user:userv1" "user_domain_r
 рукописном `init.go`, не в сгенерированных файлах.
 
 На момент последнего прогона: 138 RPC — 117 `tables`, 9 `user`,
-12 `user_domain_roles`; 19 таблиц (16 из них в `tables_model`); 1324 теста.
+12 `user_domain_roles`; 19 таблиц (16 из них в `tables_model`); 1342 теста.
 
 ## Когда перезапускать
 
@@ -226,9 +226,10 @@ task proto:gen && python deploy/generators/parse.py && python deploy/generators/
 | `sql.NullTime` | `*timestamppb.Timestamp` | `converter.NullTimeToProto`, NULL → `nil` |
 | `uuid.UUID` | `string` | `converter.UUIDToProto` / `converter.ProtoToUUID` |
 
-Необязательные фильтры (`sqlc.narg` ↔ `optional`) добавляют к таблице ещё
-четыре пары — `sql.NullInt64`, `sql.NullBool`, `sql.NullString`,
-`uuid.NullUUID`; они описаны в [optional_standard_ops.md](optional_standard_ops.md).
+Колонка без `NOT NULL` и необязательный фильтр (`sqlc.narg`) дают ещё четыре
+пары — `sql.NullInt64`, `sql.NullBool`, `sql.NullString`, `uuid.NullUUID`, — и
+всем им в proto соответствует `optional`-поле; они описаны в
+[optional_standard_ops.md](optional_standard_ops.md).
 
 В protobuf нет типа для UUID, поэтому колонка `uuid` едет строкой в каноническом
 виде 8-4-4-4-12. Обратное преобразование не возвращает ошибку (конвертеры —
@@ -250,6 +251,7 @@ sqlc называет такой параметр не по колонке `<col
 |---|---|
 | `varchar(n) NOT NULL` | `StringVarchar` — непустая и не длиннее n **символов**, не байт |
 | `bigint` | `Int64ID` — строго больше нуля |
+| `bigint` без `NOT NULL` | `OptionalInt64ID` — не передали, проходит; передали — больше нуля |
 | `smallint` | `Int32Between` в границах `int16` — иначе значение молча обрежет Postgres |
 | `uuid` | `StringUUID` — непустая строка канонического вида 8-4-4-4-12 |
 | `boolean` | не проверяется, любое значение допустимо |

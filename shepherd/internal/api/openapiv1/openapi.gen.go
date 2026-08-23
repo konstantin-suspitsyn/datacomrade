@@ -31,13 +31,14 @@ func (e ListDatabaseCatsByHostAndDatabaseTypeParamsOrderBy) Valid() bool {
 
 // Alias defines model for Alias.
 type Alias struct {
-	CreatedAt   time.Time `json:"created_at"`
-	Description string    `json:"description"`
-	Id          int64     `json:"id"`
-	IsDeleted   bool      `json:"is_deleted"`
-	Name        string    `json:"name"`
-	UpdatedAt   time.Time `json:"updated_at"`
-	UserId      int64     `json:"user_id"`
+	ColumnTypeId int64     `json:"column_type_id"`
+	CreatedAt    time.Time `json:"created_at"`
+	Description  string    `json:"description"`
+	Id           int64     `json:"id"`
+	IsDeleted    bool      `json:"is_deleted"`
+	Name         string    `json:"name"`
+	UpdatedAt    time.Time `json:"updated_at"`
+	UserId       int64     `json:"user_id"`
 }
 
 // AliasPage defines model for AliasPage.
@@ -48,15 +49,17 @@ type AliasPage struct {
 
 // AliasUpdate defines model for AliasUpdate.
 type AliasUpdate struct {
-	Description string `json:"description"`
-	IsDeleted   bool   `json:"is_deleted"`
-	Name        string `json:"name"`
+	ColumnTypeId int64  `json:"column_type_id"`
+	Description  string `json:"description"`
+	IsDeleted    bool   `json:"is_deleted"`
+	Name         string `json:"name"`
 }
 
 // AliasWrite defines model for AliasWrite.
 type AliasWrite struct {
-	Description string `json:"description"`
-	Name        string `json:"name"`
+	ColumnTypeId int64  `json:"column_type_id"`
+	Description  string `json:"description"`
+	Name         string `json:"name"`
 }
 
 // CalculationType defines model for CalculationType.
@@ -71,7 +74,7 @@ type CalculationType struct {
 
 // ColumnCat defines model for ColumnCat.
 type ColumnCat struct {
-	AliasId           int64     `json:"alias_id"`
+	AliasId           *int64    `json:"alias_id,omitempty"`
 	CalculationTypeId int64     `json:"calculation_type_id"`
 	ColumnTypeId      int64     `json:"column_type_id"`
 	CreatedAt         time.Time `json:"created_at"`
@@ -93,7 +96,7 @@ type ColumnCatPage struct {
 
 // ColumnCatWrite defines model for ColumnCatWrite.
 type ColumnCatWrite struct {
-	AliasId           int64  `json:"alias_id"`
+	AliasId           *int64 `json:"alias_id,omitempty"`
 	CalculationTypeId int64  `json:"calculation_type_id"`
 	ColumnTypeId      int64  `json:"column_type_id"`
 	Description       string `json:"description"`

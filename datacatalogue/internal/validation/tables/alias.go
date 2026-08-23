@@ -18,6 +18,7 @@ func ValidateCreateAlias(req *tablesv1.CreateAliasRequest) error {
 	v.StringVarchar("name", req.GetName(), aliasNameMaxLen)
 	v.StringVarchar("description", req.GetDescription(), aliasDescriptionMaxLen)
 	v.StringUUID("user_id", req.GetExternalId())
+	v.Int64ID("column_type_id", req.GetColumnTypeId())
 
 	return v.Err()
 }
@@ -34,6 +35,7 @@ func ValidateUpdateAliasById(req *tablesv1.UpdateAliasByIdRequest) error {
 	v.StringVarchar("name", req.GetName(), aliasNameMaxLen)
 	v.StringVarchar("description", req.GetDescription(), aliasDescriptionMaxLen)
 	v.StringUUID("user_id", req.GetExternalId())
+	v.Int64ID("column_type_id", req.GetColumnTypeId())
 	v.Int64ID("id", req.GetId())
 
 	return v.Err()

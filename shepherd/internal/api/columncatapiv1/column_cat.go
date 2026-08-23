@@ -158,6 +158,11 @@ func (h *Handler) CreateColumnCat(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if !aliasSetForUI(body) {
+		apierror.Write(w, http.StatusBadRequest, "invalid_argument", msgAliasRequiredForUI)
+		return
+	}
+
 	resp, err := h.client.CreateColumnCat(r.Context(), &tablesv1.CreateColumnCatRequest{
 		TableId:           body.TableId,
 		Name:              body.Name,
@@ -187,6 +192,11 @@ func (h *Handler) UpdateColumnCatById(w http.ResponseWriter, r *http.Request, id
 	var body openapiv1.ColumnCatWrite
 	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
 		apierror.Write(w, http.StatusBadRequest, "invalid_argument", "некорректное тело запроса")
+		return
+	}
+
+	if !aliasSetForUI(body) {
+		apierror.Write(w, http.StatusBadRequest, "invalid_argument", msgAliasRequiredForUI)
 		return
 	}
 
@@ -247,4 +257,24 @@ func (h *Handler) UndeleteColumnCatById(w http.ResponseWriter, r *http.Request, 
 	}
 
 	w.WriteHeader(http.StatusNoContent)
+}
+
+// msgAliasRequiredForUI — текст 400 на показ колонки без алиаса. Формулировка
+// повторяет сообщение ColumnCatGuard намеренно: клиент видит одну и ту же
+// причину независимо от того, какой слой отбил запрос.
+const msgAliasRequiredForUI = "alias_id обязателен при show_in_ui = true: колонке без алиаса нечего показывать в интерфейсе"
+
+// aliasSetForUI проверяет то же правило, что ColumnCatGuard в Metadata
+// Service: показываемая в интерфейсе колонка обязана иметь алиас, потому что
+// именно он несёт её бизнес-имя.
+//
+// Правило дублируется сознательно. Хозяин правила — Metadata Service: он
+// закрывает и gRPC-клиентов мимо гейтвея, и снять проверку отсюда безопасно.
+// Здесь она стоит ради формы ответа: проверка чистая, до бэкенда не ходит, и
+// фронтенд получает 400 с адресом поля сразу, а не через сетевой вызов.
+//
+// alias_id читается полем, а не через ноль: null и отсутствие поля означают
+// «алиаса нет», и в openapiv1.ColumnCatWrite это указатель.
+func aliasSetForUI(body openapiv1.ColumnCatWrite) bool {
+	return !body.ShowInUi || body.AliasId != nil
 }
