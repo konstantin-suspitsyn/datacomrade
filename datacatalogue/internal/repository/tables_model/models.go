@@ -178,6 +178,16 @@ type DcTableType struct {
 	UserID      int64
 }
 
+type DcTablesJoin struct {
+	ID              int64
+	TableCatIDLeft  int64
+	TableCatIDRight int64
+	IsDeleted       bool
+	CreatedAt       time.Time
+	UpdatedAt       time.Time
+	UserID          int64
+}
+
 type DcUser struct {
 	ID         int64
 	Name       string

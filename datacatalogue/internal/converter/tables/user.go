@@ -12,7 +12,7 @@ import (
 // UserToProto переводит строку dc.user в сущность gRPC.
 func UserToProto(row tables_model.DcUser) *tablesv1.User {
 	return &tablesv1.User{
-		Id:         converter.Int64ToProto(row.ID),
+		Id:         row.ID,
 		Name:       row.Name,
 		CreatedAt:  converter.TimeToProto(row.CreatedAt),
 		UpdatedAt:  converter.TimeToProto(row.UpdatedAt),

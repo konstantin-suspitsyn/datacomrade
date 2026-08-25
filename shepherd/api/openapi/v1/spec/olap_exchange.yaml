@@ -1,0 +1,71 @@
+openapi: 3.0.3
+info:
+  title: Shepherd API — olapexchangeapiv1
+  description: |-
+    Ручки, которые обслуживает пакет datacatalogue/internal/api/olapexchangeapiv1
+    (gRPC-контракт shared/proto/olap_exchange/v1). Сквозные JOIN-выборки для
+    OLAP-обмена, а не CRUD по одной таблице — доступ каждому пользователю
+    ограничен уже на уровне SQL (dc.get_table_ids_by_external_user_and_role,
+    роль can_read), поэтому отдельной роли Gateway для этих ручек не требуется:
+    достаточно быть аутентифицированным.
+    Собирается в openapi.yaml через task openapi:bundle.
+  version: 1.0.0
+paths:
+  /olap-aliases:
+    get:
+      operationId: listOlapAliases
+      summary: Алиасы, доступные текущему пользователю для чтения
+      description: >
+        dc.alias, отфильтрованные по ролям пользователя (dc.domain_roles/dc.table_roles, роль can_read) и дополненные
+        именем и описанием column_type. external_id берётся из claims текущего токена, а не из запроса.
+      parameters:
+        - $ref: ./common.yaml#/components/parameters/OrderParam
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OlapAliasList'
+        '400':
+          $ref: ./common.yaml#/components/responses/BadRequest
+        '401':
+          $ref: ./common.yaml#/components/responses/Unauthorized
+components:
+  schemas:
+    OlapAlias:
+      type: object
+      required:
+        - id
+        - name
+        - description
+        - is_deleted
+        - column_type_id
+        - column_type_name
+        - column_type_description
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        description:
+          type: string
+        is_deleted:
+          type: boolean
+        column_type_id:
+          type: integer
+          format: int64
+        column_type_name:
+          type: string
+        column_type_description:
+          type: string
+    OlapAliasList:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/OlapAlias'

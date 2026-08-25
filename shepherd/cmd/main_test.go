@@ -124,6 +124,11 @@ func assertHealthResponse(t *testing.T, rec *httptest.ResponseRecorder, want hea
 var ungatedMethods = map[string]struct{}{
 	"Login": {},
 	"GetMe": {},
+
+	// ListOlapAliases — доступ каждому пользователю уже ограничен на уровне
+	// SQL (dc.get_table_ids_by_external_user_and_role, роль can_read), а не
+	// ролью Gateway: нужна только аутентификация, как у Login/GetMe.
+	"ListOlapAliases": {},
 }
 
 // adminOnlyMethods — методы выдачи прав пользователям (dc.user_domain_roles и

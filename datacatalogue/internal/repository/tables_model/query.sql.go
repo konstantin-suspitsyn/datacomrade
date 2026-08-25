@@ -8,6 +8,7 @@ package tables_model
 import (
 	"context"
 	"database/sql"
+	"time"
 
 	"github.com/google/uuid"
 )
@@ -938,6 +939,38 @@ func (q *Queries) CountGetTableTypesDeleted(ctx context.Context, pageLimit int32
 	return i, err
 }
 
+const countGetTablesJoins = `-- name: CountGetTablesJoins :one
+SELECT
+    count(*)                                                        AS total_items,
+    ceil(count(*)::numeric / GREATEST($1::int, 1))::bigint AS total_pages
+FROM dc.tables_joins
+INNER JOIN dc.table_cat table_cat_left ON table_cat_left.id = tables_joins.table_cat_id_left
+INNER JOIN dc.table_cat table_cat_right ON table_cat_right.id = tables_joins.table_cat_id_right
+WHERE tables_joins.is_deleted = false
+  AND ($2::varchar(128) IS NULL OR table_cat_left.name = $2)
+  AND table_cat_left.is_deleted = false
+  AND ($3::varchar(128) IS NULL OR table_cat_right.name = $3)
+  AND table_cat_right.is_deleted = false
+`
+
+type CountGetTablesJoinsParams struct {
+	PageLimit         int32
+	TableCatLeftName  sql.NullString
+	TableCatRightName sql.NullString
+}
+
+type CountGetTablesJoinsRow struct {
+	TotalItems int64
+	TotalPages int64
+}
+
+func (q *Queries) CountGetTablesJoins(ctx context.Context, arg CountGetTablesJoinsParams) (CountGetTablesJoinsRow, error) {
+	row := q.db.QueryRowContext(ctx, countGetTablesJoins, arg.PageLimit, arg.TableCatLeftName, arg.TableCatRightName)
+	var i CountGetTablesJoinsRow
+	err := row.Scan(&i.TotalItems, &i.TotalPages)
+	return i, err
+}
+
 const countGetUsers = `-- name: CountGetUsers :one
 SELECT
     count(*)                                                        AS total_items,
@@ -1694,6 +1727,50 @@ func (q *Queries) CreateTableType(ctx context.Context, arg CreateTableTypeParams
 	return i, err
 }
 
+const createTablesJoins = `-- name: CreateTablesJoins :one
+
+INSERT INTO dc.tables_joins (
+    table_cat_id_left,
+    table_cat_id_right,
+    is_deleted,
+    created_at,
+    updated_at,
+    user_id
+) VALUES (
+    $1,
+    $2,
+    false,
+    now(),
+    now(),
+    (SELECT u.id FROM dc."user" u WHERE u.external_id = $3)
+)
+RETURNING id, table_cat_id_left, table_cat_id_right, is_deleted, created_at, updated_at, user_id
+`
+
+type CreateTablesJoinsParams struct {
+	TableCatIDLeft  int64
+	TableCatIDRight int64
+	ExternalID      uuid.UUID
+}
+
+// =========================================================
+// dc.tables_joins
+// =========================================================
+func (q *Queries) CreateTablesJoins(ctx context.Context, arg CreateTablesJoinsParams) (DcTablesJoin, error) {
+	row := q.db.QueryRowContext(ctx, createTablesJoins, arg.TableCatIDLeft, arg.TableCatIDRight, arg.ExternalID)
+	var i DcTablesJoin
+	err := row.Scan(
+		&i.ID,
+		&i.TableCatIDLeft,
+		&i.TableCatIDRight,
+		&i.IsDeleted,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.UserID,
+	)
+	return i, err
+}
+
 const createUser = `-- name: CreateUser :one
 
 INSERT INTO dc."user" (
@@ -1935,18 +2012,19 @@ func (q *Queries) DeleteHostById(ctx context.Context, arg DeleteHostByIdParams) 
 const deleteSchemaCatById = `-- name: DeleteSchemaCatById :exec
 UPDATE dc.schema_cat
 SET is_deleted = true,
-    updated_at = now(),
-    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $1)
-WHERE schema_cat.id = $2
+    updated_at = $1,
+    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $2)
+WHERE schema_cat.id = $3
 `
 
 type DeleteSchemaCatByIdParams struct {
+	UpdatedAt  time.Time
 	ExternalID uuid.UUID
 	ID         int64
 }
 
 func (q *Queries) DeleteSchemaCatById(ctx context.Context, arg DeleteSchemaCatByIdParams) error {
-	_, err := q.db.ExecContext(ctx, deleteSchemaCatById, arg.ExternalID, arg.ID)
+	_, err := q.db.ExecContext(ctx, deleteSchemaCatById, arg.UpdatedAt, arg.ExternalID, arg.ID)
 	return err
 }
 
@@ -1983,6 +2061,24 @@ type DeleteTableTypeByIdParams struct {
 
 func (q *Queries) DeleteTableTypeById(ctx context.Context, arg DeleteTableTypeByIdParams) error {
 	_, err := q.db.ExecContext(ctx, deleteTableTypeById, arg.ExternalID, arg.ID)
+	return err
+}
+
+const deleteTablesJoinsById = `-- name: DeleteTablesJoinsById :exec
+UPDATE dc.tables_joins
+SET is_deleted = true,
+    updated_at = now(),
+    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $1)
+WHERE tables_joins.id = $2
+`
+
+type DeleteTablesJoinsByIdParams struct {
+	ExternalID uuid.UUID
+	ID         int64
+}
+
+func (q *Queries) DeleteTablesJoinsById(ctx context.Context, arg DeleteTablesJoinsByIdParams) error {
+	_, err := q.db.ExecContext(ctx, deleteTablesJoinsById, arg.ExternalID, arg.ID)
 	return err
 }
 
@@ -4965,6 +5061,139 @@ func (q *Queries) GetTableTypesDeleted(ctx context.Context, arg GetTableTypesDel
 	return items, nil
 }
 
+const getTablesJoins = `-- name: GetTablesJoins :many
+SELECT
+    tables_joins.id,
+    tables_joins.table_cat_id_left,
+    tables_joins.table_cat_id_right,
+    tables_joins.is_deleted,
+    tables_joins.created_at,
+    tables_joins.updated_at,
+    tables_joins.user_id,
+    table_cat_left.name AS table_cat_left_name,
+    table_cat_right.name AS table_cat_right_name
+FROM dc.tables_joins
+INNER JOIN dc.table_cat table_cat_left ON table_cat_left.id = tables_joins.table_cat_id_left
+INNER JOIN dc.table_cat table_cat_right ON table_cat_right.id = tables_joins.table_cat_id_right
+WHERE tables_joins.is_deleted = false
+  AND ($1::varchar(128) IS NULL OR table_cat_left.name = $1)
+  AND table_cat_left.is_deleted = false
+  AND ($2::varchar(128) IS NULL OR table_cat_right.name = $2)
+  AND table_cat_right.is_deleted = false
+ORDER BY CASE WHEN $3::text <> 'DESC' THEN tables_joins.id END ASC,
+    CASE WHEN $3::text = 'DESC' THEN tables_joins.id END DESC
+LIMIT $5::int OFFSET ($4::int-1)*$5::int
+`
+
+type GetTablesJoinsParams struct {
+	TableCatLeftName  sql.NullString
+	TableCatRightName sql.NullString
+	Order             string
+	Page              int32
+	PageLimit         int32
+}
+
+type GetTablesJoinsRow struct {
+	ID                int64
+	TableCatIDLeft    int64
+	TableCatIDRight   int64
+	IsDeleted         bool
+	CreatedAt         time.Time
+	UpdatedAt         time.Time
+	UserID            int64
+	TableCatLeftName  string
+	TableCatRightName string
+}
+
+func (q *Queries) GetTablesJoins(ctx context.Context, arg GetTablesJoinsParams) ([]GetTablesJoinsRow, error) {
+	rows, err := q.db.QueryContext(ctx, getTablesJoins,
+		arg.TableCatLeftName,
+		arg.TableCatRightName,
+		arg.Order,
+		arg.Page,
+		arg.PageLimit,
+	)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []GetTablesJoinsRow
+	for rows.Next() {
+		var i GetTablesJoinsRow
+		if err := rows.Scan(
+			&i.ID,
+			&i.TableCatIDLeft,
+			&i.TableCatIDRight,
+			&i.IsDeleted,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.UserID,
+			&i.TableCatLeftName,
+			&i.TableCatRightName,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getTablesJoinsById = `-- name: GetTablesJoinsById :one
+SELECT
+    tables_joins.id,
+    tables_joins.table_cat_id_left,
+    tables_joins.table_cat_id_right,
+    tables_joins.is_deleted,
+    tables_joins.created_at,
+    tables_joins.updated_at,
+    tables_joins.user_id,
+    table_cat_left.name AS table_cat_left_name,
+    table_cat_right.name AS table_cat_right_name
+FROM dc.tables_joins
+INNER JOIN dc.table_cat table_cat_left ON table_cat_left.id = tables_joins.table_cat_id_left
+INNER JOIN dc.table_cat table_cat_right ON table_cat_right.id = tables_joins.table_cat_id_right
+WHERE tables_joins.id = $1
+  AND tables_joins.is_deleted = false
+  AND table_cat_left.is_deleted = false
+  AND table_cat_right.is_deleted = false
+LIMIT 1
+`
+
+type GetTablesJoinsByIdRow struct {
+	ID                int64
+	TableCatIDLeft    int64
+	TableCatIDRight   int64
+	IsDeleted         bool
+	CreatedAt         time.Time
+	UpdatedAt         time.Time
+	UserID            int64
+	TableCatLeftName  string
+	TableCatRightName string
+}
+
+func (q *Queries) GetTablesJoinsById(ctx context.Context, id int64) (GetTablesJoinsByIdRow, error) {
+	row := q.db.QueryRowContext(ctx, getTablesJoinsById, id)
+	var i GetTablesJoinsByIdRow
+	err := row.Scan(
+		&i.ID,
+		&i.TableCatIDLeft,
+		&i.TableCatIDRight,
+		&i.IsDeleted,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.UserID,
+		&i.TableCatLeftName,
+		&i.TableCatRightName,
+	)
+	return i, err
+}
+
 const getUserByExternalId = `-- name: GetUserByExternalId :one
 SELECT
     "user".id,
@@ -5293,6 +5522,18 @@ type UndeleteTableTypeByIdParams struct {
 
 func (q *Queries) UndeleteTableTypeById(ctx context.Context, arg UndeleteTableTypeByIdParams) error {
 	_, err := q.db.ExecContext(ctx, undeleteTableTypeById, arg.ExternalID, arg.ID)
+	return err
+}
+
+const undeleteTablesJoinsById = `-- name: UndeleteTablesJoinsById :exec
+UPDATE dc.tables_joins
+SET is_deleted = false,
+    updated_at = now()
+WHERE tables_joins.id = $1
+`
+
+func (q *Queries) UndeleteTablesJoinsById(ctx context.Context, id int64) error {
+	_, err := q.db.ExecContext(ctx, undeleteTablesJoinsById, id)
 	return err
 }
 
@@ -5639,14 +5880,16 @@ UPDATE dc.schema_cat
 SET database_id = $1,
     name = $2,
     is_deleted = false,
+    created_at = $3,
     updated_at = now(),
-    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $3)
-WHERE schema_cat.id = $4
+    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $4)
+WHERE schema_cat.id = $5
 `
 
 type UpdateSchemaCatByIdParams struct {
 	DatabaseID int64
 	Name       string
+	CreatedAt  time.Time
 	ExternalID uuid.UUID
 	ID         int64
 }
@@ -5655,6 +5898,7 @@ func (q *Queries) UpdateSchemaCatById(ctx context.Context, arg UpdateSchemaCatBy
 	_, err := q.db.ExecContext(ctx, updateSchemaCatById,
 		arg.DatabaseID,
 		arg.Name,
+		arg.CreatedAt,
 		arg.ExternalID,
 		arg.ID,
 	)
@@ -5721,6 +5965,35 @@ func (q *Queries) UpdateTableTypeById(ctx context.Context, arg UpdateTableTypeBy
 	_, err := q.db.ExecContext(ctx, updateTableTypeById,
 		arg.Name,
 		arg.Description,
+		arg.ExternalID,
+		arg.ID,
+	)
+	return err
+}
+
+const updateTablesJoinsById = `-- name: UpdateTablesJoinsById :exec
+UPDATE dc.tables_joins
+SET table_cat_id_left = $1,
+    table_cat_id_right = $2,
+    is_deleted = $3,
+    updated_at = now(),
+    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = $4)
+WHERE tables_joins.id = $5
+`
+
+type UpdateTablesJoinsByIdParams struct {
+	TableCatIDLeft  int64
+	TableCatIDRight int64
+	IsDeleted       bool
+	ExternalID      uuid.UUID
+	ID              int64
+}
+
+func (q *Queries) UpdateTablesJoinsById(ctx context.Context, arg UpdateTablesJoinsByIdParams) error {
+	_, err := q.db.ExecContext(ctx, updateTablesJoinsById,
+		arg.TableCatIDLeft,
+		arg.TableCatIDRight,
+		arg.IsDeleted,
 		arg.ExternalID,
 		arg.ID,
 	)

@@ -3585,7 +3585,7 @@
           "columns": [
             {
               "column_name": "id",
-              "show": false,
+              "show": true,
               "where": true,
               "where_optional": false,
               "exact_where": null
@@ -4164,7 +4164,7 @@
           "columns": [
             {
               "column_name": "id",
-              "show": false,
+              "show": true,
               "where": true,
               "where_optional": false,
               "exact_where": null
@@ -6221,7 +6221,7 @@
           "custom_query": null
         },
         {
-          "Name": "UndeleteGroupLevels",
+          "Name": "UndeleteGroupLevelsById",
           "Mode": "UNDELETE",
           "columns": [
             {
@@ -8508,6 +8508,840 @@
       ],
       "UPDATE": [],
       "DELETE": []
+    },
+    "dc.tables_joins": {
+      "CREATE": [
+        {
+          "Name": "CreateTablesJoins",
+          "Query Annotation": "one",
+          "columns": [
+            {
+              "column_name": "table_cat_id_left",
+              "column_value": "@table_cat_id_left"
+            },
+            {
+              "column_name": "table_cat_id_right",
+              "column_value": "@table_cat_id_right"
+            },
+            {
+              "column_name": "is_deleted",
+              "column_value": "false"
+            },
+            {
+              "column_name": "created_at",
+              "column_value": "now()"
+            },
+            {
+              "column_name": "updated_at",
+              "column_value": "now()"
+            },
+            {
+              "column_name": "user_id",
+              "column_value": "(SELECT u.id FROM dc.\"user\" u WHERE u.external_id = @external_id)"
+            }
+          ],
+          "custom_query": null
+        }
+      ],
+      "READ": [
+        {
+          "Name": "GetTablesJoinsById",
+          "Query Annotation": "one",
+          "Pagination": false,
+          "joins": [
+            "tables_joins_lr"
+          ],
+          "columns": [
+            {
+              "column_name": "id",
+              "show": true,
+              "where": true,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "column_name": "table_cat_id_left",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "column_name": "table_cat_id_right",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "column_name": "is_deleted",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": "false"
+            },
+            {
+              "column_name": "created_at",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "column_name": "updated_at",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "column_name": "user_id",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            }
+          ],
+          "joined_columns": [
+            {
+              "join": "tables_joins_lr",
+              "alias": "table_cat_left",
+              "column_name": "id",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "join": "tables_joins_lr",
+              "alias": "table_cat_left",
+              "column_name": "name",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "join": "tables_joins_lr",
+              "alias": "table_cat_left",
+              "column_name": "description",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "join": "tables_joins_lr",
+              "alias": "table_cat_left",
+              "column_name": "schema_id",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "join": "tables_joins_lr",
+              "alias": "table_cat_left",
+              "column_name": "table_type_id",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "join": "tables_joins_lr",
+              "alias": "table_cat_left",
+              "column_name": "domain_id",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "join": "tables_joins_lr",
+              "alias": "table_cat_left",
+              "column_name": "is_deleted",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": "false"
+            },
+            {
+              "join": "tables_joins_lr",
+              "alias": "table_cat_left",
+              "column_name": "created_at",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "join": "tables_joins_lr",
+              "alias": "table_cat_left",
+              "column_name": "updated_at",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "join": "tables_joins_lr",
+              "alias": "table_cat_left",
+              "column_name": "is_get_dict",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "join": "tables_joins_lr",
+              "alias": "table_cat_left",
+              "column_name": "user_id",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "join": "tables_joins_lr",
+              "alias": "table_cat_right",
+              "column_name": "id",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "join": "tables_joins_lr",
+              "alias": "table_cat_right",
+              "column_name": "name",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "join": "tables_joins_lr",
+              "alias": "table_cat_right",
+              "column_name": "description",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "join": "tables_joins_lr",
+              "alias": "table_cat_right",
+              "column_name": "schema_id",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "join": "tables_joins_lr",
+              "alias": "table_cat_right",
+              "column_name": "table_type_id",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "join": "tables_joins_lr",
+              "alias": "table_cat_right",
+              "column_name": "domain_id",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "join": "tables_joins_lr",
+              "alias": "table_cat_right",
+              "column_name": "is_deleted",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": "false"
+            },
+            {
+              "join": "tables_joins_lr",
+              "alias": "table_cat_right",
+              "column_name": "created_at",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "join": "tables_joins_lr",
+              "alias": "table_cat_right",
+              "column_name": "updated_at",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "join": "tables_joins_lr",
+              "alias": "table_cat_right",
+              "column_name": "is_get_dict",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            },
+            {
+              "join": "tables_joins_lr",
+              "alias": "table_cat_right",
+              "column_name": "user_id",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null
+            }
+          ],
+          "custom_where": null,
+          "custom_query": null
+        },
+        {
+          "Name": "GetTablesJoins",
+          "Query Annotation": "many",
+          "Pagination": true,
+          "joins": [
+            "tables_joins_lr"
+          ],
+          "columns": [
+            {
+              "column_name": "id",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": true,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "table_cat_id_left",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "table_cat_id_right",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "is_deleted",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": "false",
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "created_at",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "updated_at",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "column_name": "user_id",
+              "show": true,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            }
+          ],
+          "joined_columns": [
+            {
+              "join": "tables_joins_lr",
+              "alias": "table_cat_left",
+              "column_name": "id",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "tables_joins_lr",
+              "alias": "table_cat_left",
+              "column_name": "name",
+              "show": true,
+              "where": false,
+              "where_optional": true,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "tables_joins_lr",
+              "alias": "table_cat_left",
+              "column_name": "description",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "tables_joins_lr",
+              "alias": "table_cat_left",
+              "column_name": "schema_id",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "tables_joins_lr",
+              "alias": "table_cat_left",
+              "column_name": "table_type_id",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "tables_joins_lr",
+              "alias": "table_cat_left",
+              "column_name": "domain_id",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "tables_joins_lr",
+              "alias": "table_cat_left",
+              "column_name": "is_deleted",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": "false",
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "tables_joins_lr",
+              "alias": "table_cat_left",
+              "column_name": "created_at",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "tables_joins_lr",
+              "alias": "table_cat_left",
+              "column_name": "updated_at",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "tables_joins_lr",
+              "alias": "table_cat_left",
+              "column_name": "is_get_dict",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "tables_joins_lr",
+              "alias": "table_cat_left",
+              "column_name": "user_id",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "tables_joins_lr",
+              "alias": "table_cat_right",
+              "column_name": "id",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "tables_joins_lr",
+              "alias": "table_cat_right",
+              "column_name": "name",
+              "show": true,
+              "where": false,
+              "where_optional": true,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "tables_joins_lr",
+              "alias": "table_cat_right",
+              "column_name": "description",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "tables_joins_lr",
+              "alias": "table_cat_right",
+              "column_name": "schema_id",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "tables_joins_lr",
+              "alias": "table_cat_right",
+              "column_name": "table_type_id",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "tables_joins_lr",
+              "alias": "table_cat_right",
+              "column_name": "domain_id",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "tables_joins_lr",
+              "alias": "table_cat_right",
+              "column_name": "is_deleted",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": "false",
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "tables_joins_lr",
+              "alias": "table_cat_right",
+              "column_name": "created_at",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "tables_joins_lr",
+              "alias": "table_cat_right",
+              "column_name": "updated_at",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "tables_joins_lr",
+              "alias": "table_cat_right",
+              "column_name": "is_get_dict",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            },
+            {
+              "join": "tables_joins_lr",
+              "alias": "table_cat_right",
+              "column_name": "user_id",
+              "show": false,
+              "where": false,
+              "where_optional": false,
+              "exact_where": null,
+              "order_by": false,
+              "order_by_optional": false
+            }
+          ],
+          "custom_where": null,
+          "custom_query": null
+        }
+      ],
+      "UPDATE": [
+        {
+          "Name": "UpdateTablesJoinsById",
+          "Query Annotation": "exec",
+          "columns": [
+            {
+              "column_name": "id",
+              "set": false,
+              "set_value": "@id",
+              "where": true,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "table_cat_id_left",
+              "set": true,
+              "set_value": "@table_cat_id_left",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "table_cat_id_right",
+              "set": true,
+              "set_value": "@table_cat_id_right",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "is_deleted",
+              "set": true,
+              "set_value": "@is_deleted",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "created_at",
+              "set": false,
+              "set_value": "@created_at",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "updated_at",
+              "set": true,
+              "set_value": "now()",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "user_id",
+              "set": true,
+              "set_value": "(SELECT u.id FROM dc.\"user\" u WHERE u.external_id = @external_id)",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            }
+          ],
+          "custom_where": null,
+          "custom_query": null
+        }
+      ],
+      "DELETE": [
+        {
+          "Name": "DeleteTablesJoinsById",
+          "Mode": "SOFT DELETE",
+          "columns": [
+            {
+              "column_name": "id",
+              "set": false,
+              "set_value": null,
+              "where": true,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "table_cat_id_left",
+              "set": false,
+              "set_value": null,
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "table_cat_id_right",
+              "set": false,
+              "set_value": null,
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "is_deleted",
+              "set": true,
+              "set_value": "true",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "created_at",
+              "set": false,
+              "set_value": null,
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "updated_at",
+              "set": true,
+              "set_value": "now()",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "user_id",
+              "set": true,
+              "set_value": "(SELECT u.id FROM dc.\"user\" u WHERE u.external_id = @external_id)",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            }
+          ],
+          "custom_where": null,
+          "custom_query": null
+        },
+        {
+          "Name": "UndeleteTablesJoinsById",
+          "Mode": "UNDELETE",
+          "columns": [
+            {
+              "column_name": "id",
+              "set": false,
+              "set_value": null,
+              "where": true,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "table_cat_id_left",
+              "set": false,
+              "set_value": null,
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "table_cat_id_right",
+              "set": false,
+              "set_value": null,
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "is_deleted",
+              "set": true,
+              "set_value": "false",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "created_at",
+              "set": false,
+              "set_value": null,
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "updated_at",
+              "set": true,
+              "set_value": "now()",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            },
+            {
+              "column_name": "user_id",
+              "set": false,
+              "set_value": "(SELECT u.id FROM dc.\"user\" u WHERE u.external_id = @external_id)",
+              "where": false,
+              "where_optional": false,
+              "where_value": null
+            }
+          ],
+          "custom_where": null,
+          "custom_query": null
+        }
+      ]
     }
+  },
+  "JOINS": {
+    "dc.tables_joins": [
+      {
+        "Name": "tables_joins_lr",
+        "joins": [
+          {
+            "type": "INNER",
+            "table": "dc.table_cat",
+            "alias": "table_cat_left",
+            "on": "table_cat_left.id = tables_joins.table_cat_id_left"
+          },
+          {
+            "type": "INNER",
+            "table": "dc.table_cat",
+            "alias": "table_cat_right",
+            "on": "table_cat_right.id = tables_joins.table_cat_id_right"
+          }
+        ]
+      }
+    ]
   }
 }

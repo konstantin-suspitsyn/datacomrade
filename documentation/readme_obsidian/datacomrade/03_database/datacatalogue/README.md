@@ -19,6 +19,7 @@
 - [[dc.table_cat]]
 - [[dc.table_roles]]
 - [[dc.table_type]]
+- [[dc.tables_joins]]
 - [[dc.user]]
 - [[dc.user_domain_roles]]
 - [[dc.user_table_roles]]

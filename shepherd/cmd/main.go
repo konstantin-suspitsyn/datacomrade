@@ -30,6 +30,7 @@ import (
 	"github.com/konstantin-suspitsyn/datacomrade/shepherd/internal/api/hostapiv1"
 	"github.com/konstantin-suspitsyn/datacomrade/shepherd/internal/api/loginapiv1"
 	"github.com/konstantin-suspitsyn/datacomrade/shepherd/internal/api/meapiv1"
+	"github.com/konstantin-suspitsyn/datacomrade/shepherd/internal/api/olapexchangeapiv1"
 	"github.com/konstantin-suspitsyn/datacomrade/shepherd/internal/api/openapiv1"
 	"github.com/konstantin-suspitsyn/datacomrade/shepherd/internal/api/schemacatapiv1"
 	"github.com/konstantin-suspitsyn/datacomrade/shepherd/internal/api/tablecatapiv1"
@@ -160,6 +161,8 @@ type api struct {
 
 	userDomainRoles *userdomainrolesapiv1.Handler
 	userTableRoles  *usertablerolesapiv1.Handler
+
+	olapExchange *olapexchangeapiv1.Handler
 }
 
 // newAPI принимает клиент datacatalogue целиком, а не по gRPC-клиенту на
@@ -188,11 +191,20 @@ func newAPI(resolver *ensureuser.Resolver, dc *datacatalogue.Client) api {
 
 		userDomainRoles: userdomainrolesapiv1.New(dc.UserDomainRoles),
 		userTableRoles:  usertablerolesapiv1.New(dc.UserTableRoles),
+
+		olapExchange: olapexchangeapiv1.New(dc.OlapExchange),
 	}
 }
 
 func (a api) GetMe(w http.ResponseWriter, r *http.Request) { a.me.GetMe(w, r) }
 func (a api) Login(w http.ResponseWriter, r *http.Request) { a.login.Login(w, r) }
+
+// ListOlapAliases не гейтится ролью — доступ каждому пользователю уже
+// ограничен на уровне SQL (см. пакет olapexchangeapiv1), нужна только
+// аутентификация, которую даёт authMiddleware на всей группе /v1.
+func (a api) ListOlapAliases(w http.ResponseWriter, r *http.Request, params openapiv1.ListOlapAliasesParams) {
+	a.olapExchange.ListOlapAliases(w, r, params)
+}
 
 // requireCatalogRole гейтит методы каталога (dc.host и далее) ролью
 // admin/maintainer — см. mapping роль → группа методов в rbac.go.

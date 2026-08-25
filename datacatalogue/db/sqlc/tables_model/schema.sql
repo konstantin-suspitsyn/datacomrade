@@ -167,3 +167,12 @@ create table dc."user"
         constraint user_external_id_unique
             unique
 );
+CREATE TABLE dc.tables_joins (
+                                 id bigserial NOT NULL,
+                                 table_cat_id_left bigint NOT NULL,
+                                 table_cat_id_right bigint NOT NULL,
+                                 is_deleted boolean DEFAULT false NOT NULL,
+                                 created_at timestamp DEFAULT now() NOT NULL,
+                                 updated_at timestamp DEFAULT now() NOT NULL,
+                                 user_id bigint NOT NULL
+);

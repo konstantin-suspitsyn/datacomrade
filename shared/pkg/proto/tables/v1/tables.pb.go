@@ -934,7 +934,7 @@ func (*UndeleteAliasByIdResponse) Descriptor() ([]byte, []int) {
 // Строка таблицы dc.user: все колонки, как их вернёт SELECT *.
 type User struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            *int64                 `protobuf:"varint,1,opt,name=id,proto3,oneof" json:"id,omitempty"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
@@ -975,8 +975,8 @@ func (*User) Descriptor() ([]byte, []int) {
 }
 
 func (x *User) GetId() int64 {
-	if x != nil && x.Id != nil {
-		return *x.Id
+	if x != nil {
+		return x.Id
 	}
 	return 0
 }
@@ -11976,8 +11976,9 @@ type UpdateSchemaCatByIdRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	DatabaseId    int64                  `protobuf:"varint,1,opt,name=database_id,json=databaseId,proto3" json:"database_id,omitempty"`
 	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	ExternalId    string                 `protobuf:"bytes,3,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
-	Id            int64                  `protobuf:"varint,4,opt,name=id,proto3" json:"id,omitempty"`
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	ExternalId    string                 `protobuf:"bytes,4,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	Id            int64                  `protobuf:"varint,5,opt,name=id,proto3" json:"id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -12024,6 +12025,13 @@ func (x *UpdateSchemaCatByIdRequest) GetName() string {
 		return x.Name
 	}
 	return ""
+}
+
+func (x *UpdateSchemaCatByIdRequest) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
 }
 
 func (x *UpdateSchemaCatByIdRequest) GetExternalId() string {
@@ -12080,8 +12088,9 @@ func (*UpdateSchemaCatByIdResponse) Descriptor() ([]byte, []int) {
 // Мягкое удаление DeleteSchemaCatById: параметры вызова.
 type DeleteSchemaCatByIdRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	ExternalId    string                 `protobuf:"bytes,1,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
-	Id            int64                  `protobuf:"varint,2,opt,name=id,proto3" json:"id,omitempty"`
+	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	ExternalId    string                 `protobuf:"bytes,2,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	Id            int64                  `protobuf:"varint,3,opt,name=id,proto3" json:"id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -12114,6 +12123,13 @@ func (x *DeleteSchemaCatByIdRequest) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DeleteSchemaCatByIdRequest.ProtoReflect.Descriptor instead.
 func (*DeleteSchemaCatByIdRequest) Descriptor() ([]byte, []int) {
 	return file_tables_v1_tables_proto_rawDescGZIP(), []int{212}
+}
+
+func (x *DeleteSchemaCatByIdRequest) GetUpdatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return nil
 }
 
 func (x *DeleteSchemaCatByIdRequest) GetExternalId() string {
@@ -14221,6 +14237,930 @@ func (x *GetCalculationTypesResponse) GetRows() []*CalculationType {
 	return nil
 }
 
+// Строка таблицы dc.tables_joins: все колонки, как их вернёт SELECT *.
+type TablesJoins struct {
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	Id              int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	TableCatIdLeft  int64                  `protobuf:"varint,2,opt,name=table_cat_id_left,json=tableCatIdLeft,proto3" json:"table_cat_id_left,omitempty"`
+	TableCatIdRight int64                  `protobuf:"varint,3,opt,name=table_cat_id_right,json=tableCatIdRight,proto3" json:"table_cat_id_right,omitempty"`
+	IsDeleted       bool                   `protobuf:"varint,4,opt,name=is_deleted,json=isDeleted,proto3" json:"is_deleted,omitempty"`
+	CreatedAt       *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt       *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	UserId          int64                  `protobuf:"varint,7,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *TablesJoins) Reset() {
+	*x = TablesJoins{}
+	mi := &file_tables_v1_tables_proto_msgTypes[251]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TablesJoins) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TablesJoins) ProtoMessage() {}
+
+func (x *TablesJoins) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[251]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TablesJoins.ProtoReflect.Descriptor instead.
+func (*TablesJoins) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{251}
+}
+
+func (x *TablesJoins) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *TablesJoins) GetTableCatIdLeft() int64 {
+	if x != nil {
+		return x.TableCatIdLeft
+	}
+	return 0
+}
+
+func (x *TablesJoins) GetTableCatIdRight() int64 {
+	if x != nil {
+		return x.TableCatIdRight
+	}
+	return 0
+}
+
+func (x *TablesJoins) GetIsDeleted() bool {
+	if x != nil {
+		return x.IsDeleted
+	}
+	return false
+}
+
+func (x *TablesJoins) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *TablesJoins) GetUpdatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return nil
+}
+
+func (x *TablesJoins) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+// Вставка CreateTablesJoins: параметры вызова.
+type CreateTablesJoinsRequest struct {
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	TableCatIdLeft  int64                  `protobuf:"varint,1,opt,name=table_cat_id_left,json=tableCatIdLeft,proto3" json:"table_cat_id_left,omitempty"`
+	TableCatIdRight int64                  `protobuf:"varint,2,opt,name=table_cat_id_right,json=tableCatIdRight,proto3" json:"table_cat_id_right,omitempty"`
+	ExternalId      string                 `protobuf:"bytes,3,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *CreateTablesJoinsRequest) Reset() {
+	*x = CreateTablesJoinsRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[252]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateTablesJoinsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateTablesJoinsRequest) ProtoMessage() {}
+
+func (x *CreateTablesJoinsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[252]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateTablesJoinsRequest.ProtoReflect.Descriptor instead.
+func (*CreateTablesJoinsRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{252}
+}
+
+func (x *CreateTablesJoinsRequest) GetTableCatIdLeft() int64 {
+	if x != nil {
+		return x.TableCatIdLeft
+	}
+	return 0
+}
+
+func (x *CreateTablesJoinsRequest) GetTableCatIdRight() int64 {
+	if x != nil {
+		return x.TableCatIdRight
+	}
+	return 0
+}
+
+func (x *CreateTablesJoinsRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+// Вставка CreateTablesJoins: одна строка.
+type CreateTablesJoinsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TablesJoins   *TablesJoins           `protobuf:"bytes,1,opt,name=tables_joins,json=tablesJoins,proto3" json:"tables_joins,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateTablesJoinsResponse) Reset() {
+	*x = CreateTablesJoinsResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[253]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateTablesJoinsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateTablesJoinsResponse) ProtoMessage() {}
+
+func (x *CreateTablesJoinsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[253]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateTablesJoinsResponse.ProtoReflect.Descriptor instead.
+func (*CreateTablesJoinsResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{253}
+}
+
+func (x *CreateTablesJoinsResponse) GetTablesJoins() *TablesJoins {
+	if x != nil {
+		return x.TablesJoins
+	}
+	return nil
+}
+
+// Выборка GetTablesJoinsById: параметры вызова.
+type GetTablesJoinsByIdRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetTablesJoinsByIdRequest) Reset() {
+	*x = GetTablesJoinsByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[254]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetTablesJoinsByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTablesJoinsByIdRequest) ProtoMessage() {}
+
+func (x *GetTablesJoinsByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[254]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTablesJoinsByIdRequest.ProtoReflect.Descriptor instead.
+func (*GetTablesJoinsByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{254}
+}
+
+func (x *GetTablesJoinsByIdRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Выборка GetTablesJoinsById: строка ответа — только отмеченные колонки.
+type GetTablesJoinsByIdRow struct {
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	Id                int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	TableCatIdLeft    int64                  `protobuf:"varint,2,opt,name=table_cat_id_left,json=tableCatIdLeft,proto3" json:"table_cat_id_left,omitempty"`
+	TableCatIdRight   int64                  `protobuf:"varint,3,opt,name=table_cat_id_right,json=tableCatIdRight,proto3" json:"table_cat_id_right,omitempty"`
+	IsDeleted         bool                   `protobuf:"varint,4,opt,name=is_deleted,json=isDeleted,proto3" json:"is_deleted,omitempty"`
+	CreatedAt         *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt         *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	UserId            int64                  `protobuf:"varint,7,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	TableCatLeftName  string                 `protobuf:"bytes,8,opt,name=table_cat_left_name,json=tableCatLeftName,proto3" json:"table_cat_left_name,omitempty"`
+	TableCatRightName string                 `protobuf:"bytes,9,opt,name=table_cat_right_name,json=tableCatRightName,proto3" json:"table_cat_right_name,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
+}
+
+func (x *GetTablesJoinsByIdRow) Reset() {
+	*x = GetTablesJoinsByIdRow{}
+	mi := &file_tables_v1_tables_proto_msgTypes[255]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetTablesJoinsByIdRow) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTablesJoinsByIdRow) ProtoMessage() {}
+
+func (x *GetTablesJoinsByIdRow) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[255]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTablesJoinsByIdRow.ProtoReflect.Descriptor instead.
+func (*GetTablesJoinsByIdRow) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{255}
+}
+
+func (x *GetTablesJoinsByIdRow) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *GetTablesJoinsByIdRow) GetTableCatIdLeft() int64 {
+	if x != nil {
+		return x.TableCatIdLeft
+	}
+	return 0
+}
+
+func (x *GetTablesJoinsByIdRow) GetTableCatIdRight() int64 {
+	if x != nil {
+		return x.TableCatIdRight
+	}
+	return 0
+}
+
+func (x *GetTablesJoinsByIdRow) GetIsDeleted() bool {
+	if x != nil {
+		return x.IsDeleted
+	}
+	return false
+}
+
+func (x *GetTablesJoinsByIdRow) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *GetTablesJoinsByIdRow) GetUpdatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return nil
+}
+
+func (x *GetTablesJoinsByIdRow) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *GetTablesJoinsByIdRow) GetTableCatLeftName() string {
+	if x != nil {
+		return x.TableCatLeftName
+	}
+	return ""
+}
+
+func (x *GetTablesJoinsByIdRow) GetTableCatRightName() string {
+	if x != nil {
+		return x.TableCatRightName
+	}
+	return ""
+}
+
+// Выборка GetTablesJoinsById: одна строка.
+type GetTablesJoinsByIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TablesJoins   *GetTablesJoinsByIdRow `protobuf:"bytes,1,opt,name=tables_joins,json=tablesJoins,proto3" json:"tables_joins,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetTablesJoinsByIdResponse) Reset() {
+	*x = GetTablesJoinsByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[256]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetTablesJoinsByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTablesJoinsByIdResponse) ProtoMessage() {}
+
+func (x *GetTablesJoinsByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[256]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTablesJoinsByIdResponse.ProtoReflect.Descriptor instead.
+func (*GetTablesJoinsByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{256}
+}
+
+func (x *GetTablesJoinsByIdResponse) GetTablesJoins() *GetTablesJoinsByIdRow {
+	if x != nil {
+		return x.TablesJoins
+	}
+	return nil
+}
+
+// Выборка GetTablesJoins: параметры вызова. Порядок по умолчанию — id.
+type GetTablesJoinsRequest struct {
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	TableCatLeftName  *string                `protobuf:"bytes,1,opt,name=table_cat_left_name,json=tableCatLeftName,proto3,oneof" json:"table_cat_left_name,omitempty"`
+	TableCatRightName *string                `protobuf:"bytes,2,opt,name=table_cat_right_name,json=tableCatRightName,proto3,oneof" json:"table_cat_right_name,omitempty"`
+	// допустимые значения: ASC, DESC
+	Order         string `protobuf:"bytes,3,opt,name=order,proto3" json:"order,omitempty"`
+	PageLimit     int32  `protobuf:"varint,4,opt,name=page_limit,json=pageLimit,proto3" json:"page_limit,omitempty"`
+	Page          int32  `protobuf:"varint,5,opt,name=page,proto3" json:"page,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetTablesJoinsRequest) Reset() {
+	*x = GetTablesJoinsRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[257]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetTablesJoinsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTablesJoinsRequest) ProtoMessage() {}
+
+func (x *GetTablesJoinsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[257]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTablesJoinsRequest.ProtoReflect.Descriptor instead.
+func (*GetTablesJoinsRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{257}
+}
+
+func (x *GetTablesJoinsRequest) GetTableCatLeftName() string {
+	if x != nil && x.TableCatLeftName != nil {
+		return *x.TableCatLeftName
+	}
+	return ""
+}
+
+func (x *GetTablesJoinsRequest) GetTableCatRightName() string {
+	if x != nil && x.TableCatRightName != nil {
+		return *x.TableCatRightName
+	}
+	return ""
+}
+
+func (x *GetTablesJoinsRequest) GetOrder() string {
+	if x != nil {
+		return x.Order
+	}
+	return ""
+}
+
+func (x *GetTablesJoinsRequest) GetPageLimit() int32 {
+	if x != nil {
+		return x.PageLimit
+	}
+	return 0
+}
+
+func (x *GetTablesJoinsRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+// Выборка GetTablesJoins: строка ответа — только отмеченные колонки.
+type GetTablesJoinsRow struct {
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	Id                int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	TableCatIdLeft    int64                  `protobuf:"varint,2,opt,name=table_cat_id_left,json=tableCatIdLeft,proto3" json:"table_cat_id_left,omitempty"`
+	TableCatIdRight   int64                  `protobuf:"varint,3,opt,name=table_cat_id_right,json=tableCatIdRight,proto3" json:"table_cat_id_right,omitempty"`
+	IsDeleted         bool                   `protobuf:"varint,4,opt,name=is_deleted,json=isDeleted,proto3" json:"is_deleted,omitempty"`
+	CreatedAt         *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt         *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	UserId            int64                  `protobuf:"varint,7,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	TableCatLeftName  string                 `protobuf:"bytes,8,opt,name=table_cat_left_name,json=tableCatLeftName,proto3" json:"table_cat_left_name,omitempty"`
+	TableCatRightName string                 `protobuf:"bytes,9,opt,name=table_cat_right_name,json=tableCatRightName,proto3" json:"table_cat_right_name,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
+}
+
+func (x *GetTablesJoinsRow) Reset() {
+	*x = GetTablesJoinsRow{}
+	mi := &file_tables_v1_tables_proto_msgTypes[258]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetTablesJoinsRow) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTablesJoinsRow) ProtoMessage() {}
+
+func (x *GetTablesJoinsRow) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[258]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTablesJoinsRow.ProtoReflect.Descriptor instead.
+func (*GetTablesJoinsRow) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{258}
+}
+
+func (x *GetTablesJoinsRow) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *GetTablesJoinsRow) GetTableCatIdLeft() int64 {
+	if x != nil {
+		return x.TableCatIdLeft
+	}
+	return 0
+}
+
+func (x *GetTablesJoinsRow) GetTableCatIdRight() int64 {
+	if x != nil {
+		return x.TableCatIdRight
+	}
+	return 0
+}
+
+func (x *GetTablesJoinsRow) GetIsDeleted() bool {
+	if x != nil {
+		return x.IsDeleted
+	}
+	return false
+}
+
+func (x *GetTablesJoinsRow) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *GetTablesJoinsRow) GetUpdatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return nil
+}
+
+func (x *GetTablesJoinsRow) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *GetTablesJoinsRow) GetTableCatLeftName() string {
+	if x != nil {
+		return x.TableCatLeftName
+	}
+	return ""
+}
+
+func (x *GetTablesJoinsRow) GetTableCatRightName() string {
+	if x != nil {
+		return x.TableCatRightName
+	}
+	return ""
+}
+
+// Выборка GetTablesJoins: страница данных и пагинация.
+type GetTablesJoinsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Data          []*GetTablesJoinsRow   `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
+	Pagination    *Pagination            `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetTablesJoinsResponse) Reset() {
+	*x = GetTablesJoinsResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[259]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetTablesJoinsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTablesJoinsResponse) ProtoMessage() {}
+
+func (x *GetTablesJoinsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[259]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTablesJoinsResponse.ProtoReflect.Descriptor instead.
+func (*GetTablesJoinsResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{259}
+}
+
+func (x *GetTablesJoinsResponse) GetData() []*GetTablesJoinsRow {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+func (x *GetTablesJoinsResponse) GetPagination() *Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+// Изменение UpdateTablesJoinsById: параметры вызова.
+type UpdateTablesJoinsByIdRequest struct {
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	TableCatIdLeft  int64                  `protobuf:"varint,1,opt,name=table_cat_id_left,json=tableCatIdLeft,proto3" json:"table_cat_id_left,omitempty"`
+	TableCatIdRight int64                  `protobuf:"varint,2,opt,name=table_cat_id_right,json=tableCatIdRight,proto3" json:"table_cat_id_right,omitempty"`
+	IsDeleted       bool                   `protobuf:"varint,3,opt,name=is_deleted,json=isDeleted,proto3" json:"is_deleted,omitempty"`
+	ExternalId      string                 `protobuf:"bytes,4,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	Id              int64                  `protobuf:"varint,5,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *UpdateTablesJoinsByIdRequest) Reset() {
+	*x = UpdateTablesJoinsByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[260]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateTablesJoinsByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateTablesJoinsByIdRequest) ProtoMessage() {}
+
+func (x *UpdateTablesJoinsByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[260]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateTablesJoinsByIdRequest.ProtoReflect.Descriptor instead.
+func (*UpdateTablesJoinsByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{260}
+}
+
+func (x *UpdateTablesJoinsByIdRequest) GetTableCatIdLeft() int64 {
+	if x != nil {
+		return x.TableCatIdLeft
+	}
+	return 0
+}
+
+func (x *UpdateTablesJoinsByIdRequest) GetTableCatIdRight() int64 {
+	if x != nil {
+		return x.TableCatIdRight
+	}
+	return 0
+}
+
+func (x *UpdateTablesJoinsByIdRequest) GetIsDeleted() bool {
+	if x != nil {
+		return x.IsDeleted
+	}
+	return false
+}
+
+func (x *UpdateTablesJoinsByIdRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+func (x *UpdateTablesJoinsByIdRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Изменение UpdateTablesJoinsById: ответ пустой — запрос ничего не возвращает.
+type UpdateTablesJoinsByIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateTablesJoinsByIdResponse) Reset() {
+	*x = UpdateTablesJoinsByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[261]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateTablesJoinsByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateTablesJoinsByIdResponse) ProtoMessage() {}
+
+func (x *UpdateTablesJoinsByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[261]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateTablesJoinsByIdResponse.ProtoReflect.Descriptor instead.
+func (*UpdateTablesJoinsByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{261}
+}
+
+// Мягкое удаление DeleteTablesJoinsById: параметры вызова.
+type DeleteTablesJoinsByIdRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ExternalId    string                 `protobuf:"bytes,1,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	Id            int64                  `protobuf:"varint,2,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteTablesJoinsByIdRequest) Reset() {
+	*x = DeleteTablesJoinsByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[262]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteTablesJoinsByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteTablesJoinsByIdRequest) ProtoMessage() {}
+
+func (x *DeleteTablesJoinsByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[262]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteTablesJoinsByIdRequest.ProtoReflect.Descriptor instead.
+func (*DeleteTablesJoinsByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{262}
+}
+
+func (x *DeleteTablesJoinsByIdRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+func (x *DeleteTablesJoinsByIdRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Мягкое удаление DeleteTablesJoinsById: ответ пустой — запрос ничего не возвращает.
+type DeleteTablesJoinsByIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteTablesJoinsByIdResponse) Reset() {
+	*x = DeleteTablesJoinsByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[263]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteTablesJoinsByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteTablesJoinsByIdResponse) ProtoMessage() {}
+
+func (x *DeleteTablesJoinsByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[263]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteTablesJoinsByIdResponse.ProtoReflect.Descriptor instead.
+func (*DeleteTablesJoinsByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{263}
+}
+
+// Обратное удаление UndeleteTablesJoinsById: параметры вызова.
+type UndeleteTablesJoinsByIdRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UndeleteTablesJoinsByIdRequest) Reset() {
+	*x = UndeleteTablesJoinsByIdRequest{}
+	mi := &file_tables_v1_tables_proto_msgTypes[264]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UndeleteTablesJoinsByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UndeleteTablesJoinsByIdRequest) ProtoMessage() {}
+
+func (x *UndeleteTablesJoinsByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[264]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UndeleteTablesJoinsByIdRequest.ProtoReflect.Descriptor instead.
+func (*UndeleteTablesJoinsByIdRequest) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{264}
+}
+
+func (x *UndeleteTablesJoinsByIdRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// Обратное удаление UndeleteTablesJoinsById: ответ пустой — запрос ничего не возвращает.
+type UndeleteTablesJoinsByIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UndeleteTablesJoinsByIdResponse) Reset() {
+	*x = UndeleteTablesJoinsByIdResponse{}
+	mi := &file_tables_v1_tables_proto_msgTypes[265]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UndeleteTablesJoinsByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UndeleteTablesJoinsByIdResponse) ProtoMessage() {}
+
+func (x *UndeleteTablesJoinsByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_tables_v1_tables_proto_msgTypes[265]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UndeleteTablesJoinsByIdResponse.ProtoReflect.Descriptor instead.
+func (*UndeleteTablesJoinsByIdResponse) Descriptor() ([]byte, []int) {
+	return file_tables_v1_tables_proto_rawDescGZIP(), []int{265}
+}
+
 var File_tables_v1_tables_proto protoreflect.FileDescriptor
 
 const file_tables_v1_tables_proto_rawDesc = "" +
@@ -14297,9 +15237,9 @@ const file_tables_v1_tables_proto_rawDesc = "" +
 	"\vexternal_id\x18\x01 \x01(\tR\n" +
 	"externalId\x12\x0e\n" +
 	"\x02id\x18\x02 \x01(\x03R\x02id\"\x1b\n" +
-	"\x19UndeleteAliasByIdResponse\"\xec\x01\n" +
-	"\x04User\x12\x13\n" +
-	"\x02id\x18\x01 \x01(\x03H\x00R\x02id\x88\x01\x01\x12\x12\n" +
+	"\x19UndeleteAliasByIdResponse\"\xe0\x01\n" +
+	"\x04User\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x129\n" +
 	"\n" +
 	"created_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
@@ -14308,8 +15248,7 @@ const file_tables_v1_tables_proto_rawDesc = "" +
 	"\n" +
 	"is_deleted\x18\x05 \x01(\bR\tisDeleted\x12\x1f\n" +
 	"\vexternal_id\x18\x06 \x01(\tR\n" +
-	"externalIdB\x05\n" +
-	"\x03_id\"H\n" +
+	"externalId\"H\n" +
 	"\x11CreateUserRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x1f\n" +
 	"\vexternal_id\x18\x02 \x01(\tR\n" +
@@ -15211,19 +16150,23 @@ const file_tables_v1_tables_proto_rawDesc = "" +
 	"\x04data\x18\x01 \x03(\v2\x14.tables.v1.SchemaCatR\x04data\x125\n" +
 	"\n" +
 	"pagination\x18\x02 \x01(\v2\x15.tables.v1.PaginationR\n" +
-	"pagination\"\x82\x01\n" +
+	"pagination\"\xbd\x01\n" +
 	"\x1aUpdateSchemaCatByIdRequest\x12\x1f\n" +
 	"\vdatabase_id\x18\x01 \x01(\x03R\n" +
 	"databaseId\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name\x12\x1f\n" +
-	"\vexternal_id\x18\x03 \x01(\tR\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x129\n" +
+	"\n" +
+	"created_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x12\x1f\n" +
+	"\vexternal_id\x18\x04 \x01(\tR\n" +
 	"externalId\x12\x0e\n" +
-	"\x02id\x18\x04 \x01(\x03R\x02id\"\x1d\n" +
-	"\x1bUpdateSchemaCatByIdResponse\"M\n" +
-	"\x1aDeleteSchemaCatByIdRequest\x12\x1f\n" +
-	"\vexternal_id\x18\x01 \x01(\tR\n" +
+	"\x02id\x18\x05 \x01(\x03R\x02id\"\x1d\n" +
+	"\x1bUpdateSchemaCatByIdResponse\"\x88\x01\n" +
+	"\x1aDeleteSchemaCatByIdRequest\x129\n" +
+	"\n" +
+	"updated_at\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12\x1f\n" +
+	"\vexternal_id\x18\x02 \x01(\tR\n" +
 	"externalId\x12\x0e\n" +
-	"\x02id\x18\x02 \x01(\x03R\x02id\"\x1d\n" +
+	"\x02id\x18\x03 \x01(\x03R\x02id\"\x1d\n" +
 	"\x1bDeleteSchemaCatByIdResponse\"O\n" +
 	"\x1cUndeleteSchemaCatByIdRequest\x12\x1f\n" +
 	"\vexternal_id\x18\x01 \x01(\tR\n" +
@@ -15379,7 +16322,86 @@ const file_tables_v1_tables_proto_rawDesc = "" +
 	"\x1aGetCalculationTypesRequest\x12\x14\n" +
 	"\x05order\x18\x01 \x01(\tR\x05order\"M\n" +
 	"\x1bGetCalculationTypesResponse\x12.\n" +
-	"\x04rows\x18\x01 \x03(\v2\x1a.tables.v1.CalculationTypeR\x04rows2\xec\x04\n" +
+	"\x04rows\x18\x01 \x03(\v2\x1a.tables.v1.CalculationTypeR\x04rows\"\xa3\x02\n" +
+	"\vTablesJoins\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12)\n" +
+	"\x11table_cat_id_left\x18\x02 \x01(\x03R\x0etableCatIdLeft\x12+\n" +
+	"\x12table_cat_id_right\x18\x03 \x01(\x03R\x0ftableCatIdRight\x12\x1d\n" +
+	"\n" +
+	"is_deleted\x18\x04 \x01(\bR\tisDeleted\x129\n" +
+	"\n" +
+	"created_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"\n" +
+	"updated_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12\x17\n" +
+	"\auser_id\x18\a \x01(\x03R\x06userId\"\x93\x01\n" +
+	"\x18CreateTablesJoinsRequest\x12)\n" +
+	"\x11table_cat_id_left\x18\x01 \x01(\x03R\x0etableCatIdLeft\x12+\n" +
+	"\x12table_cat_id_right\x18\x02 \x01(\x03R\x0ftableCatIdRight\x12\x1f\n" +
+	"\vexternal_id\x18\x03 \x01(\tR\n" +
+	"externalId\"V\n" +
+	"\x19CreateTablesJoinsResponse\x129\n" +
+	"\ftables_joins\x18\x01 \x01(\v2\x16.tables.v1.TablesJoinsR\vtablesJoins\"+\n" +
+	"\x19GetTablesJoinsByIdRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\"\x8d\x03\n" +
+	"\x15GetTablesJoinsByIdRow\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12)\n" +
+	"\x11table_cat_id_left\x18\x02 \x01(\x03R\x0etableCatIdLeft\x12+\n" +
+	"\x12table_cat_id_right\x18\x03 \x01(\x03R\x0ftableCatIdRight\x12\x1d\n" +
+	"\n" +
+	"is_deleted\x18\x04 \x01(\bR\tisDeleted\x129\n" +
+	"\n" +
+	"created_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"\n" +
+	"updated_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12\x17\n" +
+	"\auser_id\x18\a \x01(\x03R\x06userId\x12-\n" +
+	"\x13table_cat_left_name\x18\b \x01(\tR\x10tableCatLeftName\x12/\n" +
+	"\x14table_cat_right_name\x18\t \x01(\tR\x11tableCatRightName\"a\n" +
+	"\x1aGetTablesJoinsByIdResponse\x12C\n" +
+	"\ftables_joins\x18\x01 \x01(\v2 .tables.v1.GetTablesJoinsByIdRowR\vtablesJoins\"\xfb\x01\n" +
+	"\x15GetTablesJoinsRequest\x122\n" +
+	"\x13table_cat_left_name\x18\x01 \x01(\tH\x00R\x10tableCatLeftName\x88\x01\x01\x124\n" +
+	"\x14table_cat_right_name\x18\x02 \x01(\tH\x01R\x11tableCatRightName\x88\x01\x01\x12\x14\n" +
+	"\x05order\x18\x03 \x01(\tR\x05order\x12\x1d\n" +
+	"\n" +
+	"page_limit\x18\x04 \x01(\x05R\tpageLimit\x12\x12\n" +
+	"\x04page\x18\x05 \x01(\x05R\x04pageB\x16\n" +
+	"\x14_table_cat_left_nameB\x17\n" +
+	"\x15_table_cat_right_name\"\x89\x03\n" +
+	"\x11GetTablesJoinsRow\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12)\n" +
+	"\x11table_cat_id_left\x18\x02 \x01(\x03R\x0etableCatIdLeft\x12+\n" +
+	"\x12table_cat_id_right\x18\x03 \x01(\x03R\x0ftableCatIdRight\x12\x1d\n" +
+	"\n" +
+	"is_deleted\x18\x04 \x01(\bR\tisDeleted\x129\n" +
+	"\n" +
+	"created_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"\n" +
+	"updated_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12\x17\n" +
+	"\auser_id\x18\a \x01(\x03R\x06userId\x12-\n" +
+	"\x13table_cat_left_name\x18\b \x01(\tR\x10tableCatLeftName\x12/\n" +
+	"\x14table_cat_right_name\x18\t \x01(\tR\x11tableCatRightName\"\x81\x01\n" +
+	"\x16GetTablesJoinsResponse\x120\n" +
+	"\x04data\x18\x01 \x03(\v2\x1c.tables.v1.GetTablesJoinsRowR\x04data\x125\n" +
+	"\n" +
+	"pagination\x18\x02 \x01(\v2\x15.tables.v1.PaginationR\n" +
+	"pagination\"\xc6\x01\n" +
+	"\x1cUpdateTablesJoinsByIdRequest\x12)\n" +
+	"\x11table_cat_id_left\x18\x01 \x01(\x03R\x0etableCatIdLeft\x12+\n" +
+	"\x12table_cat_id_right\x18\x02 \x01(\x03R\x0ftableCatIdRight\x12\x1d\n" +
+	"\n" +
+	"is_deleted\x18\x03 \x01(\bR\tisDeleted\x12\x1f\n" +
+	"\vexternal_id\x18\x04 \x01(\tR\n" +
+	"externalId\x12\x0e\n" +
+	"\x02id\x18\x05 \x01(\x03R\x02id\"\x1f\n" +
+	"\x1dUpdateTablesJoinsByIdResponse\"O\n" +
+	"\x1cDeleteTablesJoinsByIdRequest\x12\x1f\n" +
+	"\vexternal_id\x18\x01 \x01(\tR\n" +
+	"externalId\x12\x0e\n" +
+	"\x02id\x18\x02 \x01(\x03R\x02id\"\x1f\n" +
+	"\x1dDeleteTablesJoinsByIdResponse\"0\n" +
+	"\x1eUndeleteTablesJoinsByIdRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\"!\n" +
+	"\x1fUndeleteTablesJoinsByIdResponse2\xec\x04\n" +
 	"\fAliasService\x12L\n" +
 	"\vCreateAlias\x12\x1d.tables.v1.CreateAliasRequest\x1a\x1e.tables.v1.CreateAliasResponse\x12O\n" +
 	"\fGetAliasById\x12\x1e.tables.v1.GetAliasByIdRequest\x1a\x1f.tables.v1.GetAliasByIdResponse\x12^\n" +
@@ -15515,7 +16537,14 @@ const file_tables_v1_tables_proto_rawDesc = "" +
 	"\x15UndeleteTableTypeById\x12'.tables.v1.UndeleteTableTypeByIdRequest\x1a(.tables.v1.UndeleteTableTypeByIdResponse2\xed\x01\n" +
 	"\x16CalculationTypeService\x12m\n" +
 	"\x16GetCalculationTypeById\x12(.tables.v1.GetCalculationTypeByIdRequest\x1a).tables.v1.GetCalculationTypeByIdResponse\x12d\n" +
-	"\x13GetCalculationTypes\x12%.tables.v1.GetCalculationTypesRequest\x1a&.tables.v1.GetCalculationTypesResponseB^Z\\github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/tables_model/tables/v1;tablesv1b\x06proto3"
+	"\x13GetCalculationTypes\x12%.tables.v1.GetCalculationTypesRequest\x1a&.tables.v1.GetCalculationTypesResponse2\xf8\x04\n" +
+	"\x12TablesJoinsService\x12^\n" +
+	"\x11CreateTablesJoins\x12#.tables.v1.CreateTablesJoinsRequest\x1a$.tables.v1.CreateTablesJoinsResponse\x12a\n" +
+	"\x12GetTablesJoinsById\x12$.tables.v1.GetTablesJoinsByIdRequest\x1a%.tables.v1.GetTablesJoinsByIdResponse\x12U\n" +
+	"\x0eGetTablesJoins\x12 .tables.v1.GetTablesJoinsRequest\x1a!.tables.v1.GetTablesJoinsResponse\x12j\n" +
+	"\x15UpdateTablesJoinsById\x12'.tables.v1.UpdateTablesJoinsByIdRequest\x1a(.tables.v1.UpdateTablesJoinsByIdResponse\x12j\n" +
+	"\x15DeleteTablesJoinsById\x12'.tables.v1.DeleteTablesJoinsByIdRequest\x1a(.tables.v1.DeleteTablesJoinsByIdResponse\x12p\n" +
+	"\x17UndeleteTablesJoinsById\x12).tables.v1.UndeleteTablesJoinsByIdRequest\x1a*.tables.v1.UndeleteTablesJoinsByIdResponseB^Z\\github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/tables_model/tables/v1;tablesv1b\x06proto3"
 
 var (
 	file_tables_v1_tables_proto_rawDescOnce sync.Once
@@ -15529,7 +16558,7 @@ func file_tables_v1_tables_proto_rawDescGZIP() []byte {
 	return file_tables_v1_tables_proto_rawDescData
 }
 
-var file_tables_v1_tables_proto_msgTypes = make([]protoimpl.MessageInfo, 251)
+var file_tables_v1_tables_proto_msgTypes = make([]protoimpl.MessageInfo, 266)
 var file_tables_v1_tables_proto_goTypes = []any{
 	(*Pagination)(nil),                                    // 0: tables.v1.Pagination
 	(*Alias)(nil),                                         // 1: tables.v1.Alias
@@ -15782,25 +16811,40 @@ var file_tables_v1_tables_proto_goTypes = []any{
 	(*GetCalculationTypeByIdResponse)(nil),                // 248: tables.v1.GetCalculationTypeByIdResponse
 	(*GetCalculationTypesRequest)(nil),                    // 249: tables.v1.GetCalculationTypesRequest
 	(*GetCalculationTypesResponse)(nil),                   // 250: tables.v1.GetCalculationTypesResponse
-	(*timestamppb.Timestamp)(nil),                         // 251: google.protobuf.Timestamp
+	(*TablesJoins)(nil),                                   // 251: tables.v1.TablesJoins
+	(*CreateTablesJoinsRequest)(nil),                      // 252: tables.v1.CreateTablesJoinsRequest
+	(*CreateTablesJoinsResponse)(nil),                     // 253: tables.v1.CreateTablesJoinsResponse
+	(*GetTablesJoinsByIdRequest)(nil),                     // 254: tables.v1.GetTablesJoinsByIdRequest
+	(*GetTablesJoinsByIdRow)(nil),                         // 255: tables.v1.GetTablesJoinsByIdRow
+	(*GetTablesJoinsByIdResponse)(nil),                    // 256: tables.v1.GetTablesJoinsByIdResponse
+	(*GetTablesJoinsRequest)(nil),                         // 257: tables.v1.GetTablesJoinsRequest
+	(*GetTablesJoinsRow)(nil),                             // 258: tables.v1.GetTablesJoinsRow
+	(*GetTablesJoinsResponse)(nil),                        // 259: tables.v1.GetTablesJoinsResponse
+	(*UpdateTablesJoinsByIdRequest)(nil),                  // 260: tables.v1.UpdateTablesJoinsByIdRequest
+	(*UpdateTablesJoinsByIdResponse)(nil),                 // 261: tables.v1.UpdateTablesJoinsByIdResponse
+	(*DeleteTablesJoinsByIdRequest)(nil),                  // 262: tables.v1.DeleteTablesJoinsByIdRequest
+	(*DeleteTablesJoinsByIdResponse)(nil),                 // 263: tables.v1.DeleteTablesJoinsByIdResponse
+	(*UndeleteTablesJoinsByIdRequest)(nil),                // 264: tables.v1.UndeleteTablesJoinsByIdRequest
+	(*UndeleteTablesJoinsByIdResponse)(nil),               // 265: tables.v1.UndeleteTablesJoinsByIdResponse
+	(*timestamppb.Timestamp)(nil),                         // 266: google.protobuf.Timestamp
 }
 var file_tables_v1_tables_proto_depIdxs = []int32{
-	251, // 0: tables.v1.Alias.created_at:type_name -> google.protobuf.Timestamp
-	251, // 1: tables.v1.Alias.updated_at:type_name -> google.protobuf.Timestamp
+	266, // 0: tables.v1.Alias.created_at:type_name -> google.protobuf.Timestamp
+	266, // 1: tables.v1.Alias.updated_at:type_name -> google.protobuf.Timestamp
 	1,   // 2: tables.v1.CreateAliasResponse.alias:type_name -> tables.v1.Alias
 	1,   // 3: tables.v1.GetAliasByIdResponse.alias:type_name -> tables.v1.Alias
 	1,   // 4: tables.v1.GetAliasesDeletedResponse.data:type_name -> tables.v1.Alias
 	0,   // 5: tables.v1.GetAliasesDeletedResponse.pagination:type_name -> tables.v1.Pagination
 	1,   // 6: tables.v1.GetAliasesResponse.data:type_name -> tables.v1.Alias
 	0,   // 7: tables.v1.GetAliasesResponse.pagination:type_name -> tables.v1.Pagination
-	251, // 8: tables.v1.User.created_at:type_name -> google.protobuf.Timestamp
-	251, // 9: tables.v1.User.updated_at:type_name -> google.protobuf.Timestamp
+	266, // 8: tables.v1.User.created_at:type_name -> google.protobuf.Timestamp
+	266, // 9: tables.v1.User.updated_at:type_name -> google.protobuf.Timestamp
 	16,  // 10: tables.v1.CreateUserResponse.user:type_name -> tables.v1.User
 	16,  // 11: tables.v1.GetUserByExternalIdResponse.user:type_name -> tables.v1.User
 	16,  // 12: tables.v1.GetUsersResponse.data:type_name -> tables.v1.User
 	0,   // 13: tables.v1.GetUsersResponse.pagination:type_name -> tables.v1.Pagination
-	251, // 14: tables.v1.Host.created_at:type_name -> google.protobuf.Timestamp
-	251, // 15: tables.v1.Host.updated_at:type_name -> google.protobuf.Timestamp
+	266, // 14: tables.v1.Host.created_at:type_name -> google.protobuf.Timestamp
+	266, // 15: tables.v1.Host.updated_at:type_name -> google.protobuf.Timestamp
 	23,  // 16: tables.v1.CreateHostResponse.host:type_name -> tables.v1.Host
 	23,  // 17: tables.v1.GetHostByIdResponse.host:type_name -> tables.v1.Host
 	23,  // 18: tables.v1.GetHostsResponse.data:type_name -> tables.v1.Host
@@ -15809,8 +16853,8 @@ var file_tables_v1_tables_proto_depIdxs = []int32{
 	0,   // 21: tables.v1.GetHostsSearchNameResponse.pagination:type_name -> tables.v1.Pagination
 	23,  // 22: tables.v1.GetHostDeletedResponse.data:type_name -> tables.v1.Host
 	0,   // 23: tables.v1.GetHostDeletedResponse.pagination:type_name -> tables.v1.Pagination
-	251, // 24: tables.v1.DatabaseType.created_at:type_name -> google.protobuf.Timestamp
-	251, // 25: tables.v1.DatabaseType.updated_at:type_name -> google.protobuf.Timestamp
+	266, // 24: tables.v1.DatabaseType.created_at:type_name -> google.protobuf.Timestamp
+	266, // 25: tables.v1.DatabaseType.updated_at:type_name -> google.protobuf.Timestamp
 	40,  // 26: tables.v1.CreateDatabaseTypeResponse.database_type:type_name -> tables.v1.DatabaseType
 	40,  // 27: tables.v1.GetDatabaseTypeByIdResponse.database_type:type_name -> tables.v1.DatabaseType
 	40,  // 28: tables.v1.GetDatabaseTypesSearchNameResponse.data:type_name -> tables.v1.DatabaseType
@@ -15819,8 +16863,8 @@ var file_tables_v1_tables_proto_depIdxs = []int32{
 	0,   // 31: tables.v1.GetDatabaseTypesResponse.pagination:type_name -> tables.v1.Pagination
 	40,  // 32: tables.v1.GetDatabaseTypesDeletedResponse.data:type_name -> tables.v1.DatabaseType
 	0,   // 33: tables.v1.GetDatabaseTypesDeletedResponse.pagination:type_name -> tables.v1.Pagination
-	251, // 34: tables.v1.DatabaseCat.created_at:type_name -> google.protobuf.Timestamp
-	251, // 35: tables.v1.DatabaseCat.updated_at:type_name -> google.protobuf.Timestamp
+	266, // 34: tables.v1.DatabaseCat.created_at:type_name -> google.protobuf.Timestamp
+	266, // 35: tables.v1.DatabaseCat.updated_at:type_name -> google.protobuf.Timestamp
 	57,  // 36: tables.v1.CreateDatabaseCatResponse.database_cat:type_name -> tables.v1.DatabaseCat
 	57,  // 37: tables.v1.GetDatabaseCatByIdResponse.database_cat:type_name -> tables.v1.DatabaseCat
 	57,  // 38: tables.v1.GetDatabaseCatsResponse.data:type_name -> tables.v1.DatabaseCat
@@ -15831,8 +16875,8 @@ var file_tables_v1_tables_proto_depIdxs = []int32{
 	0,   // 43: tables.v1.GetDatabaseCatsByHostIdDatabaseTypeIdResponse.pagination:type_name -> tables.v1.Pagination
 	57,  // 44: tables.v1.GetDatabaseCatsSearchNameResponse.data:type_name -> tables.v1.DatabaseCat
 	0,   // 45: tables.v1.GetDatabaseCatsSearchNameResponse.pagination:type_name -> tables.v1.Pagination
-	251, // 46: tables.v1.ColumnCat.created_at:type_name -> google.protobuf.Timestamp
-	251, // 47: tables.v1.ColumnCat.updated_at:type_name -> google.protobuf.Timestamp
+	266, // 46: tables.v1.ColumnCat.created_at:type_name -> google.protobuf.Timestamp
+	266, // 47: tables.v1.ColumnCat.updated_at:type_name -> google.protobuf.Timestamp
 	76,  // 48: tables.v1.CreateColumnCatResponse.column_cat:type_name -> tables.v1.ColumnCat
 	76,  // 49: tables.v1.GetColumnCatByIdResponse.column_cat:type_name -> tables.v1.ColumnCat
 	76,  // 50: tables.v1.GetColumnCatsResponse.data:type_name -> tables.v1.ColumnCat
@@ -15843,8 +16887,8 @@ var file_tables_v1_tables_proto_depIdxs = []int32{
 	0,   // 55: tables.v1.GetColumnCatsOptionalFiltersResponse.pagination:type_name -> tables.v1.Pagination
 	76,  // 56: tables.v1.GetColumnCatsSearchNameResponse.data:type_name -> tables.v1.ColumnCat
 	0,   // 57: tables.v1.GetColumnCatsSearchNameResponse.pagination:type_name -> tables.v1.Pagination
-	251, // 58: tables.v1.ColumnType.created_at:type_name -> google.protobuf.Timestamp
-	251, // 59: tables.v1.ColumnType.updated_at:type_name -> google.protobuf.Timestamp
+	266, // 58: tables.v1.ColumnType.created_at:type_name -> google.protobuf.Timestamp
+	266, // 59: tables.v1.ColumnType.updated_at:type_name -> google.protobuf.Timestamp
 	95,  // 60: tables.v1.CreateColumnTypeResponse.column_type:type_name -> tables.v1.ColumnType
 	95,  // 61: tables.v1.GetColumnTypeByIdResponse.column_type:type_name -> tables.v1.ColumnType
 	95,  // 62: tables.v1.GetColumnTypesResponse.data:type_name -> tables.v1.ColumnType
@@ -15853,8 +16897,8 @@ var file_tables_v1_tables_proto_depIdxs = []int32{
 	0,   // 65: tables.v1.GetColumnTypesSearchNameResponse.pagination:type_name -> tables.v1.Pagination
 	95,  // 66: tables.v1.GetColumnTypesDeletedResponse.data:type_name -> tables.v1.ColumnType
 	0,   // 67: tables.v1.GetColumnTypesDeletedResponse.pagination:type_name -> tables.v1.Pagination
-	251, // 68: tables.v1.DatabaseCalculation.created_at:type_name -> google.protobuf.Timestamp
-	251, // 69: tables.v1.DatabaseCalculation.updated_at:type_name -> google.protobuf.Timestamp
+	266, // 68: tables.v1.DatabaseCalculation.created_at:type_name -> google.protobuf.Timestamp
+	266, // 69: tables.v1.DatabaseCalculation.updated_at:type_name -> google.protobuf.Timestamp
 	112, // 70: tables.v1.CreateDatabaseCalculationResponse.database_calculation:type_name -> tables.v1.DatabaseCalculation
 	112, // 71: tables.v1.GetDatabaseCalculationsSearchNameResponse.data:type_name -> tables.v1.DatabaseCalculation
 	0,   // 72: tables.v1.GetDatabaseCalculationsSearchNameResponse.pagination:type_name -> tables.v1.Pagination
@@ -15865,8 +16909,8 @@ var file_tables_v1_tables_proto_depIdxs = []int32{
 	0,   // 77: tables.v1.GetDatabaseCalculationsDeletedResponse.pagination:type_name -> tables.v1.Pagination
 	112, // 78: tables.v1.GetDatabaseCalculationsResponse.data:type_name -> tables.v1.DatabaseCalculation
 	0,   // 79: tables.v1.GetDatabaseCalculationsResponse.pagination:type_name -> tables.v1.Pagination
-	251, // 80: tables.v1.DomainCat.created_at:type_name -> google.protobuf.Timestamp
-	251, // 81: tables.v1.DomainCat.updated_at:type_name -> google.protobuf.Timestamp
+	266, // 80: tables.v1.DomainCat.created_at:type_name -> google.protobuf.Timestamp
+	266, // 81: tables.v1.DomainCat.updated_at:type_name -> google.protobuf.Timestamp
 	131, // 82: tables.v1.CreateDomainCatResponse.domain_cat:type_name -> tables.v1.DomainCat
 	131, // 83: tables.v1.GetDomainCatsSearchNameResponse.data:type_name -> tables.v1.DomainCat
 	0,   // 84: tables.v1.GetDomainCatsSearchNameResponse.pagination:type_name -> tables.v1.Pagination
@@ -15875,8 +16919,8 @@ var file_tables_v1_tables_proto_depIdxs = []int32{
 	0,   // 87: tables.v1.GetDomainCatsResponse.pagination:type_name -> tables.v1.Pagination
 	131, // 88: tables.v1.GetDomainCatsDeletedResponse.data:type_name -> tables.v1.DomainCat
 	0,   // 89: tables.v1.GetDomainCatsDeletedResponse.pagination:type_name -> tables.v1.Pagination
-	251, // 90: tables.v1.FollowingCalculation.created_at:type_name -> google.protobuf.Timestamp
-	251, // 91: tables.v1.FollowingCalculation.updated_at:type_name -> google.protobuf.Timestamp
+	266, // 90: tables.v1.FollowingCalculation.created_at:type_name -> google.protobuf.Timestamp
+	266, // 91: tables.v1.FollowingCalculation.updated_at:type_name -> google.protobuf.Timestamp
 	148, // 92: tables.v1.CreateFollowingCalculationResponse.following_calculation:type_name -> tables.v1.FollowingCalculation
 	148, // 93: tables.v1.GetFollowingCalculationByIdResponse.following_calculation:type_name -> tables.v1.FollowingCalculation
 	148, // 94: tables.v1.GetFollowingCalculationsResponse.data:type_name -> tables.v1.FollowingCalculation
@@ -15885,8 +16929,8 @@ var file_tables_v1_tables_proto_depIdxs = []int32{
 	0,   // 97: tables.v1.GetFollowingCalculationsDeletedResponse.pagination:type_name -> tables.v1.Pagination
 	148, // 98: tables.v1.GetFollowingCalculationsFiltersResponse.data:type_name -> tables.v1.FollowingCalculation
 	0,   // 99: tables.v1.GetFollowingCalculationsFiltersResponse.pagination:type_name -> tables.v1.Pagination
-	251, // 100: tables.v1.GroupLevels.created_at:type_name -> google.protobuf.Timestamp
-	251, // 101: tables.v1.GroupLevels.updated_at:type_name -> google.protobuf.Timestamp
+	266, // 100: tables.v1.GroupLevels.created_at:type_name -> google.protobuf.Timestamp
+	266, // 101: tables.v1.GroupLevels.updated_at:type_name -> google.protobuf.Timestamp
 	165, // 102: tables.v1.CreateGroupLevelsResponse.group_levels:type_name -> tables.v1.GroupLevels
 	165, // 103: tables.v1.GetGroupLevelsSearchNameResponse.data:type_name -> tables.v1.GroupLevels
 	0,   // 104: tables.v1.GetGroupLevelsSearchNameResponse.pagination:type_name -> tables.v1.Pagination
@@ -15896,8 +16940,8 @@ var file_tables_v1_tables_proto_depIdxs = []int32{
 	165, // 108: tables.v1.GetGroupLevelsFilteredResponse.data:type_name -> tables.v1.GroupLevels
 	0,   // 109: tables.v1.GetGroupLevelsFilteredResponse.pagination:type_name -> tables.v1.Pagination
 	165, // 110: tables.v1.GetGroupLevelsDeletedResponse.rows:type_name -> tables.v1.GroupLevels
-	251, // 111: tables.v1.HasToGroup.created_at:type_name -> google.protobuf.Timestamp
-	251, // 112: tables.v1.HasToGroup.updated_at:type_name -> google.protobuf.Timestamp
+	266, // 111: tables.v1.HasToGroup.created_at:type_name -> google.protobuf.Timestamp
+	266, // 112: tables.v1.HasToGroup.updated_at:type_name -> google.protobuf.Timestamp
 	184, // 113: tables.v1.CreateHasToGroupResponse.has_to_group:type_name -> tables.v1.HasToGroup
 	184, // 114: tables.v1.GetHasToGroupByIdResponse.has_to_group:type_name -> tables.v1.HasToGroup
 	184, // 115: tables.v1.GetHasToGroupsSearchNameResponse.data:type_name -> tables.v1.HasToGroup
@@ -15906,273 +16950,297 @@ var file_tables_v1_tables_proto_depIdxs = []int32{
 	0,   // 118: tables.v1.GetHasToGroupsResponse.pagination:type_name -> tables.v1.Pagination
 	184, // 119: tables.v1.GetHasToGroupsDeletedResponse.data:type_name -> tables.v1.HasToGroup
 	0,   // 120: tables.v1.GetHasToGroupsDeletedResponse.pagination:type_name -> tables.v1.Pagination
-	251, // 121: tables.v1.SchemaCat.created_at:type_name -> google.protobuf.Timestamp
-	251, // 122: tables.v1.SchemaCat.updated_at:type_name -> google.protobuf.Timestamp
+	266, // 121: tables.v1.SchemaCat.created_at:type_name -> google.protobuf.Timestamp
+	266, // 122: tables.v1.SchemaCat.updated_at:type_name -> google.protobuf.Timestamp
 	201, // 123: tables.v1.CreateSchemaCatResponse.schema_cat:type_name -> tables.v1.SchemaCat
 	201, // 124: tables.v1.GetSchemaCatByIdResponse.schema_cat:type_name -> tables.v1.SchemaCat
 	201, // 125: tables.v1.GetSchemaCatsResponse.data:type_name -> tables.v1.SchemaCat
 	0,   // 126: tables.v1.GetSchemaCatsResponse.pagination:type_name -> tables.v1.Pagination
 	201, // 127: tables.v1.GetSchemaCatsDeletedResponse.data:type_name -> tables.v1.SchemaCat
 	0,   // 128: tables.v1.GetSchemaCatsDeletedResponse.pagination:type_name -> tables.v1.Pagination
-	251, // 129: tables.v1.TableCat.created_at:type_name -> google.protobuf.Timestamp
-	251, // 130: tables.v1.TableCat.updated_at:type_name -> google.protobuf.Timestamp
-	216, // 131: tables.v1.CreateTableCatResponse.table_cat:type_name -> tables.v1.TableCat
-	216, // 132: tables.v1.GetTableCatByIdResponse.table_cat:type_name -> tables.v1.TableCat
-	216, // 133: tables.v1.GetTableCatsResponse.data:type_name -> tables.v1.TableCat
-	0,   // 134: tables.v1.GetTableCatsResponse.pagination:type_name -> tables.v1.Pagination
-	216, // 135: tables.v1.GetTableCatsDeletedResponse.data:type_name -> tables.v1.TableCat
-	0,   // 136: tables.v1.GetTableCatsDeletedResponse.pagination:type_name -> tables.v1.Pagination
-	251, // 137: tables.v1.TableType.created_at:type_name -> google.protobuf.Timestamp
-	251, // 138: tables.v1.TableType.updated_at:type_name -> google.protobuf.Timestamp
-	231, // 139: tables.v1.CreateTableTypeResponse.table_type:type_name -> tables.v1.TableType
-	231, // 140: tables.v1.GetTableTypeByIdResponse.table_type:type_name -> tables.v1.TableType
-	231, // 141: tables.v1.GetTableTypesResponse.data:type_name -> tables.v1.TableType
-	0,   // 142: tables.v1.GetTableTypesResponse.pagination:type_name -> tables.v1.Pagination
-	231, // 143: tables.v1.GetTableTypesDeletedResponse.data:type_name -> tables.v1.TableType
-	0,   // 144: tables.v1.GetTableTypesDeletedResponse.pagination:type_name -> tables.v1.Pagination
-	251, // 145: tables.v1.CalculationType.created_at:type_name -> google.protobuf.Timestamp
-	251, // 146: tables.v1.CalculationType.updated_at:type_name -> google.protobuf.Timestamp
-	246, // 147: tables.v1.GetCalculationTypeByIdResponse.calculation_type:type_name -> tables.v1.CalculationType
-	246, // 148: tables.v1.GetCalculationTypesResponse.rows:type_name -> tables.v1.CalculationType
-	2,   // 149: tables.v1.AliasService.CreateAlias:input_type -> tables.v1.CreateAliasRequest
-	4,   // 150: tables.v1.AliasService.GetAliasById:input_type -> tables.v1.GetAliasByIdRequest
-	6,   // 151: tables.v1.AliasService.GetAliasesDeleted:input_type -> tables.v1.GetAliasesDeletedRequest
-	8,   // 152: tables.v1.AliasService.GetAliases:input_type -> tables.v1.GetAliasesRequest
-	10,  // 153: tables.v1.AliasService.UpdateAliasById:input_type -> tables.v1.UpdateAliasByIdRequest
-	12,  // 154: tables.v1.AliasService.DeleteAliasById:input_type -> tables.v1.DeleteAliasByIdRequest
-	14,  // 155: tables.v1.AliasService.UndeleteAliasById:input_type -> tables.v1.UndeleteAliasByIdRequest
-	17,  // 156: tables.v1.UserService.CreateUser:input_type -> tables.v1.CreateUserRequest
-	19,  // 157: tables.v1.UserService.GetUserByExternalId:input_type -> tables.v1.GetUserByExternalIdRequest
-	21,  // 158: tables.v1.UserService.GetUsers:input_type -> tables.v1.GetUsersRequest
-	24,  // 159: tables.v1.HostService.CreateHost:input_type -> tables.v1.CreateHostRequest
-	26,  // 160: tables.v1.HostService.GetHostById:input_type -> tables.v1.GetHostByIdRequest
-	28,  // 161: tables.v1.HostService.GetHosts:input_type -> tables.v1.GetHostsRequest
-	30,  // 162: tables.v1.HostService.GetHostsSearchName:input_type -> tables.v1.GetHostsSearchNameRequest
-	32,  // 163: tables.v1.HostService.GetHostDeleted:input_type -> tables.v1.GetHostDeletedRequest
-	34,  // 164: tables.v1.HostService.UpdateHostById:input_type -> tables.v1.UpdateHostByIdRequest
-	36,  // 165: tables.v1.HostService.DeleteHostById:input_type -> tables.v1.DeleteHostByIdRequest
-	38,  // 166: tables.v1.HostService.UndeleteHostById:input_type -> tables.v1.UndeleteHostByIdRequest
-	41,  // 167: tables.v1.DatabaseTypeService.CreateDatabaseType:input_type -> tables.v1.CreateDatabaseTypeRequest
-	43,  // 168: tables.v1.DatabaseTypeService.GetDatabaseTypeById:input_type -> tables.v1.GetDatabaseTypeByIdRequest
-	45,  // 169: tables.v1.DatabaseTypeService.GetDatabaseTypesSearchName:input_type -> tables.v1.GetDatabaseTypesSearchNameRequest
-	47,  // 170: tables.v1.DatabaseTypeService.GetDatabaseTypes:input_type -> tables.v1.GetDatabaseTypesRequest
-	49,  // 171: tables.v1.DatabaseTypeService.GetDatabaseTypesDeleted:input_type -> tables.v1.GetDatabaseTypesDeletedRequest
-	51,  // 172: tables.v1.DatabaseTypeService.UpdateDatabaseTypeById:input_type -> tables.v1.UpdateDatabaseTypeByIdRequest
-	53,  // 173: tables.v1.DatabaseTypeService.DeleteDatabaseTypeById:input_type -> tables.v1.DeleteDatabaseTypeByIdRequest
-	55,  // 174: tables.v1.DatabaseTypeService.UndeleteDatabaseTypeById:input_type -> tables.v1.UndeleteDatabaseTypeByIdRequest
-	58,  // 175: tables.v1.DatabaseCatService.CreateDatabaseCat:input_type -> tables.v1.CreateDatabaseCatRequest
-	60,  // 176: tables.v1.DatabaseCatService.GetDatabaseCatById:input_type -> tables.v1.GetDatabaseCatByIdRequest
-	62,  // 177: tables.v1.DatabaseCatService.GetDatabaseCats:input_type -> tables.v1.GetDatabaseCatsRequest
-	64,  // 178: tables.v1.DatabaseCatService.GetDatabaseCatsDeleted:input_type -> tables.v1.GetDatabaseCatsDeletedRequest
-	66,  // 179: tables.v1.DatabaseCatService.GetDatabaseCatsByHostIdDatabaseTypeId:input_type -> tables.v1.GetDatabaseCatsByHostIdDatabaseTypeIdRequest
-	68,  // 180: tables.v1.DatabaseCatService.GetDatabaseCatsSearchName:input_type -> tables.v1.GetDatabaseCatsSearchNameRequest
-	70,  // 181: tables.v1.DatabaseCatService.UpdateDatabaseCatById:input_type -> tables.v1.UpdateDatabaseCatByIdRequest
-	72,  // 182: tables.v1.DatabaseCatService.DeleteDatabaseCatById:input_type -> tables.v1.DeleteDatabaseCatByIdRequest
-	74,  // 183: tables.v1.DatabaseCatService.UndeleteDatabaseCatById:input_type -> tables.v1.UndeleteDatabaseCatByIdRequest
-	77,  // 184: tables.v1.ColumnCatService.CreateColumnCat:input_type -> tables.v1.CreateColumnCatRequest
-	79,  // 185: tables.v1.ColumnCatService.GetColumnCatById:input_type -> tables.v1.GetColumnCatByIdRequest
-	81,  // 186: tables.v1.ColumnCatService.GetColumnCats:input_type -> tables.v1.GetColumnCatsRequest
-	83,  // 187: tables.v1.ColumnCatService.GetColumnCatsDeleted:input_type -> tables.v1.GetColumnCatsDeletedRequest
-	85,  // 188: tables.v1.ColumnCatService.GetColumnCatsOptionalFilters:input_type -> tables.v1.GetColumnCatsOptionalFiltersRequest
-	87,  // 189: tables.v1.ColumnCatService.GetColumnCatsSearchName:input_type -> tables.v1.GetColumnCatsSearchNameRequest
-	89,  // 190: tables.v1.ColumnCatService.UpdateColumnCatById:input_type -> tables.v1.UpdateColumnCatByIdRequest
-	91,  // 191: tables.v1.ColumnCatService.DeleteColumnCatById:input_type -> tables.v1.DeleteColumnCatByIdRequest
-	93,  // 192: tables.v1.ColumnCatService.UndeleteColumnCatById:input_type -> tables.v1.UndeleteColumnCatByIdRequest
-	96,  // 193: tables.v1.ColumnTypeService.CreateColumnType:input_type -> tables.v1.CreateColumnTypeRequest
-	98,  // 194: tables.v1.ColumnTypeService.GetColumnTypeById:input_type -> tables.v1.GetColumnTypeByIdRequest
-	100, // 195: tables.v1.ColumnTypeService.GetColumnTypes:input_type -> tables.v1.GetColumnTypesRequest
-	102, // 196: tables.v1.ColumnTypeService.GetColumnTypesSearchName:input_type -> tables.v1.GetColumnTypesSearchNameRequest
-	104, // 197: tables.v1.ColumnTypeService.GetColumnTypesDeleted:input_type -> tables.v1.GetColumnTypesDeletedRequest
-	106, // 198: tables.v1.ColumnTypeService.UpdateColumnTypeById:input_type -> tables.v1.UpdateColumnTypeByIdRequest
-	108, // 199: tables.v1.ColumnTypeService.DeleteColumnTypeById:input_type -> tables.v1.DeleteColumnTypeByIdRequest
-	110, // 200: tables.v1.ColumnTypeService.UndeleteColumnTypeById:input_type -> tables.v1.UndeleteColumnTypeByIdRequest
-	113, // 201: tables.v1.DatabaseCalculationService.CreateDatabaseCalculation:input_type -> tables.v1.CreateDatabaseCalculationRequest
-	115, // 202: tables.v1.DatabaseCalculationService.GetDatabaseCalculationsSearchName:input_type -> tables.v1.GetDatabaseCalculationsSearchNameRequest
-	117, // 203: tables.v1.DatabaseCalculationService.GetDatabaseCalculationById:input_type -> tables.v1.GetDatabaseCalculationByIdRequest
-	119, // 204: tables.v1.DatabaseCalculationService.GetDatabaseCalculationsFiltered:input_type -> tables.v1.GetDatabaseCalculationsFilteredRequest
-	121, // 205: tables.v1.DatabaseCalculationService.GetDatabaseCalculationsDeleted:input_type -> tables.v1.GetDatabaseCalculationsDeletedRequest
-	123, // 206: tables.v1.DatabaseCalculationService.GetDatabaseCalculations:input_type -> tables.v1.GetDatabaseCalculationsRequest
-	125, // 207: tables.v1.DatabaseCalculationService.UpdateDatabaseCalculationById:input_type -> tables.v1.UpdateDatabaseCalculationByIdRequest
-	127, // 208: tables.v1.DatabaseCalculationService.DeleteDatabaseCalculationById:input_type -> tables.v1.DeleteDatabaseCalculationByIdRequest
-	129, // 209: tables.v1.DatabaseCalculationService.UndeleteDatabaseCalculationById:input_type -> tables.v1.UndeleteDatabaseCalculationByIdRequest
-	132, // 210: tables.v1.DomainCatService.CreateDomainCat:input_type -> tables.v1.CreateDomainCatRequest
-	134, // 211: tables.v1.DomainCatService.GetDomainCatsSearchName:input_type -> tables.v1.GetDomainCatsSearchNameRequest
-	136, // 212: tables.v1.DomainCatService.GetDomainCatById:input_type -> tables.v1.GetDomainCatByIdRequest
-	138, // 213: tables.v1.DomainCatService.GetDomainCats:input_type -> tables.v1.GetDomainCatsRequest
-	140, // 214: tables.v1.DomainCatService.GetDomainCatsDeleted:input_type -> tables.v1.GetDomainCatsDeletedRequest
-	142, // 215: tables.v1.DomainCatService.UpdateDomainCatById:input_type -> tables.v1.UpdateDomainCatByIdRequest
-	144, // 216: tables.v1.DomainCatService.DeleteDomainCatById:input_type -> tables.v1.DeleteDomainCatByIdRequest
-	146, // 217: tables.v1.DomainCatService.UndeleteDomainCatById:input_type -> tables.v1.UndeleteDomainCatByIdRequest
-	149, // 218: tables.v1.FollowingCalculationService.CreateFollowingCalculation:input_type -> tables.v1.CreateFollowingCalculationRequest
-	151, // 219: tables.v1.FollowingCalculationService.GetFollowingCalculationById:input_type -> tables.v1.GetFollowingCalculationByIdRequest
-	153, // 220: tables.v1.FollowingCalculationService.GetFollowingCalculations:input_type -> tables.v1.GetFollowingCalculationsRequest
-	155, // 221: tables.v1.FollowingCalculationService.GetFollowingCalculationsDeleted:input_type -> tables.v1.GetFollowingCalculationsDeletedRequest
-	157, // 222: tables.v1.FollowingCalculationService.GetFollowingCalculationsFilters:input_type -> tables.v1.GetFollowingCalculationsFiltersRequest
-	159, // 223: tables.v1.FollowingCalculationService.UpdateFollowingCalculationById:input_type -> tables.v1.UpdateFollowingCalculationByIdRequest
-	161, // 224: tables.v1.FollowingCalculationService.DeleteFollowingCalculationById:input_type -> tables.v1.DeleteFollowingCalculationByIdRequest
-	163, // 225: tables.v1.FollowingCalculationService.UndeleteFollowingCalculationById:input_type -> tables.v1.UndeleteFollowingCalculationByIdRequest
-	166, // 226: tables.v1.GroupLevelsService.CreateGroupLevels:input_type -> tables.v1.CreateGroupLevelsRequest
-	168, // 227: tables.v1.GroupLevelsService.GetGroupLevelsSearchName:input_type -> tables.v1.GetGroupLevelsSearchNameRequest
-	170, // 228: tables.v1.GroupLevelsService.GetGroupLevels:input_type -> tables.v1.GetGroupLevelsRequest
-	172, // 229: tables.v1.GroupLevelsService.GetGroupLevelsById:input_type -> tables.v1.GetGroupLevelsByIdRequest
-	174, // 230: tables.v1.GroupLevelsService.GetGroupLevelsFiltered:input_type -> tables.v1.GetGroupLevelsFilteredRequest
-	176, // 231: tables.v1.GroupLevelsService.GetGroupLevelsDeleted:input_type -> tables.v1.GetGroupLevelsDeletedRequest
-	178, // 232: tables.v1.GroupLevelsService.UpdateGroupLevelsById:input_type -> tables.v1.UpdateGroupLevelsByIdRequest
-	180, // 233: tables.v1.GroupLevelsService.DeleteGroupLevelsById:input_type -> tables.v1.DeleteGroupLevelsByIdRequest
-	182, // 234: tables.v1.GroupLevelsService.UndeleteGroupLevelsById:input_type -> tables.v1.UndeleteGroupLevelsByIdRequest
-	185, // 235: tables.v1.HasToGroupService.CreateHasToGroup:input_type -> tables.v1.CreateHasToGroupRequest
-	187, // 236: tables.v1.HasToGroupService.GetHasToGroupById:input_type -> tables.v1.GetHasToGroupByIdRequest
-	189, // 237: tables.v1.HasToGroupService.GetHasToGroupsSearchName:input_type -> tables.v1.GetHasToGroupsSearchNameRequest
-	191, // 238: tables.v1.HasToGroupService.GetHasToGroups:input_type -> tables.v1.GetHasToGroupsRequest
-	193, // 239: tables.v1.HasToGroupService.GetHasToGroupsDeleted:input_type -> tables.v1.GetHasToGroupsDeletedRequest
-	195, // 240: tables.v1.HasToGroupService.UpdateHasToGroupById:input_type -> tables.v1.UpdateHasToGroupByIdRequest
-	197, // 241: tables.v1.HasToGroupService.DeleteHasToGroupById:input_type -> tables.v1.DeleteHasToGroupByIdRequest
-	199, // 242: tables.v1.HasToGroupService.UndeleteHasToGroupById:input_type -> tables.v1.UndeleteHasToGroupByIdRequest
-	202, // 243: tables.v1.SchemaCatService.CreateSchemaCat:input_type -> tables.v1.CreateSchemaCatRequest
-	204, // 244: tables.v1.SchemaCatService.GetSchemaCatById:input_type -> tables.v1.GetSchemaCatByIdRequest
-	206, // 245: tables.v1.SchemaCatService.GetSchemaCats:input_type -> tables.v1.GetSchemaCatsRequest
-	208, // 246: tables.v1.SchemaCatService.GetSchemaCatsDeleted:input_type -> tables.v1.GetSchemaCatsDeletedRequest
-	210, // 247: tables.v1.SchemaCatService.UpdateSchemaCatById:input_type -> tables.v1.UpdateSchemaCatByIdRequest
-	212, // 248: tables.v1.SchemaCatService.DeleteSchemaCatById:input_type -> tables.v1.DeleteSchemaCatByIdRequest
-	214, // 249: tables.v1.SchemaCatService.UndeleteSchemaCatById:input_type -> tables.v1.UndeleteSchemaCatByIdRequest
-	217, // 250: tables.v1.TableCatService.CreateTableCat:input_type -> tables.v1.CreateTableCatRequest
-	219, // 251: tables.v1.TableCatService.GetTableCatById:input_type -> tables.v1.GetTableCatByIdRequest
-	221, // 252: tables.v1.TableCatService.GetTableCats:input_type -> tables.v1.GetTableCatsRequest
-	223, // 253: tables.v1.TableCatService.GetTableCatsDeleted:input_type -> tables.v1.GetTableCatsDeletedRequest
-	225, // 254: tables.v1.TableCatService.UpdateTableCatById:input_type -> tables.v1.UpdateTableCatByIdRequest
-	227, // 255: tables.v1.TableCatService.DeleteTableCatById:input_type -> tables.v1.DeleteTableCatByIdRequest
-	229, // 256: tables.v1.TableCatService.UndeleteTableCatById:input_type -> tables.v1.UndeleteTableCatByIdRequest
-	232, // 257: tables.v1.TableTypeService.CreateTableType:input_type -> tables.v1.CreateTableTypeRequest
-	234, // 258: tables.v1.TableTypeService.GetTableTypeById:input_type -> tables.v1.GetTableTypeByIdRequest
-	236, // 259: tables.v1.TableTypeService.GetTableTypes:input_type -> tables.v1.GetTableTypesRequest
-	238, // 260: tables.v1.TableTypeService.GetTableTypesDeleted:input_type -> tables.v1.GetTableTypesDeletedRequest
-	240, // 261: tables.v1.TableTypeService.UpdateTableTypeById:input_type -> tables.v1.UpdateTableTypeByIdRequest
-	242, // 262: tables.v1.TableTypeService.DeleteTableTypeById:input_type -> tables.v1.DeleteTableTypeByIdRequest
-	244, // 263: tables.v1.TableTypeService.UndeleteTableTypeById:input_type -> tables.v1.UndeleteTableTypeByIdRequest
-	247, // 264: tables.v1.CalculationTypeService.GetCalculationTypeById:input_type -> tables.v1.GetCalculationTypeByIdRequest
-	249, // 265: tables.v1.CalculationTypeService.GetCalculationTypes:input_type -> tables.v1.GetCalculationTypesRequest
-	3,   // 266: tables.v1.AliasService.CreateAlias:output_type -> tables.v1.CreateAliasResponse
-	5,   // 267: tables.v1.AliasService.GetAliasById:output_type -> tables.v1.GetAliasByIdResponse
-	7,   // 268: tables.v1.AliasService.GetAliasesDeleted:output_type -> tables.v1.GetAliasesDeletedResponse
-	9,   // 269: tables.v1.AliasService.GetAliases:output_type -> tables.v1.GetAliasesResponse
-	11,  // 270: tables.v1.AliasService.UpdateAliasById:output_type -> tables.v1.UpdateAliasByIdResponse
-	13,  // 271: tables.v1.AliasService.DeleteAliasById:output_type -> tables.v1.DeleteAliasByIdResponse
-	15,  // 272: tables.v1.AliasService.UndeleteAliasById:output_type -> tables.v1.UndeleteAliasByIdResponse
-	18,  // 273: tables.v1.UserService.CreateUser:output_type -> tables.v1.CreateUserResponse
-	20,  // 274: tables.v1.UserService.GetUserByExternalId:output_type -> tables.v1.GetUserByExternalIdResponse
-	22,  // 275: tables.v1.UserService.GetUsers:output_type -> tables.v1.GetUsersResponse
-	25,  // 276: tables.v1.HostService.CreateHost:output_type -> tables.v1.CreateHostResponse
-	27,  // 277: tables.v1.HostService.GetHostById:output_type -> tables.v1.GetHostByIdResponse
-	29,  // 278: tables.v1.HostService.GetHosts:output_type -> tables.v1.GetHostsResponse
-	31,  // 279: tables.v1.HostService.GetHostsSearchName:output_type -> tables.v1.GetHostsSearchNameResponse
-	33,  // 280: tables.v1.HostService.GetHostDeleted:output_type -> tables.v1.GetHostDeletedResponse
-	35,  // 281: tables.v1.HostService.UpdateHostById:output_type -> tables.v1.UpdateHostByIdResponse
-	37,  // 282: tables.v1.HostService.DeleteHostById:output_type -> tables.v1.DeleteHostByIdResponse
-	39,  // 283: tables.v1.HostService.UndeleteHostById:output_type -> tables.v1.UndeleteHostByIdResponse
-	42,  // 284: tables.v1.DatabaseTypeService.CreateDatabaseType:output_type -> tables.v1.CreateDatabaseTypeResponse
-	44,  // 285: tables.v1.DatabaseTypeService.GetDatabaseTypeById:output_type -> tables.v1.GetDatabaseTypeByIdResponse
-	46,  // 286: tables.v1.DatabaseTypeService.GetDatabaseTypesSearchName:output_type -> tables.v1.GetDatabaseTypesSearchNameResponse
-	48,  // 287: tables.v1.DatabaseTypeService.GetDatabaseTypes:output_type -> tables.v1.GetDatabaseTypesResponse
-	50,  // 288: tables.v1.DatabaseTypeService.GetDatabaseTypesDeleted:output_type -> tables.v1.GetDatabaseTypesDeletedResponse
-	52,  // 289: tables.v1.DatabaseTypeService.UpdateDatabaseTypeById:output_type -> tables.v1.UpdateDatabaseTypeByIdResponse
-	54,  // 290: tables.v1.DatabaseTypeService.DeleteDatabaseTypeById:output_type -> tables.v1.DeleteDatabaseTypeByIdResponse
-	56,  // 291: tables.v1.DatabaseTypeService.UndeleteDatabaseTypeById:output_type -> tables.v1.UndeleteDatabaseTypeByIdResponse
-	59,  // 292: tables.v1.DatabaseCatService.CreateDatabaseCat:output_type -> tables.v1.CreateDatabaseCatResponse
-	61,  // 293: tables.v1.DatabaseCatService.GetDatabaseCatById:output_type -> tables.v1.GetDatabaseCatByIdResponse
-	63,  // 294: tables.v1.DatabaseCatService.GetDatabaseCats:output_type -> tables.v1.GetDatabaseCatsResponse
-	65,  // 295: tables.v1.DatabaseCatService.GetDatabaseCatsDeleted:output_type -> tables.v1.GetDatabaseCatsDeletedResponse
-	67,  // 296: tables.v1.DatabaseCatService.GetDatabaseCatsByHostIdDatabaseTypeId:output_type -> tables.v1.GetDatabaseCatsByHostIdDatabaseTypeIdResponse
-	69,  // 297: tables.v1.DatabaseCatService.GetDatabaseCatsSearchName:output_type -> tables.v1.GetDatabaseCatsSearchNameResponse
-	71,  // 298: tables.v1.DatabaseCatService.UpdateDatabaseCatById:output_type -> tables.v1.UpdateDatabaseCatByIdResponse
-	73,  // 299: tables.v1.DatabaseCatService.DeleteDatabaseCatById:output_type -> tables.v1.DeleteDatabaseCatByIdResponse
-	75,  // 300: tables.v1.DatabaseCatService.UndeleteDatabaseCatById:output_type -> tables.v1.UndeleteDatabaseCatByIdResponse
-	78,  // 301: tables.v1.ColumnCatService.CreateColumnCat:output_type -> tables.v1.CreateColumnCatResponse
-	80,  // 302: tables.v1.ColumnCatService.GetColumnCatById:output_type -> tables.v1.GetColumnCatByIdResponse
-	82,  // 303: tables.v1.ColumnCatService.GetColumnCats:output_type -> tables.v1.GetColumnCatsResponse
-	84,  // 304: tables.v1.ColumnCatService.GetColumnCatsDeleted:output_type -> tables.v1.GetColumnCatsDeletedResponse
-	86,  // 305: tables.v1.ColumnCatService.GetColumnCatsOptionalFilters:output_type -> tables.v1.GetColumnCatsOptionalFiltersResponse
-	88,  // 306: tables.v1.ColumnCatService.GetColumnCatsSearchName:output_type -> tables.v1.GetColumnCatsSearchNameResponse
-	90,  // 307: tables.v1.ColumnCatService.UpdateColumnCatById:output_type -> tables.v1.UpdateColumnCatByIdResponse
-	92,  // 308: tables.v1.ColumnCatService.DeleteColumnCatById:output_type -> tables.v1.DeleteColumnCatByIdResponse
-	94,  // 309: tables.v1.ColumnCatService.UndeleteColumnCatById:output_type -> tables.v1.UndeleteColumnCatByIdResponse
-	97,  // 310: tables.v1.ColumnTypeService.CreateColumnType:output_type -> tables.v1.CreateColumnTypeResponse
-	99,  // 311: tables.v1.ColumnTypeService.GetColumnTypeById:output_type -> tables.v1.GetColumnTypeByIdResponse
-	101, // 312: tables.v1.ColumnTypeService.GetColumnTypes:output_type -> tables.v1.GetColumnTypesResponse
-	103, // 313: tables.v1.ColumnTypeService.GetColumnTypesSearchName:output_type -> tables.v1.GetColumnTypesSearchNameResponse
-	105, // 314: tables.v1.ColumnTypeService.GetColumnTypesDeleted:output_type -> tables.v1.GetColumnTypesDeletedResponse
-	107, // 315: tables.v1.ColumnTypeService.UpdateColumnTypeById:output_type -> tables.v1.UpdateColumnTypeByIdResponse
-	109, // 316: tables.v1.ColumnTypeService.DeleteColumnTypeById:output_type -> tables.v1.DeleteColumnTypeByIdResponse
-	111, // 317: tables.v1.ColumnTypeService.UndeleteColumnTypeById:output_type -> tables.v1.UndeleteColumnTypeByIdResponse
-	114, // 318: tables.v1.DatabaseCalculationService.CreateDatabaseCalculation:output_type -> tables.v1.CreateDatabaseCalculationResponse
-	116, // 319: tables.v1.DatabaseCalculationService.GetDatabaseCalculationsSearchName:output_type -> tables.v1.GetDatabaseCalculationsSearchNameResponse
-	118, // 320: tables.v1.DatabaseCalculationService.GetDatabaseCalculationById:output_type -> tables.v1.GetDatabaseCalculationByIdResponse
-	120, // 321: tables.v1.DatabaseCalculationService.GetDatabaseCalculationsFiltered:output_type -> tables.v1.GetDatabaseCalculationsFilteredResponse
-	122, // 322: tables.v1.DatabaseCalculationService.GetDatabaseCalculationsDeleted:output_type -> tables.v1.GetDatabaseCalculationsDeletedResponse
-	124, // 323: tables.v1.DatabaseCalculationService.GetDatabaseCalculations:output_type -> tables.v1.GetDatabaseCalculationsResponse
-	126, // 324: tables.v1.DatabaseCalculationService.UpdateDatabaseCalculationById:output_type -> tables.v1.UpdateDatabaseCalculationByIdResponse
-	128, // 325: tables.v1.DatabaseCalculationService.DeleteDatabaseCalculationById:output_type -> tables.v1.DeleteDatabaseCalculationByIdResponse
-	130, // 326: tables.v1.DatabaseCalculationService.UndeleteDatabaseCalculationById:output_type -> tables.v1.UndeleteDatabaseCalculationByIdResponse
-	133, // 327: tables.v1.DomainCatService.CreateDomainCat:output_type -> tables.v1.CreateDomainCatResponse
-	135, // 328: tables.v1.DomainCatService.GetDomainCatsSearchName:output_type -> tables.v1.GetDomainCatsSearchNameResponse
-	137, // 329: tables.v1.DomainCatService.GetDomainCatById:output_type -> tables.v1.GetDomainCatByIdResponse
-	139, // 330: tables.v1.DomainCatService.GetDomainCats:output_type -> tables.v1.GetDomainCatsResponse
-	141, // 331: tables.v1.DomainCatService.GetDomainCatsDeleted:output_type -> tables.v1.GetDomainCatsDeletedResponse
-	143, // 332: tables.v1.DomainCatService.UpdateDomainCatById:output_type -> tables.v1.UpdateDomainCatByIdResponse
-	145, // 333: tables.v1.DomainCatService.DeleteDomainCatById:output_type -> tables.v1.DeleteDomainCatByIdResponse
-	147, // 334: tables.v1.DomainCatService.UndeleteDomainCatById:output_type -> tables.v1.UndeleteDomainCatByIdResponse
-	150, // 335: tables.v1.FollowingCalculationService.CreateFollowingCalculation:output_type -> tables.v1.CreateFollowingCalculationResponse
-	152, // 336: tables.v1.FollowingCalculationService.GetFollowingCalculationById:output_type -> tables.v1.GetFollowingCalculationByIdResponse
-	154, // 337: tables.v1.FollowingCalculationService.GetFollowingCalculations:output_type -> tables.v1.GetFollowingCalculationsResponse
-	156, // 338: tables.v1.FollowingCalculationService.GetFollowingCalculationsDeleted:output_type -> tables.v1.GetFollowingCalculationsDeletedResponse
-	158, // 339: tables.v1.FollowingCalculationService.GetFollowingCalculationsFilters:output_type -> tables.v1.GetFollowingCalculationsFiltersResponse
-	160, // 340: tables.v1.FollowingCalculationService.UpdateFollowingCalculationById:output_type -> tables.v1.UpdateFollowingCalculationByIdResponse
-	162, // 341: tables.v1.FollowingCalculationService.DeleteFollowingCalculationById:output_type -> tables.v1.DeleteFollowingCalculationByIdResponse
-	164, // 342: tables.v1.FollowingCalculationService.UndeleteFollowingCalculationById:output_type -> tables.v1.UndeleteFollowingCalculationByIdResponse
-	167, // 343: tables.v1.GroupLevelsService.CreateGroupLevels:output_type -> tables.v1.CreateGroupLevelsResponse
-	169, // 344: tables.v1.GroupLevelsService.GetGroupLevelsSearchName:output_type -> tables.v1.GetGroupLevelsSearchNameResponse
-	171, // 345: tables.v1.GroupLevelsService.GetGroupLevels:output_type -> tables.v1.GetGroupLevelsResponse
-	173, // 346: tables.v1.GroupLevelsService.GetGroupLevelsById:output_type -> tables.v1.GetGroupLevelsByIdResponse
-	175, // 347: tables.v1.GroupLevelsService.GetGroupLevelsFiltered:output_type -> tables.v1.GetGroupLevelsFilteredResponse
-	177, // 348: tables.v1.GroupLevelsService.GetGroupLevelsDeleted:output_type -> tables.v1.GetGroupLevelsDeletedResponse
-	179, // 349: tables.v1.GroupLevelsService.UpdateGroupLevelsById:output_type -> tables.v1.UpdateGroupLevelsByIdResponse
-	181, // 350: tables.v1.GroupLevelsService.DeleteGroupLevelsById:output_type -> tables.v1.DeleteGroupLevelsByIdResponse
-	183, // 351: tables.v1.GroupLevelsService.UndeleteGroupLevelsById:output_type -> tables.v1.UndeleteGroupLevelsByIdResponse
-	186, // 352: tables.v1.HasToGroupService.CreateHasToGroup:output_type -> tables.v1.CreateHasToGroupResponse
-	188, // 353: tables.v1.HasToGroupService.GetHasToGroupById:output_type -> tables.v1.GetHasToGroupByIdResponse
-	190, // 354: tables.v1.HasToGroupService.GetHasToGroupsSearchName:output_type -> tables.v1.GetHasToGroupsSearchNameResponse
-	192, // 355: tables.v1.HasToGroupService.GetHasToGroups:output_type -> tables.v1.GetHasToGroupsResponse
-	194, // 356: tables.v1.HasToGroupService.GetHasToGroupsDeleted:output_type -> tables.v1.GetHasToGroupsDeletedResponse
-	196, // 357: tables.v1.HasToGroupService.UpdateHasToGroupById:output_type -> tables.v1.UpdateHasToGroupByIdResponse
-	198, // 358: tables.v1.HasToGroupService.DeleteHasToGroupById:output_type -> tables.v1.DeleteHasToGroupByIdResponse
-	200, // 359: tables.v1.HasToGroupService.UndeleteHasToGroupById:output_type -> tables.v1.UndeleteHasToGroupByIdResponse
-	203, // 360: tables.v1.SchemaCatService.CreateSchemaCat:output_type -> tables.v1.CreateSchemaCatResponse
-	205, // 361: tables.v1.SchemaCatService.GetSchemaCatById:output_type -> tables.v1.GetSchemaCatByIdResponse
-	207, // 362: tables.v1.SchemaCatService.GetSchemaCats:output_type -> tables.v1.GetSchemaCatsResponse
-	209, // 363: tables.v1.SchemaCatService.GetSchemaCatsDeleted:output_type -> tables.v1.GetSchemaCatsDeletedResponse
-	211, // 364: tables.v1.SchemaCatService.UpdateSchemaCatById:output_type -> tables.v1.UpdateSchemaCatByIdResponse
-	213, // 365: tables.v1.SchemaCatService.DeleteSchemaCatById:output_type -> tables.v1.DeleteSchemaCatByIdResponse
-	215, // 366: tables.v1.SchemaCatService.UndeleteSchemaCatById:output_type -> tables.v1.UndeleteSchemaCatByIdResponse
-	218, // 367: tables.v1.TableCatService.CreateTableCat:output_type -> tables.v1.CreateTableCatResponse
-	220, // 368: tables.v1.TableCatService.GetTableCatById:output_type -> tables.v1.GetTableCatByIdResponse
-	222, // 369: tables.v1.TableCatService.GetTableCats:output_type -> tables.v1.GetTableCatsResponse
-	224, // 370: tables.v1.TableCatService.GetTableCatsDeleted:output_type -> tables.v1.GetTableCatsDeletedResponse
-	226, // 371: tables.v1.TableCatService.UpdateTableCatById:output_type -> tables.v1.UpdateTableCatByIdResponse
-	228, // 372: tables.v1.TableCatService.DeleteTableCatById:output_type -> tables.v1.DeleteTableCatByIdResponse
-	230, // 373: tables.v1.TableCatService.UndeleteTableCatById:output_type -> tables.v1.UndeleteTableCatByIdResponse
-	233, // 374: tables.v1.TableTypeService.CreateTableType:output_type -> tables.v1.CreateTableTypeResponse
-	235, // 375: tables.v1.TableTypeService.GetTableTypeById:output_type -> tables.v1.GetTableTypeByIdResponse
-	237, // 376: tables.v1.TableTypeService.GetTableTypes:output_type -> tables.v1.GetTableTypesResponse
-	239, // 377: tables.v1.TableTypeService.GetTableTypesDeleted:output_type -> tables.v1.GetTableTypesDeletedResponse
-	241, // 378: tables.v1.TableTypeService.UpdateTableTypeById:output_type -> tables.v1.UpdateTableTypeByIdResponse
-	243, // 379: tables.v1.TableTypeService.DeleteTableTypeById:output_type -> tables.v1.DeleteTableTypeByIdResponse
-	245, // 380: tables.v1.TableTypeService.UndeleteTableTypeById:output_type -> tables.v1.UndeleteTableTypeByIdResponse
-	248, // 381: tables.v1.CalculationTypeService.GetCalculationTypeById:output_type -> tables.v1.GetCalculationTypeByIdResponse
-	250, // 382: tables.v1.CalculationTypeService.GetCalculationTypes:output_type -> tables.v1.GetCalculationTypesResponse
-	266, // [266:383] is the sub-list for method output_type
-	149, // [149:266] is the sub-list for method input_type
-	149, // [149:149] is the sub-list for extension type_name
-	149, // [149:149] is the sub-list for extension extendee
-	0,   // [0:149] is the sub-list for field type_name
+	266, // 129: tables.v1.UpdateSchemaCatByIdRequest.created_at:type_name -> google.protobuf.Timestamp
+	266, // 130: tables.v1.DeleteSchemaCatByIdRequest.updated_at:type_name -> google.protobuf.Timestamp
+	266, // 131: tables.v1.TableCat.created_at:type_name -> google.protobuf.Timestamp
+	266, // 132: tables.v1.TableCat.updated_at:type_name -> google.protobuf.Timestamp
+	216, // 133: tables.v1.CreateTableCatResponse.table_cat:type_name -> tables.v1.TableCat
+	216, // 134: tables.v1.GetTableCatByIdResponse.table_cat:type_name -> tables.v1.TableCat
+	216, // 135: tables.v1.GetTableCatsResponse.data:type_name -> tables.v1.TableCat
+	0,   // 136: tables.v1.GetTableCatsResponse.pagination:type_name -> tables.v1.Pagination
+	216, // 137: tables.v1.GetTableCatsDeletedResponse.data:type_name -> tables.v1.TableCat
+	0,   // 138: tables.v1.GetTableCatsDeletedResponse.pagination:type_name -> tables.v1.Pagination
+	266, // 139: tables.v1.TableType.created_at:type_name -> google.protobuf.Timestamp
+	266, // 140: tables.v1.TableType.updated_at:type_name -> google.protobuf.Timestamp
+	231, // 141: tables.v1.CreateTableTypeResponse.table_type:type_name -> tables.v1.TableType
+	231, // 142: tables.v1.GetTableTypeByIdResponse.table_type:type_name -> tables.v1.TableType
+	231, // 143: tables.v1.GetTableTypesResponse.data:type_name -> tables.v1.TableType
+	0,   // 144: tables.v1.GetTableTypesResponse.pagination:type_name -> tables.v1.Pagination
+	231, // 145: tables.v1.GetTableTypesDeletedResponse.data:type_name -> tables.v1.TableType
+	0,   // 146: tables.v1.GetTableTypesDeletedResponse.pagination:type_name -> tables.v1.Pagination
+	266, // 147: tables.v1.CalculationType.created_at:type_name -> google.protobuf.Timestamp
+	266, // 148: tables.v1.CalculationType.updated_at:type_name -> google.protobuf.Timestamp
+	246, // 149: tables.v1.GetCalculationTypeByIdResponse.calculation_type:type_name -> tables.v1.CalculationType
+	246, // 150: tables.v1.GetCalculationTypesResponse.rows:type_name -> tables.v1.CalculationType
+	266, // 151: tables.v1.TablesJoins.created_at:type_name -> google.protobuf.Timestamp
+	266, // 152: tables.v1.TablesJoins.updated_at:type_name -> google.protobuf.Timestamp
+	251, // 153: tables.v1.CreateTablesJoinsResponse.tables_joins:type_name -> tables.v1.TablesJoins
+	266, // 154: tables.v1.GetTablesJoinsByIdRow.created_at:type_name -> google.protobuf.Timestamp
+	266, // 155: tables.v1.GetTablesJoinsByIdRow.updated_at:type_name -> google.protobuf.Timestamp
+	255, // 156: tables.v1.GetTablesJoinsByIdResponse.tables_joins:type_name -> tables.v1.GetTablesJoinsByIdRow
+	266, // 157: tables.v1.GetTablesJoinsRow.created_at:type_name -> google.protobuf.Timestamp
+	266, // 158: tables.v1.GetTablesJoinsRow.updated_at:type_name -> google.protobuf.Timestamp
+	258, // 159: tables.v1.GetTablesJoinsResponse.data:type_name -> tables.v1.GetTablesJoinsRow
+	0,   // 160: tables.v1.GetTablesJoinsResponse.pagination:type_name -> tables.v1.Pagination
+	2,   // 161: tables.v1.AliasService.CreateAlias:input_type -> tables.v1.CreateAliasRequest
+	4,   // 162: tables.v1.AliasService.GetAliasById:input_type -> tables.v1.GetAliasByIdRequest
+	6,   // 163: tables.v1.AliasService.GetAliasesDeleted:input_type -> tables.v1.GetAliasesDeletedRequest
+	8,   // 164: tables.v1.AliasService.GetAliases:input_type -> tables.v1.GetAliasesRequest
+	10,  // 165: tables.v1.AliasService.UpdateAliasById:input_type -> tables.v1.UpdateAliasByIdRequest
+	12,  // 166: tables.v1.AliasService.DeleteAliasById:input_type -> tables.v1.DeleteAliasByIdRequest
+	14,  // 167: tables.v1.AliasService.UndeleteAliasById:input_type -> tables.v1.UndeleteAliasByIdRequest
+	17,  // 168: tables.v1.UserService.CreateUser:input_type -> tables.v1.CreateUserRequest
+	19,  // 169: tables.v1.UserService.GetUserByExternalId:input_type -> tables.v1.GetUserByExternalIdRequest
+	21,  // 170: tables.v1.UserService.GetUsers:input_type -> tables.v1.GetUsersRequest
+	24,  // 171: tables.v1.HostService.CreateHost:input_type -> tables.v1.CreateHostRequest
+	26,  // 172: tables.v1.HostService.GetHostById:input_type -> tables.v1.GetHostByIdRequest
+	28,  // 173: tables.v1.HostService.GetHosts:input_type -> tables.v1.GetHostsRequest
+	30,  // 174: tables.v1.HostService.GetHostsSearchName:input_type -> tables.v1.GetHostsSearchNameRequest
+	32,  // 175: tables.v1.HostService.GetHostDeleted:input_type -> tables.v1.GetHostDeletedRequest
+	34,  // 176: tables.v1.HostService.UpdateHostById:input_type -> tables.v1.UpdateHostByIdRequest
+	36,  // 177: tables.v1.HostService.DeleteHostById:input_type -> tables.v1.DeleteHostByIdRequest
+	38,  // 178: tables.v1.HostService.UndeleteHostById:input_type -> tables.v1.UndeleteHostByIdRequest
+	41,  // 179: tables.v1.DatabaseTypeService.CreateDatabaseType:input_type -> tables.v1.CreateDatabaseTypeRequest
+	43,  // 180: tables.v1.DatabaseTypeService.GetDatabaseTypeById:input_type -> tables.v1.GetDatabaseTypeByIdRequest
+	45,  // 181: tables.v1.DatabaseTypeService.GetDatabaseTypesSearchName:input_type -> tables.v1.GetDatabaseTypesSearchNameRequest
+	47,  // 182: tables.v1.DatabaseTypeService.GetDatabaseTypes:input_type -> tables.v1.GetDatabaseTypesRequest
+	49,  // 183: tables.v1.DatabaseTypeService.GetDatabaseTypesDeleted:input_type -> tables.v1.GetDatabaseTypesDeletedRequest
+	51,  // 184: tables.v1.DatabaseTypeService.UpdateDatabaseTypeById:input_type -> tables.v1.UpdateDatabaseTypeByIdRequest
+	53,  // 185: tables.v1.DatabaseTypeService.DeleteDatabaseTypeById:input_type -> tables.v1.DeleteDatabaseTypeByIdRequest
+	55,  // 186: tables.v1.DatabaseTypeService.UndeleteDatabaseTypeById:input_type -> tables.v1.UndeleteDatabaseTypeByIdRequest
+	58,  // 187: tables.v1.DatabaseCatService.CreateDatabaseCat:input_type -> tables.v1.CreateDatabaseCatRequest
+	60,  // 188: tables.v1.DatabaseCatService.GetDatabaseCatById:input_type -> tables.v1.GetDatabaseCatByIdRequest
+	62,  // 189: tables.v1.DatabaseCatService.GetDatabaseCats:input_type -> tables.v1.GetDatabaseCatsRequest
+	64,  // 190: tables.v1.DatabaseCatService.GetDatabaseCatsDeleted:input_type -> tables.v1.GetDatabaseCatsDeletedRequest
+	66,  // 191: tables.v1.DatabaseCatService.GetDatabaseCatsByHostIdDatabaseTypeId:input_type -> tables.v1.GetDatabaseCatsByHostIdDatabaseTypeIdRequest
+	68,  // 192: tables.v1.DatabaseCatService.GetDatabaseCatsSearchName:input_type -> tables.v1.GetDatabaseCatsSearchNameRequest
+	70,  // 193: tables.v1.DatabaseCatService.UpdateDatabaseCatById:input_type -> tables.v1.UpdateDatabaseCatByIdRequest
+	72,  // 194: tables.v1.DatabaseCatService.DeleteDatabaseCatById:input_type -> tables.v1.DeleteDatabaseCatByIdRequest
+	74,  // 195: tables.v1.DatabaseCatService.UndeleteDatabaseCatById:input_type -> tables.v1.UndeleteDatabaseCatByIdRequest
+	77,  // 196: tables.v1.ColumnCatService.CreateColumnCat:input_type -> tables.v1.CreateColumnCatRequest
+	79,  // 197: tables.v1.ColumnCatService.GetColumnCatById:input_type -> tables.v1.GetColumnCatByIdRequest
+	81,  // 198: tables.v1.ColumnCatService.GetColumnCats:input_type -> tables.v1.GetColumnCatsRequest
+	83,  // 199: tables.v1.ColumnCatService.GetColumnCatsDeleted:input_type -> tables.v1.GetColumnCatsDeletedRequest
+	85,  // 200: tables.v1.ColumnCatService.GetColumnCatsOptionalFilters:input_type -> tables.v1.GetColumnCatsOptionalFiltersRequest
+	87,  // 201: tables.v1.ColumnCatService.GetColumnCatsSearchName:input_type -> tables.v1.GetColumnCatsSearchNameRequest
+	89,  // 202: tables.v1.ColumnCatService.UpdateColumnCatById:input_type -> tables.v1.UpdateColumnCatByIdRequest
+	91,  // 203: tables.v1.ColumnCatService.DeleteColumnCatById:input_type -> tables.v1.DeleteColumnCatByIdRequest
+	93,  // 204: tables.v1.ColumnCatService.UndeleteColumnCatById:input_type -> tables.v1.UndeleteColumnCatByIdRequest
+	96,  // 205: tables.v1.ColumnTypeService.CreateColumnType:input_type -> tables.v1.CreateColumnTypeRequest
+	98,  // 206: tables.v1.ColumnTypeService.GetColumnTypeById:input_type -> tables.v1.GetColumnTypeByIdRequest
+	100, // 207: tables.v1.ColumnTypeService.GetColumnTypes:input_type -> tables.v1.GetColumnTypesRequest
+	102, // 208: tables.v1.ColumnTypeService.GetColumnTypesSearchName:input_type -> tables.v1.GetColumnTypesSearchNameRequest
+	104, // 209: tables.v1.ColumnTypeService.GetColumnTypesDeleted:input_type -> tables.v1.GetColumnTypesDeletedRequest
+	106, // 210: tables.v1.ColumnTypeService.UpdateColumnTypeById:input_type -> tables.v1.UpdateColumnTypeByIdRequest
+	108, // 211: tables.v1.ColumnTypeService.DeleteColumnTypeById:input_type -> tables.v1.DeleteColumnTypeByIdRequest
+	110, // 212: tables.v1.ColumnTypeService.UndeleteColumnTypeById:input_type -> tables.v1.UndeleteColumnTypeByIdRequest
+	113, // 213: tables.v1.DatabaseCalculationService.CreateDatabaseCalculation:input_type -> tables.v1.CreateDatabaseCalculationRequest
+	115, // 214: tables.v1.DatabaseCalculationService.GetDatabaseCalculationsSearchName:input_type -> tables.v1.GetDatabaseCalculationsSearchNameRequest
+	117, // 215: tables.v1.DatabaseCalculationService.GetDatabaseCalculationById:input_type -> tables.v1.GetDatabaseCalculationByIdRequest
+	119, // 216: tables.v1.DatabaseCalculationService.GetDatabaseCalculationsFiltered:input_type -> tables.v1.GetDatabaseCalculationsFilteredRequest
+	121, // 217: tables.v1.DatabaseCalculationService.GetDatabaseCalculationsDeleted:input_type -> tables.v1.GetDatabaseCalculationsDeletedRequest
+	123, // 218: tables.v1.DatabaseCalculationService.GetDatabaseCalculations:input_type -> tables.v1.GetDatabaseCalculationsRequest
+	125, // 219: tables.v1.DatabaseCalculationService.UpdateDatabaseCalculationById:input_type -> tables.v1.UpdateDatabaseCalculationByIdRequest
+	127, // 220: tables.v1.DatabaseCalculationService.DeleteDatabaseCalculationById:input_type -> tables.v1.DeleteDatabaseCalculationByIdRequest
+	129, // 221: tables.v1.DatabaseCalculationService.UndeleteDatabaseCalculationById:input_type -> tables.v1.UndeleteDatabaseCalculationByIdRequest
+	132, // 222: tables.v1.DomainCatService.CreateDomainCat:input_type -> tables.v1.CreateDomainCatRequest
+	134, // 223: tables.v1.DomainCatService.GetDomainCatsSearchName:input_type -> tables.v1.GetDomainCatsSearchNameRequest
+	136, // 224: tables.v1.DomainCatService.GetDomainCatById:input_type -> tables.v1.GetDomainCatByIdRequest
+	138, // 225: tables.v1.DomainCatService.GetDomainCats:input_type -> tables.v1.GetDomainCatsRequest
+	140, // 226: tables.v1.DomainCatService.GetDomainCatsDeleted:input_type -> tables.v1.GetDomainCatsDeletedRequest
+	142, // 227: tables.v1.DomainCatService.UpdateDomainCatById:input_type -> tables.v1.UpdateDomainCatByIdRequest
+	144, // 228: tables.v1.DomainCatService.DeleteDomainCatById:input_type -> tables.v1.DeleteDomainCatByIdRequest
+	146, // 229: tables.v1.DomainCatService.UndeleteDomainCatById:input_type -> tables.v1.UndeleteDomainCatByIdRequest
+	149, // 230: tables.v1.FollowingCalculationService.CreateFollowingCalculation:input_type -> tables.v1.CreateFollowingCalculationRequest
+	151, // 231: tables.v1.FollowingCalculationService.GetFollowingCalculationById:input_type -> tables.v1.GetFollowingCalculationByIdRequest
+	153, // 232: tables.v1.FollowingCalculationService.GetFollowingCalculations:input_type -> tables.v1.GetFollowingCalculationsRequest
+	155, // 233: tables.v1.FollowingCalculationService.GetFollowingCalculationsDeleted:input_type -> tables.v1.GetFollowingCalculationsDeletedRequest
+	157, // 234: tables.v1.FollowingCalculationService.GetFollowingCalculationsFilters:input_type -> tables.v1.GetFollowingCalculationsFiltersRequest
+	159, // 235: tables.v1.FollowingCalculationService.UpdateFollowingCalculationById:input_type -> tables.v1.UpdateFollowingCalculationByIdRequest
+	161, // 236: tables.v1.FollowingCalculationService.DeleteFollowingCalculationById:input_type -> tables.v1.DeleteFollowingCalculationByIdRequest
+	163, // 237: tables.v1.FollowingCalculationService.UndeleteFollowingCalculationById:input_type -> tables.v1.UndeleteFollowingCalculationByIdRequest
+	166, // 238: tables.v1.GroupLevelsService.CreateGroupLevels:input_type -> tables.v1.CreateGroupLevelsRequest
+	168, // 239: tables.v1.GroupLevelsService.GetGroupLevelsSearchName:input_type -> tables.v1.GetGroupLevelsSearchNameRequest
+	170, // 240: tables.v1.GroupLevelsService.GetGroupLevels:input_type -> tables.v1.GetGroupLevelsRequest
+	172, // 241: tables.v1.GroupLevelsService.GetGroupLevelsById:input_type -> tables.v1.GetGroupLevelsByIdRequest
+	174, // 242: tables.v1.GroupLevelsService.GetGroupLevelsFiltered:input_type -> tables.v1.GetGroupLevelsFilteredRequest
+	176, // 243: tables.v1.GroupLevelsService.GetGroupLevelsDeleted:input_type -> tables.v1.GetGroupLevelsDeletedRequest
+	178, // 244: tables.v1.GroupLevelsService.UpdateGroupLevelsById:input_type -> tables.v1.UpdateGroupLevelsByIdRequest
+	180, // 245: tables.v1.GroupLevelsService.DeleteGroupLevelsById:input_type -> tables.v1.DeleteGroupLevelsByIdRequest
+	182, // 246: tables.v1.GroupLevelsService.UndeleteGroupLevelsById:input_type -> tables.v1.UndeleteGroupLevelsByIdRequest
+	185, // 247: tables.v1.HasToGroupService.CreateHasToGroup:input_type -> tables.v1.CreateHasToGroupRequest
+	187, // 248: tables.v1.HasToGroupService.GetHasToGroupById:input_type -> tables.v1.GetHasToGroupByIdRequest
+	189, // 249: tables.v1.HasToGroupService.GetHasToGroupsSearchName:input_type -> tables.v1.GetHasToGroupsSearchNameRequest
+	191, // 250: tables.v1.HasToGroupService.GetHasToGroups:input_type -> tables.v1.GetHasToGroupsRequest
+	193, // 251: tables.v1.HasToGroupService.GetHasToGroupsDeleted:input_type -> tables.v1.GetHasToGroupsDeletedRequest
+	195, // 252: tables.v1.HasToGroupService.UpdateHasToGroupById:input_type -> tables.v1.UpdateHasToGroupByIdRequest
+	197, // 253: tables.v1.HasToGroupService.DeleteHasToGroupById:input_type -> tables.v1.DeleteHasToGroupByIdRequest
+	199, // 254: tables.v1.HasToGroupService.UndeleteHasToGroupById:input_type -> tables.v1.UndeleteHasToGroupByIdRequest
+	202, // 255: tables.v1.SchemaCatService.CreateSchemaCat:input_type -> tables.v1.CreateSchemaCatRequest
+	204, // 256: tables.v1.SchemaCatService.GetSchemaCatById:input_type -> tables.v1.GetSchemaCatByIdRequest
+	206, // 257: tables.v1.SchemaCatService.GetSchemaCats:input_type -> tables.v1.GetSchemaCatsRequest
+	208, // 258: tables.v1.SchemaCatService.GetSchemaCatsDeleted:input_type -> tables.v1.GetSchemaCatsDeletedRequest
+	210, // 259: tables.v1.SchemaCatService.UpdateSchemaCatById:input_type -> tables.v1.UpdateSchemaCatByIdRequest
+	212, // 260: tables.v1.SchemaCatService.DeleteSchemaCatById:input_type -> tables.v1.DeleteSchemaCatByIdRequest
+	214, // 261: tables.v1.SchemaCatService.UndeleteSchemaCatById:input_type -> tables.v1.UndeleteSchemaCatByIdRequest
+	217, // 262: tables.v1.TableCatService.CreateTableCat:input_type -> tables.v1.CreateTableCatRequest
+	219, // 263: tables.v1.TableCatService.GetTableCatById:input_type -> tables.v1.GetTableCatByIdRequest
+	221, // 264: tables.v1.TableCatService.GetTableCats:input_type -> tables.v1.GetTableCatsRequest
+	223, // 265: tables.v1.TableCatService.GetTableCatsDeleted:input_type -> tables.v1.GetTableCatsDeletedRequest
+	225, // 266: tables.v1.TableCatService.UpdateTableCatById:input_type -> tables.v1.UpdateTableCatByIdRequest
+	227, // 267: tables.v1.TableCatService.DeleteTableCatById:input_type -> tables.v1.DeleteTableCatByIdRequest
+	229, // 268: tables.v1.TableCatService.UndeleteTableCatById:input_type -> tables.v1.UndeleteTableCatByIdRequest
+	232, // 269: tables.v1.TableTypeService.CreateTableType:input_type -> tables.v1.CreateTableTypeRequest
+	234, // 270: tables.v1.TableTypeService.GetTableTypeById:input_type -> tables.v1.GetTableTypeByIdRequest
+	236, // 271: tables.v1.TableTypeService.GetTableTypes:input_type -> tables.v1.GetTableTypesRequest
+	238, // 272: tables.v1.TableTypeService.GetTableTypesDeleted:input_type -> tables.v1.GetTableTypesDeletedRequest
+	240, // 273: tables.v1.TableTypeService.UpdateTableTypeById:input_type -> tables.v1.UpdateTableTypeByIdRequest
+	242, // 274: tables.v1.TableTypeService.DeleteTableTypeById:input_type -> tables.v1.DeleteTableTypeByIdRequest
+	244, // 275: tables.v1.TableTypeService.UndeleteTableTypeById:input_type -> tables.v1.UndeleteTableTypeByIdRequest
+	247, // 276: tables.v1.CalculationTypeService.GetCalculationTypeById:input_type -> tables.v1.GetCalculationTypeByIdRequest
+	249, // 277: tables.v1.CalculationTypeService.GetCalculationTypes:input_type -> tables.v1.GetCalculationTypesRequest
+	252, // 278: tables.v1.TablesJoinsService.CreateTablesJoins:input_type -> tables.v1.CreateTablesJoinsRequest
+	254, // 279: tables.v1.TablesJoinsService.GetTablesJoinsById:input_type -> tables.v1.GetTablesJoinsByIdRequest
+	257, // 280: tables.v1.TablesJoinsService.GetTablesJoins:input_type -> tables.v1.GetTablesJoinsRequest
+	260, // 281: tables.v1.TablesJoinsService.UpdateTablesJoinsById:input_type -> tables.v1.UpdateTablesJoinsByIdRequest
+	262, // 282: tables.v1.TablesJoinsService.DeleteTablesJoinsById:input_type -> tables.v1.DeleteTablesJoinsByIdRequest
+	264, // 283: tables.v1.TablesJoinsService.UndeleteTablesJoinsById:input_type -> tables.v1.UndeleteTablesJoinsByIdRequest
+	3,   // 284: tables.v1.AliasService.CreateAlias:output_type -> tables.v1.CreateAliasResponse
+	5,   // 285: tables.v1.AliasService.GetAliasById:output_type -> tables.v1.GetAliasByIdResponse
+	7,   // 286: tables.v1.AliasService.GetAliasesDeleted:output_type -> tables.v1.GetAliasesDeletedResponse
+	9,   // 287: tables.v1.AliasService.GetAliases:output_type -> tables.v1.GetAliasesResponse
+	11,  // 288: tables.v1.AliasService.UpdateAliasById:output_type -> tables.v1.UpdateAliasByIdResponse
+	13,  // 289: tables.v1.AliasService.DeleteAliasById:output_type -> tables.v1.DeleteAliasByIdResponse
+	15,  // 290: tables.v1.AliasService.UndeleteAliasById:output_type -> tables.v1.UndeleteAliasByIdResponse
+	18,  // 291: tables.v1.UserService.CreateUser:output_type -> tables.v1.CreateUserResponse
+	20,  // 292: tables.v1.UserService.GetUserByExternalId:output_type -> tables.v1.GetUserByExternalIdResponse
+	22,  // 293: tables.v1.UserService.GetUsers:output_type -> tables.v1.GetUsersResponse
+	25,  // 294: tables.v1.HostService.CreateHost:output_type -> tables.v1.CreateHostResponse
+	27,  // 295: tables.v1.HostService.GetHostById:output_type -> tables.v1.GetHostByIdResponse
+	29,  // 296: tables.v1.HostService.GetHosts:output_type -> tables.v1.GetHostsResponse
+	31,  // 297: tables.v1.HostService.GetHostsSearchName:output_type -> tables.v1.GetHostsSearchNameResponse
+	33,  // 298: tables.v1.HostService.GetHostDeleted:output_type -> tables.v1.GetHostDeletedResponse
+	35,  // 299: tables.v1.HostService.UpdateHostById:output_type -> tables.v1.UpdateHostByIdResponse
+	37,  // 300: tables.v1.HostService.DeleteHostById:output_type -> tables.v1.DeleteHostByIdResponse
+	39,  // 301: tables.v1.HostService.UndeleteHostById:output_type -> tables.v1.UndeleteHostByIdResponse
+	42,  // 302: tables.v1.DatabaseTypeService.CreateDatabaseType:output_type -> tables.v1.CreateDatabaseTypeResponse
+	44,  // 303: tables.v1.DatabaseTypeService.GetDatabaseTypeById:output_type -> tables.v1.GetDatabaseTypeByIdResponse
+	46,  // 304: tables.v1.DatabaseTypeService.GetDatabaseTypesSearchName:output_type -> tables.v1.GetDatabaseTypesSearchNameResponse
+	48,  // 305: tables.v1.DatabaseTypeService.GetDatabaseTypes:output_type -> tables.v1.GetDatabaseTypesResponse
+	50,  // 306: tables.v1.DatabaseTypeService.GetDatabaseTypesDeleted:output_type -> tables.v1.GetDatabaseTypesDeletedResponse
+	52,  // 307: tables.v1.DatabaseTypeService.UpdateDatabaseTypeById:output_type -> tables.v1.UpdateDatabaseTypeByIdResponse
+	54,  // 308: tables.v1.DatabaseTypeService.DeleteDatabaseTypeById:output_type -> tables.v1.DeleteDatabaseTypeByIdResponse
+	56,  // 309: tables.v1.DatabaseTypeService.UndeleteDatabaseTypeById:output_type -> tables.v1.UndeleteDatabaseTypeByIdResponse
+	59,  // 310: tables.v1.DatabaseCatService.CreateDatabaseCat:output_type -> tables.v1.CreateDatabaseCatResponse
+	61,  // 311: tables.v1.DatabaseCatService.GetDatabaseCatById:output_type -> tables.v1.GetDatabaseCatByIdResponse
+	63,  // 312: tables.v1.DatabaseCatService.GetDatabaseCats:output_type -> tables.v1.GetDatabaseCatsResponse
+	65,  // 313: tables.v1.DatabaseCatService.GetDatabaseCatsDeleted:output_type -> tables.v1.GetDatabaseCatsDeletedResponse
+	67,  // 314: tables.v1.DatabaseCatService.GetDatabaseCatsByHostIdDatabaseTypeId:output_type -> tables.v1.GetDatabaseCatsByHostIdDatabaseTypeIdResponse
+	69,  // 315: tables.v1.DatabaseCatService.GetDatabaseCatsSearchName:output_type -> tables.v1.GetDatabaseCatsSearchNameResponse
+	71,  // 316: tables.v1.DatabaseCatService.UpdateDatabaseCatById:output_type -> tables.v1.UpdateDatabaseCatByIdResponse
+	73,  // 317: tables.v1.DatabaseCatService.DeleteDatabaseCatById:output_type -> tables.v1.DeleteDatabaseCatByIdResponse
+	75,  // 318: tables.v1.DatabaseCatService.UndeleteDatabaseCatById:output_type -> tables.v1.UndeleteDatabaseCatByIdResponse
+	78,  // 319: tables.v1.ColumnCatService.CreateColumnCat:output_type -> tables.v1.CreateColumnCatResponse
+	80,  // 320: tables.v1.ColumnCatService.GetColumnCatById:output_type -> tables.v1.GetColumnCatByIdResponse
+	82,  // 321: tables.v1.ColumnCatService.GetColumnCats:output_type -> tables.v1.GetColumnCatsResponse
+	84,  // 322: tables.v1.ColumnCatService.GetColumnCatsDeleted:output_type -> tables.v1.GetColumnCatsDeletedResponse
+	86,  // 323: tables.v1.ColumnCatService.GetColumnCatsOptionalFilters:output_type -> tables.v1.GetColumnCatsOptionalFiltersResponse
+	88,  // 324: tables.v1.ColumnCatService.GetColumnCatsSearchName:output_type -> tables.v1.GetColumnCatsSearchNameResponse
+	90,  // 325: tables.v1.ColumnCatService.UpdateColumnCatById:output_type -> tables.v1.UpdateColumnCatByIdResponse
+	92,  // 326: tables.v1.ColumnCatService.DeleteColumnCatById:output_type -> tables.v1.DeleteColumnCatByIdResponse
+	94,  // 327: tables.v1.ColumnCatService.UndeleteColumnCatById:output_type -> tables.v1.UndeleteColumnCatByIdResponse
+	97,  // 328: tables.v1.ColumnTypeService.CreateColumnType:output_type -> tables.v1.CreateColumnTypeResponse
+	99,  // 329: tables.v1.ColumnTypeService.GetColumnTypeById:output_type -> tables.v1.GetColumnTypeByIdResponse
+	101, // 330: tables.v1.ColumnTypeService.GetColumnTypes:output_type -> tables.v1.GetColumnTypesResponse
+	103, // 331: tables.v1.ColumnTypeService.GetColumnTypesSearchName:output_type -> tables.v1.GetColumnTypesSearchNameResponse
+	105, // 332: tables.v1.ColumnTypeService.GetColumnTypesDeleted:output_type -> tables.v1.GetColumnTypesDeletedResponse
+	107, // 333: tables.v1.ColumnTypeService.UpdateColumnTypeById:output_type -> tables.v1.UpdateColumnTypeByIdResponse
+	109, // 334: tables.v1.ColumnTypeService.DeleteColumnTypeById:output_type -> tables.v1.DeleteColumnTypeByIdResponse
+	111, // 335: tables.v1.ColumnTypeService.UndeleteColumnTypeById:output_type -> tables.v1.UndeleteColumnTypeByIdResponse
+	114, // 336: tables.v1.DatabaseCalculationService.CreateDatabaseCalculation:output_type -> tables.v1.CreateDatabaseCalculationResponse
+	116, // 337: tables.v1.DatabaseCalculationService.GetDatabaseCalculationsSearchName:output_type -> tables.v1.GetDatabaseCalculationsSearchNameResponse
+	118, // 338: tables.v1.DatabaseCalculationService.GetDatabaseCalculationById:output_type -> tables.v1.GetDatabaseCalculationByIdResponse
+	120, // 339: tables.v1.DatabaseCalculationService.GetDatabaseCalculationsFiltered:output_type -> tables.v1.GetDatabaseCalculationsFilteredResponse
+	122, // 340: tables.v1.DatabaseCalculationService.GetDatabaseCalculationsDeleted:output_type -> tables.v1.GetDatabaseCalculationsDeletedResponse
+	124, // 341: tables.v1.DatabaseCalculationService.GetDatabaseCalculations:output_type -> tables.v1.GetDatabaseCalculationsResponse
+	126, // 342: tables.v1.DatabaseCalculationService.UpdateDatabaseCalculationById:output_type -> tables.v1.UpdateDatabaseCalculationByIdResponse
+	128, // 343: tables.v1.DatabaseCalculationService.DeleteDatabaseCalculationById:output_type -> tables.v1.DeleteDatabaseCalculationByIdResponse
+	130, // 344: tables.v1.DatabaseCalculationService.UndeleteDatabaseCalculationById:output_type -> tables.v1.UndeleteDatabaseCalculationByIdResponse
+	133, // 345: tables.v1.DomainCatService.CreateDomainCat:output_type -> tables.v1.CreateDomainCatResponse
+	135, // 346: tables.v1.DomainCatService.GetDomainCatsSearchName:output_type -> tables.v1.GetDomainCatsSearchNameResponse
+	137, // 347: tables.v1.DomainCatService.GetDomainCatById:output_type -> tables.v1.GetDomainCatByIdResponse
+	139, // 348: tables.v1.DomainCatService.GetDomainCats:output_type -> tables.v1.GetDomainCatsResponse
+	141, // 349: tables.v1.DomainCatService.GetDomainCatsDeleted:output_type -> tables.v1.GetDomainCatsDeletedResponse
+	143, // 350: tables.v1.DomainCatService.UpdateDomainCatById:output_type -> tables.v1.UpdateDomainCatByIdResponse
+	145, // 351: tables.v1.DomainCatService.DeleteDomainCatById:output_type -> tables.v1.DeleteDomainCatByIdResponse
+	147, // 352: tables.v1.DomainCatService.UndeleteDomainCatById:output_type -> tables.v1.UndeleteDomainCatByIdResponse
+	150, // 353: tables.v1.FollowingCalculationService.CreateFollowingCalculation:output_type -> tables.v1.CreateFollowingCalculationResponse
+	152, // 354: tables.v1.FollowingCalculationService.GetFollowingCalculationById:output_type -> tables.v1.GetFollowingCalculationByIdResponse
+	154, // 355: tables.v1.FollowingCalculationService.GetFollowingCalculations:output_type -> tables.v1.GetFollowingCalculationsResponse
+	156, // 356: tables.v1.FollowingCalculationService.GetFollowingCalculationsDeleted:output_type -> tables.v1.GetFollowingCalculationsDeletedResponse
+	158, // 357: tables.v1.FollowingCalculationService.GetFollowingCalculationsFilters:output_type -> tables.v1.GetFollowingCalculationsFiltersResponse
+	160, // 358: tables.v1.FollowingCalculationService.UpdateFollowingCalculationById:output_type -> tables.v1.UpdateFollowingCalculationByIdResponse
+	162, // 359: tables.v1.FollowingCalculationService.DeleteFollowingCalculationById:output_type -> tables.v1.DeleteFollowingCalculationByIdResponse
+	164, // 360: tables.v1.FollowingCalculationService.UndeleteFollowingCalculationById:output_type -> tables.v1.UndeleteFollowingCalculationByIdResponse
+	167, // 361: tables.v1.GroupLevelsService.CreateGroupLevels:output_type -> tables.v1.CreateGroupLevelsResponse
+	169, // 362: tables.v1.GroupLevelsService.GetGroupLevelsSearchName:output_type -> tables.v1.GetGroupLevelsSearchNameResponse
+	171, // 363: tables.v1.GroupLevelsService.GetGroupLevels:output_type -> tables.v1.GetGroupLevelsResponse
+	173, // 364: tables.v1.GroupLevelsService.GetGroupLevelsById:output_type -> tables.v1.GetGroupLevelsByIdResponse
+	175, // 365: tables.v1.GroupLevelsService.GetGroupLevelsFiltered:output_type -> tables.v1.GetGroupLevelsFilteredResponse
+	177, // 366: tables.v1.GroupLevelsService.GetGroupLevelsDeleted:output_type -> tables.v1.GetGroupLevelsDeletedResponse
+	179, // 367: tables.v1.GroupLevelsService.UpdateGroupLevelsById:output_type -> tables.v1.UpdateGroupLevelsByIdResponse
+	181, // 368: tables.v1.GroupLevelsService.DeleteGroupLevelsById:output_type -> tables.v1.DeleteGroupLevelsByIdResponse
+	183, // 369: tables.v1.GroupLevelsService.UndeleteGroupLevelsById:output_type -> tables.v1.UndeleteGroupLevelsByIdResponse
+	186, // 370: tables.v1.HasToGroupService.CreateHasToGroup:output_type -> tables.v1.CreateHasToGroupResponse
+	188, // 371: tables.v1.HasToGroupService.GetHasToGroupById:output_type -> tables.v1.GetHasToGroupByIdResponse
+	190, // 372: tables.v1.HasToGroupService.GetHasToGroupsSearchName:output_type -> tables.v1.GetHasToGroupsSearchNameResponse
+	192, // 373: tables.v1.HasToGroupService.GetHasToGroups:output_type -> tables.v1.GetHasToGroupsResponse
+	194, // 374: tables.v1.HasToGroupService.GetHasToGroupsDeleted:output_type -> tables.v1.GetHasToGroupsDeletedResponse
+	196, // 375: tables.v1.HasToGroupService.UpdateHasToGroupById:output_type -> tables.v1.UpdateHasToGroupByIdResponse
+	198, // 376: tables.v1.HasToGroupService.DeleteHasToGroupById:output_type -> tables.v1.DeleteHasToGroupByIdResponse
+	200, // 377: tables.v1.HasToGroupService.UndeleteHasToGroupById:output_type -> tables.v1.UndeleteHasToGroupByIdResponse
+	203, // 378: tables.v1.SchemaCatService.CreateSchemaCat:output_type -> tables.v1.CreateSchemaCatResponse
+	205, // 379: tables.v1.SchemaCatService.GetSchemaCatById:output_type -> tables.v1.GetSchemaCatByIdResponse
+	207, // 380: tables.v1.SchemaCatService.GetSchemaCats:output_type -> tables.v1.GetSchemaCatsResponse
+	209, // 381: tables.v1.SchemaCatService.GetSchemaCatsDeleted:output_type -> tables.v1.GetSchemaCatsDeletedResponse
+	211, // 382: tables.v1.SchemaCatService.UpdateSchemaCatById:output_type -> tables.v1.UpdateSchemaCatByIdResponse
+	213, // 383: tables.v1.SchemaCatService.DeleteSchemaCatById:output_type -> tables.v1.DeleteSchemaCatByIdResponse
+	215, // 384: tables.v1.SchemaCatService.UndeleteSchemaCatById:output_type -> tables.v1.UndeleteSchemaCatByIdResponse
+	218, // 385: tables.v1.TableCatService.CreateTableCat:output_type -> tables.v1.CreateTableCatResponse
+	220, // 386: tables.v1.TableCatService.GetTableCatById:output_type -> tables.v1.GetTableCatByIdResponse
+	222, // 387: tables.v1.TableCatService.GetTableCats:output_type -> tables.v1.GetTableCatsResponse
+	224, // 388: tables.v1.TableCatService.GetTableCatsDeleted:output_type -> tables.v1.GetTableCatsDeletedResponse
+	226, // 389: tables.v1.TableCatService.UpdateTableCatById:output_type -> tables.v1.UpdateTableCatByIdResponse
+	228, // 390: tables.v1.TableCatService.DeleteTableCatById:output_type -> tables.v1.DeleteTableCatByIdResponse
+	230, // 391: tables.v1.TableCatService.UndeleteTableCatById:output_type -> tables.v1.UndeleteTableCatByIdResponse
+	233, // 392: tables.v1.TableTypeService.CreateTableType:output_type -> tables.v1.CreateTableTypeResponse
+	235, // 393: tables.v1.TableTypeService.GetTableTypeById:output_type -> tables.v1.GetTableTypeByIdResponse
+	237, // 394: tables.v1.TableTypeService.GetTableTypes:output_type -> tables.v1.GetTableTypesResponse
+	239, // 395: tables.v1.TableTypeService.GetTableTypesDeleted:output_type -> tables.v1.GetTableTypesDeletedResponse
+	241, // 396: tables.v1.TableTypeService.UpdateTableTypeById:output_type -> tables.v1.UpdateTableTypeByIdResponse
+	243, // 397: tables.v1.TableTypeService.DeleteTableTypeById:output_type -> tables.v1.DeleteTableTypeByIdResponse
+	245, // 398: tables.v1.TableTypeService.UndeleteTableTypeById:output_type -> tables.v1.UndeleteTableTypeByIdResponse
+	248, // 399: tables.v1.CalculationTypeService.GetCalculationTypeById:output_type -> tables.v1.GetCalculationTypeByIdResponse
+	250, // 400: tables.v1.CalculationTypeService.GetCalculationTypes:output_type -> tables.v1.GetCalculationTypesResponse
+	253, // 401: tables.v1.TablesJoinsService.CreateTablesJoins:output_type -> tables.v1.CreateTablesJoinsResponse
+	256, // 402: tables.v1.TablesJoinsService.GetTablesJoinsById:output_type -> tables.v1.GetTablesJoinsByIdResponse
+	259, // 403: tables.v1.TablesJoinsService.GetTablesJoins:output_type -> tables.v1.GetTablesJoinsResponse
+	261, // 404: tables.v1.TablesJoinsService.UpdateTablesJoinsById:output_type -> tables.v1.UpdateTablesJoinsByIdResponse
+	263, // 405: tables.v1.TablesJoinsService.DeleteTablesJoinsById:output_type -> tables.v1.DeleteTablesJoinsByIdResponse
+	265, // 406: tables.v1.TablesJoinsService.UndeleteTablesJoinsById:output_type -> tables.v1.UndeleteTablesJoinsByIdResponse
+	284, // [284:407] is the sub-list for method output_type
+	161, // [161:284] is the sub-list for method input_type
+	161, // [161:161] is the sub-list for extension type_name
+	161, // [161:161] is the sub-list for extension extendee
+	0,   // [0:161] is the sub-list for field type_name
 }
 
 func init() { file_tables_v1_tables_proto_init() }
@@ -16180,7 +17248,6 @@ func file_tables_v1_tables_proto_init() {
 	if File_tables_v1_tables_proto != nil {
 		return
 	}
-	file_tables_v1_tables_proto_msgTypes[16].OneofWrappers = []any{}
 	file_tables_v1_tables_proto_msgTypes[66].OneofWrappers = []any{}
 	file_tables_v1_tables_proto_msgTypes[76].OneofWrappers = []any{}
 	file_tables_v1_tables_proto_msgTypes[77].OneofWrappers = []any{}
@@ -16189,15 +17256,16 @@ func file_tables_v1_tables_proto_init() {
 	file_tables_v1_tables_proto_msgTypes[119].OneofWrappers = []any{}
 	file_tables_v1_tables_proto_msgTypes[157].OneofWrappers = []any{}
 	file_tables_v1_tables_proto_msgTypes[174].OneofWrappers = []any{}
+	file_tables_v1_tables_proto_msgTypes[257].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_tables_v1_tables_proto_rawDesc), len(file_tables_v1_tables_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   251,
+			NumMessages:   266,
 			NumExtensions: 0,
-			NumServices:   16,
+			NumServices:   17,
 		},
 		GoTypes:           file_tables_v1_tables_proto_goTypes,
 		DependencyIndexes: file_tables_v1_tables_proto_depIdxs,

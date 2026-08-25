@@ -4,9 +4,11 @@ import (
 	"errors"
 	"strings"
 	"testing"
+	"time"
 
 	tablesv1 "github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/tables/v1"
 	"github.com/konstantin-suspitsyn/datacomrade/shared/pkg/validator"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // schemaCatFieldErrors достаёт из ошибки список полей с претензиями.
@@ -79,8 +81,9 @@ func validValidateUpdateSchemaCatByIdRequest() *tablesv1.UpdateSchemaCatByIdRequ
 	return &tablesv1.UpdateSchemaCatByIdRequest{
 		DatabaseId: 100,
 		Name:       "name-1",
-		ExternalId: "00000000-0000-4000-8000-000000000003",
-		Id:         103,
+		CreatedAt:  timestamppb.New(time.Date(2026, time.July, 1, 9, 0, 0, 0, time.UTC)),
+		ExternalId: "00000000-0000-4000-8000-000000000004",
+		Id:         104,
 	}
 }
 
@@ -94,6 +97,7 @@ func TestValidateUpdateSchemaCatById(t *testing.T) {
 		{name: "zero database_id", mutate: func(r *tablesv1.UpdateSchemaCatByIdRequest) { r.DatabaseId = 0 }, wantField: "database_id"},
 		{name: "empty name", mutate: func(r *tablesv1.UpdateSchemaCatByIdRequest) { r.Name = "" }, wantField: "name"},
 		{name: "name too long", mutate: func(r *tablesv1.UpdateSchemaCatByIdRequest) { r.Name = strings.Repeat("a", schemaCatNameMaxLen+1) }, wantField: "name"},
+		{name: "nil created_at", mutate: func(r *tablesv1.UpdateSchemaCatByIdRequest) { r.CreatedAt = nil }, wantField: "created_at"},
 		{name: "empty user_id", mutate: func(r *tablesv1.UpdateSchemaCatByIdRequest) { r.ExternalId = "" }, wantField: "user_id"},
 		{name: "malformed user_id", mutate: func(r *tablesv1.UpdateSchemaCatByIdRequest) { r.ExternalId = "not-a-uuid" }, wantField: "user_id"},
 		{name: "zero id", mutate: func(r *tablesv1.UpdateSchemaCatByIdRequest) { r.Id = 0 }, wantField: "id"},
@@ -133,8 +137,9 @@ func TestValidateUpdateSchemaCatByIdNil(t *testing.T) {
 
 func validValidateDeleteSchemaCatByIdRequest() *tablesv1.DeleteSchemaCatByIdRequest {
 	return &tablesv1.DeleteSchemaCatByIdRequest{
-		ExternalId: "00000000-0000-4000-8000-000000000001",
-		Id:         101,
+		UpdatedAt:  timestamppb.New(time.Date(2026, time.July, 1, 9, 0, 0, 0, time.UTC)),
+		ExternalId: "00000000-0000-4000-8000-000000000002",
+		Id:         102,
 	}
 }
 
@@ -145,6 +150,7 @@ func TestValidateDeleteSchemaCatById(t *testing.T) {
 		wantField string
 	}{
 		{name: "valid", mutate: func(*tablesv1.DeleteSchemaCatByIdRequest) {}},
+		{name: "nil updated_at", mutate: func(r *tablesv1.DeleteSchemaCatByIdRequest) { r.UpdatedAt = nil }, wantField: "updated_at"},
 		{name: "empty user_id", mutate: func(r *tablesv1.DeleteSchemaCatByIdRequest) { r.ExternalId = "" }, wantField: "user_id"},
 		{name: "malformed user_id", mutate: func(r *tablesv1.DeleteSchemaCatByIdRequest) { r.ExternalId = "not-a-uuid" }, wantField: "user_id"},
 		{name: "zero id", mutate: func(r *tablesv1.DeleteSchemaCatByIdRequest) { r.Id = 0 }, wantField: "id"},

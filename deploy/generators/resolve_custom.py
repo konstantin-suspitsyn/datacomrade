@@ -134,9 +134,10 @@ def pair_fields(sqlc, data, name, go_fields, proto_msg, column_hints, what, tabl
         if col is None:
             raise Fail("%s: у поля %s.%s нет имени колонки" % (sqlc, proto_msg, pf["field"]))
 
-        # Параметры страницы колонками не являются — проверять их по схеме нечем.
+        # Управляющие поля (страница, сортировка) колонками не являются —
+        # проверять их по схеме нечем.
         colinfo = None
-        if col not in (PAGE_LIMIT, PAGE_OFFSET):
+        if col not in CONTROL_FIELDS:
             # Таблица блока отвечает на вопрос «чья это колонка» в обычном
             # случае; column_hints из конфига сильнее и обязан быть точным.
             explicit = column_hints.get(col)
@@ -169,6 +170,47 @@ def pair_fields(sqlc, data, name, go_fields, proto_msg, column_hints, what, tabl
 
 PAGE_LIMIT = "page_limit"
 PAGE_OFFSET = "page_offset"
+ORDER_FIELD = "order"
+# Управляющие поля запроса — не колонки, проверять их по schema.sql нечем:
+# page_limit/page_offset задают LIMIT/OFFSET (старая форма пагинации, см.
+# pagination_go.md), order — только направление сортировки ORDER BY, тоже
+# не ссылается ни на одну колонку домена.
+CONTROL_FIELDS = (PAGE_LIMIT, PAGE_OFFSET, ORDER_FIELD)
+
+
+def pair_query_row_fields(sqlc, data, go_struct, proto_msg):
+    """Поля собственной строки запроса (JOIN нескольких таблиц) — сопоставляются
+    с proto-сообщением по имени, без проверки schema.sql: такая строка едет
+    только наружу, ни в один INSERT/UPDATE её поля не попадают, а её колонки
+    (алиасы вроде column_type_name) могут не совпадать с именем ни одной
+    реальной колонки. Аналог pair_row_fields в resolve.py, но для запросов
+    без сущности."""
+    proto = data["proto_structs"]
+    if proto_msg not in proto:
+        raise Fail("%s: нет proto-сообщения %s" % (sqlc, proto_msg))
+    go_fields = data["param_structs"][go_struct]
+    pfields = {norm(f["field"]): f for f in proto[proto_msg]}
+    paired = []
+    for f in go_fields:
+        pf = pfields.get(norm(f["field"]))
+        if pf is None:
+            raise Fail("%s: поле строки %s.%s не найдено в %s" % (sqlc, go_struct, f["field"], proto_msg))
+        pair = (f["type"], pf["type"])
+        if pair not in TYPE_RULES:
+            raise Fail(
+                "%s: нет правила для %s -> %s (строка %s.%s)"
+                % (sqlc, f["type"], pf["type"], go_struct, f["field"])
+            )
+        paired.append(
+            {
+                "go": f["field"],
+                "go_type": f["type"],
+                "proto": pf["field"],
+                "proto_type": pf["type"],
+                "conv": TYPE_RULES[pair],
+            }
+        )
+    return paired
 
 
 def resolve_response(sqlc, data, name, func, resp_msg, counters):
@@ -227,6 +269,20 @@ def resolve_response(sqlc, data, name, func, resp_msg, counters):
             "go_elem": go_elem,
             "row_msg": proto_elem.lstrip("*"),
             "resp_field": resp_field["field"],
+        }
+
+    # Собственная строка запроса (JOIN нескольких таблиц): sqlc делает под
+    # такую выборку структуру в query.sql.go (param_structs), а не models.go —
+    # значит это проекция самого запроса, а не строка одной таблицы.
+    if go_elem in data["param_structs"]:
+        row_msg = proto_elem.lstrip("*")
+        return {
+            "resp_form": "query_row",
+            "is_slice": is_slice,
+            "go_elem": go_elem,
+            "row_msg": row_msg,
+            "resp_field": resp_field["field"],
+            "row_fields": pair_query_row_fields(sqlc, data, go_elem, row_msg),
         }
 
     elem_pair = (go_elem, proto_elem.lstrip("*"))
@@ -334,10 +390,13 @@ def main():
                 "%s: счётчики без постраничной выборки: %s" % (sqlc, ", ".join(orphans))
             )
 
+        # query_row — своя проекция запроса, поля уже разрешены в самом call
+        # (row_fields); в общий проход resolve_rows (строки БАЗОВЫХ таблиц из
+        # model_structs) не попадает.
         rows = resolve_rows(
             sqlc,
             data,
-            {(c["go_elem"], c["row_msg"], c["table"]) for c in calls if c.get("row_msg")},
+            {(c["go_elem"], c["row_msg"], c["table"]) for c in calls if c["resp_form"] == "row"},
         )
 
         model[sqlc] = {"meta": meta_by_sqlc[sqlc], "calls": calls, "rows": rows}

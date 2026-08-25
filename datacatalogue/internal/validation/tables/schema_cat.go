@@ -1,6 +1,7 @@
 package tables
 
 import (
+	"github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/converter"
 	"github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/validation"
 	tablesv1 "github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/tables/v1"
 	"github.com/konstantin-suspitsyn/datacomrade/shared/pkg/validator"
@@ -33,6 +34,7 @@ func ValidateUpdateSchemaCatById(req *tablesv1.UpdateSchemaCatByIdRequest) error
 
 	v.Int64ID("database_id", req.GetDatabaseId())
 	v.StringVarchar("name", req.GetName(), schemaCatNameMaxLen)
+	v.TimeRequired("created_at", converter.ProtoToTime(req.GetCreatedAt()))
 	v.StringUUID("user_id", req.GetExternalId())
 	v.Int64ID("id", req.GetId())
 
@@ -48,6 +50,7 @@ func ValidateDeleteSchemaCatById(req *tablesv1.DeleteSchemaCatByIdRequest) error
 		return v.Err()
 	}
 
+	v.TimeRequired("updated_at", converter.ProtoToTime(req.GetUpdatedAt()))
 	v.StringUUID("user_id", req.GetExternalId())
 	v.Int64ID("id", req.GetId())
 

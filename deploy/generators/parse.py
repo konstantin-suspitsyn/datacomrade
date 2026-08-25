@@ -133,7 +133,11 @@ def main():
     out = {}
     for d in config["domains"]:
         sqlc = d["sqlc"]
-        repo_dir = "%s/repository/%s" % (internal, sqlc)
+        # Каталог, куда sqlc.yml реально пишет Go-код, не обязан совпадать с
+        # именем папки-источника (schema.sql/query.sql): sqlc допускает
+        # отдельный package/out на секцию, а "sqlc" здесь — только имя
+        # источника. Правильное имя — последний сегмент repo_import.
+        repo_dir = "%s/repository/%s" % (internal, d["repo_import"].rsplit("/", 1)[-1])
 
         schema = parse_schema(repo_path(sqlc_root, sqlc, "schema.sql"))
         blocks, order_by_values = parse_queries(repo_path(sqlc_root, sqlc, "query.sql"))

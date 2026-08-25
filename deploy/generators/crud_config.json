@@ -105,6 +105,27 @@
           "name": "dc.domain_roles"
         }
       }
+    },
+    {
+      "sqlc": "olap_exchange",
+      "proto_pkg": "olap_exchange/v1",
+      "proto_file": "olap_exchange.pb.go",
+      "proto_alias": "olapexchangev1",
+      "proto_import": "olapexchangev1 \"github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/olap_exchange/v1\"",
+      "repo_import": "github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/repository/olapexchange",
+      "repo_alias": "olapexchange",
+      "conv_pkg": "olapexchange",
+      "conv_dir": "converter/olapexchange",
+      "valid_dir": "validation/olapexchange",
+      "service_dir": "service/olap_exchange_service",
+      "service_pkg": "olapexchangeservice",
+      "service_type": "OlapExchangeService",
+      "service_field": "OlapExchangeService",
+      "repo_field": "OlapExchangeRepository",
+      "api_dir": "api/olapexchangeapiv1",
+      "api_pkg": "olapexchangeapiv1",
+      "api_type": "OlapExchangeApiV1",
+      "api_recv": "o"
     }
   ]
 }

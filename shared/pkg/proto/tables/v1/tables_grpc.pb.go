@@ -5493,3 +5493,295 @@ var CalculationTypeService_ServiceDesc = grpc.ServiceDesc{
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "tables/v1/tables.proto",
 }
+
+const (
+	TablesJoinsService_CreateTablesJoins_FullMethodName       = "/tables.v1.TablesJoinsService/CreateTablesJoins"
+	TablesJoinsService_GetTablesJoinsById_FullMethodName      = "/tables.v1.TablesJoinsService/GetTablesJoinsById"
+	TablesJoinsService_GetTablesJoins_FullMethodName          = "/tables.v1.TablesJoinsService/GetTablesJoins"
+	TablesJoinsService_UpdateTablesJoinsById_FullMethodName   = "/tables.v1.TablesJoinsService/UpdateTablesJoinsById"
+	TablesJoinsService_DeleteTablesJoinsById_FullMethodName   = "/tables.v1.TablesJoinsService/DeleteTablesJoinsById"
+	TablesJoinsService_UndeleteTablesJoinsById_FullMethodName = "/tables.v1.TablesJoinsService/UndeleteTablesJoinsById"
+)
+
+// TablesJoinsServiceClient is the client API for TablesJoinsService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type TablesJoinsServiceClient interface {
+	CreateTablesJoins(ctx context.Context, in *CreateTablesJoinsRequest, opts ...grpc.CallOption) (*CreateTablesJoinsResponse, error)
+	GetTablesJoinsById(ctx context.Context, in *GetTablesJoinsByIdRequest, opts ...grpc.CallOption) (*GetTablesJoinsByIdResponse, error)
+	GetTablesJoins(ctx context.Context, in *GetTablesJoinsRequest, opts ...grpc.CallOption) (*GetTablesJoinsResponse, error)
+	UpdateTablesJoinsById(ctx context.Context, in *UpdateTablesJoinsByIdRequest, opts ...grpc.CallOption) (*UpdateTablesJoinsByIdResponse, error)
+	DeleteTablesJoinsById(ctx context.Context, in *DeleteTablesJoinsByIdRequest, opts ...grpc.CallOption) (*DeleteTablesJoinsByIdResponse, error)
+	UndeleteTablesJoinsById(ctx context.Context, in *UndeleteTablesJoinsByIdRequest, opts ...grpc.CallOption) (*UndeleteTablesJoinsByIdResponse, error)
+}
+
+type tablesJoinsServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewTablesJoinsServiceClient(cc grpc.ClientConnInterface) TablesJoinsServiceClient {
+	return &tablesJoinsServiceClient{cc}
+}
+
+func (c *tablesJoinsServiceClient) CreateTablesJoins(ctx context.Context, in *CreateTablesJoinsRequest, opts ...grpc.CallOption) (*CreateTablesJoinsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateTablesJoinsResponse)
+	err := c.cc.Invoke(ctx, TablesJoinsService_CreateTablesJoins_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *tablesJoinsServiceClient) GetTablesJoinsById(ctx context.Context, in *GetTablesJoinsByIdRequest, opts ...grpc.CallOption) (*GetTablesJoinsByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetTablesJoinsByIdResponse)
+	err := c.cc.Invoke(ctx, TablesJoinsService_GetTablesJoinsById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *tablesJoinsServiceClient) GetTablesJoins(ctx context.Context, in *GetTablesJoinsRequest, opts ...grpc.CallOption) (*GetTablesJoinsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetTablesJoinsResponse)
+	err := c.cc.Invoke(ctx, TablesJoinsService_GetTablesJoins_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *tablesJoinsServiceClient) UpdateTablesJoinsById(ctx context.Context, in *UpdateTablesJoinsByIdRequest, opts ...grpc.CallOption) (*UpdateTablesJoinsByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateTablesJoinsByIdResponse)
+	err := c.cc.Invoke(ctx, TablesJoinsService_UpdateTablesJoinsById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *tablesJoinsServiceClient) DeleteTablesJoinsById(ctx context.Context, in *DeleteTablesJoinsByIdRequest, opts ...grpc.CallOption) (*DeleteTablesJoinsByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteTablesJoinsByIdResponse)
+	err := c.cc.Invoke(ctx, TablesJoinsService_DeleteTablesJoinsById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *tablesJoinsServiceClient) UndeleteTablesJoinsById(ctx context.Context, in *UndeleteTablesJoinsByIdRequest, opts ...grpc.CallOption) (*UndeleteTablesJoinsByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UndeleteTablesJoinsByIdResponse)
+	err := c.cc.Invoke(ctx, TablesJoinsService_UndeleteTablesJoinsById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// TablesJoinsServiceServer is the server API for TablesJoinsService service.
+// All implementations must embed UnimplementedTablesJoinsServiceServer
+// for forward compatibility.
+type TablesJoinsServiceServer interface {
+	CreateTablesJoins(context.Context, *CreateTablesJoinsRequest) (*CreateTablesJoinsResponse, error)
+	GetTablesJoinsById(context.Context, *GetTablesJoinsByIdRequest) (*GetTablesJoinsByIdResponse, error)
+	GetTablesJoins(context.Context, *GetTablesJoinsRequest) (*GetTablesJoinsResponse, error)
+	UpdateTablesJoinsById(context.Context, *UpdateTablesJoinsByIdRequest) (*UpdateTablesJoinsByIdResponse, error)
+	DeleteTablesJoinsById(context.Context, *DeleteTablesJoinsByIdRequest) (*DeleteTablesJoinsByIdResponse, error)
+	UndeleteTablesJoinsById(context.Context, *UndeleteTablesJoinsByIdRequest) (*UndeleteTablesJoinsByIdResponse, error)
+	mustEmbedUnimplementedTablesJoinsServiceServer()
+}
+
+// UnimplementedTablesJoinsServiceServer must be embedded to have
+// forward compatible implementations.
+//
+// NOTE: this should be embedded by value instead of pointer to avoid a nil
+// pointer dereference when methods are called.
+type UnimplementedTablesJoinsServiceServer struct{}
+
+func (UnimplementedTablesJoinsServiceServer) CreateTablesJoins(context.Context, *CreateTablesJoinsRequest) (*CreateTablesJoinsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateTablesJoins not implemented")
+}
+func (UnimplementedTablesJoinsServiceServer) GetTablesJoinsById(context.Context, *GetTablesJoinsByIdRequest) (*GetTablesJoinsByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTablesJoinsById not implemented")
+}
+func (UnimplementedTablesJoinsServiceServer) GetTablesJoins(context.Context, *GetTablesJoinsRequest) (*GetTablesJoinsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTablesJoins not implemented")
+}
+func (UnimplementedTablesJoinsServiceServer) UpdateTablesJoinsById(context.Context, *UpdateTablesJoinsByIdRequest) (*UpdateTablesJoinsByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateTablesJoinsById not implemented")
+}
+func (UnimplementedTablesJoinsServiceServer) DeleteTablesJoinsById(context.Context, *DeleteTablesJoinsByIdRequest) (*DeleteTablesJoinsByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteTablesJoinsById not implemented")
+}
+func (UnimplementedTablesJoinsServiceServer) UndeleteTablesJoinsById(context.Context, *UndeleteTablesJoinsByIdRequest) (*UndeleteTablesJoinsByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UndeleteTablesJoinsById not implemented")
+}
+func (UnimplementedTablesJoinsServiceServer) mustEmbedUnimplementedTablesJoinsServiceServer() {}
+func (UnimplementedTablesJoinsServiceServer) testEmbeddedByValue()                            {}
+
+// UnsafeTablesJoinsServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to TablesJoinsServiceServer will
+// result in compilation errors.
+type UnsafeTablesJoinsServiceServer interface {
+	mustEmbedUnimplementedTablesJoinsServiceServer()
+}
+
+func RegisterTablesJoinsServiceServer(s grpc.ServiceRegistrar, srv TablesJoinsServiceServer) {
+	// If the following call pancis, it indicates UnimplementedTablesJoinsServiceServer was
+	// embedded by pointer and is nil.  This will cause panics if an
+	// unimplemented method is ever invoked, so we test this at initialization
+	// time to prevent it from happening at runtime later due to I/O.
+	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
+		t.testEmbeddedByValue()
+	}
+	s.RegisterService(&TablesJoinsService_ServiceDesc, srv)
+}
+
+func _TablesJoinsService_CreateTablesJoins_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateTablesJoinsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TablesJoinsServiceServer).CreateTablesJoins(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TablesJoinsService_CreateTablesJoins_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TablesJoinsServiceServer).CreateTablesJoins(ctx, req.(*CreateTablesJoinsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TablesJoinsService_GetTablesJoinsById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTablesJoinsByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TablesJoinsServiceServer).GetTablesJoinsById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TablesJoinsService_GetTablesJoinsById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TablesJoinsServiceServer).GetTablesJoinsById(ctx, req.(*GetTablesJoinsByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TablesJoinsService_GetTablesJoins_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTablesJoinsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TablesJoinsServiceServer).GetTablesJoins(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TablesJoinsService_GetTablesJoins_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TablesJoinsServiceServer).GetTablesJoins(ctx, req.(*GetTablesJoinsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TablesJoinsService_UpdateTablesJoinsById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateTablesJoinsByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TablesJoinsServiceServer).UpdateTablesJoinsById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TablesJoinsService_UpdateTablesJoinsById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TablesJoinsServiceServer).UpdateTablesJoinsById(ctx, req.(*UpdateTablesJoinsByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TablesJoinsService_DeleteTablesJoinsById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteTablesJoinsByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TablesJoinsServiceServer).DeleteTablesJoinsById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TablesJoinsService_DeleteTablesJoinsById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TablesJoinsServiceServer).DeleteTablesJoinsById(ctx, req.(*DeleteTablesJoinsByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TablesJoinsService_UndeleteTablesJoinsById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UndeleteTablesJoinsByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TablesJoinsServiceServer).UndeleteTablesJoinsById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TablesJoinsService_UndeleteTablesJoinsById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TablesJoinsServiceServer).UndeleteTablesJoinsById(ctx, req.(*UndeleteTablesJoinsByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// TablesJoinsService_ServiceDesc is the grpc.ServiceDesc for TablesJoinsService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var TablesJoinsService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "tables.v1.TablesJoinsService",
+	HandlerType: (*TablesJoinsServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "CreateTablesJoins",
+			Handler:    _TablesJoinsService_CreateTablesJoins_Handler,
+		},
+		{
+			MethodName: "GetTablesJoinsById",
+			Handler:    _TablesJoinsService_GetTablesJoinsById_Handler,
+		},
+		{
+			MethodName: "GetTablesJoins",
+			Handler:    _TablesJoinsService_GetTablesJoins_Handler,
+		},
+		{
+			MethodName: "UpdateTablesJoinsById",
+			Handler:    _TablesJoinsService_UpdateTablesJoinsById_Handler,
+		},
+		{
+			MethodName: "DeleteTablesJoinsById",
+			Handler:    _TablesJoinsService_DeleteTablesJoinsById_Handler,
+		},
+		{
+			MethodName: "UndeleteTablesJoinsById",
+			Handler:    _TablesJoinsService_UndeleteTablesJoinsById_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "tables/v1/tables.proto",
+}

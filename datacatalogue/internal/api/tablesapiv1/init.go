@@ -36,6 +36,7 @@ type TablesApiV1 struct {
 	tablesv1.UnimplementedTableCatServiceServer
 	tablesv1.UnimplementedTableTypeServiceServer
 	tablesv1.UnimplementedCalculationTypeServiceServer
+	tablesv1.UnimplementedTablesJoinsServiceServer
 
 	services *services.ServiceLayer
 }

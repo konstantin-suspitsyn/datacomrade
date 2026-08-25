@@ -1,0 +1,39 @@
+// Файл сгенерирован программой SG Buddy https://github.com/konstantin-suspitsyn/sg_buddy
+// Правки будут затёрты при следующей генерации: правьте настройки, а не этот файл.
+
+syntax = "proto3";
+
+package olap_exchange.v1;
+
+option go_package = "github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/olap_exchange/v1;olapexchangev1";
+
+// =========================================================
+// dc.alias
+// =========================================================
+
+service AliasService {
+  rpc GetOlapAliases(GetOlapAliasesRequest) returns (GetOlapAliasesResponse);
+}
+
+// Выборка GetOlapAliases: параметры вызова. Порядок по умолчанию — id.
+message GetOlapAliasesRequest {
+  string external_id = 1;
+  // допустимые значения: ASC, DESC
+  string order = 2;
+}
+
+// Выборка GetOlapAliases: строка ответа — только отмеченные колонки.
+message GetOlapAliasesRow {
+  int64 id = 1;
+  string name = 2;
+  string description = 3;
+  bool is_deleted = 4;
+  int64 column_type_id = 5;
+  string column_type_name = 6;
+  string column_type_description = 7;
+}
+
+// Выборка GetOlapAliases: все найденные строки.
+message GetOlapAliasesResponse {
+  repeated GetOlapAliasesRow rows = 1;
+}

@@ -42,3 +42,10 @@ sql:
     go:
       package: "auth_logic"
       out: "../../internal/repository/auth_logic"
+- schema: "./olap_exchange/schema.sql"
+  queries: "./olap_exchange/query.sql"
+  engine: "postgresql"
+  gen:
+    go:
+      package: "olapexchange"
+      out: "../../internal/repository/olapexchange"

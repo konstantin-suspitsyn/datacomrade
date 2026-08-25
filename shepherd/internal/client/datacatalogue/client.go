@@ -5,6 +5,7 @@ package datacatalogue
 import (
 	"fmt"
 
+	olapexchangev1 "github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/olap_exchange/v1"
 	tablesv1 "github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/tables/v1"
 	userv1 "github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/user/v1"
 	userdomainrolesv1 "github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/user_domain_roles/v1"
@@ -37,6 +38,8 @@ type Client struct {
 
 	UserDomainRoles userdomainrolesv1.UserDomainRolesServiceClient
 	UserTableRoles  userdomainrolesv1.UserTableRolesServiceClient
+
+	OlapExchange olapexchangev1.AliasServiceClient
 }
 
 // Dial открывает gRPC-соединение с datacatalogue по addr (host:port).
@@ -69,6 +72,8 @@ func Dial(addr string) (*Client, error) {
 
 		UserDomainRoles: userdomainrolesv1.NewUserDomainRolesServiceClient(conn),
 		UserTableRoles:  userdomainrolesv1.NewUserTableRolesServiceClient(conn),
+
+		OlapExchange: olapexchangev1.NewAliasServiceClient(conn),
 	}, nil
 }
 

@@ -47,6 +47,7 @@ func ToUpdateSchemaCatByIdParams(req *tablesv1.UpdateSchemaCatByIdRequest) table
 	return tables_model.UpdateSchemaCatByIdParams{
 		DatabaseID: req.GetDatabaseId(),
 		Name:       req.GetName(),
+		CreatedAt:  converter.ProtoToTime(req.GetCreatedAt()),
 		ExternalID: converter.ProtoToUUID(req.GetExternalId()),
 		ID:         req.GetId(),
 	}
@@ -55,6 +56,7 @@ func ToUpdateSchemaCatByIdParams(req *tablesv1.UpdateSchemaCatByIdRequest) table
 // ToDeleteSchemaCatByIdParams собирает параметры мягкого удаления dc.schema_cat из запроса gRPC.
 func ToDeleteSchemaCatByIdParams(req *tablesv1.DeleteSchemaCatByIdRequest) tables_model.DeleteSchemaCatByIdParams {
 	return tables_model.DeleteSchemaCatByIdParams{
+		UpdatedAt:  converter.ProtoToTime(req.GetUpdatedAt()),
 		ExternalID: converter.ProtoToUUID(req.GetExternalId()),
 		ID:         req.GetId(),
 	}

@@ -137,7 +137,7 @@ service UserService {
 
 // Строка таблицы dc.user: все колонки, как их вернёт SELECT *.
 message User {
-  optional int64 id = 1;
+  int64 id = 1;
   string name = 2;
   google.protobuf.Timestamp created_at = 3;
   google.protobuf.Timestamp updated_at = 4;
@@ -1569,8 +1569,9 @@ message GetSchemaCatsDeletedResponse {
 message UpdateSchemaCatByIdRequest {
   int64 database_id = 1;
   string name = 2;
-  string external_id = 3;
-  int64 id = 4;
+  google.protobuf.Timestamp created_at = 3;
+  string external_id = 4;
+  int64 id = 5;
 }
 
 // Изменение UpdateSchemaCatById: ответ пустой — запрос ничего не возвращает.
@@ -1578,8 +1579,9 @@ message UpdateSchemaCatByIdResponse {}
 
 // Мягкое удаление DeleteSchemaCatById: параметры вызова.
 message DeleteSchemaCatByIdRequest {
-  string external_id = 1;
-  int64 id = 2;
+  google.protobuf.Timestamp updated_at = 1;
+  string external_id = 2;
+  int64 id = 3;
 }
 
 // Мягкое удаление DeleteSchemaCatById: ответ пустой — запрос ничего не возвращает.
@@ -1852,3 +1854,120 @@ message GetCalculationTypesRequest {
 message GetCalculationTypesResponse {
   repeated CalculationType rows = 1;
 }
+
+// =========================================================
+// dc.tables_joins
+// =========================================================
+
+service TablesJoinsService {
+  rpc CreateTablesJoins(CreateTablesJoinsRequest) returns (CreateTablesJoinsResponse);
+  rpc GetTablesJoinsById(GetTablesJoinsByIdRequest) returns (GetTablesJoinsByIdResponse);
+  rpc GetTablesJoins(GetTablesJoinsRequest) returns (GetTablesJoinsResponse);
+  rpc UpdateTablesJoinsById(UpdateTablesJoinsByIdRequest) returns (UpdateTablesJoinsByIdResponse);
+  rpc DeleteTablesJoinsById(DeleteTablesJoinsByIdRequest) returns (DeleteTablesJoinsByIdResponse);
+  rpc UndeleteTablesJoinsById(UndeleteTablesJoinsByIdRequest) returns (UndeleteTablesJoinsByIdResponse);
+}
+
+// Строка таблицы dc.tables_joins: все колонки, как их вернёт SELECT *.
+message TablesJoins {
+  int64 id = 1;
+  int64 table_cat_id_left = 2;
+  int64 table_cat_id_right = 3;
+  bool is_deleted = 4;
+  google.protobuf.Timestamp created_at = 5;
+  google.protobuf.Timestamp updated_at = 6;
+  int64 user_id = 7;
+}
+
+// Вставка CreateTablesJoins: параметры вызова.
+message CreateTablesJoinsRequest {
+  int64 table_cat_id_left = 1;
+  int64 table_cat_id_right = 2;
+  string external_id = 3;
+}
+
+// Вставка CreateTablesJoins: одна строка.
+message CreateTablesJoinsResponse {
+  TablesJoins tables_joins = 1;
+}
+
+// Выборка GetTablesJoinsById: параметры вызова.
+message GetTablesJoinsByIdRequest {
+  int64 id = 1;
+}
+
+// Выборка GetTablesJoinsById: строка ответа — только отмеченные колонки.
+message GetTablesJoinsByIdRow {
+  int64 id = 1;
+  int64 table_cat_id_left = 2;
+  int64 table_cat_id_right = 3;
+  bool is_deleted = 4;
+  google.protobuf.Timestamp created_at = 5;
+  google.protobuf.Timestamp updated_at = 6;
+  int64 user_id = 7;
+  string table_cat_left_name = 8;
+  string table_cat_right_name = 9;
+}
+
+// Выборка GetTablesJoinsById: одна строка.
+message GetTablesJoinsByIdResponse {
+  GetTablesJoinsByIdRow tables_joins = 1;
+}
+
+// Выборка GetTablesJoins: параметры вызова. Порядок по умолчанию — id.
+message GetTablesJoinsRequest {
+  optional string table_cat_left_name = 1;
+  optional string table_cat_right_name = 2;
+  // допустимые значения: ASC, DESC
+  string order = 3;
+  int32 page_limit = 4;
+  int32 page = 5;
+}
+
+// Выборка GetTablesJoins: строка ответа — только отмеченные колонки.
+message GetTablesJoinsRow {
+  int64 id = 1;
+  int64 table_cat_id_left = 2;
+  int64 table_cat_id_right = 3;
+  bool is_deleted = 4;
+  google.protobuf.Timestamp created_at = 5;
+  google.protobuf.Timestamp updated_at = 6;
+  int64 user_id = 7;
+  string table_cat_left_name = 8;
+  string table_cat_right_name = 9;
+}
+
+// Выборка GetTablesJoins: страница данных и пагинация.
+message GetTablesJoinsResponse {
+  repeated GetTablesJoinsRow data = 1;
+  Pagination pagination = 2;
+}
+
+// Изменение UpdateTablesJoinsById: параметры вызова.
+message UpdateTablesJoinsByIdRequest {
+  int64 table_cat_id_left = 1;
+  int64 table_cat_id_right = 2;
+  bool is_deleted = 3;
+  string external_id = 4;
+  int64 id = 5;
+}
+
+// Изменение UpdateTablesJoinsById: ответ пустой — запрос ничего не возвращает.
+message UpdateTablesJoinsByIdResponse {}
+
+// Мягкое удаление DeleteTablesJoinsById: параметры вызова.
+message DeleteTablesJoinsByIdRequest {
+  string external_id = 1;
+  int64 id = 2;
+}
+
+// Мягкое удаление DeleteTablesJoinsById: ответ пустой — запрос ничего не возвращает.
+message DeleteTablesJoinsByIdResponse {}
+
+// Обратное удаление UndeleteTablesJoinsById: параметры вызова.
+message UndeleteTablesJoinsByIdRequest {
+  int64 id = 1;
+}
+
+// Обратное удаление UndeleteTablesJoinsById: ответ пустой — запрос ничего не возвращает.
+message UndeleteTablesJoinsByIdResponse {}

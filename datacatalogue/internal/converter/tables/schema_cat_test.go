@@ -8,6 +8,7 @@ import (
 	"github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/repository/tables_model"
 	"github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/validation"
 	tablesv1 "github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/tables/v1"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 var (
@@ -127,18 +128,26 @@ func TestToUpdateSchemaCatByIdParams(t *testing.T) {
 	req := &tablesv1.UpdateSchemaCatByIdRequest{
 		DatabaseId: 100,
 		Name:       "name-0",
-		ExternalId: "00000000-0000-4000-8000-000000000003",
-		Id:         103,
+		CreatedAt:  timestamppb.New(schemaCatCreatedAt),
+		ExternalId: "00000000-0000-4000-8000-000000000004",
+		Id:         104,
 	}
 
 	want := tables_model.UpdateSchemaCatByIdParams{
 		DatabaseID: 100,
 		Name:       "name-0",
-		ExternalID: uuid.MustParse("00000000-0000-4000-8000-000000000003"),
-		ID:         103,
+		CreatedAt:  schemaCatCreatedAt,
+		ExternalID: uuid.MustParse("00000000-0000-4000-8000-000000000004"),
+		ID:         104,
 	}
 
-	if got := ToUpdateSchemaCatByIdParams(req); got != want {
+	got := ToUpdateSchemaCatByIdParams(req)
+	if !got.CreatedAt.Equal(want.CreatedAt) {
+		t.Errorf("ToUpdateSchemaCatByIdParams.CreatedAt = %v, want %v", got.CreatedAt, want.CreatedAt)
+	}
+	got.CreatedAt, want.CreatedAt = time.Time{}, time.Time{}
+
+	if got != want {
 		t.Errorf("ToUpdateSchemaCatByIdParams() = %+v, want %+v", got, want)
 	}
 }
@@ -152,16 +161,24 @@ func TestToUpdateSchemaCatByIdParamsNil(t *testing.T) {
 
 func TestToDeleteSchemaCatByIdParams(t *testing.T) {
 	req := &tablesv1.DeleteSchemaCatByIdRequest{
-		ExternalId: "00000000-0000-4000-8000-000000000001",
-		Id:         101,
+		UpdatedAt:  timestamppb.New(schemaCatUpdatedAt),
+		ExternalId: "00000000-0000-4000-8000-000000000002",
+		Id:         102,
 	}
 
 	want := tables_model.DeleteSchemaCatByIdParams{
-		ExternalID: uuid.MustParse("00000000-0000-4000-8000-000000000001"),
-		ID:         101,
+		UpdatedAt:  schemaCatUpdatedAt,
+		ExternalID: uuid.MustParse("00000000-0000-4000-8000-000000000002"),
+		ID:         102,
 	}
 
-	if got := ToDeleteSchemaCatByIdParams(req); got != want {
+	got := ToDeleteSchemaCatByIdParams(req)
+	if !got.UpdatedAt.Equal(want.UpdatedAt) {
+		t.Errorf("ToDeleteSchemaCatByIdParams.UpdatedAt = %v, want %v", got.UpdatedAt, want.UpdatedAt)
+	}
+	got.UpdatedAt, want.UpdatedAt = time.Time{}, time.Time{}
+
+	if got != want {
 		t.Errorf("ToDeleteSchemaCatByIdParams() = %+v, want %+v", got, want)
 	}
 }

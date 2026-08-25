@@ -1714,6 +1714,7 @@ UPDATE dc.schema_cat
 SET database_id = @database_id,
     name = @name,
     is_deleted = false,
+    created_at = @created_at,
     updated_at = now(),
     user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = @external_id)
 WHERE schema_cat.id = @id;
@@ -1721,7 +1722,7 @@ WHERE schema_cat.id = @id;
 -- name: DeleteSchemaCatById :exec
 UPDATE dc.schema_cat
 SET is_deleted = true,
-    updated_at = now(),
+    updated_at = @updated_at,
     user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = @external_id)
 WHERE schema_cat.id = @id;
 
@@ -1988,3 +1989,103 @@ FROM dc.calculation_type
 WHERE calculation_type.is_deleted = false
 ORDER BY CASE WHEN sqlc.arg('order')::text <> 'DESC' THEN calculation_type.id END ASC,
     CASE WHEN sqlc.arg('order')::text = 'DESC' THEN calculation_type.id END DESC;
+
+-- =========================================================
+-- dc.tables_joins
+-- =========================================================
+
+-- name: CreateTablesJoins :one
+INSERT INTO dc.tables_joins (
+    table_cat_id_left,
+    table_cat_id_right,
+    is_deleted,
+    created_at,
+    updated_at,
+    user_id
+) VALUES (
+    @table_cat_id_left,
+    @table_cat_id_right,
+    false,
+    now(),
+    now(),
+    (SELECT u.id FROM dc."user" u WHERE u.external_id = @external_id)
+)
+RETURNING *;
+
+-- name: GetTablesJoinsById :one
+SELECT
+    tables_joins.id,
+    tables_joins.table_cat_id_left,
+    tables_joins.table_cat_id_right,
+    tables_joins.is_deleted,
+    tables_joins.created_at,
+    tables_joins.updated_at,
+    tables_joins.user_id,
+    table_cat_left.name AS table_cat_left_name,
+    table_cat_right.name AS table_cat_right_name
+FROM dc.tables_joins
+INNER JOIN dc.table_cat table_cat_left ON table_cat_left.id = tables_joins.table_cat_id_left
+INNER JOIN dc.table_cat table_cat_right ON table_cat_right.id = tables_joins.table_cat_id_right
+WHERE tables_joins.id = @id
+  AND tables_joins.is_deleted = false
+  AND table_cat_left.is_deleted = false
+  AND table_cat_right.is_deleted = false
+LIMIT 1;
+
+-- name: GetTablesJoins :many
+SELECT
+    tables_joins.id,
+    tables_joins.table_cat_id_left,
+    tables_joins.table_cat_id_right,
+    tables_joins.is_deleted,
+    tables_joins.created_at,
+    tables_joins.updated_at,
+    tables_joins.user_id,
+    table_cat_left.name AS table_cat_left_name,
+    table_cat_right.name AS table_cat_right_name
+FROM dc.tables_joins
+INNER JOIN dc.table_cat table_cat_left ON table_cat_left.id = tables_joins.table_cat_id_left
+INNER JOIN dc.table_cat table_cat_right ON table_cat_right.id = tables_joins.table_cat_id_right
+WHERE tables_joins.is_deleted = false
+  AND (sqlc.narg('table_cat_left_name')::varchar(128) IS NULL OR table_cat_left.name = sqlc.narg('table_cat_left_name'))
+  AND table_cat_left.is_deleted = false
+  AND (sqlc.narg('table_cat_right_name')::varchar(128) IS NULL OR table_cat_right.name = sqlc.narg('table_cat_right_name'))
+  AND table_cat_right.is_deleted = false
+ORDER BY CASE WHEN sqlc.arg('order')::text <> 'DESC' THEN tables_joins.id END ASC,
+    CASE WHEN sqlc.arg('order')::text = 'DESC' THEN tables_joins.id END DESC
+LIMIT @page_limit::int OFFSET (sqlc.arg('page')::int-1)*sqlc.arg('page_limit')::int;
+
+-- name: CountGetTablesJoins :one
+SELECT
+    count(*)                                                        AS total_items,
+    ceil(count(*)::numeric / GREATEST(@page_limit::int, 1))::bigint AS total_pages
+FROM dc.tables_joins
+INNER JOIN dc.table_cat table_cat_left ON table_cat_left.id = tables_joins.table_cat_id_left
+INNER JOIN dc.table_cat table_cat_right ON table_cat_right.id = tables_joins.table_cat_id_right
+WHERE tables_joins.is_deleted = false
+  AND (sqlc.narg('table_cat_left_name')::varchar(128) IS NULL OR table_cat_left.name = sqlc.narg('table_cat_left_name'))
+  AND table_cat_left.is_deleted = false
+  AND (sqlc.narg('table_cat_right_name')::varchar(128) IS NULL OR table_cat_right.name = sqlc.narg('table_cat_right_name'))
+  AND table_cat_right.is_deleted = false;
+
+-- name: UpdateTablesJoinsById :exec
+UPDATE dc.tables_joins
+SET table_cat_id_left = @table_cat_id_left,
+    table_cat_id_right = @table_cat_id_right,
+    is_deleted = @is_deleted,
+    updated_at = now(),
+    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = @external_id)
+WHERE tables_joins.id = @id;
+
+-- name: DeleteTablesJoinsById :exec
+UPDATE dc.tables_joins
+SET is_deleted = true,
+    updated_at = now(),
+    user_id = (SELECT u.id FROM dc."user" u WHERE u.external_id = @external_id)
+WHERE tables_joins.id = @id;
+
+-- name: UndeleteTablesJoinsById :exec
+UPDATE dc.tables_joins
+SET is_deleted = false,
+    updated_at = now()
+WHERE tables_joins.id = @id;

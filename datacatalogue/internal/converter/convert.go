@@ -47,6 +47,19 @@ func ProtoToNullTime(t *timestamppb.Timestamp) sql.NullTime {
 	return sql.NullTime{Time: t.AsTime(), Valid: true}
 }
 
+// ProtoToTime переводит protobuf Timestamp в колонку времени NOT NULL —
+// клиент явно указывает значение (например created_at/updated_at при
+// Update/Delete). nil становится нулевым time.Time{}, а не AsTime()'овским
+// unix-эпохом (1970-01-01): так ToXParams(nil) остаётся нулевым значением
+// структуры параметров целиком, как для остальных полей.
+func ProtoToTime(t *timestamppb.Timestamp) time.Time {
+	if t == nil {
+		return time.Time{}
+	}
+
+	return t.AsTime()
+}
+
 // NullStringToProto переводит nullable-колонку строки в необязательное поле proto.
 // SQL NULL становится nil.
 func NullStringToProto(s sql.NullString) *string {

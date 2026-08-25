@@ -6,6 +6,7 @@ import (
 	"database/sql"
 
 	authlogicservice "github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/service/auth_logic_service"
+	olapexchangeservice "github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/service/olap_exchange_service"
 	tablesservice "github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/service/tables_service"
 	userdomainrolesservice "github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/service/user_domain_roles_service"
 	userservice "github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/service/user_service"
@@ -14,6 +15,7 @@ import (
 // ServiceLayer — агрегат сервисов по числу sqlc-пакетов и gRPC-сервисов.
 type ServiceLayer struct {
 	AuthLogicService       *authlogicservice.AuthLogicService
+	OlapExchangeService    *olapexchangeservice.OlapExchangeService
 	TablesService          *tablesservice.TablesService
 	UserDomainRolesService *userdomainrolesservice.UserDomainRolesService
 	UserService            *userservice.UserService
@@ -23,6 +25,7 @@ type ServiceLayer struct {
 func New(db *sql.DB) *ServiceLayer {
 	return &ServiceLayer{
 		AuthLogicService:       authlogicservice.New(db),
+		OlapExchangeService:    olapexchangeservice.New(db),
 		TablesService:          tablesservice.New(db),
 		UserDomainRolesService: userdomainrolesservice.New(db),
 		UserService:            userservice.New(db),

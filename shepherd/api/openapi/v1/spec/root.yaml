@@ -19,6 +19,7 @@ x-spec-parts:
   - user.yaml
   - tables.yaml
   - user_domain_roles.yaml
+  - olap_exchange.yaml
 paths: {}
 components:
   securitySchemes:

@@ -349,6 +349,22 @@ type Me struct {
 	UserId int64 `json:"user_id"`
 }
 
+// OlapAlias defines model for OlapAlias.
+type OlapAlias struct {
+	ColumnTypeDescription string `json:"column_type_description"`
+	ColumnTypeId          int64  `json:"column_type_id"`
+	ColumnTypeName        string `json:"column_type_name"`
+	Description           string `json:"description"`
+	Id                    int64  `json:"id"`
+	IsDeleted             bool   `json:"is_deleted"`
+	Name                  string `json:"name"`
+}
+
+// OlapAliasList defines model for OlapAliasList.
+type OlapAliasList struct {
+	Data []OlapAlias `json:"data"`
+}
+
 // Pagination defines model for Pagination.
 type Pagination struct {
 	Page       int32 `json:"page"`
@@ -1113,6 +1129,12 @@ type SearchHostsParams struct {
 	PageLimit *PageLimitParam `form:"page_limit,omitempty" json:"page_limit,omitempty"`
 }
 
+// ListOlapAliasesParams defines parameters for ListOlapAliases.
+type ListOlapAliasesParams struct {
+	// Order Направление сортировки — ASC или DESC. Если не передано, применяется значение по умолчанию (pagination.DefaultOrder в shepherd).
+	Order *OrderParam `form:"order,omitempty" json:"order,omitempty"`
+}
+
 // ListSchemaCatsParams defines parameters for ListSchemaCats.
 type ListSchemaCatsParams struct {
 	// Order Направление сортировки — ASC или DESC. Если не передано, применяется значение по умолчанию (pagination.DefaultOrder в shepherd).
@@ -1610,6 +1632,9 @@ type ServerInterface interface {
 	// GetMe Текущий аутентифицированный пользователь
 	// (GET /me)
 	GetMe(w http.ResponseWriter, r *http.Request)
+	// ListOlapAliases Алиасы, доступные текущему пользователю для чтения
+	// (GET /olap-aliases)
+	ListOlapAliases(w http.ResponseWriter, r *http.Request, params ListOlapAliasesParams)
 	// ListSchemaCats Список строк dc.schema_cat
 	// (GET /schema-cats)
 	ListSchemaCats(w http.ResponseWriter, r *http.Request, params ListSchemaCatsParams)
@@ -2282,6 +2307,12 @@ func (_ Unimplemented) Login(w http.ResponseWriter, r *http.Request) {
 // GetMe Текущий аутентифицированный пользователь
 // (GET /me)
 func (_ Unimplemented) GetMe(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// ListOlapAliases Алиасы, доступные текущему пользователю для чтения
+// (GET /olap-aliases)
+func (_ Unimplemented) ListOlapAliases(w http.ResponseWriter, r *http.Request, params ListOlapAliasesParams) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
@@ -6274,6 +6305,39 @@ func (siw *ServerInterfaceWrapper) GetMe(w http.ResponseWriter, r *http.Request)
 	handler.ServeHTTP(w, r)
 }
 
+// ListOlapAliases operation middleware
+func (siw *ServerInterfaceWrapper) ListOlapAliases(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params ListOlapAliasesParams
+
+	// ------------- Optional query parameter "order" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "order", r.URL.Query(), &params.Order, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		var requiredError *runtime.RequiredParameterError
+		if errors.As(err, &requiredError) {
+			siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "order"})
+		} else {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "order", Err: err})
+		}
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.ListOlapAliases(w, r, params)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
 // ListSchemaCats operation middleware
 func (siw *ServerInterfaceWrapper) ListSchemaCats(w http.ResponseWriter, r *http.Request) {
 
@@ -7930,6 +7994,9 @@ func HandlerWithOptions(si ServerInterface, options ChiServerOptions) http.Handl
 	})
 	r.Group(func(r chi.Router) {
 		r.Post(options.BaseURL+"/user-table-roles/{id}/undelete", wrapper.UndeleteUserTableRolesById)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/olap-aliases", wrapper.ListOlapAliases)
 	})
 
 	return r

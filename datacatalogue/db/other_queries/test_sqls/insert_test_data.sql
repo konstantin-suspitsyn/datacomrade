@@ -27,6 +27,28 @@
 --
 -- Владелец всех тестовых записей — dc."user".name = 'test_user_admin',
 -- чтобы удаление тестовых пользователей не упиралось в FK ON DELETE RESTRICT.
+--
+-- -------------------------------------------------------------------------
+-- Объём набора (проверяется секцией 16, до COMMIT):
+--
+--   * не меньше 300 тестовых таблиц (14 именованных + 286 сгенерированных);
+--   * не меньше 30 колонок в каждой тестовой таблице;
+--   * не меньше 10 колонок с show_in_ui = true в каждой тестовой таблице.
+--
+-- Бизнес-правила dc.column_cat (реализованы в ColumnCatGuard,
+-- datacatalogue/internal/api/tablesapiv1/column_cat_guard.go) — набор им
+-- подчиняется, иначе через API эти же строки завести было бы нельзя:
+--
+--   * show_in_ui = true требует alias_id: колонке без алиаса нечего
+--     показывать в интерфейсе. column_type_id у колонки NOT NULL на уровне
+--     схемы, так что у видимой колонки заполнены оба поля;
+--   * если alias_id заполнен, dc.alias.column_type_id обязан совпадать
+--     с dc.column_cat.column_type_id — иначе одна колонка описана двумя
+--     разными типами. Поэтому у каждого test_alias_* ровно один тип
+--     (секция 7), и колонка берёт alias и column_type из одной строки
+--     шаблона (секции 9 и 9.1);
+--   * alias_id необязателен (миграция 000000046) — набор специально
+--     содержит колонки без алиаса, но все они скрытые (show_in_ui = false).
 -- =========================================================================
 
 BEGIN;
@@ -118,43 +140,61 @@ ON CONFLICT DO NOTHING;
 -- -------------------------------------------------------------------------
 -- 7. Алиасы
 -- -------------------------------------------------------------------------
-INSERT INTO dc.alias ("name", description, created_at, updated_at, is_deleted, user_id)
-SELECT v.name, v.description, now(), now(), false, u.id
-FROM (VALUES ('test_alias_id', 'Идентификатор'),
-             ('test_alias_amount', 'Сумма'),
-             ('test_alias_dt', 'Дата'),
-             ('test_alias_name', 'Наименование'),
-             ('test_alias_geo', 'География'),
-             ('test_alias_qty', 'Количество (штуки)'),
-             -- +24 алиаса: ровно 30 штук, по одному на каждую позицию шаблона
-             -- колонок сгенерированных таблиц (секция 9.1)
-             ('test_alias_code', 'Код'),
-             ('test_alias_status', 'Статус'),
-             ('test_alias_flag', 'Признак (флаг)'),
-             ('test_alias_email', 'Email'),
-             ('test_alias_phone', 'Телефон'),
-             ('test_alias_url', 'Ссылка (URL)'),
-             ('test_alias_percent', 'Процент'),
-             ('test_alias_price', 'Цена за единицу'),
-             ('test_alias_weight', 'Вес'),
-             ('test_alias_volume', 'Объём'),
-             ('test_alias_currency', 'Валюта'),
-             ('test_alias_country', 'Страна'),
-             ('test_alias_city', 'Город'),
-             ('test_alias_category', 'Категория'),
-             ('test_alias_type', 'Тип'),
-             ('test_alias_score', 'Оценка'),
-             ('test_alias_rating', 'Рейтинг'),
-             ('test_alias_duration', 'Длительность'),
-             ('test_alias_version', 'Версия'),
-             ('test_alias_comment', 'Комментарий'),
-             ('test_alias_tag', 'Тег'),
-             ('test_alias_priority', 'Приоритет'),
-             ('test_alias_channel', 'Канал'),
-             ('test_alias_source', 'Источник')
-     ) AS v(name, description)
+-- У алиаса есть собственный column_type_id (миграция 000000045), и он задаёт
+-- тип для каждой колонки, которая на этот алиас ссылается: правило
+-- «alias.column_type_id = column_cat.column_type_id» проверяется в
+-- ColumnCatGuard. Поэтому здесь у каждого test_alias_* ровно один тип,
+-- а шаблоны колонок ниже берут alias и column_type парой из одной строки.
+--
+-- Типы колонок ('int', 'bigint', 'decimal', ...) читаются из dc.column_type,
+-- засеянного миграцией 000000041; новых строк туда скрипт не добавляет.
+-- Набор из 32 алиасов покрывает все 10 типов колонок.
+--
+-- ON CONFLICT ... DO UPDATE, а не DO NOTHING: если алиас с таким именем уже
+-- лежит в базе с другим типом (например, от прежней версии скрипта, где
+-- column_type_id брался из DEFAULT), его надо починить — иначе колонки,
+-- ссылающиеся на него, нарушат правило совпадения типов.
+INSERT INTO dc.alias ("name", description, column_type_id, created_at, updated_at, is_deleted, user_id)
+SELECT v.name, v.description, ct.id, now(), now(), false, u.id
+FROM (VALUES ('test_alias_id', 'Идентификатор', 'bigint'),
+             ('test_alias_geo', 'География', 'bigint'),
+             ('test_alias_name', 'Наименование', 'string'),
+             ('test_alias_code', 'Код', 'string'),
+             ('test_alias_status', 'Статус', 'string'),
+             ('test_alias_currency', 'Валюта', 'string'),
+             ('test_alias_country', 'Страна', 'string'),
+             ('test_alias_city', 'Город', 'string'),
+             ('test_alias_category', 'Категория', 'string'),
+             ('test_alias_type', 'Тип', 'string'),
+             ('test_alias_version', 'Версия', 'string'),
+             ('test_alias_tag', 'Тег', 'string'),
+             ('test_alias_channel', 'Канал', 'string'),
+             ('test_alias_source', 'Источник', 'string'),
+             ('test_alias_email', 'Email', 'string'),
+             ('test_alias_phone', 'Телефон', 'string'),
+             ('test_alias_amount', 'Сумма', 'decimal'),
+             ('test_alias_price', 'Цена за единицу', 'decimal'),
+             ('test_alias_qty', 'Количество (штуки)', 'int'),
+             ('test_alias_score', 'Оценка', 'int'),
+             ('test_alias_duration', 'Длительность', 'int'),
+             ('test_alias_priority', 'Приоритет', 'int'),
+             ('test_alias_percent', 'Процент', 'float'),
+             ('test_alias_weight', 'Вес', 'float'),
+             ('test_alias_volume', 'Объём', 'float'),
+             ('test_alias_rating', 'Рейтинг', 'float'),
+             ('test_alias_flag', 'Признак (флаг)', 'bool'),
+             ('test_alias_url', 'Ссылка (URL)', 'text'),
+             ('test_alias_comment', 'Комментарий', 'text'),
+             ('test_alias_dt', 'Дата', 'date'),
+             ('test_alias_created_at', 'Дата и время создания', 'datetime'),
+             ('test_alias_event_ts', 'Момент события с часовым поясом', 'datetime_tz')
+     ) AS v(name, description, coltype_name)
+         JOIN dc.column_type ct ON ct."name" = v.coltype_name
          CROSS JOIN (SELECT id FROM dc."user" WHERE "name" = 'test_user_admin') u
-ON CONFLICT DO NOTHING;
+ON CONFLICT ON CONSTRAINT alias_name_unique
+    DO UPDATE SET description    = EXCLUDED.description,
+                  column_type_id = EXCLUDED.column_type_id,
+                  updated_at     = now();
 
 -- -------------------------------------------------------------------------
 -- 8. Таблицы
@@ -192,20 +232,15 @@ ON CONFLICT DO NOTHING;
 -- Раскладка по схемам/типам/доменам детерминирована (зависит только от номера),
 -- поэтому повторный прогон даёт ровно те же строки, а ON CONFLICT DO NOTHING
 -- гасит дубли по (schema_id, name).
---
--- ВНИМАНИЕ: в прежней версии скрипта сгенерированные таблицы назывались
--- test_tbl_gen_01..36 (два разряда). На базе, где отработала та версия,
--- эти 36 таблиц останутся лишними — перед прогоном имеет смысл выполнить
--- delete_test_data.sql (он чистит всё по маске 'test\_%').
 INSERT INTO dc.table_cat ("name", description, schema_id, table_type_id, domain_id,
                           is_deleted, is_get_dict, created_at, updated_at, user_id)
 SELECT v.name, v.description, s.id, tt.id, dom.id, false, v.is_get_dict, now(), now(), u.id
-FROM (SELECT 'test_tbl_gen_' || to_char(g.i, 'FM000')                                     AS name,
-             'Тестовая сгенерированная таблица ' || to_char(g.i, 'FM000')                 AS description,
-             CASE WHEN g.i % 2 = 0 THEN 'test_schema_marts' ELSE 'test_schema_public' END AS schema_name,
-             CASE WHEN g.i % 2 = 0 THEN 'dimension' ELSE 'fact' END                       AS table_type_name,
+FROM (SELECT 'test_tbl_gen_' || to_char(g.i, 'FM000')                                      AS name,
+             'Тестовая сгенерированная таблица ' || to_char(g.i, 'FM000')                  AS description,
+             CASE WHEN g.i % 2 = 0 THEN 'test_schema_marts' ELSE 'test_schema_public' END  AS schema_name,
+             CASE WHEN g.i % 2 = 0 THEN 'dimension' ELSE 'fact' END                        AS table_type_name,
              CASE WHEN g.i % 3 = 0 THEN 'test_domain_finance' ELSE 'test_domain_sales' END AS domain_name,
-             (g.i % 2 = 0)                                                                AS is_get_dict
+             (g.i % 2 = 0)                                                                 AS is_get_dict
       FROM generate_series(1, 286) AS g(i)) AS v
          JOIN dc.schema_cat s ON s."name" = v.schema_name
          JOIN dc.table_type tt ON tt."name" = v.table_type_name
@@ -214,10 +249,20 @@ FROM (SELECT 'test_tbl_gen_' || to_char(g.i, 'FM000')                           
 ON CONFLICT DO NOTHING;
 
 -- -------------------------------------------------------------------------
--- 9. Колонки
+-- 9. Колонки именованных таблиц (бизнес-специфика)
 -- -------------------------------------------------------------------------
+-- Здесь только те колонки, на которые ссылаются секции 10, 11 и 13
+-- (иерархия группировок, связи между таблицами, доступные расчёты).
+-- Добор до 30+ колонок в каждой таблице делает шаблон из секции 9.1.
+--
 -- Типы расчёта ('sum', 'count', 'count_distinct', ...) берутся из миграции 000000034.
--- Типы колонок ('bigint', 'string', 'date', 'decimal', ...) берутся из миграции 000000041.
+-- Типы колонок ('bigint', 'string', 'date', 'decimal', ...) — из миграции 000000041.
+-- Пара (алиас, тип колонки) в каждой строке согласована с секцией 7: алиас
+-- test_alias_id всегда идёт с 'bigint', test_alias_amount — с 'decimal' и т. д.
+--
+-- Секция идёт ПЕРЕД шаблоном: при совпадении имён (например, orders.amount
+-- есть и здесь, и в шаблоне) в таблице останется строка с бизнес-описанием,
+-- а шаблонный дубль погасит ON CONFLICT DO NOTHING в секции 9.1.
 INSERT INTO dc.column_cat (table_id, "name", alias_id, column_type_id, description,
                            calculation_type_id, is_deleted, show_in_ui,
                            created_at, updated_at, user_id)
@@ -229,12 +274,15 @@ FROM (VALUES ('test_tbl_orders', 'order_id', 'Идентификатор зак�
              ('test_tbl_clients', 'client_id', 'Идентификатор клиента', 'test_alias_id', 'bigint', 'count_distinct', true),
              ('test_tbl_clients', 'client_name', 'Имя клиента', 'test_alias_name', 'string', 'count', true),
              ('test_tbl_clients', 'city_id', 'Идентификатор города', 'test_alias_geo', 'bigint', 'count_distinct', false),
+             ('test_tbl_clients', 'client_type', 'Тип клиента', 'test_alias_type', 'string', 'count', true),
              ('test_tbl_geo', 'city_id', 'Идентификатор города', 'test_alias_geo', 'bigint', 'count_distinct', true),
              ('test_tbl_geo', 'region_id', 'Идентификатор региона', 'test_alias_geo', 'bigint', 'count_distinct', true),
              ('test_tbl_geo', 'geo_name', 'Название географии', 'test_alias_name', 'string', 'count', true),
+             ('test_tbl_geo', 'geo_code', 'Код географии', 'test_alias_code', 'string', 'count', true),
              ('test_tbl_payments', 'payment_id', 'Идентификатор платежа', 'test_alias_id', 'bigint', 'count_distinct', true),
              ('test_tbl_payments', 'order_id', 'Идентификатор заказа', 'test_alias_id', 'bigint', 'count_distinct', true),
              ('test_tbl_payments', 'amount', 'Сумма платежа', 'test_alias_amount', 'decimal', 'sum', true),
+             ('test_tbl_payments', 'payment_dt', 'Дата платежа', 'test_alias_dt', 'date', 'max', true),
              -- Колонки для 10 таблиц из секции 8 (products..regions_ext)
              ('test_tbl_products', 'product_id', 'Идентификатор товара', 'test_alias_id', 'bigint', 'count_distinct', true),
              ('test_tbl_products', 'product_name', 'Название товара', 'test_alias_name', 'string', 'count', true),
@@ -245,6 +293,7 @@ FROM (VALUES ('test_tbl_orders', 'order_id', 'Идентификатор зак�
              ('test_tbl_inventory', 'product_id', 'Идентификатор товара', 'test_alias_id', 'bigint', 'count_distinct', true),
              ('test_tbl_inventory', 'qty', 'Количество на складе', 'test_alias_qty', 'int', 'sum', true),
              ('test_tbl_inventory', 'inventory_dt', 'Дата остатка', 'test_alias_dt', 'date', 'max', true),
+             ('test_tbl_inventory', 'warehouse_code', 'Код склада', 'test_alias_code', 'string', 'count', true),
              ('test_tbl_shipments', 'shipment_id', 'Идентификатор отгрузки', 'test_alias_id', 'bigint', 'count_distinct', true),
              ('test_tbl_shipments', 'order_id', 'Идентификатор заказа', 'test_alias_id', 'bigint', 'count_distinct', true),
              ('test_tbl_shipments', 'shipment_dt', 'Дата отгрузки', 'test_alias_dt', 'date', 'max', true),
@@ -252,55 +301,25 @@ FROM (VALUES ('test_tbl_orders', 'order_id', 'Идентификатор зак�
              ('test_tbl_returns', 'return_id', 'Идентификатор возврата', 'test_alias_id', 'bigint', 'count_distinct', true),
              ('test_tbl_returns', 'order_id', 'Идентификатор заказа', 'test_alias_id', 'bigint', 'count_distinct', true),
              ('test_tbl_returns', 'amount', 'Сумма возврата', 'test_alias_amount', 'decimal', 'sum', true),
+             ('test_tbl_returns', 'return_dt', 'Дата возврата', 'test_alias_dt', 'date', 'max', true),
+             ('test_tbl_returns', 'reason', 'Причина возврата', 'test_alias_comment', 'text', 'count', true),
              ('test_tbl_invoices', 'invoice_id', 'Идентификатор счёта', 'test_alias_id', 'bigint', 'count_distinct', true),
              ('test_tbl_invoices', 'payment_id', 'Идентификатор платежа', 'test_alias_id', 'bigint', 'count_distinct', true),
              ('test_tbl_invoices', 'amount', 'Сумма счёта', 'test_alias_amount', 'decimal', 'sum', true),
+             ('test_tbl_invoices', 'invoice_dt', 'Дата счёта', 'test_alias_dt', 'date', 'max', true),
              ('test_tbl_refunds', 'refund_id', 'Идентификатор возврата платежа', 'test_alias_id', 'bigint', 'count_distinct', true),
              ('test_tbl_refunds', 'payment_id', 'Идентификатор платежа', 'test_alias_id', 'bigint', 'count_distinct', true),
              ('test_tbl_refunds', 'amount', 'Сумма возврата платежа', 'test_alias_amount', 'decimal', 'sum', true),
+             ('test_tbl_refunds', 'refund_dt', 'Дата возврата платежа', 'test_alias_dt', 'date', 'max', true),
              ('test_tbl_employees', 'employee_id', 'Идентификатор сотрудника', 'test_alias_id', 'bigint', 'count_distinct', true),
              ('test_tbl_employees', 'employee_name', 'Имя сотрудника', 'test_alias_name', 'string', 'count', true),
              ('test_tbl_campaigns', 'campaign_id', 'Идентификатор кампании', 'test_alias_id', 'bigint', 'count_distinct', true),
              ('test_tbl_campaigns', 'campaign_name', 'Название кампании', 'test_alias_name', 'string', 'count', true),
-             ('test_tbl_regions_ext', 'region_id', 'Идентификатор региона', 'test_alias_id', 'bigint', 'count_distinct', true),
-             ('test_tbl_regions_ext', 'region_name', 'Расширенное название региона', 'test_alias_name', 'string', 'count', true),
-             -- Добор колонок именованных таблиц: в каждой таблице должно быть
-             -- не меньше пяти полей (верхняя граница — 30, см. секцию 9.1)
-             ('test_tbl_orders', 'status', 'Статус заказа', 'test_alias_status', 'string', 'count', true),
-             ('test_tbl_orders', 'channel', 'Канал продаж', 'test_alias_channel', 'string', 'count', true),
-             ('test_tbl_clients', 'email', 'Email клиента', 'test_alias_email', 'string', 'count', true),
-             ('test_tbl_clients', 'phone', 'Телефон клиента', 'test_alias_phone', 'string', 'count', false),
-             ('test_tbl_clients', 'client_type', 'Тип клиента', 'test_alias_type', 'string', 'count', true),
-             ('test_tbl_geo', 'country', 'Страна', 'test_alias_country', 'string', 'count', true),
-             ('test_tbl_geo', 'geo_code', 'Код географии', 'test_alias_code', 'string', 'count', true),
-             ('test_tbl_payments', 'payment_dt', 'Дата платежа', 'test_alias_dt', 'date', 'max', true),
-             ('test_tbl_payments', 'currency', 'Валюта платежа', 'test_alias_currency', 'string', 'count', true),
-             ('test_tbl_payments', 'status', 'Статус платежа', 'test_alias_status', 'string', 'count', true),
-             ('test_tbl_products', 'category', 'Категория товара', 'test_alias_category', 'string', 'count', true),
-             ('test_tbl_products', 'price', 'Цена товара', 'test_alias_price', 'decimal', 'avg', true),
-             ('test_tbl_products', 'weight', 'Вес товара', 'test_alias_weight', 'float', 'sum', false),
-             ('test_tbl_suppliers', 'country', 'Страна поставщика', 'test_alias_country', 'string', 'count', true),
-             ('test_tbl_suppliers', 'city', 'Город поставщика', 'test_alias_city', 'string', 'count', true),
-             ('test_tbl_suppliers', 'rating', 'Рейтинг поставщика', 'test_alias_rating', 'float', 'avg', true),
-             ('test_tbl_inventory', 'volume', 'Занимаемый объём', 'test_alias_volume', 'float', 'sum', false),
-             ('test_tbl_inventory', 'warehouse_code', 'Код склада', 'test_alias_code', 'string', 'count', true),
-             ('test_tbl_shipments', 'status', 'Статус отгрузки', 'test_alias_status', 'string', 'count', true),
-             ('test_tbl_shipments', 'weight', 'Вес отгрузки', 'test_alias_weight', 'float', 'sum', false),
-             ('test_tbl_returns', 'return_dt', 'Дата возврата', 'test_alias_dt', 'date', 'max', true),
-             ('test_tbl_returns', 'reason', 'Причина возврата', 'test_alias_comment', 'text', 'count', true),
-             ('test_tbl_invoices', 'invoice_dt', 'Дата счёта', 'test_alias_dt', 'date', 'max', true),
-             ('test_tbl_invoices', 'currency', 'Валюта счёта', 'test_alias_currency', 'string', 'count', true),
-             ('test_tbl_refunds', 'refund_dt', 'Дата возврата платежа', 'test_alias_dt', 'date', 'max', true),
-             ('test_tbl_refunds', 'status', 'Статус возврата платежа', 'test_alias_status', 'string', 'count', true),
-             ('test_tbl_employees', 'email', 'Email сотрудника', 'test_alias_email', 'string', 'count', true),
-             ('test_tbl_employees', 'phone', 'Телефон сотрудника', 'test_alias_phone', 'string', 'count', false),
-             ('test_tbl_employees', 'city', 'Город сотрудника', 'test_alias_city', 'string', 'count', true),
              ('test_tbl_campaigns', 'campaign_dt', 'Дата старта кампании', 'test_alias_dt', 'date', 'max', true),
-             ('test_tbl_campaigns', 'channel', 'Канал кампании', 'test_alias_channel', 'string', 'count', true),
              ('test_tbl_campaigns', 'budget', 'Бюджет кампании', 'test_alias_amount', 'decimal', 'sum', true),
-             ('test_tbl_regions_ext', 'country', 'Страна региона', 'test_alias_country', 'string', 'count', true),
-             ('test_tbl_regions_ext', 'region_code', 'Код региона', 'test_alias_code', 'string', 'count', true),
-             ('test_tbl_regions_ext', 'priority', 'Приоритет региона', 'test_alias_priority', 'int', 'max', true)
+             ('test_tbl_regions_ext', 'region_id', 'Идентификатор региона', 'test_alias_geo', 'bigint', 'count_distinct', true),
+             ('test_tbl_regions_ext', 'region_name', 'Расширенное название региона', 'test_alias_name', 'string', 'count', true),
+             ('test_tbl_regions_ext', 'region_code', 'Код региона', 'test_alias_code', 'string', 'count', true)
      ) AS v(table_name, name, description, alias_name, coltype_name, calc_name, show_in_ui)
          JOIN dc.table_cat t ON t."name" = v.table_name
          JOIN dc.alias a ON a."name" = v.alias_name
@@ -310,17 +329,29 @@ FROM (VALUES ('test_tbl_orders', 'order_id', 'Идентификатор зак�
 ON CONFLICT DO NOTHING;
 
 -- -------------------------------------------------------------------------
--- 9.1. Колонки сгенерированных таблиц
+-- 9.1. Базовый шаблон колонок для всех тестовых таблиц
 -- -------------------------------------------------------------------------
--- Каждая из 286 таблиц test_tbl_gen_* получает от 5 до 30 колонок:
--- количество = 5 + (номер таблицы % 26), колонки берутся из шаблона ниже
--- по порядку j = 1 .. количество. Шаблон детерминирован, поэтому повторный
--- прогон даёт тот же набор, а column_cat_name_unique (table_id, name) вместе
--- с ON CONFLICT DO NOTHING гасит дубли.
+-- Шаблон из 32 позиций разворачивается на КАЖДУЮ таблицу с именем test_%,
+-- то есть и на 14 именованных, и на 286 сгенерированных. Отсюда берётся
+-- требуемый объём:
 --
--- Алиасы шаблона — те же 30 test_alias_*, что и в секции 7; типы колонок
--- и типы расчётов берутся из миграций 000000041 и 000000034, новых строк
--- в эти справочники скрипт по-прежнему не добавляет.
+--   * 32 колонки в каждой таблице (минимум по требованию — 30);
+--   * позиции j = 1..20 идут с show_in_ui = true — 20 видимых колонок
+--     в каждой таблице (минимум по требованию — 10);
+--   * позиции j = 21..27 — скрытые, но с алиасом;
+--   * позиции j = 28..32 — скрытые и без алиаса (alias_id IS NULL,
+--     разрешено миграцией 000000046). Правило «show_in_ui = true требует
+--     alias_id» не нарушается: без алиаса тут только скрытые колонки.
+--
+-- Пара (alias_name, coltype_name) в каждой строке шаблона согласована
+-- с секцией 7 — иначе сломается правило совпадения типов колонки и алиаса.
+-- У позиций без алиаса column_type_id всё равно заполнен: он NOT NULL
+-- на уровне схемы и не зависит от наличия алиаса.
+--
+-- Имена колонок совпадают у всех таблиц, поэтому у именованных таблиц часть
+-- шаблонных позиций гасится ON CONFLICT DO NOTHING — там уже стоит строка
+-- из секции 9 с тем же именем. Итоговое число колонок именованной таблицы =
+-- 32 + (её собственные колонки, которых нет в шаблоне), то есть всегда > 30.
 INSERT INTO dc.column_cat (table_id, "name", alias_id, column_type_id, description,
                            calculation_type_id, is_deleted, show_in_ui,
                            created_at, updated_at, user_id)
@@ -328,12 +359,12 @@ SELECT t.id,
        tpl.col_name,
        a.id,
        ct.id,
-       tpl.col_description || ' (сгенерированная таблица ' || to_char(g.i, 'FM000') || ')',
+       tpl.col_description || ' (' || t."name" || ')',
        calc.id,
        false,
        tpl.j <= 20,
        now(), now(), u.id
-FROM generate_series(1, 286) AS g(i)
+FROM dc.table_cat t
          CROSS JOIN (VALUES (1, 'id', 'Идентификатор', 'test_alias_id', 'bigint', 'count_distinct'),
                             (2, 'name', 'Наименование', 'test_alias_name', 'string', 'count'),
                             (3, 'code', 'Код', 'test_alias_code', 'string', 'count'),
@@ -345,32 +376,35 @@ FROM generate_series(1, 286) AS g(i)
                             (9, 'is_active', 'Признак активности', 'test_alias_flag', 'bool', 'count'),
                             (10, 'email', 'Email', 'test_alias_email', 'string', 'count'),
                             (11, 'phone', 'Телефон', 'test_alias_phone', 'string', 'count'),
-                            (12, 'url', 'Ссылка', 'test_alias_url', 'text', 'count'),
-                            (13, 'percent', 'Процент', 'test_alias_percent', 'float', 'avg'),
-                            (14, 'weight', 'Вес', 'test_alias_weight', 'float', 'sum'),
-                            (15, 'volume', 'Объём', 'test_alias_volume', 'float', 'sum'),
-                            (16, 'currency', 'Валюта', 'test_alias_currency', 'string', 'count'),
-                            (17, 'country', 'Страна', 'test_alias_country', 'string', 'count'),
-                            (18, 'city', 'Город', 'test_alias_city', 'string', 'count'),
-                            (19, 'category', 'Категория', 'test_alias_category', 'string', 'count'),
-                            (20, 'type', 'Тип', 'test_alias_type', 'string', 'count'),
-                            (21, 'score', 'Оценка', 'test_alias_score', 'int', 'avg'),
-                            (22, 'rating', 'Рейтинг', 'test_alias_rating', 'float', 'avg'),
-                            (23, 'duration', 'Длительность', 'test_alias_duration', 'int', 'sum'),
-                            (24, 'version', 'Версия', 'test_alias_version', 'string', 'count'),
-                            (25, 'comment', 'Комментарий', 'test_alias_comment', 'text', 'count'),
-                            (26, 'tag', 'Тег', 'test_alias_tag', 'string', 'count'),
-                            (27, 'priority', 'Приоритет', 'test_alias_priority', 'int', 'max'),
-                            (28, 'channel', 'Канал', 'test_alias_channel', 'string', 'count'),
-                            (29, 'source', 'Источник', 'test_alias_source', 'string', 'count'),
-                            (30, 'geo_id', 'Идентификатор географии', 'test_alias_geo', 'bigint', 'count_distinct')
+                            (12, 'created_at', 'Дата и время создания', 'test_alias_created_at', 'datetime', 'max'),
+                            (13, 'event_ts', 'Момент события', 'test_alias_event_ts', 'datetime_tz', 'max'),
+                            (14, 'percent', 'Процент', 'test_alias_percent', 'float', 'avg'),
+                            (15, 'weight', 'Вес', 'test_alias_weight', 'float', 'sum'),
+                            (16, 'volume', 'Объём', 'test_alias_volume', 'float', 'sum'),
+                            (17, 'currency', 'Валюта', 'test_alias_currency', 'string', 'count'),
+                            (18, 'country', 'Страна', 'test_alias_country', 'string', 'count'),
+                            (19, 'city', 'Город', 'test_alias_city', 'string', 'count'),
+                            (20, 'category', 'Категория', 'test_alias_category', 'string', 'count'),
+                            -- Скрытые колонки с алиасом
+                            (21, 'type', 'Тип', 'test_alias_type', 'string', 'count'),
+                            (22, 'score', 'Оценка', 'test_alias_score', 'int', 'avg'),
+                            (23, 'rating', 'Рейтинг', 'test_alias_rating', 'float', 'avg'),
+                            (24, 'duration', 'Длительность', 'test_alias_duration', 'int', 'sum'),
+                            (25, 'version', 'Версия', 'test_alias_version', 'string', 'count'),
+                            (26, 'geo_id', 'Идентификатор географии', 'test_alias_geo', 'bigint', 'count_distinct'),
+                            (27, 'url', 'Ссылка', 'test_alias_url', 'text', 'count'),
+                            -- Скрытые колонки без алиаса (alias_id IS NULL)
+                            (28, 'comment', 'Комментарий', NULL, 'text', 'count'),
+                            (29, 'tag', 'Тег', NULL, 'string', 'count'),
+                            (30, 'priority', 'Приоритет', NULL, 'int', 'max'),
+                            (31, 'channel', 'Канал', NULL, 'string', 'count'),
+                            (32, 'source', 'Источник', NULL, 'string', 'count')
                     ) AS tpl(j, col_name, col_description, alias_name, coltype_name, calc_name)
-         JOIN dc.table_cat t ON t."name" = 'test_tbl_gen_' || to_char(g.i, 'FM000')
-         JOIN dc.alias a ON a."name" = tpl.alias_name
+         LEFT JOIN dc.alias a ON a."name" = tpl.alias_name
          JOIN dc.column_type ct ON ct."name" = tpl.coltype_name
          JOIN dc.calculation_type calc ON calc."name" = tpl.calc_name
          CROSS JOIN (SELECT id FROM dc."user" WHERE "name" = 'test_user_admin') u
-WHERE tpl.j <= 5 + (g.i % 26)
+WHERE t."name" LIKE 'test\_%'
 ON CONFLICT DO NOTHING;
 
 -- -------------------------------------------------------------------------
@@ -547,6 +581,87 @@ WHERE NOT EXISTS (SELECT 1
                     AND utr.table_roles_id = r.id
                     AND utr.table_id = t.id);
 
+-- -------------------------------------------------------------------------
+-- 16. Проверка инвариантов набора (до COMMIT)
+-- -------------------------------------------------------------------------
+-- Блок ничего не пишет, только считает и падает с понятным сообщением, если
+-- набор не соответствует требованиям. Он внутри той же транзакции, поэтому
+-- при нарушении откатывается весь скрипт — полусобранных данных в базе
+-- не остаётся.
+DO
+$$
+    DECLARE
+        v_tables            bigint;
+        v_tables_no_columns bigint;
+        v_min_columns       bigint;
+        v_min_visible       bigint;
+        v_ui_without_alias  bigint;
+        v_type_mismatch     bigint;
+    BEGIN
+        -- 1. Не меньше 300 тестовых таблиц
+        SELECT count(*) INTO v_tables FROM dc.table_cat WHERE "name" LIKE 'test\_%';
+        IF v_tables < 300 THEN
+            RAISE EXCEPTION 'Тестовых таблиц %, требуется не меньше 300', v_tables;
+        END IF;
+
+        -- 2. Таблиц без колонок быть не должно: они не попадут в GROUP BY ниже
+        --    и молча пройдут проверку минимума
+        SELECT count(*)
+        INTO v_tables_no_columns
+        FROM dc.table_cat t
+        WHERE t."name" LIKE 'test\_%'
+          AND NOT EXISTS (SELECT 1 FROM dc.column_cat c WHERE c.table_id = t.id);
+        IF v_tables_no_columns > 0 THEN
+            RAISE EXCEPTION 'Тестовых таблиц без единой колонки: %', v_tables_no_columns;
+        END IF;
+
+        -- 3. Не меньше 30 колонок и не меньше 10 видимых в каждой таблице
+        SELECT min(q.cnt), min(q.visible)
+        INTO v_min_columns, v_min_visible
+        FROM (SELECT count(*)                                   AS cnt,
+                     count(*) FILTER (WHERE c.show_in_ui)       AS visible
+              FROM dc.column_cat c
+                       JOIN dc.table_cat t ON t.id = c.table_id
+              WHERE t."name" LIKE 'test\_%'
+              GROUP BY c.table_id) q;
+
+        IF v_min_columns < 30 THEN
+            RAISE EXCEPTION 'Минимум колонок в тестовой таблице — %, требуется не меньше 30', v_min_columns;
+        END IF;
+
+        IF v_min_visible < 10 THEN
+            RAISE EXCEPTION 'Минимум видимых (show_in_ui) колонок в тестовой таблице — %, требуется не меньше 10', v_min_visible;
+        END IF;
+
+        -- 4. show_in_ui = true требует alias_id (ColumnCatGuard)
+        SELECT count(*)
+        INTO v_ui_without_alias
+        FROM dc.column_cat c
+                 JOIN dc.table_cat t ON t.id = c.table_id
+        WHERE t."name" LIKE 'test\_%'
+          AND c.show_in_ui
+          AND c.alias_id IS NULL;
+        IF v_ui_without_alias > 0 THEN
+            RAISE EXCEPTION 'Колонок с show_in_ui = true и пустым alias_id: %', v_ui_without_alias;
+        END IF;
+
+        -- 5. Тип колонки обязан совпадать с типом её алиаса (ColumnCatGuard)
+        SELECT count(*)
+        INTO v_type_mismatch
+        FROM dc.column_cat c
+                 JOIN dc.table_cat t ON t.id = c.table_id
+                 JOIN dc.alias a ON a.id = c.alias_id
+        WHERE t."name" LIKE 'test\_%'
+          AND a.column_type_id <> c.column_type_id;
+        IF v_type_mismatch > 0 THEN
+            RAISE EXCEPTION 'Колонок с типом, не совпадающим с типом алиаса: %', v_type_mismatch;
+        END IF;
+
+        RAISE NOTICE 'Тестовый набор: % таблиц, минимум % колонок и % видимых колонок на таблицу',
+            v_tables, v_min_columns, v_min_visible;
+    END
+$$;
+
 COMMIT;
 
 -- =========================================================================
@@ -564,14 +679,21 @@ COMMIT;
 --     WHERE EXISTS (SELECT 1 FROM dc.table_cat t WHERE t.id = c.table_id AND t."name" LIKE 'test\_%')
 -- ORDER BY 1;
 --
--- Ожидаемо: table_cat = 300 (14 именованных + 286 сгенерированных),
--- column_cat = 5081.
+-- Ожидаемо: alias = 32, table_cat = 300 (14 именованных + 286 сгенерированных),
+-- column_cat = 9645 = 300 * 32 шаблонных - 7 (столько шаблонных имён уже
+-- заняты колонками из секции 9: amount у шести таблиц и qty у inventory)
+-- + 52 собственные колонки именованных таблиц.
 --
--- Проверка ограничения «в каждой таблице от 5 до 30 полей»
--- (ожидаемо: 300 строк, min_cols = 5, max_cols = 30):
+-- Разрез по таблицам (ожидаемо: 300 строк, min_cols = 32, max_cols = 36,
+-- min_visible = 20):
 --
--- SELECT count(*) AS tables, min(cnt) AS min_cols, max(cnt) AS max_cols
--- FROM (SELECT c.table_id, count(*) AS cnt
+-- SELECT count(*)     AS tables,
+--        min(cnt)     AS min_cols,
+--        max(cnt)     AS max_cols,
+--        min(visible) AS min_visible
+-- FROM (SELECT c.table_id,
+--              count(*)                             AS cnt,
+--              count(*) FILTER (WHERE c.show_in_ui) AS visible
 --       FROM dc.column_cat c
 --                JOIN dc.table_cat t ON t.id = c.table_id
 --       WHERE t."name" LIKE 'test\_%'

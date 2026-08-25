@@ -108,6 +108,10 @@ def req_to_param_expr(f, var):
         return getter
     if pair == ("uuid.UUID", "string"):
         return "converter.ProtoToUUID(%s)" % getter
+    if pair == ("time.Time", "*timestamppb.Timestamp"):
+        # Клиент явно передаёт значение (например created_at/updated_at в
+        # Update/Delete) — не nullable, поле не помечено optional в .proto.
+        return "converter.ProtoToTime(%s)" % getter
     if pair in NULLABLE_PAIRS:
         return "%s(%s.%s)" % (NULLABLE_PAIRS[pair], var, f["proto"])
     raise Exception("нет правила для %s -> %s" % pair)
@@ -577,28 +581,61 @@ def gen_rows_to_proto_test(plural_conv, sample_func, repo, struct, fields):
     return lines
 
 
-def gen_params_test_block(proto, repo, req_type, params_type, func_name, fields, ptr_helper=None):
+def gen_params_test_block(proto, repo, req_type, params_type, func_name, fields, ptr_helper=None, time_prefix=None):
     """TestTo<Func>Params + TestTo<Func>ParamsNil — общий шаблон для Create и
-    для update/delete/undelete в форме параметров."""
+    для update/delete/undelete в форме параметров.
+
+    time.Time сравнивается через Equal(), а не через общий "got != want":
+    ProtoToTime гоняет значение через timestamppb (Unix-секунды и наносекунды),
+    и хотя для дат в разумном диапазоне это даёт побитово тот же time.Time,
+    что и литерал time.Date(...), полагаться на такое совпадение — забег
+    с граблями. После проверки оба временных поля обнуляются, чтобы остаток
+    структуры остался сравним одним "!=", как для всех прочих типов полей.
+    """
+    time_fields = [f for f in fields if f["go_type"] == "time.Time"]
+
+    def time_var(f):
+        return "%sCreatedAt" % time_prefix if f["col"] == "created_at" else "%sUpdatedAt" % time_prefix
+
     lines = []
     lines.append("func Test%s(t *testing.T) {" % func_name)
     lines.append("\treq := &%s.%s{" % (proto, req_type))
     for i, f in enumerate(fields):
-        v = sample_value(f, i, ptr_helper=ptr_helper)
+        if f["go_type"] == "time.Time":
+            v = "timestamppb.New(%s)" % time_var(f)
+        else:
+            v = sample_value(f, i, ptr_helper=ptr_helper)
         lines.append("\t\t%s: %s," % (f["proto"], v))
     lines.append("\t}")
     lines.append("")
     lines.append("\twant := %s.%s{" % (repo, params_type))
     for i, f in enumerate(fields):
-        v = repo_sample_value(f, i)
-        if f["go_type"] == "int16":
-            v = str(10 + i)
+        if f["go_type"] == "time.Time":
+            v = time_var(f)
+        else:
+            v = repo_sample_value(f, i)
+            if f["go_type"] == "int16":
+                v = str(10 + i)
         lines.append("\t\t%s: %s," % (f["go"], v))
     lines.append("\t}")
     lines.append("")
-    lines.append("\tif got := %s(req); got != want {" % func_name)
-    lines.append('\t\tt.Errorf("%s() = %%+v, want %%+v", got, want)' % func_name)
-    lines.append("\t}")
+    if time_fields:
+        lines.append("\tgot := %s(req)" % func_name)
+        for f in time_fields:
+            lines.append("\tif !got.%s.Equal(want.%s) {" % (f["go"], f["go"]))
+            lines.append(
+                '\t\tt.Errorf("%s.%s = %%v, want %%v", got.%s, want.%s)' % (func_name, f["go"], f["go"], f["go"])
+            )
+            lines.append("\t}")
+            lines.append("\tgot.%s, want.%s = time.Time{}, time.Time{}" % (f["go"], f["go"]))
+        lines.append("")
+        lines.append("\tif got != want {")
+        lines.append('\t\tt.Errorf("%s() = %%+v, want %%+v", got, want)' % func_name)
+        lines.append("\t}")
+    else:
+        lines.append("\tif got := %s(req); got != want {" % func_name)
+        lines.append('\t\tt.Errorf("%s() = %%+v, want %%+v", got, want)' % func_name)
+        lines.append("\t}")
     lines.append("}")
     lines.append("")
 
@@ -625,16 +662,20 @@ def gen_converter_test(meta, e):
     ]
 
     row_fields = e["row_fields"] + query_row_fields(e)
-    has_time = any(f["go_type"] in ("time.Time", "sql.NullTime") for f in row_fields)
+    extra_fields = list(e["create_fields"])
+    for _, op in param_ops:
+        extra_fields += op["fields"]
+
+    # time.Time в extra_fields — клиент явно передаёт created_at/updated_at в
+    # Update/Delete (см. ProtoToTime); своих CreatedAt/UpdatedAt var'ов у
+    # такой таблицы могло бы не быть, даже если в строке колонки есть, но
+    # они всегда есть — created_at/updated_at стандартны для всех таблиц.
+    has_time = any(f["go_type"] in ("time.Time", "sql.NullTime") for f in row_fields + extra_fields)
     has_nulltime = any(f["go_type"] == "sql.NullTime" for f in row_fields)
     # Необязательные фильтры сравниваются с sql.Null*-литералами и требуют
     # адреса значения для optional-полей proto — отсюда импорт и хелпер.
     optional_filters = [f for f in all_filter_fields(e) if (f["go_type"], f["proto_type"]) in NULLABLE_PAIRS]
     ptr_helper = "%sPtr" % lower_first(E)
-
-    extra_fields = list(e["create_fields"])
-    for _, op in param_ops:
-        extra_fields += op["fields"]
 
     # Указатель нужен не только фильтрам: nullable-колонка (dc.column_cat.alias_id)
     # приезжает в строке и в параметрах Create/Update тем же optional-полем proto.
@@ -690,7 +731,7 @@ def gen_converter_test(meta, e):
         lines.extend(
             gen_params_test_block(
                 proto, repo, "Create%sRequest" % E, e["create_params"], "ToCreate%sParams" % E,
-                e["create_fields"], ptr_helper,
+                e["create_fields"], ptr_helper, lower_first(E),
             )
         )
 
@@ -699,7 +740,8 @@ def gen_converter_test(meta, e):
         name = op["query"]
         lines.extend(
             gen_params_test_block(
-                proto, repo, name + "Request", op["params_type"], "To%sParams" % name, op["fields"], ptr_helper
+                proto, repo, name + "Request", op["params_type"], "To%sParams" % name, op["fields"],
+                ptr_helper, lower_first(E),
             )
         )
 
@@ -811,6 +853,8 @@ def gen_converter_test(meta, e):
         head.append("\t" + meta["proto_import"])
     if paginated_lists:
         head.append('\t"%s"' % VALID_IMPORT)
+    if "timestamppb." in body:
+        head.append('\t"google.golang.org/protobuf/types/known/timestamppb"')
     head.append(")")
     head.append("")
     head.append("")
@@ -836,6 +880,12 @@ def field_validation_line(f, limit_entity):
         return '\tv.Int32Between("%s", %s, math.MinInt16, math.MaxInt16)' % (col, getter)
     if f["go_type"] == "uuid.UUID":
         return '\tv.StringUUID("%s", %s)' % (col, getter)
+    if f["go_type"] == "time.Time":
+        # Клиент явно передаёт значение (created_at/updated_at в Update/Delete).
+        # AsTime() на nil-Timestamp дал бы unix-эпоху (не нулевое time.Time),
+        # и TimeRequired не заметила бы "поле не передано" — поэтому через
+        # converter.ProtoToTime, как и в самом конвертере параметров.
+        return '\tv.TimeRequired("%s", converter.ProtoToTime(%s))' % (col, getter)
     if f["go_type"] == "bool":
         return None
     raise Exception("нет правила валидации для %s (%s)" % (col, f["go_type"]))
@@ -876,6 +926,9 @@ def gen_validation(meta, e):
     needs_math = any(f["go_type"] == "int16" for f in e["create_fields"]) or any(
         f["go_type"] == "int16" for _, op in param_ops for f in op["fields"]
     )
+    needs_conv = any(
+        f["go_type"] == "time.Time" for _, op in param_ops for f in op["fields"]
+    )
 
     lines = []
     lines.append("package %s" % meta["conv_pkg"])
@@ -885,6 +938,8 @@ def gen_validation(meta, e):
         lines.append('\t"math"')
         lines.append("")
     lines.append("\t" + meta["proto_import"])
+    if needs_conv:
+        lines.append('\t"%s"' % CONV_IMPORT)
     if paginated_lists:
         lines.append('\t"%s"' % VALID_IMPORT)
     lines.append('\t"%s"' % VALIDATOR_IMPORT)
@@ -1010,6 +1065,8 @@ def gen_validation_test(meta, e):
         if f["go_type"] == "sql.NullInt64":
             needs_ptr = True
             return "%s(int64(%d))" % (ptr_helper, 100 + i)
+        if f["go_type"] == "time.Time":
+            return "timestamppb.New(time.Date(2026, time.July, 1, 9, 0, 0, 0, time.UTC))"
         # Прежняя заглушка "0" молча подставляла неверный литерал вместо того,
         # чтобы упасть: для optional-поля он к тому же не компилировался.
         raise Exception("нет тестового литерала для %s (%s)" % (f["col"], f["go_type"]))
@@ -1087,6 +1144,11 @@ def gen_validation_test(meta, e):
                 out.append(
                     '\t\t{name: "zero %s", mutate: func(r *%s.%s) { r.%s = %s(int64(0)) }, wantField: "%s"},'
                     % (col, proto, reqtype, f["proto"], ptr_helper, col)
+                )
+            elif f["go_type"] == "time.Time":
+                out.append(
+                    '\t\t{name: "nil %s", mutate: func(r *%s.%s) { r.%s = nil }, wantField: "%s"},'
+                    % (col, proto, reqtype, f["proto"], col)
                 )
         out.append("\t}")
         out.append("")
@@ -1287,8 +1349,12 @@ def gen_validation_test(meta, e):
     if "strings.Repeat(" in body:
         head.append('\t"strings"')
     head.append('\t"testing"')
+    if "time.Date(" in body:
+        head.append('\t"time"')
     head.append("")
     head.append("\t" + meta["proto_import"])
+    if "timestamppb." in body:
+        head.append('\t"google.golang.org/protobuf/types/known/timestamppb"')
     head.append('\t"%s"' % VALIDATOR_IMPORT)
     head.append(")")
     head.append("")

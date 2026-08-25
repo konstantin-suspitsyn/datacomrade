@@ -2,7 +2,7 @@
 
 -- +goose StatementBegin
 CREATE FUNCTION dc.get_table_ids_by_external_user_and_role(
-    p_external_id text,
+    p_external_id uuid,
     p_role        text
 )
 RETURNS TABLE (id bigint)

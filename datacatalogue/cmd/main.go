@@ -12,6 +12,7 @@ import (
 
 	"github.com/joho/godotenv"
 	"github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/api/authlogicapiv1"
+	"github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/api/olapexchangeapiv1"
 	"github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/api/tablesapiv1"
 	"github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/api/userapiv1"
 	"github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/api/userdomainrolesapiv1"
@@ -19,6 +20,7 @@ import (
 	"github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/db"
 	"github.com/konstantin-suspitsyn/datacomrade/datacatalogue/internal/service/services"
 	authlogicv1 "github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/auth_logic/v1"
+	olapexchangev1 "github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/olap_exchange/v1"
 	tablesv1 "github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/tables/v1"
 	userv1 "github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/user/v1"
 	userdomainrolesv1 "github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/user_domain_roles/v1"
@@ -65,6 +67,7 @@ func main() {
 	userAPI := userapiv1.New(serviceLayer)
 	userDomainRolesAPI := userdomainrolesapiv1.New(serviceLayer)
 	authLogicAPI := authlogicapiv1.New(serviceLayer)
+	olapExchangeAPI := olapexchangeapiv1.New(serviceLayer)
 
 	// Создаем GRPC сервер
 	s := grpc.NewServer()
@@ -91,9 +94,11 @@ func main() {
 	tablesv1.RegisterTableCatServiceServer(s, tablesAPI)
 	tablesv1.RegisterTableTypeServiceServer(s, tablesAPI)
 	tablesv1.RegisterCalculationTypeServiceServer(s, tablesAPI)
+	tablesv1.RegisterTablesJoinsServiceServer(s, tablesAPI)
 	userdomainrolesv1.RegisterUserDomainRolesServiceServer(s, userDomainRolesAPI)
 	userdomainrolesv1.RegisterUserTableRolesServiceServer(s, userDomainRolesAPI)
 	authlogicv1.RegisterAuthLogicServiceServer(s, authLogicAPI)
+	olapexchangev1.RegisterAliasServiceServer(s, olapExchangeAPI)
 
 	reflection.Register(s)
 

@@ -61,9 +61,23 @@ def elem_to_proto_expr(elem_conv, var):
 
 
 def needs_converter_pkg(call):
+    if call["resp_form"] == "query_row":
+        if any(f["conv"] for f in call["row_fields"]):
+            return True
+        return any(f["go_type"] == "uuid.UUID" for f in call["req_fields"])
     if call["elem_conv"]:
         return True
     return any(f["go_type"] == "uuid.UUID" for f in call["req_fields"])
+
+
+def row_field_to_proto_expr(f, var):
+    """Выражение для поля proto-строки запроса из поля sqlc-строки (см.
+    pair_query_row_fields в resolve_custom.py — conv уже посчитан там же,
+    что и elem_conv для скалярных списков)."""
+    src = "%s.%s" % (var, f["go"])
+    if f["conv"] is None:
+        return src
+    return f["conv"] % src
 
 
 # ---------- converter ----------
@@ -92,7 +106,24 @@ def gen_converter(meta, calls):
         lines.append("}")
         lines.append("")
 
-        resp_go_type = ("[]" + c["go_elem"]) if c["is_slice"] else c["go_elem"]
+        if c["resp_form"] == "query_row":
+            lines.append(
+                "// %sToProto переводит строку запроса %s.%s в сообщение gRPC." % (c["go_elem"], meta["sqlc"], name)
+            )
+            lines.append(
+                "func %sToProto(row %s.%s) *%s.%s {" % (c["go_elem"], repo, c["go_elem"], proto, c["row_msg"])
+            )
+            lines.append("\treturn &%s.%s{" % (proto, c["row_msg"]))
+            for f in c["row_fields"]:
+                lines.append("\t\t%s: %s," % (f["proto"], row_field_to_proto_expr(f, "row")))
+            lines.append("\t}")
+            lines.append("}")
+            lines.append("")
+
+        # query_row — тип элемента определён в repo-пакете (это не примитив,
+        # как в скалярной форме), нужен квалификатор пакета.
+        elem_type = "%s.%s" % (repo, c["go_elem"]) if c["resp_form"] == "query_row" else c["go_elem"]
+        resp_go_type = ("[]" + elem_type) if c["is_slice"] else elem_type
         arg = lower_first(c["resp_field"])
         lines.append(
             "// %sToProto переводит результат %s.%s в ответ gRPC." % (name, meta["sqlc"], name)
@@ -100,7 +131,15 @@ def gen_converter(meta, calls):
         lines.append(
             "func %sToProto(%s %s) *%s.%sResponse {" % (name, arg, resp_go_type, proto, name)
         )
-        if c["elem_conv"] is None:
+        if c["resp_form"] == "query_row":
+            lines.append("\titems := make([]*%s.%s, 0, len(%s))" % (proto, c["row_msg"], arg))
+            lines.append("")
+            lines.append("\tfor _, row := range %s {" % arg)
+            lines.append("\t\titems = append(items, %sToProto(row))" % c["go_elem"])
+            lines.append("\t}")
+            lines.append("")
+            lines.append("\treturn &%s.%sResponse{%s: items}" % (proto, name, c["resp_field"]))
+        elif c["elem_conv"] is None:
             lines.append("\treturn &%s.%sResponse{%s: %s}" % (proto, name, c["resp_field"], arg))
         else:
             proto_elem = c["proto_elem"]
@@ -127,6 +166,11 @@ def uuid_literal(idx):
 
 
 def sample_proto(f, idx):
+    if f["col"] == "order":
+        # "" / ASC / DESC — единственные значения, которые проходят валидацию
+        # (см. validation_call); произвольный литерал сделал бы "valid"-кейс
+        # тестов сгенерированной валидации невалидным.
+        return '"ASC"'
     if f["go_type"] == "string":
         return '"%s-%d"' % (f["col"].replace("_", "-"), idx)
     if f["go_type"] == "int64":
@@ -155,11 +199,64 @@ def elem_samples(go_elem):
     raise Exception("нет тестовых значений для элемента %s" % go_elem)
 
 
+def row_field_sample(f, idx):
+    """Значение поля своей строки запроса (query_row) для теста — как
+    sample_repo, но ключ по f['go'] вместо f['col']: у строки запроса нет
+    колонки (см. pair_query_row_fields)."""
+    t = f["go_type"]
+    if t == "string":
+        return '"%s-%d"' % (f["go"].lower(), idx)
+    if t == "int64":
+        return str(100 + idx)
+    if t == "bool":
+        return "true"
+    if t == "uuid.UUID":
+        return "uuid.MustParse(%s)" % ('"%s"' % uuid_literal(idx))
+    raise Exception("нет тестового значения для строки запроса %s (%s)" % (f["go"], t))
+
+
+def gen_query_row_test(c, repo, proto):
+    """test<Row>() + Test<Row>ToProto — по образцу gen_row_sample_block/
+    gen_row_to_proto_test в gen.py, но для строки запроса без сущности."""
+    row_struct = c["go_elem"]
+    fields = c["row_fields"]
+    sample_fn = "test%sRow" % row_struct
+
+    lines = []
+    lines.append("// %s — строка запроса %s со значениями, различимыми между полями." % (sample_fn, row_struct))
+    lines.append("func %s() %s.%s {" % (sample_fn, repo, row_struct))
+    lines.append("\treturn %s.%s{" % (repo, row_struct))
+    for i, f in enumerate(fields):
+        lines.append("\t\t%s: %s," % (f["go"], row_field_sample(f, i)))
+    lines.append("\t}")
+    lines.append("}")
+    lines.append("")
+
+    lines.append("func Test%sToProto(t *testing.T) {" % row_struct)
+    lines.append("\trow := %s()" % sample_fn)
+    lines.append("\tgot := %sToProto(row)" % row_struct)
+    lines.append("")
+    lines.append("\tif got == nil {")
+    lines.append('\t\tt.Fatal("%sToProto() = nil, want value")' % row_struct)
+    lines.append("\t}")
+    lines.append("")
+    for f in fields:
+        want = row_field_to_proto_expr(f, "row")
+        lines.append("\tif got.Get%s() != %s {" % (f["proto"], want))
+        lines.append('\t\tt.Errorf("%s = %%v, want %%v", got.Get%s(), %s)' % (f["proto"], f["proto"], want))
+        lines.append("\t}")
+    lines.append("}")
+    lines.append("")
+    return lines
+
+
 def gen_converter_test(meta, calls):
     proto = meta["proto_alias"]
     repo = meta["repo_alias"]
 
-    needs_uuid = any(f["go_type"] == "uuid.UUID" for c in calls for f in c["req_fields"])
+    needs_uuid = any(f["go_type"] == "uuid.UUID" for c in calls for f in c["req_fields"]) or any(
+        f["go_type"] == "uuid.UUID" for c in calls if c["resp_form"] == "query_row" for f in c["row_fields"]
+    )
 
     lines = ["package %s" % meta["conv_pkg"], "", "import (", '\t"testing"', ""]
     if needs_uuid:
@@ -199,20 +296,41 @@ def gen_converter_test(meta, calls):
         lines.append("}")
         lines.append("")
 
-        elem_lit, count = elem_samples(c["go_elem"])
-        arg = lower_first(c["resp_field"])
-        lines.append("func Test%sToProto(t *testing.T) {" % name)
-        lines.append("\tgot := %sToProto(%s)" % (name, elem_lit))
-        lines.append("")
-        lines.append("\tif got == nil {")
-        lines.append('\t\tt.Fatal("%sToProto() = nil, want value")' % name)
-        lines.append("\t}")
-        lines.append("")
-        lines.append("\tif len(got.Get%s()) != %s {" % (c["resp_field"], count))
-        lines.append('\t\tt.Errorf("len(%s) = %%d, want %s", len(got.Get%s()))' % (c["resp_field"], count, c["resp_field"]))
-        lines.append("\t}")
-        lines.append("}")
-        lines.append("")
+        if c["resp_form"] == "query_row":
+            lines.extend(gen_query_row_test(c, repo, proto))
+
+            lines.append("func Test%sToProto(t *testing.T) {" % name)
+            lines.append(
+                "\tgot := %sToProto([]%s.%s{test%sRow()})" % (name, repo, c["go_elem"], c["go_elem"])
+            )
+            lines.append("")
+            lines.append("\tif got == nil {")
+            lines.append('\t\tt.Fatal("%sToProto() = nil, want value")' % name)
+            lines.append("\t}")
+            lines.append("")
+            lines.append("\tif len(got.Get%s()) != 1 {" % c["resp_field"])
+            lines.append(
+                '\t\tt.Errorf("len(%s) = %%d, want 1", len(got.Get%s()))' % (c["resp_field"], c["resp_field"])
+            )
+            lines.append("\t}")
+            lines.append("}")
+            lines.append("")
+        else:
+            elem_lit, count = elem_samples(c["go_elem"])
+            lines.append("func Test%sToProto(t *testing.T) {" % name)
+            lines.append("\tgot := %sToProto(%s)" % (name, elem_lit))
+            lines.append("")
+            lines.append("\tif got == nil {")
+            lines.append('\t\tt.Fatal("%sToProto() = nil, want value")' % name)
+            lines.append("\t}")
+            lines.append("")
+            lines.append("\tif len(got.Get%s()) != %s {" % (c["resp_field"], count))
+            lines.append(
+                '\t\tt.Errorf("len(%s) = %%d, want %s", len(got.Get%s()))' % (c["resp_field"], count, c["resp_field"])
+            )
+            lines.append("\t}")
+            lines.append("}")
+            lines.append("")
 
     return "\n".join(lines)
 
@@ -220,6 +338,9 @@ def gen_converter_test(meta, calls):
 # ---------- validation ----------
 def validation_call(f):
     col, getter = f["col"], "req.Get%s()" % f["proto"]
+    if col == "order":
+        # Не колонка — направление сортировки, границы длины нет и не нужно.
+        return 'v.StringIn("order", %s, "", "ASC", "DESC")' % getter
     if f["go_type"] == "string":
         if f["varchar"] is None:
             raise Exception("нет границы varchar для %s" % col)
@@ -275,7 +396,8 @@ def gen_limits(meta, calls):
     seen = {}
     for c in calls:
         for f in c["req_fields"]:
-            if f["go_type"] != "string":
+            if f["go_type"] != "string" or f["varchar"] is None:
+                # varchar is None — управляющее поле (order и т.п.), не колонка.
                 continue
             if f["col"] in seen and seen[f["col"]] != f["varchar"]:
                 raise Exception(
@@ -349,7 +471,12 @@ def gen_validation_test(meta, calls):
         lines.append('\t\t{name: "valid", mutate: func(*%s.%sRequest) {}},' % (proto, name))
         for f in c["req_fields"]:
             col = f["col"]
-            if f["go_type"] == "string":
+            if col == "order":
+                lines.append(
+                    '\t\t{name: "invalid order", mutate: func(r *%s.%sRequest) { r.%s = "sideways" }, wantField: "order"},'
+                    % (proto, name, f["proto"])
+                )
+            elif f["go_type"] == "string":
                 lines.append(
                     '\t\t{name: "empty %s", mutate: func(r *%s.%sRequest) { r.%s = "" }, wantField: "%s"},'
                     % (col, proto, name, f["proto"], col)
@@ -435,7 +562,9 @@ def gen_service(meta, calls):
     for c in calls:
         name = c["query"]
         repo = meta["repo_alias"]
-        ret = ("[]" + c["go_elem"]) if c["is_slice"] else c["go_elem"]
+        # query_row — тип элемента определён в repo-пакете, не примитив.
+        elem_type = "%s.%s" % (repo, c["go_elem"]) if c["resp_form"] == "query_row" else c["go_elem"]
+        ret = ("[]" + elem_type) if c["is_slice"] else elem_type
         lines.append("// %s оборачивает sqlc-запрос %s.%s." % (name, meta["sqlc"], name))
         lines.append(
             "func (%s *%s) %s(ctx context.Context, params %s.%s) (%s, error) {"
