@@ -1,0 +1,29 @@
+services:
+  postgres_query_engine:
+    image: ${QUERY_ENGINE_POSTGRES_IMAGE}
+    container_name: ${QUERY_ENGINE_POSTGRES_CONTAINER_NAME} # Имя контейнера базы данных
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: ${QUERY_ENGINE_POSTGRES_USER} # Пользователь базы данных из .env
+      POSTGRES_PASSWORD: ${QUERY_ENGINE_POSTGRES_PASSWORD} # Пароль базы данных из .env
+      POSTGRES_DB: ${QUERY_ENGINE_POSTGRES_DB}
+    ports:
+      - "${QUERY_ENGINE_POSTGRES_PORT}:5432" # Пробрасываем порт: внешний из .env, внутренний фиксированный
+    volumes:
+      - qe_pgdata:/var/lib/postgresql # Volume для сохранности данных базы
+    healthcheck: # Проверяем "здоровье" контейнера базы
+      test: ["CMD-SHELL", "pg_isready -U ${QUERY_ENGINE_POSTGRES_USER} -d ${QUERY_ENGINE_POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped # Автоматический перезапуск контейнера, кроме ручной остановки
+    networks:
+      - query-engine-network
+
+networks:
+  query-engine-network:
+    driver: bridge # Обычная bridge-сеть Docker
+
+volumes:
+  qe_pgdata: # Volume для данных базы, Docker создаст его автоматически

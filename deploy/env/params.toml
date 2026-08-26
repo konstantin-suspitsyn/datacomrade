@@ -22,6 +22,19 @@ datacatalogue.goose.GOOSE_DBSTRING="postgres://${DATACATALOGUE_POSTGRES_USER}:${
 datacatalogue.goose.GOOSE_MIGRATION_DIR="./db/migrations"
 datacatalogue.goose.GOOSE_TABLE="tech.goose_migrations"
 
+query_engine.comment="Данные для микросервиса QUERY_ENGINE"
+query_engine.db.comment="Postgres DB settings"
+query_engine.db.QUERY_ENGINE_POSTGRES_CONTAINER_NAME="query_engine_postgres"
+query_engine.db.QUERY_ENGINE_POSTGRES_IMAGE="postgres:18.3-alpine3.23"
+query_engine.db.QUERY_ENGINE_POSTGRES_USER="${QUERY_ENGINE_POSTGRES_USER}"
+query_engine.db.QUERY_ENGINE_POSTGRES_PASSWORD="${QUERY_ENGINE_POSTGRES_PASSWORD}"
+query_engine.db.QUERY_ENGINE_POSTGRES_HOST="${QUERY_ENGINE_POSTGRES_HOST}"
+query_engine.db.QUERY_ENGINE_POSTGRES_PORT="${QUERY_ENGINE_POSTGRES_PORT}"
+query_engine.db.QUERY_ENGINE_POSTGRES_DB="${QUERY_ENGINE_POSTGRES_DB}"
+query_engine.db.DB_MAX_OPEN_CONNS=50
+query_engine.db.DB_MAX_IDLE_CONNS=50
+query_engine.db.DB_MAX_IDLE_TIME_MINS=5
+
 keycloak.comment="Данные для сервиса авторизации KEYCLOAK"
 keycloak.db.comment="Postgres DB settings (отдельная база под Keycloak)"
 keycloak.db.KEYCLOAK_POSTGRES_CONTAINER_NAME="keycloak_postgres"

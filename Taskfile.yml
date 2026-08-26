@@ -18,8 +18,8 @@ vars:
   GCI: "{{.BIN_DIR}}/gci"
   GOFUMPT: "{{.BIN_DIR}}/gofumpt"
   BUF: "{{.BIN_DIR}}/buf"
-  MODULES: datacatalogue shepherd shared
-  SERVICES: datacatalogue shepherd shared
+  MODULES: datacatalogue query_engine shepherd shared
+  SERVICES: datacatalogue query_engine shepherd shared
   PROTOC_GEN_GO: "{{.BIN_DIR}}/protoc-gen-go"
   PROTOC_GEN_GO_GRPC: "{{.BIN_DIR}}/protoc-gen-go-grpc"
   GRPCURL: "{{.BIN_DIR}}/grpcurl"
@@ -277,6 +277,20 @@ tasks:
       - echo "[task] 🛑 Останавливаем core контейнеры"
       - docker compose down
 
+  up-query_engine:
+    desc: Поднять query_engine-контейнер (Postgres)
+    dir: deploy/compose/query_engine
+    cmds:
+      - echo "[task] 🚀 Поднимаем query_engine контейнеры"
+      - docker compose up --build --detach
+
+  down-query_engine:
+    desc: Убиваем query_engine-контейнер
+    dir: deploy/compose/query_engine
+    cmds:
+      - echo "[task] 🛑 Останавливаем query_engine контейнеры"
+      - docker compose down
+
   up-keycloak:
     desc: Поднять keycloak-контейнеры
     dir: deploy/compose/keycloak
@@ -334,6 +348,7 @@ tasks:
     cmds:
       - task up-core
       - task up-datacatalogue
+      - task up-query_engine
       - task up-keycloak
       - task up-redis
       - task up-shepherd
@@ -344,5 +359,6 @@ tasks:
       - task down-shepherd
       - task down-redis
       - task down-keycloak
+      - task down-query_engine
       - task down-datacatalogue
       - task down-core
