@@ -47,6 +47,71 @@ type DcColumnType struct {
 	UserID      int64
 }
 
+type DcDatabaseCat struct {
+	ID             int64
+	Name           string
+	HostID         int64
+	DatabaseTypeID int64
+	Description    string
+	IsDeleted      bool
+	CreatedAt      time.Time
+	UpdatedAt      time.Time
+	UserID         int64
+}
+
+type DcDatabaseType struct {
+	ID        int64
+	Name      string
+	DbVersion string
+	IsDeleted bool
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	UserID    int64
+}
+
+type DcDomainCat struct {
+	ID         int64
+	DomainName string
+	IsDeleted  bool
+	CreatedAt  time.Time
+	UpdatedAt  time.Time
+	UserID     int64
+}
+
+type DcSchemaCat struct {
+	ID         int64
+	DatabaseID int64
+	Name       string
+	IsDeleted  bool
+	CreatedAt  time.Time
+	UpdatedAt  time.Time
+	UserID     int64
+}
+
+type DcTableCat struct {
+	ID          int64
+	Name        string
+	Description string
+	SchemaID    int64
+	TableTypeID int64
+	DomainID    int64
+	IsDeleted   bool
+	IsGetDict   bool
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
+	UserID      int64
+}
+
+type DcTableType struct {
+	ID          int64
+	Name        string
+	Description string
+	IsDeleted   bool
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
+	UserID      int64
+}
+
 type DcUser struct {
 	ID         int64
 	Name       string

@@ -12,6 +12,7 @@ services:
       - "${QUERY_ENGINE_POSTGRES_PORT}:5432" # Пробрасываем порт: внешний из .env, внутренний фиксированный
     volumes:
       - qe_pgdata:/var/lib/postgresql # Volume для сохранности данных базы
+      - ./postgres/init-scripts:/docker-entrypoint-initdb.d:ro # Выполняется один раз на пустом volume — создаёт схему tech для goose
     healthcheck: # Проверяем "здоровье" контейнера базы
       test: ["CMD-SHELL", "pg_isready -U ${QUERY_ENGINE_POSTGRES_USER} -d ${QUERY_ENGINE_POSTGRES_DB}"]
       interval: 10s

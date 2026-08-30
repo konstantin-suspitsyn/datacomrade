@@ -2996,6 +2996,77 @@ paths:
           $ref: '#/components/responses/BadRequest'
         '401':
           $ref: '#/components/responses/Unauthorized'
+  /olap-queries:
+    post:
+      operationId: createOlapQuery
+      summary: Сохранить конфигурацию OLAP-сводной
+      description: |
+        Принимает тело конструктора (version, filters, rows, columns, measures, order_by, limit) и целевую базу database_id, резолвит форму в бизнес-домен, собирает финальный SQL, сохраняет запрос в query_engine и возвращает созданную строку queries.queries. created_by подставляется из claims токена.
+
+        Если алиасы формы встречаются в нескольких доменах, а domain_id в теле не задан — ответ 409 со списком доменов на выбор; ничего не сохраняется. Фронтенд показывает выбор и повторяет запрос с заполненным domain_id.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OlapQueryCreate'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OlapQueryRecord'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          description: Пользователь ещё не создан в Metadata Service — сначала вызовите POST /login
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: >
+            Алиасы формы встречаются в нескольких доменах, а domain_id не задан. Тело — список доменов на выбор;
+            запрос не сохранён.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OlapDomainChoice'
+        '422':
+          description: Форма не прошла валидацию каталога (недоступный алиас, недопустимая агрегация, алиас вне
+            домена).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OlapValidationError'
+  /olap-queries/{id}:
+    get:
+      operationId: getOlapQueryById
+      summary: Сохранённая строка queries.queries по id
+      description: Возвращает ранее сохранённую конфигурацию OLAP-сводной вместе с собранным SQL и его параметрами.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OlapQueryRecord'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
 components:
   securitySchemes:
     bearerAuth:
@@ -4531,3 +4602,256 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/OlapAlias'
+    OlapFilterOperator:
+      type: string
+      description: Оператор сравнения в условии фильтра — совпадает с FilterOperator фронтенда.
+      enum:
+        - equals
+        - not_equals
+        - greater_than
+        - greater_than_or_equal
+        - less_than
+        - less_than_or_equal
+        - between
+        - one_of
+        - not_one_of
+        - contains
+        - starts_with
+        - is_empty
+        - is_not_empty
+    OlapAggregation:
+      type: string
+      description: Агрегат показателя — совпадает с dc.calculation_type и Aggregation фронтенда.
+      enum:
+        - sum
+        - avg
+        - min
+        - max
+        - count
+        - count_distinct
+    OlapMeasureKind:
+      type: string
+      description: Вид показателя — агрегат над полем (field) или формула над другими показателями (formula).
+      enum:
+        - field
+        - formula
+    OlapSortDirection:
+      type: string
+      description: Направление сортировки строки результата.
+      enum:
+        - asc
+        - desc
+    OlapFilter:
+      type: object
+      required:
+        - alias_id
+        - operator
+        - values
+      properties:
+        alias_id:
+          type: integer
+          format: int64
+        operator:
+          $ref: '#/components/schemas/OlapFilterOperator'
+        values:
+          type: array
+          description: >
+            Значения по арности оператора: 0 у is_empty/is_not_empty, 2 у between, 1 у остальных; у one_of/not_one_of
+            — список.
+          items:
+            type: string
+    OlapRow:
+      type: object
+      required:
+        - alias_id
+      properties:
+        alias_id:
+          type: integer
+          format: int64
+    OlapColumn:
+      type: object
+      description: >
+        Поле группировки по колонкам сводной (pivot по горизонтали). Задел под следующую версию формата: сейчас
+        query_engine поле принимает, но в SQL не разворачивает.
+      required:
+        - alias_id
+      properties:
+        alias_id:
+          type: integer
+          format: int64
+    OlapMeasure:
+      type: object
+      required:
+        - kind
+        - label
+      properties:
+        kind:
+          $ref: '#/components/schemas/OlapMeasureKind'
+        label:
+          type: string
+        alias_id:
+          type: integer
+          format: int64
+          description: Заполнено при kind = field.
+        aggregation:
+          $ref: '#/components/schemas/OlapAggregation'
+        formula:
+          type: string
+          description: Заполнено при kind = formula; ссылается на другие показатели по label в квадратных скобках.
+    OlapSort:
+      type: object
+      description: >
+        Один уровень сортировки результата — по полю группировки (alias_id) либо по показателю (measure_label),
+        ровно одно из двух. Задел под следующую версию формата: сейчас query_engine поле принимает, но в SQL не
+        разворачивает.
+      required:
+        - direction
+      properties:
+        alias_id:
+          type: integer
+          format: int64
+        measure_label:
+          type: string
+        direction:
+          $ref: '#/components/schemas/OlapSortDirection'
+    OlapQueryCreate:
+      type: object
+      required:
+        - version
+        - database_id
+        - filters
+        - rows
+        - measures
+      properties:
+        version:
+          type: integer
+          format: int32
+          description: Версия формата тела запроса.
+        database_id:
+          type: integer
+          format: int64
+          description: Идентификатор целевой базы.
+        domain_id:
+          type: integer
+          format: int64
+          nullable: true
+          description: >
+            Выбранный бизнес-домен (dc.domain_cat). Не передаётся на первом вызове; заполняется после ответа 409
+            OlapDomainChoice.
+        filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/OlapFilter'
+        rows:
+          type: array
+          items:
+            $ref: '#/components/schemas/OlapRow'
+        columns:
+          type: array
+          description: Задел под pivot по горизонтали; необязательно.
+          items:
+            $ref: '#/components/schemas/OlapColumn'
+        measures:
+          type: array
+          items:
+            $ref: '#/components/schemas/OlapMeasure'
+        order_by:
+          type: array
+          description: Задел под сортировку результата; необязательно.
+          items:
+            $ref: '#/components/schemas/OlapSort'
+        limit:
+          type: integer
+          format: int64
+          nullable: true
+          description: Задел под ограничение числа строк результата; необязательно.
+    OlapQueryRecord:
+      type: object
+      description: Строка таблицы queries.queries.
+      required:
+        - id
+        - query
+        - params
+        - request
+        - database_id
+        - domain_id
+        - created_at
+        - updated_at
+        - created_by
+      properties:
+        id:
+          type: integer
+          format: int64
+        query:
+          type: string
+          description: Финальный параметризованный SQL, собранный сервисом.
+        params:
+          type: array
+          description: Значения плейсхолдеров SQL по порядку ($1, $2, ...).
+          items:
+            type: string
+        request:
+          type: string
+          description: Исходная форма конструктора в формате JSON.
+        database_id:
+          type: integer
+          format: int64
+        domain_id:
+          type: integer
+          format: int64
+          description: Бизнес-домен, в котором запрос был резолвлен.
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        created_by:
+          type: integer
+          format: int64
+    OlapDomainChoice:
+      type: object
+      description: Список доменов на выбор. Запрос не сохранён — повторите с заполненным domain_id.
+      required:
+        - domains
+      properties:
+        domains:
+          type: array
+          items:
+            $ref: '#/components/schemas/OlapDomainOption'
+    OlapDomainOption:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    OlapValidationError:
+      type: object
+      description: Форма синтаксически верна, но не проходит проверку каталога. fields перечисляет проблемные поля.
+      required:
+        - message
+        - fields
+      properties:
+        message:
+          type: string
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/OlapFieldError'
+    OlapFieldError:
+      type: object
+      required:
+        - alias_id
+        - reason
+      properties:
+        alias_id:
+          type: integer
+          format: int64
+        reason:
+          type: string
+          description: Почему поле отклонено (недоступно пользователю, агрегация не разрешена, алиас вне домена).

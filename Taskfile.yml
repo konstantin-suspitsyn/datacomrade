@@ -229,11 +229,19 @@ tasks:
     desc: "Применяет миграции БД для всех микросервисов — запускает под-таски migrate:up:<микросервис>"
     cmds:
       - task: migrate:up:datacatalogue
+      - task: migrate:up:query_engine
 
   migrate:up:datacatalogue:
     deps: [install-goose]
     desc: "Применяет миграции БД для datacatalogue (Data Catalog)"
     dir: datacatalogue
+    cmds:
+      - "{{.GOOSE}} up"
+
+  migrate:up:query_engine:
+    deps: [install-goose]
+    desc: "Применяет миграции БД для query_engine"
+    dir: query_engine
     cmds:
       - "{{.GOOSE}} up"
 

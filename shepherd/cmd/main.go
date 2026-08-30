@@ -32,12 +32,14 @@ import (
 	"github.com/konstantin-suspitsyn/datacomrade/shepherd/internal/api/meapiv1"
 	"github.com/konstantin-suspitsyn/datacomrade/shepherd/internal/api/olapexchangeapiv1"
 	"github.com/konstantin-suspitsyn/datacomrade/shepherd/internal/api/openapiv1"
+	"github.com/konstantin-suspitsyn/datacomrade/shepherd/internal/api/queryengineapiv1"
 	"github.com/konstantin-suspitsyn/datacomrade/shepherd/internal/api/schemacatapiv1"
 	"github.com/konstantin-suspitsyn/datacomrade/shepherd/internal/api/tablecatapiv1"
 	"github.com/konstantin-suspitsyn/datacomrade/shepherd/internal/api/tabletypeapiv1"
 	"github.com/konstantin-suspitsyn/datacomrade/shepherd/internal/api/userdomainrolesapiv1"
 	"github.com/konstantin-suspitsyn/datacomrade/shepherd/internal/api/usertablerolesapiv1"
 	"github.com/konstantin-suspitsyn/datacomrade/shepherd/internal/client/datacatalogue"
+	"github.com/konstantin-suspitsyn/datacomrade/shepherd/internal/client/queryengine"
 	"github.com/konstantin-suspitsyn/datacomrade/shepherd/internal/config/constants"
 	"github.com/konstantin-suspitsyn/datacomrade/shepherd/internal/ensureuser"
 	"github.com/konstantin-suspitsyn/datacomrade/shepherd/internal/middleware/auth"
@@ -73,6 +75,12 @@ func main() {
 	}
 	defer func() { _ = dcClient.Close() }()
 
+	qeClient, err := queryengine.Dial(cfg.QueryEngineGRPCAddr)
+	if err != nil {
+		pkglogger.Fatal(context.Background(), "failed to dial query_engine", zap.Error(err))
+	}
+	defer func() { _ = qeClient.Close() }()
+
 	jwks := auth.NewJWKSFetcher(redisClient, cfg.KeycloakIssuerURL)
 	authMiddleware := auth.NewMiddleware(jwks, cfg.KeycloakIssuerURL)
 	userResolver := ensureuser.New(dcClient.User, redisClient, cfg.EnsureUserCacheTTL)
@@ -97,7 +105,7 @@ func main() {
 	router.Route("/v1", func(r chi.Router) {
 		r.Use(authMiddleware.Authenticate)
 
-		openapiv1.HandlerFromMux(newAPI(userResolver, dcClient), r)
+		openapiv1.HandlerFromMux(newAPI(userResolver, dcClient, qeClient), r)
 	})
 
 	srv := &http.Server{
@@ -163,12 +171,13 @@ type api struct {
 	userTableRoles  *usertablerolesapiv1.Handler
 
 	olapExchange *olapexchangeapiv1.Handler
+	olapQuery    *queryengineapiv1.Handler
 }
 
 // newAPI принимает клиент datacatalogue целиком, а не по gRPC-клиенту на
 // аргумент: таблиц каталога пятнадцать, и позиционный список такой длины
 // читается и правится хуже, чем одно поле на таблицу внутри.
-func newAPI(resolver *ensureuser.Resolver, dc *datacatalogue.Client) api {
+func newAPI(resolver *ensureuser.Resolver, dc *datacatalogue.Client, qe *queryengine.Client) api {
 	return api{
 		me:    meapiv1.New(resolver),
 		login: loginapiv1.New(resolver),
@@ -193,6 +202,7 @@ func newAPI(resolver *ensureuser.Resolver, dc *datacatalogue.Client) api {
 		userTableRoles:  usertablerolesapiv1.New(dc.UserTableRoles),
 
 		olapExchange: olapexchangeapiv1.New(dc.OlapExchange),
+		olapQuery:    queryengineapiv1.New(qe.QueryEngine, resolver),
 	}
 }
 
@@ -204,6 +214,17 @@ func (a api) Login(w http.ResponseWriter, r *http.Request) { a.login.Login(w, r)
 // аутентификация, которую даёт authMiddleware на всей группе /v1.
 func (a api) ListOlapAliases(w http.ResponseWriter, r *http.Request, params openapiv1.ListOlapAliasesParams) {
 	a.olapExchange.ListOlapAliases(w, r, params)
+}
+
+// OLAP-запросы (/v1/olap-queries) не гейтятся ролью — как и /olap-aliases,
+// нужна только аутентификация: что показать в сводной, пользователь и так
+// видит по своим ролям.
+func (a api) CreateOlapQuery(w http.ResponseWriter, r *http.Request) {
+	a.olapQuery.CreateOlapQuery(w, r)
+}
+
+func (a api) GetOlapQueryById(w http.ResponseWriter, r *http.Request, id int64) {
+	a.olapQuery.GetOlapQueryById(w, r, id)
 }
 
 // requireCatalogRole гейтит методы каталога (dc.host и далее) ролью

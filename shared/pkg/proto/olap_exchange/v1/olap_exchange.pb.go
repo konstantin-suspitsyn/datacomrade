@@ -216,6 +216,310 @@ func (x *GetOlapAliasesResponse) GetRows() []*GetOlapAliasesRow {
 	return nil
 }
 
+// Выборка GetTablesMeta: параметры вызова. Порядок по умолчанию — id.
+type GetTablesMetaRequest struct {
+	state        protoimpl.MessageState `protogen:"open.v1"`
+	AliasIdsList string                 `protobuf:"bytes,1,opt,name=alias_ids_list,json=aliasIdsList,proto3" json:"alias_ids_list,omitempty"`
+	ExternalId   string                 `protobuf:"bytes,2,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	// допустимые значения: ASC, DESC
+	Order         string `protobuf:"bytes,3,opt,name=order,proto3" json:"order,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetTablesMetaRequest) Reset() {
+	*x = GetTablesMetaRequest{}
+	mi := &file_olap_exchange_v1_olap_exchange_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetTablesMetaRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTablesMetaRequest) ProtoMessage() {}
+
+func (x *GetTablesMetaRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_olap_exchange_v1_olap_exchange_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTablesMetaRequest.ProtoReflect.Descriptor instead.
+func (*GetTablesMetaRequest) Descriptor() ([]byte, []int) {
+	return file_olap_exchange_v1_olap_exchange_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *GetTablesMetaRequest) GetAliasIdsList() string {
+	if x != nil {
+		return x.AliasIdsList
+	}
+	return ""
+}
+
+func (x *GetTablesMetaRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+func (x *GetTablesMetaRequest) GetOrder() string {
+	if x != nil {
+		return x.Order
+	}
+	return ""
+}
+
+// Выборка GetTablesMeta: строка ответа — только отмеченные колонки.
+type GetTablesMetaRow struct {
+	state                 protoimpl.MessageState `protogen:"open.v1"`
+	Id                    int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	TableId               int64                  `protobuf:"varint,2,opt,name=table_id,json=tableId,proto3" json:"table_id,omitempty"`
+	Name                  string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
+	AliasId               int64                  `protobuf:"varint,4,opt,name=alias_id,json=aliasId,proto3" json:"alias_id,omitempty"`
+	ColumnTypeId          int64                  `protobuf:"varint,5,opt,name=column_type_id,json=columnTypeId,proto3" json:"column_type_id,omitempty"`
+	Description           string                 `protobuf:"bytes,6,opt,name=description,proto3" json:"description,omitempty"`
+	CalculationTypeId     int64                  `protobuf:"varint,7,opt,name=calculation_type_id,json=calculationTypeId,proto3" json:"calculation_type_id,omitempty"`
+	TableCatId            int64                  `protobuf:"varint,8,opt,name=table_cat_id,json=tableCatId,proto3" json:"table_cat_id,omitempty"`
+	TableCatName          string                 `protobuf:"bytes,9,opt,name=table_cat_name,json=tableCatName,proto3" json:"table_cat_name,omitempty"`
+	DomainCatId           int64                  `protobuf:"varint,10,opt,name=domain_cat_id,json=domainCatId,proto3" json:"domain_cat_id,omitempty"`
+	DomainCatDomainName   string                 `protobuf:"bytes,11,opt,name=domain_cat_domain_name,json=domainCatDomainName,proto3" json:"domain_cat_domain_name,omitempty"`
+	TableTypeId           int64                  `protobuf:"varint,12,opt,name=table_type_id,json=tableTypeId,proto3" json:"table_type_id,omitempty"`
+	TableTypeName         string                 `protobuf:"bytes,13,opt,name=table_type_name,json=tableTypeName,proto3" json:"table_type_name,omitempty"`
+	SchemaCatId           int64                  `protobuf:"varint,14,opt,name=schema_cat_id,json=schemaCatId,proto3" json:"schema_cat_id,omitempty"`
+	SchemaCatName         string                 `protobuf:"bytes,15,opt,name=schema_cat_name,json=schemaCatName,proto3" json:"schema_cat_name,omitempty"`
+	DatabaseCatId         int64                  `protobuf:"varint,16,opt,name=database_cat_id,json=databaseCatId,proto3" json:"database_cat_id,omitempty"`
+	DatabaseCatName       string                 `protobuf:"bytes,17,opt,name=database_cat_name,json=databaseCatName,proto3" json:"database_cat_name,omitempty"`
+	DatabaseTypeId        int64                  `protobuf:"varint,18,opt,name=database_type_id,json=databaseTypeId,proto3" json:"database_type_id,omitempty"`
+	DatabaseTypeName      string                 `protobuf:"bytes,19,opt,name=database_type_name,json=databaseTypeName,proto3" json:"database_type_name,omitempty"`
+	DatabaseTypeDbVersion string                 `protobuf:"bytes,20,opt,name=database_type_db_version,json=databaseTypeDbVersion,proto3" json:"database_type_db_version,omitempty"`
+	unknownFields         protoimpl.UnknownFields
+	sizeCache             protoimpl.SizeCache
+}
+
+func (x *GetTablesMetaRow) Reset() {
+	*x = GetTablesMetaRow{}
+	mi := &file_olap_exchange_v1_olap_exchange_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetTablesMetaRow) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTablesMetaRow) ProtoMessage() {}
+
+func (x *GetTablesMetaRow) ProtoReflect() protoreflect.Message {
+	mi := &file_olap_exchange_v1_olap_exchange_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTablesMetaRow.ProtoReflect.Descriptor instead.
+func (*GetTablesMetaRow) Descriptor() ([]byte, []int) {
+	return file_olap_exchange_v1_olap_exchange_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *GetTablesMetaRow) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *GetTablesMetaRow) GetTableId() int64 {
+	if x != nil {
+		return x.TableId
+	}
+	return 0
+}
+
+func (x *GetTablesMetaRow) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *GetTablesMetaRow) GetAliasId() int64 {
+	if x != nil {
+		return x.AliasId
+	}
+	return 0
+}
+
+func (x *GetTablesMetaRow) GetColumnTypeId() int64 {
+	if x != nil {
+		return x.ColumnTypeId
+	}
+	return 0
+}
+
+func (x *GetTablesMetaRow) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *GetTablesMetaRow) GetCalculationTypeId() int64 {
+	if x != nil {
+		return x.CalculationTypeId
+	}
+	return 0
+}
+
+func (x *GetTablesMetaRow) GetTableCatId() int64 {
+	if x != nil {
+		return x.TableCatId
+	}
+	return 0
+}
+
+func (x *GetTablesMetaRow) GetTableCatName() string {
+	if x != nil {
+		return x.TableCatName
+	}
+	return ""
+}
+
+func (x *GetTablesMetaRow) GetDomainCatId() int64 {
+	if x != nil {
+		return x.DomainCatId
+	}
+	return 0
+}
+
+func (x *GetTablesMetaRow) GetDomainCatDomainName() string {
+	if x != nil {
+		return x.DomainCatDomainName
+	}
+	return ""
+}
+
+func (x *GetTablesMetaRow) GetTableTypeId() int64 {
+	if x != nil {
+		return x.TableTypeId
+	}
+	return 0
+}
+
+func (x *GetTablesMetaRow) GetTableTypeName() string {
+	if x != nil {
+		return x.TableTypeName
+	}
+	return ""
+}
+
+func (x *GetTablesMetaRow) GetSchemaCatId() int64 {
+	if x != nil {
+		return x.SchemaCatId
+	}
+	return 0
+}
+
+func (x *GetTablesMetaRow) GetSchemaCatName() string {
+	if x != nil {
+		return x.SchemaCatName
+	}
+	return ""
+}
+
+func (x *GetTablesMetaRow) GetDatabaseCatId() int64 {
+	if x != nil {
+		return x.DatabaseCatId
+	}
+	return 0
+}
+
+func (x *GetTablesMetaRow) GetDatabaseCatName() string {
+	if x != nil {
+		return x.DatabaseCatName
+	}
+	return ""
+}
+
+func (x *GetTablesMetaRow) GetDatabaseTypeId() int64 {
+	if x != nil {
+		return x.DatabaseTypeId
+	}
+	return 0
+}
+
+func (x *GetTablesMetaRow) GetDatabaseTypeName() string {
+	if x != nil {
+		return x.DatabaseTypeName
+	}
+	return ""
+}
+
+func (x *GetTablesMetaRow) GetDatabaseTypeDbVersion() string {
+	if x != nil {
+		return x.DatabaseTypeDbVersion
+	}
+	return ""
+}
+
+// Выборка GetTablesMeta: все найденные строки.
+type GetTablesMetaResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Rows          []*GetTablesMetaRow    `protobuf:"bytes,1,rep,name=rows,proto3" json:"rows,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetTablesMetaResponse) Reset() {
+	*x = GetTablesMetaResponse{}
+	mi := &file_olap_exchange_v1_olap_exchange_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetTablesMetaResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTablesMetaResponse) ProtoMessage() {}
+
+func (x *GetTablesMetaResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_olap_exchange_v1_olap_exchange_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTablesMetaResponse.ProtoReflect.Descriptor instead.
+func (*GetTablesMetaResponse) Descriptor() ([]byte, []int) {
+	return file_olap_exchange_v1_olap_exchange_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *GetTablesMetaResponse) GetRows() []*GetTablesMetaRow {
+	if x != nil {
+		return x.Rows
+	}
+	return nil
+}
+
 var File_olap_exchange_v1_olap_exchange_proto protoreflect.FileDescriptor
 
 const file_olap_exchange_v1_olap_exchange_proto_rawDesc = "" +
@@ -235,9 +539,41 @@ const file_olap_exchange_v1_olap_exchange_proto_rawDesc = "" +
 	"\x10column_type_name\x18\x06 \x01(\tR\x0ecolumnTypeName\x126\n" +
 	"\x17column_type_description\x18\a \x01(\tR\x15columnTypeDescription\"Q\n" +
 	"\x16GetOlapAliasesResponse\x127\n" +
-	"\x04rows\x18\x01 \x03(\v2#.olap_exchange.v1.GetOlapAliasesRowR\x04rows2s\n" +
+	"\x04rows\x18\x01 \x03(\v2#.olap_exchange.v1.GetOlapAliasesRowR\x04rows\"s\n" +
+	"\x14GetTablesMetaRequest\x12$\n" +
+	"\x0ealias_ids_list\x18\x01 \x01(\tR\faliasIdsList\x12\x1f\n" +
+	"\vexternal_id\x18\x02 \x01(\tR\n" +
+	"externalId\x12\x14\n" +
+	"\x05order\x18\x03 \x01(\tR\x05order\"\x82\x06\n" +
+	"\x10GetTablesMetaRow\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x19\n" +
+	"\btable_id\x18\x02 \x01(\x03R\atableId\x12\x12\n" +
+	"\x04name\x18\x03 \x01(\tR\x04name\x12\x19\n" +
+	"\balias_id\x18\x04 \x01(\x03R\aaliasId\x12$\n" +
+	"\x0ecolumn_type_id\x18\x05 \x01(\x03R\fcolumnTypeId\x12 \n" +
+	"\vdescription\x18\x06 \x01(\tR\vdescription\x12.\n" +
+	"\x13calculation_type_id\x18\a \x01(\x03R\x11calculationTypeId\x12 \n" +
+	"\ftable_cat_id\x18\b \x01(\x03R\n" +
+	"tableCatId\x12$\n" +
+	"\x0etable_cat_name\x18\t \x01(\tR\ftableCatName\x12\"\n" +
+	"\rdomain_cat_id\x18\n" +
+	" \x01(\x03R\vdomainCatId\x123\n" +
+	"\x16domain_cat_domain_name\x18\v \x01(\tR\x13domainCatDomainName\x12\"\n" +
+	"\rtable_type_id\x18\f \x01(\x03R\vtableTypeId\x12&\n" +
+	"\x0ftable_type_name\x18\r \x01(\tR\rtableTypeName\x12\"\n" +
+	"\rschema_cat_id\x18\x0e \x01(\x03R\vschemaCatId\x12&\n" +
+	"\x0fschema_cat_name\x18\x0f \x01(\tR\rschemaCatName\x12&\n" +
+	"\x0fdatabase_cat_id\x18\x10 \x01(\x03R\rdatabaseCatId\x12*\n" +
+	"\x11database_cat_name\x18\x11 \x01(\tR\x0fdatabaseCatName\x12(\n" +
+	"\x10database_type_id\x18\x12 \x01(\x03R\x0edatabaseTypeId\x12,\n" +
+	"\x12database_type_name\x18\x13 \x01(\tR\x10databaseTypeName\x127\n" +
+	"\x18database_type_db_version\x18\x14 \x01(\tR\x15databaseTypeDbVersion\"O\n" +
+	"\x15GetTablesMetaResponse\x126\n" +
+	"\x04rows\x18\x01 \x03(\v2\".olap_exchange.v1.GetTablesMetaRowR\x04rows2s\n" +
 	"\fAliasService\x12c\n" +
-	"\x0eGetOlapAliases\x12'.olap_exchange.v1.GetOlapAliasesRequest\x1a(.olap_exchange.v1.GetOlapAliasesResponseB^Z\\github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/olap_exchange/v1;olapexchangev1b\x06proto3"
+	"\x0eGetOlapAliases\x12'.olap_exchange.v1.GetOlapAliasesRequest\x1a(.olap_exchange.v1.GetOlapAliasesResponse2t\n" +
+	"\x10ColumnCatService\x12`\n" +
+	"\rGetTablesMeta\x12&.olap_exchange.v1.GetTablesMetaRequest\x1a'.olap_exchange.v1.GetTablesMetaResponseB^Z\\github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/olap_exchange/v1;olapexchangev1b\x06proto3"
 
 var (
 	file_olap_exchange_v1_olap_exchange_proto_rawDescOnce sync.Once
@@ -251,21 +587,27 @@ func file_olap_exchange_v1_olap_exchange_proto_rawDescGZIP() []byte {
 	return file_olap_exchange_v1_olap_exchange_proto_rawDescData
 }
 
-var file_olap_exchange_v1_olap_exchange_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_olap_exchange_v1_olap_exchange_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_olap_exchange_v1_olap_exchange_proto_goTypes = []any{
 	(*GetOlapAliasesRequest)(nil),  // 0: olap_exchange.v1.GetOlapAliasesRequest
 	(*GetOlapAliasesRow)(nil),      // 1: olap_exchange.v1.GetOlapAliasesRow
 	(*GetOlapAliasesResponse)(nil), // 2: olap_exchange.v1.GetOlapAliasesResponse
+	(*GetTablesMetaRequest)(nil),   // 3: olap_exchange.v1.GetTablesMetaRequest
+	(*GetTablesMetaRow)(nil),       // 4: olap_exchange.v1.GetTablesMetaRow
+	(*GetTablesMetaResponse)(nil),  // 5: olap_exchange.v1.GetTablesMetaResponse
 }
 var file_olap_exchange_v1_olap_exchange_proto_depIdxs = []int32{
 	1, // 0: olap_exchange.v1.GetOlapAliasesResponse.rows:type_name -> olap_exchange.v1.GetOlapAliasesRow
-	0, // 1: olap_exchange.v1.AliasService.GetOlapAliases:input_type -> olap_exchange.v1.GetOlapAliasesRequest
-	2, // 2: olap_exchange.v1.AliasService.GetOlapAliases:output_type -> olap_exchange.v1.GetOlapAliasesResponse
-	2, // [2:3] is the sub-list for method output_type
-	1, // [1:2] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	4, // 1: olap_exchange.v1.GetTablesMetaResponse.rows:type_name -> olap_exchange.v1.GetTablesMetaRow
+	0, // 2: olap_exchange.v1.AliasService.GetOlapAliases:input_type -> olap_exchange.v1.GetOlapAliasesRequest
+	3, // 3: olap_exchange.v1.ColumnCatService.GetTablesMeta:input_type -> olap_exchange.v1.GetTablesMetaRequest
+	2, // 4: olap_exchange.v1.AliasService.GetOlapAliases:output_type -> olap_exchange.v1.GetOlapAliasesResponse
+	5, // 5: olap_exchange.v1.ColumnCatService.GetTablesMeta:output_type -> olap_exchange.v1.GetTablesMetaResponse
+	4, // [4:6] is the sub-list for method output_type
+	2, // [2:4] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_olap_exchange_v1_olap_exchange_proto_init() }
@@ -279,9 +621,9 @@ func file_olap_exchange_v1_olap_exchange_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_olap_exchange_v1_olap_exchange_proto_rawDesc), len(file_olap_exchange_v1_olap_exchange_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   3,
+			NumMessages:   6,
 			NumExtensions: 0,
-			NumServices:   1,
+			NumServices:   2,
 		},
 		GoTypes:           file_olap_exchange_v1_olap_exchange_proto_goTypes,
 		DependencyIndexes: file_olap_exchange_v1_olap_exchange_proto_depIdxs,

@@ -1,0 +1,244 @@
+syntax = "proto3";
+
+package query_engine.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/konstantin-suspitsyn/datacomrade/shared/pkg/proto/query_engine/v1;queryenginev1";
+
+// QueryEngineService принимает конфигурацию OLAP-сводной от конструктора,
+// резолвит её в конкретный бизнес-домен, собирает финальный параметризованный
+// SQL, сохраняет строку в queries.queries и публикует запрос в Kafka на
+// исполнение отдельным сервисом. Файл написан руками (не SG Buddy): домен
+// query_engine — это не табличный CRUD.
+service QueryEngineService {
+  // CreateQuery резолвит форму в домен и сохраняет запрос. Если алиасы формы
+  // встречаются в нескольких доменах и domain_id не задан — ничего не
+  // сохраняется, в ответ уходит DomainChoice со списком доменов на выбор.
+  rpc CreateQuery(CreateQueryRequest) returns (CreateQueryResponse);
+  // GetQueryById отдаёт ранее сохранённую строку queries.queries.
+  rpc GetQueryById(GetQueryByIdRequest) returns (GetQueryByIdResponse);
+}
+
+// =========================================================
+// Справочные перечисления (набор значений — контракт с фронтендом)
+// =========================================================
+
+// FilterOperator — оператор сравнения в условии фильтра. Набор значений
+// совпадает с типом FilterOperator фронтенда
+// (datacomrade_frontend/src/features/olap/olapFields.ts).
+enum FilterOperator {
+  // Оператор не задан — невалидное условие.
+  FILTER_OPERATOR_UNSPECIFIED = 0;
+  // равно; арность 1.
+  FILTER_OPERATOR_EQUALS = 1;
+  // не равно; арность 1.
+  FILTER_OPERATOR_NOT_EQUALS = 2;
+  // больше; арность 1.
+  FILTER_OPERATOR_GREATER_THAN = 3;
+  // больше или равно; арность 1.
+  FILTER_OPERATOR_GREATER_THAN_OR_EQUAL = 4;
+  // меньше; арность 1.
+  FILTER_OPERATOR_LESS_THAN = 5;
+  // меньше или равно; арность 1.
+  FILTER_OPERATOR_LESS_THAN_OR_EQUAL = 6;
+  // в диапазоне; арность 2 (значения «от» и «до»).
+  FILTER_OPERATOR_BETWEEN = 7;
+  // один из; список значений в values.
+  FILTER_OPERATOR_ONE_OF = 8;
+  // ни один из; список значений в values.
+  FILTER_OPERATOR_NOT_ONE_OF = 9;
+  // содержит подстроку; арность 1.
+  FILTER_OPERATOR_CONTAINS = 10;
+  // начинается с; арность 1.
+  FILTER_OPERATOR_STARTS_WITH = 11;
+  // не заполнено (IS NULL / пустая строка); арность 0.
+  FILTER_OPERATOR_IS_EMPTY = 12;
+  // заполнено (IS NOT NULL); арность 0.
+  FILTER_OPERATOR_IS_NOT_EMPTY = 13;
+}
+
+// Aggregation — агрегат показателя. Набор значений совпадает с dc.calculation_type
+// (миграция datacatalogue/db/migrations/000000034_insert_calculation_types.sql)
+// и с типом Aggregation фронтенда.
+enum Aggregation {
+  // Агрегат не задан — используется для показателей вида MEASURE_KIND_FORMULA.
+  AGGREGATION_UNSPECIFIED = 0;
+  // сумма.
+  AGGREGATION_SUM = 1;
+  // среднее.
+  AGGREGATION_AVG = 2;
+  // минимум.
+  AGGREGATION_MIN = 3;
+  // максимум.
+  AGGREGATION_MAX = 4;
+  // количество.
+  AGGREGATION_COUNT = 5;
+  // количество уникальных.
+  AGGREGATION_COUNT_DISTINCT = 6;
+}
+
+// MeasureKind — вид показателя: агрегат над полем либо формула над подписями
+// других показателей.
+enum MeasureKind {
+  // Вид не задан — невалидный показатель.
+  MEASURE_KIND_UNSPECIFIED = 0;
+  // Агрегат над полем: заполнены alias_id и aggregation.
+  MEASURE_KIND_FIELD = 1;
+  // Вычисляемый показатель: заполнено formula.
+  MEASURE_KIND_FORMULA = 2;
+}
+
+// SortDirection — направление сортировки строки результата.
+enum SortDirection {
+  // Направление не задано — трактуется как ASC.
+  SORT_DIRECTION_UNSPECIFIED = 0;
+  // по возрастанию.
+  SORT_DIRECTION_ASC = 1;
+  // по убыванию.
+  SORT_DIRECTION_DESC = 2;
+}
+
+// =========================================================
+// Вход: конфигурация OLAP-сводной (тело запроса конструктора)
+// =========================================================
+
+// OlapFilter — одно условие фильтра над полем каталога (alias_id ссылается на
+// dc.alias). values хранит значения по арности оператора: 0 у is_empty /
+// is_not_empty, 2 у between, 1 у остальных; у one_of / not_one_of — список.
+message OlapFilter {
+  int64 alias_id = 1;
+  FilterOperator operator = 2;
+  repeated string values = 3;
+}
+
+// OlapRow — поле группировки по строкам сводной; alias_id ссылается на dc.alias.
+message OlapRow {
+  int64 alias_id = 1;
+}
+
+// OlapColumn — поле группировки по колонкам сводной (pivot по горизонтали);
+// alias_id ссылается на dc.alias. Задел под следующую версию формата: текущий
+// query_engine поле принимает, но в SQL пока не разворачивает.
+message OlapColumn {
+  int64 alias_id = 1;
+}
+
+// OlapMeasure — показатель сводной. При kind = MEASURE_KIND_FIELD заполнены
+// alias_id и aggregation. При kind = MEASURE_KIND_FORMULA заполнено formula;
+// формула ссылается на другие показатели по их label в квадратных скобках,
+// например "[Выручка] / [Заказы]". label уникален в пределах measures.
+message OlapMeasure {
+  MeasureKind kind = 1;
+  string label = 2;
+  int64 alias_id = 3;
+  Aggregation aggregation = 4;
+  string formula = 5;
+}
+
+// OlapSort — один уровень сортировки результата. Сортируем либо по полю
+// группировки (alias_id), либо по показателю (measure_label) — заполнено ровно
+// одно из двух. Задел под следующую версию формата: текущий query_engine поле
+// принимает, но в SQL пока не разворачивает.
+message OlapSort {
+  int64 alias_id = 1;
+  string measure_label = 2;
+  SortDirection direction = 3;
+}
+
+// OlapQuery — конфигурация сводной целиком, как её присылает конструктор. Это
+// тело кладётся в queries.queries.request (jsonb) как есть. database_id и
+// created_by в него не входят: database_id — соседнее поле запроса, created_by
+// берётся из токена.
+message OlapQuery {
+  // version — версия формата тела запроса (сейчас 1).
+  int32 version = 1;
+  // domain_id — выбранный бизнес-домен (dc.domain_cat). Пусто на первом вызове;
+  // заполняется фронтендом после ответа DomainChoice.
+  optional int64 domain_id = 2;
+  repeated OlapFilter filters = 3;
+  repeated OlapRow rows = 4;
+  repeated OlapColumn columns = 5;
+  repeated OlapMeasure measures = 6;
+  repeated OlapSort order_by = 7;
+  // limit — максимум строк результата. Задел под следующую версию формата:
+  // текущий query_engine поле принимает, но в SQL пока не разворачивает.
+  optional int64 limit = 8;
+}
+
+// =========================================================
+// CreateQuery
+// =========================================================
+
+// CreateQueryRequest — конфигурация сводной плюс целевая база и автор. Колонки
+// query (text) и params (jsonb) таблицы queries.queries собирает сервис:
+// query — финальный параметризованный SQL, params — значения его плейсхолдеров.
+message CreateQueryRequest {
+  OlapQuery query = 1;
+  int64 database_id = 2;
+  int64 created_by = 3;
+}
+
+// CreateQueryResponse — либо сохранённая строка queries.queries, либо запрос
+// «выберите домен». domain_choice означает, что ничего не сохранено: алиасы
+// формы встречаются в нескольких доменах, а domain_id в форме не задан.
+message CreateQueryResponse {
+  oneof result {
+    Query saved = 1;
+    DomainChoice domain_choice = 2;
+  }
+}
+
+// DomainChoice — список доменов, из которых фронтенд должен выбрать один и
+// повторить CreateQuery с заполненным OlapQuery.domain_id.
+message DomainChoice {
+  repeated DomainOption domains = 1;
+}
+
+// DomainOption — один домен на выбор (dc.domain_cat): идентификатор и имя.
+message DomainOption {
+  int64 id = 1;
+  string name = 2;
+}
+
+// =========================================================
+// GetQueryById
+// =========================================================
+
+// GetQueryByIdRequest — идентификатор строки queries.queries.
+message GetQueryByIdRequest {
+  int64 id = 1;
+}
+
+// GetQueryByIdResponse — найденная строка queries.queries.
+message GetQueryByIdResponse {
+  Query query = 1;
+}
+
+// =========================================================
+// Выход: строка queries.queries
+// =========================================================
+
+// Query — строка таблицы queries.queries, как её вернёт SELECT *.
+message Query {
+  // id — счётчик запросов (PK).
+  int64 id = 1;
+  // query — финальный параметризованный SQL, собирает сервис.
+  string query = 2;
+  // params — значения плейсхолдеров SQL по порядку ($1, $2, ...), собирает
+  // сервис; хранятся в queries.queries.params (jsonb-массив строк).
+  repeated string params = 3;
+  // request — исходная форма конструктора в формате JSON (jsonb), собирает
+  // сервис из OlapQuery.
+  string request = 4;
+  // database_id — идентификатор целевой базы.
+  int64 database_id = 5;
+  // domain_id — бизнес-домен, в котором запрос был резолвлен (dc.domain_cat).
+  int64 domain_id = 6;
+  // created_at — создано.
+  google.protobuf.Timestamp created_at = 7;
+  // updated_at — обновлено.
+  google.protobuf.Timestamp updated_at = 8;
+  // created_by — пользователь, создавший запись.
+  int64 created_by = 9;
+}

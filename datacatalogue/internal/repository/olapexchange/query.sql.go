@@ -7,6 +7,7 @@ package olapexchange
 
 import (
 	"context"
+	"database/sql"
 
 	"github.com/google/uuid"
 )
@@ -72,6 +73,124 @@ func (q *Queries) GetOlapAliases(ctx context.Context, arg GetOlapAliasesParams) 
 			&i.ColumnTypeID,
 			&i.ColumnTypeName,
 			&i.ColumnTypeDescription,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getTablesMeta = `-- name: GetTablesMeta :many
+
+SELECT
+    column_cat.id,
+    column_cat.table_id,
+    column_cat.name,
+    column_cat.alias_id,
+    column_cat.column_type_id,
+    column_cat.description,
+    column_cat.calculation_type_id,
+    table_cat.id AS table_cat_id,
+    table_cat.name AS table_cat_name,
+    domain_cat.id AS domain_cat_id,
+    domain_cat.domain_name AS domain_cat_domain_name,
+    table_type.id AS table_type_id,
+    table_type.name AS table_type_name,
+    schema_cat.id AS schema_cat_id,
+    schema_cat.name AS schema_cat_name,
+    database_cat.id AS database_cat_id,
+    database_cat.name AS database_cat_name,
+    database_type.id AS database_type_id,
+    database_type.name AS database_type_name,
+    database_type.db_version AS database_type_db_version
+FROM dc.column_cat
+INNER JOIN dc.table_cat table_cat ON table_cat.id = column_cat.table_id
+INNER JOIN dc.domain_cat domain_cat ON domain_cat.id = table_cat.domain_id
+INNER JOIN dc.table_type table_type ON table_type.id = table_cat.table_type_id
+INNER JOIN dc.schema_cat schema_cat ON schema_cat.id = table_cat.schema_id
+INNER JOIN dc.database_cat database_cat ON database_cat.id = schema_cat.database_id
+INNER JOIN dc.database_type database_type ON database_type.id = database_cat.database_type_id
+WHERE column_cat.is_deleted = false
+  AND table_cat.is_deleted = false
+  AND domain_cat.is_deleted = false
+  AND table_type.is_deleted = false
+  AND schema_cat.is_deleted = false
+  AND database_cat.is_deleted = false
+  AND database_type.is_deleted = false
+  AND (column_cat.alias_id in ($1::string) and (column_cat.table_id in (select get_table_ids_by_external_user_and_role from dc.get_table_ids_by_external_user_and_role($2, 'can_read'))))
+ORDER BY CASE WHEN $3::text <> 'DESC' THEN column_cat.id END ASC,
+    CASE WHEN $3::text = 'DESC' THEN column_cat.id END DESC
+`
+
+type GetTablesMetaParams struct {
+	AliasIdsList string
+	ExternalID   uuid.UUID
+	Order        string
+}
+
+type GetTablesMetaRow struct {
+	ID                    int64
+	TableID               int64
+	Name                  string
+	AliasID               sql.NullInt64
+	ColumnTypeID          int64
+	Description           string
+	CalculationTypeID     int64
+	TableCatID            int64
+	TableCatName          string
+	DomainCatID           int64
+	DomainCatDomainName   string
+	TableTypeID           int64
+	TableTypeName         string
+	SchemaCatID           int64
+	SchemaCatName         string
+	DatabaseCatID         int64
+	DatabaseCatName       string
+	DatabaseTypeID        int64
+	DatabaseTypeName      string
+	DatabaseTypeDbVersion string
+}
+
+// =========================================================
+// dc.column_cat
+// =========================================================
+func (q *Queries) GetTablesMeta(ctx context.Context, arg GetTablesMetaParams) ([]GetTablesMetaRow, error) {
+	rows, err := q.db.QueryContext(ctx, getTablesMeta, arg.AliasIdsList, arg.ExternalID, arg.Order)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []GetTablesMetaRow
+	for rows.Next() {
+		var i GetTablesMetaRow
+		if err := rows.Scan(
+			&i.ID,
+			&i.TableID,
+			&i.Name,
+			&i.AliasID,
+			&i.ColumnTypeID,
+			&i.Description,
+			&i.CalculationTypeID,
+			&i.TableCatID,
+			&i.TableCatName,
+			&i.DomainCatID,
+			&i.DomainCatDomainName,
+			&i.TableTypeID,
+			&i.TableTypeName,
+			&i.SchemaCatID,
+			&i.SchemaCatName,
+			&i.DatabaseCatID,
+			&i.DatabaseCatName,
+			&i.DatabaseTypeID,
+			&i.DatabaseTypeName,
+			&i.DatabaseTypeDbVersion,
 		); err != nil {
 			return nil, err
 		}

@@ -92,3 +92,63 @@ WHERE tc.domain_id IN (SELECT domain_id FROM all_domains)
    OR tc.id IN (SELECT table_id FROM all_tables_with_role_and_user);
 END;
 $$;
+
+CREATE TABLE dc.table_cat (
+                              id bigserial NOT NULL,
+                              "name" varchar(128) NOT NULL,
+                              description varchar(2000) NOT NULL,
+                              schema_id int8 NOT NULL,
+                              table_type_id int8 NOT NULL,
+                              domain_id int8 NOT NULL,
+                              is_deleted bool DEFAULT false NOT NULL,
+                              is_get_dict bool DEFAULT false NOT NULL,
+                              created_at timestamp DEFAULT now() NOT NULL,
+                              updated_at timestamp DEFAULT now() NOT NULL,
+                              user_id int8 NOT NULL
+);
+CREATE TABLE dc.domain_cat (
+                               id bigserial NOT NULL,
+                               domain_name varchar(100) NOT NULL,
+                               is_deleted bool DEFAULT false NOT NULL,
+                               created_at timestamp DEFAULT now() NOT NULL,
+                               updated_at timestamp DEFAULT now() NOT NULL,
+                               user_id int8 NOT NULL
+);
+CREATE TABLE dc.table_type (
+                               id bigserial NOT NULL,
+                               "name" varchar(128) NOT NULL,
+                               description varchar(1000) NOT NULL,
+                               is_deleted bool DEFAULT false NOT NULL,
+                               created_at timestamp DEFAULT now() NOT NULL,
+                               updated_at timestamp DEFAULT now() NOT NULL,
+                               user_id int8 NOT NULL
+);
+CREATE TABLE dc.schema_cat (
+                               id bigserial NOT NULL,
+                               database_id int8 NOT NULL,
+                               "name" varchar(128) NOT NULL,
+                               is_deleted bool DEFAULT false NOT NULL,
+                               created_at timestamp DEFAULT now() NOT NULL,
+                               updated_at timestamp DEFAULT now() NOT NULL,
+                               user_id int8 NOT NULL
+);
+CREATE TABLE dc.database_cat (
+                                 id bigserial NOT NULL,
+                                 "name" varchar(255) NOT NULL,
+                                 host_id int8 NOT NULL,
+                                 database_type_id int8 NOT NULL,
+                                 description varchar(1000) NOT NULL,
+                                 is_deleted bool DEFAULT false NOT NULL,
+                                 created_at timestamp DEFAULT now() NOT NULL,
+                                 updated_at timestamp DEFAULT now() NOT NULL,
+                                 user_id int8 NOT NULL
+);
+CREATE TABLE dc.database_type (
+                                  id bigserial NOT NULL,
+                                  "name" varchar(128) NOT NULL,
+                                  db_version varchar(512) NOT NULL,
+                                  is_deleted bool DEFAULT false NOT NULL,
+                                  created_at timestamp DEFAULT now() NOT NULL,
+                                  updated_at timestamp DEFAULT now() NOT NULL,
+                                  user_id int8 NOT NULL
+);

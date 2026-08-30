@@ -129,6 +129,13 @@ var ungatedMethods = map[string]struct{}{
 	// SQL (dc.get_table_ids_by_external_user_and_role, роль can_read), а не
 	// ролью Gateway: нужна только аутентификация, как у Login/GetMe.
 	"ListOlapAliases": {},
+
+	// CreateOlapQuery / GetOlapQueryById — сборка и чтение OLAP-запроса
+	// (query_engine). Как и ListOlapAliases, не гейтятся ролью: что показать в
+	// сводной, пользователь и так видит по своим ролям, нужна только
+	// аутентификация.
+	"CreateOlapQuery":  {},
+	"GetOlapQueryById": {},
 }
 
 // adminOnlyMethods — методы выдачи прав пользователям (dc.user_domain_roles и

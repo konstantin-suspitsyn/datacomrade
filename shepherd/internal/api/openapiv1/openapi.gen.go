@@ -14,6 +14,123 @@ import (
 	openapi_types "github.com/oapi-codegen/runtime/types"
 )
 
+// Defines values for OlapAggregation.
+const (
+	Avg           OlapAggregation = "avg"
+	Count         OlapAggregation = "count"
+	CountDistinct OlapAggregation = "count_distinct"
+	Max           OlapAggregation = "max"
+	Min           OlapAggregation = "min"
+	Sum           OlapAggregation = "sum"
+)
+
+// Valid indicates whether the value is a known member of the OlapAggregation enum.
+func (e OlapAggregation) Valid() bool {
+	switch e {
+	case Avg:
+		return true
+	case Count:
+		return true
+	case CountDistinct:
+		return true
+	case Max:
+		return true
+	case Min:
+		return true
+	case Sum:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for OlapFilterOperator.
+const (
+	Between            OlapFilterOperator = "between"
+	Contains           OlapFilterOperator = "contains"
+	Equals             OlapFilterOperator = "equals"
+	GreaterThan        OlapFilterOperator = "greater_than"
+	GreaterThanOrEqual OlapFilterOperator = "greater_than_or_equal"
+	IsEmpty            OlapFilterOperator = "is_empty"
+	IsNotEmpty         OlapFilterOperator = "is_not_empty"
+	LessThan           OlapFilterOperator = "less_than"
+	LessThanOrEqual    OlapFilterOperator = "less_than_or_equal"
+	NotEquals          OlapFilterOperator = "not_equals"
+	NotOneOf           OlapFilterOperator = "not_one_of"
+	OneOf              OlapFilterOperator = "one_of"
+	StartsWith         OlapFilterOperator = "starts_with"
+)
+
+// Valid indicates whether the value is a known member of the OlapFilterOperator enum.
+func (e OlapFilterOperator) Valid() bool {
+	switch e {
+	case Between:
+		return true
+	case Contains:
+		return true
+	case Equals:
+		return true
+	case GreaterThan:
+		return true
+	case GreaterThanOrEqual:
+		return true
+	case IsEmpty:
+		return true
+	case IsNotEmpty:
+		return true
+	case LessThan:
+		return true
+	case LessThanOrEqual:
+		return true
+	case NotEquals:
+		return true
+	case NotOneOf:
+		return true
+	case OneOf:
+		return true
+	case StartsWith:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for OlapMeasureKind.
+const (
+	Field   OlapMeasureKind = "field"
+	Formula OlapMeasureKind = "formula"
+)
+
+// Valid indicates whether the value is a known member of the OlapMeasureKind enum.
+func (e OlapMeasureKind) Valid() bool {
+	switch e {
+	case Field:
+		return true
+	case Formula:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for OlapSortDirection.
+const (
+	Asc  OlapSortDirection = "asc"
+	Desc OlapSortDirection = "desc"
+)
+
+// Valid indicates whether the value is a known member of the OlapSortDirection enum.
+func (e OlapSortDirection) Valid() bool {
+	switch e {
+	case Asc:
+		return true
+	case Desc:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for ListDatabaseCatsByHostAndDatabaseTypeParamsOrderBy.
 const (
 	Name ListDatabaseCatsByHostAndDatabaseTypeParamsOrderBy = "name"
@@ -349,6 +466,9 @@ type Me struct {
 	UserId int64 `json:"user_id"`
 }
 
+// OlapAggregation Агрегат показателя — совпадает с dc.calculation_type и Aggregation фронтенда.
+type OlapAggregation string
+
 // OlapAlias defines model for OlapAlias.
 type OlapAlias struct {
 	ColumnTypeDescription string `json:"column_type_description"`
@@ -363,6 +483,131 @@ type OlapAlias struct {
 // OlapAliasList defines model for OlapAliasList.
 type OlapAliasList struct {
 	Data []OlapAlias `json:"data"`
+}
+
+// OlapColumn Поле группировки по колонкам сводной (pivot по горизонтали). Задел под следующую версию формата: сейчас query_engine поле принимает, но в SQL не разворачивает.
+type OlapColumn struct {
+	AliasId int64 `json:"alias_id"`
+}
+
+// OlapDomainChoice Список доменов на выбор. Запрос не сохранён — повторите с заполненным domain_id.
+type OlapDomainChoice struct {
+	Domains []OlapDomainOption `json:"domains"`
+}
+
+// OlapDomainOption defines model for OlapDomainOption.
+type OlapDomainOption struct {
+	Id   int64  `json:"id"`
+	Name string `json:"name"`
+}
+
+// OlapFieldError defines model for OlapFieldError.
+type OlapFieldError struct {
+	AliasId int64 `json:"alias_id"`
+
+	// Reason Почему поле отклонено (недоступно пользователю, агрегация не разрешена, алиас вне домена).
+	Reason string `json:"reason"`
+}
+
+// OlapFilter defines model for OlapFilter.
+type OlapFilter struct {
+	AliasId int64 `json:"alias_id"`
+
+	// Operator Оператор сравнения в условии фильтра — совпадает с FilterOperator фронтенда.
+	Operator OlapFilterOperator `json:"operator"`
+
+	// Values Значения по арности оператора: 0 у is_empty/is_not_empty, 2 у between, 1 у остальных; у one_of/not_one_of — список.
+	Values []string `json:"values"`
+}
+
+// OlapFilterOperator Оператор сравнения в условии фильтра — совпадает с FilterOperator фронтенда.
+type OlapFilterOperator string
+
+// OlapMeasure defines model for OlapMeasure.
+type OlapMeasure struct {
+	// Aggregation Агрегат показателя — совпадает с dc.calculation_type и Aggregation фронтенда.
+	Aggregation *OlapAggregation `json:"aggregation,omitempty"`
+
+	// AliasId Заполнено при kind = field.
+	AliasId *int64 `json:"alias_id,omitempty"`
+
+	// Formula Заполнено при kind = formula; ссылается на другие показатели по label в квадратных скобках.
+	Formula *string `json:"formula,omitempty"`
+
+	// Kind Вид показателя — агрегат над полем (field) или формула над другими показателями (formula).
+	Kind  OlapMeasureKind `json:"kind"`
+	Label string          `json:"label"`
+}
+
+// OlapMeasureKind Вид показателя — агрегат над полем (field) или формула над другими показателями (formula).
+type OlapMeasureKind string
+
+// OlapQueryCreate defines model for OlapQueryCreate.
+type OlapQueryCreate struct {
+	// Columns Задел под pivot по горизонтали; необязательно.
+	Columns *[]OlapColumn `json:"columns,omitempty"`
+
+	// DatabaseId Идентификатор целевой базы.
+	DatabaseId int64 `json:"database_id"`
+
+	// DomainId Выбранный бизнес-домен (dc.domain_cat). Не передаётся на первом вызове; заполняется после ответа 409 OlapDomainChoice.
+	DomainId *int64       `json:"domain_id,omitempty"`
+	Filters  []OlapFilter `json:"filters"`
+
+	// Limit Задел под ограничение числа строк результата; необязательно.
+	Limit    *int64        `json:"limit,omitempty"`
+	Measures []OlapMeasure `json:"measures"`
+
+	// OrderBy Задел под сортировку результата; необязательно.
+	OrderBy *[]OlapSort `json:"order_by,omitempty"`
+	Rows    []OlapRow   `json:"rows"`
+
+	// Version Версия формата тела запроса.
+	Version int32 `json:"version"`
+}
+
+// OlapQueryRecord Строка таблицы queries.queries.
+type OlapQueryRecord struct {
+	CreatedAt  time.Time `json:"created_at"`
+	CreatedBy  int64     `json:"created_by"`
+	DatabaseId int64     `json:"database_id"`
+
+	// DomainId Бизнес-домен, в котором запрос был резолвлен.
+	DomainId int64 `json:"domain_id"`
+	Id       int64 `json:"id"`
+
+	// Params Значения плейсхолдеров SQL по порядку ($1, $2, ...).
+	Params []string `json:"params"`
+
+	// Query Финальный параметризованный SQL, собранный сервисом.
+	Query string `json:"query"`
+
+	// Request Исходная форма конструктора в формате JSON.
+	Request   string    `json:"request"`
+	UpdatedAt time.Time `json:"updated_at"`
+}
+
+// OlapRow defines model for OlapRow.
+type OlapRow struct {
+	AliasId int64 `json:"alias_id"`
+}
+
+// OlapSort Один уровень сортировки результата — по полю группировки (alias_id) либо по показателю (measure_label), ровно одно из двух. Задел под следующую версию формата: сейчас query_engine поле принимает, но в SQL не разворачивает.
+type OlapSort struct {
+	AliasId *int64 `json:"alias_id,omitempty"`
+
+	// Direction Направление сортировки строки результата.
+	Direction    OlapSortDirection `json:"direction"`
+	MeasureLabel *string           `json:"measure_label,omitempty"`
+}
+
+// OlapSortDirection Направление сортировки строки результата.
+type OlapSortDirection string
+
+// OlapValidationError Форма синтаксически верна, но не проходит проверку каталога. fields перечисляет проблемные поля.
+type OlapValidationError struct {
+	Fields  []OlapFieldError `json:"fields"`
+	Message string           `json:"message"`
 }
 
 // Pagination defines model for Pagination.
@@ -1315,6 +1560,9 @@ type CreateHostJSONRequestBody = HostWrite
 // UpdateHostByIdJSONRequestBody defines body for UpdateHostById for application/json ContentType.
 type UpdateHostByIdJSONRequestBody = HostWrite
 
+// CreateOlapQueryJSONRequestBody defines body for CreateOlapQuery for application/json ContentType.
+type CreateOlapQueryJSONRequestBody = OlapQueryCreate
+
 // CreateSchemaCatJSONRequestBody defines body for CreateSchemaCat for application/json ContentType.
 type CreateSchemaCatJSONRequestBody = SchemaCatWrite
 
@@ -1635,6 +1883,12 @@ type ServerInterface interface {
 	// ListOlapAliases Алиасы, доступные текущему пользователю для чтения
 	// (GET /olap-aliases)
 	ListOlapAliases(w http.ResponseWriter, r *http.Request, params ListOlapAliasesParams)
+	// CreateOlapQuery Сохранить конфигурацию OLAP-сводной
+	// (POST /olap-queries)
+	CreateOlapQuery(w http.ResponseWriter, r *http.Request)
+	// GetOlapQueryById Сохранённая строка queries.queries по id
+	// (GET /olap-queries/{id})
+	GetOlapQueryById(w http.ResponseWriter, r *http.Request, id int64)
 	// ListSchemaCats Список строк dc.schema_cat
 	// (GET /schema-cats)
 	ListSchemaCats(w http.ResponseWriter, r *http.Request, params ListSchemaCatsParams)
@@ -2313,6 +2567,18 @@ func (_ Unimplemented) GetMe(w http.ResponseWriter, r *http.Request) {
 // ListOlapAliases Алиасы, доступные текущему пользователю для чтения
 // (GET /olap-aliases)
 func (_ Unimplemented) ListOlapAliases(w http.ResponseWriter, r *http.Request, params ListOlapAliasesParams) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// CreateOlapQuery Сохранить конфигурацию OLAP-сводной
+// (POST /olap-queries)
+func (_ Unimplemented) CreateOlapQuery(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// GetOlapQueryById Сохранённая строка queries.queries по id
+// (GET /olap-queries/{id})
+func (_ Unimplemented) GetOlapQueryById(w http.ResponseWriter, r *http.Request, id int64) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
@@ -6338,6 +6604,46 @@ func (siw *ServerInterfaceWrapper) ListOlapAliases(w http.ResponseWriter, r *htt
 	handler.ServeHTTP(w, r)
 }
 
+// CreateOlapQuery operation middleware
+func (siw *ServerInterfaceWrapper) CreateOlapQuery(w http.ResponseWriter, r *http.Request) {
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.CreateOlapQuery(w, r)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// GetOlapQueryById operation middleware
+func (siw *ServerInterfaceWrapper) GetOlapQueryById(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	_ = err
+
+	// ------------- Path parameter "id" -------------
+	var id int64
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: "int64", ValueIsUnescaped: r.URL.RawPath == ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.GetOlapQueryById(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
 // ListSchemaCats operation middleware
 func (siw *ServerInterfaceWrapper) ListSchemaCats(w http.ResponseWriter, r *http.Request) {
 
@@ -7997,6 +8303,12 @@ func HandlerWithOptions(si ServerInterface, options ChiServerOptions) http.Handl
 	})
 	r.Group(func(r chi.Router) {
 		r.Get(options.BaseURL+"/olap-aliases", wrapper.ListOlapAliases)
+	})
+	r.Group(func(r chi.Router) {
+		r.Post(options.BaseURL+"/olap-queries", wrapper.CreateOlapQuery)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/olap-queries/{id}", wrapper.GetOlapQueryById)
 	})
 
 	return r

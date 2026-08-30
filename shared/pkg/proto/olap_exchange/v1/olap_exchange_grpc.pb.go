@@ -122,3 +122,105 @@ var AliasService_ServiceDesc = grpc.ServiceDesc{
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "olap_exchange/v1/olap_exchange.proto",
 }
+
+const (
+	ColumnCatService_GetTablesMeta_FullMethodName = "/olap_exchange.v1.ColumnCatService/GetTablesMeta"
+)
+
+// ColumnCatServiceClient is the client API for ColumnCatService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type ColumnCatServiceClient interface {
+	GetTablesMeta(ctx context.Context, in *GetTablesMetaRequest, opts ...grpc.CallOption) (*GetTablesMetaResponse, error)
+}
+
+type columnCatServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewColumnCatServiceClient(cc grpc.ClientConnInterface) ColumnCatServiceClient {
+	return &columnCatServiceClient{cc}
+}
+
+func (c *columnCatServiceClient) GetTablesMeta(ctx context.Context, in *GetTablesMetaRequest, opts ...grpc.CallOption) (*GetTablesMetaResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetTablesMetaResponse)
+	err := c.cc.Invoke(ctx, ColumnCatService_GetTablesMeta_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// ColumnCatServiceServer is the server API for ColumnCatService service.
+// All implementations must embed UnimplementedColumnCatServiceServer
+// for forward compatibility.
+type ColumnCatServiceServer interface {
+	GetTablesMeta(context.Context, *GetTablesMetaRequest) (*GetTablesMetaResponse, error)
+	mustEmbedUnimplementedColumnCatServiceServer()
+}
+
+// UnimplementedColumnCatServiceServer must be embedded to have
+// forward compatible implementations.
+//
+// NOTE: this should be embedded by value instead of pointer to avoid a nil
+// pointer dereference when methods are called.
+type UnimplementedColumnCatServiceServer struct{}
+
+func (UnimplementedColumnCatServiceServer) GetTablesMeta(context.Context, *GetTablesMetaRequest) (*GetTablesMetaResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTablesMeta not implemented")
+}
+func (UnimplementedColumnCatServiceServer) mustEmbedUnimplementedColumnCatServiceServer() {}
+func (UnimplementedColumnCatServiceServer) testEmbeddedByValue()                          {}
+
+// UnsafeColumnCatServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to ColumnCatServiceServer will
+// result in compilation errors.
+type UnsafeColumnCatServiceServer interface {
+	mustEmbedUnimplementedColumnCatServiceServer()
+}
+
+func RegisterColumnCatServiceServer(s grpc.ServiceRegistrar, srv ColumnCatServiceServer) {
+	// If the following call pancis, it indicates UnimplementedColumnCatServiceServer was
+	// embedded by pointer and is nil.  This will cause panics if an
+	// unimplemented method is ever invoked, so we test this at initialization
+	// time to prevent it from happening at runtime later due to I/O.
+	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
+		t.testEmbeddedByValue()
+	}
+	s.RegisterService(&ColumnCatService_ServiceDesc, srv)
+}
+
+func _ColumnCatService_GetTablesMeta_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTablesMetaRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ColumnCatServiceServer).GetTablesMeta(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ColumnCatService_GetTablesMeta_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ColumnCatServiceServer).GetTablesMeta(ctx, req.(*GetTablesMetaRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// ColumnCatService_ServiceDesc is the grpc.ServiceDesc for ColumnCatService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var ColumnCatService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "olap_exchange.v1.ColumnCatService",
+	HandlerType: (*ColumnCatServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetTablesMeta",
+			Handler:    _ColumnCatService_GetTablesMeta_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "olap_exchange/v1/olap_exchange.proto",
+}

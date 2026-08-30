@@ -21,6 +21,7 @@ type Config struct {
 	KeycloakIssuerURL string
 
 	DataCatalogueGRPCAddr string
+	QueryEngineGRPCAddr   string
 
 	RedisAddr     string
 	RedisPassword string
@@ -45,6 +46,7 @@ func InitConfig() Config {
 		KeycloakIssuerURL: getStringEnv("SHEPHERD_KEYCLOAK_ISSUER_URL"),
 
 		DataCatalogueGRPCAddr: fmt.Sprintf("%s:%d", getStringEnv("DATACATALOGUE_GRPC_HOST"), getIntEnv("DATACATALOGUE_GRPC_PORT")),
+		QueryEngineGRPCAddr:   fmt.Sprintf("%s:%d", getStringEnv("QUERY_ENGINE_GRPC_HOST"), getIntEnv("QUERY_ENGINE_GRPC_PORT")),
 
 		RedisAddr:     fmt.Sprintf("%s:%d", getStringEnv("SHEPHERD_REDIS_HOST"), getIntEnv("REDIS_PORT")),
 		RedisPassword: getStringEnv("REDIS_PASSWORD"),

@@ -23,6 +23,9 @@ datacatalogue.goose.GOOSE_MIGRATION_DIR="./db/migrations"
 datacatalogue.goose.GOOSE_TABLE="tech.goose_migrations"
 
 query_engine.comment="Данные для микросервиса QUERY_ENGINE"
+query_engine.host_and_port.comment="GRPC host and port"
+query_engine.host_and_port.QUERY_ENGINE_GRPC_HOST="${QUERY_ENGINE_GRPC_HOST}"
+query_engine.host_and_port.QUERY_ENGINE_GRPC_PORT="${QUERY_ENGINE_GRPC_PORT}"
 query_engine.db.comment="Postgres DB settings"
 query_engine.db.QUERY_ENGINE_POSTGRES_CONTAINER_NAME="query_engine_postgres"
 query_engine.db.QUERY_ENGINE_POSTGRES_IMAGE="postgres:18.3-alpine3.23"
@@ -34,6 +37,11 @@ query_engine.db.QUERY_ENGINE_POSTGRES_DB="${QUERY_ENGINE_POSTGRES_DB}"
 query_engine.db.DB_MAX_OPEN_CONNS=50
 query_engine.db.DB_MAX_IDLE_CONNS=50
 query_engine.db.DB_MAX_IDLE_TIME_MINS=5
+query_engine.goose.comment="Миграции в go/goose"
+query_engine.goose.GOOSE_DRIVER="postgres"
+query_engine.goose.GOOSE_DBSTRING="postgres://${QUERY_ENGINE_POSTGRES_USER}:${QUERY_ENGINE_POSTGRES_PASSWORD}@${QUERY_ENGINE_POSTGRES_HOST}:${QUERY_ENGINE_POSTGRES_PORT}/${QUERY_ENGINE_POSTGRES_DB}"
+query_engine.goose.GOOSE_MIGRATION_DIR="./db/migrations"
+query_engine.goose.GOOSE_TABLE="tech.goose_migrations"
 
 keycloak.comment="Данные для сервиса авторизации KEYCLOAK"
 keycloak.db.comment="Postgres DB settings (отдельная база под Keycloak)"
@@ -83,3 +91,5 @@ shepherd.redis.REDIS_PASSWORD="${REDIS_PASSWORD}"
 shepherd.microservices.comment="Данные для других микросервисов"
 shepherd.microservices.DATACATALOGUE_GRPC_HOST="${DATACATALOGUE_GRPC_HOST}"
 shepherd.microservices.DATACATALOGUE_GRPC_PORT="${DATACATALOGUE_GRPC_PORT}"
+shepherd.microservices.QUERY_ENGINE_GRPC_HOST="${QUERY_ENGINE_GRPC_HOST}"
+shepherd.microservices.QUERY_ENGINE_GRPC_PORT="${QUERY_ENGINE_GRPC_PORT}"
