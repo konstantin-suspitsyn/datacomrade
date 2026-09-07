@@ -30,7 +30,7 @@ func testColumnCatRow() tables_model.DcColumnCat {
 		AliasID:           sql.NullInt64{Int64: 103, Valid: true},
 		ColumnTypeID:      104,
 		Description:       "description-0",
-		CalculationTypeID: 106,
+		CalculationTypeID: sql.NullInt64{Int64: 106, Valid: true},
 		IsDeleted:         false,
 		ShowInUi:          true,
 		CreatedAt:         columnCatCreatedAt,
@@ -71,8 +71,8 @@ func TestColumnCatToProto(t *testing.T) {
 		t.Errorf("Description = %q, want %q", got.GetDescription(), row.Description)
 	}
 
-	if got.GetCalculationTypeId() != row.CalculationTypeID {
-		t.Errorf("CalculationTypeId = %d, want %d", got.GetCalculationTypeId(), row.CalculationTypeID)
+	if got.CalculationTypeId == nil || *got.CalculationTypeId != row.CalculationTypeID.Int64 {
+		t.Errorf("CalculationTypeId = %v, want %d", got.CalculationTypeId, row.CalculationTypeID.Int64)
 	}
 
 	if got.GetIsDeleted() != row.IsDeleted {
@@ -98,6 +98,11 @@ func TestColumnCatToProto(t *testing.T) {
 	row.AliasID = sql.NullInt64{}
 	if got := ColumnCatToProto(row); got.AliasId != nil {
 		t.Errorf("AliasId = %v, want nil для SQL NULL", got.AliasId)
+	}
+
+	row.CalculationTypeID = sql.NullInt64{}
+	if got := ColumnCatToProto(row); got.CalculationTypeId != nil {
+		t.Errorf("CalculationTypeId = %v, want nil для SQL NULL", got.CalculationTypeId)
 	}
 
 }
@@ -141,7 +146,7 @@ func TestToCreateColumnCatParams(t *testing.T) {
 		AliasId:           columnCatPtr(int64(102)),
 		ColumnTypeId:      103,
 		Description:       "description-0",
-		CalculationTypeId: 105,
+		CalculationTypeId: columnCatPtr(int64(105)),
 		ShowInUi:          true,
 		ExternalId:        "00000000-0000-4000-8000-000000000008",
 	}
@@ -152,7 +157,7 @@ func TestToCreateColumnCatParams(t *testing.T) {
 		AliasID:           sql.NullInt64{Int64: 102, Valid: true},
 		ColumnTypeID:      103,
 		Description:       "description-0",
-		CalculationTypeID: 105,
+		CalculationTypeID: sql.NullInt64{Int64: 105, Valid: true},
 		ShowInUi:          true,
 		ExternalID:        uuid.MustParse("00000000-0000-4000-8000-000000000008"),
 	}
@@ -176,7 +181,7 @@ func TestToUpdateColumnCatByIdParams(t *testing.T) {
 		AliasId:           columnCatPtr(int64(102)),
 		ColumnTypeId:      103,
 		Description:       "description-0",
-		CalculationTypeId: 105,
+		CalculationTypeId: columnCatPtr(int64(105)),
 		ShowInUi:          true,
 		ExternalId:        "00000000-0000-4000-8000-000000000008",
 		Id:                108,
@@ -188,7 +193,7 @@ func TestToUpdateColumnCatByIdParams(t *testing.T) {
 		AliasID:           sql.NullInt64{Int64: 102, Valid: true},
 		ColumnTypeID:      103,
 		Description:       "description-0",
-		CalculationTypeID: 105,
+		CalculationTypeID: sql.NullInt64{Int64: 105, Valid: true},
 		ShowInUi:          true,
 		ExternalID:        uuid.MustParse("00000000-0000-4000-8000-000000000008"),
 		ID:                108,

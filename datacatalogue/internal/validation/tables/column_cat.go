@@ -20,7 +20,7 @@ func ValidateCreateColumnCat(req *tablesv1.CreateColumnCatRequest) error {
 	v.OptionalInt64ID("alias_id", req.AliasId)
 	v.Int64ID("column_type_id", req.GetColumnTypeId())
 	v.StringVarchar("description", req.GetDescription(), columnCatDescriptionMaxLen)
-	v.Int64ID("calculation_type_id", req.GetCalculationTypeId())
+	v.OptionalInt64ID("calculation_type_id", req.CalculationTypeId)
 	v.StringUUID("user_id", req.GetExternalId())
 
 	return v.Err()
@@ -40,7 +40,7 @@ func ValidateUpdateColumnCatById(req *tablesv1.UpdateColumnCatByIdRequest) error
 	v.OptionalInt64ID("alias_id", req.AliasId)
 	v.Int64ID("column_type_id", req.GetColumnTypeId())
 	v.StringVarchar("description", req.GetDescription(), columnCatDescriptionMaxLen)
-	v.Int64ID("calculation_type_id", req.GetCalculationTypeId())
+	v.OptionalInt64ID("calculation_type_id", req.CalculationTypeId)
 	v.StringUUID("user_id", req.GetExternalId())
 	v.Int64ID("id", req.GetId())
 

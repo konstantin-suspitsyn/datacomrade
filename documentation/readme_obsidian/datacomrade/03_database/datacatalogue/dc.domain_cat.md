@@ -2,6 +2,18 @@
 
 Каталог бизнес-доменов.
 
+## Фиксированный домен `no_domain`
+
+Строка `domain_name = 'no_domain'` засеяна миграцией `000000048_insert_no_domain.sql`
+и присутствует в базе всегда — как справочные роли `can_read`/`can_write`/`can_grant`
+и пользователь `Lomonosov M.`.
+
+Это домен для таблиц, не относящихся ни к одной бизнес-области: общие словари,
+календари, географические и прочие сквозные справочники. Доступ к таблицам этого
+домена открыт **всем** пользователям и не требует записи в [[dc.user_domain_roles]]
+(см. [[Разграничение доступа]]). Удалять или переименовывать `no_domain` нельзя —
+на него опирается логика эффективного доступа.
+
 ## Columns
 
 | Name | Type | Nullable | Default | Description |
@@ -26,6 +38,7 @@
 ## Migration source
 - Create: `datacatalogue/db/migrations/000000005_create_table_domain_cat.sql`
 - FK/Alter: `datacatalogue/db/migrations/000000016_add_fk_domain_cat.sql`
+- Seed: `datacatalogue/db/migrations/000000048_insert_no_domain.sql` (`no_domain`)
 
 ## References
 - Tags: #database #datacatalogue #table

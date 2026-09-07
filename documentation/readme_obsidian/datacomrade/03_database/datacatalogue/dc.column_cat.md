@@ -9,10 +9,10 @@
 | `id` | `bigserial` | no | `none` | Идентификатор колонки. |
 | `table_id` | `bigint` | no | `none` | Ссылка на таблицу. |
 | `name (256)` | `varchar` | no | `none` | Имя колонки (quoted SQL-имя). |
-| `alias_id` | `bigint` | no | `none` | Ссылка на alias. |
+| `alias_id` | `bigint` | yes | `none` | Ссылка на alias. Nullable с миграции `000000046` — колонка без бизнес-имени; при `show_in_ui = true` всё равно обязателен (`ColumnCatGuard`). |
 | `column_type_id` | `bigint` | no | `none` | Ссылка на тип колонки. |
 | `description` | `varchar(1000)` | no | `none` | Описание. |
-| `calculation_type_id` | `bigint` | no | `none` | Тип вычисления. |
+| `calculation_type_id` | `bigint` | yes | `none` | Тип вычисления. Nullable с миграции `000000049` — у атрибута измерения / элемента словаря агрегата нет. |
 | `is_deleted` | `bool` | no | `false` | Флаг удаления. |
 | `show_in_ui` | `bool` | no | `none` | Показывать в UI. |
 | `created_at` | `timestamp` | no | `now()` | Создание. |
@@ -36,6 +36,8 @@
 ## Migration source
 - Create: `datacatalogue/db/migrations/000000020_create_table_column_cat.sql`
 - FK/Alter: `datacatalogue/db/migrations/000000021_add_fk_column_cat.sql`, `datacatalogue/db/migrations/000000027_add_fk_column_cat_1.sql`
+- `alias_id` nullable: `datacatalogue/db/migrations/000000046_alter_column_cat_alias_id_nullable.sql`
+- `calculation_type_id` nullable: `datacatalogue/db/migrations/000000049_alter_column_cat_calculation_type_id_nullable.sql`
 
 ## References
 - Tags: #database #datacatalogue #table

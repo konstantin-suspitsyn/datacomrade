@@ -1083,7 +1083,7 @@ type CreateColumnCatParams struct {
 	AliasID           sql.NullInt64
 	ColumnTypeID      int64
 	Description       string
-	CalculationTypeID int64
+	CalculationTypeID sql.NullInt64
 	ShowInUi          bool
 	ExternalID        uuid.UUID
 }
@@ -5590,7 +5590,7 @@ type UpdateColumnCatByIdParams struct {
 	AliasID           sql.NullInt64
 	ColumnTypeID      int64
 	Description       string
-	CalculationTypeID int64
+	CalculationTypeID sql.NullInt64
 	ShowInUi          bool
 	ExternalID        uuid.UUID
 	ID                int64

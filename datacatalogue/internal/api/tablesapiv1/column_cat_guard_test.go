@@ -55,7 +55,7 @@ func validCreateColumnCatRequest() *tablesv1.CreateColumnCatRequest {
 		AliasId:           ptr(int64(7)),
 		ColumnTypeId:      3,
 		Description:       "сумма продаж",
-		CalculationTypeId: 5,
+		CalculationTypeId: ptr(int64(5)),
 		ShowInUi:          true,
 		ExternalId:        "00000000-0000-4000-8000-000000000001",
 	}
@@ -69,7 +69,7 @@ func validUpdateColumnCatByIdRequest() *tablesv1.UpdateColumnCatByIdRequest {
 		AliasId:           ptr(int64(7)),
 		ColumnTypeId:      3,
 		Description:       "сумма продаж",
-		CalculationTypeId: 5,
+		CalculationTypeId: ptr(int64(5)),
 		ShowInUi:          true,
 		ExternalId:        "00000000-0000-4000-8000-000000000001",
 	}

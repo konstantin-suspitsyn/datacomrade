@@ -3016,7 +3016,6 @@ components:
         - name
         - column_type_id
         - description
-        - calculation_type_id
         - is_deleted
         - show_in_ui
         - created_at
@@ -3043,6 +3042,7 @@ components:
         calculation_type_id:
           type: integer
           format: int64
+          nullable: true
         is_deleted:
           type: boolean
         show_in_ui:
@@ -3075,7 +3075,6 @@ components:
         - name
         - column_type_id
         - description
-        - calculation_type_id
         - show_in_ui
       properties:
         table_id:
@@ -3095,6 +3094,7 @@ components:
         calculation_type_id:
           type: integer
           format: int64
+          nullable: true
         show_in_ui:
           type: boolean
     ColumnType:

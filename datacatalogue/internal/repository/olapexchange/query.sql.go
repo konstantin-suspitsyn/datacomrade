@@ -142,7 +142,7 @@ type GetTablesMetaRow struct {
 	AliasID               sql.NullInt64
 	ColumnTypeID          int64
 	Description           string
-	CalculationTypeID     int64
+	CalculationTypeID     sql.NullInt64
 	TableCatID            int64
 	TableCatName          string
 	DomainCatID           int64

@@ -192,7 +192,7 @@ type CalculationType struct {
 // ColumnCat defines model for ColumnCat.
 type ColumnCat struct {
 	AliasId           *int64    `json:"alias_id,omitempty"`
-	CalculationTypeId int64     `json:"calculation_type_id"`
+	CalculationTypeId *int64    `json:"calculation_type_id,omitempty"`
 	ColumnTypeId      int64     `json:"column_type_id"`
 	CreatedAt         time.Time `json:"created_at"`
 	Description       string    `json:"description"`
@@ -214,7 +214,7 @@ type ColumnCatPage struct {
 // ColumnCatWrite defines model for ColumnCatWrite.
 type ColumnCatWrite struct {
 	AliasId           *int64 `json:"alias_id,omitempty"`
-	CalculationTypeId int64  `json:"calculation_type_id"`
+	CalculationTypeId *int64 `json:"calculation_type_id,omitempty"`
 	ColumnTypeId      int64  `json:"column_type_id"`
 	Description       string `json:"description"`
 	Name              string `json:"name"`

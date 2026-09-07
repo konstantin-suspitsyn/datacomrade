@@ -4396,7 +4396,7 @@ type ColumnCat struct {
 	AliasId           *int64                 `protobuf:"varint,4,opt,name=alias_id,json=aliasId,proto3,oneof" json:"alias_id,omitempty"`
 	ColumnTypeId      int64                  `protobuf:"varint,5,opt,name=column_type_id,json=columnTypeId,proto3" json:"column_type_id,omitempty"`
 	Description       string                 `protobuf:"bytes,6,opt,name=description,proto3" json:"description,omitempty"`
-	CalculationTypeId int64                  `protobuf:"varint,7,opt,name=calculation_type_id,json=calculationTypeId,proto3" json:"calculation_type_id,omitempty"`
+	CalculationTypeId *int64                 `protobuf:"varint,7,opt,name=calculation_type_id,json=calculationTypeId,proto3,oneof" json:"calculation_type_id,omitempty"`
 	IsDeleted         bool                   `protobuf:"varint,8,opt,name=is_deleted,json=isDeleted,proto3" json:"is_deleted,omitempty"`
 	ShowInUi          bool                   `protobuf:"varint,9,opt,name=show_in_ui,json=showInUi,proto3" json:"show_in_ui,omitempty"`
 	CreatedAt         *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
@@ -4479,8 +4479,8 @@ func (x *ColumnCat) GetDescription() string {
 }
 
 func (x *ColumnCat) GetCalculationTypeId() int64 {
-	if x != nil {
-		return x.CalculationTypeId
+	if x != nil && x.CalculationTypeId != nil {
+		return *x.CalculationTypeId
 	}
 	return 0
 }
@@ -4528,7 +4528,7 @@ type CreateColumnCatRequest struct {
 	AliasId           *int64                 `protobuf:"varint,3,opt,name=alias_id,json=aliasId,proto3,oneof" json:"alias_id,omitempty"`
 	ColumnTypeId      int64                  `protobuf:"varint,4,opt,name=column_type_id,json=columnTypeId,proto3" json:"column_type_id,omitempty"`
 	Description       string                 `protobuf:"bytes,5,opt,name=description,proto3" json:"description,omitempty"`
-	CalculationTypeId int64                  `protobuf:"varint,6,opt,name=calculation_type_id,json=calculationTypeId,proto3" json:"calculation_type_id,omitempty"`
+	CalculationTypeId *int64                 `protobuf:"varint,6,opt,name=calculation_type_id,json=calculationTypeId,proto3,oneof" json:"calculation_type_id,omitempty"`
 	ShowInUi          bool                   `protobuf:"varint,7,opt,name=show_in_ui,json=showInUi,proto3" json:"show_in_ui,omitempty"`
 	ExternalId        string                 `protobuf:"bytes,8,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
 	unknownFields     protoimpl.UnknownFields
@@ -4601,8 +4601,8 @@ func (x *CreateColumnCatRequest) GetDescription() string {
 }
 
 func (x *CreateColumnCatRequest) GetCalculationTypeId() int64 {
-	if x != nil {
-		return x.CalculationTypeId
+	if x != nil && x.CalculationTypeId != nil {
+		return *x.CalculationTypeId
 	}
 	return 0
 }
@@ -5272,7 +5272,7 @@ type UpdateColumnCatByIdRequest struct {
 	AliasId           *int64                 `protobuf:"varint,3,opt,name=alias_id,json=aliasId,proto3,oneof" json:"alias_id,omitempty"`
 	ColumnTypeId      int64                  `protobuf:"varint,4,opt,name=column_type_id,json=columnTypeId,proto3" json:"column_type_id,omitempty"`
 	Description       string                 `protobuf:"bytes,5,opt,name=description,proto3" json:"description,omitempty"`
-	CalculationTypeId int64                  `protobuf:"varint,6,opt,name=calculation_type_id,json=calculationTypeId,proto3" json:"calculation_type_id,omitempty"`
+	CalculationTypeId *int64                 `protobuf:"varint,6,opt,name=calculation_type_id,json=calculationTypeId,proto3,oneof" json:"calculation_type_id,omitempty"`
 	ShowInUi          bool                   `protobuf:"varint,7,opt,name=show_in_ui,json=showInUi,proto3" json:"show_in_ui,omitempty"`
 	ExternalId        string                 `protobuf:"bytes,8,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
 	Id                int64                  `protobuf:"varint,9,opt,name=id,proto3" json:"id,omitempty"`
@@ -5346,8 +5346,8 @@ func (x *UpdateColumnCatByIdRequest) GetDescription() string {
 }
 
 func (x *UpdateColumnCatByIdRequest) GetCalculationTypeId() int64 {
-	if x != nil {
-		return x.CalculationTypeId
+	if x != nil && x.CalculationTypeId != nil {
+		return *x.CalculationTypeId
 	}
 	return 0
 }
@@ -15520,15 +15520,15 @@ const file_tables_v1_tables_proto_rawDesc = "" +
 	"\vexternal_id\x18\x01 \x01(\tR\n" +
 	"externalId\x12\x0e\n" +
 	"\x02id\x18\x02 \x01(\x03R\x02id\"!\n" +
-	"\x1fUndeleteDatabaseCatByIdResponse\"\xbb\x03\n" +
+	"\x1fUndeleteDatabaseCatByIdResponse\"\xd8\x03\n" +
 	"\tColumnCat\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x19\n" +
 	"\btable_id\x18\x02 \x01(\x03R\atableId\x12\x12\n" +
 	"\x04name\x18\x03 \x01(\tR\x04name\x12\x1e\n" +
 	"\balias_id\x18\x04 \x01(\x03H\x00R\aaliasId\x88\x01\x01\x12$\n" +
 	"\x0ecolumn_type_id\x18\x05 \x01(\x03R\fcolumnTypeId\x12 \n" +
-	"\vdescription\x18\x06 \x01(\tR\vdescription\x12.\n" +
-	"\x13calculation_type_id\x18\a \x01(\x03R\x11calculationTypeId\x12\x1d\n" +
+	"\vdescription\x18\x06 \x01(\tR\vdescription\x123\n" +
+	"\x13calculation_type_id\x18\a \x01(\x03H\x01R\x11calculationTypeId\x88\x01\x01\x12\x1d\n" +
 	"\n" +
 	"is_deleted\x18\b \x01(\bR\tisDeleted\x12\x1c\n" +
 	"\n" +
@@ -15539,19 +15539,21 @@ const file_tables_v1_tables_proto_rawDesc = "" +
 	"\n" +
 	"updated_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12\x17\n" +
 	"\auser_id\x18\f \x01(\x03R\x06userIdB\v\n" +
-	"\t_alias_id\"\xab\x02\n" +
+	"\t_alias_idB\x16\n" +
+	"\x14_calculation_type_id\"\xc8\x02\n" +
 	"\x16CreateColumnCatRequest\x12\x19\n" +
 	"\btable_id\x18\x01 \x01(\x03R\atableId\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x1e\n" +
 	"\balias_id\x18\x03 \x01(\x03H\x00R\aaliasId\x88\x01\x01\x12$\n" +
 	"\x0ecolumn_type_id\x18\x04 \x01(\x03R\fcolumnTypeId\x12 \n" +
-	"\vdescription\x18\x05 \x01(\tR\vdescription\x12.\n" +
-	"\x13calculation_type_id\x18\x06 \x01(\x03R\x11calculationTypeId\x12\x1c\n" +
+	"\vdescription\x18\x05 \x01(\tR\vdescription\x123\n" +
+	"\x13calculation_type_id\x18\x06 \x01(\x03H\x01R\x11calculationTypeId\x88\x01\x01\x12\x1c\n" +
 	"\n" +
 	"show_in_ui\x18\a \x01(\bR\bshowInUi\x12\x1f\n" +
 	"\vexternal_id\x18\b \x01(\tR\n" +
 	"externalIdB\v\n" +
-	"\t_alias_id\"N\n" +
+	"\t_alias_idB\x16\n" +
+	"\x14_calculation_type_id\"N\n" +
 	"\x17CreateColumnCatResponse\x123\n" +
 	"\n" +
 	"column_cat\x18\x01 \x01(\v2\x14.tables.v1.ColumnCatR\tcolumnCat\")\n" +
@@ -15612,20 +15614,21 @@ const file_tables_v1_tables_proto_rawDesc = "" +
 	"\x04data\x18\x01 \x03(\v2\x14.tables.v1.ColumnCatR\x04data\x125\n" +
 	"\n" +
 	"pagination\x18\x02 \x01(\v2\x15.tables.v1.PaginationR\n" +
-	"pagination\"\xbf\x02\n" +
+	"pagination\"\xdc\x02\n" +
 	"\x1aUpdateColumnCatByIdRequest\x12\x19\n" +
 	"\btable_id\x18\x01 \x01(\x03R\atableId\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x1e\n" +
 	"\balias_id\x18\x03 \x01(\x03H\x00R\aaliasId\x88\x01\x01\x12$\n" +
 	"\x0ecolumn_type_id\x18\x04 \x01(\x03R\fcolumnTypeId\x12 \n" +
-	"\vdescription\x18\x05 \x01(\tR\vdescription\x12.\n" +
-	"\x13calculation_type_id\x18\x06 \x01(\x03R\x11calculationTypeId\x12\x1c\n" +
+	"\vdescription\x18\x05 \x01(\tR\vdescription\x123\n" +
+	"\x13calculation_type_id\x18\x06 \x01(\x03H\x01R\x11calculationTypeId\x88\x01\x01\x12\x1c\n" +
 	"\n" +
 	"show_in_ui\x18\a \x01(\bR\bshowInUi\x12\x1f\n" +
 	"\vexternal_id\x18\b \x01(\tR\n" +
 	"externalId\x12\x0e\n" +
 	"\x02id\x18\t \x01(\x03R\x02idB\v\n" +
-	"\t_alias_id\"\x1d\n" +
+	"\t_alias_idB\x16\n" +
+	"\x14_calculation_type_id\"\x1d\n" +
 	"\x1bUpdateColumnCatByIdResponse\"M\n" +
 	"\x1aDeleteColumnCatByIdRequest\x12\x1f\n" +
 	"\vexternal_id\x18\x01 \x01(\tR\n" +

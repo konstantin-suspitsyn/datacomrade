@@ -17,7 +17,7 @@ CREATE TABLE dc.column_cat (
     alias_id bigint,
     column_type_id bigint NOT NULL,
     description character varying(1000) NOT NULL,
-    calculation_type_id bigint NOT NULL,
+    calculation_type_id bigint,
     is_deleted boolean DEFAULT false NOT NULL,
     show_in_ui boolean NOT NULL,
     created_at timestamp without time zone DEFAULT now() NOT NULL,

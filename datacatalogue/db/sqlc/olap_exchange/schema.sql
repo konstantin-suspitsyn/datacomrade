@@ -47,7 +47,7 @@ CREATE TABLE dc.column_cat (
                                alias_id int8 NULL,
                                column_type_id int8 NOT NULL,
                                description varchar(1000) NOT NULL,
-                               calculation_type_id int8 NOT NULL,
+                               calculation_type_id int8 NULL,
                                is_deleted bool DEFAULT false NOT NULL,
                                show_in_ui bool NOT NULL,
                                created_at timestamp DEFAULT now() NOT NULL,

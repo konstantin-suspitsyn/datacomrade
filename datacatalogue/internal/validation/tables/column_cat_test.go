@@ -33,7 +33,7 @@ func validValidateCreateColumnCatRequest() *tablesv1.CreateColumnCatRequest {
 		AliasId:           columnCatPtr(int64(102)),
 		ColumnTypeId:      103,
 		Description:       "description-4",
-		CalculationTypeId: 105,
+		CalculationTypeId: columnCatPtr(int64(105)),
 		ShowInUi:          true,
 		ExternalId:        "00000000-0000-4000-8000-000000000008",
 	}
@@ -56,7 +56,8 @@ func TestValidateCreateColumnCat(t *testing.T) {
 		{name: "description too long", mutate: func(r *tablesv1.CreateColumnCatRequest) {
 			r.Description = strings.Repeat("a", columnCatDescriptionMaxLen+1)
 		}, wantField: "description"},
-		{name: "zero calculation_type_id", mutate: func(r *tablesv1.CreateColumnCatRequest) { r.CalculationTypeId = 0 }, wantField: "calculation_type_id"},
+		{name: "absent calculation_type_id", mutate: func(r *tablesv1.CreateColumnCatRequest) { r.CalculationTypeId = nil }},
+		{name: "zero calculation_type_id", mutate: func(r *tablesv1.CreateColumnCatRequest) { r.CalculationTypeId = columnCatPtr(int64(0)) }, wantField: "calculation_type_id"},
 		{name: "empty user_id", mutate: func(r *tablesv1.CreateColumnCatRequest) { r.ExternalId = "" }, wantField: "user_id"},
 		{name: "malformed user_id", mutate: func(r *tablesv1.CreateColumnCatRequest) { r.ExternalId = "not-a-uuid" }, wantField: "user_id"},
 	}
@@ -100,7 +101,7 @@ func validValidateUpdateColumnCatByIdRequest() *tablesv1.UpdateColumnCatByIdRequ
 		AliasId:           columnCatPtr(int64(102)),
 		ColumnTypeId:      103,
 		Description:       "description-4",
-		CalculationTypeId: 105,
+		CalculationTypeId: columnCatPtr(int64(105)),
 		ShowInUi:          true,
 		ExternalId:        "00000000-0000-4000-8000-000000000008",
 		Id:                108,
@@ -124,7 +125,8 @@ func TestValidateUpdateColumnCatById(t *testing.T) {
 		{name: "description too long", mutate: func(r *tablesv1.UpdateColumnCatByIdRequest) {
 			r.Description = strings.Repeat("a", columnCatDescriptionMaxLen+1)
 		}, wantField: "description"},
-		{name: "zero calculation_type_id", mutate: func(r *tablesv1.UpdateColumnCatByIdRequest) { r.CalculationTypeId = 0 }, wantField: "calculation_type_id"},
+		{name: "absent calculation_type_id", mutate: func(r *tablesv1.UpdateColumnCatByIdRequest) { r.CalculationTypeId = nil }},
+		{name: "zero calculation_type_id", mutate: func(r *tablesv1.UpdateColumnCatByIdRequest) { r.CalculationTypeId = columnCatPtr(int64(0)) }, wantField: "calculation_type_id"},
 		{name: "empty user_id", mutate: func(r *tablesv1.UpdateColumnCatByIdRequest) { r.ExternalId = "" }, wantField: "user_id"},
 		{name: "malformed user_id", mutate: func(r *tablesv1.UpdateColumnCatByIdRequest) { r.ExternalId = "not-a-uuid" }, wantField: "user_id"},
 		{name: "zero id", mutate: func(r *tablesv1.UpdateColumnCatByIdRequest) { r.Id = 0 }, wantField: "id"},

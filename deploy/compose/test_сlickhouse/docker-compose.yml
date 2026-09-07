@@ -1,0 +1,36 @@
+services:
+  test_clickhouse:
+    image: ${TEST_CLICKHOUSE_IMAGE}
+    container_name: ${TEST_CLICKHOUSE_CONTAINER_NAME} # Тестовая целевая СУБД для query_engine
+    env_file:
+      - .env
+    environment:
+      CLICKHOUSE_USER: ${TEST_CLICKHOUSE_USER} # Пользователь из .env
+      CLICKHOUSE_PASSWORD: ${TEST_CLICKHOUSE_PASSWORD} # Пароль из .env
+      CLICKHOUSE_DB: ${TEST_CLICKHOUSE_DB}
+      CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: 1 # Разрешаем управление правами через SQL
+    ports:
+      - "${TEST_CLICKHOUSE_HTTP_PORT}:8123" # HTTP-интерфейс: внешний из .env, внутренний фиксированный
+      - "${TEST_CLICKHOUSE_NATIVE_PORT}:9000" # Нативный протокол (clickhouse-go/v2)
+    ulimits: # ClickHouse требует поднятый лимит на дескрипторы
+      nofile:
+        soft: 262144
+        hard: 262144
+    volumes:
+      - ch_data:/var/lib/clickhouse # Volume для данных, Docker создаст его автоматически
+      - ./init-scripts:/docker-entrypoint-initdb.d:ro # Выполняется один раз на пустом volume
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://127.0.0.1:8123/ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped # Автоматический перезапуск контейнера, кроме ручной остановки
+    networks:
+      - test-clickhouse-network
+
+networks:
+  test-clickhouse-network:
+    driver: bridge # Обычная bridge-сеть Docker
+
+volumes:
+  ch_data: # Volume для данных ClickHouse

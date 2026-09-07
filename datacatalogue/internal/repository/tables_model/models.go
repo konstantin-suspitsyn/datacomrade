@@ -38,7 +38,7 @@ type DcColumnCat struct {
 	AliasID           sql.NullInt64
 	ColumnTypeID      int64
 	Description       string
-	CalculationTypeID int64
+	CalculationTypeID sql.NullInt64
 	IsDeleted         bool
 	ShowInUi          bool
 	CreatedAt         time.Time
